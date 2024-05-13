@@ -1,0 +1,27 @@
+{
+  "name": "newform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "format": "wp-scripts format",
+    "minify": "wp-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newform/newform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newform/newform/issues"
+  },
+  "homepage": "https://github.com/newform/newform#readme",
+  "dependencies": {
+    "antd": "^5.17.0"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^27.8.0"
+  }
+}
