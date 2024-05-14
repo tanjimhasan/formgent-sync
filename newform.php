@@ -34,6 +34,14 @@ final class NewForm
     }
 
     public function load() {
+
+        // Run Activation Tasks
+        register_activation_hook(
+            __FILE__, function() {
+                new NewForm\App\Setup\Activation;
+            } 
+        );
+
         $application = App::instance();
 
         $application->boot( __FILE__, __DIR__ );

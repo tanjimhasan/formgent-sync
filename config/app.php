@@ -4,7 +4,6 @@ defined( 'ABSPATH' ) || exit;
 
 use NewForm\App\Http\Middleware\EnsureIsUserAdmin;
 use NewForm\App\Providers\Admin\MenuServiceProvider;
-use NewForm\Database\Migrations\TestMigration;
 use NewForm\WpMVC\App;
 
 return [
@@ -32,7 +31,5 @@ return [
 
     'migration_db_option_key' => 'newform_migrations',
 
-    'migrations'              => [
-        'test-migration' => TestMigration::class,
-    ]
+    'migrations'              => []
 ];
