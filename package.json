@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/newform/newform#readme",
   "dependencies": {
-    "antd": "^5.17.0"
+    "antd": "^5.17.0",
+    "react-router-dom": "^6.23.1",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@wordpress/scripts": "^27.8.0"
