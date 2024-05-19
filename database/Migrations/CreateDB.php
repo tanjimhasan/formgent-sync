@@ -1,0 +1,45 @@
+<?php
+
+namespace NewForm\Database\Migrations;
+
+use NewForm\WpMVC\Contracts\Migration;
+
+class CreateDB implements Migration {
+    public function more_than_version() {
+        return '1.0.0';
+    }
+
+    public function execute(): bool {
+        global $wpdb;
+
+        $charset_collate = $wpdb->get_charset_collate();
+
+        if ( ! function_exists( 'dbDelta' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        }
+
+        $db_prefix = "{$wpdb->prefix}newform_";
+
+        
+        // -- -----------------------------------------------------
+        // -- Table forms
+        // -- -----------------------------------------------------
+
+        $sql = "CREATE TABLE {$db_prefix}forms (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            `title` VARCHAR(255) NOT NULL,
+            `status` VARCHAR(50) NOT NULL DEFAULT 'draft' COMMENT 'value: publish/draft',
+            `type` VARCHAR(50) NOT NULL DEFAULT 'general',
+            `content` LONGTEXT NOT NULL,
+            `created_by` BIGINT UNSIGNED NOT NULL,
+            `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`)
+        ) {$charset_collate};
+        ";
+
+        dbDelta( $sql );
+
+        return true;
+    }
+}

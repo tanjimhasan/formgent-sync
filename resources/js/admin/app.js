@@ -10,7 +10,7 @@ import {
 	useParams,
 	useLocation,
 } from 'react-router-dom';
-import { useSelect } from '@wordpress/data';
+
 import { applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
 import Editor from './pages/Editor/index.js';
