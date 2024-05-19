@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from '@wordpress/element';
 import update from 'immutability-helper'
 import DroppedField from "./DroppedField";
-import { useDrop } from 'react-dnd';
 import { DropableBoxStyle } from "./style";
 
 export default function DropableBox(){
