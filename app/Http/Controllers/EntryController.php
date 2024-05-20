@@ -77,9 +77,11 @@ class EntryController extends Controller {
 
         do_action( "new_form_after_create_form_entry", $entry_id, $form, $wp_rest_request );
 
-        return [
-            'message' => esc_html__( "The form was submitted successfully!" )
-        ];
+        return Response::send(
+            [
+                'message' => esc_html__( "The form was submitted successfully!" )
+            ], 201
+        );
     }
 
     private function validate( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request ) {
