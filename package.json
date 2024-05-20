@@ -5,8 +5,15 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "wp-scripts start",
-    "format": "wp-scripts format",
-    "minify": "wp-scripts build"
+    "format": "wp-scripts format ./resources",
+    "minify": "wp-scripts build",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{scss,js,tsx}": [
+      "yarn format",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,6 +34,7 @@
     "styled-components": "^6.1.11"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^27.8.0"
+    "@wordpress/scripts": "^27.8.0",
+    "husky": "^9.0.11"
   }
 }
