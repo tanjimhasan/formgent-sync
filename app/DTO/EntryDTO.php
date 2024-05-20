@@ -13,6 +13,12 @@ class EntryDTO extends DTO {
 
     private int $created_by;
 
+    private ?string $device = null;
+
+    private ?string $browser = null;
+
+    private ?string $browser_version = null;
+
     /**
      * Get the value of id
      *
@@ -119,6 +125,72 @@ class EntryDTO extends DTO {
      */
     public function set_created_by( int $created_by ) {
         $this->created_by = $created_by;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of device
+     *
+     * @return string
+     */
+    public function get_device() {
+        return $this->device;
+    }
+
+    /**
+     * Set the value of device
+     *
+     * @param string $device 
+     *
+     * @return self
+     */
+    public function set_device( string $device ) {
+        $this->device = $device;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of browser
+     *
+     * @return string
+     */
+    public function get_browser() {
+        return $this->browser;
+    }
+
+    /**
+     * Set the value of browser
+     *
+     * @param string $browser 
+     *
+     * @return self
+     */
+    public function set_browser( string $browser ) {
+        $this->browser = $browser;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of browser_version
+     *
+     * @return string
+     */
+    public function get_browser_version() {
+        return $this->browser_version;
+    }
+
+    /**
+     * Set the value of browser_version
+     *
+     * @param string $browser_version 
+     *
+     * @return self
+     */
+    public function set_browser_version( string $browser_version ) {
+        $this->browser_version = $browser_version;
 
         return $this;
     }

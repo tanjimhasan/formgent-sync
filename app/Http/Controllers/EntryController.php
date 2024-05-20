@@ -54,6 +54,9 @@ class EntryController extends Controller {
             );
         }
 
+        /**
+         * Validating field data and creating field dto for insert.
+         */
         $validate = $this->validate( $form ,$validator, $wp_rest_request );
 
         if ( ! empty( $validate['errors'] ) ) {
@@ -65,9 +68,17 @@ class EntryController extends Controller {
         }
 
         $entry_dto = new EntryDTO;
-        $entry_dto->set_form_id( $form_id );
-        $entry_dto->set_created_by( wp_get_current_user()->ID );
-        $entry_dto->set_ip( newform_get_user_ip_address() );
+        $entry_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( newform_get_user_ip_address() );
+
+        /**
+         * Storing the current user browser and device information, if information is present.
+         */
+        $which_browser = new \NewForm\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
+        $browser       = $which_browser->browser;
+
+        if ( $browser ) {
+            $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
+        }
 
         do_action( "new_form_before_create_form_entry", $form, $wp_rest_request );
 
