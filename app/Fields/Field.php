@@ -11,11 +11,12 @@ use WP_REST_Request;
 abstract class Field {
     abstract public static function get_key(): string;
 
-    abstract public function validate( WP_REST_Request $wp_rest_request, Validator $validator, array $field );
+    abstract public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator );
 
-    public function get_field_dto( array $values, array $field, int $entire_id, stdClass $form ): FieldDTO {
+    public function get_field_dto( array $values, array $field, stdClass $form ): FieldDTO {
         $dto = new FieldDTO();
-        return $dto;
+
+        return $dto->set_field_id( $field['id'] )->set_value( $values[static::get_key()] );
     }
 
     public static function throw_validator_errors( Validator $validator ) {
@@ -25,6 +26,6 @@ abstract class Field {
     }
 
     public static function throw_errors( array $errors ) {
-        throw new RequestValidatorException( "", 422, null, $errors );
+        throw new RequestValidatorException( $errors, 422, null );
     }
 }

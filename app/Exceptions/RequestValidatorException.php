@@ -9,13 +9,12 @@ class RequestValidatorException extends Exception {
     private $messages = [];
 
     /**
-     * @param string $message
+     * @param array $message
      * @param integer $code
      * @param Throwable|null $previous
-     * @param array $messages
      */
-    public function __construct( string $message = "", int $code = 422, $previous = null, array $messages = [] ) { 
-        parent::__construct( $message, $code, $previous );
+    public function __construct( array $messages = [], int $code = 422, $previous = null ) { 
+        parent::__construct( "", $code, $previous );
         $this->messages = $messages; 
     }
 
