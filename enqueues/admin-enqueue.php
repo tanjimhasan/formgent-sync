@@ -8,3 +8,5 @@ Enqueue::register_script( 'newform/modules', 'build/js/modules' );
 Enqueue::register_script( 'newform/components', 'build/js/components' );
 
 Enqueue::script( 'newform/admin', 'build/js/admin' );
+
+wp_enqueue_style( 'newform/style' );

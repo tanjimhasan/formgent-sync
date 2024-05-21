@@ -22,7 +22,8 @@ module.exports = {
 	entry: {
 		'js/admin': './resources/js/admin/index.js',
 		'js/modules': './resources/js/modules/index.js',
-		'js/components': './resources/js/components/index.js'
+		'js/components': './resources/js/components/index.js',
+		'css/app': './resources/sass/app.scss',
 	},
 	output: {
 		path: path.resolve( __dirname, './assets/build/' ),

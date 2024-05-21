@@ -1,5 +1,15 @@
 import Styled from 'styled-components';
 
+const EditorHeaderStyle = Styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--helpgent-color-bg-gray);
+    transition: var(--helpgent-transition);
+`;
+
 const InserterStyle = Styled.div`
     width: 400px;
     height: calc(100vh - 100px);
@@ -80,4 +90,4 @@ const EditorContentStyle = Styled.div`
     }
 `;
 
-export { InserterStyle, DropableBoxStyle, EditorContentStyle };
+export { EditorHeaderStyle, InserterStyle, DropableBoxStyle, EditorContentStyle };
