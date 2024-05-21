@@ -5,6 +5,11 @@ use NewForm\WpMVC\Routing\Route;
 
 Route::group(
     'admin', function() {
-        Route::resource( 'forms', FormController::class );
+        Route::group(
+            'forms', function() {
+                Route::patch( '{id}/status', [FormController::class, 'update_status'] );
+                Route::resource( '/', FormController::class );
+            }
+        );
     }, ['admin']
 );

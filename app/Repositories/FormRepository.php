@@ -41,6 +41,10 @@ class FormRepository {
         );
     }
 
+    public function update_status( int $form_id, string $status ) {
+        return Form::query()->where( 'id', $form_id )->update( [ 'status' => $status ] );
+    }
+
     public function get_by_id( int $id, $columns = ['*'] ) {
         return Form::query()->select( $columns )->where( 'id', $id )->first();
     }
