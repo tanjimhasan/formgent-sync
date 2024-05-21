@@ -1,7 +1,7 @@
-import { now } from "@newform/helper/now";
+import { nanoid } from "nanoid";
 
 const ShortText = {
-    id: now(),
+    id: nanoid(12),
     type: 'short_text',
     group_name: 'general',
     general_option:{

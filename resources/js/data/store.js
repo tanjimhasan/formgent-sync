@@ -3,33 +3,38 @@
  */
 import { createReduxStore, register } from '@wordpress/data';
 import { FormStore } from "./forms";
+import { SingleFormStore } from './singleform';
 import { rootReducers } from './rootReducers';
 
 /**
  * merge all actions
  */
 const ACTIONS = {
-    ...FormStore.FormActions
+    ...FormStore.FormActions,
+	...SingleFormStore.SingleFormActions
 }
 
 /**
  * merge all selectors
  */
 const SELECTORS = {
-    ...FormStore.FormSelectors
+    ...FormStore.FormSelectors,
+	...SingleFormStore.SingleFormSelectors
 }
 
 /**
  * merge all controls
  */
 const CONTROLS = {
-    ...FormStore.FormControls
+    ...FormStore.FormControls,
+	...SingleFormStore.SingleFormControls
 }
 /**
  * merge all resolvers
  */
 const RESOLVERS = {
-    ...FormStore.FormResolvers
+    ...FormStore.FormResolvers,
+	...SingleFormStore.SingleFormResolvers
 }
 
 /**

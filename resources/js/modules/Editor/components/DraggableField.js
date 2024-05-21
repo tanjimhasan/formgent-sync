@@ -1,11 +1,12 @@
+import { useRef, useState, useEffect } from '@wordpress/element';
 import { useDraggable } from "@dnd-kit/core";
-import { now } from "@newform/helper/now";
+import { nanoid } from 'nanoid';
 
 export default function DraggableField(props){
     const {field, ...rest} = props;
-
+    const id = useRef(nanoid(10));
     const { attributes, listeners, setNodeRef } = useDraggable({
-        id: now(),
+        id: id.current,
         data: {
           field,
           fromSidebar: true,
@@ -14,8 +15,8 @@ export default function DraggableField(props){
 
     return(
         <div
+        ref={setNodeRef}
          className="newform-editor-inserter__field"
-         ref={setNodeRef}
          {...attributes}
          {...listeners}
         >

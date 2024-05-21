@@ -30,6 +30,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "antd": "^5.17.0",
     "immutability-helper": "^3.1.1",
+    "nanoid": "^5.0.7",
     "react-router-dom": "^6.23.1",
     "styled-components": "^6.1.11"
   },

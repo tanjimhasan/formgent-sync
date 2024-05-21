@@ -1,5 +1,6 @@
-export default function LongText(){
+import {Input} from '@newform/components';
+export default function ShortText(){
     return(
-        <>Short Text</>
+        <Input />
     )
 }

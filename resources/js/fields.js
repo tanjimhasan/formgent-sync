@@ -4,7 +4,8 @@ import { applyFilters } from '@wordpress/hooks';
  * Preview of fields
  */
 import LongText from './components/fieldList/LongText/index.js';
-import ShortText from './components/fieldList/ShortText/field.js';
+import ShortText from './components/fieldList/ShortText/index.js';
+import Spacer from './components/fieldList/Spacer/index.js';
 
 /**
  * Setting Json of fields
@@ -17,8 +18,9 @@ import ShortTextField from "./components/fieldList/ShortText/field.js";
  */
 function registerPreviewFields(){
     return applyFilters('newform_preview_fields', {
-        longText: LongText,
-        shortText: ShortText
+        long_text: LongText,
+        short_text: ShortText,
+        spacer: Spacer
     })
 }
 
@@ -28,8 +30,10 @@ function registerPreviewFields(){
 function registerFields(){
     return applyFilters('newform_fields', [
         LongTextField,
-        ShortTextField
+        ShortTextField,
     ])
 }
+
+console.log(LongTextField, ShortTextField);
 
 export { registerPreviewFields, registerFields };

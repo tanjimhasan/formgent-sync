@@ -7,13 +7,17 @@ function Editor(props){
     const [ uiState, setUiState ] = useState({
         isInserterActive: false
     });
-    // const data = useSelect((select) => {
-    //     return select('newform').getForms();
-    // }, []);
+    const {SingleFormReducer} = useSelect((select) => {
+        return select('newform').getSingleForm();
+    }, []);
+
     return(
         <div className="newform-editor-wrap">
             <Header uiState={uiState} setUiState={setUiState} />
-            <MainContent uiState={uiState} setUiState={setUiState} />
+            {
+                SingleFormReducer?.singleForm && <MainContent uiState={uiState} setUiState={setUiState} />
+            }
+            
         </div>
     )
 }

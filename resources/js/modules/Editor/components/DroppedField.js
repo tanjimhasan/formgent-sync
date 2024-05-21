@@ -1,71 +1,47 @@
 import { useRef } from '@wordpress/element';
-const style = {
-    border: '1px dashed gray',
-    padding: '0.5rem 1rem',
-    marginBottom: '.5rem',
-    backgroundColor: 'white',
-    cursor: 'move',
-  }
+import { useSortable } from "@dnd-kit/sortable";
+import { registerPreviewFields } from '@newform/fields';
+
 export default function DroppedField(props){
-    
-    const {index, item, id, moveItem} = props;
-    console.log(item);
+    const {id, index, field} = props;
     const ref = useRef(null);
-    const [{handlerId}, drop] = useDrop({
-        accept: 'card',
-        collect(monitor) {
-            return {
-              handlerId: monitor.getHandlerId(),
-            }
-          },
-        hover(single, monitor) {
-          if (!ref.current) {
-            return;
-          }
-          
-          const dragIndex = single.index;
-          const hoverIndex = index;
-    
-          if (dragIndex === hoverIndex) {
-            return;
-          }
-    
-          const hoverBoundingRect = ref.current?.getBoundingClientRect();
-          const hoverMiddleY =
-            (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-          const clientOffset = monitor.getClientOffset();
-          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-    
-          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-            return;
-          }
-    
-          if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-            return;
-          }
-          moveItem(dragIndex, hoverIndex);
-          single.index = hoverIndex;
-        },
-      });
-    
-      const [{ isDragging }, drag] = useDrag({
-        type: 'card',
-        item: ()=>{ return {id, index} },
-        collect: (monitor) => ({
-          isDragging: monitor.isDragging(),
-        }),
-      });
-      const backgroundColor = isDragging ? '#333' : 'lightgrey';
-      console.log(index,isDragging);
-      drag(drop(ref));
-      
+    const DroppedField = registerPreviewFields()[field.type];
+    const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id,
+      data: {
+        index,
+        id,
+        field,
+      },
+    });
+
+    const style = {
+      transform: transform && `translate3d(${transform.x}px, ${transform.y}px, 0px) scaleX(${transform.scaleX}) scaleY(${transform.scaleY})`,
+      transition
+    }
       
     return(
-        <div className="newform-newform-dropable-field" ref={ref} 
-        style={{ ...style, backgroundColor}}
-          data-handler-id={handlerId}
+      field.type === 'spacer' ? 
+
+        <div className="newform-dropable-field" style={style} ref={setNodeRef} {...attributes}>
+            <DroppedField />
+        </div> :
+        <div className="newform-dropable-field" 
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
         >
-            {item.title}
-        </div>
+          
+            
+            <div className="newform-dropable-field__actions">
+              <i className="newform-icon" {...listeners}>Trigger sort</i>
+              <i className="newform-icon">D</i>
+              <i className="newform-icon">D</i>
+              <i className="newform-icon">D</i>
+            </div>
+          
+            <DroppedField />
+        </div> 
     )
 }
