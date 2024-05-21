@@ -6,17 +6,26 @@ use Exception;
 use NewForm\App\DTO\FormDTO;
 use NewForm\App\DTO\FormReadDTO;
 use NewForm\App\Models\Form;
+use NewForm\WpMVC\Database\Query\Builder;
 
 class FormRepository {
     public function get( FormReadDTO $dto ) {
-        $form_query = Form::query();
-        
+        $form_query  = Form::query( 'form' );
         $count_query = clone $form_query;
-        $forms       = $form_query->pagination( $dto->get_per_page(), $dto->get_page() );
-        $total       = $count_query->count();
+
+        $forms = $form_query->select( 'form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at' )
+                ->with(
+                    'user', function( Builder $query ) {
+                        $query->select( 'ID', 'display_name as name' );
+                    }
+                )->with_count(
+                    'entries as total_unread_entries', function( Builder $query ) {
+                        $query->where( 'is_read', 0 );
+                    }
+                )->with_count( 'entries as total_entries' )->pagination( $dto->get_per_page(), $dto->get_page() );
 
         return [
-            'total' => $total,
+            'total' => $count_query->count(),
             'forms' => $forms,
         ];
     }
