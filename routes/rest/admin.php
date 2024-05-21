@@ -5,6 +5,6 @@ use NewForm\WpMVC\Routing\Route;
 
 Route::group(
     'admin', function() {
-        Route::resource( 'form', FormController::class );
+        Route::resource( 'forms', FormController::class );
     }, ['admin']
 );

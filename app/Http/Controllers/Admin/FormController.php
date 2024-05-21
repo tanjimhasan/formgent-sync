@@ -47,6 +47,38 @@ class FormController extends Controller {
         return Response::send( $response );
     }
 
+    public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Form not found' )
+                ], 404
+            );
+        }
+
+        return Response::send(
+            [
+                'form' => $form
+            ]
+        );
+    }
+
     public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
