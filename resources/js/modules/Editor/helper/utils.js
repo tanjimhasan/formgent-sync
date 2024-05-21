@@ -34,20 +34,26 @@ const handleDragStart = (
 ) => {
 	const { active } = event;
 	const activeData = extractEventData( active );
-
 	// In builder handleDragStart will be triggered two time. one is when field is dragged from sidebar
 	// and antoehr one is draged from dropbox.
 	// When dragged from sidebar will update the inserterOverlayField state
 	if ( activeData.fromSidebar ) {
 		const { field } = activeData;
 		const { type } = field;
+		let darggedField = structuredClone(field);
+		darggedField = {
+			...darggedField,
+			advance_option:{
+				...darggedField.advance_option,
+				name: `${ type }${ fields.length + 1 }`
+			}
+		}
 		setInserterOverlayActiveField( field );
 		// Create a new field that'll be added to the fields array
 		// if we drag it over the canvas.
 		currentDragFieldRef.current = {
 			id: active.id,
-			type,
-			name: `${ type }${ fields.length + 1 }`,
+			...darggedField,
 			parent: null,
 		};
 		return;
@@ -132,12 +138,14 @@ const handleDragEnd = (
 	currentDragFieldRef,
 	spacerInsertedRef,
 	updateFormFields,
+	droppedOverlayActiveField,
 	setInserterOverlayActiveField,
 	setDroppedOverlayActiveField,
 	setInserterDomKey
 ) => {
 	const { over } = event;
 	let updatedFields = [ ...fields ];
+	console.log('over', over, droppedOverlayActiveField);
 	if ( ! over ) {
 		cleanDraggingHistory(
 			currentDragFieldRef,
@@ -145,14 +153,16 @@ const handleDragEnd = (
 			setInserterOverlayActiveField,
 			setDroppedOverlayActiveField
 		);
-		updatedFields.filter( ( field ) => field.type !== 'spacer' );
+		updatedFields = [...updatedFields,droppedOverlayActiveField]
+		updatedFields = updatedFields.filter( ( field ) => field.type !== 'spacer' );
+		console.log(updatedFields);
 		updateFormFields( updatedFields );
 		return;
 	}
-
 	let nextField = currentDragFieldRef.current;
 
 	if ( nextField ) {
+		delete nextField.parent;
 		const overData = extractEventData( over );
 		const spacerIndex = updatedFields.findIndex(
 			( field ) => field.type === 'spacer'

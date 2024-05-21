@@ -66,6 +66,7 @@ export default function MainContent( props ) {
 						currentDragFieldRef,
 						spacerInsertedRef,
 						updateFormFields,
+						droppedOverlayActiveField,
 						setInserterOverlayActiveField,
 						setDroppedOverlayActiveField,
 						setInserterDomKey
