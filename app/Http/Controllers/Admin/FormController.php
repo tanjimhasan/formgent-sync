@@ -179,4 +179,34 @@ class FormController extends Controller {
             );
         }
     }
+
+    public function delete( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form_id = intval( $wp_rest_request->get_param( 'id' ) );
+
+        do_action( 'newform_before_delete_form', $form_id, $wp_rest_request );
+
+        $this->form_repository->delete_by_id( $form_id );
+        
+        do_action( 'newform_after_delete_form', $form_id, $wp_rest_request );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The form has been deleted successfully.' )
+            ]
+        );
+    }
 }

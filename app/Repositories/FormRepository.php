@@ -48,4 +48,8 @@ class FormRepository {
     public function get_by_id_publish( int $id, $columns = ['*'] ) {
         return Form::query()->select( $columns )->where( 'id', $id )->first();
     }
+
+    public function delete_by_id( int $id ) {
+        return Form::query()->where( 'id', $id )->delete();
+    }
 }
