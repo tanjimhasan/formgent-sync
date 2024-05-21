@@ -33,7 +33,6 @@ const DropableBoxStyle = Styled.div`
     
 `;
 
-
 const EditorContentStyle = Styled.div`
     .newform-inserter-overlay{
         background-color: #fff;
@@ -81,8 +80,4 @@ const EditorContentStyle = Styled.div`
     }
 `;
 
-export {
-    InserterStyle,
-    DropableBoxStyle,
-    EditorContentStyle
-}
+export { InserterStyle, DropableBoxStyle, EditorContentStyle };

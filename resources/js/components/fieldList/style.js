@@ -7,6 +7,4 @@ const SpacerStyle = Styled.div`
     height: 50px;
 `;
 
-export {
-    SpacerStyle
-}
+export { SpacerStyle };

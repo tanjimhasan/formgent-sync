@@ -3,9 +3,7 @@ import { registerModule } from '@newform/modules/helpers';
 const EditorModule = lazy( () => import( './Editor' ) );
 
 registerModule( 'modules', {
-    EditorModule
+	EditorModule,
 } );
 
-export {
-	EditorModule
-};
+export { EditorModule };

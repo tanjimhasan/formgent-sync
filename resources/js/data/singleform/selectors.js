@@ -1,5 +1,5 @@
 export const SingleFormSelectors = {
-    getSingleForm(SingleFormReducer){
-        return SingleFormReducer
-    },
-}
+	getSingleForm( SingleFormReducer ) {
+		return SingleFormReducer;
+	},
+};

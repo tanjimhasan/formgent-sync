@@ -1,3 +1,3 @@
-export function now(){
-    return new Date().getTime();
+export function now() {
+	return new Date().getTime();
 }

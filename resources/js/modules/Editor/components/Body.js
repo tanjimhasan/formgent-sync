@@ -1,8 +1,6 @@
-import DropableBox from "./DropableBox";
+import DropableBox from './DropableBox';
 
-export default function Body(props){
-    const { fields } = props;
-    return(
-        <DropableBox fields={fields} />
-    )
+export default function Body( props ) {
+	const { fields } = props;
+	return <DropableBox fields={ fields } />;
 }

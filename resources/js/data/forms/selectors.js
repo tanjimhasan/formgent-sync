@@ -1,5 +1,5 @@
 export const FormSelectors = {
-    getForms(FormReducer){
-        return FormReducer
-    },
-}
+	getForms( FormReducer ) {
+		return FormReducer;
+	},
+};

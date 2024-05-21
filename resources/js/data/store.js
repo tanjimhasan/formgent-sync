@@ -2,7 +2,7 @@
  *  Dependencies
  */
 import { createReduxStore, register } from '@wordpress/data';
-import { FormStore } from "./forms";
+import { FormStore } from './forms';
 import { SingleFormStore } from './singleform';
 import { rootReducers } from './rootReducers';
 
@@ -10,39 +10,39 @@ import { rootReducers } from './rootReducers';
  * merge all actions
  */
 const ACTIONS = {
-    ...FormStore.FormActions,
-	...SingleFormStore.SingleFormActions
-}
+	...FormStore.FormActions,
+	...SingleFormStore.SingleFormActions,
+};
 
 /**
  * merge all selectors
  */
 const SELECTORS = {
-    ...FormStore.FormSelectors,
-	...SingleFormStore.SingleFormSelectors
-}
+	...FormStore.FormSelectors,
+	...SingleFormStore.SingleFormSelectors,
+};
 
 /**
  * merge all controls
  */
 const CONTROLS = {
-    ...FormStore.FormControls,
-	...SingleFormStore.SingleFormControls
-}
+	...FormStore.FormControls,
+	...SingleFormStore.SingleFormControls,
+};
 /**
  * merge all resolvers
  */
 const RESOLVERS = {
-    ...FormStore.FormResolvers,
-	...SingleFormStore.SingleFormResolvers
-}
+	...FormStore.FormResolvers,
+	...SingleFormStore.SingleFormResolvers,
+};
 
 /**
  * Register store
  */
 register(
 	createReduxStore( 'newform', {
-        actions: ACTIONS,
+		actions: ACTIONS,
 		reducer: rootReducers,
 		selectors: SELECTORS,
 		controls: CONTROLS,

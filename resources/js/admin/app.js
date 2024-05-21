@@ -16,15 +16,15 @@ import { applyFilters } from '@wordpress/hooks';
 import Editor from './pages/Editor/index.js';
 
 export default function App() {
-    // const data = useSelect((select) => {
-    //     return select('newform').getForms();
-    // }, []);
-    // console.log(data.FormReducer, data);
-    // const { forms, isLoading, error} = data.FormReducer;
-    // console.log(forms, isLoading, error,data.FormReducer);
-    // return <h1>Hello Form Builder</h1>
+	// const data = useSelect((select) => {
+	//     return select('newform').getForms();
+	// }, []);
+	// console.log(data.FormReducer, data);
+	// const { forms, isLoading, error} = data.FormReducer;
+	// console.log(forms, isLoading, error,data.FormReducer);
+	// return <h1>Hello Form Builder</h1>
 
-    const [ dir, setDir ] = useState( 'ltr' );
+	const [ dir, setDir ] = useState( 'ltr' );
 
 	const theme = {
 		direction: dir,
@@ -38,32 +38,31 @@ export default function App() {
 		}
 	}, [] );
 
-    const adminRoutes = applyFilters( 'newform_admin_routes', [
-		
+	const adminRoutes = applyFilters( 'newform_admin_routes', [
 		{
 			path: '/*',
 			element: <Editor />,
-		}
+		},
 	] );
 
-    return(
-        <div className="newform-app-wrap">
+	return (
+		<div className="newform-app-wrap">
 			<HashRouter>
 				<Suspense fallback={ <></> }>
-					{/* <ThemeProvider theme={ theme }> */}
-                    <ConfigProvider
-                        theme={{
-                            token: {
-                              // Seed Token
-                              colorPrimary: '#000000',
-                              borderRadius: 2,
-                      
-                              // Alias Token
-                              colorBgContainer: '#f6ffed',
-                            },
-                          }}
-                    >
-                        <Routes>
+					{ /* <ThemeProvider theme={ theme }> */ }
+					<ConfigProvider
+						theme={ {
+							token: {
+								// Seed Token
+								colorPrimary: '#000000',
+								borderRadius: 2,
+
+								// Alias Token
+								colorBgContainer: '#f6ffed',
+							},
+						} }
+					>
+						<Routes>
 							{ adminRoutes.map( ( routeItem, index ) => {
 								return (
 									<Route
@@ -74,10 +73,10 @@ export default function App() {
 								);
 							} ) }
 						</Routes>
-                    </ConfigProvider>
-					{/* </ThemeProvider> */}
+					</ConfigProvider>
+					{ /* </ThemeProvider> */ }
 				</Suspense>
 			</HashRouter>
 		</div>
-    )
+	);
 }

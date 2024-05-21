@@ -6,7 +6,7 @@ import { createRoot } from '@wordpress/element';
 
 import App from './app';
 document.addEventListener( 'DOMContentLoaded', function () {
-	console.log('index');
+	console.log( 'index' );
 	const container = document.querySelector( '.newform-root' );
 	if ( ! container ) {
 		return;
@@ -14,13 +14,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	if ( createRoot ) {
 		const root = createRoot( container );
 
-		root.render(
-				<App />
-		);
+		root.render( <App /> );
 	} else {
-		render(
-			<App />,
-			container
-		);
+		render( <App />, container );
 	}
 } );

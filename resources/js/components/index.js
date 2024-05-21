@@ -4,7 +4,7 @@ import { Input, Button } from 'antd';
 /**
  * Global components for admin and user
  */
-registerModule('components', {
+registerModule( 'components', {
 	Input,
-	Button
-})
+	Button,
+} );
