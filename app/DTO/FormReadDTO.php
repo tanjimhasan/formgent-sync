@@ -9,6 +9,12 @@ class FormReadDTO {
 
     private string $search = '';
 
+    private string $sort_by = '';
+
+    private string $date_type = 'all';
+
+    private array $date_frame = [];
+
     /**
      * Get the value of page
      *
@@ -71,6 +77,72 @@ class FormReadDTO {
      */
     public function set_search( string $search ) {
         $this->search = $search;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of sort_by
+     *
+     * @return string
+     */
+    public function get_sort_by() {
+        return $this->sort_by;
+    }
+
+    /**
+     * Set the value of sort_by
+     *
+     * @param string $sort_by 
+     *
+     * @return self
+     */
+    public function set_sort_by( string $sort_by ) {
+        $this->sort_by = $sort_by;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of date_type
+     *
+     * @return string
+     */
+    public function get_date_type() {
+        return $this->date_type;
+    }
+
+    /**
+     * Set the value of date_type
+     *
+     * @param string $date_type 
+     *
+     * @return self
+     */
+    public function set_date_type( string $date_type ) {
+        $this->date_type = $date_type;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of date_frame
+     *
+     * @return array
+     */
+    public function get_date_frame() {
+        return $this->date_frame;
+    }
+
+    /**
+     * Set the value of date_frame
+     *
+     * @param array $date_frame 
+     *
+     * @return self
+     */
+    public function set_date_frame( array $date_frame ) {
+        $this->date_frame = $date_frame;
 
         return $this;
     }

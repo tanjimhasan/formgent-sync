@@ -6,6 +6,7 @@ use NewForm\WpMVC\App;
 use NewForm\DI\Container;
 use NewForm\App\Fields\Field;
 use NewForm\App\Fields\ShortText;
+use NewForm\App\Utils\DateTime;
 
 function newform():App {
     return App::$instance;
@@ -46,6 +47,19 @@ function newform_dir( string $dir = '' ) {
 function newform_render( string $content ) {
     //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     echo $content;
+}
+
+function newform_date_time_format() {
+    return apply_filters( 'newform_date_time_format', 'Y-m-d H:i:s' );
+}
+
+function newform_now() {
+    return DateTime::now();
+}
+
+function newform_is_valid_date( string $date, string $format ) {
+    $date_time = \DateTime::createFromFormat( $format, $date );
+    return $date_time && $date_time->format( $format ) === $date;
 }
 
 function newform_get_entry_allowed_fields() {
