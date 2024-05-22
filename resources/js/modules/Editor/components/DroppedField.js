@@ -1,11 +1,10 @@
-import { useRef } from '@wordpress/element';
+import { useRef, memo } from '@wordpress/element';
 import { useSortable } from '@dnd-kit/sortable';
 import { registerPreviewFields } from '@newform/fields';
 
-export default function DroppedField( props ) {
-	const { id, index, field } = props;
+const DroppedField = ( { id, index, field } ) => {
+	const ActiveDroppedField = registerPreviewFields()[ field.type ];
 	const ref = useRef( null );
-	const DroppedField = registerPreviewFields()[ field.type ];
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable( {
 			id,
@@ -30,7 +29,7 @@ export default function DroppedField( props ) {
 			ref={ setNodeRef }
 			{ ...attributes }
 		>
-			<DroppedField />
+			<ActiveDroppedField />
 		</div>
 	) : (
 		<div
@@ -48,7 +47,9 @@ export default function DroppedField( props ) {
 				<i className="newform-icon">D</i>
 			</div>
 
-			<DroppedField />
+			<ActiveDroppedField />
 		</div>
 	);
 }
+
+export default memo(DroppedField);

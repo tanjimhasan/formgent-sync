@@ -26,12 +26,12 @@ export default function DropableBox( props ) {
 	return (
 		<DropableBoxStyle ref={ setNodeRef } style={ style } { ...listeners }>
 			<div className="newform-dropable-field-list">
-				{
+				{/* {
 					fields.length === 0 &&
 					<div className="newform-dropable-field-empty-placeholder">
 						<span>+</span>
 					</div>
-				}
+				} */}
 				{ fields.map( ( field, index ) => (
 					<DroppedField
 						key={ field.id }

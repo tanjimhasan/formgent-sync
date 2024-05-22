@@ -15,7 +15,7 @@ const EditorHeaderStyle = Styled.div`
 `;
 
 const InserterStyle = Styled.div`
-    width: 400px;
+    width: 320px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--newform-color-white);

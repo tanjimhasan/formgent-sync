@@ -52,14 +52,16 @@ const handleDragStart = (
 		// Create a new field that'll be added to the fields array
 		// if we drag it over the canvas.
 		currentDragFieldRef.current = {
-			id: active.id,
 			...darggedField,
+			id: active.id,
 			parent: null,
 		};
 		return;
 	}
 	// When dragged form dropbox update droppedOverlayField state
 	//and create a spacer then add it to the field list
+
+	
 	const { field, index } = activeData;
 	setDroppedOverlayActiveField( field );
 	currentDragFieldRef.current = field;
@@ -95,7 +97,6 @@ const handleDragOver = (
 				updatedFields.splice( nextIndex, 0, spacer );
 			}
 			spacerInsertedRef.current = true;
-
 			updateFormFields( updatedFields );
 		} else if ( ! over ) {
 			// This solves the issue where you could have a spacer handing out in the canvas if you drug
@@ -145,7 +146,6 @@ const handleDragEnd = (
 ) => {
 	const { over } = event;
 	let updatedFields = [ ...fields ];
-	console.log('over', over, droppedOverlayActiveField);
 	if ( ! over ) {
 		cleanDraggingHistory(
 			currentDragFieldRef,
@@ -153,14 +153,15 @@ const handleDragEnd = (
 			setInserterOverlayActiveField,
 			setDroppedOverlayActiveField
 		);
-		updatedFields = [...updatedFields,droppedOverlayActiveField]
+		if(droppedOverlayActiveField){
+			updatedFields = [...updatedFields,droppedOverlayActiveField]
+		}
+		
 		updatedFields = updatedFields.filter( ( field ) => field.type !== 'spacer' );
-		console.log(updatedFields);
 		updateFormFields( updatedFields );
 		return;
 	}
 	let nextField = currentDragFieldRef.current;
-
 	if ( nextField ) {
 		delete nextField.parent;
 		const overData = extractEventData( over );
