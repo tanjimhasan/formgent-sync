@@ -18,11 +18,8 @@ export default function DraggableField( props ) {
 		},
 	} );
 
-	console.log(SingleFormReducer);
-
 	const handleAddNewField = useCallback(() => {
 		const { fields } = SingleFormReducer.singleForm.content;
-		console.log(fields);
 		const newField = {
 			...field,
 			id: nanoid(10),
@@ -32,7 +29,6 @@ export default function DraggableField( props ) {
 			}
 		};
 		const updatedFields = [...fields,newField];
-		console.log('clicked',updatedFields);
 		updateFormFields(updatedFields);
 	}, [SingleFormReducer]);
 

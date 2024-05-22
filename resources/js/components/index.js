@@ -1,5 +1,5 @@
 import { registerModule } from '@newform/modules/helpers';
-import { Input, Button } from 'antd';
+import { Input, Button, Table } from 'antd';
 
 /**
  * Global components for admin and user
@@ -7,4 +7,5 @@ import { Input, Button } from 'antd';
 registerModule( 'components', {
 	Input,
 	Button,
+	Table
 } );

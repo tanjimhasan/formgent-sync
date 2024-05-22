@@ -14,6 +14,7 @@ import {
 import { applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
 import Editor from './pages/Editor/index.js';
+import FormTable from './pages/FormTable/index.js';
 
 export default function App() {
 	// const data = useSelect((select) => {
@@ -41,7 +42,7 @@ export default function App() {
 	const adminRoutes = applyFilters( 'newform_admin_routes', [
 		{
 			path: '/*',
-			element: <Editor />,
+			element: <FormTable />,
 		},
 	] );
 
