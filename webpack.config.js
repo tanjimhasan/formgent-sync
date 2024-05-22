@@ -1,6 +1,7 @@
 const path = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const { BuildOutputPlugin } = require( '@laravel-mix/webpack-build-output' );
 
 /**
  * Given a string, returns a new string with dash separators converted to
@@ -62,6 +63,9 @@ module.exports = {
 					) }`;
 				}
 			},
+		} ),
+		new BuildOutputPlugin( {
+			clearConsole: true,
 		} ),
 	],
 	resolve: {
