@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
-	forms: null,
+	forms: [],
+	pagination: {},
 	isLoading: false,
 	error: null,
 };
@@ -12,7 +13,8 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				isLoading: isLoading,
 			};
-		case 'FORM_FETCH':
+		case 'FORM_STORE':
+			console.log(data);
 			return {
 				...state,
 				forms: data,
