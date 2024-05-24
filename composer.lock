@@ -1714,12 +1714,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "eab887e2f86f73c4e0a991ddc50ec8c02bda0f3f"
+                "reference": "eb775bb227d48836c2afbd3084a5018075bcdc66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/eab887e2f86f73c4e0a991ddc50ec8c02bda0f3f",
-                "reference": "eab887e2f86f73c4e0a991ddc50ec8c02bda0f3f",
+                "url": "https://api.github.com/repos/symfony/string/zipball/eb775bb227d48836c2afbd3084a5018075bcdc66",
+                "reference": "eb775bb227d48836c2afbd3084a5018075bcdc66",
                 "shasum": ""
             },
             "require": {
@@ -1792,7 +1792,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-01T13:57:57+00:00"
+            "time": "2024-05-15T11:14:28+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -1894,7 +1894,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "whichbrowser/parser": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
