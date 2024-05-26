@@ -5,6 +5,8 @@ namespace NewForm\App\Http\Controllers\Admin;
 use NewForm\App\DTO\EntryReadDTO;
 use NewForm\App\Http\Controllers\Controller;
 use NewForm\App\Repositories\EntryRepository;
+use NewForm\App\Repositories\FieldRepository;
+use NewForm\App\Repositories\FormRepository;
 use NewForm\WpMVC\RequestValidator\Validator;
 use WP_REST_Request;
 use NewForm\WpMVC\Routing\Response;
@@ -12,8 +14,11 @@ use NewForm\WpMVC\Routing\Response;
 class EntryController extends Controller {
     public EntryRepository $repository;
 
-    public function __construct( EntryRepository $repository ) {
-        $this->repository = $repository;
+    public FormRepository $form_repository;
+
+    public function __construct( EntryRepository $repository, FormRepository $form_repository ) {
+        $this->repository      = $repository;
+        $this->form_repository = $form_repository;
     } 
 
     public function index( Validator $validator, WP_REST_Request $wp_rest_request ) {
@@ -68,5 +73,44 @@ class EntryController extends Controller {
         $response['entries'] = $data['entries'];
 
         return Response::send( $response );
+    }
+
+    public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $entry = $this->repository->get_single_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+
+        if ( ! $entry ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Entry not found' )
+                ], 404
+            );
+        }
+        
+        /**
+         * @var FieldRepository $field_repository
+         */
+        $field_repository = newform_singleton( FieldRepository::class );
+
+        $entry->data = $field_repository->get( $entry->id );
+
+        return Response::send(
+            [
+                'entry' => $entry
+            ]
+        );
     }
 }

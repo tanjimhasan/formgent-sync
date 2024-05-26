@@ -21,8 +21,8 @@ class FormRepository {
 
         do_action( 'helpgent_forms_count_query', $count_query, $dto );
 
-        $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.user_nicename as username', 'COUNT(DISTINCT entry.id) as total_entries', 'COUNT(DISTINCT CASE WHEN entry.is_read = 0 THEN entry.id ELSE NULL END) AS total_unread_entries'];
-        $group_by_columns = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.user_nicename' ];
+        $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT entry.id) as total_entries', 'COUNT(DISTINCT CASE WHEN entry.is_read = 0 THEN entry.id ELSE NULL END) AS total_unread_entries'];
+        $group_by_columns = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name' ];
 
         $forms_query->select( $select_columns )->left_join( Entry::get_table_name() . ' as entry', 'form.id', 'entry.form_id' )->group_by( $group_by_columns );
 
@@ -46,7 +46,7 @@ class FormRepository {
         global $wpdb;
 
         $search       = "%{$search}%";
-        $search_query = $wpdb->prepare( "(form.title like %s or user.user_nicename like %s)", $search, $search );
+        $search_query = $wpdb->prepare( "(form.title like %s or user.display_name like %s)", $search, $search );
         return $query->where_raw( $search_query );
     }
 

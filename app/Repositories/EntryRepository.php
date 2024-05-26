@@ -6,6 +6,7 @@ use NewForm\App\DTO\EntryDTO;
 use NewForm\App\DTO\EntryReadDTO;
 use NewForm\App\Models\Entry;
 use NewForm\App\Models\Form;
+use NewForm\App\Models\User;
 use NewForm\WpMVC\Database\Query\Builder;
 
 class EntryRepository {
@@ -53,5 +54,13 @@ class EntryRepository {
 
     public function create( EntryDTO $dto ) {
         return Entry::query()->insert_get_id( $dto->to_array() );
+    }
+
+    public function get_by_id( int $id, $columns = ['entry.*'] ) {
+        return Entry::query( 'entry.' )->select( $columns )->where( 'entry.id', $id )->first();
+    }
+
+    public function get_single_by_id( int $id, $columns = ['entry.*', 'user.display_name as username', 'form.content as form_content'] ) {
+        return Entry::query( 'entry' )->select( $columns )->where( 'entry.id', $id )->left_join( User::get_table_name() . ' as user', 'entry.created_by', 'user.ID' )->left_join( Form::get_table_name() . ' as form', 'entry.form_id', 'form.id' )->first();
     }
 }
