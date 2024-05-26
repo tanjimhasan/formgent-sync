@@ -7,11 +7,11 @@ class FormReadDTO {
 
     private int $per_page;
 
-    private string $search = '';
+    private ?string $search = null;
 
-    private string $sort_by = '';
+    private ?string $sort_by = null;
 
-    private string $date_type = 'all';
+    private ?string $date_type = null;
 
     private array $date_frame = [];
 

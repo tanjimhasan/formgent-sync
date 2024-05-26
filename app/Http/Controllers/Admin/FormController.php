@@ -24,8 +24,8 @@ class FormController extends Controller {
                 'per_page'   => 'numeric',
                 'page'       => 'numeric',
                 's'          => 'string|max:255',
-                'date_type'  => 'string|accepted:all,today,yesterday,last_week,last_month,date_frame',
                 'sort_by'    => 'string|accepted:last_modified,date_created,alphabetical,last_submission,unread,draft,publish',
+                'date_type'  => 'string|accepted:today,yesterday,last_week,last_month,date_frame',
                 'date_frame' => 'array'
             ]
         );
@@ -51,8 +51,8 @@ class FormController extends Controller {
             $dto->set_date_type( $wp_rest_request->get_param( 'date_type' ) );
         }
 
-        if ( $wp_rest_request->has_param( 'date_type' ) ) {
-            $dto->set_date_type( $wp_rest_request->get_param( 'date_type' ) );
+        if ( $wp_rest_request->has_param( 'date_frame' ) ) {
+            $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
         }
 
         $data              = $this->form_repository->get( $dto );
