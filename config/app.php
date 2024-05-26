@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 
 use NewForm\App\Http\Middleware\EnsureIsUserAdmin;
 use NewForm\App\Providers\Admin\MenuServiceProvider;
+use NewForm\App\Providers\ShortCodeServiceProvider;
 use NewForm\WpMVC\App;
 
 return [
@@ -19,7 +20,9 @@ return [
         'versions'  => []
     ],
 
-    'providers'               => [],
+    'providers'               => [
+        ShortCodeServiceProvider::class
+    ],
 
     'admin_providers'         => [
         MenuServiceProvider::class,
