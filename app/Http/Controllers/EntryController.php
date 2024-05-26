@@ -73,12 +73,12 @@ class EntryController extends Controller {
         /**
          * Storing the current user browser and device information, if information is present.
          */
-        $which_browser = new \NewForm\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
-        $browser       = $which_browser->browser;
+        // $which_browser = new \NewForm\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
+        // $browser       = $which_browser->browser;
 
-        if ( $browser ) {
-            $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
-        }
+        // if ( $browser ) {
+        //     $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
+        // }
 
         do_action( "new_form_before_create_form_entry", $form, $wp_rest_request );
 
