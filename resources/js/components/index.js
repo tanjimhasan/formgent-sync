@@ -1,11 +1,11 @@
 import { registerModule } from '@newform/modules/helpers';
-import { Input, Button, Table } from 'antd';
+import AntButton from './Button';
+import AntTable from './Table';
 
 /**
  * Global components for admin and user
  */
 registerModule( 'components', {
-	Input,
-	Button,
-	Table
+	AntButton,
+	AntTable,
 } );

@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 import { ConfigProvider } from 'antd';
 import {
 	HashRouter,
@@ -24,9 +25,8 @@ export default function App() {
 	// const { forms, isLoading, error} = data.FormReducer;
 	// console.log(forms, isLoading, error,data.FormReducer);
 	// return <h1>Hello Form Builder</h1>
-
+	const { setRouterState } = useDispatch( 'newform' );
 	const [ dir, setDir ] = useState( 'ltr' );
-
 	const theme = {
 		direction: dir,
 	};
@@ -38,6 +38,22 @@ export default function App() {
 			setDir( 'ltr' );
 		}
 	}, [] );
+
+	useEffect( () => {
+		if ( ! setRouterState ) {
+			return;
+		}
+		setRouterState( {
+			HashRouter,
+			Routes,
+			Route,
+			Link,
+			NavLink,
+			useNavigate,
+			useParams,
+			useLocation,
+		} );
+	}, [ setRouterState ] );
 
 	const adminRoutes = applyFilters( 'newform_admin_routes', [
 		{
@@ -51,7 +67,7 @@ export default function App() {
 			<HashRouter>
 				<Suspense fallback={ <></> }>
 					{ /* <ThemeProvider theme={ theme }> */ }
-					<ConfigProvider
+					{ /* <ConfigProvider
 						theme={ {
 							token: {
 								// Seed Token
@@ -62,19 +78,19 @@ export default function App() {
 								colorBgContainer: '#f6ffed',
 							},
 						} }
-					>
-						<Routes>
-							{ adminRoutes.map( ( routeItem, index ) => {
-								return (
-									<Route
-										key={ index }
-										path={ routeItem.path }
-										element={ routeItem.element }
-									></Route>
-								);
-							} ) }
-						</Routes>
-					</ConfigProvider>
+					> */ }
+					<Routes>
+						{ adminRoutes.map( ( routeItem, index ) => {
+							return (
+								<Route
+									key={ index }
+									path={ routeItem.path }
+									element={ routeItem.element }
+								></Route>
+							);
+						} ) }
+					</Routes>
+					{ /* </ConfigProvider> */ }
 					{ /* </ThemeProvider> */ }
 				</Suspense>
 			</HashRouter>

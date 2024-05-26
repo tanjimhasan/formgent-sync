@@ -4,6 +4,7 @@
 import { createReduxStore, register } from '@wordpress/data';
 import { FormStore } from './forms';
 import { SingleFormStore } from './singleform';
+import { CommonStore } from './commonData';
 import { rootReducers } from './rootReducers';
 
 /**
@@ -12,6 +13,7 @@ import { rootReducers } from './rootReducers';
 const ACTIONS = {
 	...FormStore.FormActions,
 	...SingleFormStore.SingleFormActions,
+	...CommonStore.CommonActions,
 };
 
 /**
@@ -20,6 +22,7 @@ const ACTIONS = {
 const SELECTORS = {
 	...FormStore.FormSelectors,
 	...SingleFormStore.SingleFormSelectors,
+	...CommonStore.CommonSelectors,
 };
 
 /**

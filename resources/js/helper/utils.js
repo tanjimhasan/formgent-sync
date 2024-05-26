@@ -1,26 +1,7 @@
-export function formatDate( date ) {
-	const months = [
-		'Jan',
-		'Feb',
-		'Mar',
-		'Apr',
-		'May',
-		'Jun',
-		'Jul',
-		'Aug',
-		'Sep',
-		'Oct',
-		'Nov',
-		'Dec',
-	];
-
-	const dateParts = date.split( ' ' );
-	const [ datePart, timePart ] = dateParts;
-	const [ year, month, day ] = datePart.split( '-' );
-	const [ hour, minute ] = timePart.split( ':' );
-
-	const formattedDate = `${ parseInt( day ) } ${
-		months[ parseInt( month ) - 1 ]
-	} ${ year.slice( -2 ) } @ ${ hour }:${ minute }`;
+function formatDate( formatType, date, options ) {
+	const dataObject = new Date( date );
+	const formattedDate = dataObject.toLocaleDateString( formatType, options );
 	return formattedDate;
 }
+
+export { formatDate };
