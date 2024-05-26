@@ -224,6 +224,71 @@ class FormController extends Controller {
         );
     }
 
+    public function duplicate( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Form not found' )
+                ], 404
+            );
+        }
+
+        $dto = new FormDTO;
+
+        foreach ( $form as $column => $value ) {
+            if ( in_array( $column, ['id', 'title', 'created_at', 'updated_at'], true ) ) {
+                continue;
+            }
+            $set_method = "set_{$column}";
+            $dto->$set_method( $value );
+        }
+
+        $dto->set_title( $form->title . ' - copy' );
+        $dto->set_created_by( get_current_user_id() );
+
+        try {
+            do_action( "newform_before_duplicate_form", $dto, $wp_rest_request );
+
+            $form_id = $this->form_repository->create( $dto );
+
+            $dto->set_id( $form_id );
+
+            do_action( "newform_after_duplicate_form", $dto, $wp_rest_request );
+
+            return Response::send(
+                [
+                    'data'    => [
+                        'id' => $form_id
+                    ],
+                    'message' => esc_html__( 'The form has been duplicated successfully.', 'helpgent' )
+                ], 201
+            );
+        } catch ( Exception $exception ) {
+            return Response::send(
+                [
+                    'message' => $exception->getMessage()
+                ],
+                $exception->getCode()
+            );
+        }
+    }
+
     public function delete( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
