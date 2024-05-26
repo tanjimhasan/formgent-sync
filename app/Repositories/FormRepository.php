@@ -51,7 +51,7 @@ class FormRepository {
     }
 
     private function forms_date_query( Builder $query, FormReadDTO $dto ) {
-        if ( 'all' !== $dto->get_date_type() ) {
+        if ( 'all' === $dto->get_date_type() ) {
             return $query;
         }
 
