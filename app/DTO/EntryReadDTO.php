@@ -9,11 +9,13 @@ class EntryReadDTO {
 
     private ?int $form_id = null;
 
-    private string $search = '';
+    private ?int $is_read = null;
 
-    private string $sort_by = '';
+    private ?string $search = null;
 
-    private string $date_type = 'all';
+    private ?string $sort_by = null;
+
+    private ?string $date_type = null;
 
     private array $date_frame = [];
 
@@ -79,6 +81,28 @@ class EntryReadDTO {
      */
     public function set_form_id( int $form_id ) {
         $this->form_id = $form_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of is_read
+     *
+     * @return int
+     */
+    public function get_is_read() {
+        return $this->is_read;
+    }
+
+    /**
+     * Set the value of is_read
+     *
+     * @param int $is_read 
+     *
+     * @return self
+     */
+    public function set_is_read( int $is_read ) {
+        $this->is_read = $is_read;
 
         return $this;
     }

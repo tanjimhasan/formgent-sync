@@ -23,7 +23,8 @@ class EntryController extends Controller {
                 'page'     => 'numeric',
                 's'        => 'string|max:255',
                 'form_id'  => 'numeric',
-                // 'date_type'  => 'string|accepted:all,today,yesterday,last_week,last_month,date_frame',
+                'is_read'  => 'numeric|accepted:0,1',
+                // 'date_type'  => 'string|accepted:today,yesterday,last_week,last_month,date_frame',
                 // 'sort_by'    => 'string|accepted:last_modified,date_created,alphabetical,last_submission,unread,draft,publish',
                 // 'date_frame' => 'array'
             ]
@@ -44,6 +45,10 @@ class EntryController extends Controller {
 
         if ( $wp_rest_request->has_param( 'form_id' ) ) {
             $dto->set_form_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        }
+
+        if ( $wp_rest_request->has_param( 'is_read' ) ) {
+            $dto->set_is_read( $wp_rest_request->get_param( 'is_read' ) );
         }
 
         // if ( $wp_rest_request->has_param( 'sort_by' ) ) {

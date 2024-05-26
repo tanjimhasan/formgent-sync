@@ -16,6 +16,10 @@ class EntryRepository {
             $entries_query->where( 'entry.form_id', $dto->get_form_id() );
         }
 
+        if ( $dto->get_is_read() ) {
+            $entries_query->where( 'entry.is_read', $dto->get_is_read() );
+        }
+
         // $this->forms_date_query( $forms_query, $dto );
         $this->entries_search_query( $entries_query, $dto );
 
