@@ -11,7 +11,7 @@ class EntryDTO extends DTO {
 
     private string $ip;
 
-    private int $created_by;
+    private ?int $created_by = null;
 
     private ?string $device = null;
 

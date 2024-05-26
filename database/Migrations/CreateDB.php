@@ -49,7 +49,7 @@ class CreateDB implements Migration {
             `device` VARCHAR(50) NULL,
             `browser` VARCHAR(50) NULL,
             `browser_version` VARCHAR(50) NULL,
-            `created_by` BIGINT UNSIGNED NOT NULL,
+            `created_by` BIGINT UNSIGNED NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`)
