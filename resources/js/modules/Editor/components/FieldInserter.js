@@ -3,17 +3,17 @@ import DraggableField from './DraggableField';
 import { registerFields } from '@newform/fields';
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
-	const generalFields = ['long_text', 'short_text'];
-	const advanceFields = []
+	const generalFields = [ 'long_text', 'short_text' ];
+	const advanceFields = [];
 	const fields = registerFields().filter(
 		( item ) => item.type !== 'spacer'
 	);
 
-	function getFieldByGroup(fieldGroup, field) {
-		if(!fieldGroup.includes(field.type)){
-			return
+	function getFieldByGroup( fieldGroup, field ) {
+		if ( ! fieldGroup.includes( field.type ) ) {
+			return;
 		}
-		return <DraggableField key={ field.id } field={ field } />
+		return <DraggableField key={ field.id } field={ field } />;
 	}
 
 	return (
@@ -23,13 +23,10 @@ export default function FieldInserter( props ) {
 		>
 			<span className="newform-editor-inserter__label">General</span>
 			<div className="newform-editor-inserter__group">
-				{ fields.map( ( field ) => (
-
-					getFieldByGroup(generalFields, field)
-				
-				) ) }
+				{ fields.map( ( field ) =>
+					getFieldByGroup( generalFields, field )
+				) }
 			</div>
-			
 		</InserterStyle>
 	);
 }

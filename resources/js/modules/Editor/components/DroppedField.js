@@ -50,6 +50,6 @@ const DroppedField = ( { id, index, field } ) => {
 			<ActiveDroppedField />
 		</div>
 	);
-}
+};
 
-export default memo(DroppedField);
+export default memo( DroppedField );

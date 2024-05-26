@@ -18,32 +18,30 @@ export default function DraggableField( props ) {
 		},
 	} );
 
-	const handleAddNewField = useCallback(() => {
+	const handleAddNewField = useCallback( () => {
 		const { fields } = SingleFormReducer.singleForm.content;
 		const newField = {
 			...field,
-			id: nanoid(10),
+			id: nanoid( 10 ),
 			advance_option: {
 				...field.advance_option,
-				name: `${field.type}${fields.length}`,
-			}
+				name: `${ field.type }${ fields.length }`,
+			},
 		};
-		const updatedFields = [...fields,newField];
-		updateFormFields(updatedFields);
-	}, [SingleFormReducer]);
+		const updatedFields = [ ...fields, newField ];
+		updateFormFields( updatedFields );
+	}, [ SingleFormReducer ] );
 
-	const memoizedAttributes = useCallback(attributes, [attributes]);
-	const memoizedListeners = useCallback(listeners, [listeners]);
-	
+	const memoizedAttributes = useCallback( attributes, [ attributes ] );
+	const memoizedListeners = useCallback( listeners, [ listeners ] );
 
 	return (
 		<div
 			ref={ setNodeRef }
-			onClick={handleAddNewField}
+			onClick={ handleAddNewField }
 			className="newform-editor-inserter__field"
 			{ ...memoizedAttributes }
 			{ ...memoizedListeners }
-			
 		>
 			<span>{ field.type }</span>
 		</div>

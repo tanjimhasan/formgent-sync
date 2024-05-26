@@ -40,14 +40,14 @@ const handleDragStart = (
 	if ( activeData.fromSidebar ) {
 		const { field } = activeData;
 		const { type } = field;
-		let darggedField = structuredClone(field);
+		let darggedField = structuredClone( field );
 		darggedField = {
 			...darggedField,
-			advance_option:{
+			advance_option: {
 				...darggedField.advance_option,
-				name: `${ type }${ fields.length + 1 }`
-			}
-		}
+				name: `${ type }${ fields.length + 1 }`,
+			},
+		};
 		setInserterOverlayActiveField( field );
 		// Create a new field that'll be added to the fields array
 		// if we drag it over the canvas.
@@ -61,7 +61,6 @@ const handleDragStart = (
 	// When dragged form dropbox update droppedOverlayField state
 	//and create a spacer then add it to the field list
 
-	
 	const { field, index } = activeData;
 	setDroppedOverlayActiveField( field );
 	currentDragFieldRef.current = field;
@@ -153,11 +152,13 @@ const handleDragEnd = (
 			setInserterOverlayActiveField,
 			setDroppedOverlayActiveField
 		);
-		if(droppedOverlayActiveField){
-			updatedFields = [...updatedFields,droppedOverlayActiveField]
+		if ( droppedOverlayActiveField ) {
+			updatedFields = [ ...updatedFields, droppedOverlayActiveField ];
 		}
-		
-		updatedFields = updatedFields.filter( ( field ) => field.type !== 'spacer' );
+
+		updatedFields = updatedFields.filter(
+			( field ) => field.type !== 'spacer'
+		);
 		updateFormFields( updatedFields );
 		return;
 	}

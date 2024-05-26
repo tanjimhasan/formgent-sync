@@ -1,4 +1,4 @@
-import { EditorHeaderStyle } from "./style";
+import { EditorHeaderStyle } from './style';
 
 export default function Header( props ) {
 	const { uiState, setUiState } = props;

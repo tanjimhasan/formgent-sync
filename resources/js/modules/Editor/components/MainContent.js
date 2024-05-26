@@ -1,6 +1,13 @@
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useRef, useState, useEffect, useCallback } from '@wordpress/element';
-import { DndContext, KeyboardSensor, MouseSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import {
+	DndContext,
+	KeyboardSensor,
+	MouseSensor,
+	useSensor,
+	useSensors,
+	DragOverlay,
+} from '@dnd-kit/core';
 import Body from './Body';
 import FieldInserter from './FieldInserter';
 import Sidebar from './Sidebar';
@@ -34,49 +41,54 @@ export default function MainContent( props ) {
 		useState();
 	const spacerInsertedRef = useRef();
 	const currentDragFieldRef = useRef();
-	
+
 	const handleDragStartCallback = useCallback(
-        (event) =>
-            handleDragStart(
-                event,
-                fields,
-                updateFormFields,
-                currentDragFieldRef,
-                setInserterOverlayActiveField,
-                setDroppedOverlayActiveField
-            ),
-        [fields, updateFormFields]
-    );
+		( event ) =>
+			handleDragStart(
+				event,
+				fields,
+				updateFormFields,
+				currentDragFieldRef,
+				setInserterOverlayActiveField,
+				setDroppedOverlayActiveField
+			),
+		[ fields, updateFormFields ]
+	);
 
-    const handleDragOverCallback = useCallback(
-        (event) =>
-            handleDragOver(event, fields, spacerInsertedRef, updateFormFields),
-        [fields, updateFormFields]
-    );
+	const handleDragOverCallback = useCallback(
+		( event ) =>
+			handleDragOver(
+				event,
+				fields,
+				spacerInsertedRef,
+				updateFormFields
+			),
+		[ fields, updateFormFields ]
+	);
 
-    const handleDragEndCallback = useCallback(
-        (event) =>
-            handleDragEnd(
-                event,
-                fields,
-                currentDragFieldRef,
-                spacerInsertedRef,
-                updateFormFields,
-                droppedOverlayActiveField,
-                setInserterOverlayActiveField,
-                setDroppedOverlayActiveField,
-                setInserterDomKey
-            ),
-        [fields, updateFormFields, droppedOverlayActiveField]
-    );
+	const handleDragEndCallback = useCallback(
+		( event ) =>
+			handleDragEnd(
+				event,
+				fields,
+				currentDragFieldRef,
+				spacerInsertedRef,
+				updateFormFields,
+				droppedOverlayActiveField,
+				setInserterOverlayActiveField,
+				setDroppedOverlayActiveField,
+				setInserterDomKey
+			),
+		[ fields, updateFormFields, droppedOverlayActiveField ]
+	);
 
-	const mouseSensor = useSensor(MouseSensor, {
+	const mouseSensor = useSensor( MouseSensor, {
 		activationConstraint: {
-		  distance: 1, // Enable sort function when dragging 10px   💡 here!!!
+			distance: 1, // Enable sort function when dragging 10px   💡 here!!!
 		},
-	  })
-	const keyboardSensor = useSensor(KeyboardSensor)
-	const sensors = useSensors(mouseSensor, keyboardSensor)
+	} );
+	const keyboardSensor = useSensor( KeyboardSensor );
+	const sensors = useSensors( mouseSensor, keyboardSensor );
 
 	return (
 		<EditorContentStyle
@@ -88,7 +100,7 @@ export default function MainContent( props ) {
 				onDragOver={ handleDragOverCallback }
 				onDragEnd={ handleDragEndCallback }
 				autoScroll
-				sensors={sensors}
+				sensors={ sensors }
 			>
 				<FieldInserter inserterDomKey={ inserterDomKey } />
 

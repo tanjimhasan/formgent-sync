@@ -14,7 +14,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				isLoading: isLoading,
 			};
 		case 'FORM_STORE':
-			console.log(data);
+			console.log( data );
 			return {
 				...state,
 				forms: data,

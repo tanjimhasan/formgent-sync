@@ -112,4 +112,9 @@ const EditorContentStyle = Styled.div`
     }
 `;
 
-export { EditorHeaderStyle, InserterStyle, DropableBoxStyle, EditorContentStyle };
+export {
+	EditorHeaderStyle,
+	InserterStyle,
+	DropableBoxStyle,
+	EditorContentStyle,
+};

@@ -5,7 +5,7 @@ const FormTableModule = lazy( () => import( './FormTable' ) );
 
 registerModule( 'modules', {
 	EditorModule,
-	FormTableModule
+	FormTableModule,
 } );
 
 export { EditorModule };
