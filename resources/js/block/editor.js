@@ -55,7 +55,9 @@ registerBlockType( 'newform/form', {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Select you new form', 'newform' ) }>
+					<PanelBody
+						title={ __( 'Select your new form', 'newform' ) }
+					>
 						<SelectControl
 							label={ __( 'SELECT A FORM', 'newform' ) }
 							value={ formId }

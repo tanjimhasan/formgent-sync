@@ -293,7 +293,7 @@ class FormController extends Controller {
     public function select( Validator $validator, WP_REST_Request $wp_rest_request ) {
         return Response::send(
             [
-                'forms' => Form::query( 'form' )->select( 'form.title as label', 'form.id as value' )->order_by_desc( 'form.id' )->get()
+                'forms' => Form::query( 'form' )->select( 'form.title as label', 'form.id as value' )->where( 'form.status', 'publish' )->order_by_desc( 'form.id' )->get()
             ]
         );
     }
