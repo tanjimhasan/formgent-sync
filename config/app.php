@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 
 use NewForm\App\Http\Middleware\EnsureIsUserAdmin;
 use NewForm\App\Providers\BlockServiceProvider;
+use NewForm\App\Providers\ElementorServiceProvider;
 use NewForm\App\Providers\Admin\MenuServiceProvider;
 use NewForm\App\Providers\ShortCodeServiceProvider;
 use NewForm\WpMVC\App;
@@ -23,6 +24,7 @@ return [
 
     'providers'               => [
         ShortCodeServiceProvider::class,
+        ElementorServiceProvider::class,
         BlockServiceProvider::class
     ],
 

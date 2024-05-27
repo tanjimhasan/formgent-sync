@@ -22,6 +22,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		'js/block/editor': './resources/js/block/editor.js',
+		'js/elementor': './resources/js/elementor.js',
 		'js/admin': './resources/js/admin/index.js',
 		'js/modules': './resources/js/modules/index.js',
 		'js/components': './resources/js/components/index.js',
