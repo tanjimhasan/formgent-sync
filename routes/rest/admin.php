@@ -10,6 +10,7 @@ Route::group(
             'forms', function() {
                 Route::patch( '{id}/status', [FormController::class, 'update_status'] );
                 Route::post( '{id}/duplicate', [FormController::class, 'duplicate'] );
+                Route::get( 'select', [FormController::class, 'select'] );
                 Route::resource( '/', FormController::class );
             }
         );

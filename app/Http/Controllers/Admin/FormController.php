@@ -6,6 +6,7 @@ use Exception;
 use NewForm\App\DTO\FormDTO;
 use NewForm\App\DTO\FormReadDTO;
 use NewForm\App\Http\Controllers\Controller;
+use NewForm\App\Models\Form;
 use NewForm\App\Repositories\FormRepository;
 use NewForm\WpMVC\RequestValidator\Validator;
 use NewForm\WpMVC\Routing\Response;
@@ -287,6 +288,14 @@ class FormController extends Controller {
                 $exception->getCode()
             );
         }
+    }
+
+    public function select( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        return Response::send(
+            [
+                'forms' => Form::query( 'form' )->select( 'form.title as label', 'form.id as value' )->order_by_desc( 'form.id' )->get()
+            ]
+        );
     }
 
     public function delete( Validator $validator, WP_REST_Request $wp_rest_request ) {

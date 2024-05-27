@@ -21,6 +21,7 @@ const chunkUniqueKey = Date.now().toString();
 module.exports = {
 	...defaultConfig,
 	entry: {
+		'js/block/editor': './resources/js/block/editor.js',
 		'js/admin': './resources/js/admin/index.js',
 		'js/modules': './resources/js/modules/index.js',
 		'js/components': './resources/js/components/index.js',
