@@ -6,7 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
 
 const Form = ( { formId } ) => {
-	return `Select Form Id is ${ formId }`;
+	return `Selected Form Id is ${ formId }`;
 };
 
 registerBlockType( 'newform/form', {
