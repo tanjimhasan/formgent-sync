@@ -16,6 +16,8 @@ import { applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
+import { getPlugins } from '@wordpress/plugins';
+import { SlotFillProvider } from '@wordpress/components';
 
 export default function App() {
 	// const data = useSelect((select) => {
@@ -29,6 +31,13 @@ export default function App() {
 	const [ dir, setDir ] = useState( 'ltr' );
 	const theme = {
 		direction: dir,
+	};
+
+	const Plugins = () => {
+		return getPlugins().map( ( plugin ) => {
+			const Component = plugin.render;
+			return <Component />;
+		} );
 	};
 
 	useEffect( () => {
@@ -64,10 +73,12 @@ export default function App() {
 
 	return (
 		<div className="newform-app-wrap">
-			<HashRouter>
-				<Suspense fallback={ <></> }>
-					{ /* <ThemeProvider theme={ theme }> */ }
-					{ /* <ConfigProvider
+			<SlotFillProvider>
+				<Plugins />
+				<HashRouter>
+					<Suspense fallback={ <></> }>
+						{ /* <ThemeProvider theme={ theme }> */ }
+						{ /* <ConfigProvider
 						theme={ {
 							token: {
 								// Seed Token
@@ -79,21 +90,22 @@ export default function App() {
 							},
 						} }
 					> */ }
-					<Routes>
-						{ adminRoutes.map( ( routeItem, index ) => {
-							return (
-								<Route
-									key={ index }
-									path={ routeItem.path }
-									element={ routeItem.element }
-								></Route>
-							);
-						} ) }
-					</Routes>
-					{ /* </ConfigProvider> */ }
-					{ /* </ThemeProvider> */ }
-				</Suspense>
-			</HashRouter>
+						<Routes>
+							{ adminRoutes.map( ( routeItem, index ) => {
+								return (
+									<Route
+										key={ index }
+										path={ routeItem.path }
+										element={ routeItem.element }
+									></Route>
+								);
+							} ) }
+						</Routes>
+						{ /* </ConfigProvider> */ }
+						{ /* </ThemeProvider> */ }
+					</Suspense>
+				</HashRouter>
+			</SlotFillProvider>
 		</div>
 	);
 }
