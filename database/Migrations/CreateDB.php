@@ -63,6 +63,7 @@ class CreateDB implements Migration {
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `entry_id` BIGINT UNSIGNED NOT NULL,
             `field_id` VARCHAR(50) NOT NULL,
+            `form_id` BIGINT UNSIGNED NOT NULL,
             `value` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,

@@ -252,6 +252,14 @@ class FormRepository {
         ];
     }
 
+    public function update_content( int $id, string $content ) {
+        return Form::query()->where( 'id', $id )->update(
+            [
+                'content' => $content
+            ]
+        );
+    }
+
     public function get_demo_attachments():array {
         return get_option( self::DEMOMEDIAOPTIONKEY, [] );
     }
