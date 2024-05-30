@@ -11,6 +11,8 @@ use NewForm\WpMVC\Database\Query\Builder;
 use NewForm\WpMVC\Database\Query\JoinClause;
 
 class FormRepository {
+    const DEMOMEDIAOPTIONKEY = 'newform_demo_medias';
+
     public function get( FormReadDTO $dto ) {
         $forms_query = Form::query( 'form' )->left_join( "users as user", "user.ID", "form.created_by" );
 
@@ -19,7 +21,7 @@ class FormRepository {
 
         $count_query = clone $forms_query;
 
-        do_action( 'helpgent_forms_count_query', $count_query, $dto );
+        do_action( 'newform_forms_count_query', $count_query, $dto );
 
         $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT entry.id) as total_entries', 'COUNT(DISTINCT CASE WHEN entry.is_read = 0 THEN entry.id ELSE NULL END) AS total_unread_entries'];
         $group_by_columns = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name' ];
@@ -28,7 +30,7 @@ class FormRepository {
 
         $this->forms_sort_query( $forms_query, $dto );
 
-        do_action( 'helpgent_forms_query', $forms_query, $dto );
+        do_action( 'newform_forms_query', $forms_query, $dto );
 
         return [
             'total' => $count_query->count(),
@@ -159,6 +161,103 @@ class FormRepository {
                 'content' => $dto->get_content(),
             ]
         );
+    }
+
+    public function insert_media( string $attachment_url ) {
+        $demo_attachments = $this->get_demo_attachments();
+
+        /**
+         * Return attachment if from cache if exists
+         */
+        if ( ! empty( $demo_attachments[$attachment_url] ) ) {
+            $id         = $demo_attachments[$attachment_url];
+            $attachment = wp_get_attachment_url( $id, );
+
+            if ( is_string( $attachment_url ) ) {
+                return [
+                    'id'  => $id,
+                    'url' => $attachment_url
+                ];
+            }
+        }
+
+        $response = wp_remote_get(
+            $attachment_url, [
+                [
+                    'timeout' => 30
+                ]
+            ]
+        );
+
+        if ( is_wp_error( $response ) ) {
+            $error_code    = $response->get_error_code();
+            $response_code = 500;
+
+            if ( is_string( $error_code ) ) {
+                if ( 'http_request_failed' === $error_code ) {
+                    $response_code = 495;
+                }
+            } else {
+                $response_code = $error_code;
+            }
+            throw new Exception( $response->get_error_message(), $response_code );
+        }
+
+        $response_code = intval( wp_remote_retrieve_response_code( $response ) );
+
+        if ( 200 !== $response_code ) {
+            throw new Exception( wp_remote_retrieve_response_message( $response ), $response_code );
+        }
+
+        $file_name = wp_basename( $attachment_url );
+        $upload    = wp_upload_bits( $file_name, '', wp_remote_retrieve_body( $response ) );
+
+        if ( ! empty( $upload['error'] ) ) {
+            throw new Exception( $upload['error'], 500 );
+        }
+
+        $attachment = [
+            'post_title'     => $file_name,
+            'post_type'      => 'attachment',
+            'post_mime_type' => $upload['type'],
+            'guid'           => $upload['url']
+        ];
+
+        $id = wp_insert_attachment( $attachment, $upload['file'] );
+
+        if ( is_wp_error( $id ) ) {
+            throw new Exception( $id->get_error_message(), $id->get_error_code() );
+        }
+
+        if ( ! function_exists( 'wp_generate_attachment_metadata' ) ) {
+            include_once ABSPATH . 'wp-admin/includes/image.php';
+        }
+
+        if ( ! function_exists( 'wp_read_video_metadata' ) ) {
+            include_once ABSPATH . 'wp-admin/includes/media.php';
+        }
+
+        wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $upload['file'] ) );
+
+        /**
+         * Caching the inserted attachment url and id
+         */
+        $demo_attachments[$attachment_url] = $id;
+
+        $this->update_demo_attachments( $demo_attachments );
+
+        return [
+            'id'  => $id,
+            'url' => $upload['url']
+        ];
+    }
+
+    public function get_demo_attachments():array {
+        return get_option( self::DEMOMEDIAOPTIONKEY, [] );
+    }
+
+    public function update_demo_attachments( array $demo_attachments ) {
+        return update_option( self::DEMOMEDIAOPTIONKEY, $demo_attachments );
     }
 
     public function update_status( int $form_id, string $status ) {

@@ -325,4 +325,38 @@ class FormController extends Controller {
             ]
         );
     }
+
+    public function insert_media( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'url' => 'required|url'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $attachment_url = $wp_rest_request->get_param( 'url' );
+
+        try {
+            $data = [
+                'data' => [
+                    'status' => 201
+                ]
+            ];
+            return Response::send( array_merge( $this->form_repository->insert_media( $attachment_url ), $data ), 201 );
+        } catch ( Exception $exception ) {
+            return Response::send(
+                [
+                    'message' => $exception->getMessage()
+                ],
+                $exception->getCode()
+            );
+        }
+    }
 }

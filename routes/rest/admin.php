@@ -11,6 +11,7 @@ Route::group(
                 Route::patch( '{id}/status', [FormController::class, 'update_status'] );
                 Route::post( '{id}/duplicate', [FormController::class, 'duplicate'] );
                 Route::get( 'select', [FormController::class, 'select'] );
+                Route::post( 'media', [FormController::class, 'insert_media'] );
                 Route::resource( '/', FormController::class );
             }
         );
