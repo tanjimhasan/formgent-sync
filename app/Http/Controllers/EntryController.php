@@ -29,8 +29,8 @@ class EntryController extends Controller {
     public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id' => 'required|integer',
-                'data'    => 'required|array'
+                'form_id'   => 'required|integer',
+                'form_data' => 'required|array'
             ]
         );
 
@@ -95,19 +95,27 @@ class EntryController extends Controller {
         );
     }
 
+    /**
+     * @param stdClass $form
+     * @param Validator $validator
+     * @param WP_REST_Request $wp_rest_request
+     * @return array
+     */
     private function validate( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $form_data      = $wp_rest_request->get_param( 'data' );
+        $form_data = $wp_rest_request->get_param( 'form_data' );
+        $wp_rest_request->set_body_params( $form_data );
+
         $allowed_fields = newform_get_entry_allowed_fields();
 
         $form_content = json_decode( $form->content, true );
         $fields       = $form_content['fields'];
-        $field_ids    = array_column( $fields, 'id' );
+        $field_names  = array_column( $fields, 'name' );
 
         $errors     = [];
         $field_dtos = [];
 
-        foreach ( $form_data as $field_data ) {
-            $field_key = array_search( $field_data['id'], $field_ids );
+        foreach ( $form_data as $field_name => $field_data ) {
+            $field_key = array_search( $field_name, $field_names );
 
             /**
              * Skip if field not found in db fields list
@@ -123,14 +131,12 @@ class EntryController extends Controller {
                 continue;
             }
 
-            $wp_rest_request->set_body_params( $field_data );
-
             try {
                 $field_handler = newform_field_handler( $field['type'] );
 
                 $field_handler->validate( $field, $wp_rest_request, $validator );
 
-                $field_dtos[] = $field_handler->get_field_dto( $field_data, $field, $form );
+                $field_dtos[] = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
 
             } catch ( RequestValidatorException $exception ) {
                 $errors[$field['id']] = $exception->get_messages();
@@ -158,6 +164,7 @@ class EntryController extends Controller {
     //         [
     //             'id'             => '5641354164131',
     //             'type'           => 'long_text',
+    //             'name'           => 'long_text',
     //             'general_option' => [
     //                 'validations' => [
     //                     'required' => [
@@ -169,6 +176,7 @@ class EntryController extends Controller {
     //         [
     //             'id'             => '64563161631',
     //             'type'           => 'short_text',
+    //             'name'           => 'short_text',
     //             'general_option' => [
     //                 'validations' => [
     //                     'required' => [

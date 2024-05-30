@@ -6,6 +6,7 @@ use NewForm\WpMVC\App;
 use NewForm\DI\Container;
 use NewForm\App\Fields\Field;
 use NewForm\App\Fields\ShortText;
+use NewForm\App\Fields\LongText;
 use NewForm\App\Utils\DateTime;
 
 function newform():App {
@@ -63,7 +64,7 @@ function newform_is_valid_date( string $date, string $format ) {
 }
 
 function newform_get_entry_allowed_fields() {
-    return apply_filters( 'newform_entry_allowed_fields', [ShortText::get_key()] );
+    return apply_filters( 'newform_entry_allowed_fields', [ShortText::get_key(), LongText::get_key()] );
 }
 
 /**
