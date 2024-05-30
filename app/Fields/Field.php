@@ -32,7 +32,7 @@ abstract class Field {
 
     public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): FieldDTO {
         $dto = new FieldDTO();
-        return $dto->set_field_id( $field['id'] )->set_value( $wp_rest_request->get_param( static::get_key() ) );
+        return $dto->set_form_id( $form->id )->set_field_id( $field['id'] )->set_value( $wp_rest_request->get_param( static::get_key() ) );
     }
 
     public static function throw_validator_errors( Validator $validator ) {

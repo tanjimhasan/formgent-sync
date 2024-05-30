@@ -5,6 +5,8 @@ namespace NewForm\App\DTO;
 class FieldDTO extends DTO {
     private int $entry_id = 0;
 
+    private int $form_id;
+
     private string $field_id;
 
     private ?string $value = null;
@@ -27,6 +29,28 @@ class FieldDTO extends DTO {
      */
     public function set_entry_id( int $entry_id ) {
         $this->entry_id = $entry_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of form_id
+     *
+     * @return int
+     */
+    public function get_form_id() {
+        return $this->form_id;
+    }
+
+    /**
+     * Set the value of form_id
+     *
+     * @param int $form_id 
+     *
+     * @return self
+     */
+    public function set_form_id( int $form_id ) {
+        $this->form_id = $form_id;
 
         return $this;
     }
