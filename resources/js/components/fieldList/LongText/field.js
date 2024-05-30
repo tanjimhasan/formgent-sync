@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 const LongText = {
 	id: nanoid( 12 ),
 	type: 'long_text',
+	name: 'long_text',
 	group_name: 'general',
 	general_option: {
 		label: 'Long text',
@@ -21,7 +22,6 @@ const LongText = {
 		default_value: '',
 		container_class: '',
 		field_class: '',
-		name: 'long_text',
 		max_length: '',
 		logics: {
 			is_advance_logic_active: '0',

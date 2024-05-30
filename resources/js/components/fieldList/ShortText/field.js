@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 const ShortText = {
 	id: nanoid( 12 ),
 	type: 'short_text',
+	name: 'short_text',
 	group_name: 'general',
 	general_option: {
 		label: 'Short text',
@@ -19,7 +20,6 @@ const ShortText = {
 		default_value: '',
 		container_class: '',
 		field_class: '',
-		name: 'short_text',
 		max_length: '',
 		logics: {
 			is_advance_logic_active: '0',
