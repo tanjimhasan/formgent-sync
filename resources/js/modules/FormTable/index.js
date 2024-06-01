@@ -1,8 +1,10 @@
 import { useSelect } from '@wordpress/data';
 import { useRef, useState, useEffect, Fragment } from '@wordpress/element';
+import { Modal } from '@wordpress/components';
 import Header from './components/Header';
 import Table from './components/Table';
 import FormTableHead from '@newform/admin/Slots/FormTableHead';
+import CreatePopup from '@newform/components/Form/CreatePopup';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
@@ -10,7 +12,7 @@ function FormTable( props ) {
 	}, [] );
 
 	const { forms, pagination, isLoading, erroe } = FormReducer;
-	console.log( forms, FormReducer );
+
 	return (
 		<div className="newform-page-inner">
 			<FormTableHead.Slot fillProps={ { testProps: 10 } }>
@@ -22,6 +24,7 @@ function FormTable( props ) {
 				) }
 			</FormTableHead.Slot>
 			{ forms && <Table /> }
+			<CreatePopup />
 		</div>
 	);
 }

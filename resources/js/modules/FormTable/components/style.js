@@ -226,5 +226,9 @@ const TableStyle = Styled.div`
         }
     }
 `;
-
-export { TitleBoxStyle, TableStyle };
+const HeaderStyle = Styled.div`
+    .newform-header-top__content{
+        align-items: center;
+    }
+`;
+export { TitleBoxStyle, TableStyle, HeaderStyle };

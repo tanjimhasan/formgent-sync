@@ -73,7 +73,7 @@ module.exports = {
 	resolve: {
 		alias: {
 			'@newform': path.resolve( __dirname, 'resources/js' ),
-			'@icon': path.resolve( __dirname, 'resources/svg/icon' ),
+			'@icon': path.resolve( __dirname, 'resources/svg/icons' ),
 			'@assets': path.resolve( __dirname, 'assets' ),
 		},
 	},

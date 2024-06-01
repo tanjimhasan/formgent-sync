@@ -47,4 +47,11 @@ export const FormActions = {
 			error,
 		};
 	},
+
+	updateFormState: ( data ) => {
+		return {
+			type: 'UPDATE_FORM_STORE',
+			data,
+		};
+	},
 };

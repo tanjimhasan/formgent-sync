@@ -10,6 +10,7 @@ export default function AntTable( props ) {
 	return (
 		<ConfigProvider
 			theme={ {
+				cssVar: true,
 				token: {
 					colorPrimary: '#6551f2',
 				},

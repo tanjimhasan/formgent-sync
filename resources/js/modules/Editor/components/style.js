@@ -112,9 +112,19 @@ const EditorContentStyle = Styled.div`
     }
 `;
 
+const CreateFormStyle = Styled.div`
+    text-align: center;
+    padding: 50px 0;
+    .newform-create-modal__content{
+       max-width: 340px;
+       margin: 0 auto;
+    }
+`;
+
 export {
 	EditorHeaderStyle,
 	InserterStyle,
 	DropableBoxStyle,
 	EditorContentStyle,
+	CreateFormStyle,
 };

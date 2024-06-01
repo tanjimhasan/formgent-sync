@@ -6,6 +6,7 @@ import { ConfigProvider } from 'antd';
 import { formatDate } from '@newform/helper/utils';
 import TItleBox from './TitleBox';
 import { TableStyle } from './style';
+import TableAction from './TableAction';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 
@@ -17,7 +18,8 @@ export default function Table() {
 		return select( 'newform' ).getCommonState();
 	}, [] );
 	const { forms } = FormReducer;
-	const { routerComponents } = CommonReducer;
+	const { useNavigate } = CommonReducer.routerComponents;
+	const navigate = useNavigate();
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: handleRowSelection,
@@ -77,6 +79,21 @@ export default function Table() {
 				return (
 					<div className="helpgent-form-date">
 						{ formatDate( 'en-US', date, dateFormatOptions ) }
+					</div>
+				);
+			},
+		},
+		{
+			title: 'More',
+			className: 'newform-head-action',
+			render: ( text, record ) => {
+				const date =
+					'string' === typeof record.updated_at
+						? record.updated_at
+						: record.created_at;
+				return (
+					<div className="newform-form-action">
+						<TableAction />
 					</div>
 				);
 			},

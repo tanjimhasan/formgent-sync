@@ -4,6 +4,7 @@ import { registerPreviewFields } from '@newform/fields';
 
 const DroppedField = ( { id, index, field } ) => {
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
+	console.log( ActiveDroppedField );
 	const ref = useRef( null );
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable( {

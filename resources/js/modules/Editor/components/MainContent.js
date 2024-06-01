@@ -27,9 +27,9 @@ import {
 } from '../helper/utils';
 
 export default function MainContent( props ) {
-	const { uiState, setUiState } = props;
+	const { id } = props;
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm();
+		return select( 'newform' ).getSingleForm( id );
 	}, [] );
 	const { updateFormFields } = useDispatch( 'newform' );
 	const { singleForm } = SingleFormReducer;

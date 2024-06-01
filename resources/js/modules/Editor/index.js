@@ -2,20 +2,40 @@ import { useSelect } from '@wordpress/data';
 import { useRef, useState, useEffect } from '@wordpress/element';
 import MainContent from './components/MainContent';
 import Header from './components/Header';
+import { Modal } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import CreateFormModalContent from './components/CreateFormModalContent';
 
 function Editor( props ) {
 	const [ uiState, setUiState ] = useState( {
 		isInserterActive: false,
 	} );
-	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm();
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'newform' ).getCommonState();
 	}, [] );
+
+	const { useParams } = CommonReducer.routerComponents;
+
+	const { id } = useParams();
+
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'newform' ).getSingleForm( id );
+	}, [] );
+
+	console.log( SingleFormReducer );
 
 	return (
 		<div className="newform-editor-wrap">
 			<Header uiState={ uiState } setUiState={ setUiState } />
-			{ SingleFormReducer?.singleForm && (
-				<MainContent uiState={ uiState } setUiState={ setUiState } />
+			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
+			{ ! SingleFormReducer?.singleForm?.title && (
+				<Modal
+					overlayClassName="newform-modal newform-form-title-modal"
+					size="medium"
+					isDismissible={ false }
+				>
+					<CreateFormModalContent />
+				</Modal>
 			) }
 		</div>
 	);

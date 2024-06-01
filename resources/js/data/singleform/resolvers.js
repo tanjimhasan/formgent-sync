@@ -1,17 +1,28 @@
 import { SingleFormActions } from './actions';
 export const SingleFormResolvers = {
-	*getSingleForm() {
+	*getSingleForm( id ) {
+		console.log( id );
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
-			//const data = yield FormActions.fetchForm( 'new-form/ping' );
-			const data = {
-				title: 'new Form',
-				content: {
-					fields: [],
-				},
-			};
-			console.log( data );
-			yield SingleFormActions.storeSingleForm( data );
+			let stateData = {};
+			if ( id ) {
+				const data = yield SingleFormActions.fetchForm(
+					`new-form/admin/forms/${ id }`
+				);
+				console.log( data );
+				stateData = {
+					...data?.form,
+					content: JSON.parse( data?.form.content ),
+				};
+			} else {
+				stateData = {
+					content: {
+						fields: [],
+					},
+				};
+			}
+
+			yield SingleFormActions.storeSingleForm( stateData );
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		} catch ( error ) {
 			yield SingleFormActions.fetchSingleFormError( error );

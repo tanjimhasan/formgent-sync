@@ -5,8 +5,15 @@ import { nanoid } from 'nanoid';
 
 export default function DraggableField( props ) {
 	const { field, ...rest } = props;
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'newform' ).getCommonState();
+	}, [] );
+	const { useParams } = CommonReducer.routerComponents;
+
+	const { id: formId } = useParams();
+
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm();
+		return select( 'newform' ).getSingleForm( formId );
 	}, [] );
 	const { updateFormFields } = useDispatch( 'newform' );
 	const id = useRef( nanoid( 10 ) );

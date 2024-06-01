@@ -16,6 +16,7 @@ import { applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
+import AddForm from './pages/AddForm/index.js';
 import { getPlugins } from '@wordpress/plugins';
 import { SlotFillProvider } from '@wordpress/components';
 
@@ -68,6 +69,14 @@ export default function App() {
 		{
 			path: '/*',
 			element: <FormTable />,
+		},
+		{
+			path: '/forms/:id/edit',
+			element: <Editor />,
+		},
+		{
+			path: '/forms/form-new',
+			element: <AddForm />,
 		},
 	] );
 

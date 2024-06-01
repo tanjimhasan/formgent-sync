@@ -23,6 +23,8 @@ export default function DropableBox( props ) {
 			`translate3d(${ transform.x }px, ${ transform.y }px, 0px) scaleX(${ transform.scaleX }) scaleY(${ transform.scaleY })`,
 		transition,
 	};
+
+	console.log( fields );
 	return (
 		<DropableBoxStyle ref={ setNodeRef } style={ style } { ...listeners }>
 			<div className="newform-dropable-field-list">

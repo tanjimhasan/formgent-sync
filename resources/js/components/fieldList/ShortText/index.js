@@ -1,4 +1,4 @@
-import { Input } from '@newform/components';
+import { AntInput } from '@newform/components';
 export default function ShortText() {
-	return <Input />;
+	return <AntInput />;
 }
