@@ -131,9 +131,7 @@ class FormController extends Controller {
 
             return Response::send(
                 [
-                    'data'    => [
-                        'id' => $form_id
-                    ],
+                    'form'    => $this->form_repository->get_by_id( $form_id ),
                     'message' => esc_html__( 'The form has been created successfully.', 'helpgent' )
                 ], 201
             );
