@@ -2,7 +2,7 @@
 
 namespace FormGent\App\DTO;
 
-class FormReadDTO {
+class FormReadDTO extends DTO {
     private int $page;
 
     private int $per_page;

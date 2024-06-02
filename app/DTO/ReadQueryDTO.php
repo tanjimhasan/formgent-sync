@@ -9,27 +9,69 @@ trait ReadQueryDTO {
 
     private string $order_by = 'latest';
 
-    public function get_per_page(): int {
+    /**
+     * Get the value of per_page
+     *
+     * @return int
+     */
+    public function get_per_page() {
         return $this->per_page;
     }
-    
-    public function set_per_page( int $per_page ): void {
+
+    /**
+     * Set the value of per_page
+     *
+     * @param int $per_page 
+     *
+     * @return self
+     */
+    public function set_per_page( int $per_page ) {
         $this->per_page = $per_page;
+
+        return $this;
     }
 
-    public function get_page(): int {
+    /**
+     * Get the value of page
+     *
+     * @return int
+     */
+    public function get_page() {
         return $this->page;
     }
-    
-    public function set_page( int $page ): void {
+
+    /**
+     * Set the value of page
+     *
+     * @param int $page 
+     *
+     * @return self
+     */
+    public function set_page( int $page ) {
         $this->page = $page;
+
+        return $this;
     }
 
-    public function get_order_by(): string {
+    /**
+     * Get the value of order_by
+     *
+     * @return string
+     */
+    public function get_order_by() {
         return $this->order_by;
     }
-    
-    public function set_order_by( string $order_by ): void {
+
+    /**
+     * Set the value of order_by
+     *
+     * @param string $order_by 
+     *
+     * @return self
+     */
+    public function set_order_by( string $order_by ) {
         $this->order_by = $order_by;
+
+        return $this;
     }
 }

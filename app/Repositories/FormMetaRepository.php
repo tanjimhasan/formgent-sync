@@ -10,7 +10,6 @@ use FormGent\App\DTO\QueryResponse;
 use FormGent\App\Models\FormMeta;
 
 class FormMetaRepository {
-
     public function get( FormMetaReadQueryDTO $dto ): QueryResponse {
         $query = FormMeta::query();
 
@@ -68,9 +67,11 @@ class FormMetaRepository {
             throw new Exception( esc_html__( 'Form meta not found.', 'formgent' ), 404 );
         }
 
-        return FormMeta::query()->where( 'id', $dto->get_id() )->update( [
-            'meta_value' => $dto->get_meta_value()
-        ] );
+        return FormMeta::query()->where( 'id', $dto->get_id() )->update(
+            [
+                'meta_value' => $dto->get_meta_value()
+            ] 
+        );
     }
 
     public function delete( int $id ) {
