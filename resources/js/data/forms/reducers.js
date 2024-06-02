@@ -5,13 +5,17 @@ const DEFAULT_STATE = {
 	selectedTemplate: null,
 	templateElements: null,
 	createFormStage: 'initial',
-	pagination: {},
+	pagination: {
+		current_page: '1',
+		per_page: '10',
+	},
 	isLoading: false,
 	error: null,
 };
 
 export const FormReducer = ( state = DEFAULT_STATE, action ) => {
-	const { type, isLoading, data, error } = action;
+	const { type, isLoading, data, currentPage, error } = action;
+	console.log( currentPage );
 	switch ( type ) {
 		case 'FORM_FETCH_LOADING':
 			return {
@@ -19,10 +23,9 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				isLoading: isLoading,
 			};
 		case 'FORM_STORE':
-			console.log( data );
 			return {
 				...state,
-				forms: data,
+				...data,
 			};
 		case 'FORM_FETCH_ERROR':
 			return {
@@ -33,6 +36,14 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				...data,
+			};
+		case 'UPDATE_CURRENT_PAGE':
+			return {
+				...state,
+				pagination: {
+					...state.pagination,
+					current_page: currentPage,
+				},
 			};
 		default:
 			return state;

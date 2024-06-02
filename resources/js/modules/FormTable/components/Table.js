@@ -1,25 +1,20 @@
-import { useState } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useState, useEffect } from '@wordpress/element';
+import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { AntTable } from '@formgent/components';
-import { ConfigProvider } from 'antd';
-import { formatDate } from '@formgent/helper/utils';
+import { AntTable, AntSpin } from '@newform/components';
+import { formatDate } from '@newform/helper/utils';
 import TItleBox from './TitleBox';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
+	const { updateCurrentPage } = useDispatch( 'newform' );
 
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getCommonState();
-	}, [] );
-	const { forms } = FormReducer;
-	const { useNavigate } = CommonReducer.routerComponents;
-	const navigate = useNavigate();
+	const { forms, pagination, isLoading } = FormReducer;
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: handleRowSelection,
@@ -99,26 +94,39 @@ export default function Table() {
 			},
 		},
 	] );
-
+	function handleFormTableChange( pagination ) {
+		updateCurrentPage( pagination?.current );
+		resolveSelect( 'newform' ).getForms(
+			pagination?.current,
+			10,
+			Date.now()
+		);
+	}
 	return (
 		<TableStyle>
-			<AntTable
-				componentTokens={ {
-					Table: {
-						headerColor: '#6e6e6e',
-						headerBg: '#d5d5d5',
-						headerSplitColor: '#d5d5d5',
-						cellPaddingBlock: 20,
-					},
-				} }
-				rowSelection={ rowSelection }
-				columns={ formTableColumns }
-				dataSource={ forms }
-				pagination={ {
-					showTotal: ( total, range ) =>
-						`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
-				} }
-			/>
+			<AntSpin spinning={ isLoading }>
+				<AntTable
+					componentTokens={ {
+						Table: {
+							headerColor: '#6e6e6e',
+							headerBg: '#d5d5d5',
+							headerSplitColor: '#d5d5d5',
+							cellPaddingBlock: 20,
+						},
+					} }
+					rowSelection={ rowSelection }
+					columns={ formTableColumns }
+					dataSource={ forms }
+					pagination={ {
+						current: pagination?.current_page,
+						pageSize: 10,
+						total: pagination?.total_items,
+						showTotal: ( total, range ) =>
+							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
+					} }
+					onChange={ handleFormTableChange }
+				/>
+			</AntSpin>
 		</TableStyle>
 	);
 }

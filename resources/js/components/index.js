@@ -2,7 +2,8 @@ import { registerModule } from '@formgent/modules/helpers';
 import AntButton from './Button';
 import AntTable from './Table';
 import AntInput from './Input';
-import AntTextArea from './Textarea';
+import AntTextArea from './TextArea';
+import AntSpin from './Spin';
 import AntForm from './Form.js';
 import { Form } from 'antd';
 
@@ -15,5 +16,6 @@ registerModule( 'components', {
 	AntTextArea,
 	AntForm,
 	AntTable,
+	AntSpin,
 	Form,
 } );

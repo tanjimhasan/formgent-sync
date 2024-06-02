@@ -1,6 +1,4 @@
 import { useSelect } from '@wordpress/data';
-import { useRef, useState, useEffect, Fragment } from '@wordpress/element';
-import { Modal } from '@wordpress/components';
 import Header from './components/Header';
 import Table from './components/Table';
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
@@ -11,14 +9,13 @@ function FormTable( props ) {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { forms, pagination, isLoading, erroe } = FormReducer;
-
+	const { forms } = FormReducer;
 	return (
 		<div className="formgent-page-inner">
 			<FormTableHead.Slot fillProps={ { testProps: 10 } }>
 				{ ( fills ) => (
 					<>
-						{ fills }
+						{ /* { fills } */ }
 						<Header />
 					</>
 				) }

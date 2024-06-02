@@ -17,10 +17,11 @@ export const FormActions = {
 	 * @param {String} path - path for requesting api
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
-	fetchForm: ( path ) => {
+	fetchForm: ( path, currentPage, perPage ) => {
+		console.log( 'hello' );
 		return {
 			type: 'FETCH_FROM',
-			path,
+			payload: { path, currentPage, perPage },
 		};
 	},
 
@@ -52,6 +53,13 @@ export const FormActions = {
 		return {
 			type: 'UPDATE_FORM_STORE',
 			data,
+		};
+	},
+
+	updateCurrentPage: ( currentPage ) => {
+		return {
+			type: 'UPDATE_CURRENT_PAGE',
+			currentPage,
 		};
 	},
 };

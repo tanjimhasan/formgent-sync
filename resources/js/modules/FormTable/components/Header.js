@@ -1,4 +1,5 @@
 import { useSelect, useDispatch } from '@wordpress/data';
+import { AntButton } from '@newform/components';
 import { __ } from '@wordpress/i18n';
 import { HeaderStyle } from './style';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
@@ -20,14 +21,15 @@ export default function Header() {
 					<h1 className="formgent-header-top__title">
 						{ __( 'All Forms', 'formgent' ) }
 					</h1>
-					<button
-						className="formgent-btn formgent-btn-dark formgent-page-header-btn"
+					<AntButton
+						type="dark"
+						className="newform-page-header-btn"
 						onClick={ () => {
 							navigate( 'forms/form-new' );
 						} }
 					>
-						{ __( 'Create New', 'formgent' ) }
-					</button>
+						{ __( 'Create New', 'newform' ) }
+					</AntButton>
 				</div>
 			</div>
 		</HeaderStyle>

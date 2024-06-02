@@ -4,8 +4,8 @@ import postData from './postData';
 import { __ } from '@wordpress/i18n';
 
 export default async function handleCreateForm(
-	forms,
 	singleFormSate,
+	forms,
 	data,
 	setServerErrors,
 	storeSingleForm,
@@ -225,10 +225,13 @@ export default async function handleCreateForm(
 			id: createFormResponse?.data?.id,
 			title: formData.title,
 		};
-		const updatedFormList = forms.push( createdForm );
+		console.log( createdForm, forms );
+		const updatedFormList = [ createdForm, ...forms ];
+		console.log( updatedFormList );
 		storeSingleForm( createdForm );
 		storsForm( updatedFormList );
 		navigate( `/forms/${ createFormResponse?.data?.id }/edit` );
+		console.log( navigate );
 		//doAction( 'helpgent-toast', { message: createFormResponse.message } );
 	} catch ( error ) {
 		let errors = {};
