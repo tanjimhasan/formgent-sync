@@ -2,11 +2,11 @@ import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { AntTable } from '@formgent/components';
-import { ConfigProvider } from 'antd';
 import { formatDate } from '@formgent/helper/utils';
 import TItleBox from './TitleBox';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
+
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 

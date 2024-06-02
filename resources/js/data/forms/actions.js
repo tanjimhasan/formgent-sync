@@ -54,4 +54,12 @@ export const FormActions = {
 			data,
 		};
 	},
+
+	updateFormItemState: ( formId, data ) => {
+		return {
+			type: 'UPDATE_FORM_ITEM_STORE',
+			formId,
+			data,
+		};
+	},
 };

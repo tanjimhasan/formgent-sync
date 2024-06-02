@@ -8,4 +8,7 @@ registerModule( 'modules', {
 	FormTableModule,
 } );
 
-export { EditorModule };
+/**
+ * Exporting for code editor intellisense support.
+ */
+export { EditorModule, FormTableModule };

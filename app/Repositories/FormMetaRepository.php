@@ -5,7 +5,6 @@ namespace FormGent\App\Repositories;
 use Exception;
 use FormGent\App\DTO\FormMetaDTO;
 use FormGent\App\DTO\FormMetaReadQueryDTO;
-use FormGent\App\DTO\FormMetaUpdateDTO;
 use FormGent\App\DTO\QueryResponse;
 use FormGent\App\Models\FormMeta;
 
@@ -57,10 +56,10 @@ class FormMetaRepository {
     }
 
     public function create( FormMetaDTO $dto ) {
-        FormMeta::query()->insert_get_id( $dto->to_array() );
+        return FormMeta::query()->insert_get_id( $dto->to_array() );
     }
 
-    public function update( FormMetaUpdateDTO $dto ) {
+    public function update( FormMetaDTO $dto ) {
         $form_meta = $this->get_by_id( $dto->get_id(), [1] );
 
         if ( ! $form_meta ) {
