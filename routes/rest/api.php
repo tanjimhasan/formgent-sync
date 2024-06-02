@@ -1,8 +1,8 @@
 <?php
 
-use NewForm\App\Http\Controllers\EntryController;
-use NewForm\WpMVC\Routing\Response;
-use NewForm\WpMVC\Routing\Route;
+use FormGent\App\Http\Controllers\EntryController;
+use FormGent\WpMVC\Routing\Response;
+use FormGent\WpMVC\Routing\Route;
 
 include __DIR__ . '/admin.php';
 

@@ -1,30 +1,30 @@
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { AntInput, AntForm, AntButton } from '@newform/components';
+import { AntInput, AntForm, AntButton } from '@formgent/components';
 import { Form } from 'antd';
-import { applyFilter } from '@newform/modules/helpers';
-// import { Switch } from '@newform/components';
+import { applyFilter } from '@formgent/modules/helpers';
+// import { Switch } from '@formgent/components';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { useForm } from 'react-hook-form';
-import handleCreateForm from '@newform/helper/handleCreateForm.js';
-import getValidationMessage from '@newform/helper/getValidationMessage.js';
-// import useCreateMutation from '@newform/hooks/useCreateMutation.js';
+import handleCreateForm from '@formgent/helper/handleCreateForm.js';
+import getValidationMessage from '@formgent/helper/getValidationMessage.js';
+// import useCreateMutation from '@formgent/hooks/useCreateMutation.js';
 import handleChatBubbleToggle from './helper/handleChatBubbleToggle';
 import CreatePopupHeader from './CreatePopupHeader';
 import { CreateFormStyleWrap } from './style.js';
 import CreatePopupElementPreparation from './CreatePopupElementPreparation.js';
-// import { getGlobalState } from '@newform/helper/utils';
+// import { getGlobalState } from '@formgent/helper/utils';
 // import BubblePageSelection from './BubblePageSelection';
 import { __ } from '@wordpress/i18n';
-// import handleCreateForm from '@newform/helper/handleCreateForm';
+// import handleCreateForm from '@formgent/helper/handleCreateForm';
 
 export default function CreatePopupForm( props ) {
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 
 	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getForms();
+		return select( 'formgent' ).getForms();
 	}, [] );
 	const { selectedTemplate } = FormReducer;
 	const { useNavigate } = CommonReducer.routerComponents;
@@ -33,7 +33,7 @@ export default function CreatePopupForm( props ) {
 	// const queryClient = useQueryClient();
 
 	const [ serverErrors, setServerErrors ] = useState( {} );
-	const [ newFormData, setNewFormData ] = useState( null );
+	const [ formGentData, setFormGentData ] = useState( null );
 	const [ displayChatBubble, setDisplayChatBubble ] = useState( false );
 	const [ toggleSwitch, setToggleSwitch ] = useState( '0' );
 	const [ createStep, setCreateStep ] = useState( 'form' );
@@ -53,7 +53,7 @@ export default function CreatePopupForm( props ) {
 	// 			previousData.forms.push( forms );
 	// 			previousData.total = previousData.forms.length;
 	// 			queryClient.setQueryData(
-	// 				[ 'newform-form' ],
+	// 				[ 'formgent-form' ],
 	// 				( old ) => previousData
 	// 			);
 	// 		}
@@ -68,7 +68,7 @@ export default function CreatePopupForm( props ) {
 	function handleFormSubmission( formData ) {
 		if ( selectedTemplate ) {
 			setCreateStep( 'attachmentImport' );
-			setNewFormData( formData );
+			setFormGentData( formData );
 		} else {
 			handleCreateForm( formData, setServerErrors, navigate );
 		}
@@ -81,13 +81,13 @@ export default function CreatePopupForm( props ) {
 	return (
 		<>
 			{ createStep === 'form' && (
-				<div className="newform-createPopup">
+				<div className="formgent-createPopup">
 					<CreatePopupHeader
-						title={ __( 'Let’s get started', 'newform' ) }
+						title={ __( 'Let’s get started', 'formgent' ) }
 					/>
 					<CreateFormStyleWrap>
 						<Form
-							name="newform-create-form"
+							name="formgent-create-form"
 							style={ {
 								minWidth: 450,
 							} }
@@ -112,7 +112,7 @@ export default function CreatePopupForm( props ) {
 										whitespace: true,
 										message: __(
 											'Only spaces not allowed',
-											'newform'
+											'formgent'
 										),
 									},
 									{
@@ -122,7 +122,10 @@ export default function CreatePopupForm( props ) {
 								] }
 							>
 								<AntInput
-									placeholder={ __( 'Form Name', 'newform' ) }
+									placeholder={ __(
+										'Form Name',
+										'formgent'
+									) }
 									size="large"
 								/>
 							</Form.Item>
@@ -142,7 +145,7 @@ export default function CreatePopupForm( props ) {
 			) }
 			{ createStep === 'attachmentImport' && (
 				<CreatePopupElementPreparation
-					formData={ newFormData }
+					formData={ formGentData }
 					createFormMutation={ createFormMutation }
 					setServerErrors={ setServerErrors }
 					navigate={ navigate }

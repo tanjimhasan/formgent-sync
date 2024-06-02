@@ -1,8 +1,8 @@
 <?php
 
-namespace NewForm\App\Fields;
+namespace FormGent\App\Fields;
 
-use NewForm\App\Fields\Field;
+use FormGent\App\Fields\Field;
 
 class ShortText extends Field {
     public static function get_key(): string {

@@ -1,6 +1,6 @@
 import { InserterStyle } from './style';
 import DraggableField from './DraggableField';
-import { registerFields } from '@newform/fields';
+import { registerFields } from '@formgent/fields';
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
 	const generalFields = [ 'long_text', 'short_text' ];
@@ -19,10 +19,10 @@ export default function FieldInserter( props ) {
 	return (
 		<InserterStyle
 			key={ inserterDomKey }
-			className="newform-editor-inserter"
+			className="formgent-editor-inserter"
 		>
-			<span className="newform-editor-inserter__label">General</span>
-			<div className="newform-editor-inserter__group">
+			<span className="formgent-editor-inserter__label">General</span>
+			<div className="formgent-editor-inserter__group">
 				{ fields.map( ( field ) =>
 					getFieldByGroup( generalFields, field )
 				) }

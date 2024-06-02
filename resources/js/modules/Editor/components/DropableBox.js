@@ -27,10 +27,10 @@ export default function DropableBox( props ) {
 	console.log( fields );
 	return (
 		<DropableBoxStyle ref={ setNodeRef } style={ style } { ...listeners }>
-			<div className="newform-dropable-field-list">
+			<div className="formgent-dropable-field-list">
 				{ /* {
 					fields.length === 0 &&
-					<div className="newform-dropable-field-empty-placeholder">
+					<div className="formgent-dropable-field-empty-placeholder">
 						<span>+</span>
 					</div>
 				} */ }

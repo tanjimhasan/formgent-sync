@@ -1,4 +1,4 @@
-import { EditorModule } from '@newform/modules';
+import { EditorModule } from '@formgent/modules';
 export default function AddForm() {
 	return <EditorModule isAddForm />;
 }

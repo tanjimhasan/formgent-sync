@@ -1,8 +1,8 @@
 <?php
 
-namespace NewForm\App\Setup;
+namespace FormGent\App\Setup;
 
-use NewForm\Database\Migrations\CreateDB;
+use FormGent\Database\Migrations\CreateDB;
 
 class Activation {
     public function __construct() {

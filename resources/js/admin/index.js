@@ -1,4 +1,4 @@
-// import { Input } from "@newform/components";
+// import { Input } from "@formgent/components";
 
 // console.log(Input);
 import '../data/store.js';
@@ -6,7 +6,7 @@ import { createRoot } from '@wordpress/element';
 
 import App from './app';
 document.addEventListener( 'DOMContentLoaded', function () {
-	const container = document.querySelector( '.newform-root' );
+	const container = document.querySelector( '.formgent-root' );
 	if ( ! container ) {
 		return;
 	}

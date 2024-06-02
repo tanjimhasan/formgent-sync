@@ -1,8 +1,8 @@
 <?php
 
-namespace NewForm\App\Http\Middleware;
+namespace FormGent\App\Http\Middleware;
 
-use NewForm\WpMVC\Routing\Contracts\Middleware;
+use FormGent\WpMVC\Routing\Contracts\Middleware;
 use WP_REST_Request;
 
 class EnsureIsUserAdmin implements Middleware

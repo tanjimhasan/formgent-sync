@@ -1,4 +1,4 @@
-// import { getGlobalState } from '@newform/helper/utils';
+// import { getGlobalState } from '@formgent/helper/utils';
 import { useSelect, useDispatch } from '@wordpress/data';
 import PropTypes from 'prop-types';
 import ReactSVG from 'react-inlinesvg';
@@ -6,14 +6,14 @@ import { __ } from '@wordpress/i18n';
 
 export default function CreatePopupAction( props ) {
 	// const { routeLink: Link } = getGlobalState(
-	// 	'newform_router_references',
+	// 	'formgent_router_references',
 	// 	null
 	// );
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { updateFormState } = useDispatch( 'newform' );
+	const { updateFormState } = useDispatch( 'formgent' );
 
 	const { Link } = CommonReducer.routerComponents;
 
@@ -34,32 +34,32 @@ export default function CreatePopupAction( props ) {
 	return url ? (
 		<Link
 			to={ url || '#' }
-			className="newform-createPopup__action"
+			className="formgent-createPopup__action"
 			onClick={ ( e ) =>
 				step ? handleCreateFormSteps( e, step ) : null
 			}
 		>
-			<div className="newform-createPopup__action-icon">
+			<div className="formgent-createPopup__action-icon">
 				<ReactSVG src={ icon } />
 			</div>
 			{ text && (
-				<span className="newform-createPopup__action-text">
+				<span className="formgent-createPopup__action-text">
 					{ text }
 				</span>
 			) }
 		</Link>
 	) : (
 		<span
-			className="newform-createPopup__action"
+			className="formgent-createPopup__action"
 			onClick={ ( e ) =>
 				step ? handleCreateFormSteps( e, step ) : null
 			}
 		>
-			<div className="newform-createPopup__action-icon">
+			<div className="formgent-createPopup__action-icon">
 				<ReactSVG src={ icon } />
 			</div>
 			{ text && (
-				<span className="newform-createPopup__action-text">
+				<span className="formgent-createPopup__action-text">
 					{ text }
 				</span>
 			) }

@@ -1,10 +1,10 @@
 <?php
 
-use NewForm\App\Fields\ShortText;
-use NewForm\App\Fields\LongText;
+use FormGent\App\Fields\ShortText;
+use FormGent\App\Fields\LongText;
 
 return apply_filters(
-    'newform_fields', [
+    'formgent_fields', [
         ShortText::get_key() => ShortText::class,
         LongText::get_key()  => LongText::class
     ]

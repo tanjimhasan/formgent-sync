@@ -1,11 +1,11 @@
 <?php
 
-namespace NewForm\App\Providers;
+namespace FormGent\App\Providers;
 
-use NewForm\App\Widgets\Form;
-use NewForm\App\Widgets\Controls\Select;
-use NewForm\WpMVC\Contracts\Provider;
-use NewForm\WpMVC\Enqueue\Enqueue;
+use FormGent\App\Widgets\Form;
+use FormGent\App\Widgets\Controls\Select;
+use FormGent\WpMVC\Contracts\Provider;
+use FormGent\WpMVC\Enqueue\Enqueue;
 
 class ElementorServiceProvider implements Provider {
     public function boot() {
@@ -46,6 +46,6 @@ class ElementorServiceProvider implements Provider {
     }
 
     public function enqueue_scripts() {
-        Enqueue::script( 'newform/admin/elementor', 'build/js/elementor', [], true );
+        Enqueue::script( 'formgent/admin/elementor', 'build/js/elementor', [], true );
     }
 }

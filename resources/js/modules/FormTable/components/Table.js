@@ -1,9 +1,9 @@
 import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { AntTable } from '@newform/components';
+import { AntTable } from '@formgent/components';
 import { ConfigProvider } from 'antd';
-import { formatDate } from '@newform/helper/utils';
+import { formatDate } from '@formgent/helper/utils';
 import TItleBox from './TitleBox';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
@@ -11,11 +11,11 @@ export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 
 	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getForms();
+		return select( 'formgent' ).getForms();
 	}, [] );
 
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 	const { forms } = FormReducer;
 	const { useNavigate } = CommonReducer.routerComponents;
@@ -35,15 +35,15 @@ export default function Table() {
 		day: 'numeric',
 	};
 
-	const formTableColumns = applyFilters( 'newform_form_table_columns', [
+	const formTableColumns = applyFilters( 'formgent_form_table_columns', [
 		{
 			title: 'Name',
-			className: 'newform-form-checkbox',
+			className: 'formgent-form-checkbox',
 			render: ( text, record ) => <TItleBox form={ record } />,
 		},
 		{
 			title: 'Entries',
-			className: 'newform-head-response',
+			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
 					<a
@@ -63,14 +63,14 @@ export default function Table() {
 		},
 		{
 			title: 'Created By',
-			className: 'newform-head-created-by',
+			className: 'formgent-head-created-by',
 			render: ( text, record ) => (
 				<td className="helpgent-form-username">{ record.username }</td>
 			),
 		},
 		{
 			title: 'Updated',
-			className: 'newform-head-updated-at',
+			className: 'formgent-head-updated-at',
 			render: ( text, record ) => {
 				const date =
 					'string' === typeof record.updated_at
@@ -85,14 +85,14 @@ export default function Table() {
 		},
 		{
 			title: 'More',
-			className: 'newform-head-action',
+			className: 'formgent-head-action',
 			render: ( text, record ) => {
 				const date =
 					'string' === typeof record.updated_at
 						? record.updated_at
 						: record.created_at;
 				return (
-					<div className="newform-form-action">
+					<div className="formgent-form-action">
 						<TableAction />
 					</div>
 				);

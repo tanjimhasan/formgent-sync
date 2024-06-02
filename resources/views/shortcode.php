@@ -1,1 +1,1 @@
-<div class='newform newform-shortcode' data-form_id="<?php newform_render( $form_id )?>"></div>
+<div class='formgent formgent-shortcode' data-form_id="<?php formgent_render( $form_id )?>"></div>

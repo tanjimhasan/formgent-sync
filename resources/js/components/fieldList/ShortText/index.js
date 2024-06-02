@@ -1,4 +1,4 @@
-import { AntInput } from '@newform/components';
+import { AntInput } from '@formgent/components';
 export default function ShortText() {
 	return <AntInput />;
 }

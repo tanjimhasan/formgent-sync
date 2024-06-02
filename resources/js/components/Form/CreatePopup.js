@@ -12,9 +12,9 @@ import { __ } from '@wordpress/i18n';
 function CreatePopup( props ) {
 	const { moduleState, setModuleState, baseApiRoute, baseLinkRoute } = props;
 	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getForms();
+		return select( 'formgent' ).getForms();
 	}, [] );
-	const { updateFormState } = useDispatch( 'newform' );
+	const { updateFormState } = useDispatch( 'formgent' );
 	const {
 		isImportingAttachment,
 		isCreatePopupOpen,
@@ -60,9 +60,9 @@ function CreatePopup( props ) {
 		isCreatePopupOpen && (
 			<Fragment>
 				<Modal
-					overlayClassName={ `newform-modal newform-create-modal-wrap ${
+					overlayClassName={ `formgent-modal formgent-create-modal-wrap ${
 						isImportingAttachment
-							? 'newform-attachment-importing'
+							? 'formgent-attachment-importing'
 							: ''
 					}` }
 					shouldCloseOnClickOutside={ ! isImportingAttachment }
@@ -73,18 +73,18 @@ function CreatePopup( props ) {
 				>
 					{ createFormStage === 'scratch' && addBackBtn && (
 						<span
-							className="newform-btn-back"
+							className="formgent-btn-back"
 							onClick={ handleFormBack }
 						>
 							<ReactSVG src={ arrowLeft } />{ ' ' }
-							{ __( 'Back', 'newform' ) }
+							{ __( 'Back', 'formgent' ) }
 						</span>
 					) }
 
 					<CreatePopupStyle
-						className={ `newform-create-form-modal ${
+						className={ `formgent-create-form-modal ${
 							createFormStage === 'prepared-elements'
-								? 'newform-create-loader-active'
+								? 'formgent-create-loader-active'
 								: ''
 						}` }
 					>

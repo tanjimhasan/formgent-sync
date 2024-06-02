@@ -10,7 +10,7 @@ import apiFetch from '@wordpress/api-fetch';
 export default async function postData( path, data, config ) {
 	try {
 		const response = await apiFetch( {
-			path: 'new-form/' + path,
+			path: 'formgent/' + path,
 			method: 'POST',
 			data,
 			...config,

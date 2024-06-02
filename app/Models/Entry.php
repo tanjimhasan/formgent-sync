@@ -1,14 +1,14 @@
 <?php
 
-namespace NewForm\App\Models;
+namespace FormGent\App\Models;
 
-use NewForm\WpMVC\App;
-use NewForm\WpMVC\Database\Resolver;
-use NewForm\WpMVC\Database\Eloquent\Model;
+use FormGent\WpMVC\App;
+use FormGent\WpMVC\Database\Resolver;
+use FormGent\WpMVC\Database\Eloquent\Model;
 
 class Entry extends Model {
     public static function get_table_name():string {
-        return 'newform_entries';
+        return 'formgent_entries';
     }
 
     public function resolver():Resolver {

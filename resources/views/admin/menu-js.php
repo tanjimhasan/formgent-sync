@@ -7,7 +7,7 @@
         /**
          * Add first menu hash url
          */
-        $('.toplevel_page_newform-menu a.wp-first-item').attr('href', (index, href) => href + '#/forms');
+        $('.toplevel_page_formgent-menu a.wp-first-item').attr('href', (index, href) => href + '#/forms');
 
         /**
          * Active menu on page load
@@ -17,23 +17,23 @@
         if( cleanHash.length !== 0 ) {
             var path = window.location.href.split('#')[0].split('?')[1] + "#/" + cleanHash;
             let current_page = $('.wp-submenu a[href*="' + path + '"]');
-            newform_set_current_page(current_page);
+            formgent_set_current_page(current_page);
         }
 
         /**
          * Active menu onclick
          */
-        $('.toplevel_page_newform-menu .wp-submenu a').on('click', function (event) {
+        $('.toplevel_page_formgent-menu .wp-submenu a').on('click', function (event) {
             let current_page = $(this);
-            if(current_page[0].href === '<?php newform_render( $pro_url )?>') {
+            if(current_page[0].href === '<?php formgent_render( $pro_url )?>') {
                 event.preventDefault();
-                window.open('<?php newform_render( $pro_url )?>', '_blank');
+                window.open('<?php formgent_render( $pro_url )?>', '_blank');
             } else {
-                newform_set_current_page(current_page);
+                formgent_set_current_page(current_page);
             }
         })
 
-        function newform_set_current_page(current_page) {
+        function formgent_set_current_page(current_page) {
             current_page.closest('.wp-submenu').find('.current').removeClass('current');
             current_page.addClass('current');
             current_page.closest('li').addClass('current');

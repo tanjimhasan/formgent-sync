@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\Utils;
+namespace FormGent\App\Utils;
 
 use DateTime as PHPDateTime;
 use DateTimeZone;
@@ -63,7 +63,7 @@ class DateTime extends PHPDateTime {
     }
 
     public function to_date_time_string() {
-        return $this->format( newform_date_time_format() );
+        return $this->format( formgent_date_time_format() );
     }
 
     public function create_from_format( string $format, string $datetime, ?DateTimeZone $timezone = null ) {
@@ -77,7 +77,7 @@ class DateTime extends PHPDateTime {
     }
 
     public function wp_date_time_string( string $date_time ) {
-        $this->create_from_format( newform_date_time_format(), $date_time );
+        $this->create_from_format( formgent_date_time_format(), $date_time );
         $format = get_option( 'date_format' ) . ' \a\t ' . get_option( 'time_format' );
         return $this->format( $format );
     }

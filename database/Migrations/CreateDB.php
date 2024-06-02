@@ -1,8 +1,8 @@
 <?php
 
-namespace NewForm\Database\Migrations;
+namespace FormGent\Database\Migrations;
 
-use NewForm\WpMVC\Contracts\Migration;
+use FormGent\WpMVC\Contracts\Migration;
 
 class CreateDB implements Migration {
     public function more_than_version() {
@@ -18,7 +18,7 @@ class CreateDB implements Migration {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 
-        $db_prefix = "{$wpdb->prefix}newform_";
+        $db_prefix = "{$wpdb->prefix}formgent_";
 
         
         // -- -----------------------------------------------------

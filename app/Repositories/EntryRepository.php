@@ -1,13 +1,13 @@
 <?php
 
-namespace NewForm\App\Repositories;
+namespace FormGent\App\Repositories;
 
-use NewForm\App\DTO\EntryDTO;
-use NewForm\App\DTO\EntryReadDTO;
-use NewForm\App\Models\Entry;
-use NewForm\App\Models\Form;
-use NewForm\App\Models\User;
-use NewForm\WpMVC\Database\Query\Builder;
+use FormGent\App\DTO\EntryDTO;
+use FormGent\App\DTO\EntryReadDTO;
+use FormGent\App\Models\Entry;
+use FormGent\App\Models\Form;
+use FormGent\App\Models\User;
+use FormGent\WpMVC\Database\Query\Builder;
 
 class EntryRepository {
     public function get( EntryReadDTO $dto ) {

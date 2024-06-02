@@ -1,6 +1,6 @@
 import { useRef, memo } from '@wordpress/element';
 import { useSortable } from '@dnd-kit/sortable';
-import { registerPreviewFields } from '@newform/fields';
+import { registerPreviewFields } from '@formgent/fields';
 
 const DroppedField = ( { id, index, field } ) => {
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
@@ -25,7 +25,7 @@ const DroppedField = ( { id, index, field } ) => {
 
 	return field.type === 'spacer' ? (
 		<div
-			className="newform-dropable-field"
+			className="formgent-dropable-field"
 			style={ style }
 			ref={ setNodeRef }
 			{ ...attributes }
@@ -34,18 +34,18 @@ const DroppedField = ( { id, index, field } ) => {
 		</div>
 	) : (
 		<div
-			className="newform-dropable-field"
+			className="formgent-dropable-field"
 			ref={ setNodeRef }
 			style={ style }
 			{ ...attributes }
 		>
-			<div className="newform-dropable-field__actions">
-				<i className="newform-icon" { ...listeners }>
+			<div className="formgent-dropable-field__actions">
+				<i className="formgent-icon" { ...listeners }>
 					Trigger sort
 				</i>
-				<i className="newform-icon">D</i>
-				<i className="newform-icon">D</i>
-				<i className="newform-icon">D</i>
+				<i className="formgent-icon">D</i>
+				<i className="formgent-icon">D</i>
+				<i className="formgent-icon">D</i>
 			</div>
 
 			<ActiveDroppedField />

@@ -1,10 +1,10 @@
 <?php
 
-namespace NewForm\App\Fields;
+namespace FormGent\App\Fields;
 
-use NewForm\App\DTO\FieldDTO;
-use NewForm\App\Exceptions\RequestValidatorException;
-use NewForm\WpMVC\RequestValidator\Validator;
+use FormGent\App\DTO\FieldDTO;
+use FormGent\App\Exceptions\RequestValidatorException;
+use FormGent\WpMVC\RequestValidator\Validator;
 use stdClass;
 use WP_REST_Request;
 
@@ -14,7 +14,7 @@ abstract class Field {
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
         $rules = [];
 
-        if ( '1' === newform_get_nested_value( "general_option.validations.required.value", $field ) ) {
+        if ( '1' === formgent_get_nested_value( "general_option.validations.required.value", $field ) ) {
             $rules[] = 'required';
         }
 

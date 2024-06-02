@@ -1,8 +1,8 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { Notice } from '@wordpress/components';
 
-import FormTableHead from '@newform/admin/Slots/FormTableHead';
-import { FormTableModule } from '@newform/modules';
+import FormTableHead from '@formgent/admin/Slots/FormTableHead';
+import { FormTableModule } from '@formgent/modules';
 
 const Test = ( { testProps } ) => {
 	return (

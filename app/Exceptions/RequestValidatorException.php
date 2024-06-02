@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\Exceptions;
+namespace FormGent\App\Exceptions;
 
 use Exception;
 use Throwable;

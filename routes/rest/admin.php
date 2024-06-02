@@ -1,8 +1,8 @@
 <?php
 
-use NewForm\App\Http\Controllers\Admin\EntryController;
-use NewForm\App\Http\Controllers\Admin\FormController;
-use NewForm\WpMVC\Routing\Route;
+use FormGent\App\Http\Controllers\Admin\EntryController;
+use FormGent\App\Http\Controllers\Admin\FormController;
+use FormGent\WpMVC\Routing\Route;
 
 Route::group(
     'admin', function() {

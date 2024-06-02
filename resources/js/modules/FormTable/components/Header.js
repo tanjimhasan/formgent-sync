@@ -1,12 +1,12 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { HeaderStyle } from './style';
-import handleCreateForm from '@newform/helper/handleCreateForm';
+import handleCreateForm from '@formgent/helper/handleCreateForm';
 export default function Header() {
-	const { updateFormState } = useDispatch( 'newform' );
+	const { updateFormState } = useDispatch( 'formgent' );
 
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 
 	const { useNavigate } = CommonReducer.routerComponents;
@@ -15,18 +15,18 @@ export default function Header() {
 
 	return (
 		<HeaderStyle>
-			<div className="newform-header-top">
-				<div className="newform-header-top__content newform-d-flex">
-					<h1 className="newform-header-top__title">
-						{ __( 'All Forms', 'newform' ) }
+			<div className="formgent-header-top">
+				<div className="formgent-header-top__content formgent-d-flex">
+					<h1 className="formgent-header-top__title">
+						{ __( 'All Forms', 'formgent' ) }
 					</h1>
 					<button
-						className="newform-btn newform-btn-dark newform-page-header-btn"
+						className="formgent-btn formgent-btn-dark formgent-page-header-btn"
 						onClick={ () => {
 							navigate( 'forms/form-new' );
 						} }
 					>
-						{ __( 'Create New', 'newform' ) }
+						{ __( 'Create New', 'formgent' ) }
 					</button>
 				</div>
 			</div>

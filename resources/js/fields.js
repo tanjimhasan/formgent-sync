@@ -17,7 +17,7 @@ import ShortTextField from './components/fieldList/ShortText/field.js';
  * @returns {Object} An object containing the preview fields with applied filters.
  */
 function registerPreviewFields() {
-	return applyFilters( 'newform_preview_fields', {
+	return applyFilters( 'formgent_preview_fields', {
 		long_text: LongText,
 		short_text: ShortText,
 		spacer: Spacer,
@@ -28,7 +28,7 @@ function registerPreviewFields() {
  * @returns {Object} An object containing the field JSON with applied filters.
  */
 function registerFields() {
-	return applyFilters( 'newform_fields', [ LongTextField, ShortTextField ] );
+	return applyFilters( 'formgent_fields', [ LongTextField, ShortTextField ] );
 }
 
 console.log( LongTextField, ShortTextField );

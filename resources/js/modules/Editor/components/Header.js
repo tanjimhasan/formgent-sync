@@ -4,7 +4,7 @@ export default function Header( props ) {
 	const { uiState, setUiState } = props;
 	return (
 		// <span
-		// 	className="newform-insert-field"
+		// 	className="formgent-insert-field"
 		// 	onClick={ () =>
 		// 		setUiState( {
 		// 			...uiState,
@@ -14,6 +14,6 @@ export default function Header( props ) {
 		// >
 		// 	Insert
 		// </span>
-		<EditorHeaderStyle className="newform-editor-header"></EditorHeaderStyle>
+		<EditorHeaderStyle className="formgent-editor-header"></EditorHeaderStyle>
 	);
 }

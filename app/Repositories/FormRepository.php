@@ -1,17 +1,17 @@
 <?php
 
-namespace NewForm\App\Repositories;
+namespace FormGent\App\Repositories;
 
 use Exception;
-use NewForm\App\DTO\FormDTO;
-use NewForm\App\DTO\FormReadDTO;
-use NewForm\App\Models\Entry;
-use NewForm\App\Models\Form;
-use NewForm\WpMVC\Database\Query\Builder;
-use NewForm\WpMVC\Database\Query\JoinClause;
+use FormGent\App\DTO\FormDTO;
+use FormGent\App\DTO\FormReadDTO;
+use FormGent\App\Models\Entry;
+use FormGent\App\Models\Form;
+use FormGent\WpMVC\Database\Query\Builder;
+use FormGent\WpMVC\Database\Query\JoinClause;
 
 class FormRepository {
-    const DEMOMEDIAOPTIONKEY = 'newform_demo_medias';
+    const DEMOMEDIAOPTIONKEY = 'formgent_demo_medias';
 
     public function get( FormReadDTO $dto ) {
         $forms_query = Form::query( 'form' )->left_join( "users as user", "user.ID", "form.created_by" );
@@ -21,7 +21,7 @@ class FormRepository {
 
         $count_query = clone $forms_query;
 
-        do_action( 'newform_forms_count_query', $count_query, $dto );
+        do_action( 'formgent_forms_count_query', $count_query, $dto );
 
         $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT entry.id) as total_entries', 'COUNT(DISTINCT CASE WHEN entry.is_read = 0 THEN entry.id ELSE NULL END) AS total_unread_entries'];
         $group_by_columns = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name' ];
@@ -30,7 +30,7 @@ class FormRepository {
 
         $this->forms_sort_query( $forms_query, $dto );
 
-        do_action( 'newform_forms_query', $forms_query, $dto );
+        do_action( 'formgent_forms_query', $forms_query, $dto );
 
         return [
             'total' => $count_query->count(),
@@ -57,7 +57,7 @@ class FormRepository {
             return $query;
         }
 
-        $now              = newform_now();
+        $now              = formgent_now();
         $from_date_format = "Y-m-d 00:00:01";
         $to_date_format   = "Y-m-d 23:59:59";
 
@@ -77,8 +77,8 @@ class FormRepository {
                 ! is_string( $date_frame['from'] ) ||
                 empty( $date_frame['to'] ) || 
                 ! is_string( $date_frame['to'] ) ||
-                ! newform_is_valid_date( $date_frame['from'], $from_date_format ) ||
-                ! newform_is_valid_date( $date_frame['to'], $to_date_format )
+                ! formgent_is_valid_date( $date_frame['from'], $from_date_format ) ||
+                ! formgent_is_valid_date( $date_frame['to'], $to_date_format )
             ) {
                 return $query;
             }
@@ -97,7 +97,7 @@ class FormRepository {
                     $date = $now->sub_days( 30 );
             }
             $form = $date->format( $from_date_format );
-            $to   = newform_now()->format( $to_date_format );
+            $to   = formgent_now()->format( $to_date_format );
         }
 
         return $query->where_raw( "((form.updated_at is not null and form.updated_at > '{$form}' and form.updated_at < '{$to}') or (form.updated_at is null and form.created_at > '{$form}' and form.created_at < '{$to}'))" );
@@ -151,7 +151,7 @@ class FormRepository {
         $form = $this->get_by_id( $dto->get_id(), [1] );
 
         if ( ! $form ) {
-            throw new Exception( esc_html__( 'Form not found.', 'newform' ), 404 );
+            throw new Exception( esc_html__( 'Form not found.', 'formgent' ), 404 );
         }
 
         return Form::query()->where( 'id', $dto->get_id() )->update(

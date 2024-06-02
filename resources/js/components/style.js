@@ -23,7 +23,7 @@ const InputStyle = Styled.div`
             border-width: var(--ant-line-width);
             &:focus{
                 outline: 0;
-                border-color: var(--newform-color-dark);
+                border-color: var(--formgent-color-dark);
                 box-shadow: 0 0;
             }
         }
@@ -32,8 +32,8 @@ const InputStyle = Styled.div`
 
 const ButtonStyle = Styled.div`
         .ant-btn-dark{
-            color: var(--newform-color-white);
-            background-color: var(--newform-color-dark)
+            color: var(--formgent-color-white);
+            background-color: var(--formgent-color-dark)
         }
 `;
 

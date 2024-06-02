@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\DTO;
+namespace FormGent\App\DTO;
 
 class FieldDTO extends DTO {
     private int $entry_id = 0;

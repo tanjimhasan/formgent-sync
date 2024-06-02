@@ -1,10 +1,10 @@
 import { useState, useEffect } from '@wordpress/element';
-// import usePostMutation from '@newform/hooks/usePostMutation';
-import getPercentageValue from '@newform/helper/getPercentage';
-// import handleCreateForm from '@newform/helper/handleCreateForm';
-// import ProgressBar from '@newform/components/ProgressBar';
+// import usePostMutation from '@formgent/hooks/usePostMutation';
+import getPercentageValue from '@formgent/helper/getPercentage';
+// import handleCreateForm from '@formgent/helper/handleCreateForm';
+// import ProgressBar from '@formgent/components/ProgressBar';
 import { ElementPreparationStyle } from './style';
-// import { PreMadeTemplatesApi } from '@newform/constants';
+// import { PreMadeTemplatesApi } from '@formgent/constants';
 import { __ } from '@wordpress/i18n';
 
 export default function CreatePopupElementPreparation( props ) {
@@ -27,7 +27,7 @@ export default function CreatePopupElementPreparation( props ) {
 	// const {
 	// 	mutateAsync: importMediaMutation,
 	// 	isLoading: isImportingMediaLoading,
-	// } = usePostMutation( `/newform/form/media` );
+	// } = usePostMutation( `/formgent/form/media` );
 
 	useEffect( () => {
 		if ( templateElements?.elements?.length > 0 ) {
@@ -156,16 +156,16 @@ export default function CreatePopupElementPreparation( props ) {
 
 	return (
 		<ElementPreparationStyle>
-			<h4 className="newform-import-attachment__title">
-				{ __( 'Import attachment progress', 'newform' ) }
+			<h4 className="formgent-import-attachment__title">
+				{ __( 'Import attachment progress', 'formgent' ) }
 			</h4>
-			<div className="newform-import-attachment__progress">
+			<div className="formgent-import-attachment__progress">
 				<ProgressBar
 					type="success"
 					currentValue={ importPercentage }
 					contentFlow="horizontal"
 				/>
-				<span className="newform-import-attachment__percentage">
+				<span className="formgent-import-attachment__percentage">
 					{ Math.floor( importPercentage ) }%
 				</span>
 			</div>

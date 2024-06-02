@@ -1,15 +1,15 @@
 <?php
 
-namespace NewForm\App\Http\Controllers;
+namespace FormGent\App\Http\Controllers;
 
-use NewForm\App\DTO\EntryDTO;
-use NewForm\App\Exceptions\RequestValidatorException;
-use NewForm\App\Http\Controllers\Controller;
-use NewForm\App\Repositories\EntryRepository;
-use NewForm\App\Repositories\FieldRepository;
-use NewForm\App\Repositories\FormRepository;
-use NewForm\WpMVC\RequestValidator\Validator;
-use NewForm\WpMVC\Routing\Response;
+use FormGent\App\DTO\EntryDTO;
+use FormGent\App\Exceptions\RequestValidatorException;
+use FormGent\App\Http\Controllers\Controller;
+use FormGent\App\Repositories\EntryRepository;
+use FormGent\App\Repositories\FieldRepository;
+use FormGent\App\Repositories\FormRepository;
+use FormGent\WpMVC\RequestValidator\Validator;
+use FormGent\WpMVC\Routing\Response;
 use stdClass;
 use WP_REST_Request;
 
@@ -68,25 +68,25 @@ class EntryController extends Controller {
         }
 
         $entry_dto = new EntryDTO;
-        $entry_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( newform_get_user_ip_address() );
+        $entry_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
 
         /**
          * Storing the current user browser and device information, if information is present.
          */
-        // $which_browser = new \NewForm\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
+        // $which_browser = new \FormGent\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
         // $browser       = $which_browser->browser;
 
         // if ( $browser ) {
         //     $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
         // }
 
-        do_action( "new_form_before_create_form_entry", $form, $wp_rest_request );
+        do_action( "formgent_before_create_form_entry", $form, $wp_rest_request );
 
         $entry_id = $this->repository->create( $entry_dto );
 
         $this->field_repository->creates( $entry_id, ...$validate['field_dtos'] );
 
-        do_action( "new_form_after_create_form_entry", $entry_id, $form, $wp_rest_request );
+        do_action( "formgent_after_create_form_entry", $entry_id, $form, $wp_rest_request );
 
         return Response::send(
             [
@@ -105,7 +105,7 @@ class EntryController extends Controller {
         $form_data = $wp_rest_request->get_param( 'form_data' );
         $wp_rest_request->set_body_params( $form_data );
 
-        $allowed_fields = newform_get_entry_allowed_fields();
+        $allowed_fields = formgent_get_entry_allowed_fields();
 
         $form_content = json_decode( $form->content, true );
         $fields       = $form_content['fields'];
@@ -132,7 +132,7 @@ class EntryController extends Controller {
             }
 
             try {
-                $field_handler = newform_field_handler( $field['type'] );
+                $field_handler = formgent_field_handler( $field['type'] );
 
                 $field_handler->validate( $field, $wp_rest_request, $validator );
 

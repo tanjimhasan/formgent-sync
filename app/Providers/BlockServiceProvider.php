@@ -1,8 +1,8 @@
 <?php
 
-namespace NewForm\App\Providers;
+namespace FormGent\App\Providers;
 
-use NewForm\WpMVC\Contracts\Provider;
+use FormGent\WpMVC\Contracts\Provider;
 
 class BlockServiceProvider implements Provider {
     public function boot() {
@@ -14,8 +14,8 @@ class BlockServiceProvider implements Provider {
      */
     public function action_init() : void {
         register_block_type(
-            'newform/form', [
-                'editor_script' => 'newform/block/editor'
+            'formgent/form', [
+                'editor_script' => 'formgent/block/editor'
             ] 
         );
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace NewForm\App\Repositories;
+namespace FormGent\App\Repositories;
 
-use NewForm\App\DTO\FieldDTO;
-use NewForm\App\Models\Field;
+use FormGent\App\DTO\FieldDTO;
+use FormGent\App\Models\Field;
 
 class FieldRepository {
     public function get( int $entry_id ) {

@@ -7,7 +7,7 @@ export const SingleFormResolvers = {
 			let stateData = {};
 			if ( id ) {
 				const data = yield SingleFormActions.fetchForm(
-					`new-form/admin/forms/${ id }`
+					`formgent/admin/forms/${ id }`
 				);
 				console.log( data );
 				stateData = {

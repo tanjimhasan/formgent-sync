@@ -42,25 +42,25 @@ module.exports = {
 		new DependencyExtractionWebpackPlugin( {
 			requestToExternal( request ) {
 				if (
-					'@newform/modules' === request ||
-					'@newform/components' === request ||
-					'@newform/hooks' === request ||
-					'newform/i18n' === request
+					'@formgent/modules' === request ||
+					'@formgent/components' === request ||
+					'@formgent/hooks' === request ||
+					'formgent/i18n' === request
 				) {
 					return [
-						'newform',
+						'formgent',
 						camelCaseDash( request.split( '/' )[ 1 ] ),
 					];
 				}
 			},
 			requestToHandle( request ) {
 				if (
-					'@newform/modules' === request ||
-					'@newform/components' === request ||
-					'@newform/hooks' === request ||
-					'newform/i18n' === request
+					'@formgent/modules' === request ||
+					'@formgent/components' === request ||
+					'@formgent/hooks' === request ||
+					'formgent/i18n' === request
 				) {
-					return `newform/${ camelCaseDash(
+					return `formgent/${ camelCaseDash(
 						request.split( '/' )[ 1 ]
 					) }`;
 				}
@@ -72,7 +72,7 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			'@newform': path.resolve( __dirname, 'resources/js' ),
+			'@formgent': path.resolve( __dirname, 'resources/js' ),
 			'@icon': path.resolve( __dirname, 'resources/svg/icons' ),
 			'@assets': path.resolve( __dirname, 'assets' ),
 		},

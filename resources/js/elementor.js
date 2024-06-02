@@ -6,7 +6,7 @@ jQuery( function () {
 			this.controlSelect = this.$el.find( '.custom-control-select' );
 			this.savedValue = this.$el.find( '.saved-value' ).val();
 
-			apiFetch( { path: '/new-form/admin/forms/select' } )
+			apiFetch( { path: '/formgent/admin/forms/select' } )
 				.then( ( response ) => {
 					const forms = response.forms;
 
@@ -32,5 +32,5 @@ jQuery( function () {
 		},
 	} );
 
-	elementor.addControlView( 'newform-select', control );
+	elementor.addControlView( 'formgent-select', control );
 } );

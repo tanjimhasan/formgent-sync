@@ -2,16 +2,16 @@ import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { CreateFormStyle } from './style';
-import AntInput from '@newform/components/Input';
+import AntInput from '@formgent/components/Input';
 import { Form } from 'antd';
-import AntButton from '@newform/components/Button';
-import handleCreateForm from '@newform/helper/handleCreateForm';
+import AntButton from '@formgent/components/Button';
+import handleCreateForm from '@formgent/helper/handleCreateForm';
 
 export default function CreateFormModalContent() {
 	const [ serverErrors, setServerErrors ] = useState( {} );
 
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 	console.log( CommonReducer );
 	const { useNavigate, useParams } = CommonReducer.routerComponents;
@@ -20,14 +20,14 @@ export default function CreateFormModalContent() {
 	const { id } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm( id );
+		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
 
 	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getForms();
+		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { storeSingleForm, storsForm } = useDispatch( 'newform' );
+	const { storeSingleForm, storsForm } = useDispatch( 'formgent' );
 
 	function hadnleFormSubmission( formData ) {
 		handleCreateForm(
@@ -42,19 +42,19 @@ export default function CreateFormModalContent() {
 	}
 
 	return (
-		<CreateFormStyle className="newform-create-modal">
-			<h2 className="newform-create-modal-title">
-				{ __( "Let's get started", 'newform' ) }
+		<CreateFormStyle className="formgent-create-modal">
+			<h2 className="formgent-create-modal-title">
+				{ __( "Let's get started", 'formgent' ) }
 			</h2>
 			<p>
 				{ __(
 					'Please enter a name for your ffffor. You can edit it later.',
-					'newform'
+					'formgent'
 				) }
 			</p>
-			<div className="newform-create-modal__content">
+			<div className="formgent-create-modal__content">
 				<Form
-					name="newform-create-form"
+					name="formgent-create-form"
 					layout="vertical"
 					onFinish={ hadnleFormSubmission }
 				>
@@ -73,7 +73,7 @@ export default function CreateFormModalContent() {
 								whitespace: true,
 								message: __(
 									'Only spaces not allowed',
-									'newform'
+									'formgent'
 								),
 							},
 							{

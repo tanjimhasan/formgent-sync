@@ -1,13 +1,13 @@
 <?php
 
-namespace NewForm\App\Providers\Admin;
+namespace FormGent\App\Providers\Admin;
 
-use NewForm\WpMVC\Contracts\Provider;
-use NewForm\WpMVC\View\View;
+use FormGent\WpMVC\Contracts\Provider;
+use FormGent\WpMVC\View\View;
 
 class MenuServiceProvider implements Provider
 {
-    public $pro_url = 'https://wpwax.com/newform';
+    public $pro_url = 'https://wpwax.com/formgent';
 
     public function boot() {
         add_action( 'admin_menu', [$this, 'action_admin_menu'] );
@@ -15,36 +15,36 @@ class MenuServiceProvider implements Provider
     }
 
     /**
-     * Loading menu activation js code only newform admin page
+     * Loading menu activation js code only formgent admin page
      */
     public function action_admin_head() : void {
         ?>
         <style>
-            .wp-submenu-wrap a[href="<?php newform_render( $this->pro_url )?>"] {
+            .wp-submenu-wrap a[href="<?php formgent_render( $this->pro_url )?>"] {
                 color: #f06060 !important;
                 font-weight: bold;
             }
         </style>
 
         <?php
-        if ( 'new-form_page_newform' === get_current_screen()->id ) {
+        if ( 'formgent_page_formgent' === get_current_screen()->id ) {
             View::render( 'admin/menu-js', ['pro_url' => $this->pro_url] );
         }
     }
 
     public function action_admin_menu() {
-        $page_url = admin_url( 'admin.php?page=newform' );
-        add_menu_page( esc_html__( 'New From', 'newform' ), esc_html__( 'New Form', 'newform' ), 'manage_options', 'newform-menu', function () { }, '', 5 );
-        add_submenu_page( 'newform-menu', esc_html__( 'All Forms', 'newform' ), esc_html__( 'All Forms', 'newform' ), 'manage_options', 'newform', [$this, 'content'] );
-        add_submenu_page( 'newform-menu', esc_html__( 'Settings', 'newform' ), esc_html__( 'Settings', 'newform' ), 'manage_options', $page_url . '#/settings' );
-        if ( ! function_exists( 'newform_pro' ) ) {
-            add_submenu_page( 'newform-menu', esc_html__( 'Go Pro', 'newform' ), esc_html__( 'Go Pro', 'newform' ), 'manage_options', $this->pro_url );
+        $page_url = admin_url( 'admin.php?page=formgent' );
+        add_menu_page( esc_html__( 'New From', 'formgent' ), esc_html__( 'FormGent', 'formgent' ), 'manage_options', 'formgent-menu', function () { }, '', 5 );
+        add_submenu_page( 'formgent-menu', esc_html__( 'All Forms', 'formgent' ), esc_html__( 'All Forms', 'formgent' ), 'manage_options', 'formgent', [$this, 'content'] );
+        add_submenu_page( 'formgent-menu', esc_html__( 'Settings', 'formgent' ), esc_html__( 'Settings', 'formgent' ), 'manage_options', $page_url . '#/settings' );
+        if ( ! function_exists( 'formgent_pro' ) ) {
+            add_submenu_page( 'formgent-menu', esc_html__( 'Go Pro', 'formgent' ), esc_html__( 'Go Pro', 'formgent' ), 'manage_options', $this->pro_url );
         }
 
-        remove_submenu_page( 'newform-menu', 'newform-menu' );
+        remove_submenu_page( 'formgent-menu', 'formgent-menu' );
     }
 
     public function content() {
-        newform_render( '<div class="newform-root"></div>' );
+        formgent_render( '<div class="formgent-root"></div>' );
     }
 }

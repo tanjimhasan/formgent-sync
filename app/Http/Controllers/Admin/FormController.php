@@ -1,16 +1,16 @@
 <?php
 
-namespace NewForm\App\Http\Controllers\Admin;
+namespace FormGent\App\Http\Controllers\Admin;
 
 use Exception;
-use NewForm\App\DTO\FormDTO;
-use NewForm\App\DTO\FormReadDTO;
-use NewForm\App\Http\Controllers\Controller;
-use NewForm\App\Models\Field;
-use NewForm\App\Models\Form;
-use NewForm\App\Repositories\FormRepository;
-use NewForm\WpMVC\RequestValidator\Validator;
-use NewForm\WpMVC\Routing\Response;
+use FormGent\App\DTO\FormDTO;
+use FormGent\App\DTO\FormReadDTO;
+use FormGent\App\Http\Controllers\Controller;
+use FormGent\App\Models\Field;
+use FormGent\App\Models\Form;
+use FormGent\App\Repositories\FormRepository;
+use FormGent\WpMVC\RequestValidator\Validator;
+use FormGent\WpMVC\Routing\Response;
 use WP_REST_Request;
 
 class FormController extends Controller {
@@ -121,13 +121,13 @@ class FormController extends Controller {
             $dto->set_content( $wp_rest_request->get_param( 'content' ) );
             $dto->set_created_by( get_current_user_id() );
 
-            do_action( "newform_before_create_form", $dto, $wp_rest_request );
+            do_action( "formgent_before_create_form", $dto, $wp_rest_request );
 
             $form_id = $this->form_repository->create( $dto );
 
             $dto->set_id( $form_id );
 
-            do_action( "newform_after_create_form", $dto, $wp_rest_request );
+            do_action( "formgent_after_create_form", $dto, $wp_rest_request );
 
             return Response::send(
                 [
@@ -172,13 +172,13 @@ class FormController extends Controller {
             $dto->set_content( $wp_rest_request->get_param( 'content' ) );
             $dto->set_created_by( get_current_user_id() );
 
-            do_action( "newform_before_update_form", $dto, $wp_rest_request );
+            do_action( "formgent_before_update_form", $dto, $wp_rest_request );
 
             $form_id = $this->form_repository->update( $dto );
 
             $dto->set_id( $form_id );
 
-            do_action( "newform_after_update_form", $dto, $wp_rest_request );
+            do_action( "formgent_after_update_form", $dto, $wp_rest_request );
 
             return Response::send(
                 [
@@ -211,11 +211,11 @@ class FormController extends Controller {
             );
         }
 
-        do_action( 'newform_before_update_form_status', $wp_rest_request );
+        do_action( 'formgent_before_update_form_status', $wp_rest_request );
 
         $this->form_repository->update_status( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'status' ) );
 
-        do_action( 'newform_after_update_form_status',  $wp_rest_request );
+        do_action( 'formgent_after_update_form_status',  $wp_rest_request );
 
         return Response::send(
             [
@@ -263,13 +263,13 @@ class FormController extends Controller {
         $dto->set_created_by( get_current_user_id() );
 
         try {
-            do_action( "newform_before_duplicate_form", $dto, $wp_rest_request );
+            do_action( "formgent_before_duplicate_form", $dto, $wp_rest_request );
 
             $form_id = $this->form_repository->create( $dto );
 
             $dto->set_id( $form_id );
 
-            do_action( "newform_after_duplicate_form", $dto, $wp_rest_request );
+            do_action( "formgent_after_duplicate_form", $dto, $wp_rest_request );
 
             return Response::send(
                 [
@@ -312,11 +312,11 @@ class FormController extends Controller {
             );
         }
 
-        do_action( 'newform_before_delete_form', $wp_rest_request );
+        do_action( 'formgent_before_delete_form', $wp_rest_request );
 
         $this->form_repository->delete_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
 
-        do_action( 'newform_after_delete_form', $wp_rest_request );
+        do_action( 'formgent_after_delete_form', $wp_rest_request );
 
         return Response::send(
             [

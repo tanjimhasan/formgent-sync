@@ -29,9 +29,9 @@ import {
 export default function MainContent( props ) {
 	const { id } = props;
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm( id );
+		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
-	const { updateFormFields } = useDispatch( 'newform' );
+	const { updateFormFields } = useDispatch( 'formgent' );
 	const { singleForm } = SingleFormReducer;
 	const { fields } = singleForm.content;
 	const [ inserterDomKey, setInserterDomKey ] = useState( nanoid( 10 ) );
@@ -92,7 +92,7 @@ export default function MainContent( props ) {
 
 	return (
 		<EditorContentStyle
-			className="newform-editor-content"
+			className="formgent-editor-content"
 			style={ { display: 'flex' } }
 		>
 			<DndContext

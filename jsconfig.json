@@ -2,7 +2,7 @@
 	"compilerOptions": {
 	  "baseUrl": ".",
 	  "paths": {
-		"@newform/*": ["./resources/js/*"],
+		"@formgent/*": ["./resources/js/*"],
 		"@icon/*": ["./resources/svg/icon/*"],
 		"@assets/*": ["./assets/*"]
 	  }

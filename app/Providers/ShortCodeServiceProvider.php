@@ -1,10 +1,10 @@
 <?php
 
-namespace NewForm\App\Providers;
+namespace FormGent\App\Providers;
 
-use NewForm\App\Models\Form;
-use NewForm\WpMVC\Contracts\Provider;
-use NewForm\WpMVC\View\View;
+use FormGent\App\Models\Form;
+use FormGent\WpMVC\Contracts\Provider;
+use FormGent\WpMVC\View\View;
 
 class ShortCodeServiceProvider implements Provider {
     public function boot() {
@@ -15,7 +15,7 @@ class ShortCodeServiceProvider implements Provider {
      * Fires after WordPress has finished loading but before any headers are sent.
      */
     public function action_init() : void {
-        add_shortcode( 'newform', [$this, 'content'] );
+        add_shortcode( 'formgent', [$this, 'content'] );
     }
 
     public function content( array $attributes ) {

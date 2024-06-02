@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\DTO;
+namespace FormGent\App\DTO;
 
 class EntryDTO extends DTO {
     private int $id;

@@ -6,7 +6,7 @@ const EditorHeaderStyle = Styled.div`
     align-items: center;
     padding: 0 5px 0 0;
     margin-bottom: 20px;
-    background-color: var(--newform-color-white);
+    background-color: var(--formgent-color-white);
     position: sticky;
     top: 32px;
     min-height: 60px;
@@ -18,8 +18,8 @@ const InserterStyle = Styled.div`
     width: 320px;
     height: calc(100vh - 100px);
     border-radius: 10px;
-    background-color: var(--newform-color-white);
-    .newform-editor-inserter__group{
+    background-color: var(--formgent-color-white);
+    .formgent-editor-inserter__group{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -36,14 +36,14 @@ const DropableBoxStyle = Styled.div`
     flex-direction: column;
     max-height: 100%;
     overflow-y: auto;
-    background-color: var(--newform-color-white);
-    .newform-dropable-field-empty-placeholder{
+    background-color: var(--formgent-color-white);
+    .formgent-dropable-field-empty-placeholder{
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 8px;
         min-height: 50px;
-        border: 1px dashed var(--newform-color-bg-gray);
+        border: 1px dashed var(--formgent-color-bg-gray);
         span{
             display: inline-flex;
             align-items: center;
@@ -51,16 +51,16 @@ const DropableBoxStyle = Styled.div`
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-color: var(--newform-color-dark);
+            background-color: var(--formgent-color-dark);
             font-size: 24px;
-            color: var(--newform-color-white);
+            color: var(--formgent-color-white);
         }
     }
 `;
 
 const EditorContentStyle = Styled.div`
     padding: 0 15px;
-    .newform-editor-inserter__field{
+    .formgent-editor-inserter__field{
         border-radius: 8px;
         color: #1e1f21;
         cursor: move;
@@ -74,27 +74,27 @@ const EditorContentStyle = Styled.div`
         transition: all .05s;
         min-width: 90px;
         margin: 10px;
-        border: 1px solid var(--newform-color-border);
-        background-color: var(--newform-color-bg-light);
+        border: 1px solid var(--formgent-color-border);
+        background-color: var(--formgent-color-bg-light);
     }
-    .newform-dropable-field{
+    .formgent-dropable-field{
         position: relative;
         // padding: 30px;
         &:hover{
-            .newform-dropable-field__actions{
+            .formgent-dropable-field__actions{
                 visibility: visible;
                 opacity: 1;
             }
         } 
     }
-    .newform-droppable-field-overlay{
-        .newform-dropable-field__actions{
+    .formgent-droppable-field-overlay{
+        .formgent-dropable-field__actions{
             visibility: visible;
             opacity: 1;
         }
     }
     
-    .newform-dropable-field__actions{
+    .formgent-dropable-field__actions{
         background-color: #4b4c4d;
         border-radius: 6px;
         overflow: hidden;
@@ -104,7 +104,7 @@ const EditorContentStyle = Styled.div`
         right: 14px;
         top: 8px;
         z-index: 10;
-        .newform-icon{
+        .formgent-icon{
             color: #fff;
             cursor: pointer;
             padding: 10px;
@@ -115,7 +115,7 @@ const EditorContentStyle = Styled.div`
 const CreateFormStyle = Styled.div`
     text-align: center;
     padding: 50px 0;
-    .newform-create-modal__content{
+    .formgent-create-modal__content{
        max-width: 340px;
        margin: 0 auto;
     }

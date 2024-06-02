@@ -1,15 +1,15 @@
 <?php
 
-namespace NewForm\App\Http\Controllers\Admin;
+namespace FormGent\App\Http\Controllers\Admin;
 
-use NewForm\App\DTO\EntryReadDTO;
-use NewForm\App\Http\Controllers\Controller;
-use NewForm\App\Repositories\EntryRepository;
-use NewForm\App\Repositories\FieldRepository;
-use NewForm\App\Repositories\FormRepository;
-use NewForm\WpMVC\RequestValidator\Validator;
+use FormGent\App\DTO\EntryReadDTO;
+use FormGent\App\Http\Controllers\Controller;
+use FormGent\App\Repositories\EntryRepository;
+use FormGent\App\Repositories\FieldRepository;
+use FormGent\App\Repositories\FormRepository;
+use FormGent\WpMVC\RequestValidator\Validator;
 use WP_REST_Request;
-use NewForm\WpMVC\Routing\Response;
+use FormGent\WpMVC\Routing\Response;
 
 class EntryController extends Controller {
     public EntryRepository $repository;
@@ -103,7 +103,7 @@ class EntryController extends Controller {
         /**
          * @var FieldRepository $field_repository
          */
-        $field_repository = newform_singleton( FieldRepository::class );
+        $field_repository = formgent_singleton( FieldRepository::class );
 
         $entry->data = $field_repository->get( $entry->id );
 

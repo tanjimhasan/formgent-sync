@@ -11,7 +11,7 @@ function Editor( props ) {
 		isInserterActive: false,
 	} );
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 
 	const { useParams } = CommonReducer.routerComponents;
@@ -19,18 +19,18 @@ function Editor( props ) {
 	const { id } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm( id );
+		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
 
 	console.log( SingleFormReducer );
 
 	return (
-		<div className="newform-editor-wrap">
+		<div className="formgent-editor-wrap">
 			<Header uiState={ uiState } setUiState={ setUiState } />
 			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
 			{ ! SingleFormReducer?.singleForm?.title && (
 				<Modal
-					overlayClassName="newform-modal newform-form-title-modal"
+					overlayClassName="formgent-modal formgent-form-title-modal"
 					size="medium"
 					isDismissible={ false }
 				>

@@ -22,13 +22,13 @@ import { SlotFillProvider } from '@wordpress/components';
 
 export default function App() {
 	// const data = useSelect((select) => {
-	//     return select('newform').getForms();
+	//     return select('formgent').getForms();
 	// }, []);
 	// console.log(data.FormReducer, data);
 	// const { forms, isLoading, error} = data.FormReducer;
 	// console.log(forms, isLoading, error,data.FormReducer);
 	// return <h1>Hello Form Builder</h1>
-	const { setRouterState } = useDispatch( 'newform' );
+	const { setRouterState } = useDispatch( 'formgent' );
 	const [ dir, setDir ] = useState( 'ltr' );
 	const theme = {
 		direction: dir,
@@ -65,7 +65,7 @@ export default function App() {
 		} );
 	}, [ setRouterState ] );
 
-	const adminRoutes = applyFilters( 'newform_admin_routes', [
+	const adminRoutes = applyFilters( 'formgent_admin_routes', [
 		{
 			path: '/*',
 			element: <FormTable />,
@@ -81,7 +81,7 @@ export default function App() {
 	] );
 
 	return (
-		<div className="newform-app-wrap">
+		<div className="formgent-app-wrap">
 			<SlotFillProvider>
 				<Plugins />
 				<HashRouter>

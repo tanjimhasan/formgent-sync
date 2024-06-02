@@ -1,26 +1,26 @@
 import { applyFilters } from '@wordpress/hooks';
-import AntDropdown from '@newform/components/Dropdown';
+import AntDropdown from '@formgent/components/Dropdown';
 import { __ } from '@wordpress/i18n';
 export default function TableAction() {
-	const items = applyFilters( 'newform_form_table_action', [
+	const items = applyFilters( 'formgent_form_table_action', [
 		{
 			key: '1',
-			label: __( 'Rename', 'newform' ),
+			label: __( 'Rename', 'formgent' ),
 		},
 		{
 			key: '2',
-			label: __( 'Duplicate', 'newform' ),
+			label: __( 'Duplicate', 'formgent' ),
 		},
 		{
 			type: 'divider',
 		},
 		{
 			key: '3',
-			label: __( 'Delete', 'newform' ),
+			label: __( 'Delete', 'formgent' ),
 		},
 	] );
 	return (
-		<div className="newform-table-action">
+		<div className="formgent-table-action">
 			<AntDropdown
 				menu={ { items } }
 				trigger={ [ 'click' ] }

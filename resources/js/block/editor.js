@@ -9,8 +9,8 @@ const Form = ( { formId } ) => {
 	return `Selected Form Id is ${ formId }`;
 };
 
-registerBlockType( 'newform/form', {
-	title: __( 'New Form', 'newform' ),
+registerBlockType( 'formgent/form', {
+	title: __( 'FormGent', 'formgent' ),
 	icon: 'smiley',
 	category: 'common',
 	attributes: {
@@ -28,11 +28,11 @@ registerBlockType( 'newform/form', {
 		};
 
 		useEffect( () => {
-			apiFetch( { path: '/new-form/admin/forms/select' } ).then(
+			apiFetch( { path: '/formgent/admin/forms/select' } ).then(
 				( response ) => {
 					setOptions( [
 						{
-							label: __( '-- Select a form --', 'newform' ),
+							label: __( '-- Select a form --', 'formgent' ),
 							value: '0',
 						},
 						...response.forms,
@@ -56,10 +56,10 @@ registerBlockType( 'newform/form', {
 			<>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Select your new form', 'newform' ) }
+						title={ __( 'Select your new form', 'formgent' ) }
 					>
 						<SelectControl
-							label={ __( 'SELECT A FORM', 'newform' ) }
+							label={ __( 'SELECT A FORM', 'formgent' ) }
 							value={ formId }
 							options={ options }
 							onChange={ onChangeForm }
@@ -68,9 +68,9 @@ registerBlockType( 'newform/form', {
 				</InspectorControls>
 				{ '0' === formId ? (
 					<>
-						<h3>New Form Logo</h3>
+						<h3>FormGent Logo</h3>
 						<SelectControl
-							label={ __( 'SELECT A FORM', 'newform' ) }
+							label={ __( 'SELECT A FORM', 'formgent' ) }
 							value={ formId }
 							options={ options }
 							onChange={ onChangeForm }
@@ -85,7 +85,7 @@ registerBlockType( 'newform/form', {
 	save: ( { attributes } ) => {
 		return (
 			<div
-				className="newform newform-block"
+				className="formgent formgent-block"
 				data-form_id={ attributes.formId }
 			/>
 		);

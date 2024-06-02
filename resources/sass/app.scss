@@ -1,166 +1,166 @@
 :root {
-	--newform-color-primary: #6551f2;
-	--newform-color-primary-2: #2188ff;
-	--newform-color-secondary: #fc495d;
-	--newform-color-dark: #000000;
-	--newform-color-bg-white: #ffffff;
-	--newform-color-bg-light: #efefef;
-	--newform-color-bg-gray: #e6e6e6;
-	--newform-color-bg-deep: #d5d5d5;
-	--newform-color-bg-general: #f5f5f5;
-	--newform-color-bg-page: #f0f0f0;
-	--newform-color-gray: #3c3c3c;
-	--newform-color-light-gray: #6e6e6e;
-	--newform-color-extra-light: #a2a2a2;
-	--newform-color-info: #2188ff; //#1b83fb
-	--newform-color-danger: #ef0000; //#ef0000;
-	--newform-color-disable: #dddada;
-	--newform-color-warning-deep: #ff7300;
-	--newform-color-warning-light: #f9dfac;
-	--newform-color-warning: #f28100;
-	--newform-color-success: #28a800; //#08bf9c;
-	--newform-color-text: #4d4d4d;
-	--newform-color-white: #ffffff;
-	--newform-color-black: #000000;
-	--newform-font-family: "Inter";
-	--newform-font-size: "medium";
-	--newform-font-color: "#898989";
-	--newform-btn-radius: 8px;
-	--newform-primary-button-color: #ffffff;
-	--newform-primary-button-bg: #6551f2;
-	--newform-primary-light-button-bg: #e8e6fc;
-	--newform-primary-button-border-radius: "15";
-	--newform-secondary-button-color: #ffffff;
-	--newform-secondary-button-bg: #fc495d;
-	--newform-secondary-button-border-radius: "15";
-	--newform-color-page-bg: "#030308";
-	--newform-color-description: rgba(255, 255, 255, 0.8);
-	--newform-color-footer-text: rgba(255, 255, 255, 0.8);
-	--newform-color-bg-badge-success: rgba(37, 128, 8, 0.2);
-	--newform-color-bg-badge-gray: #b1b1b1;
-	--newform-footer-text-font-size: "medium";
-	--newform-color-border-light: #e6e6e6;
-	--newform-transition: 0.3s ease;
-	--newform-color-facebook: #2d75ed;
-	--newform-color-twitter: #000000;
-	--newform-color-youtube: #f3081a;
-	--newform-color-instagram: #bf3ad4;
+	--formgent-color-primary: #6551f2;
+	--formgent-color-primary-2: #2188ff;
+	--formgent-color-secondary: #fc495d;
+	--formgent-color-dark: #000000;
+	--formgent-color-bg-white: #ffffff;
+	--formgent-color-bg-light: #efefef;
+	--formgent-color-bg-gray: #e6e6e6;
+	--formgent-color-bg-deep: #d5d5d5;
+	--formgent-color-bg-general: #f5f5f5;
+	--formgent-color-bg-page: #f0f0f0;
+	--formgent-color-gray: #3c3c3c;
+	--formgent-color-light-gray: #6e6e6e;
+	--formgent-color-extra-light: #a2a2a2;
+	--formgent-color-info: #2188ff; //#1b83fb
+	--formgent-color-danger: #ef0000; //#ef0000;
+	--formgent-color-disable: #dddada;
+	--formgent-color-warning-deep: #ff7300;
+	--formgent-color-warning-light: #f9dfac;
+	--formgent-color-warning: #f28100;
+	--formgent-color-success: #28a800; //#08bf9c;
+	--formgent-color-text: #4d4d4d;
+	--formgent-color-white: #ffffff;
+	--formgent-color-black: #000000;
+	--formgent-font-family: "Inter";
+	--formgent-font-size: "medium";
+	--formgent-font-color: "#898989";
+	--formgent-btn-radius: 8px;
+	--formgent-primary-button-color: #ffffff;
+	--formgent-primary-button-bg: #6551f2;
+	--formgent-primary-light-button-bg: #e8e6fc;
+	--formgent-primary-button-border-radius: "15";
+	--formgent-secondary-button-color: #ffffff;
+	--formgent-secondary-button-bg: #fc495d;
+	--formgent-secondary-button-border-radius: "15";
+	--formgent-color-page-bg: "#030308";
+	--formgent-color-description: rgba(255, 255, 255, 0.8);
+	--formgent-color-footer-text: rgba(255, 255, 255, 0.8);
+	--formgent-color-bg-badge-success: rgba(37, 128, 8, 0.2);
+	--formgent-color-bg-badge-gray: #b1b1b1;
+	--formgent-footer-text-font-size: "medium";
+	--formgent-color-border-light: #e6e6e6;
+	--formgent-transition: 0.3s ease;
+	--formgent-color-facebook: #2d75ed;
+	--formgent-color-twitter: #000000;
+	--formgent-color-youtube: #f3081a;
+	--formgent-color-instagram: #bf3ad4;
 }
 
 /* Spacing */
-.newform-m-0 {
+.formgent-m-0 {
 	margin: 0 !important;
 }
 
-.newform-mb-0 {
+.formgent-mb-0 {
 	margin-bottom: 0 !important;
 }
-.newform-mb-5 {
+.formgent-mb-5 {
 	margin-bottom: 5px !important;
 }
-.newform-mb-10 {
+.formgent-mb-10 {
 	margin-bottom: 10px !important;
 }
-.newform-mb-15 {
+.formgent-mb-15 {
 	margin-bottom: 15px !important;
 }
-.newform-mb-20 {
+.formgent-mb-20 {
 	margin-bottom: 20px !important;
 }
-.newform-mb-25 {
+.formgent-mb-25 {
 	margin-bottom: 25px !important;
 }
-.newform-mb-30 {
+.formgent-mb-30 {
 	margin-bottom: 30px !important;
 }
-.newform-mb-40 {
+.formgent-mb-40 {
 	margin-bottom: 40px !important;
 }
 
-.newform-mt-0 {
+.formgent-mt-0 {
 	margin-top: 0px !important;
 }
-.newform-mt-10 {
+.formgent-mt-10 {
 	margin-top: 10px !important;
 }
-.newform-mt-15 {
+.formgent-mt-15 {
 	margin-top: 15px !important;
 }
-.newform-mt-25 {
+.formgent-mt-25 {
 	margin-top: 25px !important;
 }
-.newform-mt-20 {
+.formgent-mt-20 {
 	margin-top: 20px !important;
 }
 
-.newform-mt-30 {
+.formgent-mt-30 {
 	margin-top: 30px !important;
 }
-.newform-mt-40 {
+.formgent-mt-40 {
 	margin-top: 40px;
 }
-.newform-mt-50 {
+.formgent-mt-50 {
 	margin-top: 50px;
 }
 
-.newform-ml-0 {
+.formgent-ml-0 {
 	margin-inline-start: 0 !important;
 }
 
-.newform-p-5 {
+.formgent-p-5 {
 	padding: 5px;
 	box-sizing: border-box;
 }
-.newform-p-20 {
+.formgent-p-20 {
 	padding: 20px;
 	box-sizing: border-box;
 }
-.newform-p-25 {
+.formgent-p-25 {
 	padding: 25px;
 	box-sizing: border-box;
 }
-.newform-p-30 {
+.formgent-p-30 {
 	padding: 30px;
 	box-sizing: border-box;
 }
 
-.newform-no-wrap {
+.formgent-no-wrap {
 	display: flex;
 	flex-wrap: nowrap !important;
 }
 
-.newform-page-inner {
+.formgent-page-inner {
 	padding: 30px 30px 0 30px;
 }
 
-.newform-text-center {
+.formgent-text-center {
 	text-align: center;
 }
 
-.newform-danger-text {
-	color: var(--newform-color-danger);
+.formgent-danger-text {
+	color: var(--formgent-color-danger);
 }
 
-.newform-h-20 {
+.formgent-h-20 {
 	height: 20px;
 }
 
-.newform-w-f {
+.formgent-w-f {
 	width: 100% !important;
 }
 
-.newform-h-100pr {
+.formgent-h-100pr {
 	height: 100%;
 }
 
-.newform-root {
-	font-family: var(--newform-font-family);
+.formgent-root {
+	font-family: var(--formgent-font-family);
 	.block-editor-rich-text__editable.rich-text {
 		font-family: inherit;
 	}
 }
 
-.newform-single-form-fullscreen {
+.formgent-single-form-fullscreen {
 	position: fixed;
 	width: 100%;
 	height: 100%;
@@ -168,139 +168,139 @@
 	top: 0;
 	z-index: 99999;
 	background: #f0f0f1;
-	.newform-single-form-header {
+	.formgent-single-form-header {
 		top: 0 !important;
 	}
 }
 
-.newform-flex-wrap {
+.formgent-flex-wrap {
 	flex-wrap: wrap;
 }
 
-.newform-font-family {
+.formgent-font-family {
 	font-family: var(--wp--preset--font-family--source-serif-pro);
 }
 
-.newform-font-weight-500 {
+.formgent-font-weight-500 {
 	font-weight: 500;
 }
 
-.newform-font-size-16 {
+.formgent-font-size-16 {
 	font-size: 16px;
 }
 
-.newform-font-size-20 {
+.formgent-font-size-20 {
 	font-size: 20px;
 }
 
-.newform-font-w-bold {
+.formgent-font-w-bold {
 	font-weight: bold;
 }
 
-.newform-d-block {
+.formgent-d-block {
 	display: block;
 }
 
-.newform-d-flex {
+.formgent-d-flex {
 	display: flex;
 }
 
-.newform-flex-grow-1 {
+.formgent-flex-grow-1 {
 	flex-grow: 1;
 }
 
-.newform-flex-direction-column {
+.formgent-flex-direction-column {
 	flex-direction: column;
 }
 
-.newform-justify-content-center {
+.formgent-justify-content-center {
 	justify-content: center;
 }
 
-.newform-space-between {
+.formgent-space-between {
 	justify-content: space-between;
 }
 
-.newform-text-center {
+.formgent-text-center {
 	text-align: center;
 }
 
-.newform-text-danger {
-	color: var(--newform-color-danger) !important;
+.formgent-text-danger {
+	color: var(--formgent-color-danger) !important;
 }
 
-.newform-text-white {
+.formgent-text-white {
 	color: #ffffff;
 }
 
-.newform-text-color {
-	color: var(--newform-color-text);
+.formgent-text-color {
+	color: var(--formgent-color-text);
 }
 
-.newform-text-color-info {
-	color: var(--newform-color-info);
+.formgent-text-color-info {
+	color: var(--formgent-color-info);
 }
 
-.newform--text-center {
+.formgent--text-center {
 	text-align: center;
 }
 
-.newform--justify-center {
+.formgent--justify-center {
 	justify-content: center;
 }
 
 /* Button Style */
 
-a.newform-btn-disabled {
+a.formgent-btn-disabled {
 	cursor: not-allowed;
 	pointer-events: none;
 	opacity: 0.4;
 }
 
-.newform-inline-list {
+.formgent-inline-list {
 	margin: 0 -5px;
 	padding: 0;
 	list-style: none;
 
-	.newform-inline-list-item {
+	.formgent-inline-list-item {
 		display: inline-block;
 		margin: 0 5px 5px;
 	}
 }
 
 /* Button link */
-.newform-link {
+.formgent-link {
 	display: inline-block;
 	text-decoration: none;
-	color: var(--newform-color-primary);
+	color: var(--formgent-color-primary);
 }
 
 /* Block Button Style */
-.newform-btn-block {
+.formgent-btn-block {
 	display: flex;
 	justify-content: center;
 	width: 100%;
 	box-sizing: border-box;
 }
 
-.newform-icon-link {
+.formgent-icon-link {
 	display: inline-block;
 	width: 1em;
 	margin: 1px 8px 0;
 	cursor: pointer;
 
 	svg path {
-		fill: var(--newform-color-primary);
+		fill: var(--formgent-color-primary);
 	}
 }
 
-.new-form_page_newform #wpcontent {
+.formgent_page_formgent #wpcontent {
 	padding-left: 0;
 }
 
 // ant checkbox
 
-.newform-page-inner {
+.formgent-page-inner {
 	.ant-checkbox {
 		.ant-checkbox-inner {
 			width: 18px;
@@ -310,7 +310,7 @@ a.newform-btn-disabled {
 			margin: 0;
 			line-height: 1;
 			appearance: none;
-			border: 2px solid var(--newform-color-extra-light);
+			border: 2px solid var(--formgent-color-extra-light);
 			box-shadow: none;
 			&:after {
 				display: block;
@@ -320,19 +320,19 @@ a.newform-btn-disabled {
 		}
 		&.ant-checkbox-checked {
 			.ant-checkbox-inner {
-				border-color: var(--newform-color-primary);
+				border-color: var(--formgent-color-primary);
 			}
 		}
 	}
 }
 
-/* newform Modal */
-.newform-modal {
-	font-family: var(--newform-font-family);
+/* formgent Modal */
+.formgent-modal {
+	font-family: var(--formgent-font-family);
 	.components-modal__frame {
 		min-width: 540px;
 		border-radius: 20px;
-		background-color: var(--newform-color-white);
+		background-color: var(--formgent-color-white);
 		@media only screen and (max-width: 575px) {
 			min-width: 100%;
 		}
@@ -351,7 +351,7 @@ a.newform-btn-disabled {
 				box-shadow: 0 0;
 			}
 			&:hover {
-				color: var(--newform-color-danger);
+				color: var(--formgent-color-danger);
 			}
 		}
 		.components-modal__header-heading {
@@ -370,18 +370,18 @@ a.newform-btn-disabled {
 			border-radius: 3px;
 		}
 		&::-webkit-scrollbar-thumb {
-			background: var(--newform-color-bg-deep);
-			transition: var(--newform-transition);
+			background: var(--formgent-color-bg-deep);
+			transition: var(--formgent-transition);
 			border-radius: 3px;
 		}
 		&::-webkit-scrollbar-thumb:hover {
-			background: var(--newform-color-primary);
+			background: var(--formgent-color-primary);
 		}
-		.newform-conversation-forward {
+		.formgent-conversation-forward {
 			padding: 0 30px;
 		}
-		.newform-conversation-forward__content {
-			> .newform-user-block {
+		.formgent-conversation-forward__content {
+			> .formgent-user-block {
 				padding-left: 15px;
 				margin-bottom: 20px;
 				position: relative;
@@ -392,59 +392,59 @@ a.newform-btn-disabled {
 					height: 100%;
 					left: 0;
 					top: 0;
-					background: var(--newform-color-primary);
+					background: var(--formgent-color-primary);
 					border-radius: 10px;
 				}
 			}
-			.newform-conversation-forward__reply {
+			.formgent-conversation-forward__reply {
 				margin-bottom: 15px;
 				textarea {
 					height: 70px;
 					padding: 15px 20px;
 					border-radius: 10px;
-					background: var(--newform-color-bg-gray);
+					background: var(--formgent-color-bg-gray);
 					border: 0 none;
 					resize: none;
 				}
 			}
-			.newform-conversation-forward__user {
-				.newform-conversation-forward__user-input {
+			.formgent-conversation-forward__user {
+				.formgent-conversation-forward__user-input {
 					margin-bottom: 15px;
 					input {
 						height: 40px;
 						padding: 0 20px;
 						border-radius: 10px;
-						background: var(--newform-color-bg-gray);
+						background: var(--formgent-color-bg-gray);
 						border: 0 none;
 					}
 				}
-				.newform-conversation-forward__list {
-					.newform-conversation-forward__list-group {
+				.formgent-conversation-forward__list {
+					.formgent-conversation-forward__list-group {
 						&:not(:last-child) {
 							margin-bottom: 15px;
 							padding-bottom: 15px;
 							border-bottom: 1px solid #e6e6e6;
 						}
 					}
-					.newform-conversation-forward__list-label {
+					.formgent-conversation-forward__list-label {
 						font-size: 12px;
 						font-weight: 500;
 						text-transform: uppercase;
-						color: var(--newform-color-light-gray);
+						color: var(--formgent-color-light-gray);
 						margin-bottom: 20px;
 						display: block;
 					}
-					.newform-conversation-forward__list-single {
+					.formgent-conversation-forward__list-single {
 						margin-bottom: 20px;
 						display: flex;
 						align-items: center;
 						justify-content: space-between;
-						.newform-user-block {
+						.formgent-user-block {
 							align-items: center;
 						}
-						.newform-btn.disabled {
+						.formgent-btn.disabled {
 							background: #fff;
-							color: var(--newform-color-primary);
+							color: var(--formgent-color-primary);
 							cursor: not-allowed;
 							pointer-events: none;
 							span {
@@ -457,7 +457,7 @@ a.newform-btn-disabled {
 								width: 10px;
 								margin: 0;
 								path {
-									fill: var(--newform-color-primary);
+									fill: var(--formgent-color-primary);
 								}
 							}
 						}
@@ -466,12 +466,12 @@ a.newform-btn-disabled {
 			}
 		}
 	}
-	&.newform-form-title-modal {
+	&.formgent-form-title-modal {
 		.components-modal__header {
 			padding: 0;
 		}
 	}
-	&.newform-attachment-importing {
+	&.formgent-attachment-importing {
 		.components-modal__header {
 			& + div {
 				height: 100%;
@@ -480,33 +480,33 @@ a.newform-btn-disabled {
 			}
 		}
 	}
-	&.newform-create-modal-wrap {
+	&.formgent-create-modal-wrap {
 		top: 0;
-		.newform-btn-back {
+		.formgent-btn-back {
 			position: relative;
 			top: -20px;
 			font-size: 14px;
 			font-weight: 500;
 			text-decoration: none;
 			padding-inline-end: 20px;
-			color: var(--newform-color-gray);
+			color: var(--formgent-color-gray);
 			display: inline-flex;
 			align-items: center;
 			gap: 8px;
 			cursor: pointer;
-			transition: var(--newform-transition);
+			transition: var(--formgent-transition);
 			svg {
 				path {
-					fill: var(--newform-color-gray);
-					transition: var(--newform-transition);
+					fill: var(--formgent-color-gray);
+					transition: var(--formgent-transition);
 				}
 			}
 		}
 		.components-modal__header {
 			height: 0;
 		}
-		.newform-create-form-modal {
-			&.newform-create-loader-active {
+		.formgent-create-form-modal {
+			&.formgent-create-loader-active {
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -527,7 +527,7 @@ a.newform-btn-disabled {
 				border-radius: 50%;
 				top: 50px;
 				inset-inline-end: 30px;
-				background-color: var(--newform-color-bg-gray);
+				background-color: var(--formgent-color-bg-gray);
 				border: 0 none;
 				svg {
 					width: 18px;
@@ -539,7 +539,7 @@ a.newform-btn-disabled {
 			padding: 50px 30px 30px;
 		}
 	}
-	&.newform-add-tag-modal {
+	&.formgent-add-tag-modal {
 		.components-modal__frame,
 		.components-modal__content {
 			overflow: visible;
@@ -548,30 +548,30 @@ a.newform-btn-disabled {
 			border-radius: 20px 20px 0 0;
 		}
 	}
-	&.newform-change-email-modal,
-	&.newform-account-delete-alert {
+	&.formgent-change-email-modal,
+	&.formgent-account-delete-alert {
 		z-index: 10000000;
 	}
-	&.newform-change-email-modal {
-		.newform-change-email-modal__form {
+	&.formgent-change-email-modal {
+		.formgent-change-email-modal__form {
 			padding: 0 40px 30px;
 		}
-		.newform-change-email-modal-action {
+		.formgent-change-email-modal-action {
 			justify-content: flex-start;
-			.newform-modal-action__cancel {
+			.formgent-modal-action__cancel {
 				order: 1;
 			}
 		}
 	}
-	&.newform-account-delete-alert {
-		.newform-account-delete-alert-action {
+	&.formgent-account-delete-alert {
+		.formgent-account-delete-alert-action {
 			justify-content: center;
-			.newform-modal-action__cancel {
+			.formgent-modal-action__cancel {
 				order: 1;
 			}
 		}
 	}
-	&.newform-session-expired {
+	&.formgent-session-expired {
 		.components-modal__frame {
 			&:focus {
 				outline: 0;
@@ -582,7 +582,7 @@ a.newform-btn-disabled {
 			display: none;
 		}
 	}
-	&.newform-modal.newform-modal-default.newform-modal-pro {
+	&.formgent-modal.formgent-modal-default.formgent-modal-pro {
 		.components-modal__header {
 			padding: 0;
 			border-bottom: 0 none;
@@ -600,16 +600,16 @@ a.newform-btn-disabled {
 				border-radius: 50%;
 				right: 15px;
 				top: 15px;
-				background-color: var(--newform-color-bg-light);
+				background-color: var(--formgent-color-bg-light);
 			}
 		}
 	}
-	&.newform-modal-forward {
-		.newform-modal-action {
+	&.formgent-modal-forward {
+		.formgent-modal-action {
 			justify-content: center;
 		}
 	}
-	&.newform-modal-default {
+	&.formgent-modal-default {
 		.components-modal__frame {
 			max-width: 650px;
 			@media only screen and (max-width: 575px) {
@@ -618,7 +618,7 @@ a.newform-btn-disabled {
 		}
 		.components-modal__header {
 			padding: 20px 30px;
-			border-bottom: 1px solid var(--newform-color-border-light);
+			border-bottom: 1px solid var(--formgent-color-border-light);
 		}
 		.components-button {
 			padding: 0;
@@ -632,7 +632,7 @@ a.newform-btn-disabled {
 			}
 		}
 	}
-	&.newform-form-delete-alert {
+	&.formgent-form-delete-alert {
 		z-index: 99999999999;
 	}
 }

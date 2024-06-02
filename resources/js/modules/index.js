@@ -1,5 +1,5 @@
 import { lazy } from '@wordpress/element';
-import { registerModule } from '@newform/modules/helpers';
+import { registerModule } from '@formgent/modules/helpers';
 const EditorModule = lazy( () => import( './Editor' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
 

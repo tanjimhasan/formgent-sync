@@ -1,11 +1,11 @@
 <?php
 
-namespace NewForm\App\Models;
+namespace FormGent\App\Models;
 
-use NewForm\WpMVC\App;
-use NewForm\WpMVC\Database\Eloquent\Model;
-use NewForm\WpMVC\Database\Eloquent\Relations\HasMany;
-use NewForm\WpMVC\Database\Resolver;
+use FormGent\WpMVC\App;
+use FormGent\WpMVC\Database\Eloquent\Model;
+use FormGent\WpMVC\Database\Eloquent\Relations\HasMany;
+use FormGent\WpMVC\Database\Resolver;
 
 class Post extends Model {
     public static function get_table_name():string {

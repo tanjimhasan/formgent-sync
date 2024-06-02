@@ -2,12 +2,12 @@ import { Fragment } from '@wordpress/element';
 import { applyFilters as wpApplyFilters } from '@wordpress/hooks';
 
 export function registerModule( key, value ) {
-	if ( ! window.newform ) {
-		window.newform = {};
+	if ( ! window.formgent ) {
+		window.formgent = {};
 	}
 
-	if ( ! window.newform[ key ] ) {
-		window.newform[ key ] = value;
+	if ( ! window.formgent[ key ] ) {
+		window.formgent[ key ] = value;
 	}
 }
 

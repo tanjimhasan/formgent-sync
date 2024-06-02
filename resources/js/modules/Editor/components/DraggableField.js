@@ -6,16 +6,16 @@ import { nanoid } from 'nanoid';
 export default function DraggableField( props ) {
 	const { field, ...rest } = props;
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 	const { useParams } = CommonReducer.routerComponents;
 
 	const { id: formId } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getSingleForm( formId );
+		return select( 'formgent' ).getSingleForm( formId );
 	}, [] );
-	const { updateFormFields } = useDispatch( 'newform' );
+	const { updateFormFields } = useDispatch( 'formgent' );
 	const id = useRef( nanoid( 10 ) );
 	const { attributes, listeners, setNodeRef } = useDraggable( {
 		id: id.current,
@@ -46,7 +46,7 @@ export default function DraggableField( props ) {
 		<div
 			ref={ setNodeRef }
 			onClick={ handleAddNewField }
-			className="newform-editor-inserter__field"
+			className="formgent-editor-inserter__field"
 			{ ...memoizedAttributes }
 			{ ...memoizedListeners }
 		>

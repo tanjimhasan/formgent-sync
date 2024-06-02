@@ -19,16 +19,16 @@ export default function CreatePopupInitial( props ) {
 	];
 
 	return (
-		<div className="newform-createPopup">
+		<div className="formgent-createPopup">
 			<CreatePopupHeader
-				title={ __( 'Create a New Form', 'newform' ) }
+				title={ __( 'Create a New Form', 'formgent' ) }
 				subtitle={ __(
 					'You can select a template to assist you, or start from scratch.',
-					'newform'
+					'formgent'
 				) }
 			/>
-			<div className="newform-createPopup__body">
-				<div className="newform-createPopup__actions">
+			<div className="formgent-createPopup__body">
+				<div className="formgent-createPopup__actions">
 					{ actionsData.map( ( item, index ) => {
 						return (
 							<CreatePopupAction

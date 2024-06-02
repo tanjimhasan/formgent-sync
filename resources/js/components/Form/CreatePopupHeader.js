@@ -5,7 +5,7 @@ export default function CreatePopupHeader( props ) {
 	const { title, subtitle } = props;
 
 	return (
-		<div className="newform-createPopup__header">
+		<div className="formgent-createPopup__header">
 			{ title && <h4>{ title }</h4> }
 			{ subtitle && <p>{ subtitle }</p> }
 		</div>

@@ -44,7 +44,7 @@ const RESOLVERS = {
  * Register store
  */
 register(
-	createReduxStore( 'newform', {
+	createReduxStore( 'formgent', {
 		actions: ACTIONS,
 		reducer: rootReducers,
 		selectors: SELECTORS,

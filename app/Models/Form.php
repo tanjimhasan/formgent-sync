@@ -1,16 +1,16 @@
 <?php
 
-namespace NewForm\App\Models;
+namespace FormGent\App\Models;
 
-use NewForm\WpMVC\App;
-use NewForm\WpMVC\Database\Eloquent\Relations\BelongsToOne;
-use NewForm\WpMVC\Database\Eloquent\Relations\HasMany;
-use NewForm\WpMVC\Database\Resolver;
-use NewForm\WpMVC\Database\Eloquent\Model;
+use FormGent\WpMVC\App;
+use FormGent\WpMVC\Database\Eloquent\Relations\BelongsToOne;
+use FormGent\WpMVC\Database\Eloquent\Relations\HasMany;
+use FormGent\WpMVC\Database\Resolver;
+use FormGent\WpMVC\Database\Eloquent\Model;
 
 class Form extends Model {
     public static function get_table_name():string {
-        return 'newform_forms';
+        return 'formgent_forms';
     }
 
     public function user():BelongsToOne {

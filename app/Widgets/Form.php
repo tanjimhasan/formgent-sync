@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\Widgets;
+namespace FormGent\App\Widgets;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
@@ -11,22 +11,22 @@ class Form extends Widget_Base {
     }
 
     public function get_name() {
-        return 'new_forms';
+        return 'formgent_forms';
     }
 
     public function get_title() {
-        return 'New Forms';
+        return 'FormGent';
     }
 
     public function get_keywords() {
-        return [ 'form', 'forms', ];
+        return [ 'form', 'forms', 'formgent'];
     }
 
     protected function register_controls() {
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __( 'New Form', 'newform' ),
+                'label' => __( 'Forms', 'formgent' ),
                 'tab'   => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -34,9 +34,9 @@ class Form extends Widget_Base {
         $this->add_control(
             'form_id',
             [
-                'label'       => esc_html__( 'Select Form', 'newform' ),
+                'label'       => esc_html__( 'Select Form', 'formgent' ),
                 'label_block' => true,
-                'type'        => 'newform-select',
+                'type'        => 'formgent-select',
             ]
         );
 
@@ -50,7 +50,7 @@ class Form extends Widget_Base {
             return;
         }
         ?>
-            <div class="newform newform-elementor-widget" data-form_id="<?php newform_render( $settings['form_id'] )?>">Selected Form Id is <?php newform_render( $settings['form_id'] ) ?></div>
+            <div class="formgent formgent-elementor-widget" data-form_id="<?php formgent_render( $settings['form_id'] )?>">Selected Form Id is <?php formgent_render( $settings['form_id'] ) ?></div>
         <?php
     }
 }

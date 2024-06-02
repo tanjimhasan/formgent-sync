@@ -4,7 +4,7 @@ const TitleBoxStyle = Styled.div`
 display: flex;
 align-items: center;
 gap: 20px;
-.newform-titleBox__editor{
+.formgent-titleBox__editor{
     input{
         border-top: 0px none;
         border-inline-end: 0px none;
@@ -17,29 +17,29 @@ gap: 20px;
         line-height: 2;
         min-height: 30px;
         color: #2c3338;
-        transition: var(--newform-transition);
+        transition: var(--formgent-transition);
         &:active,
         &:focus{
             border: 0 none;
-            border-bottom: 1px solid var(--newform-color-dark);
+            border-bottom: 1px solid var(--formgent-color-dark);
             outline: 0;
             box-shadow: none;
         }
     }
     span{
         font-size: 13px;
-        color: var(--newform-color-danger);
+        color: var(--formgent-color-danger);
         display: block;
         margin-top: 10px;
     }
 }
-.newform-titleBox__actions{
+.formgent-titleBox__actions{
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.newform-titleBox-action-item{
+.formgent-titleBox-action-item{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,46 +47,46 @@ gap: 20px;
     height: 32px;
     cursor: pointer ;
     border-radius: 50%;
-    transition: var(--newform-transition);
-    &.newform-titleBox__actions-yes{
-        background-color: var(--newform-color-success);
-        border: 1px solid var(--newform-color-success);
+    transition: var(--formgent-transition);
+    &.formgent-titleBox__actions-yes{
+        background-color: var(--formgent-color-success);
+        border: 1px solid var(--formgent-color-success);
     }
-    &.newform-titleBox__actions-cancel{
-        background-color: var(--newform-color-danger);
-        border: 1px solid var(--newform-color-danger);
+    &.formgent-titleBox__actions-cancel{
+        background-color: var(--formgent-color-danger);
+        border: 1px solid var(--formgent-color-danger);
     }
     svg{
         width: 10px;
         height: 10px;
         path{
             fill: #fff;
-            transition: var(--newform-transition);
+            transition: var(--formgent-transition);
         }
     }
-    .newform-circle-loader {
+    .formgent-circle-loader {
         border-color: #fff;
         border-bottom-color: transparent;
-        transition: var(--newform-transition);
+        transition: var(--formgent-transition);
     }
     &:hover{
         background: none;
         svg{
             path{
-                fill: var(--newform-color-dark);
+                fill: var(--formgent-color-dark);
             }
         }
-        .newform-circle-loader {
-            border-color: var(--newform-primary-color);
+        .formgent-circle-loader {
+            border-color: var(--formgent-primary-color);
             border-bottom-color: transparent;
         }
     }
 }
-.newform-titleBox__content{
+.formgent-titleBox__content{
     display: flex;
     align-items: center;
     gap: 12px;
-    .newform-titleBox-media__form{
+    .formgent-titleBox-media__form{
         width: 44px;
         height: 44px;
         border-radius: 10px;
@@ -99,30 +99,30 @@ gap: 20px;
         border-radius: 8px;
     }
 }
-.newform-titleBox-media{
+.formgent-titleBox-media{
     flex: none;
 }
-.newform-titleBox-text{
+.formgent-titleBox-text{
     text-align: left;
     position: relative;
-    transition: var(--newform-transition);
+    transition: var(--formgent-transition);
     a{
         text-decoration: none;
     }
-    .newform-title{
+    .formgent-title{
         font-size: 15px;
         font-weight: 600;
-        color: var(--newform-color-dark);
-        transition: var(--newform-transition);
+        color: var(--formgent-color-dark);
+        transition: var(--formgent-transition);
     }
 }
-.newform-titleBox-meta{
+.formgent-titleBox-meta{
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 10px 0 0;
-    transition: var(--newform-transition);
-    .newform-titleBox-meta__id{
+    transition: var(--formgent-transition);
+    .formgent-titleBox-meta__id{
         position: relative;
         &::after{
             content: '';
@@ -140,11 +140,11 @@ gap: 20px;
     li{
         font-size: 12px;
         font-weight: 500;
-        color: var(--newform-color-light-gray);
+        color: var(--formgent-color-light-gray);
         margin: 0;
     }
 }
-.newform-form-action{
+.formgent-form-action{
     display: flex;
     align-items: center;
     gap: 6px;
@@ -155,12 +155,12 @@ gap: 20px;
     margin: 0;
     visibility: hidden;
     opacity: 0;
-    transition: var(--newform-transition);
-    .newform-btn{
-        color: var(--newform-color-dark);
+    transition: var(--formgent-transition);
+    .formgent-btn{
+        color: var(--formgent-color-dark);
         &:hover{
-            background: var(--newform-color-primary);
-            border-color: var(--newform-color-primary);
+            background: var(--formgent-color-primary);
+            border-color: var(--formgent-color-primary);
             color: #fff;
         }
     }
@@ -205,19 +205,19 @@ const TableStyle = Styled.div`
                 font-weight: 500;
                 padding: 15px 15px;
                 text-align: start;
-                color: var(--newform-color-light-gray);
+                color: var(--formgent-color-light-gray);
             }
         }
     }
     .ant-table-tbody{
         tr{
-            background-color: var(--newform-color-white);
+            background-color: var(--formgent-color-white);
             td{
                 &:first-child{
                     position: relative;
                     border-left: 2px solid transparent;
                     padding-right: 0;
-                    transition: var(--newform-transition);
+                    transition: var(--formgent-transition);
                 }
                 &:last-child{
                     padding-right: 21px;
@@ -227,7 +227,7 @@ const TableStyle = Styled.div`
     }
 `;
 const HeaderStyle = Styled.div`
-    .newform-header-top__content{
+    .formgent-header-top__content{
         align-items: center;
     }
 `;

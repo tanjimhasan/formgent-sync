@@ -1,5 +1,5 @@
 import { useSelect } from '@wordpress/data';
-import { formatDate } from '@newform/helper/utils';
+import { formatDate } from '@formgent/helper/utils';
 import { __ } from '@wordpress/i18n';
 import { TitleBoxStyle } from './style';
 
@@ -13,24 +13,24 @@ export default function TItleBox( props ) {
 	};
 
 	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'newform' ).getCommonState();
+		return select( 'formgent' ).getCommonState();
 	}, [] );
 
 	const { Link } = CommonReducer.routerComponents;
 
 	return (
-		<TitleBoxStyle className="newform-titleBox">
-			<div className="newform-titlebox__content">
-				<div className="newform-titleBox-text">
+		<TitleBoxStyle className="formgent-titleBox">
+			<div className="formgent-titlebox__content">
+				<div className="formgent-titleBox-text">
 					<Link>
-						<span className="newform-title">{ title }</span>
+						<span className="formgent-title">{ title }</span>
 					</Link>
-					<ul className="newform-titleBox-meta">
-						<li className="newform-titleBox-meta__id">
-							{ __( 'ID', 'newform' ) } #{ id }
+					<ul className="formgent-titleBox-meta">
+						<li className="formgent-titleBox-meta__id">
+							{ __( 'ID', 'formgent' ) } #{ id }
 						</li>
-						<li className="newform-titleBox-meta__date">
-							{ __( 'Created:', 'newform' ) }{ ' ' }
+						<li className="formgent-titleBox-meta__date">
+							{ __( 'Created:', 'formgent' ) }{ ' ' }
 							{ formatDate(
 								'en-US',
 								created_at,

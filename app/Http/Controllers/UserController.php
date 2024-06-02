@@ -1,6 +1,6 @@
 <?php
 
-namespace NewForm\App\Http\Controllers;
+namespace FormGent\App\Http\Controllers;
 
 class UserController extends Controller
 {

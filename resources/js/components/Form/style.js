@@ -6,39 +6,39 @@ const CreatePopupStyle = Styled.div`
     @media only screen and (max-width: 575px){
         width: 100%;
     }
-    .newform-createPopup{
+    .formgent-createPopup{
         text-align: center;
         margin: 50px 0;
-        .newform-toggle-inline{
+        .formgent-toggle-inline{
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            .newform-toggle__label{
+            .formgent-toggle__label{
                 display: flex;
                 align-items: center;
                 font-size: 15px;
                 font-weight: 500;
-                color: var(--newform-color-dark);
+                color: var(--formgent-color-dark);
                 cursor: pointer;
             }
         }
     }
 
-    .newform-select__option{
+    .formgent-select__option{
         display: flex;
-        .newform-checkbox{
+        .formgent-checkbox{
             margin-right: 10px;
         }
     }
 
-    .newform-createPopup__header{
+    .formgent-createPopup__header{
         h4{
             font-size: 30px;
             font-weight: 600;
             margin: 0 0 15px;
             line-height: 1.27;
-            color: var(--newform-color-dark);
+            color: var(--formgent-color-dark);
         }
         p{
             font-size: 16px;
@@ -47,7 +47,7 @@ const CreatePopupStyle = Styled.div`
         }
     }
 
-    .newform-createPopup__actions{
+    .formgent-createPopup__actions{
         display: flex;
         align-items: center;
         margin-top: 32px;
@@ -56,7 +56,7 @@ const CreatePopupStyle = Styled.div`
         }
     }
 
-    .newform-createPopup__action{
+    .formgent-createPopup__action{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -65,10 +65,10 @@ const CreatePopupStyle = Styled.div`
         padding: 40px 52px;
         text-decoration: none;
         cursor: pointer;
-        background-color: var(--newform-color-bg-light);
-        transition: var(--newform-transition);
+        background-color: var(--formgent-color-bg-light);
+        transition: var(--formgent-transition);
         &:hover{
-            background-color: var(--newform-color-bg-deep);
+            background-color: var(--formgent-color-bg-deep);
         }
         @media only screen and (max-width: 480px){
             width: 50%;
@@ -79,34 +79,34 @@ const CreatePopupStyle = Styled.div`
         }
     }
 
-    .newform-createPopup__action-icon{
+    .formgent-createPopup__action-icon{
         display: flex;
         align-items: center;
         justify-content: center;
         width: 80px;
         height: 80px;
         border-radius: 20px;
-        background-color: var(--newform-color-white);
+        background-color: var(--formgent-color-white);
         svg{
-            fill: var(--newform-color-primary);
+            fill: var(--formgent-color-primary);
         }
     }
 
-    .newform-createPopup__action-text{
+    .formgent-createPopup__action-text{
         display: block;
         font-size: 16px;
         font-weight: 500;
         max-width: 96px;
         margin-top: 20px;
         line-height: 1.38;
-        color: var(--newform-color-dark);
+        color: var(--formgent-color-dark);
     }
 
-    .newform-validate-danger{
+    .formgent-validate-danger{
         display: block;
     }
 
-    .newform-form-group{
+    .formgent-form-group{
         flex-direction: column;
         &__element{
             font-size: 16px;
@@ -117,7 +117,7 @@ const CreatePopupStyle = Styled.div`
         }
     }
 
-    .newform-btn {
+    .formgent-btn {
         min-height: 50px;
     }
 `;
@@ -125,15 +125,15 @@ const CreatePopupStyle = Styled.div`
 const ElementPreparationStyle = Styled.div`
     width: 100%;
     min-width: 320px;
-    .newform-import-attachment__title{
+    .formgent-import-attachment__title{
         font-size: 18px;
-        color: var(--newform-color-dark);
+        color: var(--formgent-color-dark);
     }
-    .newform-import-attachment__progress{
+    .formgent-import-attachment__progress{
         display: flex;
         align-items: center;
     }
-    .newform-import-attachment__percentage{
+    .formgent-import-attachment__percentage{
         margin-left: 15px;
     }
 `;
@@ -141,16 +141,16 @@ const ElementPreparationStyle = Styled.div`
 const CreateFormStyleWrap = Styled.div`
     text-align: start;
     margin-top: 50px;
-    .newform-form-group{
+    .formgent-form-group{
         width: 450px;
         @media only screen and (max-width: 575px){
             width: 100%;
         }
     }
-    .newform-btn-block{
+    .formgent-btn-block{
         margin-top: 30px;
     }
-    .newform-tooltip-toggle{
+    .formgent-tooltip-toggle{
         position: relative;
         top: 1px;
         display: inline-block;
@@ -158,32 +158,32 @@ const CreateFormStyleWrap = Styled.div`
         line-height: .85;
         cursor: pointer;
     }
-    .newform-form__element,
-    .newform-form__element-inline{
+    .formgent-form__element,
+    .formgent-form__element-inline{
         border-radius: 12px;
-        background-color: var(--newform-color-bg-light);
+        background-color: var(--formgent-color-bg-light);
     }
-    .newform-form__element{
+    .formgent-form__element{
         &::placeholder{
             color: #3C3C3C;
         }
     }
-    .newform-form__element-inline{
+    .formgent-form__element-inline{
         display: flex;
         justify-content: space-between;
         padding: 15px 20px;
     }
-    .newform-form__label{
+    .formgent-form__label{
         display: flex;
         align-items: center;
         font-size: 15px;
         font-weight: 600;
-        color: var(--newform-color-dark);
+        color: var(--formgent-color-dark);
     }
-    .newform-select {
+    .formgent-select {
         margin-top: 12px;
         &__control{
-            background-color: var(--newform-color-bg-light);
+            background-color: var(--formgent-color-bg-light);
         }
     }
 `;
