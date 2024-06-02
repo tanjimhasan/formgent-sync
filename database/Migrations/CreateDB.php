@@ -38,6 +38,18 @@ class CreateDB implements Migration {
         ) {$charset_collate};
 
         -- -----------------------------------------------------
+        -- Table form meta
+        -- -----------------------------------------------------
+
+        CREATE TABLE {$db_prefix}form_meta (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            `form_id` BIGINT UNSIGNED NOT NULL,
+            `meta_key` VARCHAR(255) NOT NULL,
+            `meta_value` LONGTEXT DEFAULT '',
+            PRIMARY KEY (`id`)
+        ) {$charset_collate};
+
+        -- -----------------------------------------------------
         -- Table entries
         -- -----------------------------------------------------
 
