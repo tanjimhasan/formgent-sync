@@ -4,7 +4,7 @@ export const FormResolvers = {
 		yield FormActions.isFormFetchLoading( true );
 		try {
 			const data = yield FormActions.fetchForm(
-				'new-form/admin/forms',
+				'formgent/admin/forms',
 				currentPage,
 				perPage
 			);
