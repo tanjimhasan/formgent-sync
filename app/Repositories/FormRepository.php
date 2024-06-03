@@ -272,6 +272,10 @@ class FormRepository {
         return Form::query()->where( 'id', $form_id )->update( [ 'status' => $status ] );
     }
 
+    public function update_title( int $form_id, string $title ) {
+        return Form::query()->where( 'id', $form_id )->update( [ 'title' => $title ] );
+    }
+
     public function get_by_id( int $id, $columns = ['*'] ) {
         return Form::query()->select( $columns )->where( 'id', $id )->first();
     }

@@ -9,6 +9,7 @@ Route::group(
         Route::group(
             'forms', function() {
                 Route::patch( '{id}/status', [FormController::class, 'update_status'] );
+                Route::patch( '{id}/title', [FormController::class, 'update_title'] );
                 Route::post( '{id}/duplicate', [FormController::class, 'duplicate'] );
                 Route::get( 'select', [FormController::class, 'select'] );
                 Route::delete( '{id}/field', [FormController::class, 'delete_field'] );

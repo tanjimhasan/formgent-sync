@@ -47,6 +47,10 @@ class FormMetaRepository {
         );
     }
 
+    public function get_meta( int $form_id, string $meta_key ) {
+        return FormMeta::query()->where( 'form_id', $form_id )->where( 'meta_key', $meta_key )->first();
+    }
+
     public function get_by_id( int $id, $columns = ['*'] ) {
         return FormMeta::query()->select( $columns )->where( 'id', $id )->first();
     }

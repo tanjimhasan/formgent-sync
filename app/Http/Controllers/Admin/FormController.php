@@ -174,9 +174,7 @@ class FormController extends Controller {
 
             do_action( "formgent_before_update_form", $dto, $wp_rest_request );
 
-            $form_id = $this->form_repository->update( $dto );
-
-            $dto->set_id( $form_id );
+            $this->form_repository->update( $dto );
 
             do_action( "formgent_after_update_form", $dto, $wp_rest_request );
 
@@ -193,6 +191,35 @@ class FormController extends Controller {
                 $exception->getCode()
             );
         }
+    }
+
+    public function update_title( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'    => 'required|numeric',
+                'title' => 'required|string|max:255|min:5',
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        do_action( 'formgent_before_update_form_title', $wp_rest_request );
+
+        $this->form_repository->update_title( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'title' ) );
+
+        do_action( 'formgent_after_update_form_title', $wp_rest_request );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The form title has been updated successfully.' )
+            ]
+        );
     }
 
     public function update_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
@@ -215,7 +242,7 @@ class FormController extends Controller {
 
         $this->form_repository->update_status( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'status' ) );
 
-        do_action( 'formgent_after_update_form_status',  $wp_rest_request );
+        do_action( 'formgent_after_update_form_status', $wp_rest_request );
 
         return Response::send(
             [
