@@ -1,29 +1,32 @@
+import { lazy, Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-import { useRef, useState, useEffect, Fragment } from '@wordpress/element';
-import { Modal } from '@wordpress/components';
 import Header from './components/Header';
-import Table from './components/Table';
+const Table = lazy( () => import( './components/Table' ) );
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
+import { AntSkeleton } from '@formgent/components';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { forms, pagination, isLoading, erroe } = FormReducer;
-
+	const { forms } = FormReducer;
 	return (
 		<div className="formgent-page-inner">
 			<FormTableHead.Slot fillProps={ { testProps: 10 } }>
 				{ ( fills ) => (
 					<>
-						{ fills }
+						{ /* { fills } */ }
 						<Header />
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ forms && <Table /> }
+			{ forms && (
+				<Suspense fallback={ <AntSkeleton active /> }>
+					<Table />
+				</Suspense>
+			) }
 			<CreatePopup />
 		</div>
 	);

@@ -12,15 +12,57 @@ export const FormActions = {
 		};
 	},
 
+	deleteFormRequest: () => {
+		return {
+			type: 'DELETE_FORM_REQUEST',
+		};
+	},
+
+	deleteFormSuccess: ( id ) => {
+		return {
+			type: 'DELETE_FORM_SUCCESS',
+			id,
+		};
+	},
+
+	deleteFormError: ( error ) => {
+		return {
+			type: 'DELETE_FORM_ERROR',
+			error,
+		};
+	},
+
+	bulkDeleteFormRequest: () => {
+		return {
+			type: 'BULK_DELETE_FORM_REQUEST',
+		};
+	},
+
+	bulkDeleteFormSuccess: ( ids ) => {
+		console.log( ids );
+		return {
+			type: 'BULK_DELETE_FORM_SUCCESS',
+			ids,
+		};
+	},
+
+	bulkDeleteFormError: ( error ) => {
+		return {
+			type: 'BULK_DELETE_FORM_ERROR',
+			error,
+		};
+	},
+
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
-	fetchForm: ( path ) => {
+	fetchForm: ( path, currentPage, perPage ) => {
+		console.log( 'hello' );
 		return {
 			type: 'FETCH_FROM',
-			path,
+			payload: { path, currentPage, perPage },
 		};
 	},
 
@@ -55,11 +97,10 @@ export const FormActions = {
 		};
 	},
 
-	updateFormItemState: ( formId, data ) => {
+	updateCurrentPage: ( currentPage ) => {
 		return {
-			type: 'UPDATE_FORM_ITEM_STORE',
-			formId,
-			data,
+			type: 'UPDATE_CURRENT_PAGE',
+			currentPage,
 		};
 	},
 };

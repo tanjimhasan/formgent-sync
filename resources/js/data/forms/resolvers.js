@@ -1,12 +1,17 @@
 import { FormActions } from './actions';
 export const FormResolvers = {
-	*getForms() {
+	*getForms( currentPage = '1', perPage = '10', timestamp = 0 ) {
 		yield FormActions.isFormFetchLoading( true );
 		try {
 			const data = yield FormActions.fetchForm(
-				'formgent/admin/forms?page=1&per_page=10&date_type=last_month'
+				'formgent/admin/forms',
+				currentPage,
+				perPage
 			);
-			yield FormActions.storsForm( data.forms );
+			yield FormActions.storsForm( {
+				forms: data.forms,
+				pagination: data.pagination,
+			} );
 			yield FormActions.isFormFetchLoading( false );
 		} catch ( error ) {
 			yield FormActions.fetchFormError( error );

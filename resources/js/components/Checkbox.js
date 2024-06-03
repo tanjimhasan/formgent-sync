@@ -1,16 +1,11 @@
-import { ConfigProvider, Button } from 'antd';
-import { ButtonStyle } from './style';
-export default function AntButton( props ) {
+import { ConfigProvider, Checkbox } from 'antd';
+export default function AntCheckbox( props ) {
 	const { tokens = {}, componentTokens = {}, ...rest } = props;
 	const defaultComponentTokens = {
-		Button: {},
+		Checkbox: {},
 	};
 	const defaultTokens = {
 		colorPrimary: '#6551f2',
-		controlHeight: 40,
-		controlHeightLG: 50,
-		controlHeightSM: 34,
-		borderRadius: 8,
 	};
 	return (
 		<ConfigProvider
@@ -26,9 +21,7 @@ export default function AntButton( props ) {
 				},
 			} }
 		>
-			<ButtonStyle>
-				<Button { ...rest } />
-			</ButtonStyle>
+			<Checkbox { ...rest } />
 		</ConfigProvider>
 	);
 }
