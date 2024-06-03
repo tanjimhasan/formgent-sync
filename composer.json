@@ -18,8 +18,20 @@
 			"vendor-src/bin/php-scoper add-prefix --output-dir vendor --force",
 			"composer dump-autoload -d vendor"
 		],
-		"format": "vendor/vendor-src/bin/phpcbf --standard=phpcs.xml",
-		"phpcs": "vendor/vendor-src/bin/phpcs --standard=phpcs.xml"
+		"format": "php vendor/vendor-src/bin/phpcbf --standard=phpcs.xml",
+		"phpcs": "php vendor/vendor-src/bin/phpcs --standard=phpcs.xml",
+		"make-pot": [
+			"wp i18n make-pot . languages/formgent.pot --include='app/**/*.php,assets/**/*.js,resources/views'",
+			"cp languages/formgent.pot languages/formgent.po"
+		],
+		"make-unminified-pot": [
+			"composer make-pot",
+			"wp i18n make-json languages/formgent.po --no-purge --pretty-print"
+		],
+		"make-production-pot": [
+			"composer make-pot",
+			"wp i18n make-json languages/formgent.po --no-purge"
+		]
 	},
     "autoload": {
         "psr-4": {
@@ -40,12 +52,13 @@
         "wpmvc/framework": "1.0.0"
     },
     "require-dev": {
-	"wpmvc/artisan": "1.0.0",
+        "wp-cli/i18n-command": "^2.0@dev",
         "bamarni/composer-bin-plugin": "1.8.2",
         "squizlabs/php_codesniffer": "3.7.2",
         "dealerdirect/phpcodesniffer-composer-installer": "1.0.0",
         "phpcompatibility/phpcompatibility-wp": "2.1.4",
-        "wp-coding-standards/wpcs": "^2.3"
+        "wp-coding-standards/wpcs": "^2.3",
+	    "wpmvc/artisan": "1.0.0"
     },
     "config": {
         "vendor-dir": "vendor-src",

@@ -5,8 +5,14 @@
   "main": "webpack.config.js",
   "scripts": {
     "start": "wp-scripts start",
+    "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
     "minify": "wp-scripts build",
+    "compress": "webpack --config tools/webpack.compress.js",
+    "git-compress": "webpack --config tools/webpack.compress.git.js",
+    "fixtextdomain": "grunt fixtextdomain",
+    "build:unminify": "yarn start --no-watch && yarn fixtextdomain && composer make-unminified-pot && composer build && yarn compress && grunt screen:finish",
+    "build": "yarn minify && yarn fixtextdomain && composer make-production-pot && composer build && yarn compress && grunt screen:finish",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -40,8 +46,12 @@
   },
   "devDependencies": {
     "@laravel-mix/webpack-build-output": "^0.1.0",
+    "@automattic/i18n-loader-webpack-plugin": "^2.0.42",
     "@wordpress/scripts": "^27.8.0",
+    "filemanager-webpack-plugin": "^8.0.0",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2"
+    "jsxgettext": "^0.11.0",
+    "lint-staged": "^15.2.2",
+    "md5-es": "^1.8.2"
   }
 }
