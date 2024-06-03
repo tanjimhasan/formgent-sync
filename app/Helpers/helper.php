@@ -139,3 +139,12 @@ function formgent_field_handler( string $field_type ):Field {
 
     return $field_handler;
 }
+
+function formgent_is_one_level_array( array $array ) {
+    foreach ( $array as $value ) {
+        if ( is_array( $value ) ) {
+            return false; // Contains nested array
+        }
+    }
+    return true; // Valid one-level array
+}

@@ -287,4 +287,26 @@ class FormRepository {
     public function delete_by_id( int $id ) {
         return Form::query()->where( 'id', $id )->delete();
     }
+
+    public function get_by_ids( array $ids, $columns = ['*'] ) {
+        return Form::query()->select( $columns )->where_in( 'id', $ids )->get();
+    }
+
+    public function deletes( array $ids ) {
+        $forms = $this->get_by_ids( $ids );
+
+        if ( ! $forms ) {
+            throw new Exception( esc_html__( 'Forms not found.', 'formgent' ), 404 );
+        }
+
+        Form::query()->where_in( 'id', $ids )->delete();
+
+        // $this->delete_metas( $ids );
+        // $this->delete_responses( $ids );
+        // $this->delete_answers( $ids );
+        // $this->delete_tags( $ids );
+        // $this->after_delete_form();
+
+        return $forms;
+    }
 }

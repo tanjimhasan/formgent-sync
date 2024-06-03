@@ -14,6 +14,7 @@ Route::group(
                 Route::get( 'select', [FormController::class, 'select'] );
                 Route::delete( '{id}/field', [FormController::class, 'delete_field'] );
                 Route::post( 'media', [FormController::class, 'insert_media'] );
+                Route::delete( '/', [FormController::class, 'delete_bulk_form'] );
                 Route::resource( '/', FormController::class );
             }
         );

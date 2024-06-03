@@ -339,17 +339,68 @@ class FormController extends Controller {
             );
         }
 
-        do_action( 'formgent_before_delete_form', $wp_rest_request );
+        $form_id = intval( $wp_rest_request->get_param( 'id' ) );
 
-        $this->form_repository->delete_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+        $form = $this->form_repository->get_by_id( $form_id );
 
-        do_action( 'formgent_after_delete_form', $wp_rest_request );
+        do_action( 'formgent_before_delete_form', $form_id, $form );
+
+        $this->form_repository->delete_by_id( $form_id );
+
+        do_action( 'formgent_after_delete_form', $form_id, $form );
 
         return Response::send(
             [
                 'message' => esc_html__( 'The form has been deleted successfully.' )
             ]
         );
+    }
+
+    public function delete_bulk_form( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'ids' => 'required|array'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form_ids = $wp_rest_request->get_param( 'ids' );
+
+        if ( empty( $form_ids ) || ! formgent_is_one_level_array( $form_ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Sorry, Something was wrong.', 'helpgent' )
+                ]
+            );
+        }
+
+        try {
+            $forms = $this->form_repository->deletes( $form_ids );
+
+            foreach ( $forms as $form ) {
+                do_action( 'formgent_after_delete_form', $form->id, $form );
+            }
+
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Forms have been successfully deleted.', 'helpgent' )
+                ]
+            );
+        } catch ( Exception $exception ) {
+            return Response::send(
+                [
+                    'message' => $exception->getMessage()
+                ],
+                $exception->getCode()
+            );
+        }
     }
 
     public function insert_media( Validator $validator, WP_REST_Request $wp_rest_request ) {
