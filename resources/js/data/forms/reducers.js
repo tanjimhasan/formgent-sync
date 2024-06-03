@@ -7,9 +7,10 @@ const DEFAULT_STATE = {
 	createFormStage: 'initial',
 	pagination: {
 		current_page: '1',
-		per_page: '10',
+		total_items: '0',
 	},
 	isLoading: false,
+	isFormDeleting: false,
 	error: null,
 };
 
@@ -21,6 +22,30 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				isLoading: isLoading,
+			};
+		case 'DELETE_FORM_REQUEST':
+			return {
+				...state,
+				isFormDeleting: true,
+			};
+		case 'DELETE_FORM_SUCCESS':
+			const updatedForms = state.forms.filter(
+				( item ) => item.id !== action.id
+			);
+			return {
+				...state,
+				isFormDeleting: false,
+				forms: updatedForms,
+				pagination: {
+					...state.pagination,
+					total_items: updatedForms.length,
+				},
+			};
+		case 'DELETE_FORM_ERROR':
+			return {
+				...state,
+				isFormDeleting: false,
+				error: error,
 			};
 		case 'FORM_STORE':
 			return {
@@ -37,6 +62,8 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				...data,
 			};
+		case 'DELETE_FORM':
+			return {};
 		case 'UPDATE_CURRENT_PAGE':
 			return {
 				...state,

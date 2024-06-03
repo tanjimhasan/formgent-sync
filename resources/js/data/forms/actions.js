@@ -12,6 +12,26 @@ export const FormActions = {
 		};
 	},
 
+	deleteFormRequest: () => {
+		return {
+			type: 'DELETE_FORM_REQUEST',
+		};
+	},
+
+	deleteFormSuccess: ( id ) => {
+		return {
+			type: 'DELETE_FORM_SUCCESS',
+			id,
+		};
+	},
+
+	deleteFormError: ( error ) => {
+		return {
+			type: 'DELETE_FORM_ERROR',
+			error,
+		};
+	},
+
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api

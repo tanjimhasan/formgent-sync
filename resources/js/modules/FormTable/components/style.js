@@ -5,6 +5,9 @@ display: flex;
 align-items: center;
 gap: 20px;
 .formgent-titleBox__editor{
+    display: flex;
+    align-items: center;
+    gap: 20px;
     input{
         border-top: 0px none;
         border-inline-end: 0px none;
@@ -39,7 +42,7 @@ gap: 20px;
     gap: 5px;
 }
 
-.formgent-titleBox-action-item{
+span.formgent-titleBox-action-item{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -231,4 +234,64 @@ const HeaderStyle = Styled.div`
         align-items: center;
     }
 `;
-export { TitleBoxStyle, TableStyle, HeaderStyle };
+
+const TablkSelectionStyle = Styled.div`
+    &.formgent-bulk-selection{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 8px 15px;
+        border-radius: 12px;
+        background-color: #efd9c1;
+    }
+    .formgent-btn-bulk-delete{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 16px;
+        font-weight:; 500;
+        margin: 0 12px;
+        color: var(--formgent-color-dark);
+        &:hover{
+            
+            background-color: var(--formgent-color-primary);
+            span{
+                color: var(--formgent-color-white);
+            }
+            svg{
+                path{
+                    fill: var(--formgent-color-white);
+                }
+            }
+        }
+        svg{
+            margin-right: 5px;
+        }
+    }
+    .formgent-clear-bulk{
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-block;
+        margin-left: 20px;
+        color: #C96C00;
+    }
+`;
+
+const FormDeleteAlertStyle = Styled.div`
+    padding: 0 30px 25px;
+    .formgent-conversation-delete__label{
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0;
+        color: var(--formgent-color-dark);
+        padding: 0;
+    }
+`;
+
+export {
+	TitleBoxStyle,
+	TableStyle,
+	HeaderStyle,
+	TablkSelectionStyle,
+	FormDeleteAlertStyle,
+};

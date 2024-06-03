@@ -1,8 +1,10 @@
+import { lazy, Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import Header from './components/Header';
-import Table from './components/Table';
+const Table = lazy( () => import( './components/Table' ) );
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
+import { AntSkeleton } from '@formgent/components';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
@@ -20,7 +22,11 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ forms && <Table /> }
+			{ forms && (
+				<Suspense fallback={ <AntSkeleton active /> }>
+					<Table />
+				</Suspense>
+			) }
 			<CreatePopup />
 		</div>
 	);

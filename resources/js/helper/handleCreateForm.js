@@ -220,19 +220,11 @@ export default async function handleCreateForm(
 
 	try {
 		const createFormResponse = await postData( 'admin/forms', formData );
-		const createdForm = {
-			...singleFormSate,
-			id: createFormResponse?.data?.id,
-			title: formData.title,
-		};
-		console.log( createdForm, forms );
-		const updatedFormList = [ createdForm, ...forms ];
-		console.log( updatedFormList );
+
+		const updatedFormList = [ createFormResponse?.form, ...forms ];
 		storeSingleForm( createdForm );
 		storsForm( updatedFormList );
-		navigate( `/forms/${ createFormResponse?.data?.id }/edit` );
-		console.log( navigate );
-		//doAction( 'helpgent-toast', { message: createFormResponse.message } );
+		navigate( `/forms/${ createFormResponse?.form?.id }/edit` );
 	} catch ( error ) {
 		let errors = {};
 		if ( error.message ) {
