@@ -90,6 +90,8 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				...data,
 			};
+		case 'DELETE_FORM':
+			return {};
 		case 'UPDATE_CURRENT_PAGE':
 			return {
 				...state,
