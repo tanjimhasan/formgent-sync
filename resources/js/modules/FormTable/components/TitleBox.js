@@ -1,4 +1,4 @@
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { AntInput } from '@formgent/components';
 import ReactSVG from 'react-inlinesvg';
 import { formatDate } from '@formgent/helper/utils';
@@ -6,10 +6,15 @@ import times from '@icon/times.svg';
 import check from '@icon/check.svg';
 import { __ } from '@wordpress/i18n';
 import { TitleBoxStyle } from './style';
+import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
 	const { form, editableForm, setEditableForm } = props;
 	const { id, title, created_at } = form;
+
+	const { updateTitleRequest, updateTitleSuccess, updateTitleError } =
+		useDispatch( 'formgent' );
+
 	const dateFormatOptions = {
 		year: 'numeric',
 		month: 'long',
@@ -20,9 +25,41 @@ export default function TItleBox( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
+	const { FormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getForms();
+	}, [] );
+
+	const { isTitleUpdating } = FormReducer;
+
 	const { Link } = CommonReducer.routerComponents;
 
 	function handleCancelEditMode() {
+		setEditableForm( null );
+	}
+
+	function handleUpdateEditableForm( e ) {
+		setEditableForm( {
+			...editableForm,
+			title: e.target.value,
+		} );
+	}
+
+	function handleUpdateFormTitle() {
+		if ( title === editableForm.title ) {
+			setEditableForm( null );
+			return;
+		}
+		if ( isTitleUpdating ) return;
+		updateTitleRequest();
+		try {
+			const titleUpdateResponse = patchData(
+				`admin/forms/${ editableForm.id }/title`,
+				{ title: editableForm.title }
+			);
+			updateTitleSuccess( editableForm );
+		} catch ( error ) {
+			updateTitleError( error );
+		}
 		setEditableForm( null );
 	}
 
@@ -31,7 +68,11 @@ export default function TItleBox( props ) {
 			{ editableForm && editableForm.id === id ? (
 				<div className="formgent-titleBox__editor">
 					<div className="formgent-titleBox__data">
-						<AntInput tokens={ { colorBorder: '#ededed' } } />
+						<AntInput
+							tokens={ { colorBorder: '#ededed' } }
+							value={ editableForm.title }
+							onChange={ handleUpdateEditableForm }
+						/>
 					</div>
 					<div className="formgent-titleBox__actions">
 						<span
@@ -42,28 +83,13 @@ export default function TItleBox( props ) {
 						</span>
 						<span
 							className="formgent-titleBox-action-item formgent-titleBox__actions-yes"
-							// onClick={ () =>
-							// 	handleRenameFormTitle(
-							// 		renameFormMutation,
-							// 		id,
-							// 		allForms,
-							// 		formTableState,
-							// 		setFormTableState,
-							// 		setStoreData,
-							// 		setRenameFormId,
-							// 		queryClient,
-							// 		isLoading,
-							// 		fetchParams?.page,
-							// 		filterKey
-							// 	)
-							// }
+							onClick={ handleUpdateFormTitle }
 						>
-							<ReactSVG src={ check } />
-							{ /* { isLoading ? (
+							{ isTitleUpdating ? (
 								<span className="formgent-circle-loader"></span>
 							) : (
 								<ReactSVG src={ check } />
-							) } */ }
+							) }
 						</span>
 					</div>
 				</div>

@@ -12,17 +12,42 @@ const DEFAULT_STATE = {
 	isLoading: false,
 	isFormDeleting: false,
 	isFormBulkDeleting: false,
+	isTitleUpdating: false,
 	error: null,
 };
 
 export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, currentPage, error } = action;
-	console.log( type );
 	switch ( type ) {
 		case 'FORM_FETCH_LOADING':
 			return {
 				...state,
 				isLoading: isLoading,
+			};
+		case 'UPDATE_TITLE_REQUEST':
+			return {
+				...state,
+				isTitleUpdating: true,
+			};
+		case 'UPDATE_TITLE_SUCCESS':
+			const updatedTitleFormList = state.forms.map( ( item ) => {
+				if ( item.id === action.payload.id ) {
+					return {
+						...item,
+						title: action.payload.title,
+					};
+				}
+			} );
+			return {
+				...state,
+				isTitleUpdating: false,
+				forms: updatedTitleFormList,
+			};
+		case 'UPDATE_TITLE_ERROR':
+			return {
+				...state,
+				isTitleUpdating: false,
+				error: error,
 			};
 		case 'DELETE_FORM_REQUEST':
 			return {
@@ -59,7 +84,6 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			const bulkUpdatedForm = state.forms.filter(
 				( item ) => ! action.ids.includes( item.id )
 			);
-			console.log( bulkUpdatedForm, action );
 			return {
 				...state,
 				isFormBulkDeleting: false,

@@ -1,4 +1,4 @@
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { addQueryArgs } from '@wordpress/url';
 import { AntCheckbox, AntButton } from '@formgent/components';
 import { TablkSelectionStyle } from './style';

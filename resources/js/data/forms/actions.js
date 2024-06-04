@@ -12,6 +12,26 @@ export const FormActions = {
 		};
 	},
 
+	updateTitleRequest: () => {
+		return {
+			type: 'UPDATE_TITLE_REQUEST',
+		};
+	},
+
+	updateTitleSuccess: ( payload ) => {
+		return {
+			type: 'UPDATE_TITLE_SUCCESS',
+			payload,
+		};
+	},
+
+	updateTitleError: ( error ) => {
+		return {
+			type: 'UPDATE_TITLE_ERROR',
+			error,
+		};
+	},
+
 	deleteFormRequest: () => {
 		return {
 			type: 'DELETE_FORM_REQUEST',
@@ -59,7 +79,6 @@ export const FormActions = {
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
 	fetchForm: ( path, currentPage, perPage ) => {
-		console.log( 'hello' );
 		return {
 			type: 'FETCH_FROM',
 			payload: { path, currentPage, perPage },
