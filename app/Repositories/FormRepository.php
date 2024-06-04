@@ -148,17 +148,13 @@ class FormRepository {
     }
 
     public function update( FormDTO $dto ) {
-        $form = $this->get_by_id( $dto->get_id(), [1] );
-
-        if ( ! $form ) {
-            throw new Exception( esc_html__( 'Form not found.', 'formgent' ), 404 );
-        }
-
         return Form::query()->where( 'id', $dto->get_id() )->update(
             [
-                'title'   => $dto->get_title(),
-                'status'  => $dto->get_status(),
-                'content' => $dto->get_content(),
+                'title'                => $dto->get_title(),
+                'status'               => $dto->get_status(),
+                'content'              => $dto->get_content(),
+                'anonymous_submission' => $dto->get_anonymous_submission(),
+                'save_incomplete_data' => $dto->get_save_incomplete_data(),
             ]
         );
     }
@@ -281,7 +277,7 @@ class FormRepository {
     }
 
     public function get_by_id_publish( int $id, $columns = ['*'] ) {
-        return Form::query()->select( $columns )->where( 'id', $id )->first();
+        return Form::query()->select( $columns )->where( 'id', $id )->where( 'status', 'publish' )->first();
     }
 
     public function delete_by_id( int $id ) {

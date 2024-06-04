@@ -3,6 +3,7 @@
 namespace FormGent\App\Fields;
 
 use FormGent\App\DTO\FieldDTO;
+use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\WpMVC\RequestValidator\Validator;
 use stdClass;
@@ -10,6 +11,10 @@ use WP_REST_Request;
 
 abstract class Field {
     abstract public static function get_key(): string;
+
+    public static function get_supported_form_types(): array {
+        return [FormType::GENERAL, FormType::CONVERSATIONAL];
+    }
 
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
         $rules = [];

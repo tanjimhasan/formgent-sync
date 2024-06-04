@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Controllers;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\DTO\EntryDTO;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
@@ -127,12 +129,22 @@ class EntryController extends Controller {
 
             $field = $fields[$field_key];
 
+            /**
+             * Ignore this field if field is not allowed form submission
+             */
             if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
                 continue;
             }
 
             try {
+                /**
+                 * Get this field dedicated handler class
+                 */
                 $field_handler = formgent_field_handler( $field['type'] );
+
+                if ( ! in_array( $form->type, $field_handler::get_supported_form_types(), true ) ) {
+                    continue;
+                }
 
                 $field_handler->validate( $field, $wp_rest_request, $validator );
 

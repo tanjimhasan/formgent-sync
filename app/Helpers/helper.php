@@ -148,3 +148,10 @@ function formgent_is_one_level_array( array $array ) {
     }
     return true; // Valid one-level array
 }
+
+function formgent_generate_token() {
+    $time   = microtime( true );
+    $random = bin2hex( random_bytes( 5 ) );
+    $token  = $random . $time;
+    return $token;
+}

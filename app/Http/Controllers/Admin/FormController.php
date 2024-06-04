@@ -5,6 +5,7 @@ namespace FormGent\App\Http\Controllers\Admin;
 use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
+use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Models\Field;
 use FormGent\App\Models\Form;
@@ -101,7 +102,8 @@ class FormController extends Controller {
             [
                 'title'   => 'required|string|max:255|min:5',
                 'status'  => 'required|string|accepted:publish,draft',
-                'content' => 'required|json'
+                'content' => 'required|json',
+                'type'    => 'required|string|accepted:general,conversational'
             ]
         );
 
@@ -119,6 +121,7 @@ class FormController extends Controller {
             $dto->set_title( $wp_rest_request->get_param( 'title' ) );
             $dto->set_status( $wp_rest_request->get_param( 'status' ) );
             $dto->set_content( $wp_rest_request->get_param( 'content' ) );
+            $dto->set_type( $wp_rest_request->get_param( 'type' ) );
             $dto->set_created_by( get_current_user_id() );
 
             do_action( "formgent_before_create_form", $dto, $wp_rest_request );
@@ -163,15 +166,45 @@ class FormController extends Controller {
             );
         }
 
+        $form = $this->form_repository->get_by_id( $wp_rest_request->get_param( 'id' ), ['id', 'type'] );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( "Form not found", "helpgent" )
+                ], 404
+            );
+        }
+
+        $dto = new FormDTO;
+
+        if ( FormType::CONVERSATIONAL === $form->type ) {
+            $validator->validate(
+                [
+                    'anonymous_submission' => 'required|integer|accepted:0,1',
+                    'save_incomplete_data' => 'required|integer|accepted:0,1'
+                ]
+            );
+    
+            if ( $validator->is_fail() ) {
+                return Response::send(
+                    [
+                        'messages' => $validator->errors
+                    ], 422
+                );
+            }
+
+            $dto->set_anonymous_submission( $wp_rest_request->get_param( 'anonymous_submission' ) );
+            $dto->set_save_incomplete_data( $wp_rest_request->get_param( 'save_incomplete_data' ) );
+        }
+
+        $dto->set_id( $wp_rest_request->get_param( 'id' ) );
+        $dto->set_title( $wp_rest_request->get_param( 'title' ) );
+        $dto->set_status( $wp_rest_request->get_param( 'status' ) );
+        $dto->set_content( $wp_rest_request->get_param( 'content' ) );
+        $dto->set_created_by( get_current_user_id() );
+
         try {
-            $dto = new FormDTO;
-
-            $dto->set_id( $wp_rest_request->get_param( 'id' ) );
-            $dto->set_title( $wp_rest_request->get_param( 'title' ) );
-            $dto->set_status( $wp_rest_request->get_param( 'status' ) );
-            $dto->set_content( $wp_rest_request->get_param( 'content' ) );
-            $dto->set_created_by( get_current_user_id() );
-
             do_action( "formgent_before_update_form", $dto, $wp_rest_request );
 
             $this->form_repository->update( $dto );

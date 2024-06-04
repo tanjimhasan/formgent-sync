@@ -30,6 +30,8 @@ class CreateDB implements Migration {
             `title` VARCHAR(255) NOT NULL,
             `status` VARCHAR(50) NOT NULL DEFAULT 'draft' COMMENT 'value: publish/draft',
             `type` VARCHAR(50) NOT NULL DEFAULT 'general',
+            `anonymous_submission` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
+            `save_incomplete_data` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `content` LONGTEXT NOT NULL,
             `created_by` BIGINT UNSIGNED NOT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
