@@ -122,4 +122,12 @@ export const FormActions = {
 			currentPage,
 		};
 	},
+
+	updateFormItemState: ( formId, data ) => {
+		return {
+			type: 'UPDATE_FORM_ITEM_STORE',
+			formId,
+			data,
+		};
+	},
 };
