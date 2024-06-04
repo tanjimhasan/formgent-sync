@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { HeaderStyle } from './style';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
 export default function Header() {
-	const { updateFormState } = useDispatch( 'formgent' );
+	const { updateCreatePopUp } = useDispatch( 'formgent' );
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -24,9 +24,7 @@ export default function Header() {
 					<AntButton
 						type="dark"
 						className="formgent-page-header-btn"
-						onClick={ () => {
-							navigate( 'forms/form-new' );
-						} }
+						onClick={ () => updateCreatePopUp( true ) }
 					>
 						{ __( 'Create New', 'formgent' ) }
 					</AntButton>

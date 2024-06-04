@@ -8,7 +8,8 @@ export default function CreatePopupInitial( props ) {
 	const actionsData = [
 		{
 			icon: Pencil,
-			text: 'Create From Scratch',
+			label: 'Traditional Form',
+			text: 'Multiple questions on single page',
 			step: 'scratch' /* step/url */,
 		},
 		// {
@@ -23,7 +24,7 @@ export default function CreatePopupInitial( props ) {
 			<CreatePopupHeader
 				title={ __( 'Create a New Form', 'formgent' ) }
 				subtitle={ __(
-					'You can select a template to assist you, or start from scratch.',
+					'Select the type of form you want to create',
 					'formgent'
 				) }
 			/>

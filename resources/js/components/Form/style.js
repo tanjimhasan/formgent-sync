@@ -62,9 +62,11 @@ const CreatePopupStyle = Styled.div`
         align-items: center;
         margin: 15px;
         border-radius: 20px;
-        padding: 40px 52px;
+        padding: 30px;
         text-decoration: none;
         cursor: pointer;
+        max-width: 180px;
+        text-align: center;
         background-color: var(--formgent-color-bg-light);
         transition: var(--formgent-transition);
         &:hover{
@@ -92,11 +94,10 @@ const CreatePopupStyle = Styled.div`
         }
     }
 
-    .formgent-createPopup__action-text{
+    .formgent-createPopup__action-label{
         display: block;
         font-size: 16px;
         font-weight: 500;
-        max-width: 96px;
         margin-top: 20px;
         line-height: 1.38;
         color: var(--formgent-color-dark);

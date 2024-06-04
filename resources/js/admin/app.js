@@ -75,7 +75,7 @@ export default function App() {
 			element: <Editor />,
 		},
 		{
-			path: '/forms/form-new',
+			path: '/forms/form-new/:type',
 			element: <AddForm />,
 		},
 	] );

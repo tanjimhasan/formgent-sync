@@ -502,9 +502,6 @@ a.formgent-btn-disabled {
 				}
 			}
 		}
-		.components-modal__header {
-			height: 0;
-		}
 		.formgent-create-form-modal {
 			&.formgent-create-loader-active {
 				display: flex;
@@ -515,17 +512,22 @@ a.formgent-btn-disabled {
 		}
 		.components-modal__frame {
 			height: 100%;
-			max-height: 95%;
-			min-width: calc(100% - 40px);
+			min-height: 100%;
+			border-radius: 0px;
+			min-width: calc(100%);
+			background-color: var(--formgent-color-bg-gray);
 		}
 		.components-modal__header {
-			padding: 0;
+			padding: 0 20px;
+			.formgent-create-modal-logo {
+				order: -1;
+			}
 			.components-button {
+				position: static;
 				padding: 0;
 				width: 48px;
 				height: 48px;
 				border-radius: 50%;
-				top: 50px;
 				inset-inline-end: 30px;
 				background-color: var(--formgent-color-bg-gray);
 				border: 0 none;

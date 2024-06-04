@@ -22,13 +22,13 @@ function Editor( props ) {
 		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
 
-	console.log( SingleFormReducer );
+	console.log( props.isAddForm, SingleFormReducer?.singleForm?.title );
 
 	return (
 		<div className="formgent-editor-wrap">
 			<Header uiState={ uiState } setUiState={ setUiState } />
 			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
-			{ ! SingleFormReducer?.singleForm?.title && (
+			{ ! SingleFormReducer?.singleForm?.title && props.isAddForm && (
 				<Modal
 					overlayClassName="formgent-modal formgent-form-title-modal"
 					size="medium"

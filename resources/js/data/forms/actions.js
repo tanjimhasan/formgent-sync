@@ -12,6 +12,13 @@ export const FormActions = {
 		};
 	},
 
+	updateCreatePopUp: ( status ) => {
+		return {
+			type: 'UPDATE_CREATE_POPUP_STATUS',
+			status,
+		};
+	},
+
 	updateTitleRequest: () => {
 		return {
 			type: 'UPDATE_TITLE_REQUEST',
@@ -112,6 +119,14 @@ export const FormActions = {
 	updateFormState: ( data ) => {
 		return {
 			type: 'UPDATE_FORM_STORE',
+			data,
+		};
+	},
+
+	updateForms: ( data ) => {
+		console.log( data );
+		return {
+			type: 'UPDATE_FORMS',
 			data,
 		};
 	},

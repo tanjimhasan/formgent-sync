@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
 	singleForm: null,
+	isCreatingForm: false,
 	isLoading: false,
 	error: null,
 };
@@ -7,6 +8,32 @@ const DEFAULT_STATE = {
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, error } = action;
 	switch ( type ) {
+		case 'CREATE_FORM_REQUEST':
+			return {
+				...state,
+				isCreatingForm: true,
+			};
+		case 'CREATE_FORM_SUCCESS':
+			return {
+				...state,
+				singleForm: {
+					...state.singleForm,
+					data,
+				},
+			};
+		case 'CREATE_FORM_ERROR':
+			return {
+				...state,
+				error: error,
+			};
+		case 'UPDATE_SINGLE_FORM_TYPE':
+			console.log( action );
+			return {
+				...state,
+				singleForm: {
+					type: action.formType,
+				},
+			};
 		case 'SINGLE_FORM_FETCH_LOADING':
 			return {
 				...state,

@@ -12,6 +12,34 @@ export const SingleFormActions = {
 		};
 	},
 
+	updateSingleFormType: ( formType ) => {
+		console.log( formType );
+		return {
+			type: 'UPDATE_SINGLE_FORM_TYPE',
+			formType,
+		};
+	},
+
+	createFormRequest: () => {
+		return {
+			type: 'CREATE_FORM_REQUEST',
+		};
+	},
+
+	createFormSuccess: ( data ) => {
+		return {
+			type: 'CREATE_FORM_SUCCESS',
+			data,
+		};
+	},
+
+	createFormError: ( error ) => {
+		return {
+			type: 'CREATE_FORM_ERROR',
+			error,
+		};
+	},
+
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api

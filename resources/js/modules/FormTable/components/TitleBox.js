@@ -96,7 +96,7 @@ export default function TItleBox( props ) {
 			) : (
 				<div className="formgent-titlebox__content">
 					<div className="formgent-titleBox-text">
-						<Link>
+						<Link to={ `forms/${ id }/edit` }>
 							<span className="formgent-title">{ title }</span>
 						</Link>
 						<ul className="formgent-titleBox-meta">

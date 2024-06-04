@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { AntTable, AntSpin } from '@formgent/components';
@@ -7,7 +7,6 @@ import TitleBox from './TitleBox';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
-import FormDeleteAlert from './FormDeleteAlert';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );

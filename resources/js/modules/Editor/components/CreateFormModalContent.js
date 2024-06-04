@@ -17,7 +17,7 @@ export default function CreateFormModalContent() {
 	const { useNavigate, useParams } = CommonReducer.routerComponents;
 	// const { selectedTemplate } = moduleState;
 	const navigate = useNavigate();
-	const { id } = useParams();
+	const { id, type } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm( id );
@@ -27,16 +27,29 @@ export default function CreateFormModalContent() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { storeSingleForm, storsForm } = useDispatch( 'formgent' );
+	console.log( FormReducer );
+
+	const {
+		createFormRequest,
+		createFormSuccess,
+		createFormError,
+		updateForms,
+		updateCreatePopUp,
+	} = useDispatch( 'formgent' );
 
 	function hadnleFormSubmission( formData ) {
+		const newform = {
+			status: 'draft',
+			type: type,
+		};
+		Object.assign( formData, newform );
+		createFormRequest();
 		handleCreateForm(
-			SingleFormReducer.singleForm,
-			FormReducer.forms,
 			formData,
-			setServerErrors,
-			storeSingleForm,
-			storsForm,
+			createFormSuccess,
+			createFormError,
+			updateForms,
+			updateCreatePopUp,
 			navigate
 		);
 	}

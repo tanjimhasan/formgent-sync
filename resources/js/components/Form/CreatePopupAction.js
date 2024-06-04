@@ -1,66 +1,54 @@
-// import { getGlobalState } from '@formgent/helper/utils';
 import { useSelect, useDispatch } from '@wordpress/data';
 import PropTypes from 'prop-types';
 import ReactSVG from 'react-inlinesvg';
 import { __ } from '@wordpress/i18n';
-
 export default function CreatePopupAction( props ) {
-	// const { routeLink: Link } = getGlobalState(
-	// 	'formgent_router_references',
-	// 	null
-	// );
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { updateFormState } = useDispatch( 'formgent' );
+	const { updateSingleFormType } = useDispatch( 'formgent' );
 
 	const { Link } = CommonReducer.routerComponents;
 
-	const { icon, text, step, url, moduleState, setModuleState } = props;
-	function handleCreateFormSteps( event, step ) {
-		event.preventDefault();
-		if ( step === 'scratch' ) {
-			updateFormState( {
-				addBackBtn: true,
-				createFormStage: 'scratch',
-			} );
-		} else if ( step === 'template' ) {
-			updateFormState( {
-				createFormStage: 'template',
-			} );
-		}
+	const { item, setStep } = props;
+
+	function handleFormAction() {
+		updateSingleFormType( item.type );
+		setStep( '2' );
 	}
-	return url ? (
-		<Link
-			to={ url || '#' }
-			className="formgent-createPopup__action"
-			onClick={ ( e ) =>
-				step ? handleCreateFormSteps( e, step ) : null
-			}
-		>
+	return item.url ? (
+		<Link to={ item.url || '#' } className="formgent-createPopup__action">
 			<div className="formgent-createPopup__action-icon">
-				<ReactSVG src={ icon } />
+				<ReactSVG src={ item.icon } />
 			</div>
-			{ text && (
+			{ item.label && (
+				<span className="formgent-createPopup__action-label">
+					{ item.label }
+				</span>
+			) }
+			{ item.text && (
 				<span className="formgent-createPopup__action-text">
-					{ text }
+					{ item.text }
 				</span>
 			) }
 		</Link>
 	) : (
 		<span
 			className="formgent-createPopup__action"
-			onClick={ ( e ) =>
-				step ? handleCreateFormSteps( e, step ) : null
-			}
+			onClick={ () => handleFormAction() }
 		>
 			<div className="formgent-createPopup__action-icon">
-				<ReactSVG src={ icon } />
+				<ReactSVG src={ item.icon } />
 			</div>
-			{ text && (
+			{ item.label && (
+				<span className="formgent-createPopup__action-label">
+					{ item.label }
+				</span>
+			) }
+			{ item.text && (
 				<span className="formgent-createPopup__action-text">
-					{ text }
+					{ item.text }
 				</span>
 			) }
 		</span>
@@ -68,8 +56,6 @@ export default function CreatePopupAction( props ) {
 }
 
 CreatePopupAction.propTypes = {
-	icon: PropTypes.string,
-	text: PropTypes.string,
-	step: PropTypes.string,
-	url: PropTypes.string,
+	item: PropTypes.object,
+	setStep: PropTypes.func,
 };

@@ -24,6 +24,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				isLoading: isLoading,
 			};
+		case 'UPDATE_CREATE_POPUP_STATUS':
+			return {
+				...state,
+				isCreatePopupOpen: action.status,
+			};
 		case 'UPDATE_TITLE_REQUEST':
 			return {
 				...state,
@@ -114,8 +119,6 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				...data,
 			};
-		case 'DELETE_FORM':
-			return {};
 		case 'UPDATE_CURRENT_PAGE':
 			return {
 				...state,
@@ -137,6 +140,16 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			Object.assign( form, data );
 
 			return state;
+		case 'UPDATE_FORMS':
+			console.log( data );
+			return {
+				...state,
+				forms: [ data, ...state.forms ],
+				pagination: {
+					...state.pagination,
+					total_items: state.pagination + 1,
+				},
+			};
 		default:
 			return state;
 	}
