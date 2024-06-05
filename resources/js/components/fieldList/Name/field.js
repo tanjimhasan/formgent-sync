@@ -5,10 +5,12 @@ const Name = {
 	type: 'name',
 	name: 'name',
 	group_name: 'basic',
-	fields: {
-		first_name: {
-			// The user cannot change the child field input name. we will use the object key as a input name.
+	fields: [
+		{
+			// The user cannot change Name field child item input name. we will use the type as a input name.
+			id: nanoid( 12 ),
 			placeholder: 'First Name',
+			type: 'first_name',
 			validations: {
 				required: {
 					value: '0',
@@ -17,8 +19,10 @@ const Name = {
 				},
 			},
 		},
-		middle_name: {
+		{
+			id: nanoid( 12 ),
 			placeholder: 'Middle Name',
+			type: 'middle_name',
 			validations: {
 				required: {
 					value: '0',
@@ -27,7 +31,9 @@ const Name = {
 				},
 			},
 		},
-		last_name: {
+		{
+			id: nanoid( 12 ),
+			type: 'last_name',
 			placeholder: 'Last Name',
 			validations: {
 				required: {
@@ -37,7 +43,7 @@ const Name = {
 				},
 			},
 		},
-	},
+	],
 	general_option: {
 		label: '',
 		description: '',

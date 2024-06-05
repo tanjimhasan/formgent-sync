@@ -13,27 +13,13 @@ export default function Name( props ) {
 			</div>
 			<div className="formgent-field__action">
 				<Row gutter={ 20 }>
-					<Col sm={ 12 }>
-						<Form.Item name="first_name">
-							<AntInput
-								placeholder={ fields?.first_name?.placeholder }
-							/>
-						</Form.Item>
-					</Col>
-					<Col sm={ 12 }>
-						<Form.Item name="middle_name">
-							<AntInput
-								placeholder={ fields?.middle_name?.placeholder }
-							/>
-						</Form.Item>
-					</Col>
-					<Col sm={ 12 }>
-						<Form.Item name="last_name">
-							<AntInput
-								placeholder={ fields?.last_name?.placeholder }
-							/>
-						</Form.Item>
-					</Col>
+					{ fields.map( ( field ) => (
+						<Col sm={ 12 } key={ field.id }>
+							<Form.Item name={ field.type }>
+								<AntInput placeholder={ field.placeholder } />
+							</Form.Item>
+						</Col>
+					) ) }
 				</Row>
 			</div>
 		</div>
