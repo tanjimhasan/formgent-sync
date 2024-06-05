@@ -638,3 +638,9 @@ a.formgent-btn-disabled {
 		z-index: 99999999999;
 	}
 }
+
+//Rich text
+.rich-text [data-rich-text-placeholder]:after {
+	content: attr(data-rich-text-placeholder);
+	opacity: 0.62;
+}

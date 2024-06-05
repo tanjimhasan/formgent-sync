@@ -25,6 +25,7 @@ import {
 	handleDragOver,
 	handleDragEnd,
 } from '../helper/utils';
+import FieldCustomizer from './FieldCustomizer';
 
 export default function MainContent( props ) {
 	const { id } = props;
@@ -133,6 +134,7 @@ export default function MainContent( props ) {
 					</DragOverlay>
 				) }
 			</DndContext>
+			<FieldCustomizer />
 		</EditorContentStyle>
 	);
 }

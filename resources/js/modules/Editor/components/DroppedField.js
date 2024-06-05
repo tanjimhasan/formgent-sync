@@ -29,7 +29,7 @@ const DroppedField = ( { id, index, field } ) => {
 			ref={ setNodeRef }
 			{ ...attributes }
 		>
-			<ActiveDroppedField />
+			<ActiveDroppedField field={ field } />
 		</div>
 	) : (
 		<div
@@ -47,7 +47,7 @@ const DroppedField = ( { id, index, field } ) => {
 				<i className="formgent-icon">D</i>
 			</div>
 
-			<ActiveDroppedField />
+			<ActiveDroppedField field={ field } />
 		</div>
 	);
 };

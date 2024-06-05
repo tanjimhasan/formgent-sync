@@ -8,7 +8,7 @@ import AntSpin from './Spin';
 import AntSkeleton from './Skeleton';
 import AntForm from './Form.js';
 import AntCheckbox from './Checkbox';
-import { Form } from 'antd';
+import { Row, Col, Form } from 'antd';
 
 /**
  * Global components for admin and user
@@ -23,6 +23,8 @@ registerModule( 'components', {
 	AntSpin,
 	AntCheckbox,
 	AntSkeleton,
+	Row,
+	Col,
 	Form,
 } );
 
