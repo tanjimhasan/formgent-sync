@@ -27,7 +27,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				error: error,
 			};
 		case 'UPDATE_SINGLE_FORM_TYPE':
-			console.log( action );
 			return {
 				...state,
 				singleForm: {

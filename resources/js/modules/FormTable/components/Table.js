@@ -25,7 +25,6 @@ export default function Table() {
 	};
 
 	function handleRowSelection( newSelectedRowKeys ) {
-		console.log( newSelectedRowKeys );
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 

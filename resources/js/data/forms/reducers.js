@@ -79,13 +79,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				error: error,
 			};
 		case 'BULK_DELETE_FORM_REQUEST':
-			console.log( 'request' );
 			return {
 				...state,
 				isFormBulkDeleting: true,
 			};
 		case 'BULK_DELETE_FORM_SUCCESS':
-			console.log( action );
 			const bulkUpdatedForm = state.forms.filter(
 				( item ) => ! action.ids.includes( item.id )
 			);
@@ -141,7 +139,6 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 
 			return state;
 		case 'UPDATE_FORMS':
-			console.log( data );
 			return {
 				...state,
 				forms: [ data, ...state.forms ],

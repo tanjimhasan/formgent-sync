@@ -21,13 +21,6 @@ import { getPlugins } from '@wordpress/plugins';
 import { SlotFillProvider } from '@wordpress/components';
 
 export default function App() {
-	// const data = useSelect((select) => {
-	//     return select('formgent').getForms();
-	// }, []);
-	// console.log(data.FormReducer, data);
-	// const { forms, isLoading, error} = data.FormReducer;
-	// console.log(forms, isLoading, error,data.FormReducer);
-	// return <h1>Hello Form Builder</h1>
 	const { setRouterState } = useDispatch( 'formgent' );
 	const [ dir, setDir ] = useState( 'ltr' );
 	const theme = {

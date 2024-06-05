@@ -13,7 +13,6 @@ export const SingleFormActions = {
 	},
 
 	updateSingleFormType: ( formType ) => {
-		console.log( formType );
 		return {
 			type: 'UPDATE_SINGLE_FORM_TYPE',
 			formType,

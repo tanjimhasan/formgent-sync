@@ -1,6 +1,5 @@
 // import { Input } from "@formgent/components";
 
-// console.log(Input);
 import '../data/store.js';
 import { createRoot } from '@wordpress/element';
 

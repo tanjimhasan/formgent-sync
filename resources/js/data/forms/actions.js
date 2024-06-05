@@ -66,7 +66,6 @@ export const FormActions = {
 	},
 
 	bulkDeleteFormSuccess: ( ids ) => {
-		console.log( ids );
 		return {
 			type: 'BULK_DELETE_FORM_SUCCESS',
 			ids,
@@ -124,7 +123,6 @@ export const FormActions = {
 	},
 
 	updateForms: ( data ) => {
-		console.log( data );
 		return {
 			type: 'UPDATE_FORMS',
 			data,

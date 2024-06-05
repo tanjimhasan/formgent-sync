@@ -22,8 +22,6 @@ function Editor( props ) {
 		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
 
-	console.log( props.isAddForm, SingleFormReducer?.singleForm?.title );
-
 	return (
 		<div className="formgent-editor-wrap">
 			<Header uiState={ uiState } setUiState={ setUiState } />

@@ -31,6 +31,4 @@ function registerFields() {
 	return applyFilters( 'formgent_fields', [ LongTextField, ShortTextField ] );
 }
 
-console.log( LongTextField, ShortTextField );
-
 export { registerPreviewFields, registerFields };

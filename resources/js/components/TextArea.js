@@ -1,7 +1,6 @@
 import { ConfigProvider, Input } from 'antd';
 import { InputStyle } from './style';
 export default function AntTextArea( props ) {
-	console.log( Input );
 	const { tokens = {}, componentTokens = {}, ...rest } = props;
 	const { TextArea } = Input;
 	const defaultComponentTokens = {

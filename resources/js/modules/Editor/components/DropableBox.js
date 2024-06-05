@@ -24,7 +24,6 @@ export default function DropableBox( props ) {
 		transition,
 	};
 
-	console.log( fields );
 	return (
 		<DropableBoxStyle ref={ setNodeRef } style={ style } { ...listeners }>
 			<div className="formgent-dropable-field-list">

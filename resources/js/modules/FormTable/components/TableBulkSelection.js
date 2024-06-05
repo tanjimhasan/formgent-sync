@@ -27,7 +27,6 @@ export default function TableBulkSelection( props ) {
 	}
 
 	async function handleBulkDelete() {
-		console.log( selectedRowKeys );
 		bulkDeleteFormRequest();
 		try {
 			const bulkDeleteResponse = await deleteData(

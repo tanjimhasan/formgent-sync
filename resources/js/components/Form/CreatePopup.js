@@ -1,10 +1,7 @@
 import { Fragment, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { Modal, Panel } from '@wordpress/components';
+import { Modal } from '@wordpress/components';
 import ReactSVG from 'react-inlinesvg';
-import CreatePopupInitial from './CreatePopupInitial.js';
-import CreatePopupForm from './CreatePopupForm.js';
-import { Spinner } from '@wordpress/components';
 import { CreatePopupStyle } from './style.js';
 import arrowLeft from '@icon/arrow-small-left.svg';
 import Pencil from '@icon/pencil-plus.svg';
@@ -13,7 +10,6 @@ import CreatePopupAction from './CreatePopupAction.js';
 import CreatePopupHeader from './CreatePopupHeader.js';
 
 function CreatePopup( props ) {
-	const { moduleState, setModuleState, baseApiRoute, baseLinkRoute } = props;
 	const [ step, setStep ] = useState( '1' );
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
@@ -21,7 +17,6 @@ function CreatePopup( props ) {
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm();
 	}, [] );
-	console.log( SingleFormReducer );
 	const { updateFormState } = useDispatch( 'formgent' );
 	const {
 		isImportingAttachment,
@@ -46,26 +41,6 @@ function CreatePopup( props ) {
 			step: '2',
 		},
 	];
-
-	function popupContent() {
-		if ( createFormStage === 'initial' ) {
-			return (
-				<CreatePopupInitial
-					moduleState={ moduleState }
-					setModuleState={ setModuleState }
-				/>
-			);
-		} else if ( createFormStage === 'scratch' ) {
-			return (
-				<CreatePopupForm
-					moduleState={ moduleState }
-					setModuleState={ setModuleState }
-					baseApiRoute={ baseApiRoute }
-					baseLinkRoute={ baseLinkRoute }
-				/>
-			);
-		}
-	}
 
 	function handlePopupCloseRequest() {
 		updateFormState( {
@@ -118,9 +93,6 @@ function CreatePopup( props ) {
 								: ''
 						}` }
 					>
-						{ /* { createFormStage === 'prepared-elements' && (
-							<Spinner />
-						) } */ }
 						<CreatePopupHeader
 							title={ __( 'Create a New Form', 'formgent' ) }
 							step={ step }
