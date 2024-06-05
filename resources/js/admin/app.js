@@ -1,24 +1,26 @@
-import { lazy, Suspense, useState, useEffect } from '@wordpress/element';
 import { useDispatch } from '@wordpress/data';
-import { ConfigProvider } from 'antd';
+import { Suspense, useEffect, useState } from '@wordpress/element';
 import {
 	HashRouter,
-	Routes,
-	Route,
 	Link,
 	NavLink,
+	Route,
+	Routes,
+	useLocation,
 	useNavigate,
 	useParams,
-	useLocation,
 } from 'react-router-dom';
 
 import { applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
+import { SlotFillProvider } from '@wordpress/components';
+import { getPlugins } from '@wordpress/plugins';
+import AddForm from './pages/AddForm/index.js';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
-import AddForm from './pages/AddForm/index.js';
-import { getPlugins } from '@wordpress/plugins';
-import { SlotFillProvider } from '@wordpress/components';
+import Results from './pages/Results/index.js';
+import Settings from './pages/Settings/index.js';
+import Share from './pages/Share/index.js';
 
 export default function App() {
 	const { setRouterState } = useDispatch( 'formgent' );
@@ -68,6 +70,18 @@ export default function App() {
 			element: <Editor />,
 		},
 		{
+			path: '/forms/:id/settings',
+			element: <Settings />,
+		},
+		{
+			path: '/forms/:id/share',
+			element: <Share />,
+		},
+		{
+			path: '/forms/:id/results',
+			element: <Results />,
+		},
+		{
 			path: '/forms/form-new/:type',
 			element: <AddForm />,
 		},
@@ -83,7 +97,7 @@ export default function App() {
 						{ /* <ConfigProvider
 						theme={ {
 							token: {
-								// Seed Token
+								// Seed Tokens
 								colorPrimary: '#000000',
 								borderRadius: 2,
 

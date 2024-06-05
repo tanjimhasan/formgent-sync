@@ -1,22 +1,23 @@
 import Styled from 'styled-components';
 
-const EditorHeaderStyle = Styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px 0 0;
-    margin-bottom: 20px;
+const SettingsSidebarStyle = Styled.div`
+    width: 320px;
+    height: calc(100vh - 100px);
+    margin-inline-start: 15px;
+    border-radius: 10px;
     background-color: var(--formgent-color-white);
-    position: sticky;
-    top: 32px;
-    min-height: 60px;
-    z-index: 98;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    .formgent-editor-header__nav {
+    .formgent-settings-sider__title {
+        margin: 0;
+    }
+    .formgent-settings-sider__top {
+        padding: 20px;
+        border-bottom: 1px solid var(--formgent-color-border-light);
+    }
+    .formgent-settings-sider__nav {
         display: flex;
-        gap: 15px;
-        flex: 1;
-        justify-content: center;
+        flex-direction: column;
+        gap: 6px;
+        padding: 15px;
         a {
             font-size: 14px;
             font-weight: 600;
@@ -24,7 +25,6 @@ const EditorHeaderStyle = Styled.div`
             border-radius: 8px;
             color: var(--formgent-font-color);
             text-decoration: none;
-            transition: all ease .3s;
             &.active,
             &:hover {
                 color: var(--formgent-color-primary);
@@ -34,20 +34,7 @@ const EditorHeaderStyle = Styled.div`
     }
 `;
 
-const InserterStyle = Styled.div`
-    width: 320px;
-    height: calc(100vh - 100px);
-    border-radius: 10px;
-    background-color: var(--formgent-color-white);
-    .formgent-editor-inserter__group{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-`;
-
-const DropableBoxStyle = Styled.div`
+const SettingsContentStyle = Styled.div`
     flex: 1;
     margin: 0 15px;
     border-radius: 5px;
@@ -57,30 +44,7 @@ const DropableBoxStyle = Styled.div`
     max-height: 100%;
     overflow-y: auto;
     background-color: var(--formgent-color-white);
-    .formgent-dropable-field-empty-placeholder{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 8px;
-        min-height: 50px;
-        border: 1px dashed var(--formgent-color-bg-gray);
-        span{
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: var(--formgent-color-dark);
-            font-size: 24px;
-            color: var(--formgent-color-white);
-        }
-    }
-`;
-
-const EditorContentStyle = Styled.div`
-    padding: 0 15px;
-    .formgent-editor-inserter__field{
+    .formgent-settings-inserter__field{
         border-radius: 8px;
         color: #1e1f21;
         cursor: move;
@@ -132,19 +96,4 @@ const EditorContentStyle = Styled.div`
     }
 `;
 
-const CreateFormStyle = Styled.div`
-    text-align: center;
-    padding: 50px 0;
-    .formgent-create-modal__content{
-       max-width: 340px;
-       margin: 0 auto;
-    }
-`;
-
-export {
-	CreateFormStyle,
-	DropableBoxStyle,
-	EditorContentStyle,
-	EditorHeaderStyle,
-	InserterStyle,
-};
+export { SettingsContentStyle, SettingsSidebarStyle };

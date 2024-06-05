@@ -1,12 +1,11 @@
 {
-	"compilerOptions": {
-	  "baseUrl": ".",
-	  "paths": {
-		"@formgent/*": ["./resources/js/*"],
-		"@icon/*": ["./resources/svg/icon/*"],
-		"@assets/*": ["./assets/*"]
-	  }
-	},
-	"exclude": [".git", "app", "node_modules", "vendor", "vendor-src"]
-  }
-  
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@formgent/*": ["./resources/js/*"],
+      "@icon/*": ["./resources/svg/icon/*"],
+      "@assets/*": ["./assets/*"]
+    }
+  },
+  "exclude": [".git", "app", "node_modules", "vendor", "vendor-src"]
+}
