@@ -31,7 +31,7 @@ function CreatePopup( props ) {
 	} = FormReducer;
 	const actionData = [
 		{
-			type: 'traditional',
+			type: 'general',
 			icon: Pencil,
 			label: 'Traditional Form',
 			text: 'Multiple questions on single page',
