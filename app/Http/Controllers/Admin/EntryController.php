@@ -95,7 +95,7 @@ class EntryController extends Controller {
         if ( ! $entry ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Entry not found' )
+                    'message' => esc_html__( 'Entry not found', 'formgent' )
                 ], 404
             );
         }

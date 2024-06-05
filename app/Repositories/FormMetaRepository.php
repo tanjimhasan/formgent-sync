@@ -81,9 +81,17 @@ class FormMetaRepository {
         $form_meta = $this->get_by_id( $id );
 
         if ( ! $form_meta ) {
-            throw new Exception( esc_html__( 'Form meta not found.', 'helpgent' ), 404 );
+            throw new Exception( esc_html__( 'Form meta not found.', 'formgent' ), 404 );
         }
 
         return FormMeta::query()->where( 'id', $id )->delete();
+    }
+
+    public function get_meta_value( int $form_id, string $meta_key ) {
+        $meta = $this->get_meta( $form_id, $meta_key );
+        if ( ! $meta ) {
+            return false;
+        }
+        return $meta->meta_value;
     }
 }

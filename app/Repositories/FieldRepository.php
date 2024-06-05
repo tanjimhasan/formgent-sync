@@ -10,6 +10,14 @@ class FieldRepository {
         return Field::query()->where( 'entry_id', $entry_id )->get();
     }
 
+    public function create( FieldDTO $dto ) {
+        return Field::query()->insert_get_id( $dto->to_array() );
+    }
+
+    public function update( FieldDTO $dto ) {
+        return Field::query()->where( 'id', $dto->get_id() )->update( $dto->to_array() );
+    }
+
     /**
      * Create multiple items
      */
@@ -21,5 +29,13 @@ class FieldRepository {
                 }, $items
             )
         );
+    }
+
+    public function get_by_field_id( int $entry_id, string $field_id ) {
+        return Field::query()->where( 'entry_id', $entry_id )->where( 'field_id', $field_id )->first();
+    }
+
+    public function delete( int $id ) {
+        return Field::query()->where( 'id', $id )->delete();
     }
 }

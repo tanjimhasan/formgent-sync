@@ -15,8 +15,6 @@ class FormDTO extends DTO {
 
     private int $created_by;
 
-    private int $anonymous_submission = 0;
-
     private int $save_incomplete_data = 0;
 
     /**
@@ -147,28 +145,6 @@ class FormDTO extends DTO {
      */
     public function set_created_by( int $created_by ) {
         $this->created_by = $created_by;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of anonymous_submission
-     *
-     * @return int
-     */
-    public function get_anonymous_submission() {
-        return $this->anonymous_submission;
-    }
-
-    /**
-     * Set the value of anonymous_submission
-     *
-     * @param int $anonymous_submission 
-     *
-     * @return self
-     */
-    public function set_anonymous_submission( int $anonymous_submission ) {
-        $this->anonymous_submission = $anonymous_submission;
 
         return $this;
     }

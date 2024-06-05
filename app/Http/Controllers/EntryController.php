@@ -51,7 +51,7 @@ class EntryController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "From not found" )
+                    'message' => esc_html__( "From not found", 'formgent' )
                 ], 404
             );
         }
@@ -92,7 +92,7 @@ class EntryController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( "The form was submitted successfully!" )
+                'message' => esc_html__( "The form was submitted successfully!", 'formgent' )
             ], 201
         );
     }

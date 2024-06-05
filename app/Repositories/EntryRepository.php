@@ -26,7 +26,7 @@ class EntryRepository {
 
         $count_query = clone $entries_query;
 
-        do_action( 'helpgent_entries_count_query', $count_query, $dto );
+        do_action( 'formgent_entries_count_query', $count_query, $dto );
 
         $select_columns = ['entry.id', 'entry.form_id', 'form.title as form_title', 'entry.is_read', 'entry.device', 'entry.browser', 'entry.created_at', 'entry.updated_at'];
 
@@ -34,7 +34,7 @@ class EntryRepository {
 
         // $this->forms_sort_query( $forms_query, $dto );
 
-        do_action( 'helpgent_entries_query', $entries_query, $dto );
+        do_action( 'formgent_entries_query', $entries_query, $dto );
 
         return [
             'total'   => $count_query->count(),
@@ -57,7 +57,7 @@ class EntryRepository {
     }
 
     public function get_by_id( int $id, $columns = ['entry.*'] ) {
-        return Entry::query( 'entry.' )->select( $columns )->where( 'entry.id', $id )->first();
+        return Entry::query( 'entry' )->select( $columns )->where( 'entry.id', $id )->first();
     }
 
     public function get_single_by_id( int $id, $columns = ['entry.*', 'user.display_name as username', 'form.content as form_content'] ) {

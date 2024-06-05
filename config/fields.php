@@ -1,7 +1,9 @@
 <?php
 
-use FormGent\App\Fields\ShortText;
-use FormGent\App\Fields\LongText;
+defined( 'ABSPATH' ) || exit;
+
+use FormGent\App\Fields\ShortText\ShortText;
+use FormGent\App\Fields\LongText\LongText;
 
 return apply_filters(
     'formgent_fields', [

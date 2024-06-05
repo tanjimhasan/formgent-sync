@@ -3,6 +3,8 @@
 namespace FormGent\App\DTO;
 
 class FieldDTO extends DTO {
+    private int $id;
+
     private int $entry_id = 0;
 
     private int $form_id;
@@ -10,6 +12,28 @@ class FieldDTO extends DTO {
     private string $field_id;
 
     private ?string $value = null;
+
+    /**
+     * Get the value of id
+     *
+     * @return int
+     */
+    public function get_id() {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param int $id 
+     *
+     * @return self
+     */
+    public function set_id( int $id ) {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get the value of entry_id

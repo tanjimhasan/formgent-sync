@@ -5,9 +5,11 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\WpMVC\App;
 use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
-use FormGent\App\Fields\ShortText;
-use FormGent\App\Fields\LongText;
+use FormGent\App\Fields\ShortText\ShortText;
+use FormGent\App\Fields\LongText\LongText;
 use FormGent\App\Utils\DateTime;
+use FormGent\App\Repositories\EntryRepository;
+use FormGent\App\Repositories\FormMetaRepository;
 
 function formgent():App {
     return App::$instance;
@@ -128,13 +130,13 @@ function formgent_field_handler( string $field_type ):Field {
     $field_handler_class = formgent_config( "fields.{$field_type}" );
 
     if ( ! class_exists( $field_handler_class ) ) {
-        throw new Exception( __( 'Field handler not found.' ), 500 );
+        throw new Exception( __( 'Field handler not found.', 'formgent' ), 500 );
     }
 
     $field_handler = formgent_make( $field_handler_class );
 
     if ( ! $field_handler instanceof Field ) {
-        throw new Exception( __( 'Please use a valid field handler.' ), 500 );
+        throw new Exception( __( 'Please use a valid field handler.', 'formgent' ), 500 );
     }
 
     return $field_handler;
@@ -154,4 +156,18 @@ function formgent_generate_token() {
     $random = bin2hex( random_bytes( 5 ) );
     $token  = $random . $time;
     return $token;
+}
+
+function formgent_get_entry_by_token( string $token, int $form_id ) {
+    /**
+     * @var FormMetaRepository $form_meta_repository
+     */
+    $form_meta_repository = formgent_singleton( FormMetaRepository::class );
+    $response_id          = $form_meta_repository->get_meta_value( $form_id, $token );
+
+    /**
+     * @var EntryRepository $entry_repository
+     */
+    $entry_repository = formgent_singleton( EntryRepository::class );
+    return $entry_repository->get_by_id( $response_id );
 }

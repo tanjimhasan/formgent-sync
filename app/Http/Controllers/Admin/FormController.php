@@ -85,7 +85,7 @@ class FormController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
@@ -135,7 +135,7 @@ class FormController extends Controller {
             return Response::send(
                 [
                     'form'    => $this->form_repository->get_by_id( $form_id ),
-                    'message' => esc_html__( 'The form has been created successfully.', 'helpgent' )
+                    'message' => esc_html__( 'The form has been created successfully.', 'formgent' )
                 ], 201
             );
         } catch ( Exception $exception ) {
@@ -171,7 +171,7 @@ class FormController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "Form not found", "helpgent" )
+                    'message' => esc_html__( "Form not found", "formgent" )
                 ], 404
             );
         }
@@ -181,7 +181,6 @@ class FormController extends Controller {
         if ( FormType::CONVERSATIONAL === $form->type ) {
             $validator->validate(
                 [
-                    'anonymous_submission' => 'required|integer|accepted:0,1',
                     'save_incomplete_data' => 'required|integer|accepted:0,1'
                 ]
             );
@@ -194,7 +193,6 @@ class FormController extends Controller {
                 );
             }
 
-            $dto->set_anonymous_submission( $wp_rest_request->get_param( 'anonymous_submission' ) );
             $dto->set_save_incomplete_data( $wp_rest_request->get_param( 'save_incomplete_data' ) );
         }
 
@@ -213,7 +211,7 @@ class FormController extends Controller {
 
             return Response::send(
                 [
-                    'message' => esc_html__( 'The form has been updated successfully.', 'helpgent' )
+                    'message' => esc_html__( 'The form has been updated successfully.', 'formgent' )
                 ]
             );
         } catch ( Exception $exception ) {
@@ -250,7 +248,7 @@ class FormController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( 'The form title has been updated successfully.' )
+                'message' => esc_html__( 'The form title has been updated successfully.', 'formgent' )
             ]
         );
     }
@@ -279,7 +277,7 @@ class FormController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( 'The form status has been updated successfully.' )
+                'message' => esc_html__( 'The form status has been updated successfully.', 'formgent' )
             ]
         );
     }
@@ -304,7 +302,7 @@ class FormController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
@@ -336,7 +334,7 @@ class FormController extends Controller {
                     'data'    => [
                         'id' => $form_id
                     ],
-                    'message' => esc_html__( 'The form has been duplicated successfully.', 'helpgent' )
+                    'message' => esc_html__( 'The form has been duplicated successfully.', 'formgent' )
                 ], 201
             );
         } catch ( Exception $exception ) {
@@ -384,7 +382,7 @@ class FormController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( 'The form has been deleted successfully.' )
+                'message' => esc_html__( 'The form has been deleted successfully.', 'formgent' )
             ]
         );
     }
@@ -409,7 +407,7 @@ class FormController extends Controller {
         if ( empty( $form_ids ) || ! formgent_is_one_level_array( $form_ids ) ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Sorry, Something was wrong.', 'helpgent' )
+                    'message' => esc_html__( 'Sorry, Something was wrong.', 'formgent' )
                 ]
             );
         }
@@ -423,7 +421,7 @@ class FormController extends Controller {
 
             return Response::send(
                 [
-                    'message' => esc_html__( 'Forms have been successfully deleted.', 'helpgent' )
+                    'message' => esc_html__( 'Forms have been successfully deleted.', 'formgent' )
                 ]
             );
         } catch ( Exception $exception ) {
@@ -488,7 +486,7 @@ class FormController extends Controller {
         }
 
         $response = [
-            'message' => esc_html__( "Field response removed successfully!", "helpgent" )
+            'message' => esc_html__( "Field response removed successfully!", "formgent" )
         ];
 
         $form_id  = $wp_rest_request->get_param( 'id' );
