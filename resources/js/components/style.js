@@ -171,6 +171,7 @@ const EmptyStyle = Styled.div`
 
 const FormHeaderStyle = Styled.div`
     display: flex;
+    gap: 50px;
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
@@ -273,6 +274,7 @@ const FormHeaderStyle = Styled.div`
         .formgent-editor-header__info__status {
             display: flex;
             align-items: center;
+            flex: 0 0 auto;
             gap: 6px;
             opacity: .6;
             font-size: 12px;
@@ -282,7 +284,6 @@ const FormHeaderStyle = Styled.div`
     .formgent-editor-header__nav {
         display: flex;
         gap: 15px;
-        flex: 1;
         justify-content: center;
         a {
             font-size: 14px;
