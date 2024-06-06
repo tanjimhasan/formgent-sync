@@ -11,6 +11,8 @@ class FieldDTO extends DTO {
 
     private string $field_id;
 
+    private ?string $parent_id = null;
+
     private ?string $value = null;
 
     /**
@@ -97,6 +99,28 @@ class FieldDTO extends DTO {
      */
     public function set_field_id( string $field_id ) {
         $this->field_id = $field_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of parent_id
+     *
+     * @return string
+     */
+    public function get_parent_id() {
+        return $this->parent_id;
+    }
+
+    /**
+     * Set the value of parent_id
+     *
+     * @param string $parent_id 
+     *
+     * @return self
+     */
+    public function set_parent_id( string $parent_id ) {
+        $this->parent_id = $parent_id;
 
         return $this;
     }

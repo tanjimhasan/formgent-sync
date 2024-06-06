@@ -4,10 +4,15 @@ namespace FormGent\App\Repositories;
 
 use FormGent\App\DTO\FieldDTO;
 use FormGent\App\Models\Field;
+use FormGent\WpMVC\Database\Query\Builder;
 
 class FieldRepository {
     public function get( int $entry_id ) {
-        return Field::query()->where( 'entry_id', $entry_id )->get();
+        return Field::query( 'field' )->with(
+            'children', function( Builder $query ) {
+                $query->select( 'id', 'parent_id', 'field_id', 'value', 'created_at', 'updated_at' );
+            }
+        )->select( 'id', 'field_id', 'value', 'created_at', 'updated_at' )->where( 'entry_id', $entry_id )->where_is_null( 'parent_id' )->get();
     }
 
     public function create( FieldDTO $dto ) {

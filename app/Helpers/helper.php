@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\WpMVC\App;
 use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
+use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\LongText\LongText;
 use FormGent\App\Utils\DateTime;
@@ -66,7 +67,7 @@ function formgent_is_valid_date( string $date, string $format ) {
 }
 
 function formgent_get_entry_allowed_fields() {
-    return apply_filters( 'formgent_entry_allowed_fields', [ShortText::get_key(), LongText::get_key()] );
+    return apply_filters( 'formgent_entry_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
 }
 
 /**
