@@ -70,7 +70,7 @@ export default function App() {
 			element: <Editor />,
 		},
 		{
-			path: '/forms/:id/settings',
+			path: '/forms/:id/settings/*',
 			element: <Settings />,
 		},
 		{

@@ -8,6 +8,8 @@ export default function Header( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
+	console.log( { CommonReducer } );
+
 	const { NavLink } = CommonReducer.routerComponents;
 
 	const forms = `/forms/${ id }`;

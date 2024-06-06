@@ -1,14 +1,13 @@
 import { useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
+import { Suspense, useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 import Header from '../Editor/components/Header';
 import General from './components/General';
 import Integrations from './components/Integrations';
 import Notifications from './components/Notifications';
 import Quiz from './components/Quiz';
-import { SettingsContentStyle, SettingsSidebarStyle } from './style';
+import Sidebar from './components/Sidebar';
 
 function Settings( props ) {
 	const [ uiState, setUiState ] = useState( {
@@ -18,48 +17,54 @@ function Settings( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams } = CommonReducer.routerComponents;
+	const { useParams, Route, Routes, NavLink } =
+		CommonReducer.routerComponents;
 
 	const { id } = useParams();
+
+	const settingsRoutes = applyFilters( 'formgent_settings_routes', [
+		{
+			path: '*',
+			element: <General />,
+		},
+		{
+			path: 'integrations',
+			element: <Integrations />,
+		},
+		{
+			path: 'notifications',
+			element: <Notifications />,
+		},
+		{
+			path: 'quiz',
+			element: <Quiz />,
+		},
+	] );
 
 	return (
 		<div className="formgent-editor-wrap">
 			<Header id={ id } uiState={ uiState } setUiState={ setUiState } />
-			<Tabs
+			<div
 				className="formgent-editor-wrap__content"
 				style={ { display: 'flex' } }
 			>
-				<SettingsSidebarStyle className="formgent-settings-sider">
-					<div className="formgent-settings-sider__top">
-						<h3 className="formgent-settings-sider__title">
-							Form Settings
-						</h3>
-					</div>
-					<TabList className="formgent-settings-sider__nav">
-						<Tab>General Settings</Tab>
-						<Tab>Notifications</Tab>
-						<Tab>Quiz Mode</Tab>
-						<Tab>Integrations</Tab>
-					</TabList>
-				</SettingsSidebarStyle>
-				<SettingsContentStyle
-					className="formgent-editor-wrap__content"
-					style={ { display: 'flex' } }
-				>
-					<TabPanel>
-						<General />
-					</TabPanel>
-					<TabPanel>
-						<Notifications />
-					</TabPanel>
-					<TabPanel>
-						<Quiz />
-					</TabPanel>
-					<TabPanel>
-						<Integrations />
-					</TabPanel>
-				</SettingsContentStyle>
-			</Tabs>
+				<Sidebar NavLink={ NavLink } />
+
+				<Suspense fallback={ <></> }>
+					<Routes>
+						{ settingsRoutes.map( ( routeItem, index ) => {
+							console.log( { routeItem } );
+							return (
+								<Route
+									key={ index }
+									path={ routeItem.path }
+									element={ routeItem.element }
+								></Route>
+							);
+						} ) }
+					</Routes>
+				</Suspense>
+			</div>
 		</div>
 	);
 }

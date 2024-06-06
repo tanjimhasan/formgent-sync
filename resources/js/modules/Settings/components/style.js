@@ -19,17 +19,18 @@ const SettingsSidebarStyle = Styled.div`
         gap: 6px;
         padding: 15px;
         margin: 0;
-        .react-tabs__tab {
+        a {
             font-size: 14px;
             font-weight: 600;
             padding: 10px 15px;
             border-radius: 8px;
             color: var(--formgent-font-color);
             text-decoration: none;
-            cusor: pointer;
             border: none;
+            box-shadow: none;
+            outline: none;
             transition: all ease .3s;
-            &.react-tabs__tab--selected,
+            &.active,
             &:hover {
                 color: var(--formgent-color-dark);
                 background-color: var(--formgent-color-bg-light);
