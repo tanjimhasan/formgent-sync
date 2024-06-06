@@ -1,8 +1,8 @@
+import FormHeader from '@formgent/components/FormHeader';
 import { Modal } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import CreateFormModalContent from './components/CreateFormModalContent';
-import Header from './components/Header';
 import MainContent from './components/MainContent';
 
 function Editor( props ) {
@@ -23,7 +23,7 @@ function Editor( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<Header
+			<FormHeader
 				id={ id }
 				useNavigate={ useNavigate }
 				uiState={ uiState }

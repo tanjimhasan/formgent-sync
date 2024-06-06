@@ -2,7 +2,7 @@ import { useSelect } from '@wordpress/data';
 import { Suspense, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
-import Header from '../Editor/components/Header';
+import FormHeader from '@formgent/components/FormHeader';
 import General from './components/General';
 import Integrations from './components/Integrations';
 import Notifications from './components/Notifications';
@@ -43,7 +43,7 @@ function Settings( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<Header
+			<FormHeader
 				id={ id }
 				useNavigate={ useNavigate }
 				uiState={ uiState }

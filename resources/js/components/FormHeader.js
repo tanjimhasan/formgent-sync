@@ -2,14 +2,14 @@ import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { Dropdown, Input } from 'antd';
 import ReactSVG from 'react-inlinesvg';
-import { EditorHeaderStyle } from './style';
+import { FormHeaderStyle } from './style';
 
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
 import checkIcon from '@icon/check.svg';
 import favIcon from '@icon/fav.svg';
 import pencilIcon from '@icon/pen-nib.svg';
 
-export default function Header( props ) {
+export default function FormHeader( props ) {
 	const { id, useNavigate, uiState, setUiState } = props;
 	const navigate = useNavigate && useNavigate();
 
@@ -93,7 +93,7 @@ export default function Header( props ) {
 	];
 
 	return (
-		<EditorHeaderStyle className="formgent-editor-header">
+		<FormHeaderStyle className="formgent-editor-header">
 			<div className="formgent-editor-header__info">
 				<div className="formgent-editor-header__info__redirect">
 					<div className="formgent-editor-header__info__logo">
@@ -174,6 +174,6 @@ export default function Header( props ) {
 					</Dropdown>
 				</div>
 			</div>
-		</EditorHeaderStyle>
+		</FormHeaderStyle>
 	);
 }
