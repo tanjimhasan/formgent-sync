@@ -20,6 +20,7 @@ import {
 } from '../helper/utils';
 import Body from './Body';
 import DroppedOverlayField from './DroppedOverlayField';
+import FieldCustomizer from './FieldCustomizer';
 import FieldInserter from './FieldInserter';
 import InserterOverlayField from './InserterOverlayField';
 import { EditorContentStyle } from './style';
@@ -123,6 +124,7 @@ export default function MainContent( props ) {
 						) : null }
 						{ droppedOverlayActiveField ? (
 							<DroppedOverlayField
+								fields={ singleForm?.content?.fields }
 								droppedOverlayActiveField={
 									droppedOverlayActiveField
 								}
@@ -131,6 +133,7 @@ export default function MainContent( props ) {
 					</DragOverlay>
 				) }
 			</DndContext>
+			<FieldCustomizer />
 		</EditorContentStyle>
 	);
 }

@@ -43,9 +43,9 @@ const handleDragStart = (
 		let darggedField = structuredClone( field );
 		darggedField = {
 			...darggedField,
+			name: `${ type }${ fields.length + 1 }`,
 			advance_option: {
 				...darggedField.advance_option,
-				name: `${ type }${ fields?.length + 1 }`,
 			},
 		};
 		setInserterOverlayActiveField( field );

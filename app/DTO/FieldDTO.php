@@ -3,13 +3,39 @@
 namespace FormGent\App\DTO;
 
 class FieldDTO extends DTO {
+    private int $id;
+
     private int $entry_id = 0;
 
     private int $form_id;
 
     private string $field_id;
 
+    private ?string $parent_id = null;
+
     private ?string $value = null;
+
+    /**
+     * Get the value of id
+     *
+     * @return int
+     */
+    public function get_id() {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param int $id 
+     *
+     * @return self
+     */
+    public function set_id( int $id ) {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get the value of entry_id
@@ -73,6 +99,28 @@ class FieldDTO extends DTO {
      */
     public function set_field_id( string $field_id ) {
         $this->field_id = $field_id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of parent_id
+     *
+     * @return string
+     */
+    public function get_parent_id() {
+        return $this->parent_id;
+    }
+
+    /**
+     * Set the value of parent_id
+     *
+     * @param string $parent_id 
+     *
+     * @return self
+     */
+    public function set_parent_id( string $parent_id ) {
+        $this->parent_id = $parent_id;
 
         return $this;
     }

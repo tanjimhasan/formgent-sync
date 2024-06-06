@@ -2,6 +2,8 @@ const DEFAULT_STATE = {
 	singleForm: null,
 	isCreatingForm: false,
 	isLoading: false,
+	activeCustomizerTab: 'element',
+	activeField: '',
 	error: null,
 };
 
@@ -25,6 +27,16 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				error: error,
+			};
+		case 'UPDATE_ACTIVE_FIELD':
+			return {
+				...state,
+				activeField: action?.id,
+			};
+		case 'UPDATE_ACTIVE_CUSTOMIZER_TAB':
+			return {
+				...state,
+				activeCustomizerTab: action?.activeTab,
 			};
 		case 'UPDATE_SINGLE_FORM_TYPE':
 			return {

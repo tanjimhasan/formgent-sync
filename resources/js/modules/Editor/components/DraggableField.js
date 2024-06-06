@@ -1,10 +1,12 @@
 import { useRef, useCallback } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
+import ReactSVG from 'react-inlinesvg';
 import { useDraggable } from '@dnd-kit/core';
 import { nanoid } from 'nanoid';
 
 export default function DraggableField( props ) {
-	const { field, ...rest } = props;
+	const { field, fieldInfo, ...rest } = props;
+	console.log( field );
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
@@ -30,10 +32,7 @@ export default function DraggableField( props ) {
 		const newField = {
 			...field,
 			id: nanoid( 10 ),
-			advance_option: {
-				...field.advance_option,
-				name: `${ field.type }${ fields.length }`,
-			},
+			name: `${ field.type }${ fields.length }`,
 		};
 		const updatedFields = [ ...fields, newField ];
 		updateFormFields( updatedFields );
@@ -50,7 +49,12 @@ export default function DraggableField( props ) {
 			{ ...memoizedAttributes }
 			{ ...memoizedListeners }
 		>
-			<span>{ field.type }</span>
+			<span className="formgent-editor-inserter__field--icon">
+				<ReactSVG src={ fieldInfo.icon } />
+			</span>
+			<span className="formgent-editor-inserter__field--title">
+				{ fieldInfo.title }
+			</span>
 		</div>
 	);
 }

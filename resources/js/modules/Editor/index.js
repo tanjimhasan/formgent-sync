@@ -21,6 +21,8 @@ function Editor( props ) {
 		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
 
+	console.log( SingleFormReducer );
+
 	return (
 		<div className="formgent-editor-wrap">
 			<FormHeader

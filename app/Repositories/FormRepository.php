@@ -153,7 +153,6 @@ class FormRepository {
                 'title'                => $dto->get_title(),
                 'status'               => $dto->get_status(),
                 'content'              => $dto->get_content(),
-                'anonymous_submission' => $dto->get_anonymous_submission(),
                 'save_incomplete_data' => $dto->get_save_incomplete_data(),
             ]
         );

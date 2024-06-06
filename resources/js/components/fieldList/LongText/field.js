@@ -4,9 +4,10 @@ const LongText = {
 	id: nanoid( 12 ),
 	type: 'long_text',
 	name: 'long_text',
-	group_name: 'general',
+	group_name: 'basic',
 	general_option: {
 		label: 'Long text',
+		description: '',
 		placeholder: '',
 		row: '',
 		cols: '',

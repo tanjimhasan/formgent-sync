@@ -1,4 +1,6 @@
 import { registerPreviewFields } from '@formgent/fields';
+import ReactSVG from 'react-inlinesvg';
+import dotsGrid from '@icon/dots-grid.svg';
 
 export default function DroppedOverlayField( props ) {
 	const { droppedOverlayActiveField } = props;
@@ -6,12 +8,9 @@ export default function DroppedOverlayField( props ) {
 		registerPreviewFields()[ droppedOverlayActiveField.type ];
 	return (
 		<div className="formgent-droppable-field-overlay">
-			<div className="formgent-dropable-field__actions">
-				<i className="formgent-icon">Trigger sort</i>
-				<i className="formgent-icon">D</i>
-				<i className="formgent-icon">D</i>
-				<i className="formgent-icon">D</i>
-			</div>
+			<span className="formgent-dropable-field__sorting">
+				<ReactSVG src={ dotsGrid } />
+			</span>
 			<DroppedField />
 		</div>
 	);

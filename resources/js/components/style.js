@@ -145,6 +145,30 @@ const ModalAlertStyle = Styled.div`
     }
 `;
 
+const EmptyStyle = Styled.div`
+    &.formgent-empty-box{
+        text-align: center;
+    }
+    .formgent-empty-box__icon{
+        margin-bottom: 20px;
+        svg{
+            width: 60px;
+            height : 60px;
+        }
+    }
+    .formgent-empty-box__label{
+        font-size: 20px;
+        color: var(--formgent-color-dark);
+    }
+    .formgent-empty-box__text{
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    span{
+        display: block;
+    }
+`;
+
 const FormHeaderStyle = Styled.div`
     display: flex;
     justify-content: space-between;
@@ -344,6 +368,7 @@ const FormHeaderStyle = Styled.div`
 export {
 	ButtonStyle,
 	DropdownStyle,
+	EmptyStyle,
 	FormHeaderStyle,
 	InputStyle,
 	ModalAlertStyle,

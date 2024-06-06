@@ -5,4 +5,4 @@ use FormGent\WpMVC\Routing\Route;
 
 include __DIR__ . '/admin.php';
 
-Route::post( 'entry', [EntryController::class, 'store'] );
+Route::post( 'entries', [EntryController::class, 'store'] );

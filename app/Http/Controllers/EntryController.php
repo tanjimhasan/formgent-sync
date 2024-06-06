@@ -4,6 +4,7 @@ namespace FormGent\App\Http\Controllers;
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Models\Field;
 use FormGent\App\DTO\EntryDTO;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
@@ -14,6 +15,7 @@ use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use stdClass;
 use WP_REST_Request;
+use FormGent\App\DTO\FieldDTO;
 
 class EntryController extends Controller {
     public EntryRepository $repository;
@@ -51,7 +53,7 @@ class EntryController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "From not found" )
+                    'message' => esc_html__( "From not found", 'formgent' )
                 ], 404
             );
         }
@@ -59,12 +61,12 @@ class EntryController extends Controller {
         /**
          * Validating field data and creating field dto for insert.
          */
-        $validate = $this->validate( $form ,$validator, $wp_rest_request );
+        $validate_data = $this->validate( $form ,$validator, $wp_rest_request );
 
-        if ( ! empty( $validate['errors'] ) ) {
+        if ( ! empty( $validate_data['errors'] ) ) {
             return Response::send(
                 [
-                    'messages' => $validate['errors']
+                    'messages' => $validate_data['errors']
                 ], 422
             );
         }
@@ -86,13 +88,33 @@ class EntryController extends Controller {
 
         $entry_id = $this->repository->create( $entry_dto );
 
-        $this->field_repository->creates( $entry_id, ...$validate['field_dtos'] );
+        $this->field_repository->creates( $entry_id, ...$validate_data['field_dtos'] );
+
+        $parent_fields = Field::query()->select( 'id', 'field_id' )->where( 'entry_id', $entry_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
+
+        $parent_ids = [];
+
+        foreach ( $parent_fields as $parent ) {
+            $parent_ids[$parent->field_id] = $parent->id;
+        }
+
+        $this->field_repository->creates_from_array(
+            array_map(
+                function( array $children ) use( $entry_id, $parent_ids ) {
+                    /**
+                     * @var FieldDTO $children['dto']
+                     * @var FieldDTO $children['parent_dto']
+                     */
+                    return $children['dto']->set_entry_id( $entry_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
+                }, $validate_data['children_dtos']
+            )
+        );
 
         do_action( "formgent_after_create_form_entry", $entry_id, $form, $wp_rest_request );
 
         return Response::send(
             [
-                'message' => esc_html__( "The form was submitted successfully!" )
+                'message' => esc_html__( "The form was submitted successfully!", 'formgent' )
             ], 201
         );
     }
@@ -113,8 +135,10 @@ class EntryController extends Controller {
         $fields       = $form_content['fields'];
         $field_names  = array_column( $fields, 'name' );
 
-        $errors     = [];
-        $field_dtos = [];
+        $errors           = [];
+        $field_dtos       = [];
+        $children_dtos    = [];
+        $parent_field_ids = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
             $field_key = array_search( $field_name, $field_names );
@@ -148,28 +172,27 @@ class EntryController extends Controller {
 
                 $field_handler->validate( $field, $wp_rest_request, $validator );
 
-                $field_dtos[] = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
+                $dto = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
+                
+                if ( $field_handler->has_children ) {
+                    $parent_field_ids[] = $dto->get_field_id();
+                    foreach ( $field_handler->get_children_dtos( $field, $wp_rest_request, $form ) as $children_dto ) {
+                        $children_dtos[] = [
+                            'dto'        => $children_dto,
+                            'parent_dto' => $dto
+                        ];
+                    }
+                }
+
+                $field_dtos[] = $dto;
 
             } catch ( RequestValidatorException $exception ) {
                 $errors[$field['id']] = $exception->get_messages();
             }
         }
 
-        return compact( 'errors', 'field_dtos' );
+        return compact( 'field_dtos', 'children_dtos', 'parent_field_ids', 'errors' );
     }
-
-    // private function form_data() {
-    //     return [
-    //         [
-    //             'id'        => '5641354164131',
-    //             'long_text' => 'sdfasdfsdfsdf'
-    //         ],
-    //         [
-    //             'id'         => '64563161631',
-    //             'short_text' => 'askdfaksdfka;sldfk;sd'
-    //         ]
-    //     ];
-    // }
 
     // private function form_fields() {
     //     return [
@@ -186,7 +209,7 @@ class EntryController extends Controller {
     //             ]
     //         ],
     //         [
-    //             'id'             => '64563161631',
+    //             'id'             => '68563161631',
     //             'type'           => 'short_text',
     //             'name'           => 'short_text',
     //             'general_option' => [
@@ -196,6 +219,44 @@ class EntryController extends Controller {
     //                     ]
     //                 ]
     //             ]
+    //         ],
+    //         [
+    //             'id'         => '66863161631',
+    //             'type'       => 'name',
+    //             'name'       => 'names',
+    //             'group_name' => 'general',
+    //             'fields'     => [
+    //                 [
+    //                     'id'          => '64563161631',
+    //                     'type'        => 'first_name',
+    //                     'validations' => [
+    //                         'required' => [
+    //                             'value'   => '0',
+    //                             'message' => 'This field is required'
+    //                         ],
+    //                     ],
+    //                 ],
+    //                 [
+    //                     'id'          => '64563166301',
+    //                     'type'        => 'middle_name',
+    //                     'validations' => [
+    //                         'required' => [
+    //                             'value'   => '1',
+    //                             'message' => 'This field is required'
+    //                         ],
+    //                     ],
+    //                 ],
+    //                 [
+    //                     'id'          => '64563161630',
+    //                     'type'        => 'last_name',
+    //                     'validations' => [
+    //                         'required' => [
+    //                             'value'   => '0',
+    //                             'message' => 'This field is required'
+    //                         ],
+    //                     ],
+    //                 ],
+    //             ],
     //         ]
     //     ];
     // }

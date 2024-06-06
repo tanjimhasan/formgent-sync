@@ -39,6 +39,20 @@ export const SingleFormActions = {
 		};
 	},
 
+	updateActiveField: ( id ) => {
+		return {
+			type: 'UPDATE_ACTIVE_FIELD',
+			id,
+		};
+	},
+
+	updateActiveCustomizerTab: ( activeTab ) => {
+		return {
+			type: 'UPDATE_ACTIVE_CUSTOMIZER_TAB',
+			activeTab,
+		};
+	},
+
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api

@@ -125,7 +125,6 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					current_page: currentPage,
 				},
 			};
-
 		case 'UPDATE_FORM_ITEM_STORE':
 			let form = state.forms.find(
 				( form ) => form.id === action.formId
