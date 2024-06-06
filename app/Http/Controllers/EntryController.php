@@ -98,7 +98,7 @@ class EntryController extends Controller {
             $parent_ids[$parent->field_id] = $parent->id;
         }
 
-        Field::query()->insert(
+        $this->field_repository->creates_from_array(
             array_map(
                 function( array $children ) use( $entry_id, $parent_ids ) {
                     /**

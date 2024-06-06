@@ -36,8 +36,19 @@ class FieldRepository {
         );
     }
 
+    /**
+     * Create multiple items
+     */
+    public function creates_from_array( array $array ) {
+        return Field::query()->insert( $array );
+    }
+
     public function get_by_field_id( int $entry_id, string $field_id ) {
         return Field::query()->where( 'entry_id', $entry_id )->where( 'field_id', $field_id )->first();
+    }
+
+    public function get_by_parent_id( int $entry_id, string $parent_id ) {
+        return Field::query()->where( 'entry_id', $entry_id )->where( 'parent_id', $parent_id )->get();
     }
 
     public function delete( int $id ) {

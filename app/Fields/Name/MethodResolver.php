@@ -31,12 +31,12 @@ trait MethodResolver {
 
         $request = new WP_REST_Request( 'post' );
 
-        $names = $wp_rest_request->get_param( 'names' );
+        $names = $wp_rest_request->get_param( $field['name'] );
     
         if ( ! empty( $names ) && is_array( $names ) ) {
                 $this->has_value    = true;
                 $this->has_children = true;
-                $request->set_body_params( $wp_rest_request->get_param( 'names' ) );
+                $request->set_body_params( $wp_rest_request->get_param( $field['name'] ) );
         }
 
         $validator->wp_rest_request = $request;
@@ -60,7 +60,7 @@ trait MethodResolver {
 
         $dtos = [];
 
-        $names = $wp_rest_request->get_param( 'names' );
+        $names = $wp_rest_request->get_param( $field['name'] );
 
         foreach ( $field['fields'] as $children ) {
             if ( isset( $names[$children['type']] ) ) {
