@@ -1,15 +1,23 @@
 import { useRef, useState, useEffect, useCallback } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useDroppable } from '@dnd-kit/core';
 import picture from '@icon/picture.svg';
 import update from 'immutability-helper';
+import { Form } from 'antd';
 import DroppedField from './DroppedField';
 import { DropableBoxStyle } from './style';
 import Empty from '@formgent/components/Empty';
+import SubmitButton from '@formgent/components/fieldList/SubmitButton';
 import { __ } from '@wordpress/i18n';
 import { AntButton } from '@formgent/components';
 export default function DropableBox( props ) {
 	const { fields } = props;
+	const { updateActiveField } = useDispatch( 'formgent' );
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getSingleForm();
+	}, [] );
+
+	const { singleForm, activeField } = SingleFormReducer;
 
 	const { listeners, setNodeRef, transform, transition } = useDroppable( {
 		id: 'canvas_droppable',
@@ -42,19 +50,29 @@ export default function DropableBox( props ) {
 						<span className="formgent-dropable-field-add">+</span>
 					</div>
 				) }
-				{ fields.map( ( field, index ) => (
-					<DroppedField
-						key={ field.id }
-						id={ field.id }
-						field={ field }
-						index={ index }
-					/>
-				) ) }
+				<Form>
+					{ fields.map( ( field, index ) => (
+						<DroppedField
+							key={ field.id }
+							id={ field.id }
+							field={ field }
+							fields={ singleForm?.content?.fields }
+							index={ index }
+						/>
+					) ) }
+				</Form>
 
 				{ fields.length > 0 && (
-					<AntButton type="primary" size="medium">
-						Submit Form
-					</AntButton>
+					<div
+						className={ `formgent-submit-button ${
+							activeField === 'submit-button'
+								? 'formgent-active'
+								: ''
+						}` }
+						onClick={ () => updateActiveField( 'submit-button' ) }
+					>
+						<SubmitButton field={ singleForm?.submit_button } />
+					</div>
 				) }
 			</div>
 		</DropableBoxStyle>

@@ -15,19 +15,26 @@ const EditorHeaderStyle = Styled.div`
 `;
 
 const InserterStyle = Styled.div`
-    width: 320px;
+    width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);
     .formgent-editor-inserter__group{
+
+        .ant-row{
+            margin: -7.5px 0;
+        }
+        .ant-col{
+            margin: 7.5px 0;
+        }
     }
 `;
 
 const DropableBoxStyle = Styled.div`
     flex: 1;
-    margin: 0 15px;
-    border-radius: 5px;
-    padding: 10px;
+    margin: 60px 25px;
+    border-radius: 10px;
+    padding: 40px 15px;
     display: flex;
     flex-direction: column;
     max-height: 100%;
@@ -70,7 +77,7 @@ const EditorContentStyle = Styled.div`
         justify-content: center;
         font-size: 14px;
         padding: 12px 10px;
-        min-height: 60px;
+        min-height: 80px;
         text-align: center;
         transition: all .05s;
         border: 1px solid var(--formgent-color-border);
@@ -92,35 +99,84 @@ const EditorContentStyle = Styled.div`
     }
     .formgent-dropable-field{
         position: relative;
-        // padding: 30px;
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: 2px solid transparent;
         &:hover{
+            border-color: var(--formgent-color-dark);
             .formgent-dropable-field__actions{
                 visibility: visible;
                 opacity: 1;
             }
-        } 
+            .formgent-dropable-field__sorting{
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        &.formgent-active{
+            border-color: var(--formgent-color-dark);
+            .formgent-dropable-field__sorting{
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+    .formgent-dropable-field__sorting{
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-50%);
+        svg{
+            width: 16px;
+            hwight: 16px;
+        }
+    }
+    .formgent-submit-button{
+        padding: 15px 30px;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        &:hover, 
+        &.formgent-active{
+            border-color: var(--formgent-color-dark);
+        }
     }
     .formgent-droppable-field-overlay{
-        .formgent-dropable-field__actions{
-            visibility: visible;
-            opacity: 1;
-        }
+        position: relative;
+        padding: 15px 30px;
+        border-radius: 10px;
+        background-color: var(--formgent-color-white);
+        border: 2px solid var(--formgent-color-dark);
     }
     
     .formgent-dropable-field__actions{
-        background-color: #4b4c4d;
         border-radius: 6px;
         overflow: hidden;
         visibility: hidden;
         opacity: .3;
         position: absolute;
         right: 14px;
-        top: 8px;
+        top: -18px;
         z-index: 10;
         .formgent-icon{
             color: #fff;
             cursor: pointer;
             padding: 10px;
+            display: inline-flex;
+            align-items: center;
+            background-color: #4b4c4d;
+            &:hover{
+                background-color: var(--formgent-color-primary);
+            }
+            svg{
+                width: 16px;
+                height: 16px;
+            }
+            &.formgent-disabled{
+                cursor: unset;
+            }
         }
     }
     .formgent-editor-sider__nav{
@@ -165,7 +221,7 @@ const CreateFormStyle = Styled.div`
 `;
 
 const FieldCustomizerStyle = Styled.div`
-    width: 320px;
+    width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);

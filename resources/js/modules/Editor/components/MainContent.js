@@ -126,6 +126,7 @@ export default function MainContent( props ) {
 						) : null }
 						{ droppedOverlayActiveField ? (
 							<DroppedOverlayField
+								fields={ singleForm?.content?.fields }
 								droppedOverlayActiveField={
 									droppedOverlayActiveField
 								}

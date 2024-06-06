@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid';
 
-const Name = {
+const Names = {
 	id: nanoid( 12 ),
-	type: 'name',
-	name: 'name',
+	type: 'names',
+	name: 'names',
 	group_name: 'basic',
 	fields: [
 		{
@@ -59,4 +59,4 @@ const Name = {
 	},
 };
 
-export default Name;
+export default Names;

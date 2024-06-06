@@ -1,7 +1,7 @@
 import { Row, Col, Form } from 'antd';
 import { AntInput } from '@formgent/components';
 import FieldEditor from '@formgent/components/FieldEditor';
-export default function ShortText( props ) {
+export default function Email( props ) {
 	const { field } = props;
 	return (
 		<div className="formgent-field">
@@ -11,7 +11,14 @@ export default function ShortText( props ) {
 			<div className="formgent-field__action">
 				<Row gutter={ 15 }>
 					<Col>
-						<Form.Item name={ field?.name }>
+						<Form.Item
+							name={ field?.name }
+							rules={ [
+								{
+									type: 'email',
+								},
+							] }
+						>
 							<div className="formgent-field__item">
 								<AntInput
 									placeholder={

@@ -1,13 +1,11 @@
 import { nanoid } from 'nanoid';
 
 const SubmitButton = {
-	id: nanoid( 12 ),
-	type: 'submit',
-	name: 'name',
+	name: 'submit_button',
 	general_option: {
 		button_text: 'Submit Form',
 		button_size: 'medium',
-		button_style: 'default',
+		button_style: 'primary',
 	},
 	advance_option: {
 		container_class: '',

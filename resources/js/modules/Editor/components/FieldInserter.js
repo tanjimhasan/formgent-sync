@@ -8,6 +8,7 @@ import search from '@icon/search.svg';
 import chartBar from '@icon/chart-bar.svg';
 import bar from '@icon/bar.svg';
 import user from '@icon/user.svg';
+import mail from '@icon/mail.svg';
 import { Row, Col } from 'antd';
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
@@ -22,9 +23,13 @@ export default function FieldInserter( props ) {
 			title: 'Short text',
 			icon: bar,
 		},
-		name: {
-			title: 'Name',
+		names: {
+			title: 'Name Fields',
 			icon: user,
+		},
+		email: {
+			title: 'Email',
+			icon: mail,
 		},
 	};
 	const advanceFields = [];

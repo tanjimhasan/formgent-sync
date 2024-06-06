@@ -32,10 +32,7 @@ export default function DraggableField( props ) {
 		const newField = {
 			...field,
 			id: nanoid( 10 ),
-			advance_option: {
-				...field.advance_option,
-				name: `${ field.type }${ fields.length }`,
-			},
+			name: `${ field.type }${ fields.length }`,
 		};
 		const updatedFields = [ ...fields, newField ];
 		updateFormFields( updatedFields );
