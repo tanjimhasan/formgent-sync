@@ -5,7 +5,6 @@ import FieldEditor from '@formgent/components/FieldEditor';
 
 export default function Name( props ) {
 	const { field } = props;
-	const { fields } = field;
 	return (
 		<div className="formgent-field">
 			<div className="formgent-field__text">
@@ -13,13 +12,30 @@ export default function Name( props ) {
 			</div>
 			<div className="formgent-field__action">
 				<Row gutter={ 20 }>
-					{ fields.map( ( field ) => (
-						<Col sm={ 12 } key={ field.id }>
-							<Form.Item name={ field.type }>
-								<AntInput placeholder={ field.placeholder } />
-							</Form.Item>
-						</Col>
-					) ) }
+					<Col sm={ 12 }>
+						<Form.Item
+							name={ field?.general_option?.first_name?.name }
+						>
+							<AntInput
+								placeholder={
+									field?.general_option?.first_name
+										?.placeholder
+								}
+							/>
+						</Form.Item>
+					</Col>
+					<Col sm={ 12 }>
+						<Form.Item
+							name={ field?.general_option?.last_name?.name }
+						>
+							<AntInput
+								placeholder={
+									field?.general_option?.last_name
+										?.placeholder
+								}
+							/>
+						</Form.Item>
+					</Col>
 				</Row>
 			</div>
 		</div>
