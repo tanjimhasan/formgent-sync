@@ -13,11 +13,9 @@ function Editor( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams } = CommonReducer.routerComponents;
+	const { useParams, useNavigate } = CommonReducer.routerComponents;
 
 	const { id } = useParams();
-
-	console.log( 'editor id:', id );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm( id );
@@ -25,7 +23,12 @@ function Editor( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<Header id={ id } uiState={ uiState } setUiState={ setUiState } />
+			<Header
+				id={ id }
+				useNavigate={ useNavigate }
+				uiState={ uiState }
+				setUiState={ setUiState }
+			/>
 			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
 			{ ! SingleFormReducer?.singleForm?.title && props.isAddForm && (
 				<Modal

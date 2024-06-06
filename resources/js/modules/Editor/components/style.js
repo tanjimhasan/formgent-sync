@@ -4,7 +4,7 @@ const EditorHeaderStyle = Styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
+    padding: 0 15px 0 0;
     margin-bottom: 20px;
     background-color: var(--formgent-color-white);
     position: sticky;
@@ -12,6 +12,104 @@ const EditorHeaderStyle = Styled.div`
     min-height: 60px;
     z-index: 98;
     box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    .formgent-editor-header__info {
+        flex: 1;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        svg {
+            width: 14px;
+            height: 14px;
+            path {
+                fill: var(--formgent-font-color);
+                transition: fill ease .3s;
+            }
+        }
+        .formgent-editor-header__info__redirect {
+            display: flex;
+            align-items: center;
+            border-right: 1px solid var(--formgent-color-border-light);
+            button {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 0 15px;
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--formgent-color-dark);
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                transition: color ease .3s;
+                svg path {
+                    fill: var(--formgent-color-dark);
+                    transition: fill ease .3s;
+                }
+                &:hover {
+                    color: var(--formgent-color-primary);
+                    svg path {
+                        fill: var(--formgent-color-primary);
+                    }
+                }
+            }
+        }
+        
+        .formgent-editor-header__info__logo {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--formgent-color-bg-deep);
+            svg {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        .formgent-editor-header__info__wrap {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .formgent-editor-header__info__title {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            svg {
+                &:hover {
+                    cursor: pointer;
+                    path {
+                        fill: var(--formgent-color-primary);
+                    }
+                }
+            }
+            input {
+                border-color: var(--formgent-color-border);
+                box-shadow: none;
+                outline: none;
+                &:hover,
+                &:focus {
+                    border-color: var(--formgent-color-primary);
+                }
+            }
+            span {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--formgent-color-dark);
+            }
+        }
+        .formgent-editor-header__info__status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: .6;
+            font-size: 12px;
+            font-weight: 400;
+        }
+    }
     .formgent-editor-header__nav {
         display: flex;
         gap: 15px;
@@ -36,7 +134,9 @@ const EditorHeaderStyle = Styled.div`
     .formgent-editor-header__actions {
         display: flex;
         gap: 15px;
+        flex: 1;
         align-items: center;
+        justify-content: flex-end;
         button {
             height: 38px;
             font-size: 14px;
@@ -47,8 +147,20 @@ const EditorHeaderStyle = Styled.div`
             color: var(--formgent-font-color);
             text-decoration: none;
             cursor: pointer;
+            svg {
+                width: 16px;
+                height: 16px;
+                path {
+                    fill: var(--formgent-font-color);
+                }
+            }
             &:hover {
                 color: var(--formgent-color-primary);
+                svg {
+                    path {
+                        fill: var(--formgent-color-primary);
+                    }
+                }
             }
         }
         .formgent-editor-header__actions__button {
@@ -76,21 +188,10 @@ const EditorHeaderStyle = Styled.div`
         }
         .formgent-editor-header__actions__dropdown {
             position: relative;
-            .formgent-editor-header__actions__button {
-                border-radius: 0;
+            .formgent-dropdown__button {
+                font-size: 18px;
             }
-            .formgent-editor-header__actions__dropdown__content {
-                display: none;
-                position: absolute;
-                top: calc(100% + 10px);
-                right: 0;
-                width: 175px;
-                display: flex;
-                flex-direction: column;
-                background: transparent;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            }
+
         }
     }
 `;

@@ -17,7 +17,7 @@ function Settings( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams, Route, Routes, NavLink } =
+	const { useParams, Route, Routes, NavLink, useNavigate } =
 		CommonReducer.routerComponents;
 
 	const { id } = useParams();
@@ -43,7 +43,12 @@ function Settings( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<Header id={ id } uiState={ uiState } setUiState={ setUiState } />
+			<Header
+				id={ id }
+				useNavigate={ useNavigate }
+				uiState={ uiState }
+				setUiState={ setUiState }
+			/>
 			<div
 				className="formgent-editor-wrap__content"
 				style={ { display: 'flex' } }
@@ -53,13 +58,12 @@ function Settings( props ) {
 				<Suspense fallback={ <></> }>
 					<Routes>
 						{ settingsRoutes.map( ( routeItem, index ) => {
-							console.log( { routeItem } );
 							return (
 								<Route
 									key={ index }
 									path={ routeItem.path }
 									element={ routeItem.element }
-								></Route>
+								/>
 							);
 						} ) }
 					</Routes>
