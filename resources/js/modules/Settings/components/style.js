@@ -8,8 +8,8 @@ const SettingsSidebarStyle = Styled.div`
     background-color: var(--formgent-color-white);
     .formgent-settings-sider__title {
         margin: 0;
-        fsont-size: 18px;
-        fwont-weight: 600;
+        font-size: 18px;
+        font-weight: 600;
         color: var(--formgent-color-text);
     }
     .formgent-settings-sider__top {

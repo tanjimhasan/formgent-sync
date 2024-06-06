@@ -4,7 +4,7 @@ const EditorHeaderStyle = Styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5px 0 0;
+    padding: 0 15px;
     margin-bottom: 20px;
     background-color: var(--formgent-color-white);
     position: sticky;
@@ -29,6 +29,67 @@ const EditorHeaderStyle = Styled.div`
             &:hover {
                 color: var(--formgent-color-primary);
                 background-color: var(--formgent-primary-light-button-bg);
+            }
+        }
+    }
+
+    .formgent-editor-header__actions {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        button {
+            height: 38px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: var(--formgent-font-color);
+            text-decoration: none;
+            cursor: pointer;
+            &:hover {
+                color: var(--formgent-color-primary);
+            }
+        }
+        .formgent-editor-header__actions__button {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: var(--formgent-color-dark);
+            background-color: var(--formgent-color-bg-light);
+            text-decoration: none;
+            transition: all ease .3s;
+            &.active,
+            &:hover {
+                color: var(--formgent-color-primary);
+                background-color: var(--formgent-primary-light-button-bg);
+            }
+        }
+        .formgent-editor-header__actions__modify {
+            display: flex;
+            gap: 10px;
+        }
+        .formgent-editor-header__actions__status {
+            display: flex;
+            gap: 10px;
+        }
+        .formgent-editor-header__actions__dropdown {
+            position: relative;
+            .formgent-editor-header__actions__button {
+                border-radius: 0;
+            }
+            .formgent-editor-header__actions__dropdown__content {
+                display: none;
+                position: absolute;
+                top: calc(100% + 10px);
+                right: 0;
+                width: 175px;
+                display: flex;
+                flex-direction: column;
+                background: transparent;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             }
         }
     }
