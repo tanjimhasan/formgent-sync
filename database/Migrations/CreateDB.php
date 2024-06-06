@@ -76,9 +76,10 @@ class CreateDB implements Migration {
         CREATE TABLE {$db_prefix}fields (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `entry_id` BIGINT UNSIGNED NOT NULL,
-            `field_id` VARCHAR(50) NOT NULL,
-            `parent_id` BIGINT UNSIGNED NULL,
             `form_id` BIGINT UNSIGNED NOT NULL,
+            `parent_id` BIGINT UNSIGNED NULL,
+            `field_id` VARCHAR(50) NOT NULL,
+            `field_type` VARCHAR(50) NOT NULL,
             `value` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,

@@ -11,7 +11,7 @@ trait MethodResolver {
     protected $has_value = true;
 
     public static function get_key(): string {
-        return 'name';
+        return 'names';
     }
 
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
@@ -50,7 +50,7 @@ trait MethodResolver {
 
     public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): FieldDTO {
         $dto = new FieldDTO();
-        return $dto->set_form_id( $form->id )->set_field_id( $field['id'] );
+        return $dto->set_form_id( $form->id )->set_field_type( $field['type'] )->set_field_id( $field['id'] );
     }
 
     public function get_children_dtos( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): array {
@@ -65,7 +65,7 @@ trait MethodResolver {
         foreach ( $field['fields'] as $children ) {
             if ( isset( $names[$children['type']] ) ) {
                 $dto = new FieldDTO;
-                $dto->set_form_id( $form->id )->set_field_id( $children['id'] )->set_value( $names[$children['type']] );
+                $dto->set_form_id( $form->id )->set_field_type( $children['type'] )->set_field_id( $children['id'] )->set_value( $names[$children['type']] );
 
                 $dtos[] = $dto;
             }
