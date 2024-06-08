@@ -3,6 +3,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import ReactSVG from 'react-inlinesvg';
 import { useSortable } from '@dnd-kit/sortable';
 import { registerPreviewFields } from '@formgent/fields';
+import { arrayMove } from '@dnd-kit/sortable';
 import dotsGrid from '@icon/dots-grid.svg';
 import copy from '@icon/copy.svg';
 import trash from '@icon/trash.svg';
@@ -12,13 +13,11 @@ import arrowDown from '@icon/arrow-down.svg';
 const DroppedField = ( { id, index, fields, field } ) => {
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
 	const ref = useRef( null );
-	const { updateActiveField } = useDispatch( 'formgent' );
+	const { updateActiveField, updateFormFields } = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm();
 	}, [] );
-
-	console.log( SingleFormReducer, id );
 
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable( {
@@ -37,7 +36,15 @@ const DroppedField = ( { id, index, fields, field } ) => {
 		transition,
 	};
 
-	console.log( fields.length, fields.length < 1 );
+	function handleShiftUp() {
+		const updatedFields = arrayMove( fields, index, index - 1 );
+		updateFormFields( updatedFields );
+	}
+
+	function handleShiftDown() {
+		const updatedFields = arrayMove( fields, index, index + 1 );
+		updateFormFields( updatedFields );
+	}
 
 	return field.type === 'spacer' ? (
 		<div
@@ -64,7 +71,10 @@ const DroppedField = ( { id, index, fields, field } ) => {
 			<div className="formgent-dropable-field__actions">
 				{ fields.length >= 2 && index !== 0 && (
 					<Fragment>
-						<i className="formgent-icon">
+						<i
+							className="formgent-icon"
+							onClick={ () => handleShiftUp() }
+						>
 							<ReactSVG src={ arrowUp } />
 						</i>
 					</Fragment>
@@ -72,7 +82,10 @@ const DroppedField = ( { id, index, fields, field } ) => {
 
 				{ fields.length >= 2 && index !== fields.length - 1 && (
 					<Fragment>
-						<i className="formgent-icon">
+						<i
+							className="formgent-icon"
+							onClick={ () => handleShiftDown() }
+						>
 							<ReactSVG src={ arrowDown } />
 						</i>
 					</Fragment>
