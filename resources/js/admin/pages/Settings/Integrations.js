@@ -1,4 +1,4 @@
-import { SettingsContentStyle } from './style';
+import { SettingsContentStyle } from '../../../modules/Settings/components/style';
 
 export default function Integrations() {
 	return (

@@ -21,6 +21,9 @@ export default function Sidebar( props ) {
 				<NavLink to="integrations">
 					{ __( 'Integrations', 'formgent' ) }
 				</NavLink>
+				<NavLink to="integrations/test">
+					{ __( 'Integrations Test', 'formgent' ) }
+				</NavLink>
 			</nav>
 		</SettingsSidebarStyle>
 	);

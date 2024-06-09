@@ -3,6 +3,8 @@ import { Suspense, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 import FormHeader from '@formgent/components/FormHeader';
+import General from './components/General';
+import Notifications from './components/Notifications';
 import Sidebar from './components/Sidebar';
 
 function Settings( props ) {
@@ -18,7 +20,16 @@ function Settings( props ) {
 
 	const { id } = useParams();
 
-	const settingsRoutes = applyFilters( 'formgent_settings_routes', [] );
+	const settingsRoutes = applyFilters( 'formgent_settings_routes', [
+		{
+			path: '*',
+			element: <General />,
+		},
+		{
+			path: 'notifications',
+			element: <Notifications />,
+		},
+	] );
 
 	return (
 		<div className="formgent-editor-wrap">
