@@ -1,5 +1,6 @@
 import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { Input } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
@@ -65,9 +66,11 @@ export default function FormHeader( props ) {
 						onClick={ handleBackButtonClick }
 					>
 						<ReactSVG src={ arrowLeftIcon } />
-						Back
+						{ __( 'Back', 'formgent' ) }
 					</button>
 				</div>
+
+				{ /* save as draft */ }
 				<div className="formgent-editor-header__info__wrap">
 					<div className="formgent-editor-header__info__title">
 						{ isEditing && (
@@ -97,26 +100,30 @@ export default function FormHeader( props ) {
 					</div>
 					<span className="formgent-editor-header__info__status">
 						<ReactSVG src={ checkIcon } />
-						Saved in draft
+						{ __( 'Saved in draft', 'formgent' ) }
 					</span>
 				</div>
 			</div>
+
+			{ /* Editor Header Nav */ }
 			<nav className="formgent-editor-header__nav">
 				<NavLink to={ `${ forms }/edit` }>Editor</NavLink>
 				<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
 			</nav>
+
+			{ /* Editor Header Actions */ }
 			<div className="formgent-editor-header__actions">
 				<button
 					className="formgent-editor-header__actions__button"
 					onClick={ formPreview }
 				>
-					Preview
+					{ __( 'Preview', 'formgent' ) }
 				</button>
 				<button
 					className="formgent-editor-header__actions__button active"
 					onClick={ formPublish }
 				>
-					Publish
+					{ __( 'Publish', 'formgent' ) }
 				</button>
 			</div>
 		</FormHeaderStyle>

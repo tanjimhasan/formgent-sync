@@ -11,7 +11,7 @@ import {
 	useParams,
 } from 'react-router-dom';
 
-import { applyFilters } from '@wordpress/hooks';
+import { addFilter, applyFilters } from '@wordpress/hooks';
 // import { ThemeProvider } from 'styled-components';
 import { SlotFillProvider } from '@wordpress/components';
 import { getPlugins } from '@wordpress/plugins';
@@ -19,6 +19,12 @@ import AddForm from './pages/AddForm/index.js';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
 import Settings from './pages/Settings/index.js';
+
+// Imported Settings Pages
+import General from '@formgent/modules/Settings/components/General.js';
+import Integrations from '@formgent/modules/Settings/components/Integrations.js';
+import Notifications from '@formgent/modules/Settings/components/Notifications.js';
+import Quiz from '@formgent/modules/Settings/components/Quiz.js';
 
 export default function App() {
 	const { setRouterState } = useDispatch( 'formgent' );
@@ -58,6 +64,34 @@ export default function App() {
 		} );
 	}, [ setRouterState ] );
 
+	// Add filter to extend settings routes
+	addFilter(
+		'formgent_settings_routes',
+		'formgent/settings/routes',
+		( routes ) => {
+			return [
+				...routes,
+				{
+					path: '*',
+					element: <General />,
+				},
+				{
+					path: 'integrations',
+					element: <Integrations />,
+				},
+				{
+					path: 'notifications',
+					element: <Notifications />,
+				},
+				{
+					path: 'quiz',
+					element: <Quiz />,
+				},
+			];
+		}
+	);
+
+	// Admin Routes
 	const adminRoutes = applyFilters( 'formgent_admin_routes', [
 		{
 			path: '/*',
