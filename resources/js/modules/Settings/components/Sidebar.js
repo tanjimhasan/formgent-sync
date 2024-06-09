@@ -18,7 +18,6 @@ export default function Sidebar( props ) {
 				<NavLink to="notifications">
 					{ __( 'Notifications', 'formgent' ) }
 				</NavLink>
-				<NavLink to="quiz">{ __( 'Quiz Mode', 'formgent' ) }</NavLink>
 				<NavLink to="integrations">
 					{ __( 'Integrations', 'formgent' ) }
 				</NavLink>
