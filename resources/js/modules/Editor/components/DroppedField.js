@@ -15,7 +15,6 @@ import { AntModal } from '@formgent/components';
 import AlertContent from '@formgent/components/AlertContent';
 
 const DroppedField = ( { id, index, fields, field } ) => {
-	console.log( AntModal.confirm );
 	const [ isAlertActive, setIsAlertActive ] = useState( false );
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
 	const {

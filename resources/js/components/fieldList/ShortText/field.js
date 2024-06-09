@@ -4,7 +4,6 @@ const ShortText = {
 	id: nanoid( 12 ),
 	type: 'short_text',
 	name: 'short_text',
-	group_name: 'basic',
 	general_option: {
 		label: 'Short text',
 		description: '',

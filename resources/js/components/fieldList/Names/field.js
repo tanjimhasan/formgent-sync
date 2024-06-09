@@ -4,7 +4,6 @@ const Names = {
 	id: nanoid( 12 ),
 	type: 'names',
 	name: 'names',
-	group_name: 'basic',
 	fields: [
 		{
 			// The user cannot change Name field child item input name. we will use the type as a input name.

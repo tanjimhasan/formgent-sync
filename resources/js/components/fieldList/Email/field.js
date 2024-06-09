@@ -4,7 +4,6 @@ const Email = {
 	id: nanoid( 12 ),
 	type: 'email',
 	name: 'email',
-	group_name: 'basic',
 	general_option: {
 		label: 'Email',
 		description: '',
