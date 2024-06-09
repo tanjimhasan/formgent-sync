@@ -5,7 +5,6 @@ import FieldEditor from '@formgent/components/FieldEditor';
 
 export default function Name( props ) {
 	const { field } = props;
-	console.log( field );
 	return (
 		<div className="formgent-field">
 			<div className="formgent-field__text">

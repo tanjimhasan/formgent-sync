@@ -169,4 +169,22 @@ const EmptyStyle = Styled.div`
     }
 `;
 
-export { DropdownStyle, InputStyle, ButtonStyle, ModalAlertStyle, EmptyStyle };
+const DeleteAlertStyle = Styled.div`
+    padding: 0 30px 25px;
+    .formgent-delete-alert-text{
+        p{
+            font-size: 14px;
+            color: var(--formgent-color-gray);
+            margin: 0 0 27px;
+        }
+    }
+`;
+
+export {
+	DropdownStyle,
+	InputStyle,
+	ButtonStyle,
+	ModalAlertStyle,
+	EmptyStyle,
+	DeleteAlertStyle,
+};

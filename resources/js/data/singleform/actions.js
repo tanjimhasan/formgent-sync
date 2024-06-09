@@ -53,6 +53,21 @@ export const SingleFormActions = {
 		};
 	},
 
+	duplicateFormField: ( field, index ) => {
+		return {
+			type: 'DUPLICATE_FORM_FIELD',
+			field,
+			index,
+		};
+	},
+
+	deleteFormField: ( id ) => {
+		return {
+			type: 'DELETE_FORM_FIELD',
+			id,
+		};
+	},
+
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api

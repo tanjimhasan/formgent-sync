@@ -9,6 +9,7 @@ const DEFAULT_STATE = {
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, error } = action;
+	let fieldList = {};
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
 			return {
@@ -38,6 +39,35 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				activeCustomizerTab: action?.activeTab,
 			};
+		case 'DUPLICATE_FORM_FIELD':
+			fieldList = structuredClone( state?.singleForm?.content?.fields );
+			fieldList.splice( action.index + 1, 0, action.field );
+
+			return {
+				...state,
+				singleForm: {
+					...state.singleForm,
+					content: {
+						...state.singleForm.content,
+						fields: fieldList,
+					},
+				},
+			};
+		case 'DELETE_FORM_FIELD':
+			fieldList = structuredClone( state?.singleForm?.content?.fields );
+			return {
+				...state,
+				singleForm: {
+					...state.singleForm,
+					content: {
+						...state.singleForm.content,
+						fields: fieldList.filter(
+							( item ) => item.id !== action.id
+						),
+					},
+				},
+			};
+
 		case 'UPDATE_SINGLE_FORM_TYPE':
 			return {
 				...state,
