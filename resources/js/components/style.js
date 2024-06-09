@@ -169,7 +169,7 @@ const EmptyStyle = Styled.div`
     }
 `;
 
-const DeleteAlertStyle = Styled.div`
+const AlertContentStyle = Styled.div`
     padding: 0 30px 25px;
     .formgent-delete-alert-text{
         p{
@@ -186,5 +186,5 @@ export {
 	ButtonStyle,
 	ModalAlertStyle,
 	EmptyStyle,
-	DeleteAlertStyle,
+	AlertContentStyle,
 };

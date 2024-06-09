@@ -10,10 +10,12 @@ import trash from '@icon/trash.svg';
 import arrowUp from '@icon/arrow-up.svg';
 import arrowDown from '@icon/arrow-down.svg';
 import { nanoid } from 'nanoid';
-import BuilderAlert from '@formgent/components/BuilderAlert';
 import { __ } from '@wordpress/i18n';
+import { AntModal } from '@formgent/components';
+import AlertContent from '@formgent/components/AlertContent';
 
 const DroppedField = ( { id, index, fields, field } ) => {
+	console.log( AntModal.confirm );
 	const [ isAlertActive, setIsAlertActive ] = useState( false );
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
 	const {
@@ -71,6 +73,10 @@ const DroppedField = ( { id, index, fields, field } ) => {
 		setIsAlertActive( false );
 	}
 
+	function handleAlertCancel() {
+		setIsAlertActive( false );
+	}
+
 	return field.type === 'spacer' ? (
 		<div
 			className="formgent-dropable-field"
@@ -122,14 +128,14 @@ const DroppedField = ( { id, index, fields, field } ) => {
 				</i>
 			</div>
 
-			{ isAlertActive && (
-				<BuilderAlert
-					title={ __( 'Delete field', 'formgent' ) }
-					submitHandler={ handleDeleteField }
-					setIsAlertActive={ setIsAlertActive }
-					type="field"
-				/>
-			) }
+			<AntModal
+				open={ isAlertActive }
+				title={ __( 'Delete field', 'formgent' ) }
+				onOk={ handleDeleteField }
+				onCancel={ handleAlertCancel }
+			>
+				<AlertContent />
+			</AntModal>
 
 			<ActiveDroppedField field={ field } />
 		</div>

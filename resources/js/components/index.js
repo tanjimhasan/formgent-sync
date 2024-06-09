@@ -4,6 +4,7 @@ import AntSwitch from './Switch';
 import AntTable from './Table';
 import AntInput from './Input';
 import AntTextArea from './TextArea';
+import AntModal from './Modal';
 import AntSpin from './Spin';
 import AntSkeleton from './Skeleton';
 import AntForm from './Form.js';
@@ -18,6 +19,7 @@ registerModule( 'components', {
 	AntSwitch,
 	AntInput,
 	AntTextArea,
+	AntModal,
 	AntForm,
 	AntTable,
 	AntSpin,
@@ -31,4 +33,13 @@ registerModule( 'components', {
 /**
  * Exporting for code editor intellisense support.
  */
-export { AntButton, AntSwitch, AntInput, AntTextArea, AntForm, AntTable, Form };
+export {
+	AntButton,
+	AntSwitch,
+	AntInput,
+	AntTextArea,
+	AntModal,
+	AntForm,
+	AntTable,
+	Form,
+};
