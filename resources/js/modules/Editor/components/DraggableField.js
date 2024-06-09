@@ -6,7 +6,6 @@ import { nanoid } from 'nanoid';
 
 export default function DraggableField( props ) {
 	const { field, fieldInfo, ...rest } = props;
-	console.log( field );
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );

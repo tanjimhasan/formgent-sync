@@ -5,7 +5,6 @@ export const SingleFormResolvers = {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			let stateData = {};
-			console.log( stateData );
 			if ( id ) {
 				const data = yield SingleFormActions.fetchForm(
 					`formgent/admin/forms/${ id }`

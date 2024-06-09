@@ -169,6 +169,17 @@ const EmptyStyle = Styled.div`
     }
 `;
 
+const DeleteAlertStyle = Styled.div`
+    padding: 0 30px 25px;
+    .formgent-delete-alert-text{
+        p{
+            font-size: 14px;
+            color: var(--formgent-color-gray);
+            margin: 0 0 27px;
+        }
+    }
+`;
+
 const FormHeaderStyle = Styled.div`
     display: flex;
     gap: 50px;
@@ -361,13 +372,13 @@ const FormHeaderStyle = Styled.div`
             .formgent-dropdown__button {
                 font-size: 18px;
             }
-
         }
     }
 `;
 
 export {
 	ButtonStyle,
+	DeleteAlertStyle,
 	DropdownStyle,
 	EmptyStyle,
 	FormHeaderStyle,

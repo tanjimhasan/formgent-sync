@@ -2,6 +2,7 @@
 
 use FormGent\App\Http\Controllers\Admin\EntryController;
 use FormGent\App\Http\Controllers\Admin\FormController;
+use FormGent\App\Http\Controllers\FontController;
 use FormGent\WpMVC\Routing\Route;
 
 Route::group(
@@ -23,5 +24,7 @@ Route::group(
                 Route::resource( '/', EntryController::class );
             }
         );
+
+        Route::get( 'fonts', [FontController::class, 'index'] );
     }, ['admin']
 );

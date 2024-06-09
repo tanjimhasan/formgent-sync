@@ -84,7 +84,7 @@ class EntryController extends Controller {
         //     $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
         // }
 
-        do_action( "formgent_before_create_form_entry", $form, $wp_rest_request );
+        do_action( "formgent_before_create_form_entry", $entry_dto, $form, $wp_rest_request );
 
         $entry_id = $this->repository->create( $entry_dto );
 
