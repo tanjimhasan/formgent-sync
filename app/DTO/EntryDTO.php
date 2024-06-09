@@ -9,6 +9,8 @@ class EntryDTO extends DTO {
 
     private int $is_read = 0;
 
+    private int $is_completed = 1;
+
     private string $ip;
 
     private ?int $created_by = null;
@@ -81,6 +83,28 @@ class EntryDTO extends DTO {
      */
     public function set_is_read( int $is_read ) {
         $this->is_read = $is_read;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of is_completed
+     *
+     * @return int
+     */
+    public function get_is_completed() {
+        return $this->is_completed;
+    }
+
+    /**
+     * Set the value of is_completed
+     *
+     * @param int $is_completed 
+     *
+     * @return self
+     */
+    public function set_is_completed( int $is_completed ) {
+        $this->is_completed = $is_completed;
 
         return $this;
     }
