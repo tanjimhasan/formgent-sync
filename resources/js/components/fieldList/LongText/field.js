@@ -4,12 +4,18 @@ const LongText = {
 	id: nanoid( 12 ),
 	type: 'long_text',
 	name: 'long_text',
+	fields: [
+		{
+			id: nanoid( 12 ),
+			type: 'long_text',
+			label: 'Long Text',
+			placeholder: 'Short text',
+		},
+	],
 	general_option: {
 		label: 'Long text',
-		description: '',
-		placeholder: '',
-		row: '',
-		cols: '',
+		label_alignment: 'left', //left,right,top
+		format: 'full', //full,f-l, f-m-l
 		validations: {
 			required: {
 				value: '0',
@@ -20,9 +26,7 @@ const LongText = {
 	},
 	advance_option: {
 		default_value: '',
-		container_class: '',
-		field_class: '',
-		max_length: '',
+		css_class: '',
 		logics: {
 			is_advance_logic_active: '0',
 		},

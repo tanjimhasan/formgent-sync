@@ -4,10 +4,18 @@ const Email = {
 	id: nanoid( 12 ),
 	type: 'email',
 	name: 'email',
+	fields: [
+		{
+			id: nanoid( 12 ),
+			type: 'email',
+			label: 'example@example.com',
+			placeholder: 'Email address',
+		},
+	],
 	general_option: {
 		label: 'Email',
-		description: '',
-		placeholder: 'Email Address',
+		label_alignment: 'left', //left,right,top
+		format: 'full', //full,f-l, f-m-l
 		validations: {
 			required: {
 				value: '0',
@@ -18,9 +26,7 @@ const Email = {
 	},
 	advance_option: {
 		default_value: '',
-		container_class: '',
-		field_class: '',
-		max_length: '',
+		css_class: '',
 		logics: {
 			is_advance_logic_active: '0',
 		},

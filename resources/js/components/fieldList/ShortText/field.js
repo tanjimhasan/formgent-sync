@@ -4,10 +4,18 @@ const ShortText = {
 	id: nanoid( 12 ),
 	type: 'short_text',
 	name: 'short_text',
+	fields: [
+		{
+			id: nanoid( 12 ),
+			type: 'short_text',
+			label: 'Short Text',
+			placeholder: 'Short text',
+		},
+	],
 	general_option: {
 		label: 'Short text',
-		description: '',
-		placeholder: '',
+		label_alignment: 'left', //left,right,top
+		format: 'full', //full,f-l, f-m-l
 		validations: {
 			required: {
 				value: '0',
@@ -18,9 +26,7 @@ const ShortText = {
 	},
 	advance_option: {
 		default_value: '',
-		container_class: '',
-		field_class: '',
-		max_length: '',
+		css_class: '',
 		logics: {
 			is_advance_logic_active: '0',
 		},
