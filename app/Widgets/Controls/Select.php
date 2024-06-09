@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Widgets\Controls;
 
+defined( 'ABSPATH' ) || exit;
+
 class Select extends \Elementor\Control_Select2 {
     public function get_type() {
         return 'formgent-select';

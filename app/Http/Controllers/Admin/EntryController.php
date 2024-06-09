@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Controllers\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\DTO\EntryReadDTO;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\EntryRepository;

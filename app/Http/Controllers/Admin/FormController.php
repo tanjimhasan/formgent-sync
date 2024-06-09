@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Controllers\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
@@ -151,10 +153,11 @@ class FormController extends Controller {
     public function update( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'id'      => 'required|numeric',
-                'title'   => 'required|string|max:255|min:5',
-                'status'  => 'required|string|accepted:publish,draft',
-                'content' => 'required|json'
+                'id'          => 'required|numeric',
+                'title'       => 'required|string|max:255|min:5',
+                'status'      => 'required|string|accepted:publish,draft',
+                'font_family' => 'required|string',
+                'content'     => 'required|json'
             ]
         );
 
@@ -200,6 +203,11 @@ class FormController extends Controller {
         $dto->set_title( $wp_rest_request->get_param( 'title' ) );
         $dto->set_status( $wp_rest_request->get_param( 'status' ) );
         $dto->set_content( $wp_rest_request->get_param( 'content' ) );
+
+        if ( $wp_rest_request->has_param( 'font_family' ) ) {
+            $dto->set_font_family( $wp_rest_request->get_param( 'font_family' ) );
+        }
+
         $dto->set_created_by( get_current_user_id() );
 
         try {

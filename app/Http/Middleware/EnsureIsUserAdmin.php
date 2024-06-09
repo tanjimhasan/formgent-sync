@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Middleware;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\WpMVC\Routing\Contracts\Middleware;
 use WP_REST_Request;
 

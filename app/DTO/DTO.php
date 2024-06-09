@@ -2,6 +2,8 @@
 
 namespace FormGent\App\DTO;
 
+defined( 'ABSPATH' ) || exit;
+
 use ReflectionClass;
 
 abstract class DTO {

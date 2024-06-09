@@ -2,6 +2,8 @@
 
 namespace FormGent\App\DTO;
 
+defined( 'ABSPATH' ) || exit;
+
 class FormMetaDTO extends DTO {
     private int $id;
 

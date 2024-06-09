@@ -2,6 +2,8 @@
 
 namespace FormGent\App\DTO;
 
+defined( 'ABSPATH' ) || exit;
+
 class FieldDTO extends DTO {
     private int $id;
 

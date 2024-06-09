@@ -2,6 +2,8 @@
 
 namespace FormGent\App\DTO;
 
+defined( 'ABSPATH' ) || exit;
+
 trait ReadQueryDTO {
     private int $per_page = 10;
 

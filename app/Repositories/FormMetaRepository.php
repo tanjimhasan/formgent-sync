@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Repositories;
 
+defined( 'ABSPATH' ) || exit;
+
 use Exception;
 use FormGent\App\DTO\FormMetaDTO;
 use FormGent\App\DTO\FormMetaReadQueryDTO;

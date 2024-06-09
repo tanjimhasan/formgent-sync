@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Repositories;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\DTO\EntryDTO;
 use FormGent\App\DTO\EntryReadDTO;
 use FormGent\App\Models\Entry;

@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Controllers;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\WpMVC\Routing\Response;
 

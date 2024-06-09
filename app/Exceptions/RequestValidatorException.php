@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Exceptions;
 
+defined( 'ABSPATH' ) || exit;
+
 use Exception;
 use Throwable;
 

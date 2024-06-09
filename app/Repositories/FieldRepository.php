@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Repositories;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\DTO\FieldDTO;
 use FormGent\App\Models\Field;
 use FormGent\WpMVC\Database\Query\Builder;

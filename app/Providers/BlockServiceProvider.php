@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Providers;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\WpMVC\Contracts\Provider;
 
 class BlockServiceProvider implements Provider {

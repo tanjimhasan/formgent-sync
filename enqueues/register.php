@@ -1,8 +1,8 @@
 <?php
 
-use FormGent\WpMVC\Enqueue\Enqueue;
-
 defined( 'ABSPATH' ) || exit;
+
+use FormGent\WpMVC\Enqueue\Enqueue;
 
 wp_enqueue_style( 'wp-components' );
 

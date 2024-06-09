@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Models;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\WpMVC\App;
 use FormGent\WpMVC\Database\Resolver;
 use FormGent\WpMVC\Database\Eloquent\Model;

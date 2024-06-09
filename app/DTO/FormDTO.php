@@ -13,6 +13,8 @@ class FormDTO extends DTO {
 
     private string $content;
 
+    private ?string $font_family = null;
+
     private int $created_by;
 
     private int $save_incomplete_data = 0;
@@ -123,6 +125,28 @@ class FormDTO extends DTO {
      */
     public function set_content( string $content ) {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of font_family
+     *
+     * @return string
+     */
+    public function get_font_family() {
+        return $this->font_family;
+    }
+
+    /**
+     * Set the value of font_family
+     *
+     * @param string $font_family 
+     *
+     * @return self
+     */
+    public function set_font_family( string $font_family ) {
+        $this->font_family = $font_family;
 
         return $this;
     }

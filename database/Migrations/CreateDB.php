@@ -2,6 +2,8 @@
 
 namespace FormGent\Database\Migrations;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\WpMVC\Contracts\Migration;
 
 class CreateDB implements Migration {
@@ -32,6 +34,7 @@ class CreateDB implements Migration {
             `type` VARCHAR(50) NOT NULL DEFAULT 'general',
             `save_incomplete_data` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `content` LONGTEXT NOT NULL,
+            `font_family` VARCHAR(255) NULL,
             `created_by` BIGINT UNSIGNED NOT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,

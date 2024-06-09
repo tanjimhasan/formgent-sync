@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Repositories;
 
+defined( 'ABSPATH' ) || exit;
+
 use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
@@ -153,6 +155,7 @@ class FormRepository {
                 'title'                => $dto->get_title(),
                 'status'               => $dto->get_status(),
                 'content'              => $dto->get_content(),
+                'font_family'          => $dto->get_font_family(),
                 'save_incomplete_data' => $dto->get_save_incomplete_data(),
             ]
         );

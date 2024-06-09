@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Widgets;
 
+defined( 'ABSPATH' ) || exit;
+
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 

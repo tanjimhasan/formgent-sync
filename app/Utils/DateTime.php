@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Utils;
 
+defined( 'ABSPATH' ) || exit;
+
 use DateTime as PHPDateTime;
 use DateTimeZone;
 use Exception;

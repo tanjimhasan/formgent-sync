@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Providers;
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\Widgets\Form;
 use FormGent\App\Widgets\Controls\Select;
 use FormGent\WpMVC\Contracts\Provider;

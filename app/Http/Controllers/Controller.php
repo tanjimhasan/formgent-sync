@@ -2,6 +2,8 @@
 
 namespace FormGent\App\Http\Controllers;
 
+defined( 'ABSPATH' ) || exit;
+
 use WP_REST_Request;
 
 abstract class Controller {

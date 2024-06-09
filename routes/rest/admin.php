@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 use FormGent\App\Http\Controllers\Admin\EntryController;
 use FormGent\App\Http\Controllers\Admin\FormController;
 use FormGent\App\Http\Controllers\FontController;

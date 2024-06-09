@@ -172,3 +172,7 @@ function formgent_get_entry_by_token( string $token, int $form_id ) {
     $entry_repository = formgent_singleton( EntryRepository::class );
     return $entry_repository->get_by_id( $response_id );
 }
+
+function formgent_font_family_dir( string $file = '' ) {
+    return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
+}
