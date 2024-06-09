@@ -2,8 +2,9 @@ import { SettingsModule } from '@formgent/modules';
 import { addFilter } from '@wordpress/hooks';
 
 // Import Settings Pages
-import Integrations from './Integrations.js';
-import IntegrationsTest from './IntegrationsTest.js';
+import IntegrationsChild1 from './IntegrationsChild1.js';
+import IntegrationsChild2 from './IntegrationsChild2.js';
+import IntegrationsChild3 from './IntegrationsChild3.js';
 
 // Add filter to extend settings routes
 addFilter(
@@ -13,12 +14,22 @@ addFilter(
 		return [
 			...routes,
 			{
-				path: 'integrations',
-				element: <Integrations />,
+				key: 'integrations-child1',
+				label: 'Integrations Child 1',
+				path: 'integrations/child1',
+				element: <IntegrationsChild1 />,
 			},
 			{
-				path: 'integrations/test',
-				element: <IntegrationsTest />,
+				key: 'integrations-child2',
+				label: 'Integrations Child 2',
+				path: 'integrations/child2',
+				element: <IntegrationsChild2 />,
+			},
+			{
+				key: 'integrations-child3',
+				label: 'Integrations Child 3',
+				path: 'integrations/child3',
+				element: <IntegrationsChild3 />,
 			},
 		];
 	}

@@ -376,6 +376,10 @@ const FormHeaderStyle = Styled.div`
     }
 `;
 
+const MenuStyle = Styled.div`
+
+`;
+
 export {
 	ButtonStyle,
 	DeleteAlertStyle,
@@ -383,5 +387,6 @@ export {
 	EmptyStyle,
 	FormHeaderStyle,
 	InputStyle,
+	MenuStyle,
 	ModalAlertStyle,
 };

@@ -15,21 +15,27 @@ function Settings( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams, Route, Routes, NavLink, useNavigate } =
+	const { useParams, Route, Routes, NavLink, useNavigate, useLocation } =
 		CommonReducer.routerComponents;
 
 	const { id } = useParams();
 
 	const settingsRoutes = applyFilters( 'formgent_settings_routes', [
 		{
+			key: 'general',
+			label: 'General Settings',
 			path: '*',
 			element: <General />,
 		},
 		{
+			key: 'notifications',
+			label: 'Notifications',
 			path: 'notifications',
 			element: <Notifications />,
 		},
 	] );
+
+	console.log( 'settingsRoutes', settingsRoutes );
 
 	return (
 		<div className="formgent-editor-wrap">
@@ -43,7 +49,12 @@ function Settings( props ) {
 				className="formgent-editor-wrap__content"
 				style={ { display: 'flex' } }
 			>
-				<Sidebar NavLink={ NavLink } />
+				<Sidebar
+					NavLink={ NavLink }
+					useNavigate={ useNavigate }
+					useLocation={ useLocation }
+					navItems={ settingsRoutes }
+				/>
 
 				<Suspense fallback={ <></> }>
 					<Routes>
