@@ -1,14 +1,11 @@
 import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Input } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
 
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
-import checkIcon from '@icon/check.svg';
 import favIcon from '@icon/fav.svg';
-import pencilIcon from '@icon/pen-nib.svg';
 
 export default function FormHeader( props ) {
 	const { id, useNavigate } = props;
@@ -70,8 +67,7 @@ export default function FormHeader( props ) {
 					</button>
 				</div>
 
-				{ /* save as draft */ }
-				<div className="formgent-editor-header__info__wrap">
+				{ /* <div className="formgent-editor-header__info__wrap">
 					<div className="formgent-editor-header__info__title">
 						{ isEditing && (
 							<ReactSVG
@@ -102,7 +98,7 @@ export default function FormHeader( props ) {
 						<ReactSVG src={ checkIcon } />
 						{ __( 'Saved in draft', 'formgent' ) }
 					</span>
-				</div>
+				</div> */ }
 			</div>
 
 			{ /* Editor Header Nav */ }
