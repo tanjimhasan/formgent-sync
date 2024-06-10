@@ -13,54 +13,23 @@ export default function Sidebar( props ) {
 		return activeSidebarNav === path;
 	};
 
-	function convertMenuFormat( data ) {
-		const menuItems = {};
-
-		// Iterate through the data to organize menu items
-		data.forEach( ( item ) => {
-			const pathParts = item.path.split( '/' );
-			const parentKey = pathParts[ 0 ];
-
-			// If the path contains more than one part
-			if ( pathParts.length > 1 ) {
-				const childKey = pathParts[ 1 ];
-
-				// Check if parent already exists in menuItems
-				if ( ! menuItems[ parentKey ] ) {
-					// If not, create the parent menu item
-					menuItems[ parentKey ] = {
-						key: parentKey,
-						label:
-							parentKey.charAt( 0 ).toUpperCase() +
-							parentKey.slice( 1 ), // Capitalize the first letter
-						children: [],
-					};
+	// Recursive function to find the active item
+	const findActiveItem = ( items ) => {
+		for ( const item of items ) {
+			if ( isActive( item.path ) ) {
+				return item;
+			} else if ( item.children ) {
+				const activeChild = findActiveItem( item.children );
+				if ( activeChild ) {
+					return activeChild;
 				}
-
-				// Add the child menu item to the parent
-				menuItems[ parentKey ].children.push( {
-					label: item.label,
-					key: `${ parentKey }/${ childKey }`,
-				} );
-			} else {
-				// If there's only one part in the path, it's a standalone menu item
-				menuItems[ item.key ] = {
-					key: item.key,
-					label: item.label,
-				};
 			}
-		} );
+		}
+		return null;
+	};
 
-		// Convert the menuItems object to an array
-		const result = Object.values( menuItems );
-
-		return result;
-	}
-
-	const sidebarNavItems = navItems && convertMenuFormat( navItems );
-
-	// Find the key of the menu item that matches the current pathname
-	const activeItem = navItems.find( ( item ) => isActive( item.path ) );
+	// Find the active item in the navItems
+	const activeItem = findActiveItem( navItems );
 	const defaultSelectedChild = activeItem?.path;
 	const defaultSelectedParent = activeItem?.path?.split( '/' )[ 0 ];
 
@@ -80,7 +49,7 @@ export default function Sidebar( props ) {
 				defaultSelectedKeys={ [ defaultSelectedChild || 'general' ] }
 				defaultOpenKeys={ [ defaultSelectedParent ] }
 				mode="inline"
-				items={ sidebarNavItems }
+				items={ navItems }
 				onClick={ handleMenuClick }
 				className="formgent-settings-sider__nav"
 			/>

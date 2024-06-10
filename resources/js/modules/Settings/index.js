@@ -2,6 +2,9 @@ import { useSelect } from '@wordpress/data';
 import { Suspense, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
+import IntegrationsChild1 from '@formgent/admin/pages/Settings/IntegrationsChild1';
+import IntegrationsChild2 from '@formgent/admin/pages/Settings/IntegrationsChild2';
+import IntegrationsChild3 from '@formgent/admin/pages/Settings/IntegrationsChild3';
 import FormHeader from '@formgent/components/FormHeader';
 import General from './components/General';
 import Notifications from './components/Notifications';
@@ -58,7 +61,7 @@ function Settings( props ) {
 
 				<Suspense fallback={ <></> }>
 					<Routes>
-						{ settingsRoutes.map( ( routeItem, index ) => {
+						{ /* { settingsRoutes.map( ( routeItem, index ) => {
 							return (
 								<Route
 									key={ index }
@@ -66,7 +69,28 @@ function Settings( props ) {
 									element={ routeItem.element }
 								/>
 							);
-						} ) }
+						} ) } */ }
+						<Route key="general" path="*" element={ <General /> } />
+						<Route
+							key="notifications"
+							path="notifications"
+							element={ <Notifications /> }
+						/>
+						<Route
+							key="integrations/child1"
+							path="integrations/child1"
+							element={ <IntegrationsChild1 /> }
+						/>
+						<Route
+							key="integrations/child2"
+							path="integrations/child2"
+							element={ <IntegrationsChild2 /> }
+						/>
+						<Route
+							key="integrations/child3"
+							path="integrations/child3"
+							element={ <IntegrationsChild3 /> }
+						/>
 					</Routes>
 				</Suspense>
 			</div>

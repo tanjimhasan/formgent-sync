@@ -14,22 +14,28 @@ addFilter(
 		return [
 			...routes,
 			{
-				key: 'integrations-child1',
-				label: 'Integrations Child 1',
-				path: 'integrations/child1',
-				element: <IntegrationsChild1 />,
-			},
-			{
-				key: 'integrations-child2',
-				label: 'Integrations Child 2',
-				path: 'integrations/child2',
-				element: <IntegrationsChild2 />,
-			},
-			{
-				key: 'integrations-child3',
-				label: 'Integrations Child 3',
-				path: 'integrations/child3',
-				element: <IntegrationsChild3 />,
+				key: 'integrations',
+				label: 'Integrations',
+				children: [
+					{
+						key: 'integrations/child1',
+						label: 'Integrations Child 1',
+						path: 'integrations/child1',
+						element: <IntegrationsChild1 />,
+					},
+					{
+						key: 'integrations/child2',
+						label: 'Integrations Child 2',
+						path: 'integrations/child2',
+						element: <IntegrationsChild2 />,
+					},
+					{
+						key: 'integrations/child3',
+						label: 'Integrations Child 3',
+						path: 'integrations/child3',
+						element: <IntegrationsChild3 />,
+					},
+				],
 			},
 		];
 	}
