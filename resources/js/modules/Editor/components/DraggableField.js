@@ -1,10 +1,10 @@
-import { useRef, useCallback } from '@wordpress/element';
+import { useRef, memo, useCallback } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import ReactSVG from 'react-inlinesvg';
 import { useDraggable } from '@dnd-kit/core';
 import { nanoid } from 'nanoid';
 
-export default function DraggableField( props ) {
+const DraggableField = ( props ) => {
 	const { field, fieldInfo, ...rest } = props;
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -56,4 +56,6 @@ export default function DraggableField( props ) {
 			</span>
 		</div>
 	);
-}
+};
+
+export default memo( DraggableField );

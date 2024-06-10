@@ -1,55 +1,54 @@
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { InserterStyle } from './style';
 import DraggableField from './DraggableField';
 import { registerFields } from '@formgent/fields';
 import { AntInput } from '@formgent/components';
 import search from '@icon/search.svg';
-import chartBar from '@icon/chart-bar.svg';
-import bar from '@icon/bar.svg';
-import user from '@icon/user.svg';
-import mail from '@icon/mail.svg';
 import { Row, Col } from 'antd';
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
 	const [ activeTab, setActiveTab ] = useState( 'element' );
-	// 'long_text', 'short_text', 'name'
-	const basicFields = {
-		long_text: {
-			title: 'Long text',
-			icon: chartBar,
-		},
-		short_text: {
-			title: 'Short text',
-			icon: bar,
-		},
-		names: {
-			title: 'Name Fields',
-			icon: user,
-		},
-		email: {
-			title: 'Email',
-			icon: mail,
-		},
-	};
-	const advanceFields = [];
-	const fields = registerFields().filter(
+	const mainFields = registerFields().filter(
 		( item ) => item.type !== 'spacer'
 	);
+	const [ fields, setFields ] = useState( mainFields );
+	const [ searchQuery, setSearchQuery ] = useState( '' );
 
-	function getFieldByGroup( fieldGroup, field ) {
-		if ( ! ( field.type in fieldGroup ) ) {
+	function getFieldByGroup( groupName, field ) {
+		if (
+			! ( field.group === groupName ) ||
+			field.fieldObj.group === 'submit'
+		) {
 			return;
 		}
+
 		return (
 			<Col span={ 8 }>
 				<DraggableField
-					key={ field.id }
-					field={ field }
-					fieldInfo={ fieldGroup[ field.type ] }
+					key={ field?.fieldObj?.id }
+					field={ field?.fieldObj }
+					fieldInfo={ { title: field?.title, icon: field?.icon } }
 				/>
 			</Col>
 		);
+	}
+
+	//Search fields
+	useEffect( () => {
+		if ( searchQuery.trim() === '' ) {
+			setFields( mainFields );
+		} else {
+			const filteredScreenTypes = mainFields.filter( ( field ) =>
+				field.title.toLowerCase().includes( searchQuery.toLowerCase() )
+			);
+			setFields( filteredScreenTypes );
+		}
+	}, [ searchQuery ] );
+
+	//update search query
+	function handleUpdateSearchQuery( e ) {
+		setSearchQuery( e.target.value );
 	}
 
 	return (
@@ -96,7 +95,10 @@ export default function FieldInserter( props ) {
 				</div>
 				<div className="formgent-editor-sider__content">
 					<div className="formgent-editor-sider__field-search">
-						<AntInput prefix={ <ReactSVG src={ search } /> } />
+						<AntInput
+							prefix={ <ReactSVG src={ search } /> }
+							onChange={ handleUpdateSearchQuery }
+						/>
 					</div>
 					<span className="formgent-editor-inserter__label">
 						General
@@ -104,7 +106,7 @@ export default function FieldInserter( props ) {
 					<div className="formgent-editor-inserter__group">
 						<Row gutter={ 15 }>
 							{ fields.map( ( field ) =>
-								getFieldByGroup( basicFields, field )
+								getFieldByGroup( 'basic', field )
 							) }
 						</Row>
 					</div>

@@ -5,6 +5,7 @@ import AntCheckbox from './Checkbox';
 import AntForm from './Form.js';
 import AntInput from './Input';
 import AntMenu from './Menu';
+import AntModal from './Modal';
 import AntSkeleton from './Skeleton';
 import AntSpin from './Spin';
 import AntSwitch from './Switch';
@@ -19,6 +20,7 @@ registerModule( 'components', {
 	AntSwitch,
 	AntInput,
 	AntTextArea,
+	AntModal,
 	AntForm,
 	AntTable,
 	AntSpin,
@@ -38,6 +40,7 @@ export {
 	AntForm,
 	AntInput,
 	AntMenu,
+	AntModal,
 	AntSwitch,
 	AntTable,
 	AntTextArea,
