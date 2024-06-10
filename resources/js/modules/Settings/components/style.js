@@ -22,10 +22,12 @@ const SettingsSidebarStyle = Styled.div`
         gap: 6px;
         padding: 15px;
         margin: 0;
-        a {
+        background: transparent;
+        .ant-menu-item {
             font-size: 14px;
             font-weight: 600;
             padding: 10px 15px;
+            margin: 0 !important;
             border-radius: 8px;
             color: var(--formgent-font-color);
             text-decoration: none;
@@ -33,11 +35,41 @@ const SettingsSidebarStyle = Styled.div`
             box-shadow: none;
             outline: none;
             transition: all ease .3s;
-            &.active,
+            .ant-menu-sub {
+                background: transparent;
+            }
+            &.ant-menu-item-selected,
             &:hover {
                 color: var(--formgent-color-dark);
                 background-color: var(--formgent-color-bg-light);
             }
+        }
+        .ant-menu-submenu {
+            .ant-menu-submenu-title {
+                font-size: 14px;
+                font-weight: 600;
+                padding: 10px 15px;
+                margin: 0 !important;
+                border-radius: 8px;
+                color: var(--formgent-font-color);
+                text-decoration: none;
+                border: none;
+                box-shadow: none;
+                outline: none;
+                transition: all ease .3s;
+                &:hover {
+                    color: var(--formgent-color-dark);
+                    background-color: var(--formgent-color-bg-light);
+                }
+            }
+            &.ant-menu-submenu-selected .ant-menu-submenu-title {
+                color: var(--formgent-color-dark);
+                background-color: var(--formgent-color-bg-light);
+            }
+            .ant-menu-sub {
+                background: transparent;
+            }
+        
         }
     }
 `;

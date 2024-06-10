@@ -82,6 +82,7 @@ export default function Sidebar( props ) {
 				mode="inline"
 				items={ sidebarNavItems }
 				onClick={ handleMenuClick }
+				className="formgent-settings-sider__nav"
 			/>
 		</SettingsSidebarStyle>
 	);
