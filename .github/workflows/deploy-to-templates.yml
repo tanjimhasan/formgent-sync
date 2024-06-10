@@ -56,6 +56,7 @@ jobs:
             .husky/**
             .wordpress-org/**
             tools/**
+            CustomSniffs/**
             node_modules/**
             resources/js/**
             resources/svg/**

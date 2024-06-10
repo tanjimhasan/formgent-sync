@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+// phpcs:ignore CustomSniffs.Files.ABSPATHDefined.ABSPATHCheck
 use Isolated\Symfony\Component\Finder\Finder;
 
 // You can do your own things here, e.g. collecting symbols to expose dynamically
