@@ -1,4 +1,8 @@
 import { applyFilters } from '@wordpress/hooks';
+import chartBar from '@icon/chart-bar.svg';
+import bar from '@icon/bar.svg';
+import user from '@icon/user.svg';
+import mail from '@icon/mail.svg';
 
 /**
  * Preview of fields
@@ -38,11 +42,36 @@ function registerPreviewFields() {
  */
 function registerFields() {
 	return applyFilters( 'formgent_fields', [
-		LongTextField,
-		ShortTextField,
-		NamesField,
-		EmailField,
-		SubmitButtonField,
+		{
+			title: 'Long text',
+			group: 'basic',
+			icon: chartBar,
+			fieldObj: LongTextField,
+		},
+		{
+			title: 'Short text',
+			group: 'basic',
+			icon: bar,
+			fieldObj: ShortTextField,
+		},
+		{
+			title: 'Name Fields',
+			group: 'basic',
+			icon: user,
+			fieldObj: NamesField,
+		},
+		{
+			title: 'Email',
+			group: 'basic',
+			icon: mail,
+			fieldObj: EmailField,
+		},
+		{
+			title: 'Submit button',
+			group: 'submit',
+			icon: null,
+			fieldObj: SubmitButtonField,
+		},
 	] );
 }
 

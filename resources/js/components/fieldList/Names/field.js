@@ -4,55 +4,42 @@ const Names = {
 	id: nanoid( 12 ),
 	type: 'names',
 	name: 'names',
-	group_name: 'basic',
 	fields: [
 		{
 			// The user cannot change Name field child item input name. we will use the type as a input name.
 			id: nanoid( 12 ),
-			placeholder: 'First Name',
 			type: 'first_name',
-			validations: {
-				required: {
-					value: '0',
-					message: 'This field is required',
-					global_message: 'This field is required',
-				},
-			},
+			label: 'First Name',
+			placeholder: 'First Name',
 		},
 		{
 			id: nanoid( 12 ),
-			placeholder: 'Middle Name',
+			label: 'Middle Name',
 			type: 'middle_name',
-			validations: {
-				required: {
-					value: '0',
-					message: 'This field is required',
-					global_message: 'This field is required',
-				},
-			},
+			placeholder: 'Middle Name',
 		},
 		{
 			id: nanoid( 12 ),
 			type: 'last_name',
+			label: 'Last Name',
 			placeholder: 'Last Name',
-			validations: {
-				required: {
-					value: '0',
-					message: 'This field is required',
-					global_message: 'This field is required',
-				},
-			},
 		},
 	],
 	general_option: {
 		label: '',
-		description: '',
+		label_alignment: 'left', //left,right,top
+		format: 'full', //full,f-l, f-m-l
+		validations: {
+			required: {
+				value: '0',
+				message: 'This field is required',
+				global_message: 'This field is required',
+			},
+		},
 	},
 	advance_option: {
 		default_value: '',
-		container_class: '',
-		field_class: '',
-		max_length: '',
+		css_class: '',
 		logics: {
 			is_advance_logic_active: '0',
 		},

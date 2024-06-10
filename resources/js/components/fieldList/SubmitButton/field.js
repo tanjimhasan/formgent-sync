@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid';
-
 const SubmitButton = {
 	name: 'submit_button',
 	general_option: {
