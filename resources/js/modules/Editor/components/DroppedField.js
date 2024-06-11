@@ -88,12 +88,14 @@ const DroppedField = ( { id, index, fields, field } ) => {
 	) : (
 		<div
 			className={ `formgent-dropable-field ${
-				SingleFormReducer.activeField === id ? 'formgent-active' : ''
+				SingleFormReducer?.activeField?.id === id
+					? 'formgent-active'
+					: ''
 			}` }
 			ref={ setNodeRef }
 			style={ style }
 			{ ...attributes }
-			onClick={ () => updateActiveField( id ) }
+			onClick={ () => updateActiveField( field ) }
 		>
 			<span className="formgent-dropable-field__sorting" { ...listeners }>
 				<ReactSVG src={ dotsGrid } />

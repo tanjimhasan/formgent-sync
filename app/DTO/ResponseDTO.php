@@ -4,7 +4,7 @@ namespace FormGent\App\DTO;
 
 defined( 'ABSPATH' ) || exit;
 
-class EntryDTO extends DTO {
+class ResponseDTO extends DTO {
     private int $id;
 
     private int $form_id;

@@ -39,10 +39,30 @@ export const SingleFormActions = {
 		};
 	},
 
-	updateActiveField: ( id ) => {
+	publishFormRequest: () => {
+		return {
+			type: 'PUBLISH_FORM_REQUEST',
+		};
+	},
+
+	publishFormSuccess: ( data ) => {
+		return {
+			type: 'PUBLISH_FORM_SUCCESS',
+			data,
+		};
+	},
+
+	publishFormError: ( error ) => {
+		return {
+			type: 'PUBLISH_FORM_ERROR',
+			error,
+		};
+	},
+
+	updateActiveField: ( field ) => {
 		return {
 			type: 'UPDATE_ACTIVE_FIELD',
-			id,
+			field,
 		};
 	},
 

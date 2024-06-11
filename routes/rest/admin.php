@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Http\Controllers\Admin\EntryController;
+use FormGent\App\Http\Controllers\Admin\ResponseController;
 use FormGent\App\Http\Controllers\Admin\FormController;
 use FormGent\App\Http\Controllers\FontController;
 use FormGent\WpMVC\Routing\Route;
@@ -22,8 +22,8 @@ Route::group(
             }
         );
         Route::group(
-            'entries', function() {
-                Route::resource( '/', EntryController::class );
+            'responses', function() {
+                Route::resource( '/', ResponseController::class );
             }
         );
 

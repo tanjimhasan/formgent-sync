@@ -106,7 +106,7 @@ export default function Table() {
 	}, [] );
 
 	useEffect( () => {
-		const formItem = FormReducer.forms.find( ( item ) => item.id === id );
+		const formItem = FormReducer.forms.find( ( item ) => item?.id === id );
 		const pagination = formItem?.pagination || tableParams?.pagination;
 		console.log(
 			'responseTable FormReducer',

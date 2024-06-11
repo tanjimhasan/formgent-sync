@@ -4,10 +4,10 @@ namespace FormGent\App\DTO;
 
 defined( 'ABSPATH' ) || exit;
 
-class FieldDTO extends DTO {
+class AnswerDTO extends DTO {
     private int $id;
 
-    private int $entry_id = 0;
+    private int $response_id = 0;
 
     private int $form_id;
 
@@ -42,23 +42,23 @@ class FieldDTO extends DTO {
     }
 
     /**
-     * Get the value of entry_id
+     * Get the value of response_id
      *
      * @return int
      */
-    public function get_entry_id() {
-        return $this->entry_id;
+    public function get_response_id() {
+        return $this->response_id;
     }
 
     /**
-     * Set the value of entry_id
+     * Set the value of response_id
      *
-     * @param int $entry_id 
+     * @param int $response_id 
      *
      * @return self
      */
-    public function set_entry_id( int $entry_id ) {
-        $this->entry_id = $entry_id;
+    public function set_response_id( int $response_id ) {
+        $this->response_id = $response_id;
 
         return $this;
     }

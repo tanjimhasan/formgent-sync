@@ -4,21 +4,21 @@ namespace FormGent\App\Http\Controllers\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\DTO\EntryReadDTO;
+use FormGent\App\DTO\ResponseReadDTO;
 use FormGent\App\Http\Controllers\Controller;
-use FormGent\App\Repositories\EntryRepository;
-use FormGent\App\Repositories\FieldRepository;
+use FormGent\App\Repositories\ResponseRepository;
+use FormGent\App\Repositories\AnswerRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use WP_REST_Request;
 use FormGent\WpMVC\Routing\Response;
 
-class EntryController extends Controller {
-    public EntryRepository $repository;
+class ResponseController extends Controller {
+    public ResponseRepository $repository;
 
     public FormRepository $form_repository;
 
-    public function __construct( EntryRepository $repository, FormRepository $form_repository ) {
+    public function __construct( ResponseRepository $repository, FormRepository $form_repository ) {
         $this->repository      = $repository;
         $this->form_repository = $form_repository;
     } 
@@ -45,7 +45,7 @@ class EntryController extends Controller {
             );
         }
 
-        $dto = new EntryReadDTO;
+        $dto = new ResponseReadDTO;
         $dto->set_page( intval( $wp_rest_request->get_param( 'page' ) ) );
         $dto->set_per_page( intval( $wp_rest_request->get_param( 'per_page' ) ) );
         $dto->set_search( (string) $wp_rest_request->get_param( 's' ) );
@@ -70,9 +70,9 @@ class EntryController extends Controller {
         //     $dto->set_date_type( $wp_rest_request->get_param( 'date_type' ) );
         // }
 
-        $data                = $this->repository->get( $dto );
-        $response            = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page() );
-        $response['entries'] = $data['entries'];
+        $data                  = $this->repository->get( $dto );
+        $response              = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
+        $response['responses'] = $data['responses'];
 
         return Response::send( $response );
     }
@@ -92,26 +92,26 @@ class EntryController extends Controller {
             );
         }
 
-        $entry = $this->repository->get_single_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+        $response = $this->repository->get_single_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
 
-        if ( ! $entry ) {
+        if ( ! $response ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Entry not found', 'formgent' )
+                    'message' => esc_html__( 'Response not found', 'formgent' )
                 ], 404
             );
         }
         
         /**
-         * @var FieldRepository $field_repository
+         * @var AnswerRepository $answer_repository
          */
-        $field_repository = formgent_singleton( FieldRepository::class );
+        $answer_repository = formgent_singleton( AnswerRepository::class );
 
-        $entry->data = $field_repository->get( $entry->id );
+        $response->data = $answer_repository->get( $response->id );
 
         return Response::send(
             [
-                'entry' => $entry
+                'response' => $response
             ]
         );
     }

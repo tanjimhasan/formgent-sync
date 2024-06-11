@@ -54,10 +54,10 @@ class CreateDB implements Migration {
         ) {$charset_collate};
 
         -- -----------------------------------------------------
-        -- Table entries
+        -- Table responses
         -- -----------------------------------------------------
 
-        CREATE TABLE {$db_prefix}entries (
+        CREATE TABLE {$db_prefix}responses (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
             `is_read` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
@@ -76,9 +76,9 @@ class CreateDB implements Migration {
         -- Table fields
         -- -----------------------------------------------------
 
-        CREATE TABLE {$db_prefix}fields (
+        CREATE TABLE {$db_prefix}answers (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `entry_id` BIGINT UNSIGNED NOT NULL,
+            `response_Id` BIGINT UNSIGNED NOT NULL,
             `form_id` BIGINT UNSIGNED NOT NULL,
             `parent_id` BIGINT UNSIGNED NULL,
             `field_id` VARCHAR(50) NOT NULL,

@@ -4,30 +4,30 @@ namespace FormGent\App\Http\Controllers;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Models\Field;
-use FormGent\App\DTO\EntryDTO;
+use FormGent\App\Models\Answer;
+use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
-use FormGent\App\Repositories\EntryRepository;
-use FormGent\App\Repositories\FieldRepository;
+use FormGent\App\Repositories\ResponseRepository;
+use FormGent\App\Repositories\AnswerRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use stdClass;
 use WP_REST_Request;
-use FormGent\App\DTO\FieldDTO;
+use FormGent\App\DTO\AnswerDTO;
 
-class EntryController extends Controller {
-    public EntryRepository $repository;
+class ResponseController extends Controller {
+    public ResponseRepository $repository;
 
-    public FieldRepository $field_repository;
+    public AnswerRepository $answer_repository;
 
     public FormRepository $form_repository;
 
-    public function __construct( EntryRepository $repository, FieldRepository $field_repository, FormRepository $form_repository ) {
-        $this->repository       = $repository;
-        $this->field_repository = $field_repository;
-        $this->form_repository  = $form_repository;
+    public function __construct( ResponseRepository $repository, AnswerRepository $answer_repository, FormRepository $form_repository ) {
+        $this->repository        = $repository;
+        $this->answer_repository = $answer_repository;
+        $this->form_repository   = $form_repository;
     }
 
     public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
@@ -71,8 +71,8 @@ class EntryController extends Controller {
             );
         }
 
-        $entry_dto = new EntryDTO;
-        $entry_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
+        $response_dto = new ResponseDTO;
+        $response_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
 
         /**
          * Storing the current user browser and device information, if information is present.
@@ -81,16 +81,16 @@ class EntryController extends Controller {
         // $browser       = $which_browser->browser;
 
         // if ( $browser ) {
-        //     $entry_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
+        //     $response_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
         // }
 
-        do_action( "formgent_before_create_form_entry", $entry_dto, $form, $wp_rest_request );
+        do_action( "formgent_before_create_form_response", $response_dto, $form, $wp_rest_request );
 
-        $entry_id = $this->repository->create( $entry_dto );
+        $response_id = $this->repository->create( $response_dto );
 
-        $this->field_repository->creates( $entry_id, ...$validate_data['field_dtos'] );
+        $this->answer_repository->creates( $response_id, ...$validate_data['field_dtos'] );
 
-        $parent_fields = Field::query()->select( 'id', 'field_id' )->where( 'entry_id', $entry_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
+        $parent_fields = Answer::query()->select( 'id', 'field_id' )->where( 'response_id', $response_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
 
         $parent_ids = [];
 
@@ -98,19 +98,19 @@ class EntryController extends Controller {
             $parent_ids[$parent->field_id] = $parent->id;
         }
 
-        $this->field_repository->creates_from_array(
+        $this->answer_repository->creates_from_array(
             array_map(
-                function( array $children ) use( $entry_id, $parent_ids ) {
+                function( array $children ) use( $response_id, $parent_ids ) {
                     /**
-                     * @var FieldDTO $children['dto']
-                     * @var FieldDTO $children['parent_dto']
+                     * @var AnswerDTO $children['dto']
+                     * @var AnswerDTO $children['parent_dto']
                      */
-                    return $children['dto']->set_entry_id( $entry_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
+                    return $children['dto']->set_response_id( $response_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
                 }, $validate_data['children_dtos']
             )
         );
 
-        do_action( "formgent_after_create_form_entry", $entry_id, $form, $wp_rest_request );
+        do_action( "formgent_after_create_form_response", $response_id, $form, $wp_rest_request );
 
         return Response::send(
             [
@@ -129,7 +129,7 @@ class EntryController extends Controller {
         $form_data = $wp_rest_request->get_param( 'form_data' );
         $wp_rest_request->set_body_params( $form_data );
 
-        $allowed_fields = formgent_get_entry_allowed_fields();
+        $allowed_fields = formgent_get_response_allowed_fields();
 
         $form_content = json_decode( $form->content, true );
         $fields       = $form_content['fields'];

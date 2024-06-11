@@ -1,5 +1,4 @@
 import { registerModule } from '@formgent/modules/helpers';
-import { Col, Form, Row } from 'antd';
 import AntButton from './Button';
 import AntCheckbox from './Checkbox';
 import AntDropdown from './Dropdown';
@@ -12,6 +11,8 @@ import AntSpin from './Spin';
 import AntSwitch from './Switch';
 import AntTable from './Table';
 import AntTextArea from './TextArea';
+import AntTooltip from './Tooltip';
+import { Row, Col, Form } from 'antd';
 
 /**
  * Global components for admin and user
@@ -27,6 +28,7 @@ registerModule( 'components', {
 	AntSpin,
 	AntCheckbox,
 	AntSkeleton,
+	AntTooltip,
 	Row,
 	Col,
 	Form,

@@ -19,8 +19,8 @@ class Form extends Model {
         return $this->belongs_to_one( User::class, 'ID', 'created_by' );
     }
 
-    public function entries(): HasMany {
-        return $this->has_many( Entry::class, 'form_id', 'id' );
+    public function responses(): HasMany {
+        return $this->has_many( Response::class, 'form_id', 'id' );
     }
 
     public function resolver():Resolver {

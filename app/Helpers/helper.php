@@ -9,7 +9,7 @@ use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\LongText\LongText;
 use FormGent\App\Utils\DateTime;
-use FormGent\App\Repositories\EntryRepository;
+use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\FormMetaRepository;
 
 function formgent():App {
@@ -66,8 +66,8 @@ function formgent_is_valid_date( string $date, string $format ) {
     return $date_time && $date_time->format( $format ) === $date;
 }
 
-function formgent_get_entry_allowed_fields() {
-    return apply_filters( 'formgent_entry_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
+function formgent_get_response_allowed_fields() {
+    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
 }
 
 /**
@@ -159,7 +159,7 @@ function formgent_generate_token() {
     return $token;
 }
 
-function formgent_get_entry_by_token( string $token, int $form_id ) {
+function formgent_get_response_by_token( string $token, int $form_id ) {
     /**
      * @var FormMetaRepository $form_meta_repository
      */
@@ -167,10 +167,10 @@ function formgent_get_entry_by_token( string $token, int $form_id ) {
     $response_id          = $form_meta_repository->get_meta_value( $form_id, $token );
 
     /**
-     * @var EntryRepository $entry_repository
+     * @var ResponseRepository $response_repository
      */
-    $entry_repository = formgent_singleton( EntryRepository::class );
-    return $entry_repository->get_by_id( $response_id );
+    $response_repository = formgent_singleton( ResponseRepository::class );
+    return $response_repository->get_by_id( $response_id );
 }
 
 function formgent_font_family_dir( string $file = '' ) {
