@@ -1,4 +1,5 @@
 import { applyFilters } from '@wordpress/hooks';
+
 import chartBar from '@icon/chart-bar.svg';
 import bar from '@icon/bar.svg';
 import user from '@icon/user.svg';
@@ -92,4 +93,24 @@ function registerControls() {
 	} );
 }
 
-export { registerPreviewFields, registerFields, registerControls };
+function registerControlsPreview() {
+	return applyFilters( 'formgent_controls_preview', {
+		label: {
+			type: 'input',
+			title: 'Label',
+			value: '',
+		},
+		required: {
+			type: 'switch',
+			title: 'Required',
+			value: '',
+		},
+	} );
+}
+
+export {
+	registerPreviewFields,
+	registerFields,
+	registerControls,
+	registerControlsPreview,
+};

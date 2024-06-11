@@ -2,7 +2,6 @@ import { useRef, useState, useEffect, useCallback } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useDroppable } from '@dnd-kit/core';
 import picture from '@icon/picture.svg';
-import update from 'immutability-helper';
 import { Form } from 'antd';
 import DroppedField from './DroppedField';
 import { DropableBoxStyle } from './style';
@@ -65,11 +64,14 @@ export default function DropableBox( props ) {
 				{ fields.length > 0 && (
 					<div
 						className={ `formgent-submit-button ${
-							activeField === 'submit-button'
+							activeField?.type ===
+							singleForm?.submit_button?.type
 								? 'formgent-active'
 								: ''
 						}` }
-						onClick={ () => updateActiveField( 'submit-button' ) }
+						onClick={ () =>
+							updateActiveField( singleForm?.submit_button )
+						}
 					>
 						<SubmitButton field={ singleForm?.submit_button } />
 					</div>

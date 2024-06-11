@@ -1,4 +1,5 @@
 const SubmitButton = {
+	type: 'submit_button',
 	name: 'submit_button',
 	general_option: {
 		button_text: 'Submit Form',
