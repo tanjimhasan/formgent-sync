@@ -1,15 +1,17 @@
-import { useSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
-
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
 import favIcon from '@icon/fav.svg';
+import patchData from '@formgent/helper/patchData';
 
 export default function FormHeader( props ) {
 	const { id, useNavigate } = props;
 	const navigate = useNavigate && useNavigate();
+	const { publishFormRequest, publishFormSuccess, publishFormError } =
+		useDispatch( 'formgent' );
 
 	const [ isEditing, setIsEditing ] = useState( false );
 	const [ title, setTitle ] = useState( 'Form Name' );
@@ -39,6 +41,12 @@ export default function FormHeader( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getSingleForm();
+	}, [] );
+
+	const { isUpdatingForm } = SingleFormReducer;
+
 	const { NavLink } = CommonReducer.routerComponents;
 
 	const forms = `/forms/${ id }`;
@@ -46,10 +54,30 @@ export default function FormHeader( props ) {
 	const formPreview = () => {
 		console.log( 'Form Preview clicked' );
 	};
-
-	const formPublish = () => {
-		console.log( 'Form Publish clicked' );
-	};
+	function formPublish() {
+		if ( isUpdatingForm ) return;
+		publishFormRequest();
+		try {
+			const updatedForm = { ...SingleFormReducer.singleForm };
+			const formStringyContent = JSON.stringify( {
+				...updatedForm.content,
+			} );
+			Object.assign(
+				updatedForm,
+				{ font_family: 'Inter' },
+				{ status: 'publish' },
+				{ content: formStringyContent }
+			);
+			const updatingStatusResponse = patchData(
+				`admin/forms/${ id }`,
+				updatedForm
+			);
+			publishFormSuccess( 'publish' );
+		} catch ( error ) {
+			console.log( error );
+			publishFormError( error );
+		}
+	}
 
 	return (
 		<FormHeaderStyle className="formgent-editor-header">
@@ -119,7 +147,9 @@ export default function FormHeader( props ) {
 					className="formgent-editor-header__actions__button active"
 					onClick={ formPublish }
 				>
-					{ __( 'Publish', 'formgent' ) }
+					{ isUpdatingForm
+						? __( 'Publishing', 'formgent' )
+						: __( 'Publish', 'formgent' ) }
 				</button>
 			</div>
 		</FormHeaderStyle>
