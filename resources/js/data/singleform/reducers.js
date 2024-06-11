@@ -32,7 +32,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'UPDATE_ACTIVE_FIELD':
 			return {
 				...state,
-				activeField: action?.id,
+				activeField: action?.field,
 			};
 		case 'UPDATE_ACTIVE_CUSTOMIZER_TAB':
 			return {

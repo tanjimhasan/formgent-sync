@@ -11,6 +11,13 @@ import AntSpin from './Spin';
 import AntSwitch from './Switch';
 import AntTable from './Table';
 import AntTextArea from './TextArea';
+import AntModal from './Modal';
+import AntSpin from './Spin';
+import AntSkeleton from './Skeleton';
+import AntTooltip from './Tooltip';
+import AntForm from './Form.js';
+import AntCheckbox from './Checkbox';
+import { Row, Col, Form } from 'antd';
 
 /**
  * Global components for admin and user
@@ -26,6 +33,7 @@ registerModule( 'components', {
 	AntSpin,
 	AntCheckbox,
 	AntSkeleton,
+	AntTooltip,
 	Row,
 	Col,
 	Form,

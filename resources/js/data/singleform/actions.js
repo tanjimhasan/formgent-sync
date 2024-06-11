@@ -39,10 +39,10 @@ export const SingleFormActions = {
 		};
 	},
 
-	updateActiveField: ( id ) => {
+	updateActiveField: ( field ) => {
 		return {
 			type: 'UPDATE_ACTIVE_FIELD',
-			id,
+			field,
 		};
 	},
 

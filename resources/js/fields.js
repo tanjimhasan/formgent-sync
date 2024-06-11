@@ -22,6 +22,9 @@ import ShortTextField from './components/fieldList/ShortText/field.js';
 import NamesField from './components/fieldList/Names/field.js';
 import EmailField from './components/fieldList/Email/field.js';
 import SubmitButtonField from './components/fieldList/SubmitButton/field.js';
+import InputControl from './components/FieldControls/InputControl.js';
+import SwitchControl from './components/FieldControls/SwitchControl.js';
+import SelectControl from './components/FieldControls/SelectControl.js';
 
 /**
  * @returns {Object} An object containing the preview fields with applied filters.
@@ -75,4 +78,18 @@ function registerFields() {
 	] );
 }
 
-export { registerPreviewFields, registerFields };
+function registerControls() {
+	return applyFilters( 'formgent_controls', {
+		input: ( props ) => {
+			return <InputControl { ...props } />;
+		},
+		switch: ( props ) => {
+			return <SwitchControl { ...props } />;
+		},
+		select: ( props ) => {
+			return <SelectControl { ...props } />;
+		},
+	} );
+}
+
+export { registerPreviewFields, registerFields, registerControls };
