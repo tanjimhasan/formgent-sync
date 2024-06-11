@@ -1,19 +1,5 @@
 import Styled from 'styled-components';
 
-const EditorHeaderStyle = Styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px 0 0;
-    margin-bottom: 20px;
-    background-color: var(--formgent-color-white);
-    position: sticky;
-    top: 32px;
-    min-height: 60px;
-    z-index: 98;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-`;
-
 const InserterStyle = Styled.div`
     width: 340px;
     height: calc(100vh - 100px);
@@ -228,10 +214,9 @@ const FieldCustomizerStyle = Styled.div`
 `;
 
 export {
-	EditorHeaderStyle,
-	InserterStyle,
+	CreateFormStyle,
 	DropableBoxStyle,
 	EditorContentStyle,
-	CreateFormStyle,
 	FieldCustomizerStyle,
+	InserterStyle,
 };

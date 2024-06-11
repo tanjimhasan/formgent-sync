@@ -1,10 +1,9 @@
-import { useSelect } from '@wordpress/data';
-import { useRef, useState, useEffect } from '@wordpress/element';
-import MainContent from './components/MainContent';
-import Header from './components/Header';
+import FormHeader from '@formgent/components/FormHeader';
 import { Modal } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
 import CreateFormModalContent from './components/CreateFormModalContent';
+import MainContent from './components/MainContent';
 
 function Editor( props ) {
 	const [ uiState, setUiState ] = useState( {
@@ -14,7 +13,7 @@ function Editor( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams } = CommonReducer.routerComponents;
+	const { useParams, useNavigate } = CommonReducer.routerComponents;
 
 	const { id } = useParams();
 
@@ -24,7 +23,12 @@ function Editor( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<Header uiState={ uiState } setUiState={ setUiState } />
+			<FormHeader
+				id={ id }
+				useNavigate={ useNavigate }
+				uiState={ uiState }
+				setUiState={ setUiState }
+			/>
 			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
 			{ ! SingleFormReducer?.singleForm?.title && props.isAddForm && (
 				<Modal

@@ -1,5 +1,5 @@
-import { nanoid } from 'nanoid';
 import { arrayMove } from '@dnd-kit/sortable';
+import { nanoid } from 'nanoid';
 
 function extractEventData( prop ) {
 	return prop?.data?.current ?? {};
@@ -187,4 +187,4 @@ const handleDragEnd = (
 	);
 };
 
-export { handleDragStart, handleDragOver, handleDragEnd };
+export { handleDragEnd, handleDragOver, handleDragStart };

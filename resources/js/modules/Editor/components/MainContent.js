@@ -1,31 +1,29 @@
-import { useDispatch, useSelect } from '@wordpress/data';
-import { useRef, useState, useEffect, useCallback } from '@wordpress/element';
 import {
 	DndContext,
+	DragOverlay,
 	KeyboardSensor,
 	MouseSensor,
 	useSensor,
 	useSensors,
-	DragOverlay,
 } from '@dnd-kit/core';
-import Body from './Body';
-import FieldInserter from './FieldInserter';
-import Sidebar from './Sidebar';
 import {
-	arrayMove,
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useCallback, useRef, useState } from '@wordpress/element';
 import { nanoid } from 'nanoid';
+import {
+	handleDragEnd,
+	handleDragOver,
+	handleDragStart,
+} from '../helper/utils';
+import Body from './Body';
+import DroppedOverlayField from './DroppedOverlayField';
+import FieldCustomizer from './FieldCustomizer';
+import FieldInserter from './FieldInserter';
 import InserterOverlayField from './InserterOverlayField';
 import { EditorContentStyle } from './style';
-import DroppedOverlayField from './DroppedOverlayField';
-import {
-	handleDragStart,
-	handleDragOver,
-	handleDragEnd,
-} from '../helper/utils';
-import FieldCustomizer from './FieldCustomizer';
 
 export default function MainContent( props ) {
 	const { id } = props;
@@ -104,7 +102,7 @@ export default function MainContent( props ) {
 				sensors={ sensors }
 			>
 				<FieldInserter inserterDomKey={ inserterDomKey } />
-				{ singleForm?.content && (
+				{ singleForm?.content && singleForm?.content?.fields && (
 					<SortableContext
 						strategy={ verticalListSortingStrategy }
 						items={ singleForm?.content?.fields.map(
