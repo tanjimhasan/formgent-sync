@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
 	isFormBulkDeleting: false,
 	isTitleUpdating: false,
 	error: null,
+	responseTableData: {},
 };
 
 export const FormReducer = ( state = DEFAULT_STATE, action ) => {
@@ -145,6 +146,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					...state.pagination,
 					total_items: state.pagination + 1,
 				},
+			};
+		case 'STORE_RESPONSE_TABLE':
+			return {
+				...state,
+				responseTableData: data,
 			};
 		default:
 			return state;

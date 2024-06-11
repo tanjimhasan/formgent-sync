@@ -105,6 +105,7 @@ export default function FormHeader( props ) {
 			<nav className="formgent-editor-header__nav">
 				<NavLink to={ `${ forms }/edit` }>Editor</NavLink>
 				<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
+				<NavLink to={ `${ forms }/entries` }>Entries</NavLink>
 			</nav>
 
 			{ /* Editor Header Actions */ }
