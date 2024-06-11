@@ -9,7 +9,7 @@ use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
 use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Http\Controllers\Controller;
-use FormGent\App\Models\Field;
+use FormGent\App\Models\Answer;
 use FormGent\App\Models\Form;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
@@ -61,7 +61,7 @@ class FormController extends Controller {
         }
 
         $data              = $this->form_repository->get( $dto );
-        $response          = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page() );
+        $response          = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
         $response['forms'] = $data['forms'];
 
         return Response::send( $response );
@@ -533,7 +533,7 @@ class FormController extends Controller {
         /**
          * Remove field response
          */
-        Field::query( "field" )->where( 'field.form_id', $form_id )->where( 'field.field_id', $field_id )->delete();
+        Answer::query( "answer" )->where( 'answer.form_id', $form_id )->where( 'answer.field_id', $field_id )->delete();
 
         return Response::send( $response );
     }

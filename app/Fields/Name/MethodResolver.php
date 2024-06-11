@@ -4,7 +4,7 @@ namespace FormGent\App\Fields\Name;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\DTO\FieldDTO;
+use FormGent\App\DTO\AnswerDTO;
 use stdClass;
 use WP_REST_Request;
 use FormGent\WpMVC\RequestValidator\Validator;
@@ -50,8 +50,8 @@ trait MethodResolver {
         static::throw_validator_errors( $validator );
     }
 
-    public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): FieldDTO {
-        $dto = new FieldDTO();
+    public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
+        $dto = new AnswerDTO();
         return $dto->set_form_id( $form->id )->set_field_type( $field['type'] )->set_field_id( $field['id'] );
     }
 
@@ -66,7 +66,7 @@ trait MethodResolver {
 
         foreach ( $field['fields'] as $children ) {
             if ( isset( $names[$children['type']] ) ) {
-                $dto = new FieldDTO;
+                $dto = new AnswerDTO;
                 $dto->set_form_id( $form->id )->set_field_type( $children['type'] )->set_field_id( $children['id'] )->set_value( $names[$children['type']] );
 
                 $dtos[] = $dto;

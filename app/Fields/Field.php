@@ -4,21 +4,21 @@ namespace FormGent\App\Fields;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\DTO\FieldDTO;
+use FormGent\App\DTO\AnswerDTO;
 use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Exceptions\RequestValidatorException;
-use FormGent\App\Repositories\FieldRepository;
+use FormGent\App\Repositories\AnswerRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use stdClass;
 use WP_REST_Request;
 
 abstract class Field {
-    public FieldRepository $field_repository;
+    public AnswerRepository $answer_repository;
 
     public $has_children = false;
 
-    public function __construct( FieldRepository $field_repository ) {
-        $this->field_repository = $field_repository;
+    public function __construct( AnswerRepository $answer_repository ) {
+        $this->answer_repository = $answer_repository;
     }
 
     abstract public static function get_key(): string;
@@ -46,8 +46,8 @@ abstract class Field {
         }
     }
 
-    public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): FieldDTO {
-        $dto = new FieldDTO();
+    public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
+        $dto = new AnswerDTO();
         return $dto->set_form_id( $form->id )->set_field_type( $field['type'] )->set_field_id( $field['id'] )->set_value( $wp_rest_request->get_param( static::get_key() ) );
     }
  

@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
-use FormGent\App\Models\Entry;
+use FormGent\App\Models\Response;
 use FormGent\App\Models\Form;
 use FormGent\WpMVC\Database\Query\Builder;
 use FormGent\WpMVC\Database\Query\JoinClause;
@@ -25,10 +25,10 @@ class FormRepository {
 
         do_action( 'formgent_forms_count_query', $count_query, $dto );
 
-        $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT entry.id) as total_entries', 'COUNT(DISTINCT CASE WHEN entry.is_read = 0 THEN entry.id ELSE NULL END) AS total_unread_entries'];
+        $select_columns   = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
         $group_by_columns = ['form.id', 'form.title', 'form.status', 'form.type', 'form.created_by', 'form.created_at', 'form.updated_at', 'user.display_name' ];
 
-        $forms_query->select( $select_columns )->left_join( Entry::get_table_name() . ' as entry', 'form.id', 'entry.form_id' )->group_by( $group_by_columns );
+        $forms_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'form.id', 'response.form_id' )->group_by( $group_by_columns );
 
         $this->forms_sort_query( $forms_query, $dto );
 
@@ -119,19 +119,19 @@ class FormRepository {
                 return $query->order_by_raw( 'form.title asc, form.id desc' );
             case 'last_submission':
                 return $query->left_join(
-                    Entry::get_table_name() . ' as max_entry', function( JoinClause $join ) {
-                        $join->select( 'max_entry.form_id', 'MAX(max_entry.id) AS max_id' )->on_column( 'entry.form_id', 'max_entry.form_id' )->on_column( 'entry.id', 'max_entry.max_id' );
+                    Response::get_table_name() . ' as max_response', function( JoinClause $join ) {
+                        $join->select( 'max_response.form_id', 'MAX(max_response.id) AS max_id' )->on_column( 'response.form_id', 'max_response.form_id' )->on_column( 'response.id', 'max_response.max_id' );
                     }
-                )->order_by_desc( 'entry.id' );
+                )->order_by_desc( 'response.id' );
             case 'unread':
                 return $query->left_join(
-                    Entry::get_table_name() . ' as unread_old_entry', function( JoinClause $join ) {
-                        $join->select( 'unread_old_entry.form_id', 'MIN(unread_old_entry.created_at) AS old_created_at' )->on_column( 'entry.form_id', 'unread_old_entry.form_id' )->on_column( 'entry.created_at', 'unread_old_entry.old_created_at' );
+                    Response::get_table_name() . ' as unread_old_response', function( JoinClause $join ) {
+                        $join->select( 'unread_old_response.form_id', 'MIN(unread_old_response.created_at) AS old_created_at' )->on_column( 'response.form_id', 'unread_old_response.form_id' )->on_column( 'response.created_at', 'unread_old_response.old_created_at' );
                     }
                 )->order_by_raw(
                     "CASE
-                    WHEN entry.is_read = 0 THEN 1
-                    WHEN entry.is_read = 1 THEN 2
+                    WHEN response.is_read = 0 THEN 1
+                    WHEN response.is_read = 1 THEN 2
                     ELSE 3
                 END, form.id desc"
                 );
