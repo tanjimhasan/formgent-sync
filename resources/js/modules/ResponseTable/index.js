@@ -5,11 +5,9 @@ import { lazy, Suspense } from '@wordpress/element';
 const Table = lazy( () => import( './components/Table' ) );
 
 function ResponseTable() {
-	const { CommonReducer, FormReducer } = useSelect( ( select ) => {
+	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
-
-	console.log( 'Response Reducer', CommonReducer, FormReducer );
 
 	const { useParams, useNavigate } = CommonReducer?.routerComponents;
 

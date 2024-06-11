@@ -4,7 +4,7 @@ import trashIcon from '@icon/trash.svg';
 import { useDispatch } from '@wordpress/data';
 import { addQueryArgs } from '@wordpress/url';
 import ReactSVG from 'react-inlinesvg';
-import { TablkSelectionStyle } from './style';
+import { TableSelectionStyle } from './style';
 export default function TableBulkSelection( props ) {
 	const { data, selectedRowKeys, setSelectedRowKeys } = props;
 
@@ -29,6 +29,7 @@ export default function TableBulkSelection( props ) {
 	async function handleBulkDelete() {
 		bulkDeleteFormRequest();
 		try {
+			// Bulk Delete Forms (Need to delete responseTable data)
 			const bulkDeleteResponse = await deleteData(
 				addQueryArgs( `admin/forms`, {
 					ids: selectedRowKeys,
@@ -42,7 +43,7 @@ export default function TableBulkSelection( props ) {
 	}
 
 	return (
-		<TablkSelectionStyle className="formgent-bulk-selection">
+		<TableSelectionStyle className="formgent-bulk-selection">
 			<div className="formgent-bulk-selection__checkbox">
 				<AntCheckbox
 					onChange={ handleBulkSelection }
@@ -64,6 +65,6 @@ export default function TableBulkSelection( props ) {
 			<a className="formgent-clear-bulk" onClick={ handleClearSelection }>
 				Clear Selection
 			</a>
-		</TablkSelectionStyle>
+		</TableSelectionStyle>
 	);
 }

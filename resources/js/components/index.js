@@ -2,6 +2,7 @@ import { registerModule } from '@formgent/modules/helpers';
 import { Col, Form, Row } from 'antd';
 import AntButton from './Button';
 import AntCheckbox from './Checkbox';
+import AntDropdown from './Dropdown';
 import AntForm from './Form.js';
 import AntInput from './Input';
 import AntMenu from './Menu';
@@ -30,6 +31,7 @@ registerModule( 'components', {
 	Col,
 	Form,
 	AntMenu,
+	AntDropdown,
 } );
 
 /**
@@ -37,6 +39,7 @@ registerModule( 'components', {
  */
 export {
 	AntButton,
+	AntDropdown,
 	AntForm,
 	AntInput,
 	AntMenu,

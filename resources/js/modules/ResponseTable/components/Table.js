@@ -2,13 +2,15 @@ import { AntSpin, AntTable } from '@formgent/components';
 import fetchData from '@formgent/helper/fetchData';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
+import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
 import { TableStyle } from './style';
 
 export default function Table() {
+	const [ editableResponseData, setEditableResponseData ] = useState( null );
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ loading, setLoading ] = useState( false );
-	const [ responseData, setResponseData ] = useState( [] );
+	const [ responseTableData, setResponseTableData ] = useState( [] );
 	const [ tableParams, setTableParams ] = useState( {
 		pagination: {
 			current: 1,
@@ -16,6 +18,7 @@ export default function Table() {
 		},
 	} );
 
+	// Execute Store Operations
 	const { updateFormItemState } = useDispatch( 'formgent' );
 
 	const { FormReducer } = useSelect( ( select ) => {
@@ -28,6 +31,7 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	// Default Column Data
 	const columns = [
 		{
 			title: 'Name',
@@ -41,8 +45,23 @@ export default function Table() {
 			title: 'Address',
 			dataIndex: 'address',
 		},
+		{
+			title: 'Action',
+			dataIndex: 'action',
+			render: ( text, record ) => {
+				return (
+					<div className="formgent-form-action">
+						<TableAction
+							responseData={ record }
+							setEditableResponseData={ setEditableResponseData }
+						/>
+					</div>
+				);
+			},
+		},
 	];
 
+	// Default Table Data
 	const data = [];
 	for ( let i = 0; i < 46; i++ ) {
 		data.push( {
@@ -53,6 +72,7 @@ export default function Table() {
 		} );
 	}
 
+	// Table Operations
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: handleRowSelection,
@@ -71,11 +91,12 @@ export default function Table() {
 
 	useEffect( () => {
 		setLoading( true );
-		fetchData( `admin/entries?page=2&per_page=10&s=hello&form_id=${ id }` )
+		// Fetch Response Table Data
+		fetchData( `admin/entries?page=4&per_page=10&s=hello&form_id=${ id }` )
 			.then( ( res ) => {
 				setLoading( false );
-				console.log( 'entryData:', res );
-				setResponseData( res.entries ); // Set the fetched data here
+				console.log( 'responseTable Data Response:', res );
+				setResponseTableData( res.entries );
 				updateFormItemState( id, res );
 			} )
 			.catch( ( error ) => {
@@ -85,13 +106,13 @@ export default function Table() {
 	}, [] );
 
 	useEffect( () => {
-		const formItem = FormReducer.forms.filter( ( item ) => item.id === id );
+		const formItem = FormReducer.forms.find( ( item ) => item.id === id );
 		const pagination = formItem?.pagination || tableParams?.pagination;
 		console.log(
-			'Response Table FormReducer',
+			'responseTable FormReducer',
 			formItem,
 			pagination,
-			responseData
+			responseTableData
 		);
 
 		setTableParams( {
@@ -100,7 +121,7 @@ export default function Table() {
 				pageSize: pagination.per_page,
 			},
 		} );
-	}, [ FormReducer ] ); // Add FormReducer as the dependency
+	}, [ responseTableData ] );
 
 	return (
 		<TableStyle>
