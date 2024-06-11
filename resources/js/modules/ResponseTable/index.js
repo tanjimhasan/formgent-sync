@@ -4,12 +4,12 @@ import { useSelect } from '@wordpress/data';
 import { lazy, Suspense } from '@wordpress/element';
 const Table = lazy( () => import( './components/Table' ) );
 
-function EntriesTable() {
+function ResponseTable() {
 	const { CommonReducer, FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	console.log( 'Entries Reducer', CommonReducer, FormReducer );
+	console.log( 'Response Reducer', CommonReducer, FormReducer );
 
 	const { useParams, useNavigate } = CommonReducer?.routerComponents;
 
@@ -27,6 +27,6 @@ function EntriesTable() {
 	);
 }
 
-export default function EntriesTableModule( props ) {
-	return <EntriesTable { ...props } />;
+export default function ResponseTableModule( props ) {
+	return <ResponseTable { ...props } />;
 }

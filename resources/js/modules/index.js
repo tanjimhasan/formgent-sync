@@ -3,7 +3,7 @@ import { lazy } from '@wordpress/element';
 const EditorModule = lazy( () => import( './Editor' ) );
 const SettingsModule = lazy( () => import( './Settings' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
-const EntriesTableModule = lazy( () => import( './EntriesTable' ) );
+const EntriesTableModule = lazy( () => import( './ResponseTable' ) );
 
 registerModule( 'modules', {
 	EditorModule,

@@ -16,7 +16,8 @@ export default function Table() {
 		},
 	} );
 
-	const { storeResponseTable } = useDispatch( 'formgent' );
+	const { updateFormItemState } = useDispatch( 'formgent' );
+
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
@@ -24,7 +25,6 @@ export default function Table() {
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
-
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
@@ -63,7 +63,7 @@ export default function Table() {
 	}
 
 	const handleTableChange = ( pagination ) => {
-		console.log( 'entries table pagination', pagination );
+		console.log( 'response table pagination', pagination );
 		setTableParams( {
 			pagination,
 		} );
@@ -75,25 +75,24 @@ export default function Table() {
 			.then( ( res ) => {
 				setLoading( false );
 				console.log( 'entryData:', res );
-				storeResponseTable( res );
-				setResponseData( res ); // Set the fetched data here
+				setResponseData( res.entries ); // Set the fetched data here
+				updateFormItemState( id, res );
 			} )
 			.catch( ( error ) => {
 				setLoading( false );
 				console.error( 'Failed to fetch entry data:', error );
 			} );
-	}, [] ); // Empty dependency array means this runs once when the component mounts
+	}, [] );
 
 	useEffect( () => {
+		const formItem = FormReducer.forms.filter( ( item ) => item.id === id );
+		const pagination = formItem?.pagination || tableParams?.pagination;
 		console.log(
-			'Entries FormReducer',
-			FormReducer,
-			FormReducer.forms[ 0 ]
+			'Response Table FormReducer',
+			formItem,
+			pagination,
+			responseData
 		);
-
-		const pagination =
-			FormReducer.responseTableData?.pagination ||
-			tableParams?.pagination;
 
 		setTableParams( {
 			pagination: {

@@ -147,11 +147,6 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					total_items: state.pagination + 1,
 				},
 			};
-		case 'STORE_RESPONSE_TABLE':
-			return {
-				...state,
-				responseTableData: data,
-			};
 		default:
 			return state;
 	}

@@ -143,12 +143,4 @@ export const FormActions = {
 			data,
 		};
 	},
-
-	storeResponseTable: ( data ) => {
-		console.log( 'storeResponseTable', data );
-		return {
-			type: 'STORE_RESPONSE_TABLE',
-			data,
-		};
-	},
 };
