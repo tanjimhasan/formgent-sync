@@ -35,7 +35,7 @@ const DraggableField = ( props ) => {
 		};
 		const updatedFields = [ ...fields, newField ];
 		updateFormFields( updatedFields );
-	}, [ SingleFormReducer ] );
+	}, [] );
 
 	const memoizedAttributes = useCallback( attributes, [ attributes ] );
 	const memoizedListeners = useCallback( listeners, [ listeners ] );
