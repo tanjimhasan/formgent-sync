@@ -32,39 +32,52 @@ export default function Table() {
 	const { id } = useParams();
 
 	// Default Column Data
-	const columns = [
+	const defaultColumns = [
 		{
 			title: 'Name',
 			dataIndex: 'name',
+			render: ( text, record ) => (
+				<div className="formgent-form-data">
+					<span>{ text }</span>
+				</div>
+			),
 		},
 		{
 			title: 'Age',
 			dataIndex: 'age',
+			render: ( text, record ) => (
+				<div className="formgent-form-data">
+					<span>{ text }</span>
+				</div>
+			),
 		},
 		{
 			title: 'Address',
 			dataIndex: 'address',
+			render: ( text, record ) => (
+				<div className="formgent-form-data">
+					<span>{ text }</span>
+				</div>
+			),
 		},
 		{
 			title: 'Action',
 			dataIndex: 'action',
-			render: ( text, record ) => {
-				return (
-					<div className="formgent-form-action">
-						<TableAction
-							responseData={ record }
-							setEditableResponseData={ setEditableResponseData }
-						/>
-					</div>
-				);
-			},
+			render: ( text, record ) => (
+				<div className="formgent-form-action">
+					<TableAction
+						responseData={ record }
+						setEditableResponseData={ setEditableResponseData }
+					/>
+				</div>
+			),
 		},
 	];
 
 	// Default Table Data
-	const data = [];
+	const defaultData = [];
 	for ( let i = 0; i < 46; i++ ) {
-		data.push( {
+		defaultData.push( {
 			key: i,
 			name: `Edward King ${ i }`,
 			age: 32 + i,
@@ -128,7 +141,7 @@ export default function Table() {
 			<AntSpin spinning={ loading }>
 				{ selectedRowKeys.length !== 0 && (
 					<TableBulkSelection
-						data={ data }
+						data={ defaultData }
 						selectedRowKeys={ selectedRowKeys }
 						setSelectedRowKeys={ setSelectedRowKeys }
 					/>
@@ -143,8 +156,8 @@ export default function Table() {
 						},
 					} }
 					rowSelection={ rowSelection }
-					columns={ columns }
-					dataSource={ data }
+					columns={ defaultColumns }
+					dataSource={ defaultData }
 					rowKey={ ( record ) => record.key }
 					pagination={ tableParams.pagination }
 					onChange={ handleTableChange }
