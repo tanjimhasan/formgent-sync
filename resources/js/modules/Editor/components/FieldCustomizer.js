@@ -1,14 +1,17 @@
-import { useState } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
-import picture from '@icon/picture.svg';
-import { FieldCustomizerStyle } from './style';
-import Empty from '@formgent/components/Empty';
-import { registerControlsPreview } from '@formgent/fields';
-import { __ } from '@wordpress/i18n';
 import ControlGenerator from '@formgent/components/ControlGenerator';
+import { registerControlsPreview } from '@formgent/fields';
+import leftIndent from '@icon/collapse-left.svg';
+import rightIndent from '@icon/collapse-right.svg';
+import { useSelect } from '@wordpress/data';
+import { useRef, useState } from '@wordpress/element';
+import ReactSVG from 'react-inlinesvg';
+import { FieldCustomizerStyle } from './style';
 
 export default function FieldCustomizer() {
 	const [ activeTab, setActiveTab ] = useState( 'element' );
+	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
+
+	const contentRef = useRef( null );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm();
@@ -40,8 +43,21 @@ export default function FieldCustomizer() {
 		return controlList;
 	}
 
+	function sidebarCollapse( e ) {
+		e.preventDefault();
+		const sidebarParent = contentRef.current;
+		sidebarParent &&
+			sidebarParent.classList.toggle( 'formgent-content-collapsed' );
+		setSidebarOpen( ! isSidebarOpen );
+
+		console.log( 'sidebarCollapse', isSidebarOpen );
+	}
+
 	return (
-		<FieldCustomizerStyle>
+		<FieldCustomizerStyle
+			className="formgent-editor-customizer"
+			ref={ contentRef }
+		>
 			<div className="formgent-editor-sider">
 				<div className="formgent-editor-sider__top">
 					<ul className="formgent-editor-sider__nav">
@@ -93,6 +109,14 @@ export default function FieldCustomizer() {
 						} ) }
 				</div>
 			</div>
+			<button
+				className="formgent-sidebar-collapse"
+				onClick={ ( e ) => {
+					sidebarCollapse( e );
+				} }
+			>
+				<ReactSVG src={ isSidebarOpen ? rightIndent : leftIndent } />
+			</button>
 		</FieldCustomizerStyle>
 	);
 }

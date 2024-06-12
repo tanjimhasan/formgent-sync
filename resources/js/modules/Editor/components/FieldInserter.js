@@ -19,7 +19,7 @@ export default function FieldInserter( props ) {
 	const [ fields, setFields ] = useState( mainFields );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 
-	const editorInserterRef = useRef( null );
+	const contentRef = useRef( null );
 
 	function getFieldByGroup( groupName, field ) {
 		if (
@@ -59,21 +59,17 @@ export default function FieldInserter( props ) {
 
 	function sidebarCollapse( e ) {
 		e.preventDefault();
-		const sidebarParent = editorInserterRef.current;
+		const sidebarParent = contentRef.current;
 		sidebarParent &&
-			sidebarParent.classList.toggle(
-				'formgent-editor-inserter--collapsed'
-			);
+			sidebarParent.classList.toggle( 'formgent-content-collapsed' );
 		setSidebarOpen( ! isSidebarOpen );
-
-		console.log( 'sidebarCollapse', isSidebarOpen );
 	}
 
 	return (
 		<InserterStyle
 			key={ inserterDomKey }
 			className="formgent-editor-inserter"
-			ref={ editorInserterRef }
+			ref={ contentRef }
 		>
 			<div className="formgent-editor-sider">
 				<div className="formgent-editor-sider__top">

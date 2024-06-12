@@ -20,11 +20,20 @@ const InserterStyle = Styled.div`
     }
     .formgent-sidebar-collapse {
         position: absolute;
-        inset-inline-start: 100%;
+        inset-inline-start: calc(100% + 25px);
         top: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: var(--formgent-color-bg-deep) !important;
     }
 
-    &.formgent-editor-inserter--collapsed {
+    &.formgent-content-collapsed {
         width: 0;
         .formgent-editor-sider {
             opacity: 0;
@@ -225,10 +234,40 @@ const CreateFormStyle = Styled.div`
 `;
 
 const FieldCustomizerStyle = Styled.div`
+    display: flex;
+    align-items: flex-start;
+    position: relative;
     width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);
+    transition: width var(--formgent-transition);
+    .formgent-editor-sider {
+        width: 100%;
+    }
+    .formgent-sidebar-collapse {
+        position: absolute;
+        inset-inline-end: calc(100% + 25px);
+        top: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: var(--formgent-color-bg-deep) !important;
+    }
+
+    &.formgent-content-collapsed {
+        width: 0;
+        .formgent-editor-sider {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+        }
+    }
 `;
 
 export {
