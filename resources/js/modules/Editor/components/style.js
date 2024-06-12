@@ -1,10 +1,14 @@
 import Styled from 'styled-components';
 
 const InserterStyle = Styled.div`
+    display: flex;
+    align-items: flex-start;
+    position: relative;
     width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);
+    transition: width var(--formgent-transition);
     .formgent-editor-inserter__group{
 
         .ant-row{
@@ -12,6 +16,20 @@ const InserterStyle = Styled.div`
         }
         .ant-col{
             margin: 7.5px 0;
+        }
+    }
+    .formgent-sidebar-collapse {
+        position: absolute;
+        inset-inline-start: 100%;
+        top: 0;
+    }
+
+    &.formgent-editor-inserter--collapsed {
+        width: 0;
+        .formgent-editor-sider {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
         }
     }
 `;

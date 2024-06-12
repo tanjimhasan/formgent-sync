@@ -1,19 +1,25 @@
-import { useState, useEffect } from '@wordpress/element';
-import ReactSVG from 'react-inlinesvg';
-import { InserterStyle } from './style';
-import DraggableField from './DraggableField';
-import { registerFields } from '@formgent/fields';
 import { AntInput } from '@formgent/components';
+import { registerFields } from '@formgent/fields';
+import leftIndent from '@icon/collapse-left.svg';
+import rightIndent from '@icon/collapse-right.svg';
 import search from '@icon/search.svg';
-import { Row, Col } from 'antd';
+import { useEffect, useRef, useState } from '@wordpress/element';
+import { Col, Row } from 'antd';
+import ReactSVG from 'react-inlinesvg';
+import DraggableField from './DraggableField';
+import { InserterStyle } from './style';
+
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
+	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
 	const [ activeTab, setActiveTab ] = useState( 'element' );
 	const mainFields = registerFields().filter(
 		( item ) => item.type !== 'spacer'
 	);
 	const [ fields, setFields ] = useState( mainFields );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
+
+	const editorInserterRef = useRef( null );
 
 	function getFieldByGroup( groupName, field ) {
 		if (
@@ -51,10 +57,23 @@ export default function FieldInserter( props ) {
 		setSearchQuery( e.target.value );
 	}
 
+	function sidebarCollapse( e ) {
+		e.preventDefault();
+		const sidebarParent = editorInserterRef.current;
+		sidebarParent &&
+			sidebarParent.classList.toggle(
+				'formgent-editor-inserter--collapsed'
+			);
+		setSidebarOpen( ! isSidebarOpen );
+
+		console.log( 'sidebarCollapse', isSidebarOpen );
+	}
+
 	return (
 		<InserterStyle
 			key={ inserterDomKey }
 			className="formgent-editor-inserter"
+			ref={ editorInserterRef }
 		>
 			<div className="formgent-editor-sider">
 				<div className="formgent-editor-sider__top">
@@ -112,6 +131,14 @@ export default function FieldInserter( props ) {
 					</div>
 				</div>
 			</div>
+			<button
+				className="formgent-sidebar-collapse"
+				onClick={ ( e ) => {
+					sidebarCollapse( e );
+				} }
+			>
+				<ReactSVG src={ isSidebarOpen ? leftIndent : rightIndent } />
+			</button>
 		</InserterStyle>
 	);
 }
