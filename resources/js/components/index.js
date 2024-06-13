@@ -9,6 +9,7 @@ import AntModal from './Modal';
 import AntSkeleton from './Skeleton';
 import AntSpin from './Spin';
 import AntSwitch from './Switch';
+import AntTab from './Tabs';
 import AntTable from './Table';
 import AntTextArea from './TextArea';
 import AntTooltip from './Tooltip';
@@ -24,6 +25,7 @@ registerModule( 'components', {
 	AntTextArea,
 	AntModal,
 	AntForm,
+	AntTab,
 	AntTable,
 	AntSpin,
 	AntCheckbox,
@@ -47,6 +49,7 @@ export {
 	AntMenu,
 	AntModal,
 	AntSwitch,
+	AntTab,
 	AntTable,
 	AntTextArea,
 	Form,

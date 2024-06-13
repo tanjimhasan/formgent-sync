@@ -1,21 +1,15 @@
 import { AntSkeleton } from '@formgent/components';
-import { useSelect } from '@wordpress/data';
 import { lazy, Suspense } from '@wordpress/element';
+import { ResultStyle } from './style';
 const Table = lazy( () => import( './components/Table' ) );
 
 function ResponseTable() {
-	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getCommonState();
-	}, [] );
-
-	const { useParams } = CommonReducer?.routerComponents;
-
 	return (
-		<div className="formgent-page-inner">
+		<ResultStyle className="formgent-result-content">
 			<Suspense fallback={ <AntSkeleton active /> }>
 				<Table />
 			</Suspense>
-		</div>
+		</ResultStyle>
 	);
 }
 

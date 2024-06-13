@@ -4,6 +4,7 @@ import { useSelect } from '@wordpress/data';
 import { Suspense } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import ResultsHeader from './components/Header';
+import { ResultWrapStyle } from './style';
 
 function Results() {
 	const { CommonReducer } = useSelect( ( select ) => {
@@ -36,7 +37,7 @@ function Results() {
 	return (
 		<>
 			<FormHeader id={ id } useNavigate={ useNavigate } />
-			<div className="formgent-editor-wrap">
+			<ResultWrapStyle className="formgent-result-wrap">
 				<ResultsHeader id={ id } />
 				<Suspense fallback={ <>Loading...</> }>
 					<Routes>
@@ -51,7 +52,7 @@ function Results() {
 						} ) }
 					</Routes>
 				</Suspense>
-			</div>
+			</ResultWrapStyle>
 		</>
 	);
 }

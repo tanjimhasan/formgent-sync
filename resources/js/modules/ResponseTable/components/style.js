@@ -111,4 +111,82 @@ const TableSelectionStyle = Styled.div`
     }
 `;
 
-export { FormDeleteAlertStyle, TableSelectionStyle, TableStyle };
+const TableHeaderStyle = Styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+const TableActionStyle = Styled.div`
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    .formgent-table-header__search {
+        height: 40px;
+        padding: 0 20px;
+        box-shadow: none;
+        outline: none;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid var(--formgent-color-bg-gray);
+        .ant-input {
+            outline: none;
+            border: none;
+        }
+    }
+    .ant-btn {
+        background: transparent;
+        color: var(--formgent-font-color) !important;
+        border: 1px solid var(--formgent-color-bg-gray) !important;
+        border-radius: 8px;
+        &:hover {
+            background: var(--formgent-color-bg-light) !important;
+        }
+    }
+    
+`;
+
+const TableTabStyle = Styled.div`
+    .ant-tabs-nav {
+        &:before {
+            display: none;
+        }
+    }
+    .ant-tabs-nav-list {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .ant-tabs-tab {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 15px;
+        margin: 0 !important;
+        background-color: var(--formgent-color-bg-gray);
+        text-decoration: none;
+        border: none;
+        box-shadow: none;
+        outline: none;
+        transition: all ease .3s;
+        .ant-tabs-tab-btn {
+            color: var(--formgent-color-dark);
+        }
+        ~ .ant-tabs-ink-bar {
+            display: none;
+        }
+        &.ant-tabs-tab-active {
+            background-color: var(--formgent-color-dark);
+            .ant-tabs-tab-btn {
+                color: var(--formgent-color-white);
+            }
+        }
+    }
+`;
+
+export {
+	FormDeleteAlertStyle,
+	TableActionStyle,
+	TableHeaderStyle,
+	TableSelectionStyle,
+	TableStyle,
+	TableTabStyle,
+};

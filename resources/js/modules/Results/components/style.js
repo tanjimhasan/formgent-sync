@@ -24,8 +24,7 @@ const ResultsHeaderStyle = Styled.div`
                 border-top-right-radius: 8px;
                 border-bottom-right-radius: 8px;
             }
-            &.active,
-            &:hover {
+            &.active {
                 color: var(--formgent-color-white);
                 background-color: var(--formgent-color-dark);
             }

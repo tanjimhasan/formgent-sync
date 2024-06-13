@@ -4,6 +4,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
+import TableHeader from './TableHeader';
 import { TableStyle } from './style';
 
 export default function Table() {
@@ -139,13 +140,16 @@ export default function Table() {
 	return (
 		<TableStyle>
 			<AntSpin spinning={ loading }>
-				{ selectedRowKeys.length !== 0 && (
+				{ selectedRowKeys.length !== 0 ? (
 					<TableBulkSelection
 						data={ defaultData }
 						selectedRowKeys={ selectedRowKeys }
 						setSelectedRowKeys={ setSelectedRowKeys }
 					/>
+				) : (
+					<TableHeader />
 				) }
+
 				<AntTable
 					componentTokens={ {
 						Table: {
