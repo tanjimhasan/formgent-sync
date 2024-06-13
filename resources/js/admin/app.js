@@ -20,6 +20,7 @@ import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
 import ResponseTable from './pages/ResponseTable/index.js';
 import Settings from './pages/Settings/index.js';
+import Results from './pages/Results/index.js';
 
 export default function App() {
 	const { setRouterState } = useDispatch( 'formgent' );
@@ -72,6 +73,10 @@ export default function App() {
 		{
 			path: '/forms/:id/settings/*',
 			element: <Settings />,
+		},
+		{
+			path: '/forms/:id/results/*',
+			element: <Results />,
 		},
 		{
 			path: '/forms/:id/response',

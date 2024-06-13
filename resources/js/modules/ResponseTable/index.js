@@ -1,5 +1,4 @@
 import { AntSkeleton } from '@formgent/components';
-import FormHeader from '@formgent/components/FormHeader';
 import { useSelect } from '@wordpress/data';
 import { lazy, Suspense } from '@wordpress/element';
 const Table = lazy( () => import( './components/Table' ) );
@@ -9,19 +8,14 @@ function ResponseTable() {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams, useNavigate } = CommonReducer?.routerComponents;
-
-	const { id } = useParams();
+	const { useParams } = CommonReducer?.routerComponents;
 
 	return (
-		<>
-			<FormHeader id={ id } useNavigate={ useNavigate } />
-			<div className="formgent-page-inner">
-				<Suspense fallback={ <AntSkeleton active /> }>
-					<Table />
-				</Suspense>
-			</div>
-		</>
+		<div className="formgent-page-inner">
+			<Suspense fallback={ <AntSkeleton active /> }>
+				<Table />
+			</Suspense>
+		</div>
 	);
 }
 
