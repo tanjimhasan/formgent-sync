@@ -6,16 +6,19 @@ import {
 	ReloadOutlined,
 	SearchOutlined,
 } from '@ant-design/icons';
-import { AntButton, AntDropdown, AntInput } from '@formgent/components';
-import AntTabs from '@formgent/components/Tabs';
+import {
+	AntButton,
+	AntCheckbox,
+	AntDropdown,
+	AntInput,
+	AntTabs,
+} from '@formgent/components';
 import { useState } from '@wordpress/element';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
 const { TabPane } = AntTabs;
 
-export default function TableHeader( props ) {
-	const { data, selectedRowKeys, setSelectedRowKeys } = props;
-
+export default function TableHeader() {
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 
 	const handleTabChange = ( key ) => {
@@ -32,11 +35,6 @@ export default function TableHeader( props ) {
 		console.log( 'Filter clicked' );
 	};
 
-	const handleColumnToggle = () => {
-		// Implement column toggle functionality
-		console.log( 'Column toggle clicked' );
-	};
-
 	const handleDownload = () => {
 		// Implement download functionality
 		console.log( 'Download clicked' );
@@ -47,18 +45,68 @@ export default function TableHeader( props ) {
 		console.log( 'Refresh clicked' );
 	};
 
+	const [ checkedItems, setCheckedItems ] = useState( {
+		column1: true,
+		column2: true,
+		column3: false,
+	} );
+
+	const handleCheckboxChange = ( e, key ) => {
+		e.stopPropagation();
+		setCheckedItems( {
+			...checkedItems,
+			[ key ]: e.target.checked,
+		} );
+	};
+
 	const columnItems = [
 		{
-			label: 'Menu 1',
-			key: 'menu-1',
+			label: (
+				<span
+					style={ {
+						fontWeight: 'bold',
+						display: 'block',
+						marginBottom: '8px',
+					} }
+				>
+					Show Hide Columns
+				</span>
+			),
+			key: 'heading',
+			type: 'group',
 		},
 		{
-			label: 'Menu 2',
-			key: 'menu-2',
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column1 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column1' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column1',
 		},
 		{
-			label: 'Menu 3',
-			key: 'menu-3',
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column2 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column2' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column2',
+		},
+		{
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column3 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column3' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column3',
 		},
 	];
 
@@ -103,6 +151,7 @@ export default function TableHeader( props ) {
 				<AntButton icon={ <FilterOutlined /> } onClick={ handleFilter }>
 					Filters
 				</AntButton>
+
 				<AntDropdown
 					menu={ { items: columnItems } }
 					trigger={ [ 'click' ] }
@@ -112,6 +161,7 @@ export default function TableHeader( props ) {
 						Column <DownOutlined />
 					</AntButton>
 				</AntDropdown>
+
 				<AntDropdown
 					menu={ { items: downloadItems } }
 					placement="bottomRight"
