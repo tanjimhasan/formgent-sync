@@ -4,7 +4,7 @@ import leftIndent from '@icon/collapse-left.svg';
 import rightIndent from '@icon/collapse-right.svg';
 import { useSelect } from '@wordpress/data';
 import { useRef, useState } from '@wordpress/element';
-import SidebarCollapse from './SidebarCollapse';
+import SidebarToggle from './SidebarToggle';
 import { FieldCustomizerStyle } from './style';
 
 export default function FieldCustomizer() {
@@ -99,7 +99,7 @@ export default function FieldCustomizer() {
 				</div>
 			</div>
 
-			<SidebarCollapse
+			<SidebarToggle
 				initIcon={ rightIndent }
 				collapseIcon={ leftIndent }
 				contentRef={ contentRef }

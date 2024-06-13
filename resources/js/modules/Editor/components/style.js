@@ -249,7 +249,7 @@ const FieldCustomizerStyle = Styled.div`
     }
 `;
 
-const SidebarCollapseStyle = Styled.button`
+const SidebarToggleStyle = Styled.button`
     position: absolute;
     top: 0;
     width: 30px;
@@ -269,5 +269,5 @@ export {
 	EditorContentStyle,
 	FieldCustomizerStyle,
 	InserterStyle,
-	SidebarCollapseStyle,
+	SidebarToggleStyle,
 };

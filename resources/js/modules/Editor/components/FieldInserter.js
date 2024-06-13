@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 import { Col, Row } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import DraggableField from './DraggableField';
-import SidebarCollapse from './SidebarCollapse';
+import SidebarToggle from './SidebarToggle';
 import { InserterStyle } from './style';
 
 export default function FieldInserter( props ) {
@@ -119,7 +119,7 @@ export default function FieldInserter( props ) {
 					</div>
 				</div>
 			</div>
-			<SidebarCollapse
+			<SidebarToggle
 				initIcon={ leftIndent }
 				collapseIcon={ rightIndent }
 				contentRef={ contentRef }

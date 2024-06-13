@@ -1,8 +1,8 @@
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
-import { SidebarCollapseStyle } from './style';
+import { SidebarToggleStyle } from './style';
 
-export default function SidebarCollapse( props ) {
+export default function SidebarToggle( props ) {
 	const { initIcon, collapseIcon, contentRef } = props;
 
 	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
@@ -16,13 +16,13 @@ export default function SidebarCollapse( props ) {
 	}
 
 	return (
-		<SidebarCollapseStyle
+		<SidebarToggleStyle
 			className="formgent-sidebar-collapse"
 			onClick={ ( e ) => {
 				sidebarCollapse( e );
 			} }
 		>
 			<ReactSVG src={ isSidebarOpen ? initIcon : collapseIcon } />
-		</SidebarCollapseStyle>
+		</SidebarToggleStyle>
 	);
 }
