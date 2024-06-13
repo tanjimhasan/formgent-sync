@@ -16,7 +16,7 @@ export default function SubmissionForm( props ) {
 
 	function getFormItem( item ) {
 		const FormItem = registerPreviewFields()[ item?.type ];
-		return <FormItem field={ item } />;
+		return <FormItem field={ item } isSubmissionForm={ true } />;
 	}
 
 	async function handleSubmitForm( data ) {

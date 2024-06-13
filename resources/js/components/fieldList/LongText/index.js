@@ -2,11 +2,11 @@ import { AntTextArea, Row, Col } from '@formgent/components';
 import { Form } from 'antd';
 import FieldEditor from '@formgent/components/FieldEditor';
 export default function LongText( props ) {
-	const { field } = props;
+	const { field, isSubmissionForm } = props;
 	return (
 		<div className="formgent-field">
 			<div className="formgent-field__text">
-				<FieldEditor />
+				<FieldEditor { ...props } />
 			</div>
 			<div className="formgent-field__action">
 				<Row gutter={ 15 }>
@@ -17,6 +17,7 @@ export default function LongText( props ) {
 									rows={ 4 }
 									placeholder="Long text"
 									maxLength={ 6 }
+									disabled={ ! isSubmissionForm }
 								/>
 							</div>
 						</Form.Item>

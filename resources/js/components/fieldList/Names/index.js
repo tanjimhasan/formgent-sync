@@ -4,11 +4,11 @@ import { __ } from '@wordpress/i18n';
 import FieldEditor from '@formgent/components/FieldEditor';
 
 export default function Name( props ) {
-	const { field } = props;
+	const { field, isSubmissionForm } = props;
 	return (
 		<div className="formgent-field">
 			<div className="formgent-field__text">
-				<FieldEditor />
+				<FieldEditor { ...props } />
 			</div>
 			<div className="formgent-field__action">
 				<Row gutter={ 20 }>
@@ -24,6 +24,7 @@ export default function Name( props ) {
 												placeholder={
 													item?.placeholder
 												}
+												disabled={ ! isSubmissionForm }
 											/>
 										</div>
 									</Form.Item>

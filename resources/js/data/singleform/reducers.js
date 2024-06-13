@@ -127,6 +127,32 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 					},
 				},
 			};
+		case 'UPDATE_FIELD_LABEL':
+			let fieldList = structuredClone(
+				state?.singleForm?.content?.fields
+			);
+			fieldList = fieldList.map( ( item ) => {
+				if ( item?.id === action?.payload?.fieldId ) {
+					return {
+						...item,
+						general_option: {
+							...item.general_option,
+							label: action?.payload?.label,
+						},
+					};
+				}
+				return item;
+			} );
+			return {
+				...state,
+				singleForm: {
+					...state.singleForm,
+					content: {
+						...state.singleForm.content,
+						fields: fieldList,
+					},
+				},
+			};
 		default:
 			return state;
 	}
