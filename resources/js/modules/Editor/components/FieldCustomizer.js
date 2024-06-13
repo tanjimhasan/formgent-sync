@@ -4,12 +4,11 @@ import leftIndent from '@icon/collapse-left.svg';
 import rightIndent from '@icon/collapse-right.svg';
 import { useSelect } from '@wordpress/data';
 import { useRef, useState } from '@wordpress/element';
-import ReactSVG from 'react-inlinesvg';
+import SidebarCollapse from './SidebarCollapse';
 import { FieldCustomizerStyle } from './style';
 
 export default function FieldCustomizer() {
 	const [ activeTab, setActiveTab ] = useState( 'element' );
-	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
 
 	const contentRef = useRef( null );
 
@@ -41,16 +40,6 @@ export default function FieldCustomizer() {
 		}
 
 		return controlList;
-	}
-
-	function sidebarCollapse( e ) {
-		e.preventDefault();
-		const sidebarParent = contentRef.current;
-		sidebarParent &&
-			sidebarParent.classList.toggle( 'formgent-content-collapsed' );
-		setSidebarOpen( ! isSidebarOpen );
-
-		console.log( 'sidebarCollapse', isSidebarOpen );
 	}
 
 	return (
@@ -109,14 +98,12 @@ export default function FieldCustomizer() {
 						} ) }
 				</div>
 			</div>
-			<button
-				className="formgent-sidebar-collapse"
-				onClick={ ( e ) => {
-					sidebarCollapse( e );
-				} }
-			>
-				<ReactSVG src={ isSidebarOpen ? rightIndent : leftIndent } />
-			</button>
+
+			<SidebarCollapse
+				initIcon={ rightIndent }
+				collapseIcon={ leftIndent }
+				contentRef={ contentRef }
+			/>
 		</FieldCustomizerStyle>
 	);
 }

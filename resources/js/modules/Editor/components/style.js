@@ -19,18 +19,7 @@ const InserterStyle = Styled.div`
         }
     }
     .formgent-sidebar-collapse {
-        position: absolute;
         inset-inline-start: calc(100% + 25px);
-        top: 0;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background: var(--formgent-color-bg-deep) !important;
     }
 
     &.formgent-content-collapsed {
@@ -246,18 +235,8 @@ const FieldCustomizerStyle = Styled.div`
         width: 100%;
     }
     .formgent-sidebar-collapse {
-        position: absolute;
+        inset-inline-start: unset;
         inset-inline-end: calc(100% + 25px);
-        top: 0;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background: var(--formgent-color-bg-deep) !important;
     }
 
     &.formgent-content-collapsed {
@@ -270,10 +249,25 @@ const FieldCustomizerStyle = Styled.div`
     }
 `;
 
+const SidebarCollapseStyle = Styled.button`
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--formgent-color-bg-deep) !important;
+`;
+
 export {
 	CreateFormStyle,
 	DropableBoxStyle,
 	EditorContentStyle,
 	FieldCustomizerStyle,
 	InserterStyle,
+	SidebarCollapseStyle,
 };

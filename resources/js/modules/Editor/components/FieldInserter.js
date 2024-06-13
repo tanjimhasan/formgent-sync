@@ -7,11 +7,11 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 import { Col, Row } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import DraggableField from './DraggableField';
+import SidebarCollapse from './SidebarCollapse';
 import { InserterStyle } from './style';
 
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
-	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
 	const [ activeTab, setActiveTab ] = useState( 'element' );
 	const mainFields = registerFields().filter(
 		( item ) => item.type !== 'spacer'
@@ -55,14 +55,6 @@ export default function FieldInserter( props ) {
 	//update search query
 	function handleUpdateSearchQuery( e ) {
 		setSearchQuery( e.target.value );
-	}
-
-	function sidebarCollapse( e ) {
-		e.preventDefault();
-		const sidebarParent = contentRef.current;
-		sidebarParent &&
-			sidebarParent.classList.toggle( 'formgent-content-collapsed' );
-		setSidebarOpen( ! isSidebarOpen );
 	}
 
 	return (
@@ -127,14 +119,11 @@ export default function FieldInserter( props ) {
 					</div>
 				</div>
 			</div>
-			<button
-				className="formgent-sidebar-collapse"
-				onClick={ ( e ) => {
-					sidebarCollapse( e );
-				} }
-			>
-				<ReactSVG src={ isSidebarOpen ? leftIndent : rightIndent } />
-			</button>
+			<SidebarCollapse
+				initIcon={ leftIndent }
+				collapseIcon={ rightIndent }
+				contentRef={ contentRef }
+			/>
 		</InserterStyle>
 	);
 }
