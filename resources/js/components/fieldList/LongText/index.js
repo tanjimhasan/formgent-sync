@@ -1,5 +1,5 @@
-import { Row, Col, Form } from 'antd';
-import { AntTextArea } from '@formgent/components';
+import { AntTextArea, Row, Col } from '@formgent/components';
+import { Form } from 'antd';
 import FieldEditor from '@formgent/components/FieldEditor';
 export default function LongText( props ) {
 	const { field } = props;

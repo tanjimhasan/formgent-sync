@@ -24,11 +24,11 @@ function Editor( props ) {
 		[ id ]
 	);
 
-	useEffect( () => {
-		if ( ! SingleFormReducer.singleForm ) return;
-		if ( SingleFormReducer?.singleForm?.id === id ) return;
-		resolveSelect( 'formgent' ).getSingleForm( id, Date.now() );
-	}, [ id ] );
+	// useEffect( () => {
+	// 	if ( ! SingleFormReducer.singleForm ) return;
+	// 	if ( SingleFormReducer?.singleForm?.id === id ) return;
+	// 	resolveSelect( 'formgent' ).getSingleForm( id, Date.now() );
+	// }, [ id ] );
 
 	return (
 		<div className="formgent-editor-wrap">

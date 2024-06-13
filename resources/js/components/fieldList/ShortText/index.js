@@ -1,5 +1,5 @@
-import { Row, Col, Form } from 'antd';
-import { AntInput } from '@formgent/components';
+import { Form } from 'antd';
+import { AntInput, Row, Col } from '@formgent/components';
 import FieldEditor from '@formgent/components/FieldEditor';
 export default function ShortText( props ) {
 	const { field } = props;
