@@ -93,7 +93,7 @@ class ResponseController extends Controller {
         if ( ! empty( $validate_data['parent_field_ids'] ) ) {
 
             $parent_fields = Answer::query()->select( 'id', 'field_id' )->where( 'response_id', $response_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
-        
+
             $parent_ids = [];
 
             foreach ( $parent_fields as $parent ) {
