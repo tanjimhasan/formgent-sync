@@ -1,4 +1,5 @@
 import { useSelect, useDispatch } from '@wordpress/data';
+import { doAction } from '@wordpress/hooks';
 import { AntInput } from '@formgent/components';
 import ReactSVG from 'react-inlinesvg';
 import { formatDate } from '@formgent/helper/utils';
@@ -44,7 +45,7 @@ export default function TItleBox( props ) {
 		} );
 	}
 
-	function handleUpdateFormTitle() {
+	async function handleUpdateFormTitle() {
 		if ( title === editableForm.title ) {
 			setEditableForm( null );
 			return;
@@ -52,10 +53,13 @@ export default function TItleBox( props ) {
 		if ( isTitleUpdating ) return;
 		updateTitleRequest();
 		try {
-			const titleUpdateResponse = patchData(
+			const titleUpdateResponse = await patchData(
 				`admin/forms/${ editableForm.id }/title`,
 				{ title: editableForm.title }
 			);
+			doAction( 'formgent-toast', {
+				message: titleUpdateResponse.message,
+			} );
 			updateTitleSuccess( editableForm );
 		} catch ( error ) {
 			updateTitleError( error );
