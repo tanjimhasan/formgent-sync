@@ -14,7 +14,7 @@ const DraggableField = ( props ) => {
 	const { id: formId } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm( formId );
+		return select( 'formgent' ).getSingleForm();
 	}, [] );
 	const { updateFormFields } = useDispatch( 'formgent' );
 	const id = useRef( nanoid( 10 ) );

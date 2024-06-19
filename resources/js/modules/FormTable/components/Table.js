@@ -54,7 +54,6 @@ export default function Table() {
 					<a
 					//to={ `responses` }
 					>
-						{ record.total_responses }
 						{ record.total_unread_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
 								{ record.total_unread_responses }

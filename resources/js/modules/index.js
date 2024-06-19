@@ -5,6 +5,7 @@ const SettingsModule = lazy( () => import( './Settings' ) );
 const ResultsModule = lazy( () => import( './Results' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
 const ResponseTableModule = lazy( () => import( './ResponseTable' ) );
+const FormSubmissionModule = lazy( () => import( './FormSubmission' ) );
 
 registerModule( 'modules', {
 	EditorModule,
@@ -12,6 +13,7 @@ registerModule( 'modules', {
 	ResultsModule,
 	FormTableModule,
 	ResponseTableModule,
+	FormSubmissionModule,
 } );
 
 /**
@@ -23,4 +25,5 @@ export {
 	ResponseTableModule,
 	ResultsModule,
 	SettingsModule,
+	FormSubmissionModule,
 };

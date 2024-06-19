@@ -136,6 +136,13 @@ export const SingleFormActions = {
 		};
 	},
 
+	updateFieldLabel: ( label, fieldId ) => {
+		return {
+			type: 'UPDATE_FIELD_LABEL',
+			payload: { label, fieldId },
+		};
+	},
+
 	insertSpacer: ( spacer, index ) => {
 		return {
 			type: 'INSERT_SPACER',

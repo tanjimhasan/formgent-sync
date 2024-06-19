@@ -1,12 +1,12 @@
-import { Row, Col, Form } from 'antd';
-import { AntInput } from '@formgent/components';
+import { Form } from 'antd';
+import { AntInput, Row, Col } from '@formgent/components';
 import FieldEditor from '@formgent/components/FieldEditor';
 export default function Email( props ) {
-	const { field } = props;
+	const { field, isSubmissionForm } = props;
 	return (
 		<div className="formgent-field">
 			<div className="formgent-field__text">
-				<FieldEditor />
+				<FieldEditor { ...props } />
 			</div>
 			<div className="formgent-field__action">
 				<Row gutter={ 15 }>
@@ -24,6 +24,7 @@ export default function Email( props ) {
 									placeholder={
 										field?.general_option?.placeholder
 									}
+									disabled={ ! isSubmissionForm }
 								/>
 							</div>
 						</Form.Item>

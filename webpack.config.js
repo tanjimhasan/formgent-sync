@@ -21,6 +21,10 @@ const chunkUniqueKey = Date.now().toString();
 module.exports = {
 	...defaultConfig,
 	entry: {
+		'js/frontend/FormSubmission/index':
+			'./resources/js/frontend/pages/FormSubmission/index.js',
+		'js/notification': './resources/js/components/Notification.js',
+		'css/notification': './resources/js/components/notification.scss',
 		'js/block/editor': './resources/js/block/editor.js',
 		'js/elementor': './resources/js/elementor.js',
 		'js/admin': './resources/js/admin/index.js',

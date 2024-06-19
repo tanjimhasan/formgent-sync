@@ -380,6 +380,10 @@ const MenuStyle = Styled.div`
 
 `;
 
+const SubmissionFormStyle = Styled.div`
+    
+`;
+
 export {
 	AlertContentStyle,
 	ButtonStyle,
@@ -389,4 +393,5 @@ export {
 	InputStyle,
 	MenuStyle,
 	ModalAlertStyle,
+	SubmissionFormStyle,
 };
