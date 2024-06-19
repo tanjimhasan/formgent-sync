@@ -16,6 +16,10 @@ const TableStyle = Styled.div`
                         border-radius: 0 12px 12px 0;
                         text-align: end;
                     }
+                    .formgent-form-wrap {
+                        display: flex;
+                        justify-content: space-between;
+                    }
                 }
             }
         }

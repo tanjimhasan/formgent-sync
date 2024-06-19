@@ -12,7 +12,7 @@ import FormDeleteAlert from './FormDeleteAlert';
 export default function TableAction( props ) {
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
-	const { responseData, setEditableResponseData } = props;
+	const { type, responseData, setEditableResponseData } = props;
 
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
@@ -36,7 +36,7 @@ export default function TableAction( props ) {
 		setIsActivateFormDeleteModal( true );
 	}
 
-	const items = [
+	const actionsItems = [
 		{
 			key: '1',
 			label: (
@@ -56,6 +56,24 @@ export default function TableAction( props ) {
 					{ __( 'Delete', 'formgent' ) }
 				</a>
 			),
+		},
+	];
+
+	function handleSortby( key ) {
+		console.log( 'Handle Sortby Clicked', key );
+	}
+
+	const sortbyItems = [
+		{
+			key: 'name',
+			label: <a onClick={ () => handleSortby( 'name' ) }>Sortby Name</a>,
+		},
+		{
+			type: 'divider',
+		},
+		{
+			key: 'type',
+			label: <a onClick={ () => handleSortby( 'type' ) }>Sortby Type</a>,
 		},
 	];
 
@@ -81,7 +99,9 @@ export default function TableAction( props ) {
 	return (
 		<div className="formgent-table-action">
 			<AntDropdown
-				menu={ { items } }
+				menu={ {
+					items: type === 'sortby' ? sortbyItems : actionsItems,
+				} }
 				trigger={ [ 'click' ] }
 				placement="bottomRight"
 				overlayStyle={ { minWidth: '240px' } }

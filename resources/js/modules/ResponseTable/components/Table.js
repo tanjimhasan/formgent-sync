@@ -38,8 +38,17 @@ export default function Table() {
 			title: 'Name',
 			dataIndex: 'name',
 			render: ( text, record ) => (
-				<div className="formgent-form-data">
-					<span>{ text }</span>
+				<div className="formgent-form-wrap">
+					<div className="formgent-form-data">
+						<span>{ text }</span>
+					</div>
+					<div className="formgent-form-action">
+						<TableAction
+							type="sortby"
+							responseData={ record }
+							setEditableResponseData={ setEditableResponseData }
+						/>
+					</div>
 				</div>
 			),
 		},
@@ -47,8 +56,17 @@ export default function Table() {
 			title: 'Age',
 			dataIndex: 'age',
 			render: ( text, record ) => (
-				<div className="formgent-form-data">
-					<span>{ text }</span>
+				<div className="formgent-form-wrap">
+					<div className="formgent-form-data">
+						<span>{ text }</span>
+					</div>
+					<div className="formgent-form-action">
+						<TableAction
+							type="sortby"
+							responseData={ record }
+							setEditableResponseData={ setEditableResponseData }
+						/>
+					</div>
 				</div>
 			),
 		},
@@ -56,8 +74,17 @@ export default function Table() {
 			title: 'Address',
 			dataIndex: 'address',
 			render: ( text, record ) => (
-				<div className="formgent-form-data">
-					<span>{ text }</span>
+				<div className="formgent-form-wrap">
+					<div className="formgent-form-data">
+						<span>{ text }</span>
+					</div>
+					<div className="formgent-form-action">
+						<TableAction
+							type="sortby"
+							responseData={ record }
+							setEditableResponseData={ setEditableResponseData }
+						/>
+					</div>
 				</div>
 			),
 		},
@@ -67,6 +94,7 @@ export default function Table() {
 			render: ( text, record ) => (
 				<div className="formgent-form-action">
 					<TableAction
+						type="action"
 						responseData={ record }
 						setEditableResponseData={ setEditableResponseData }
 					/>
