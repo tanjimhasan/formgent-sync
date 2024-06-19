@@ -8,9 +8,9 @@ import {
 } from '@ant-design/icons';
 import {
 	AntButton,
-	AntCheckbox,
 	AntDropdown,
 	AntInput,
+	AntSelect,
 	AntSpin,
 	AntTable,
 	AntTabs,
@@ -94,6 +94,10 @@ export default function Table() {
 		} );
 	};
 
+	const handleChange = ( value ) => {
+		console.log( `Selected: ${ value }` );
+	};
+
 	const columnItems = [
 		{
 			label: (
@@ -107,44 +111,20 @@ export default function Table() {
 					Show Hide Columns
 				</span>
 			),
-			key: 'heading',
+			value: 'heading',
 			type: 'group',
 		},
 		{
-			label: (
-				<AntCheckbox
-					checked={ checkedItems.column1 }
-					onChange={ ( e ) => handleCheckboxChange( e, 'column1' ) }
-				>
-					Column One
-				</AntCheckbox>
-			),
-			key: 'column1',
-			disabled: true,
+			label: 'Column One',
+			value: 'column1',
 		},
 		{
-			label: (
-				<AntCheckbox
-					checked={ checkedItems.column2 }
-					onChange={ ( e ) => handleCheckboxChange( e, 'column2' ) }
-				>
-					Column Two
-				</AntCheckbox>
-			),
-			key: 'column2',
-			disabled: true,
+			label: 'Column Two',
+			value: 'column2',
 		},
 		{
-			label: (
-				<AntCheckbox
-					checked={ checkedItems.column3 }
-					onChange={ ( e ) => handleCheckboxChange( e, 'column3' ) }
-				>
-					Column Three
-				</AntCheckbox>
-			),
-			key: 'column3',
-			disabled: true,
+			label: 'Column Three',
+			value: 'column3',
 		},
 	];
 
@@ -336,6 +316,15 @@ export default function Table() {
 						>
 							Filters
 						</AntButton>
+						<AntSelect
+							mode="multiple"
+							placeholder="Please select"
+							onChange={ handleChange }
+							style={ {
+								width: '100%',
+							} }
+							options={ columnItems }
+						/>
 
 						<AntDropdown
 							menu={ { items: columnItems } }

@@ -7,6 +7,7 @@ import AntForm from './Form.js';
 import AntInput from './Input';
 import AntMenu from './Menu';
 import AntModal from './Modal';
+import AntSelect from './Select';
 import AntSkeleton from './Skeleton';
 import AntSpin from './Spin';
 import AntSwitch from './Switch';
@@ -36,6 +37,7 @@ registerModule( 'components', {
 	Form,
 	AntMenu,
 	AntDropdown,
+	AntSelect,
 } );
 
 /**
@@ -48,6 +50,7 @@ export {
 	AntInput,
 	AntMenu,
 	AntModal,
+	AntSelect,
 	AntSwitch,
 	AntTable,
 	AntTabs,
