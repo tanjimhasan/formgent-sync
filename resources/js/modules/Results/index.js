@@ -11,8 +11,6 @@ function Results() {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	console.log( 'Results CommonReducer', CommonReducer );
-
 	const { useParams, Route, Routes, useNavigate } =
 		CommonReducer.routerComponents;
 	const { id } = useParams();
@@ -31,8 +29,6 @@ function Results() {
 			element: <ResponseTableModule />,
 		},
 	] );
-
-	console.log( 'resultsRoutes', resultsRoutes );
 
 	return (
 		<>

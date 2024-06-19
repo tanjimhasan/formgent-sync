@@ -10,7 +10,6 @@ import { TableStyle } from './style';
 export default function Table() {
 	const [ editableResponseData, setEditableResponseData ] = useState( null );
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
-	const [ loading, setLoading ] = useState( false );
 	const [ responseTableData, setResponseTableData ] = useState( [] );
 	const [ tableParams, setTableParams ] = useState( {
 		pagination: {
@@ -25,6 +24,8 @@ export default function Table() {
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
+
+	const { isLoading } = FormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -125,24 +126,20 @@ export default function Table() {
 	}
 
 	const handleTableChange = ( pagination ) => {
-		console.log( 'response table pagination', pagination );
 		setTableParams( {
 			pagination,
 		} );
 	};
 
 	useEffect( () => {
-		setLoading( true );
 		// Fetch Response Table Data
 		fetchData( `admin/entries?page=4&per_page=10&s=hello&form_id=${ id }` )
 			.then( ( res ) => {
-				setLoading( false );
 				console.log( 'responseTable Data Response:', res );
 				setResponseTableData( res.entries );
 				updateFormItemState( id, res );
 			} )
 			.catch( ( error ) => {
-				setLoading( false );
 				console.error( 'Failed to fetch entry data:', error );
 			} );
 	}, [] );
@@ -150,12 +147,6 @@ export default function Table() {
 	useEffect( () => {
 		const formItem = FormReducer.forms.find( ( item ) => item?.id === id );
 		const pagination = formItem?.pagination || tableParams?.pagination;
-		console.log(
-			'responseTable FormReducer',
-			formItem,
-			pagination,
-			responseTableData
-		);
 
 		setTableParams( {
 			pagination: {
@@ -167,7 +158,7 @@ export default function Table() {
 
 	return (
 		<TableStyle>
-			<AntSpin spinning={ loading }>
+			<AntSpin spinning={ isLoading }>
 				{ selectedRowKeys.length !== 0 ? (
 					<TableBulkSelection
 						data={ defaultData }

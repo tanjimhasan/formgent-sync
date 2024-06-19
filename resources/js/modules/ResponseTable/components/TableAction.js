@@ -1,5 +1,5 @@
 import AntDropdown from '@formgent/components/Dropdown';
-import PopUp from '@formgent/components/PopUp';
+import AntModal from '@formgent/components/Modal';
 import deleteData from '@formgent/helper/deleteData';
 import ellipsisV from '@icon/ellipsis-v.svg';
 import penNib from '@icon/pen-nib.svg';
@@ -111,13 +111,11 @@ export default function TableAction( props ) {
 				</a>
 			</AntDropdown>
 			{ isActivateFormDeleteModal && (
-				<PopUp
+				<AntModal
+					open={ isActivateFormDeleteModal }
 					title={ __( 'Delete responseData', 'formgent' ) }
 					onCancel={ handleCancelDeleteAlert }
-					onSubmit={ handleDeleteForm }
-					hasCancelButton
-					hasSubmitButton
-					isActiveSubmit
+					onOk={ handleDeleteForm }
 					submitText={
 						isFormDeleting
 							? __( 'Deleting', 'formgent' )
@@ -129,7 +127,7 @@ export default function TableAction( props ) {
 						// error={ formDeletionError }
 						formTitle={ responseData.title }
 					/>
-				</PopUp>
+				</AntModal>
 			) }
 		</div>
 	);
