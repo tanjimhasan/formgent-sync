@@ -82,7 +82,7 @@ export default function Table() {
 
 	const [ checkedItems, setCheckedItems ] = useState( {
 		column1: true,
-		column2: true,
+		column2: false,
 		column3: false,
 	} );
 
@@ -116,10 +116,11 @@ export default function Table() {
 					checked={ checkedItems.column1 }
 					onChange={ ( e ) => handleCheckboxChange( e, 'column1' ) }
 				>
-					Screen name
+					Column One
 				</AntCheckbox>
 			),
 			key: 'column1',
+			disabled: true,
 		},
 		{
 			label: (
@@ -127,10 +128,11 @@ export default function Table() {
 					checked={ checkedItems.column2 }
 					onChange={ ( e ) => handleCheckboxChange( e, 'column2' ) }
 				>
-					Screen name
+					Column Two
 				</AntCheckbox>
 			),
 			key: 'column2',
+			disabled: true,
 		},
 		{
 			label: (
@@ -138,10 +140,11 @@ export default function Table() {
 					checked={ checkedItems.column3 }
 					onChange={ ( e ) => handleCheckboxChange( e, 'column3' ) }
 				>
-					Screen name
+					Column Three
 				</AntCheckbox>
 			),
 			key: 'column3',
+			disabled: true,
 		},
 	];
 
