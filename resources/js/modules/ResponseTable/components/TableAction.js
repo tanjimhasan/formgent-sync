@@ -12,7 +12,7 @@ import FormDeleteAlert from './FormDeleteAlert';
 export default function TableAction( props ) {
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
-	const { type, responseData, setEditableResponseData } = props;
+	const { type, responseData } = props;
 
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
@@ -29,7 +29,6 @@ export default function TableAction( props ) {
 			id: responseData.id,
 			title: responseData.title,
 		};
-		setEditableResponseData( editableResponseData );
 	}
 
 	function handleActivateDeleteFormModal() {

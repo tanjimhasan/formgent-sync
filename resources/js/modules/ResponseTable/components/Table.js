@@ -1,16 +1,38 @@
-import { AntSpin, AntTable } from '@formgent/components';
+import {
+	ColumnHeightOutlined,
+	DownOutlined,
+	DownloadOutlined,
+	FilterOutlined,
+	ReloadOutlined,
+	SearchOutlined,
+} from '@ant-design/icons';
+import {
+	AntButton,
+	AntCheckbox,
+	AntDropdown,
+	AntInput,
+	AntSpin,
+	AntTable,
+	AntTabs,
+} from '@formgent/components';
 import fetchData from '@formgent/helper/fetchData';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import TableAction from './TableAction';
-import TableBulkSelection from './TableBulkSelection';
-import TableHeader from './TableHeader';
-import { TableStyle } from './style';
+// import TableBulkSelection from './TableBulkSelection';
+
+import {
+	TableActionStyle,
+	TableHeaderStyle,
+	TableStyle,
+	TableTabStyle,
+} from './style';
 
 export default function Table() {
-	const [ editableResponseData, setEditableResponseData ] = useState( null );
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ responseTableData, setResponseTableData ] = useState( [] );
+	const [ activeTab, setActiveTab ] = useState( 'completed' );
+	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ tableParams, setTableParams ] = useState( {
 		pagination: {
 			current: 1,
@@ -33,6 +55,141 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	// Handle Tab Operations
+	const handleTabChange = ( key ) => {
+		setActiveTab( key );
+	};
+
+	const handleSearch = ( value ) => {
+		// Implement search functionality
+		console.log( 'Search:', value );
+	};
+
+	const handleFilter = () => {
+		// Implement filter functionality
+		console.log( 'Filter clicked' );
+	};
+
+	const handleDownload = () => {
+		// Implement download functionality
+		console.log( 'Download clicked' );
+	};
+
+	const handleRefresh = () => {
+		// Implement refresh functionality
+		console.log( 'Refresh clicked' );
+	};
+
+	const [ checkedItems, setCheckedItems ] = useState( {
+		column1: true,
+		column2: true,
+		column3: false,
+	} );
+
+	const handleCheckboxChange = ( e, key ) => {
+		e.stopPropagation();
+		setCheckedItems( {
+			...checkedItems,
+			[ key ]: e.target.checked,
+		} );
+	};
+
+	const columnItems = [
+		{
+			label: (
+				<span
+					style={ {
+						fontWeight: 'bold',
+						display: 'block',
+						marginBottom: '8px',
+					} }
+				>
+					Show Hide Columns
+				</span>
+			),
+			key: 'heading',
+			type: 'group',
+		},
+		{
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column1 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column1' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column1',
+		},
+		{
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column2 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column2' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column2',
+		},
+		{
+			label: (
+				<AntCheckbox
+					checked={ checkedItems.column3 }
+					onChange={ ( e ) => handleCheckboxChange( e, 'column3' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
+			key: 'column3',
+		},
+	];
+
+	const downloadItems = [
+		{
+			key: 'csv',
+			label: 'Download as CSV',
+		},
+		{
+			key: 'excel',
+			label: 'Download as Excel',
+		},
+		{
+			key: 'pdf',
+			label: 'Download as PDF',
+		},
+		{
+			key: 'attachment',
+			label: 'Download Attachment',
+		},
+	];
+
+	const tabItems = [
+		{
+			key: 'completed',
+			label: 'Completed',
+		},
+		{
+			key: 'partial',
+			label: 'Partial',
+		},
+	];
+
+	// Filter data based on active tab
+	const filterData = () => {
+		if ( activeTab === 'completed' ) {
+			return defaultData.filter( ( item ) => item.age > 40 );
+		} else if ( activeTab === 'partial' ) {
+			return defaultData.filter( ( item ) => item.age > 50 );
+		}
+		return [];
+	};
+
+	// Use effect to update filtered data when the active tab changes
+	useEffect( () => {
+		setFilteredData( filterData() );
+	}, [ activeTab ] );
+
 	// Default Column Data
 	const defaultColumns = [
 		{
@@ -44,11 +201,7 @@ export default function Table() {
 						<span>{ text }</span>
 					</div>
 					<div className="formgent-form-action">
-						<TableAction
-							type="sortby"
-							responseData={ record }
-							setEditableResponseData={ setEditableResponseData }
-						/>
+						<TableAction type="sortby" responseData={ record } />
 					</div>
 				</div>
 			),
@@ -62,11 +215,7 @@ export default function Table() {
 						<span>{ text }</span>
 					</div>
 					<div className="formgent-form-action">
-						<TableAction
-							type="sortby"
-							responseData={ record }
-							setEditableResponseData={ setEditableResponseData }
-						/>
+						<TableAction type="sortby" responseData={ record } />
 					</div>
 				</div>
 			),
@@ -80,11 +229,7 @@ export default function Table() {
 						<span>{ text }</span>
 					</div>
 					<div className="formgent-form-action">
-						<TableAction
-							type="sortby"
-							responseData={ record }
-							setEditableResponseData={ setEditableResponseData }
-						/>
+						<TableAction type="sortby" responseData={ record } />
 					</div>
 				</div>
 			),
@@ -94,11 +239,7 @@ export default function Table() {
 			dataIndex: 'action',
 			render: ( text, record ) => (
 				<div className="formgent-form-action">
-					<TableAction
-						type="action"
-						responseData={ record }
-						setEditableResponseData={ setEditableResponseData }
-					/>
+					<TableAction type="action" responseData={ record } />
 				</div>
 			),
 		},
@@ -133,7 +274,7 @@ export default function Table() {
 
 	useEffect( () => {
 		// Fetch Response Table Data
-		fetchData( `admin/entries?page=4&per_page=10&s=hello&form_id=${ id }` )
+		fetchData( `admin/entries?page=1&per_page=10&form_id=${ id }` )
 			.then( ( res ) => {
 				console.log( 'responseTable Data Response:', res );
 				setResponseTableData( res.entries );
@@ -159,15 +300,66 @@ export default function Table() {
 	return (
 		<TableStyle>
 			<AntSpin spinning={ isLoading }>
-				{ selectedRowKeys.length !== 0 ? (
+				{ /* { selectedRowKeys.length !== 0 ? (
 					<TableBulkSelection
 						data={ defaultData }
 						selectedRowKeys={ selectedRowKeys }
 						setSelectedRowKeys={ setSelectedRowKeys }
 					/>
 				) : (
-					<TableHeader />
-				) }
+					''
+				) } */ }
+
+				<TableHeaderStyle className="formgent-table-header">
+					<TableTabStyle className="formgent-table-header__tab">
+						<AntTabs
+							activeKey={ activeTab }
+							onChange={ handleTabChange }
+							items={ tabItems }
+						/>
+					</TableTabStyle>
+					<TableActionStyle className="formgent-table-header__action">
+						<AntInput
+							placeholder="Search responses"
+							prefix={ <SearchOutlined /> }
+							onPressEnter={ ( e ) =>
+								handleSearch( e.target.value )
+							}
+							className="formgent-table-header__search"
+						/>
+						<AntButton
+							icon={ <FilterOutlined /> }
+							onClick={ handleFilter }
+						>
+							Filters
+						</AntButton>
+
+						<AntDropdown
+							menu={ { items: columnItems } }
+							trigger={ [ 'click' ] }
+							placement="bottomRight"
+						>
+							<AntButton icon={ <ColumnHeightOutlined /> }>
+								Column <DownOutlined />
+							</AntButton>
+						</AntDropdown>
+
+						<AntDropdown
+							menu={ { items: downloadItems } }
+							placement="bottomRight"
+						>
+							<AntButton
+								icon={ <DownloadOutlined /> }
+								onClick={ handleDownload }
+							/>
+						</AntDropdown>
+
+						<AntButton
+							icon={ <ReloadOutlined /> }
+							onClick={ handleRefresh }
+						/>
+					</TableActionStyle>
+				</TableHeaderStyle>
 
 				<AntTable
 					componentTokens={ {
@@ -180,7 +372,7 @@ export default function Table() {
 					} }
 					rowSelection={ rowSelection }
 					columns={ defaultColumns }
-					dataSource={ defaultData }
+					dataSource={ filteredData }
 					rowKey={ ( record ) => record.key }
 					pagination={ tableParams.pagination }
 					onChange={ handleTableChange }
