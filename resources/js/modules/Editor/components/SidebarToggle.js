@@ -7,7 +7,7 @@ export default function SidebarToggle( props ) {
 
 	const [ isSidebarOpen, setSidebarOpen ] = useState( true );
 
-	function sidebarCollapse( e ) {
+	function handleCollapse( e ) {
 		e.preventDefault();
 		const sidebarParent = contentRef.current;
 		sidebarParent &&
@@ -19,7 +19,7 @@ export default function SidebarToggle( props ) {
 		<SidebarToggleStyle
 			className="formgent-sidebar-collapse"
 			onClick={ ( e ) => {
-				sidebarCollapse( e );
+				handleCollapse( e );
 			} }
 		>
 			<ReactSVG src={ isSidebarOpen ? initIcon : collapseIcon } />
