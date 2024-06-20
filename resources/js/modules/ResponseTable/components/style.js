@@ -35,12 +35,21 @@ const TableStyle = Styled.div`
         tr{
             th{
                 font-size: 13px;
+                line-height: 1;
                 text-transform: uppercase;
                 letter-spacing: 1px;
                 font-weight: 500;
                 padding: 15px 15px;
                 text-align: start;
                 color: var(--formgent-color-light-gray);
+                background-color: var(--formgent-color-bg-light);
+                &:before {
+                    height: 100% !important;
+                    background-color: var(--formgent-color-extra-light) !important;
+                }
+                a {
+                    color: var(--formgent-color-light-gray);
+                }
             }
         }
     }
@@ -54,10 +63,28 @@ const TableStyle = Styled.div`
                     padding-right: 0;
                     transition: var(--formgent-transition);
                 }
-                &:last-child{
+                &:last-child{ 
                     padding-right: 21px;
                 }
             }
+        }
+    }
+    
+    .formgent-column-action {
+        display: flex;
+        justify-content: space-between;
+        svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .formgent-column-action__title {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            font-size: 14px;
+            text-transform: capitalize;
+            
         }
     }
 `;

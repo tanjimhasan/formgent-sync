@@ -18,8 +18,22 @@ import {
 import fetchData from '@formgent/helper/fetchData';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
-import TableAction from './TableAction';
+import ReactSVG from 'react-inlinesvg';
 // import TableBulkSelection from './TableBulkSelection';
+
+// Icon
+import arrowsDown from '@icon/arrows-down.svg';
+import arrowsUp from '@icon/arrows-up.svg';
+import calendar from '@icon/calendar.svg';
+import download from '@icon/download.svg';
+import ellipsisV from '@icon/ellipsis-v.svg';
+import hide from '@icon/eye-off.svg';
+import grid from '@icon/grid.svg';
+import mailOpen from '@icon/mail-open.svg';
+import mail from '@icon/mail.svg';
+import pin from '@icon/pin.svg';
+import star from '@icon/star.svg';
+import user from '@icon/user.svg';
 
 import {
 	TableActionStyle,
@@ -98,6 +112,102 @@ export default function Table() {
 		console.log( `Selected: ${ value }` );
 	};
 
+	const selectItems = [
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ grid } />
+					All
+				</span>
+			),
+			key: 'all',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ mailOpen } />
+					Read
+				</span>
+			),
+			key: 'read',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ mail } />
+					Unread
+				</span>
+			),
+			key: 'unread',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ star } />
+					Starred
+				</span>
+			),
+			key: 'starred',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ star } />
+					Unstarred
+				</span>
+			),
+			key: 'Unstarred',
+		},
+	];
+
+	const sortItems = [
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ arrowsUp } />
+					Ascending
+				</span>
+			),
+			key: 'ascending',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ arrowsDown } />
+					Descending
+				</span>
+			),
+			key: 'descending',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ download } />
+					Download
+				</span>
+			),
+			key: 'download',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ pin } />
+					Freeze Column
+				</span>
+			),
+			key: 'freeze',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ hide } />
+					Hide Column
+				</span>
+			),
+			key: 'hide',
+		},
+	];
+
 	const columnItems = [
 		{
 			label: (
@@ -161,9 +271,9 @@ export default function Table() {
 	// Filter data based on active tab
 	const filterData = () => {
 		if ( activeTab === 'completed' ) {
-			return defaultData.filter( ( item ) => item.age > 40 );
+			return defaultData.filter( ( item ) => item.shortText > 40 );
 		} else if ( activeTab === 'partial' ) {
-			return defaultData.filter( ( item ) => item.age > 50 );
+			return defaultData.filter( ( item ) => item.shortText > 50 );
 		}
 		return [];
 	};
@@ -176,53 +286,180 @@ export default function Table() {
 	// Default Column Data
 	const defaultColumns = [
 		{
-			title: 'Name',
+			key: 'name',
 			dataIndex: 'name',
-			render: ( text, record ) => (
-				<div className="formgent-form-wrap">
-					<div className="formgent-form-data">
-						<span>{ text }</span>
-					</div>
-					<div className="formgent-form-action">
-						<TableAction type="sortby" responseData={ record } />
-					</div>
+			title: () => (
+				<div className="formgent-column-action">
+					<AntDropdown
+						menu={ { items: selectItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomLeft"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
 				</div>
 			),
 		},
 		{
-			title: 'Age',
-			dataIndex: 'age',
-			render: ( text, record ) => (
-				<div className="formgent-form-wrap">
-					<div className="formgent-form-data">
-						<span>{ text }</span>
-					</div>
-					<div className="formgent-form-action">
-						<TableAction type="sortby" responseData={ record } />
-					</div>
+			title: 'date',
+			dataIndex: 'date',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ calendar } />
+						Submission Date
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
 				</div>
 			),
 		},
 		{
-			title: 'Address',
-			dataIndex: 'address',
-			render: ( text, record ) => (
-				<div className="formgent-form-wrap">
-					<div className="formgent-form-data">
-						<span>{ text }</span>
-					</div>
-					<div className="formgent-form-action">
-						<TableAction type="sortby" responseData={ record } />
-					</div>
+			key: 'author',
+			dataIndex: 'author',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ user } />
+						Submitted By
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
 				</div>
 			),
 		},
 		{
-			title: 'Action',
-			dataIndex: 'action',
-			render: ( text, record ) => (
-				<div className="formgent-form-action">
-					<TableAction type="action" responseData={ record } />
+			key: 'shortText',
+			dataIndex: 'shortText',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ user } />
+						Short Text
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
+				</div>
+			),
+		},
+		{
+			key: 'longText',
+			dataIndex: 'longText',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ user } />
+						Long Text
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
+				</div>
+			),
+		},
+		{
+			key: 'multiple',
+			dataIndex: 'multiple',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ user } />
+						Multiple Select
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
+				</div>
+			),
+		},
+		{
+			key: 'dropdown',
+			dataIndex: 'dropdown',
+			title: () => (
+				<div className="formgent-column-action">
+					<span className="formgent-column-action__title">
+						<ReactSVG width="14" height="14" src={ user } />
+						Dropdown
+					</span>
+					<AntDropdown
+						menu={ { items: sortItems } }
+						trigger={ [ 'click' ] }
+						placement="bottomRight"
+						overlayStyle={ { minWidth: '240px' } }
+					>
+						<a onClick={ ( e ) => e.preventDefault() }>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ ellipsisV }
+							/>
+						</a>
+					</AntDropdown>
 				</div>
 			),
 		},
@@ -233,9 +470,12 @@ export default function Table() {
 	for ( let i = 0; i < 46; i++ ) {
 		defaultData.push( {
 			key: i,
-			name: `Edward King ${ i }`,
-			age: 32 + i,
-			address: `London, Park Lane no. ${ i }`,
+			date: `Date ${ i }`,
+			author: `Edward King ${ i }`,
+			shortText: 32 + i,
+			longText: `London, Park Lane no. ${ i }`,
+			multiple: `Multiple no. ${ i }`,
+			dropdown: `Dropdown no. ${ i }`,
 		} );
 	}
 

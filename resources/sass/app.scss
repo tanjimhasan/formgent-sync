@@ -649,3 +649,9 @@ a.formgent-btn-disabled {
 .ant-dropdown {
 	width: 175px;
 }
+.ant-dropdown-menu-title-content {
+	.dropdown-header-content {
+		display: flex;
+		gap: 5px;
+	}
+}
