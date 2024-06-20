@@ -65,4 +65,12 @@ class ResponseRepository {
     public function get_single_by_id( int $id, $columns = ['response.*', 'user.display_name as username', 'form.content as form_content'] ) {
         return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' )->left_join( Form::get_table_name() . ' as form', 'response.form_id', 'form.id' )->first();
     }
+
+    public function update_starred( int $response_id, int $is_starred ) {
+        return Response::query()->where( 'id', $response_id )->update( [ 'is_starred' => $is_starred ] );
+    }
+
+    public function update_read( int $response_id, int $is_read ) {
+        return Response::query()->where( 'id', $response_id )->update( [ 'is_read' => $is_read ] );
+    }
 }

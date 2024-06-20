@@ -23,6 +23,8 @@ Route::group(
         );
         Route::group(
             'responses', function() {
+                Route::patch( '{id}/starred', [ResponseController::class, 'update_starred'] );
+                Route::patch( '{id}/read', [ResponseController::class, 'update_read'] );
                 Route::group(
                     'columns', function() {
                         Route::get( '/', [ResponseController::class, 'get_columns'] );

@@ -62,6 +62,7 @@ class CreateDB implements Migration {
             `form_id` BIGINT UNSIGNED NOT NULL,
             `is_read` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `is_completed` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
+            `is_starred` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `ip` VARCHAR(50) NULL,
             `device` VARCHAR(50) NULL,
             `browser` VARCHAR(50) NULL,

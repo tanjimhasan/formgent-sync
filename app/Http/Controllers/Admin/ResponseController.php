@@ -207,4 +207,62 @@ class ResponseController extends Controller {
 
         return Response::send( [] );
     }
+
+    public function update_starred( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'         => 'required|numeric',
+                'is_starred' => 'required|numeric|accepted:0,1'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        do_action( 'formgent_before_update_response_starred', $wp_rest_request );
+
+        $this->repository->update_starred( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'is_starred' ) );
+
+        do_action( 'formgent_after_update_response_starred', $wp_rest_request );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The response starred has been updated successfully.', 'formgent' )
+            ]
+        );
+    }
+
+    public function update_read( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'      => 'required|numeric',
+                'is_read' => 'required|numeric|accepted:0,1'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        do_action( 'formgent_before_update_response_read', $wp_rest_request );
+
+        $this->repository->update_read( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'is_read' ) );
+
+        do_action( 'formgent_after_update_response_read', $wp_rest_request );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The response read has been updated successfully.', 'formgent' )
+            ]
+        );
+    }
 }
