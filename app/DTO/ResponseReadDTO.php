@@ -15,11 +15,11 @@ class ResponseReadDTO extends DTO {
 
     private ?string $search = null;
 
-    private ?string $sort_by = null;
+    private ?string $order_by = null;
 
-    private ?string $date_type = null;
+    private ?string $order_field_type = null;
 
-    private array $date_frame = [];
+    private ?string $order = null;
 
     /**
      * Get the value of page
@@ -132,67 +132,67 @@ class ResponseReadDTO extends DTO {
     }
 
     /**
-     * Get the value of sort_by
+     * Get the value of order_by
      *
      * @return string
      */
-    public function get_sort_by() {
-        return $this->sort_by;
+    public function get_order_by() {
+        return $this->order_by;
     }
 
     /**
-     * Set the value of sort_by
+     * Set the value of order_by
      *
-     * @param string $sort_by 
+     * @param string $order_by 
      *
      * @return self
      */
-    public function set_sort_by( string $sort_by ) {
-        $this->sort_by = $sort_by;
+    public function set_order_by( string $order_by ) {
+        $this->order_by = $order_by;
 
         return $this;
     }
 
     /**
-     * Get the value of date_type
+     * Get the value of order_field_type
      *
      * @return string
      */
-    public function get_date_type() {
-        return $this->date_type;
+    public function get_order_field_type() {
+        return $this->order_field_type;
     }
 
     /**
-     * Set the value of date_type
+     * Set the value of order_field_type
      *
-     * @param string $date_type 
+     * @param string $order_field_type 
      *
      * @return self
      */
-    public function set_date_type( string $date_type ) {
-        $this->date_type = $date_type;
+    public function set_order_field_type( string $order_field_type ) {
+        $this->order_field_type = $order_field_type;
 
         return $this;
     }
 
     /**
-     * Get the value of date_frame
+     * Get the value of order
      *
-     * @return array
+     * @return string
      */
-    public function get_date_frame() {
-        return $this->date_frame;
+    public function get_order() {
+        return $this->order;
     }
 
     /**
-     * Set the value of date_frame
+     * Set the value of order
      *
-     * @param array $date_frame 
+     * @param string $order 
      *
      * @return self
      */
-    public function set_date_frame( array $date_frame ) {
-        $this->date_frame = $date_frame;
+    public function set_order( string $order ) {
+        $this->order = $order;
 
         return $this;
     }

@@ -79,7 +79,7 @@ class CreateDB implements Migration {
 
         CREATE TABLE {$db_prefix}answers (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `response_Id` BIGINT UNSIGNED NOT NULL,
+            `response_id` BIGINT UNSIGNED NOT NULL,
             `form_id` BIGINT UNSIGNED NOT NULL,
             `parent_id` BIGINT UNSIGNED NULL,
             `field_id` VARCHAR(50) NOT NULL,

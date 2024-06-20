@@ -26,9 +26,9 @@ Route::group(
                 Route::patch( '{id}/starred', [ResponseController::class, 'update_starred'] );
                 Route::patch( '{id}/read', [ResponseController::class, 'update_read'] );
                 Route::group(
-                    'columns', function() {
-                        Route::get( '/', [ResponseController::class, 'get_columns'] );
-                        Route::post( '/', [ResponseController::class, 'update_columns'] );
+                    'fields', function() {
+                        Route::get( '/', [ResponseController::class, 'get_fields'] );
+                        Route::post( '/', [ResponseController::class, 'update_fields'] );
                     } 
                 );
                 Route::resource( '/', ResponseController::class );

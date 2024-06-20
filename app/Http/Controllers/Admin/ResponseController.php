@@ -26,11 +26,14 @@ class ResponseController extends Controller {
     public function index( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'per_page' => 'numeric',
-                'page'     => 'numeric',
-                's'        => 'string|max:255',
-                'form_id'  => 'numeric',
-                'is_read'  => 'numeric|accepted:0,1',
+                'per_page'         => 'numeric',
+                'page'             => 'numeric',
+                's'                => 'string|max:255',
+                'form_id'          => 'numeric',
+                'is_read'          => 'numeric|accepted:0,1',
+                'order_by'         => 'string|max:50',
+                'order'            => 'string|accepted:asc,desc',
+                'order_field_type' => 'string|accepted:response,answer',
                 // 'date_type'  => 'string|accepted:today,yesterday,last_week,last_month,date_frame',
                 // 'sort_by'    => 'string|accepted:last_modified,date_created,alphabetical,last_submission,unread,draft,publish',
                 // 'date_frame' => 'array'
@@ -58,6 +61,9 @@ class ResponseController extends Controller {
             $dto->set_is_read( $wp_rest_request->get_param( 'is_read' ) );
         }
 
+        $dto->set_order( $wp_rest_request->get_param( 'order' ) ?? 'desc' )
+        ->set_order_by( $wp_rest_request->get_param( 'order_by' ) ?? 'id' )
+        ->set_order_field_type( $wp_rest_request->get_param( 'order_field_type' ) ?? 'response' );
         // if ( $wp_rest_request->has_param( 'sort_by' ) ) {
         //     $dto->set_sort_by( $wp_rest_request->get_param( 'sort_by' ) );
         // }
@@ -116,7 +122,7 @@ class ResponseController extends Controller {
         );
     }
 
-    public function get_columns( Validator $validator, WP_REST_Request $wp_rest_request ) {
+    public function get_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
                 'form_id' => 'required|numeric'
@@ -142,16 +148,16 @@ class ResponseController extends Controller {
         }
 
         $allowed_fields = formgent_get_response_table_allowed_fields();
-        $columns        = [];
+        $fields         = [];
 
-        $selected_columns = maybe_unserialize( formgent_get_form_meta_value( $form->id, 'response_table_column_ids' ) );
+        $selected_fields = maybe_unserialize( formgent_get_form_meta_value( $form->id, 'response_table_field_ids' ) );
 
         foreach ( json_decode( $form->content, true )['fields'] as $field ) {
             if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
                 continue;
             }
 
-            $columns[] = [
+            $fields[] = [
                 'id'    => $field['id'],
                 'label' => $field['general_option']['label']
             ];
@@ -159,17 +165,17 @@ class ResponseController extends Controller {
 
         return Response::send(
             [
-                'selected_columns' => is_array( $selected_columns ) ? $selected_columns : [],
-                'columns'          => $columns
+                'selected_fields' => is_array( $selected_fields ) ? $selected_fields : [],
+                'fields'          => $fields
             ]
         );
     }
 
-    public function update_columns( Validator $validator, WP_REST_Request $wp_rest_request ) {
+    public function update_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id'    => 'required|numeric',
-                'column_ids' => 'required|array'
+                'form_id'   => 'required|numeric',
+                'field_ids' => 'required|array'
             ]
         );
 
@@ -181,9 +187,9 @@ class ResponseController extends Controller {
             );
         }
 
-        $column_ids = $wp_rest_request->get_param( 'column_ids' );
+        $field_ids = $wp_rest_request->get_param( 'field_ids' );
 
-        if ( ! formgent_is_one_level_array( $column_ids ) ) {
+        if ( ! formgent_is_one_level_array( $field_ids ) ) {
             return Response::send(
                 [
                     'message' => esc_html__( 'Something was wrong', 'formgent' )
@@ -201,9 +207,9 @@ class ResponseController extends Controller {
             );
         }
 
-        $column_ids = map_deep( $column_ids, "sanitize_text_field" );
+        $field_ids = map_deep( $field_ids, "sanitize_text_field" );
 
-        formgent_update_form_meta( $form->id, "response_table_column_ids", serialize( $column_ids ) );
+        formgent_update_form_meta( $form->id, "response_table_field_ids", serialize( $field_ids ) );
 
         return Response::send( [] );
     }
