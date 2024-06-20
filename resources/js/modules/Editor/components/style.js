@@ -1,10 +1,14 @@
 import Styled from 'styled-components';
 
 const InserterStyle = Styled.div`
+    display: flex;
+    align-items: flex-start;
+    position: relative;
     width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);
+    transition: width var(--formgent-transition);
     .formgent-editor-inserter__group{
 
         .ant-row{
@@ -12,6 +16,18 @@ const InserterStyle = Styled.div`
         }
         .ant-col{
             margin: 7.5px 0;
+        }
+    }
+    .formgent-sidebar-collapse {
+        inset-inline-start: calc(100% + 25px);
+    }
+
+    &.formgent-content-collapsed {
+        width: 0;
+        .formgent-editor-sider {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
         }
     }
 `;
@@ -207,10 +223,44 @@ const CreateFormStyle = Styled.div`
 `;
 
 const FieldCustomizerStyle = Styled.div`
+    display: flex;
+    align-items: flex-start;
+    position: relative;
     width: 340px;
     height: calc(100vh - 100px);
     border-radius: 10px;
     background-color: var(--formgent-color-white);
+    transition: width var(--formgent-transition);
+    .formgent-editor-sider {
+        width: 100%;
+    }
+    .formgent-sidebar-collapse {
+        inset-inline-start: unset;
+        inset-inline-end: calc(100% + 25px);
+    }
+
+    &.formgent-content-collapsed {
+        width: 0;
+        .formgent-editor-sider {
+            opacity: 0;
+            visibility: hidden;
+            width: 0;
+        }
+    }
+`;
+
+const SidebarToggleStyle = Styled.button`
+    position: absolute;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: var(--formgent-color-bg-deep) !important;
 `;
 
 export {
@@ -219,4 +269,5 @@ export {
 	EditorContentStyle,
 	FieldCustomizerStyle,
 	InserterStyle,
+	SidebarToggleStyle,
 };

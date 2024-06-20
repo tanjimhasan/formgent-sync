@@ -1,11 +1,15 @@
-import { useState, useEffect } from '@wordpress/element';
-import ReactSVG from 'react-inlinesvg';
-import { InserterStyle } from './style';
-import DraggableField from './DraggableField';
-import { registerFields } from '@formgent/fields';
 import { AntInput } from '@formgent/components';
+import { registerFields } from '@formgent/fields';
+import leftIndent from '@icon/collapse-left.svg';
+import rightIndent from '@icon/collapse-right.svg';
 import search from '@icon/search.svg';
-import { Row, Col } from 'antd';
+import { useEffect, useRef, useState } from '@wordpress/element';
+import { Col, Row } from 'antd';
+import ReactSVG from 'react-inlinesvg';
+import DraggableField from './DraggableField';
+import SidebarToggle from './SidebarToggle';
+import { InserterStyle } from './style';
+
 export default function FieldInserter( props ) {
 	const { inserterDomKey } = props;
 	const [ activeTab, setActiveTab ] = useState( 'element' );
@@ -14,6 +18,8 @@ export default function FieldInserter( props ) {
 	);
 	const [ fields, setFields ] = useState( mainFields );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
+
+	const contentRef = useRef( null );
 
 	function getFieldByGroup( groupName, field ) {
 		if (
@@ -55,6 +61,7 @@ export default function FieldInserter( props ) {
 		<InserterStyle
 			key={ inserterDomKey }
 			className="formgent-editor-inserter"
+			ref={ contentRef }
 		>
 			<div className="formgent-editor-sider">
 				<div className="formgent-editor-sider__top">
@@ -112,6 +119,11 @@ export default function FieldInserter( props ) {
 					</div>
 				</div>
 			</div>
+			<SidebarToggle
+				initIcon={ leftIndent }
+				collapseIcon={ rightIndent }
+				contentRef={ contentRef }
+			/>
 		</InserterStyle>
 	);
 }
