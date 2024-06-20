@@ -180,3 +180,5 @@ function formgent_get_response_by_token( string $token, int $form_id ) {
 function formgent_font_family_dir( string $file = '' ) {
     return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
 }
+
+include_once 'formmeta.php';
