@@ -23,6 +23,7 @@ Route::group(
         );
         Route::group(
             'responses', function() {
+                Route::get( 'columns', [ResponseController::class, 'columns'] );
                 Route::resource( '/', ResponseController::class );
             }
         );

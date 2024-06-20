@@ -10,6 +10,7 @@ use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\AnswerRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
+use FormGent\App\Repositories\FormMetaRepository;
 use WP_REST_Request;
 use FormGent\WpMVC\Routing\Response;
 
@@ -112,6 +113,60 @@ class ResponseController extends Controller {
         return Response::send(
             [
                 'response' => $response
+            ]
+        );
+    }
+
+    public function columns( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'form_id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Form not found', 'formgent' )
+                ], 404
+            );
+        }
+
+        $allowed_fields = formgent_get_response_table_allowed_fields();
+        $columns        = [];
+
+        /**
+         * @var FormMetaRepository $formmeta_repository
+         */
+        $formmeta_repository = formgent_singleton( FormMetaRepository::class );
+
+        $selected_columns = maybe_unserialize( $formmeta_repository->get_meta_value( $form->id, 'response_table_column_ids' ) );
+
+        foreach ( json_decode( $form->content, true )['fields'] as $field ) {
+            if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
+                continue;
+            }
+
+            $columns[] = [
+                'id'    => $field['id'],
+                'label' => $field['general_option']['label']
+            ];
+        }
+
+        return Response::send(
+            [
+                'selected_columns' => is_array( $selected_columns ) ? $selected_columns : [],
+                'columns'          => $columns
             ]
         );
     }
