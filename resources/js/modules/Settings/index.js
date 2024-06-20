@@ -18,8 +18,6 @@ function Settings( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	console.log( 'Settings CommonReducer', CommonReducer );
-
 	const { useParams, Route, Routes, NavLink, useNavigate, useLocation } =
 		CommonReducer.routerComponents;
 
@@ -39,8 +37,6 @@ function Settings( props ) {
 			element: <Notifications />,
 		},
 	] );
-
-	console.log( 'settingsRoutes', settingsRoutes );
 
 	return (
 		<div className="formgent-editor-wrap">

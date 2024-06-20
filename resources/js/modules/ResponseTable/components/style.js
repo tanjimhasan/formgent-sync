@@ -174,11 +174,72 @@ const TableActionStyle = Styled.div`
             background: var(--formgent-color-bg-light) !important;
         }
     }
+
+    .formgent-table-header__dropdown {
+        position: relative;
+        .formgent-table-header__dropdown__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--formgent-color-dark);  
+            padding: 15px;
+            margin: 0 0 8px;
+            background: var(--formgent-color-bg-light);
+        }
+        .formgent-table-header__dropdown__toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 40px;
+            padding: 0 15px;
+            border-radius: 6px;
+            color: var(--formgent-font-color);
+            background: var(--formgent-color-bg-white);
+            border: 1px solid var(--formgent-color-border-light);
+            cursor: pointer;
+            span {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+        }
+        .formgent-table-header__dropdown__content {
+            display: flex;
+            gap: 6px;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            padding: 0 0 15px;
+            border-radius: 6px;
+            background: var(--formgent-color-bg-white);
+            border: 1px solid var(--formgent-color-border-light);
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all ease .3s;
+        }
+        &:hover {
+            .formgent-table-header__dropdown__content {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+    }
+    .ant-checkbox-wrapper {
+        padding: 0 15px;
+        .ant-checkbox-inner {
+            border-radius: 100%;
+        }
+    }
     
 `;
 
 const TableTabStyle = Styled.div`
     .ant-tabs-nav {
+        margin: 0;
         &:before {
             display: none;
         }

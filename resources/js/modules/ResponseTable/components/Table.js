@@ -1,6 +1,4 @@
 import {
-	ColumnHeightOutlined,
-	DownOutlined,
 	DownloadOutlined,
 	FilterOutlined,
 	ReloadOutlined,
@@ -8,9 +6,9 @@ import {
 } from '@ant-design/icons';
 import {
 	AntButton,
+	AntCheckbox,
 	AntDropdown,
 	AntInput,
-	AntSelect,
 	AntSpin,
 	AntTable,
 	AntTabs,
@@ -22,9 +20,11 @@ import ReactSVG from 'react-inlinesvg';
 // import TableBulkSelection from './TableBulkSelection';
 
 // Icon
+import arrowDown from '@icon/arrow-down.svg';
 import arrowsDown from '@icon/arrows-down.svg';
 import arrowsUp from '@icon/arrows-up.svg';
 import calendar from '@icon/calendar.svg';
+import columnIcon from '@icon/column-3.svg';
 import download from '@icon/download.svg';
 import ellipsisV from '@icon/ellipsis-v.svg';
 import hide from '@icon/eye-off.svg';
@@ -53,6 +53,20 @@ export default function Table() {
 			pageSize: 10,
 		},
 	} );
+
+	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {
+		column1: true,
+		column2: false,
+		column3: false,
+	} );
+
+	// Handle checkbox change
+	const handleColumnCheckbox = ( e, name ) => {
+		setColumnCheckedItems( {
+			...columnCheckedItems,
+			[ name ]: e.target.checked,
+		} );
+	};
 
 	// Execute Store Operations
 	const { updateFormItemState } = useDispatch( 'formgent' );
@@ -84,32 +98,9 @@ export default function Table() {
 		console.log( 'Filter clicked' );
 	};
 
-	const handleDownload = () => {
-		// Implement download functionality
-		console.log( 'Download clicked' );
-	};
-
 	const handleRefresh = () => {
 		// Implement refresh functionality
 		console.log( 'Refresh clicked' );
-	};
-
-	const [ checkedItems, setCheckedItems ] = useState( {
-		column1: true,
-		column2: false,
-		column3: false,
-	} );
-
-	const handleCheckboxChange = ( e, key ) => {
-		e.stopPropagation();
-		setCheckedItems( {
-			...checkedItems,
-			[ key ]: e.target.checked,
-		} );
-	};
-
-	const handleChange = ( value ) => {
-		console.log( `Selected: ${ value }` );
 	};
 
 	const selectItems = [
@@ -225,16 +216,37 @@ export default function Table() {
 			type: 'group',
 		},
 		{
-			label: 'Column One',
-			value: 'column1',
+			key: 'column1',
+			label: (
+				<AntCheckbox
+					checked={ columnCheckedItems.column1 }
+					onChange={ ( e ) => handleColumnCheckbox( e, 'column1' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
 		},
 		{
-			label: 'Column Two',
-			value: 'column2',
+			key: 'column2',
+			label: (
+				<AntCheckbox
+					checked={ columnCheckedItems.column2 }
+					onChange={ ( e ) => handleColumnCheckbox( e, 'column2' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
 		},
 		{
-			label: 'Column Three',
-			value: 'column3',
+			key: 'column3',
+			label: (
+				<AntCheckbox
+					checked={ columnCheckedItems.column3 }
+					onChange={ ( e ) => handleColumnCheckbox( e, 'column3' ) }
+				>
+					Screen name
+				</AntCheckbox>
+			),
 		},
 	];
 
@@ -260,11 +272,11 @@ export default function Table() {
 	const tabItems = [
 		{
 			key: 'completed',
-			label: 'Completed',
+			label: 'Completed (6)',
 		},
 		{
 			key: 'partial',
-			label: 'Partial',
+			label: 'Partial (2)',
 		},
 	];
 
@@ -556,7 +568,7 @@ export default function Table() {
 						>
 							Filters
 						</AntButton>
-						<AntSelect
+						{ /* <AntSelect
 							mode="multiple"
 							placeholder="Please select"
 							onChange={ handleChange }
@@ -564,26 +576,53 @@ export default function Table() {
 								width: '100%',
 							} }
 							options={ columnItems }
-						/>
+						/> */ }
 
-						<AntDropdown
+						{ /* <AntDropdown
 							menu={ { items: columnItems } }
-							trigger={ [ 'click' ] }
+							// trigger={ [ 'click' ] }
 							placement="bottomRight"
 						>
-							<AntButton icon={ <ColumnHeightOutlined /> }>
-								Column <DownOutlined />
+							<AntButton>
+								<ReactSVG width="14" height="14" src={ columnIcon } />
+								<span>
+									Column <ReactSVG width="14" height="14" src={ arrowDown } />
+								</span>
 							</AntButton>
-						</AntDropdown>
+						</AntDropdown> */ }
+
+						<div className="formgent-table-header__dropdown">
+							<div className="formgent-table-header__dropdown__toggle">
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ columnIcon }
+								/>
+								<span>
+									Column{ ' ' }
+									<ReactSVG
+										width="14"
+										height="14"
+										src={ arrowDown }
+									/>
+								</span>
+							</div>
+
+							<div className="formgent-table-header__dropdown__content">
+								<span className="formgent-table-header__dropdown__title">
+									Show Hide Columns
+								</span>
+								{ columnItems
+									.map( ( item ) => item.label )
+									.slice( 1, 4 ) }
+							</div>
+						</div>
 
 						<AntDropdown
 							menu={ { items: downloadItems } }
 							placement="bottomRight"
 						>
-							<AntButton
-								icon={ <DownloadOutlined /> }
-								onClick={ handleDownload }
-							/>
+							<AntButton icon={ <DownloadOutlined /> } />
 						</AntDropdown>
 
 						<AntButton

@@ -655,3 +655,13 @@ a.formgent-btn-disabled {
 		gap: 5px;
 	}
 }
+.ant-dropdown-menu-item-group-title {
+	padding: 15px;
+	margin: 0 0 8px;
+	background: var(--formgent-color-bg-light);
+	span {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--formgent-color-dark);
+	}
+}
