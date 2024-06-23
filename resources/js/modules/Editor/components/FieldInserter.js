@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useRef, useEffect } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { InserterStyle } from './style';
 import DraggableField from './DraggableField';
@@ -7,12 +7,8 @@ import { registerFields } from '@formgent/fields';
 import leftIndent from '@icon/collapse-left.svg';
 import rightIndent from '@icon/collapse-right.svg';
 import search from '@icon/search.svg';
-import { useEffect, useRef, useState } from '@wordpress/element';
 import { Col, Row } from 'antd';
-import ReactSVG from 'react-inlinesvg';
-import DraggableField from './DraggableField';
 import SidebarToggle from './SidebarToggle';
-import { InserterStyle } from './style';
 
 export default function FieldInserter( props ) {
 	const { inserterDomKey, rootFields, setRootFields, mainFields } = props;

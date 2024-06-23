@@ -1,15 +1,10 @@
-import { useState } from '@wordpress/element';
+import { useState, useRef } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
-import picture from '@icon/picture.svg';
-import { FieldCustomizerStyle } from './style';
 import { registerControlsPreview } from '@formgent/fields';
 import { __ } from '@wordpress/i18n';
 import ControlGenerator from '@formgent/components/ControlGenerator';
-import { registerControlsPreview } from '@formgent/fields';
 import leftIndent from '@icon/collapse-left.svg';
 import rightIndent from '@icon/collapse-right.svg';
-import { useSelect } from '@wordpress/data';
-import { useRef, useState } from '@wordpress/element';
 import SidebarToggle from './SidebarToggle';
 import { FieldCustomizerStyle } from './style';
 
