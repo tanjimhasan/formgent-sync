@@ -1,4 +1,4 @@
-import { memo, useState, useCallback } from '@wordpress/element';
+import { memo, useState, useRef, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import ReactSVG from 'react-inlinesvg';
 import { useSortable } from '@dnd-kit/sortable';
@@ -16,6 +16,7 @@ import { __ } from '@wordpress/i18n';
 import { AntInput, AntModal, AntPopover, Row, Col } from '@formgent/components';
 import AlertContent from '@formgent/components/AlertContent';
 import { FieldListPopoverStyle } from './style';
+import checkClickedOutside from '@formgent/helper/checkClickedOutside';
 
 const DroppedField = ( {
 	id,
@@ -25,9 +26,11 @@ const DroppedField = ( {
 	rootFields,
 	setRootFields,
 } ) => {
+	const [ domStatus, setDomStatus ] = useState( false );
 	const [ isAlertActive, setIsAlertActive ] = useState( false );
 	const [ activePopupFieldId, setActivePopupFieldId ] = useState( null );
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
+	const contentRef = useRef( null );
 	const {
 		updateActiveField,
 		updateFormFields,
@@ -103,7 +106,7 @@ const DroppedField = ( {
 	}
 
 	const fieldListPopoverContent = (
-		<div className="formgent-popover-content-wrap">
+		<div className="formgent-popover-content-wrap" ref={ contentRef }>
 			<AntInput
 				prefix={ <ReactSVG src={ search } /> }
 				// onChange={ handleUpdateSearchQuery }
@@ -136,6 +139,11 @@ const DroppedField = ( {
 			</Row>
 		</div>
 	);
+
+	/* Hide plus button on outside click */
+	useEffect( () => {
+		checkClickedOutside( domStatus, setDomStatus, contentRef );
+	}, [ domStatus ] );
 
 	return field.type === 'spacer' ? (
 		<div
@@ -191,9 +199,9 @@ const DroppedField = ( {
 			</div>
 			<FieldListPopoverStyle
 				className={ `formgent-fieldlist-popover-trigger ${
-					activePopupFieldId === field?.id ? 'formgent-active' : ''
+					domStatus ? 'formgent-active' : ''
 				}` }
-				onClick={ handleActivatePopoverField }
+				onClick={ () => setDomStatus( ! domStatus ) }
 			>
 				<AntPopover content={ fieldListPopoverContent } trigger="click">
 					<ReactSVG src={ plus } />

@@ -2,7 +2,6 @@ import { SingleFormActions } from './actions';
 import SubmitButton from '@formgent/components/fieldList/SubmitButton/field.js';
 export const SingleFormResolvers = {
 	*getSingleForm( id, timeStamp ) {
-		console.log( id );
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			let stateData = {};
