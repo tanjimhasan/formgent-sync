@@ -4,25 +4,26 @@ export const SingleFormResolvers = {
 	*getSingleForm( id, timeStamp ) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
-			let stateData = {};
+			let singleForm = {};
 			if ( id ) {
 				const data = yield SingleFormActions.fetchForm(
 					`formgent/admin/forms/${ id }`
 				);
-				stateData = {
+				singleForm = {
 					...data?.form,
 					content: JSON.parse( data?.form.content ),
 					submit_button: SubmitButton,
 				};
+				yield SingleFormActions.storeSingleForm( singleForm, id );
 			} else {
-				stateData = {
-					content: {
-						fields: [],
-					},
-					submit_button: SubmitButton,
-				};
+				// singleForm = {
+				// 	content: {
+				// 		fields: [],
+				// 	},
+				// 	submit_button: SubmitButton,
+				// };
 			}
-			yield SingleFormActions.storeSingleForm( stateData );
+
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		} catch ( error ) {
 			yield SingleFormActions.fetchSingleFormError( error );

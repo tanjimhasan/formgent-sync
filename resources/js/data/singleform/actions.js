@@ -113,10 +113,18 @@ export const SingleFormActions = {
 	 * @param {Object} data - The fetched single form data
 	 * @returns {Object} Action object with type 'SINGLE_FORM_FETCH' and fetched data
 	 */
-	storeSingleForm: ( data ) => {
+	storeSingleForm: ( singleForm, id ) => {
 		return {
 			type: 'SINGLE_FORM_STORE',
-			data,
+			singleForm,
+			id,
+		};
+	},
+
+	selectForm: ( formId ) => {
+		return {
+			type: 'SELECT_FORM',
+			formId,
 		};
 	},
 

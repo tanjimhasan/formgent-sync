@@ -1,6 +1,6 @@
 import FormHeader from '@formgent/components/FormHeader';
 import { Modal } from '@wordpress/components';
-import { useSelect, resolveSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
 import CreateFormModalContent from './components/CreateFormModalContent';
 import MainContent from './components/MainContent';
@@ -24,11 +24,11 @@ function Editor( props ) {
 		[ id ]
 	);
 
-	// useEffect( () => {
-	// 	if ( ! SingleFormReducer.singleForm ) return;
-	// 	if ( SingleFormReducer?.singleForm?.id === id ) return;
-	// 	resolveSelect( 'formgent' ).getSingleForm( id, Date.now() );
-	// }, [ id ] );
+	const { selectForm } = useDispatch( 'formgent' );
+
+	useEffect( () => {
+		selectForm( id );
+	}, [ id ] );
 
 	return (
 		<div className="formgent-editor-wrap">
