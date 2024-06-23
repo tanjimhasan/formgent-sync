@@ -60,6 +60,21 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				activeCustomizerTab: action?.activeTab,
 			};
+		case 'ADD_FIELD_AFTER':
+			console.log( fieldList );
+			fieldList = structuredClone( state?.singleForm?.content?.fields );
+			fieldList.splice( action.index + 1, 0, action.field );
+
+			return {
+				...state,
+				singleForm: {
+					...state.singleForm,
+					content: {
+						...state.singleForm.content,
+						fields: fieldList,
+					},
+				},
+			};
 		case 'DUPLICATE_FORM_FIELD':
 			fieldList = structuredClone( state?.singleForm?.content?.fields );
 			fieldList.splice( action.index + 1, 0, action.field );
@@ -128,9 +143,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				},
 			};
 		case 'UPDATE_FIELD_LABEL':
-			let fieldList = structuredClone(
-				state?.singleForm?.content?.fields
-			);
+			fieldList = structuredClone( state?.singleForm?.content?.fields );
 			fieldList = fieldList.map( ( item ) => {
 				if ( item?.id === action?.payload?.fieldId ) {
 					return {

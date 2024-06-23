@@ -1,9 +1,10 @@
-import ControlGenerator from '@formgent/components/ControlGenerator';
+import { useState, useRef } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { registerControlsPreview } from '@formgent/fields';
+import { __ } from '@wordpress/i18n';
+import ControlGenerator from '@formgent/components/ControlGenerator';
 import leftIndent from '@icon/collapse-left.svg';
 import rightIndent from '@icon/collapse-right.svg';
-import { useSelect } from '@wordpress/data';
-import { useRef, useState } from '@wordpress/element';
 import SidebarToggle from './SidebarToggle';
 import { FieldCustomizerStyle } from './style';
 

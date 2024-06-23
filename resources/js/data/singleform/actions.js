@@ -81,6 +81,14 @@ export const SingleFormActions = {
 		};
 	},
 
+	addFieldAfter: ( field, index ) => {
+		return {
+			type: 'ADD_FIELD_AFTER',
+			field,
+			index,
+		};
+	},
+
 	deleteFormField: ( id ) => {
 		return {
 			type: 'DELETE_FORM_FIELD',

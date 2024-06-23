@@ -24,12 +24,17 @@ import FieldCustomizer from './FieldCustomizer';
 import FieldInserter from './FieldInserter';
 import InserterOverlayField from './InserterOverlayField';
 import { EditorContentStyle } from './style';
+import { registerFields } from '@formgent/fields';
 
 export default function MainContent( props ) {
 	const { id } = props;
+	const mainFields = registerFields().filter(
+		( item ) => item.type !== 'spacer'
+	);
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm( id );
 	}, [] );
+
 	const { updateFormFields } = useDispatch( 'formgent' );
 	const { singleForm } = SingleFormReducer;
 	const { fields } = singleForm?.content ?? { fields: [] };
@@ -38,6 +43,7 @@ export default function MainContent( props ) {
 		useState();
 	const [ droppedOverlayActiveField, setDroppedOverlayActiveField ] =
 		useState();
+	const [ rootFields, setRootFields ] = useState( mainFields );
 	const spacerInsertedRef = useRef();
 	const currentDragFieldRef = useRef();
 
@@ -101,7 +107,12 @@ export default function MainContent( props ) {
 				autoScroll
 				sensors={ sensors }
 			>
-				<FieldInserter inserterDomKey={ inserterDomKey } />
+				<FieldInserter
+					inserterDomKey={ inserterDomKey }
+					rootFields={ rootFields }
+					setRootFields={ setRootFields }
+					mainFields={ mainFields }
+				/>
 				{ singleForm?.content && singleForm?.content?.fields && (
 					<SortableContext
 						strategy={ verticalListSortingStrategy }
@@ -109,7 +120,11 @@ export default function MainContent( props ) {
 							( field ) => field.id
 						) }
 					>
-						<Body fields={ fields } />
+						<Body
+							fields={ fields }
+							rootFields={ rootFields }
+							setRootFields={ setRootFields }
+						/>
 					</SortableContext>
 				) }
 

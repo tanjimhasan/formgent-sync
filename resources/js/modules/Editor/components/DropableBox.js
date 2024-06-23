@@ -10,7 +10,7 @@ import SubmitButton from '@formgent/components/fieldList/SubmitButton';
 import { __ } from '@wordpress/i18n';
 import { AntButton } from '@formgent/components';
 export default function DropableBox( props ) {
-	const { fields } = props;
+	const { fields, rootFields, setRootFields } = props;
 	const { updateActiveField } = useDispatch( 'formgent' );
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleForm();
@@ -56,6 +56,8 @@ export default function DropableBox( props ) {
 							id={ field.id }
 							field={ field }
 							fields={ singleForm?.content?.fields }
+							rootFields={ rootFields }
+							setRootFields={ setRootFields }
 							index={ index }
 						/>
 					) ) }

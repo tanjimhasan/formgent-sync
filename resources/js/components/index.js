@@ -7,6 +7,7 @@ import AntForm from './Form.js';
 import AntInput from './Input';
 import AntMenu from './Menu';
 import AntModal from './Modal';
+import AntPopover from './Popover';
 import AntSelect from './Select';
 import AntSkeleton from './Skeleton';
 import AntSpin from './Spin';
@@ -32,6 +33,7 @@ registerModule( 'components', {
 	AntCheckbox,
 	AntSkeleton,
 	AntTooltip,
+	AntPopover,
 	Row,
 	Col,
 	Form,

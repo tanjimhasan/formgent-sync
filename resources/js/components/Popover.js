@@ -1,9 +1,9 @@
-import { ConfigProvider, Modal } from 'antd';
+import { ConfigProvider, Popover } from 'antd';
 import { InputStyle } from './style';
-export default function AntModal( props ) {
+export default function AntPopover( props ) {
 	const { tokens = {}, componentTokens = {}, ...rest } = props;
 	const defaultComponentTokens = {
-		Modal: {},
+		Popover: {},
 	};
 	const defaultTokens = {};
 	return (
@@ -21,7 +21,7 @@ export default function AntModal( props ) {
 					},
 				} }
 			>
-				<Modal { ...rest } />
+				<Popover { ...rest } />
 			</ConfigProvider>
 		</InputStyle>
 	);
