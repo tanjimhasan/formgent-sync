@@ -1,4 +1,4 @@
-import { memo, useState } from '@wordpress/element';
+import { memo, useState, useCallback } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import ReactSVG from 'react-inlinesvg';
 import { useSortable } from '@dnd-kit/sortable';
@@ -9,19 +9,31 @@ import copy from '@icon/copy.svg';
 import trash from '@icon/trash.svg';
 import arrowUp from '@icon/arrow-up.svg';
 import arrowDown from '@icon/arrow-down.svg';
+import plus from '@icon/plus.svg';
+import search from '@icon/search.svg';
 import { nanoid } from 'nanoid';
 import { __ } from '@wordpress/i18n';
-import { AntModal } from '@formgent/components';
+import { AntInput, AntModal, AntPopover, Row, Col } from '@formgent/components';
 import AlertContent from '@formgent/components/AlertContent';
+import { FieldListPopoverStyle } from './style';
 
-const DroppedField = ( { id, index, fields, field } ) => {
+const DroppedField = ( {
+	id,
+	index,
+	fields,
+	field,
+	rootFields,
+	setRootFields,
+} ) => {
 	const [ isAlertActive, setIsAlertActive ] = useState( false );
+	const [ activePopupFieldId, setActivePopupFieldId ] = useState( null );
 	const ActiveDroppedField = registerPreviewFields()[ field.type ];
 	const {
 		updateActiveField,
 		updateFormFields,
 		duplicateFormField,
 		deleteFormField,
+		addFieldAfter,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -76,6 +88,55 @@ const DroppedField = ( { id, index, fields, field } ) => {
 		setIsAlertActive( false );
 	}
 
+	function handleActivatePopoverField() {
+		setActivePopupFieldId( field.id );
+	}
+
+	function handleAddNewFieldInititalAfter( field ) {
+		const { fields } = SingleFormReducer.singleForm.content;
+		const newField = {
+			...field,
+			id: nanoid( 10 ),
+			name: `${ field.type }${ fields.length }`,
+		};
+		addFieldAfter( newField, index );
+	}
+
+	const fieldListPopoverContent = (
+		<div className="formgent-popover-content-wrap">
+			<AntInput
+				prefix={ <ReactSVG src={ search } /> }
+				// onChange={ handleUpdateSearchQuery }
+			/>
+			<Row gutter={ 15 }>
+				{ rootFields.map( ( field, index ) => {
+					if ( field.group === 'submit' ) {
+						return;
+					}
+					return (
+						<Col span={ 8 } key={ index }>
+							<div
+								className="formgent-editor-inserter__field"
+								onClick={ () =>
+									handleAddNewFieldInititalAfter(
+										field?.fieldObj
+									)
+								}
+							>
+								<span className="formgent-editor-inserter__field--icon">
+									<ReactSVG src={ field.icon } />
+								</span>
+								<span className="formgent-editor-inserter__field--title">
+									{ field.title }
+								</span>
+							</div>
+						</Col>
+					);
+				} ) }
+			</Row>
+		</div>
+	);
+
 	return field.type === 'spacer' ? (
 		<div
 			className="formgent-dropable-field"
@@ -128,6 +189,16 @@ const DroppedField = ( { id, index, fields, field } ) => {
 					<ReactSVG src={ trash } />
 				</i>
 			</div>
+			<FieldListPopoverStyle
+				className={ `formgent-fieldlist-popover-trigger ${
+					activePopupFieldId === field?.id ? 'formgent-active' : ''
+				}` }
+				onClick={ handleActivatePopoverField }
+			>
+				<AntPopover content={ fieldListPopoverContent } trigger="click">
+					<ReactSVG src={ plus } />
+				</AntPopover>
+			</FieldListPopoverStyle>
 
 			<AntModal
 				open={ isAlertActive }

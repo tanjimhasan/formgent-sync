@@ -11,6 +11,7 @@ import AntSwitch from './Switch';
 import AntTable from './Table';
 import AntTextArea from './TextArea';
 import AntTooltip from './Tooltip';
+import AntPopover from './Popover';
 import { Row, Col, Form } from 'antd';
 
 /**
@@ -28,6 +29,7 @@ registerModule( 'components', {
 	AntCheckbox,
 	AntSkeleton,
 	AntTooltip,
+	AntPopover,
 	Row,
 	Col,
 	Form,

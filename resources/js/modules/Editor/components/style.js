@@ -69,36 +69,6 @@ const DropableBoxStyle = Styled.div`
 
 const EditorContentStyle = Styled.div`
     padding: 0 15px;
-    .formgent-editor-inserter__field{
-        border-radius: 8px;
-        color: #1e1f21;
-        cursor: move;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        padding: 12px 10px;
-        min-height: 80px;
-        text-align: center;
-        transition: all .05s;
-        border: 1px solid var(--formgent-color-border);
-        background-color: var(--formgent-color-bg-light);
-    }
-    .formgent-editor-inserter__field--icon{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 6px;
-        margin-bottom: 10px;
-        background-color: var(--formgent-color-white);
-        svg{
-            width: 14px;
-            height: 14px;
-        }
-    }
     .formgent-dropable-field{
         position: relative;
         padding: 15px 30px;
@@ -111,6 +81,10 @@ const EditorContentStyle = Styled.div`
                 opacity: 1;
             }
             .formgent-dropable-field__sorting{
+                opacity: 1;
+                visibility: visible;
+            }
+            .formgent-fieldlist-popover-trigger{
                 opacity: 1;
                 visibility: visible;
             }
@@ -263,6 +237,39 @@ const SidebarToggleStyle = Styled.button`
     background: var(--formgent-color-bg-deep) !important;
 `;
 
+const FieldListPopoverStyle = Styled.div`
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    cursor: pointer;
+    background-color: var(--formgent-color-dark);
+    >div{
+        line-height: 1;
+    }
+    svg{
+        position: relative;
+        top: 1px;
+        width: 16px;
+        height: 16px;
+        path{
+            stroke: var(--formgent-color-white);
+        }
+    }
+    &.formgent-active{
+        opacity: 1;
+        visibility: visible;
+    }
+`;
+
 export {
 	CreateFormStyle,
 	DropableBoxStyle,
@@ -270,4 +277,5 @@ export {
 	FieldCustomizerStyle,
 	InserterStyle,
 	SidebarToggleStyle,
+	FieldListPopoverStyle,
 };

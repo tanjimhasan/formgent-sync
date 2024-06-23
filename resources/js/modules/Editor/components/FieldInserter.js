@@ -1,3 +1,7 @@
+import { useState, useEffect } from '@wordpress/element';
+import ReactSVG from 'react-inlinesvg';
+import { InserterStyle } from './style';
+import DraggableField from './DraggableField';
 import { AntInput } from '@formgent/components';
 import { registerFields } from '@formgent/fields';
 import leftIndent from '@icon/collapse-left.svg';
@@ -11,12 +15,9 @@ import SidebarToggle from './SidebarToggle';
 import { InserterStyle } from './style';
 
 export default function FieldInserter( props ) {
-	const { inserterDomKey } = props;
+	const { inserterDomKey, rootFields, setRootFields, mainFields } = props;
 	const [ activeTab, setActiveTab ] = useState( 'element' );
-	const mainFields = registerFields().filter(
-		( item ) => item.type !== 'spacer'
-	);
-	const [ fields, setFields ] = useState( mainFields );
+
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 
 	const contentRef = useRef( null );
@@ -40,15 +41,15 @@ export default function FieldInserter( props ) {
 		);
 	}
 
-	//Search fields
+	//Search rootFields
 	useEffect( () => {
 		if ( searchQuery.trim() === '' ) {
-			setFields( mainFields );
+			setRootFields( mainFields );
 		} else {
 			const filteredScreenTypes = mainFields.filter( ( field ) =>
 				field.title.toLowerCase().includes( searchQuery.toLowerCase() )
 			);
-			setFields( filteredScreenTypes );
+			setRootFields( filteredScreenTypes );
 		}
 	}, [ searchQuery ] );
 
@@ -112,7 +113,7 @@ export default function FieldInserter( props ) {
 					</span>
 					<div className="formgent-editor-inserter__group">
 						<Row gutter={ 15 }>
-							{ fields.map( ( field ) =>
+							{ rootFields.map( ( field ) =>
 								getFieldByGroup( 'basic', field )
 							) }
 						</Row>
