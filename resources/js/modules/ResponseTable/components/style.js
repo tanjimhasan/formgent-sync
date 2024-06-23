@@ -20,6 +20,17 @@ const TableStyle = Styled.div`
                         display: flex;
                         justify-content: space-between;
                     }
+                    .formgent-form-table-item-wrap {
+                        display: flex;
+                        gap: 6px;
+                        align-items: center;
+                        .starred {
+                            path {
+                                fill: var(--formgent-color-warning);
+                                stroke: var(--formgent-color-warning);
+                            }
+                        }
+                    }
                 }
             }
         }

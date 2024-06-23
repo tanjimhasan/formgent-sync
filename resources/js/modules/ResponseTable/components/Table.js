@@ -69,7 +69,7 @@ export default function Table() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { isLoading } = FormReducer;
+	const { forms, isLoading } = FormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -309,25 +309,29 @@ export default function Table() {
 	];
 
 	// Filter data based on active tab
-	function filterData() {
+	function handleFilterData() {
 		if ( activeTab === 'completed' ) {
-			return defaultData.filter( ( item ) => item.shortText > 40 );
+			return responseTableData.filter(
+				( item ) => item.is_starred === '0'
+			);
 		} else if ( activeTab === 'partial' ) {
-			return defaultData.filter( ( item ) => item.shortText > 50 );
+			return responseTableData.filter(
+				( item ) => item.is_starred !== '0'
+			);
 		}
 		return [];
 	}
 
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
-		setFilteredData( filterData() );
-	}, [ activeTab ] );
+		setFilteredData( handleFilterData() );
+	}, [ responseTableData ] );
 
 	// Default Column Data
 	const defaultColumns = [
 		{
-			key: 'name',
-			dataIndex: 'name',
+			key: 'id',
+			dataIndex: 'id',
 			title: () => (
 				<div className="formgent-column-action">
 					<AntDropdown
@@ -346,10 +350,23 @@ export default function Table() {
 					</AntDropdown>
 				</div>
 			),
+			render: ( text, record ) => {
+				return (
+					<div className="formgent-form-table-item-wrap">
+						{ record.id }
+						<ReactSVG
+							width="14"
+							height="14"
+							src={ starIcon }
+							className={ record.is_starred === '1' && 'starred' }
+						/>
+					</div>
+				);
+			},
 		},
 		{
-			title: 'date',
-			dataIndex: 'date',
+			title: 'created_at',
+			dataIndex: 'created_at',
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
@@ -505,20 +522,6 @@ export default function Table() {
 		},
 	];
 
-	// Default Table Data
-	const defaultData = [];
-	for ( let i = 0; i < 46; i++ ) {
-		defaultData.push( {
-			key: i,
-			date: `Date ${ i }`,
-			author: `Edward King ${ i }`,
-			shortText: 32 + i,
-			longText: `London, Park Lane no. ${ i }`,
-			multiple: `Multiple no. ${ i }`,
-			dropdown: `Dropdown no. ${ i }`,
-		} );
-	}
-
 	// Table Operations
 	const rowSelection = {
 		selectedRowKeys,
@@ -530,26 +533,35 @@ export default function Table() {
 	}
 
 	function handleBulkSelection() {
-		setSelectedRowKeys( defaultData.map( ( item ) => item.key ) );
+		setSelectedRowKeys( responseTableData.map( ( item ) => item.id ) );
 	}
 
 	function handleClearSelection() {
 		setSelectedRowKeys( [] );
 	}
 
-	function handleTableChange( pagination ) {
+	function handleTableChange() {
+		const formItem = forms.find( ( item ) => item?.id === id );
+
 		setTableParams( {
-			pagination,
+			pagination: {
+				current: formItem?.pagination
+					? formItem.pagination.current_page
+					: tableParams.pagination.current,
+				pageSize: formItem?.pagination
+					? formItem.pagination.total_page
+					: tableParams.pagination.pageSize,
+			},
 		} );
 	}
 
 	useEffect( () => {
 		// Fetch Response Table Data
-		fetchData( `admin/entries?page=1&per_page=10&form_id=${ id }` )
+		fetchData( `admin/responses?page=1&per_page=10&form_id=${ id }` )
 			.then( ( res ) => {
 				console.log( 'responseTable Data Response:', res );
-				setResponseTableData( res.entries );
-				updateFormItemState( id, res );
+				setResponseTableData( res.responses );
+				// updateFormItemState( id, res.responses );
 			} )
 			.catch( ( error ) => {
 				console.error( 'Failed to fetch entry data:', error );
@@ -557,16 +569,8 @@ export default function Table() {
 	}, [] );
 
 	useEffect( () => {
-		const formItem = FormReducer.forms.find( ( item ) => item?.id === id );
-		const pagination = formItem?.pagination || tableParams?.pagination;
-
-		setTableParams( {
-			pagination: {
-				current: pagination.current_page,
-				pageSize: pagination.per_page,
-			},
-		} );
-	}, [ responseTableData ] );
+		handleTableChange();
+	}, [ FormReducer ] );
 
 	return (
 		<TableStyle>
@@ -729,7 +733,7 @@ export default function Table() {
 					rowSelection={ rowSelection }
 					columns={ defaultColumns }
 					dataSource={ filteredData }
-					rowKey={ ( record ) => record.key }
+					rowKey={ ( record ) => record.id }
 					pagination={ tableParams.pagination }
 					onChange={ handleTableChange }
 				/>
