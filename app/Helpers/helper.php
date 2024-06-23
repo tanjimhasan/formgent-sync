@@ -70,6 +70,10 @@ function formgent_get_response_allowed_fields() {
     return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
 }
 
+function formgent_get_response_table_allowed_fields() {
+    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key()] );
+}
+
 /**
  * Get current user ip address
  *
@@ -176,3 +180,5 @@ function formgent_get_response_by_token( string $token, int $form_id ) {
 function formgent_font_family_dir( string $file = '' ) {
     return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
 }
+
+include_once 'formmeta.php';
