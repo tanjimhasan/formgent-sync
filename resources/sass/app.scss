@@ -647,12 +647,13 @@ a.formgent-btn-disabled {
 
 // antd default style
 .ant-dropdown {
-	width: 175px;
+	width: 225px;
 }
 .ant-dropdown-menu-title-content {
 	.dropdown-header-content {
 		display: flex;
 		gap: 5px;
+		align-items: center;
 	}
 }
 .ant-dropdown-menu-item-group-title {

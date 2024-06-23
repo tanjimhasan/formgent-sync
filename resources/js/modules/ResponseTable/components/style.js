@@ -144,15 +144,66 @@ const TableSelectionStyle = Styled.div`
 
 const TableHeaderStyle = Styled.div`
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
 `;
 
 const TableActionStyle = Styled.div`
     flex: 1;
     display: flex;
     gap: 10px;
-    justify-content: end;
+    &:last-child { 
+        justify-content: end;
+    }
+    .formgent-table-header__selection {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        .formgent-table-header__selection__text {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 35px;
+            padding: 0 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--formgent-color-white);
+            background: var(--formgent-color-light-gray);
+        }
+        .formgent-table-header__selection__all {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 35px;
+            padding: 0 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--formgent-color-dark);
+            background: var(--formgent-color-bg-light);
+            cursor: pointer;
+            transition: background ease .3s;
+            &:hover {
+                background: var(--formgent-color-bg-deep);
+            }
+        }
+        .formgent-table-header__selection__clear {
+            padding: 0;
+            margin: 0;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            line-height: 1;
+            color: var(--formgent-color-white);
+            background: transparent;
+            cursor: pointer;
+            transition: color ease .3s;
+            &:hover {
+                color: var(--formgent-color-warning);
+            }
+        }
+    }
     .formgent-table-header__search {
+        width: 275px;
         height: 40px;
         padding: 0 20px;
         box-shadow: none;
@@ -168,10 +219,19 @@ const TableActionStyle = Styled.div`
     .ant-btn {
         background: transparent;
         color: var(--formgent-font-color) !important;
-        border: 1px solid var(--formgent-color-bg-gray) !important;
+        border: 1px solid var(--formgent-color-bg-light) !important;
         border-radius: 8px;
         &:hover {
-            background: var(--formgent-color-bg-light) !important;
+            color: var(--formgent-color-white) !important;
+            background: var(--formgent-color-light-gray) !important;
+            border-color: var(--formgent-color-light-gray) !important;
+        }
+        &.formgent-table-header__delete {
+            &:hover {
+                color: var(--formgent-color-dark) !important;
+                background: var(--formgent-color-warning-light) !important;
+                border-color: transparent !important;
+            }
         }
     }
 
