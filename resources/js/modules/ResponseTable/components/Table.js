@@ -44,6 +44,48 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	function handleSelectItems( { key } ) {
+		const sortFunctions = {
+			all: () => responseTableData,
+			read: () =>
+				responseTableData.filter( ( item ) => item.is_read === '1' ),
+			unread: () =>
+				responseTableData.filter( ( item ) => item.is_read === '0' ),
+			starred: () =>
+				responseTableData.filter( ( item ) => item.is_starred === '1' ),
+			Unstarred: () =>
+				responseTableData.filter( ( item ) => item.is_starred === '0' ),
+		};
+
+		// Get the sorted data based on the key
+		const sortedData = sortFunctions[ key ]
+			? sortFunctions[ key ]()
+			: responseTableData;
+		setFilteredData( sortedData );
+
+		console.log( 'Sortby clicked', key, sortedData );
+	}
+
+	// Filter data based on active tab
+	function handleFilterData() {
+		if ( activeTab === 'completed' ) {
+			return responseTableData.filter(
+				( item ) => item.is_starred === '0'
+			);
+		} else if ( activeTab === 'partial' ) {
+			return responseTableData.filter(
+				( item ) => item.is_starred !== '0'
+			);
+		}
+		return [];
+	}
+
+	// Use effect to update filtered data when the active tab changes
+	useEffect( () => {
+		setFilteredData( handleFilterData() );
+	}, [ responseTableData ] );
+
+	// Select Items Data
 	const selectItems = [
 		{
 			label: (
@@ -92,6 +134,7 @@ export default function Table() {
 		},
 	];
 
+	// Sort Items Data
 	const sortItems = [
 		{
 			label: (
@@ -131,25 +174,6 @@ export default function Table() {
 		},
 	];
 
-	// Filter data based on active tab
-	function handleFilterData() {
-		if ( activeTab === 'completed' ) {
-			return responseTableData.filter(
-				( item ) => item.is_starred === '0'
-			);
-		} else if ( activeTab === 'partial' ) {
-			return responseTableData.filter(
-				( item ) => item.is_starred !== '0'
-			);
-		}
-		return [];
-	}
-
-	// Use effect to update filtered data when the active tab changes
-	useEffect( () => {
-		setFilteredData( handleFilterData() );
-	}, [ responseTableData ] );
-
 	// Default Column Data
 	const defaultColumns = [
 		{
@@ -158,7 +182,10 @@ export default function Table() {
 			title: () => (
 				<div className="formgent-column-action formgent-column-action__id">
 					<AntDropdown
-						menu={ { items: selectItems } }
+						menu={ {
+							items: selectItems,
+							onClick: handleSelectItems,
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomLeft"
 						overlayStyle={ { minWidth: '240px' } }
