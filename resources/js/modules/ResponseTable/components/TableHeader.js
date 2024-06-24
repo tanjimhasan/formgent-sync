@@ -28,6 +28,8 @@ export default function TableHeader( props ) {
 		responseTableData,
 		selectedRowKeys,
 		setSelectedRowKeys,
+		totalCompletedItems,
+		totalPartialItems,
 		activeTab,
 		setActiveTab,
 	} = props;
@@ -182,11 +184,11 @@ export default function TableHeader( props ) {
 	const tabItems = [
 		{
 			key: 'completed',
-			label: 'Completed (6)',
+			label: `Completed (${ totalCompletedItems })`,
 		},
 		{
 			key: 'partial',
-			label: 'Partial (2)',
+			label: `Partial (${ totalPartialItems })`,
 		},
 	];
 

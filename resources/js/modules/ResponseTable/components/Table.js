@@ -22,6 +22,8 @@ import userIcon from '@icon/user.svg';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ responseTableData, setResponseTableData ] = useState( [] );
+	const [ totalCompletedItems, setTotalCompletedItems ] = useState( null );
+	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ tableParams, setTableParams ] = useState( {
@@ -45,7 +47,7 @@ export default function Table() {
 	const { id } = useParams();
 
 	function handleSelectItems( { key } ) {
-		const sortFunctions = {
+		const selectFunctions = {
 			all: () => responseTableData,
 			read: () =>
 				responseTableData.filter( ( item ) => item.is_read === '1' ),
@@ -53,8 +55,34 @@ export default function Table() {
 				responseTableData.filter( ( item ) => item.is_read === '0' ),
 			starred: () =>
 				responseTableData.filter( ( item ) => item.is_starred === '1' ),
-			Unstarred: () =>
+			unstarred: () =>
 				responseTableData.filter( ( item ) => item.is_starred === '0' ),
+		};
+
+		// Get the sorted data based on the key
+		const selectedData = selectFunctions[ key ]
+			? selectFunctions[ key ]()
+			: responseTableData;
+		setFilteredData( selectedData );
+	}
+
+	function handleSortby( item, dropdownId ) {
+		const { key } = item;
+		const sortFunctions = {
+			ascending: () =>
+				[ ...responseTableData ].sort(
+					( a, b ) =>
+						new Date( a[ dropdownId ] ) -
+						new Date( b[ dropdownId ] )
+				),
+			descending: () =>
+				[ ...responseTableData ].sort(
+					( a, b ) =>
+						new Date( b[ dropdownId ] ) -
+						new Date( a[ dropdownId ] )
+				),
+			freeze: () => console.log( 'Freeze Column' ),
+			hide: () => console.log( 'Hide Column' ),
 		};
 
 		// Get the sorted data based on the key
@@ -62,20 +90,24 @@ export default function Table() {
 			? sortFunctions[ key ]()
 			: responseTableData;
 		setFilteredData( sortedData );
-
-		console.log( 'Sortby clicked', key, sortedData );
 	}
 
 	// Filter data based on active tab
 	function handleFilterData() {
+		const completedItems = responseTableData.filter(
+			( item ) => item.is_completed === '1'
+		);
+		const partialItems = responseTableData.filter(
+			( item ) => item.is_completed === '0'
+		);
+
+		setTotalCompletedItems( completedItems.length );
+		setTotalPartialItems( partialItems.length );
+
 		if ( activeTab === 'completed' ) {
-			return responseTableData.filter(
-				( item ) => item.is_starred === '0'
-			);
+			return completedItems;
 		} else if ( activeTab === 'partial' ) {
-			return responseTableData.filter(
-				( item ) => item.is_starred !== '0'
-			);
+			return partialItems;
 		}
 		return [];
 	}
@@ -83,7 +115,7 @@ export default function Table() {
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
 		setFilteredData( handleFilterData() );
-	}, [ responseTableData ] );
+	}, [ responseTableData, activeTab ] );
 
 	// Select Items Data
 	const selectItems = [
@@ -130,7 +162,7 @@ export default function Table() {
 					Unstarred
 				</span>
 			),
-			key: 'Unstarred',
+			key: 'unstarred',
 		},
 	];
 
@@ -224,7 +256,11 @@ export default function Table() {
 						Submission Date
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: ( item ) =>
+								handleSortby( item, 'created_at' ),
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -241,8 +277,8 @@ export default function Table() {
 			),
 		},
 		{
-			key: 'author',
-			dataIndex: 'author',
+			key: 'created_by',
+			dataIndex: 'created_by',
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
@@ -250,7 +286,11 @@ export default function Table() {
 						Submitted By
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: ( item ) =>
+								handleSortby( item, 'created_by' ),
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -276,7 +316,10 @@ export default function Table() {
 						Short Text
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: handleSortby,
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -302,7 +345,10 @@ export default function Table() {
 						Long Text
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: handleSortby,
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -328,7 +374,10 @@ export default function Table() {
 						Multiple Select
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: handleSortby,
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -354,7 +403,10 @@ export default function Table() {
 						Dropdown
 					</span>
 					<AntDropdown
-						menu={ { items: sortItems } }
+						menu={ {
+							items: sortItems,
+							onClick: handleSortby,
+						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
 						overlayStyle={ { minWidth: '240px' } }
@@ -421,6 +473,8 @@ export default function Table() {
 					responseTableData={ responseTableData }
 					selectedRowKeys={ selectedRowKeys }
 					setSelectedRowKeys={ setSelectedRowKeys }
+					totalCompletedItems={ totalCompletedItems }
+					totalPartialItems={ totalPartialItems }
 					activeTab={ activeTab }
 					setActiveTab={ setActiveTab }
 				/>
