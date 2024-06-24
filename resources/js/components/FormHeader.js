@@ -42,7 +42,7 @@ export default function FormHeader( props ) {
 	}, [] );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm();
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
 	const { isUpdatingForm } = SingleFormReducer;

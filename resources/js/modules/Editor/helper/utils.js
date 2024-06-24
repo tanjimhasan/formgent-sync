@@ -34,7 +34,6 @@ const handleDragStart = (
 ) => {
 	const { active } = event;
 	const activeData = extractEventData( active );
-	console.log( 'dragstart', activeData );
 	// In builder handleDragStart will be triggered two time. one is when field is dragged from sidebar
 	// and antoehr one is draged from dropbox.
 	// When dragged from sidebar will update the inserterOverlayField state

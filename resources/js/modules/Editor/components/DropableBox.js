@@ -13,7 +13,7 @@ export default function DropableBox( props ) {
 	const { fields, rootFields, setRootFields } = props;
 	const { updateActiveField } = useDispatch( 'formgent' );
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm();
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
 	const { singleForm, activeField } = SingleFormReducer;

@@ -31,12 +31,12 @@ export default function MainContent( props ) {
 	const mainFields = registerFields().filter(
 		( item ) => item.type !== 'spacer'
 	);
-	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm( id );
+	const { singleForm } = useSelect( ( select ) => {
+		return { singleForm: select( 'formgent' ).getSingleForm( id ) };
 	}, [] );
 
 	const { updateFormFields } = useDispatch( 'formgent' );
-	const { singleForm } = SingleFormReducer;
+	// const { singleForm } = SingleFormReducer;
 	const { fields } = singleForm?.content ?? { fields: [] };
 	const [ inserterDomKey, setInserterDomKey ] = useState( nanoid( 10 ) );
 	const [ inserterOverlayActiveField, setInserterOverlayActiveField ] =

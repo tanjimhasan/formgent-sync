@@ -14,7 +14,7 @@ export default function FieldCustomizer() {
 	const contentRef = useRef( null );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm();
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
 	const { activeField } = SingleFormReducer;

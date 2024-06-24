@@ -19,7 +19,7 @@ export default function CreateFormModalContent() {
 	const { id, type } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm( id );
+		return select( 'formgent' ).getSingleFormState( id );
 	}, [] );
 
 	const { FormReducer } = useSelect( ( select ) => {
