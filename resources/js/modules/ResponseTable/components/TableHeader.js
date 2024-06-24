@@ -7,6 +7,7 @@ import {
 	AntTabs,
 } from '@formgent/components';
 import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
@@ -34,11 +35,7 @@ export default function TableHeader( props ) {
 		setActiveTab,
 	} = props;
 
-	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {
-		column1: true,
-		column2: false,
-		column3: false,
-	} );
+	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {} );
 
 	// Handle Tab Operations
 	function handleTabChange( key ) {
@@ -46,32 +43,26 @@ export default function TableHeader( props ) {
 	}
 
 	function handleDownload( { key } ) {
-		// Implement Download functionality
 		console.log( 'Download clicked', key );
 	}
 
 	function handleSearch( value ) {
-		// Implement search functionality
 		console.log( 'Search:', value );
 	}
 
 	function handlePrint() {
-		// Implement Print functionality
 		console.log( 'Print clicked' );
 	}
 
 	function handleDelete() {
-		// Implement Delete functionality
 		console.log( 'Delete clicked', selectedRowKeys );
 	}
 
 	function handleFilter() {
-		// Implement filter functionality
 		console.log( 'Filter clicked' );
 	}
 
 	function handleRefresh() {
-		// Implement refresh functionality
 		console.log( 'Refresh clicked' );
 	}
 
@@ -91,7 +82,7 @@ export default function TableHeader( props ) {
 		setSelectedRowKeys( [] );
 	}
 
-	const columnItems = [
+	const columnItems = applyFilters( 'formgent_response_column', [
 		{
 			label: (
 				<span
@@ -140,7 +131,7 @@ export default function TableHeader( props ) {
 				</AntCheckbox>
 			),
 		},
-	];
+	] );
 
 	const downloadItems = [
 		{
