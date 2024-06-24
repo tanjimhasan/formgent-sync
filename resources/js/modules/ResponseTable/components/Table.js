@@ -1,6 +1,5 @@
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
-import fetchData from '@formgent/helper/fetchData';
-import { useSelect } from '@wordpress/data';
+import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import TableHeader from './TableHeader';
@@ -21,24 +20,19 @@ import userIcon from '@icon/user.svg';
 
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
-	const [ responseTableData, setResponseTableData ] = useState( [] );
 	const [ totalCompletedItems, setTotalCompletedItems ] = useState( null );
 	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
-	const [ tableParams, setTableParams ] = useState( {
-		pagination: {
-			current: 1,
-			pageSize: 10,
-		},
-	} );
 
 	// Retrieve from the store
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
+	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
+
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { forms, isLoading } = FormReducer;
+	const { responses, pagination, isLoading } = SingleFormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -48,21 +42,19 @@ export default function Table() {
 
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
-			all: () => responseTableData,
-			read: () =>
-				responseTableData.filter( ( item ) => item.is_read === '1' ),
-			unread: () =>
-				responseTableData.filter( ( item ) => item.is_read === '0' ),
+			all: () => responses,
+			read: () => responses?.filter( ( item ) => item.is_read === '1' ),
+			unread: () => responses?.filter( ( item ) => item.is_read === '0' ),
 			starred: () =>
-				responseTableData.filter( ( item ) => item.is_starred === '1' ),
+				responses?.filter( ( item ) => item.is_starred === '1' ),
 			unstarred: () =>
-				responseTableData.filter( ( item ) => item.is_starred === '0' ),
+				responses?.filter( ( item ) => item.is_starred === '0' ),
 		};
 
 		// Get the sorted data based on the key
 		const selectedData = selectFunctions[ key ]
 			? selectFunctions[ key ]()
-			: responseTableData;
+			: responses;
 		setFilteredData( selectedData );
 	}
 
@@ -70,13 +62,13 @@ export default function Table() {
 		const { key } = item;
 		const sortFunctions = {
 			ascending: () =>
-				[ ...responseTableData ].sort(
+				[ ...responses ].sort(
 					( a, b ) =>
 						new Date( a[ dropdownId ] ) -
 						new Date( b[ dropdownId ] )
 				),
 			descending: () =>
-				[ ...responseTableData ].sort(
+				[ ...responses ].sort(
 					( a, b ) =>
 						new Date( b[ dropdownId ] ) -
 						new Date( a[ dropdownId ] )
@@ -88,21 +80,23 @@ export default function Table() {
 		// Get the sorted data based on the key
 		const sortedData = sortFunctions[ key ]
 			? sortFunctions[ key ]()
-			: responseTableData;
+			: responses;
 		setFilteredData( sortedData );
 	}
 
 	// Filter data based on active tab
 	function handleFilterData() {
-		const completedItems = responseTableData.filter(
+		const completedItems = responses?.filter(
 			( item ) => item.is_completed === '1'
 		);
-		const partialItems = responseTableData.filter(
+		const partialItems = responses?.filter(
 			( item ) => item.is_completed === '0'
 		);
 
-		setTotalCompletedItems( completedItems.length );
-		setTotalPartialItems( partialItems.length );
+		setTotalCompletedItems( completedItems?.length || 0 );
+		setTotalPartialItems( partialItems?.length || 0 );
+
+		console.log( 'handleFilterData', responses, completedItems );
 
 		if ( activeTab === 'completed' ) {
 			return completedItems;
@@ -115,7 +109,8 @@ export default function Table() {
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
 		setFilteredData( handleFilterData() );
-	}, [ responseTableData, activeTab ] );
+		console.log( 'Response Changed' );
+	}, [ responses, activeTab ] );
 
 	// Select Items Data
 	const selectItems = [
@@ -438,43 +433,25 @@ export default function Table() {
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 
-	function handleTableChange() {
-		const formItem = forms.find( ( item ) => item?.id === id );
-
-		setTableParams( {
-			pagination: {
-				current: formItem?.pagination
-					? formItem.pagination.current_page
-					: tableParams.pagination.current,
-				pageSize: formItem?.pagination
-					? formItem.pagination.total_page
-					: tableParams.pagination.pageSize,
-			},
-		} );
+	function handleTableChange( pagination ) {
+		console.log( 'Table Changed', responses, pagination, isLoading );
+		updateCurrentResponsePage( pagination?.current );
+		resolveSelect( 'formgent' ).getSingleFormResponse(
+			pagination?.current,
+			2,
+			parseInt( id )
+		);
 	}
 
 	useEffect( () => {
-		// Fetch Response Table Data
-		fetchData( `admin/responses?page=1&per_page=10&form_id=${ id }` )
-			.then( ( res ) => {
-				console.log( 'responseTable Data Response:', res );
-				setResponseTableData( res.responses );
-				// updateFormItemState( id, res.responses );
-			} )
-			.catch( ( error ) => {
-				console.error( 'Failed to fetch entry data:', error );
-			} );
-	}, [] );
-
-	useEffect( () => {
 		handleTableChange();
-	}, [ FormReducer ] );
+	}, [] );
 
 	return (
 		<TableStyle>
 			<AntSpin spinning={ isLoading }>
 				<TableHeader
-					responseTableData={ responseTableData }
+					responses={ responses }
 					selectedRowKeys={ selectedRowKeys }
 					setSelectedRowKeys={ setSelectedRowKeys }
 					totalCompletedItems={ totalCompletedItems }
@@ -496,7 +473,13 @@ export default function Table() {
 					columns={ defaultColumns }
 					dataSource={ filteredData }
 					rowKey={ ( record ) => record.id }
-					pagination={ tableParams.pagination }
+					pagination={ {
+						current: pagination?.current_page,
+						pageSize: 2,
+						total: pagination?.total_items,
+						showTotal: ( total, range ) =>
+							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
+					} }
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>

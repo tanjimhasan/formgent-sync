@@ -5,13 +5,19 @@ const DEFAULT_STATE = {
 	isCreatingForm: false,
 	isLoading: false,
 	isUpdatingForm: false,
+	pagination: {
+		current_page: '1',
+		total_pages: '1',
+		total_items: '0',
+	},
 	activeCustomizerTab: 'element',
 	activeField: '',
 	error: null,
 };
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
-	const { type, isLoading, data, error } = action;
+	const { type, isLoading, data, currentPage, error } = action;
+
 	let fieldList = {};
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
@@ -128,6 +134,20 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 					[ action.id ]: action.singleForm,
 				},
 				singleForm: action.singleForm,
+			};
+		case 'RESPONSE_STORE':
+			return {
+				...state,
+				...data,
+			};
+
+		case 'UPDATE_CURRENT_RESPONSE_PAGE':
+			return {
+				...state,
+				pagination: {
+					...state.pagination,
+					current_page: currentPage,
+				},
 			};
 		case 'SELECT_FORM':
 			return {
