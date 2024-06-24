@@ -26,6 +26,7 @@ const cleanDraggingHistory = (
 
 const handleDragStart = (
 	event,
+	formId,
 	fields,
 	updateFormFields,
 	currentDragFieldRef,
@@ -67,11 +68,12 @@ const handleDragStart = (
 
 	const updatedFields = [ ...fields ];
 	updatedFields.splice( index, 1, createSpacer( { id: active.id } ) );
-	updateFormFields( updatedFields );
+	updateFormFields( updatedFields, formId );
 };
 
 const handleDragOver = (
 	event,
+	formId,
 	fields,
 	spacerInsertedRef,
 	updateFormFields
@@ -96,13 +98,14 @@ const handleDragOver = (
 				updatedFields.splice( nextIndex, 0, spacer );
 			}
 			spacerInsertedRef.current = true;
-			updateFormFields( updatedFields );
+			updateFormFields( updatedFields, formId );
 		} else if ( ! over ) {
 			// This solves the issue where you could have a spacer handing out in the canvas if you drug
 			// a sidebar item on and then off
 
 			updateFormFields(
-				updatedFields.filter( ( f ) => f.type !== 'spacer' )
+				updatedFields.filter( ( f ) => f.type !== 'spacer' ),
+				formId
 			);
 
 			spacerInsertedRef.current = false;
@@ -127,13 +130,14 @@ const handleDragOver = (
 				spacerIndex,
 				overData.index
 			);
-			updateFormFields( updatedFields );
+			updateFormFields( updatedFields, formId );
 		}
 	}
 };
 
 const handleDragEnd = (
 	event,
+	formId,
 	fields,
 	currentDragFieldRef,
 	spacerInsertedRef,
@@ -159,7 +163,7 @@ const handleDragEnd = (
 		updatedFields = updatedFields.filter(
 			( field ) => field.type !== 'spacer'
 		);
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 		return;
 	}
 	let nextField = currentDragFieldRef.current;
@@ -175,7 +179,7 @@ const handleDragEnd = (
 			spacerIndex,
 			overData.index || 0
 		);
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}
 
 	setInserterDomKey( nanoid( 10 ) );

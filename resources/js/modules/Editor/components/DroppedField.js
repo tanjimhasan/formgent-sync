@@ -39,6 +39,13 @@ const DroppedField = ( {
 		addFieldAfter,
 	} = useDispatch( 'formgent' );
 
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+	const { useParams } = CommonReducer.routerComponents;
+
+	const { id: formId } = useParams();
+
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
@@ -63,13 +70,13 @@ const DroppedField = ( {
 	//Shift field to up index
 	function handleShiftUp() {
 		const updatedFields = arrayMove( fields, index, index - 1 );
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}
 
 	//Shift field to down index
 	function handleShiftDown() {
 		const updatedFields = arrayMove( fields, index, index + 1 );
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}
 
 	//Duplicatefield

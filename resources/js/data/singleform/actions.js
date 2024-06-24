@@ -145,10 +145,11 @@ export const SingleFormActions = {
 	 * @param {Object} data - updated
 	 * @returns {Object} Action object with type 'FORM_FIELDS_UPDATE' and updated data
 	 */
-	updateFormFields: ( data ) => {
+	updateFormFields: ( data, id ) => {
 		return {
 			type: 'FORM_FIELDS_UPDATE',
 			data,
+			id,
 		};
 	},
 
