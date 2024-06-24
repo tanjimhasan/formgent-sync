@@ -318,7 +318,8 @@ export default function Table() {
 					<AntDropdown
 						menu={ {
 							items: sortItems,
-							onClick: handleSortby,
+							onClick: ( item ) =>
+								handleSortby( item, 'shortText' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
@@ -347,7 +348,8 @@ export default function Table() {
 					<AntDropdown
 						menu={ {
 							items: sortItems,
-							onClick: handleSortby,
+							onClick: ( item ) =>
+								handleSortby( item, 'longText' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
@@ -376,7 +378,8 @@ export default function Table() {
 					<AntDropdown
 						menu={ {
 							items: sortItems,
-							onClick: handleSortby,
+							onClick: ( item ) =>
+								handleSortby( item, 'multiple' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
@@ -405,7 +408,8 @@ export default function Table() {
 					<AntDropdown
 						menu={ {
 							items: sortItems,
-							onClick: handleSortby,
+							onClick: ( item ) =>
+								handleSortby( item, 'dropdown' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
