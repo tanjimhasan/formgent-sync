@@ -97,6 +97,10 @@ const TableStyle = Styled.div`
             text-transform: capitalize;
             
         }
+
+        &.formgent-column-action__id {
+            justify-content: flex-end;
+        }
     }
 `;
 
