@@ -1,6 +1,6 @@
 const DEFAULT_STATE = {
-	singleForm: null,
 	forms: null,
+	selectedFormType: '',
 	selectedFormId: null,
 	isCreatingForm: false,
 	isLoading: false,
@@ -63,7 +63,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				activeCustomizerTab: action?.activeTab,
 			};
 		case 'ADD_FIELD_AFTER':
-			console.log( fieldList );
 			fieldList = structuredClone( state?.singleForm?.content?.fields );
 			fieldList.splice( action.index + 1, 0, action.field );
 
@@ -109,9 +108,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'UPDATE_SINGLE_FORM_TYPE':
 			return {
 				...state,
-				singleForm: {
-					type: action.formType,
-				},
+				selectedFormType: action.formType,
 			};
 		case 'SINGLE_FORM_FETCH_LOADING':
 			return {

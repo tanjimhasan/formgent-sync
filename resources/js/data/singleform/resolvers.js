@@ -25,6 +25,7 @@ export const SingleFormResolvers = {
 			}
 
 			yield SingleFormActions.isSingleFormFetchLoading( false );
+			return singleForm;
 		} catch ( error ) {
 			yield SingleFormActions.fetchSingleFormError( error );
 			yield SingleFormActions.isSingleFormFetchLoading( false );

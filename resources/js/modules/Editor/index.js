@@ -17,9 +17,9 @@ function Editor( props ) {
 
 	const { id } = useParams();
 
-	const { SingleFormReducer } = useSelect(
+	const { singleForm } = useSelect(
 		( select ) => {
-			return select( 'formgent' ).getSingleForm( id );
+			return { singleForm: select( 'formgent' ).getSingleForm( id ) };
 		},
 		[ id ]
 	);
@@ -38,8 +38,8 @@ function Editor( props ) {
 				uiState={ uiState }
 				setUiState={ setUiState }
 			/>
-			{ SingleFormReducer?.singleForm && <MainContent id={ id } /> }
-			{ ! SingleFormReducer?.singleForm?.title && props.isAddForm && (
+			{ singleForm && <MainContent id={ id } /> }
+			{ ! singleForm?.title && props.isAddForm && (
 				<Modal
 					overlayClassName="formgent-modal formgent-form-title-modal"
 					size="medium"

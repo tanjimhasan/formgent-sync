@@ -13,7 +13,6 @@ function FormSubmission( props ) {
 		[ formId ]
 	);
 	const { singleForm } = SingleFormReducer;
-	console.log( singleForm );
 	return (
 		<FormSubmissionStyle>
 			<SubmissionForm />

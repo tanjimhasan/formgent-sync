@@ -1,5 +1,10 @@
 export const SingleFormSelectors = {
-	getSingleForm( SingleFormReducer ) {
+	getSingleForm( state, id ) {
+		return state?.SingleFormReducer?.forms
+			? state?.SingleFormReducer?.forms[ id ]
+			: {};
+	},
+	getSingleFormState( SingleFormReducer ) {
 		return SingleFormReducer;
 	},
 };

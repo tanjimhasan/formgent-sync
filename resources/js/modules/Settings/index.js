@@ -38,8 +38,6 @@ function Settings( props ) {
 		},
 	] );
 
-	console.log( 'settingsRoutes', settingsRoutes );
-
 	return (
 		<div className="formgent-editor-wrap">
 			<FormHeader

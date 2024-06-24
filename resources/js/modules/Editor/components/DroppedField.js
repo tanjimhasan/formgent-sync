@@ -40,7 +40,7 @@ const DroppedField = ( {
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm();
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
 	const { attributes, listeners, setNodeRef, transform, transition } =

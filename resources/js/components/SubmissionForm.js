@@ -9,10 +9,17 @@ export default function SubmissionForm( props ) {
 	const { submitFormRequest, submitFormSuccess, submitFormError } =
 		useDispatch( 'frontend/formgent' );
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'frontend/formgent' ).getSingleForm();
+		return select( 'frontend/formgent' ).getSingleFormState();
 	}, [] );
 
-	const { singleForm, isFormSubmitting } = SingleFormReducer;
+	const { singleForm } = useSelect(
+		( select ) => {
+			return select( 'frontend/formgent' ).getSingleForm();
+		},
+		[ formId ]
+	);
+
+	const { isFormSubmitting } = SingleFormReducer;
 
 	function getFormItem( item ) {
 		const FormItem = registerPreviewFields()[ item?.type ];

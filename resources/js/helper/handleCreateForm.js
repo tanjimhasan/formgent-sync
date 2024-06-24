@@ -1,6 +1,5 @@
 import { doAction } from '@wordpress/hooks';
 import postData from './postData';
-// import { registerElements } from '@helpgent/elements';
 import { __ } from '@wordpress/i18n';
 
 export default async function handleCreateForm(
@@ -24,6 +23,9 @@ export default async function handleCreateForm(
 		updateForms( createFormResponse.form );
 		updateCreatePopUp( false );
 		navigate( `/forms/${ createFormResponse?.form?.id }/edit` );
+		doAction( 'formgent-toast', {
+			message: createFormResponse.message,
+		} );
 	} catch ( error ) {
 		let errors = {};
 		if ( error.message ) {

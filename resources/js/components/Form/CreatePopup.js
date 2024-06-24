@@ -15,7 +15,7 @@ function CreatePopup( props ) {
 		return select( 'formgent' ).getForms();
 	}, [] );
 	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleForm();
+		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 	const { updateFormState } = useDispatch( 'formgent' );
 	const {
@@ -37,7 +37,7 @@ function CreatePopup( props ) {
 			icon: Pencil,
 			label: 'Start From Scratch',
 			text: 'Start with a blank form',
-			url: `forms/form-new/${ SingleFormReducer?.singleForm?.type }`,
+			url: `forms/form-new/${ SingleFormReducer?.selectedFormType }`,
 			step: '2',
 		},
 	];
