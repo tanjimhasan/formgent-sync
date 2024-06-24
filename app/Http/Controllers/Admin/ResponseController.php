@@ -271,4 +271,40 @@ class ResponseController extends Controller {
             ]
         );
     }
+
+    public function export( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'form_id'      => 'required|numeric',
+                'response_ids' => 'required|array'
+            ]
+        );
+    
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $response_ids = $wp_rest_request->get_param( 'response_ids' );
+
+        if ( ! formgent_is_one_level_array( $response_ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Something was wrong', 'formgent' )
+                ], 500
+            );
+        }
+
+        $form_id = intval( $wp_rest_request->get_param( 'form_id' ) );
+
+        return Response::send(
+            [
+                'form'      => $this->form_repository->get_by_id( $form_id, ['content'] ),
+                'responses' => $this->repository->get_export_data( $form_id, $response_ids )
+            ]
+        );
+    }
 }
