@@ -1,11 +1,11 @@
-import { useSelect, useDispatch } from '@wordpress/data';
+import patchData from '@formgent/helper/patchData';
+import arrowLeftIcon from '@icon/arrow-small-left.svg';
+import favIcon from '@icon/fav.svg';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
-import arrowLeftIcon from '@icon/arrow-small-left.svg';
-import favIcon from '@icon/fav.svg';
-import patchData from '@formgent/helper/patchData';
 
 export default function FormHeader( props ) {
 	const { id, useNavigate } = props;
@@ -133,6 +133,7 @@ export default function FormHeader( props ) {
 			<nav className="formgent-editor-header__nav">
 				<NavLink to={ `${ forms }/edit` }>Editor</NavLink>
 				<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
+				<NavLink to={ `${ forms }/results` }>Results</NavLink>
 			</nav>
 
 			{ /* Editor Header Actions */ }

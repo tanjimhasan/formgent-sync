@@ -4,6 +4,7 @@ import {
 	HashRouter,
 	Link,
 	NavLink,
+	Navigate,
 	Route,
 	Routes,
 	useLocation,
@@ -18,6 +19,7 @@ import { getPlugins } from '@wordpress/plugins';
 import AddForm from './pages/AddForm/index.js';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
+import Results from './pages/Results/index.js';
 import Settings from './pages/Settings/index.js';
 
 export default function App() {
@@ -52,6 +54,7 @@ export default function App() {
 			Route,
 			Link,
 			NavLink,
+			Navigate,
 			useNavigate,
 			useParams,
 			useLocation,
@@ -71,6 +74,10 @@ export default function App() {
 		{
 			path: '/forms/:id/settings/*',
 			element: <Settings />,
+		},
+		{
+			path: '/forms/:id/results/*',
+			element: <Results />,
 		},
 		{
 			path: '/forms/form-new/:type',

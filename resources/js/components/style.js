@@ -8,6 +8,19 @@ const DropdownStyle = Styled.div`
     }
 `;
 
+const SelectStyle = Styled.div`
+    width: 175px;
+    .ant-select-selection-item {
+        margin: 0 5px !important;
+        height: 32px;
+        line-height: 30px;
+    }
+    .ant-select-multiple .ant-select-selection-overflow {
+        flex-wrap: unset;
+        overflow-x: auto;   
+    }
+`;
+
 const InputStyle = Styled.div`
     .ant-input{
         padding: var(--ant-input-padding-block) var(--ant-input-padding-inline);
@@ -393,5 +406,6 @@ export {
 	InputStyle,
 	MenuStyle,
 	ModalAlertStyle,
+	SelectStyle,
 	SubmissionFormStyle,
 };
