@@ -12,7 +12,6 @@ import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
 // Icon
-import attachmentIcon from '@icon/attachment.svg';
 import checkIcon from '@icon/check-square.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
@@ -158,15 +157,6 @@ export default function TableHeader( props ) {
 				<span className="dropdown-header-content">
 					<ReactSVG width="14" height="14" src={ fileIcon } />
 					Download as PDF
-				</span>
-			),
-		},
-		{
-			key: 'attachment',
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ attachmentIcon } />
-					Download Attachment
 				</span>
 			),
 		},

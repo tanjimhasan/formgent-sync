@@ -109,7 +109,7 @@ export default function Table() {
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
 		setFilteredData( handleFilterData() );
-		console.log( 'Response Changed' );
+		console.log( 'Response Changed', responses );
 	}, [ responses, activeTab ] );
 
 	// Select Items Data
