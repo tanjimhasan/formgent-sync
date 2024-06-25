@@ -11,8 +11,6 @@ function Results() {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	console.log( 'CommonReducer', CommonReducer );
-
 	const { useParams, Navigate, Route, Routes, useNavigate } =
 		CommonReducer.routerComponents;
 	const { id } = useParams();
