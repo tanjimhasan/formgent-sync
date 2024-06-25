@@ -106,7 +106,7 @@ export default function TableAction( props ) {
 				overlayStyle={ { minWidth: '240px' } }
 			>
 				<a onClick={ ( e ) => e.preventDefault() }>
-					<ReactSVG src={ ellipsisV } />
+					<ReactSVG src={ ellipsisV } width="20" height="20" />
 				</a>
 			</AntDropdown>
 			{ isActivateFormDeleteModal && (
