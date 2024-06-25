@@ -25,10 +25,11 @@ export const SingleFormActions = {
 		};
 	},
 
-	createFormSuccess: ( data ) => {
+	createFormSuccess: ( data, id ) => {
 		return {
 			type: 'CREATE_FORM_SUCCESS',
 			data,
+			id,
 		};
 	},
 
@@ -81,11 +82,12 @@ export const SingleFormActions = {
 		};
 	},
 
-	addFieldAfter: ( field, index ) => {
+	addFieldAfter: ( field, index, formId ) => {
 		return {
 			type: 'ADD_FIELD_AFTER',
 			field,
 			index,
+			formId,
 		};
 	},
 
@@ -176,10 +178,11 @@ export const SingleFormActions = {
 	 * @param {Object} data - updated
 	 * @returns {Object} Action object with type 'FORM_FIELDS_UPDATE' and updated data
 	 */
-	updateFormFields: ( data ) => {
+	updateFormFields: ( data, id ) => {
 		return {
 			type: 'FORM_FIELDS_UPDATE',
 			data,
+			id,
 		};
 	},
 

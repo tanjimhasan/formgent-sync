@@ -22,6 +22,7 @@ const DraggableField = ( props ) => {
 		},
 		[ formId ]
 	);
+
 	const { updateFormFields } = useDispatch( 'formgent' );
 	const id = useRef( nanoid( 10 ) );
 	const { attributes, listeners, setNodeRef } = useDraggable( {
@@ -40,7 +41,7 @@ const DraggableField = ( props ) => {
 			name: `${ field.type }${ fields.length }`,
 		};
 		const updatedFields = [ ...fields, newField ];
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}, [ SingleFormReducer ] );
 
 	const memoizedAttributes = useCallback( attributes, [ attributes ] );
