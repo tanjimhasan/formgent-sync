@@ -11,20 +11,30 @@ function Results() {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { useParams, Route, Routes, useNavigate } =
+	console.log( 'CommonReducer', CommonReducer );
+
+	const { useParams, Navigate, Route, Routes, useNavigate } =
 		CommonReducer.routerComponents;
 	const { id } = useParams();
 
 	const resultsRoutes = applyFilters( 'formgent_results_routes', [
 		{
+			key: 'results',
 			path: '*',
+			element: <Navigate to="responses" />,
+		},
+		{
+			key: 'responses',
+			path: 'responses',
 			element: <ResponseTableModule />,
 		},
 		{
+			key: 'summary',
 			path: 'summary',
 			element: <ResponseTableModule />,
 		},
 		{
+			key: 'analytics',
 			path: 'analytics',
 			element: <ResponseTableModule />,
 		},
@@ -37,10 +47,10 @@ function Results() {
 				<ResultsHeader id={ id } />
 				<Suspense fallback={ <>Loading...</> }>
 					<Routes>
-						{ resultsRoutes.map( ( routeItem, index ) => {
+						{ resultsRoutes.map( ( routeItem ) => {
 							return (
 								<Route
-									key={ index }
+									key={ routeItem.key }
 									path={ routeItem.path }
 									element={ routeItem.element }
 								/>
