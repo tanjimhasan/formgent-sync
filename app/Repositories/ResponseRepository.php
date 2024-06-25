@@ -100,4 +100,16 @@ class ResponseRepository {
     public function update_read( int $response_id, int $is_read ) {
         return Response::query()->where( 'id', $response_id )->update( [ 'is_read' => $is_read ] );
     }
+
+    public function get_export_data( int $form_id, array $response_ids ) {
+        return Response::query( 'response' )->with(
+            'answers', function( Builder $query ) {
+                $query->select( 'id', 'response_id', 'field_id', 'value' )->where_is_null( 'parent_id' );
+            }
+        )->with(
+            'answers.children', function( Builder $query ) {
+                $query->select( 'id', 'response_id', 'parent_id', 'field_id', 'value' );
+            }
+        )->where( 'form_id', $form_id )->where_in( 'id', $response_ids )->get();
+    }
 }

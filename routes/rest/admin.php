@@ -31,6 +31,7 @@ Route::group(
                         Route::post( '/', [ResponseController::class, 'update_fields'] );
                     } 
                 );
+                Route::get( 'export', [ResponseController::class, 'export'] );
                 Route::resource( '/', ResponseController::class );
             }
         );
