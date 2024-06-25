@@ -25,10 +25,11 @@ export const SingleFormActions = {
 		};
 	},
 
-	createFormSuccess: ( data ) => {
+	createFormSuccess: ( data, id ) => {
 		return {
 			type: 'CREATE_FORM_SUCCESS',
 			data,
+			id,
 		};
 	},
 
@@ -81,11 +82,12 @@ export const SingleFormActions = {
 		};
 	},
 
-	addFieldAfter: ( field, index ) => {
+	addFieldAfter: ( field, index, formId ) => {
 		return {
 			type: 'ADD_FIELD_AFTER',
 			field,
 			index,
+			formId,
 		};
 	},
 

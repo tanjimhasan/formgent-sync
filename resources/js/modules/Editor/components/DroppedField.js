@@ -50,6 +50,13 @@ const DroppedField = ( {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
+	const { singleForm } = useSelect(
+		( select ) => {
+			return { singleForm: select( 'formgent' ).getSingleForm( formId ) };
+		},
+		[ formId ]
+	);
+
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable( {
 			id,
@@ -103,13 +110,13 @@ const DroppedField = ( {
 	}
 
 	function handleAddNewFieldInititalAfter( field ) {
-		const { fields } = SingleFormReducer.singleForm.content;
+		const { fields } = singleForm.content;
 		const newField = {
 			...field,
 			id: nanoid( 10 ),
 			name: `${ field.type }${ fields.length }`,
 		};
-		addFieldAfter( newField, index );
+		addFieldAfter( newField, index, formId );
 	}
 
 	const fieldListPopoverContent = (
@@ -151,6 +158,8 @@ const DroppedField = ( {
 	useEffect( () => {
 		checkClickedOutside( domStatus, setDomStatus, contentRef );
 	}, [ domStatus ] );
+
+	console.log( fields.length );
 
 	return field.type === 'spacer' ? (
 		<div
