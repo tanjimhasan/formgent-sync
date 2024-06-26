@@ -1,5 +1,6 @@
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
 import patchData from '@formgent/helper/patchData';
+import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
@@ -99,6 +100,12 @@ export default function Table() {
 			} ) );
 		}
 	}
+
+	const dateFormatOptions = {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	};
 
 	// Filter data based on active tab
 	function handleFilterData() {
@@ -293,6 +300,17 @@ export default function Table() {
 					</AntDropdown>
 				</div>
 			),
+			render: ( text, record ) => {
+				return (
+					<div className="formgent-form-date">
+						{ formatDate(
+							'en-US',
+							record.created_at,
+							dateFormatOptions
+						) }
+					</div>
+				);
+			},
 		},
 		{
 			key: 'created_by',

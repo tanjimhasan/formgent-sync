@@ -294,6 +294,16 @@ a.formgent-btn-disabled {
 	}
 }
 
+.formgent-form-date {
+	display: flex;
+	gap: 6px;
+	flex-direction: column;
+	.formgent-form-date__time {
+		font-size: 12px;
+		color: var(--formgent-color-light-gray);
+	}
+}
+
 .formgent_page_formgent #wpcontent {
 	padding-left: 0;
 }
