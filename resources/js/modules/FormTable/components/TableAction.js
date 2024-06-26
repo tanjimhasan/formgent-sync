@@ -41,8 +41,12 @@ export default function TableAction( props ) {
 		{
 			key: '1',
 			label: (
-				<a onClick={ handleActivateEditor }>
-					<ReactSVG src={ penNib } /> { __( 'Rename', 'formgent' ) }
+				<a
+					onClick={ handleActivateEditor }
+					className="dropdown-header-content"
+				>
+					<ReactSVG src={ penNib } width="16" height="16" />{ ' ' }
+					{ __( 'Rename', 'formgent' ) }
 				</a>
 			),
 		},
@@ -56,8 +60,12 @@ export default function TableAction( props ) {
 		{
 			key: '3',
 			label: (
-				<a onClick={ handleActivateDeleteFormModal }>
-					<ReactSVG src={ trash } /> { __( 'Delete', 'formgent' ) }
+				<a
+					onClick={ handleActivateDeleteFormModal }
+					className="dropdown-header-content"
+				>
+					<ReactSVG src={ trash } width="16" height="16" />{ ' ' }
+					{ __( 'Delete', 'formgent' ) }
 				</a>
 			),
 		},
