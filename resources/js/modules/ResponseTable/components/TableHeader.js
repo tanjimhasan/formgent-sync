@@ -25,7 +25,7 @@ import trashIcon from '@icon/trash.svg';
 
 export default function TableHeader( props ) {
 	const {
-		responseTableData,
+		responses,
 		selectedRowKeys,
 		setSelectedRowKeys,
 		totalCompletedItems,
@@ -74,7 +74,7 @@ export default function TableHeader( props ) {
 	}
 
 	function handleBulkSelection() {
-		setSelectedRowKeys( responseTableData.map( ( item ) => item.id ) );
+		setSelectedRowKeys( responses?.map( ( item ) => item.id ) );
 	}
 
 	function handleClearSelection() {
