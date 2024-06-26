@@ -1,4 +1,5 @@
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
+import patchData from '@formgent/helper/patchData';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
@@ -24,6 +25,7 @@ export default function Table() {
 	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
+	const [ starredItems, setStarredItems ] = useState( {} );
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -82,6 +84,20 @@ export default function Table() {
 			? sortFunctions[ key ]()
 			: responses;
 		setFilteredData( sortedData );
+	}
+
+	async function handleStarred( id, isStarredStatus ) {
+		const reverseStarredStatus = isStarredStatus ? 0 : 1;
+		const updateStarredStatus = await patchData(
+			`admin/responses/${ id }/starred/`,
+			{ is_starred: reverseStarredStatus }
+		);
+		if ( updateStarredStatus ) {
+			setStarredItems( ( prevStarredItems ) => ( {
+				...prevStarredItems,
+				[ id ]: reverseStarredStatus,
+			} ) );
+		}
 	}
 
 	// Filter data based on active tab
@@ -228,6 +244,10 @@ export default function Table() {
 				</div>
 			),
 			render: ( text, record ) => {
+				const isStarred =
+					starredItems[ record.id ] !== undefined
+						? starredItems[ record.id ]
+						: record.is_starred === '1';
 				return (
 					<div className="formgent-form-table-item-wrap">
 						{ record.id }
@@ -235,7 +255,10 @@ export default function Table() {
 							width="14"
 							height="14"
 							src={ starIcon }
-							className={ record.is_starred === '1' && 'starred' }
+							className={ isStarred ? 'starred' : '' }
+							onClick={ () =>
+								handleStarred( record.id, isStarred )
+							}
 						/>
 					</div>
 				);
@@ -438,7 +461,7 @@ export default function Table() {
 		updateCurrentResponsePage( pagination?.current );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
 			pagination?.current,
-			2,
+			10,
 			parseInt( id )
 		);
 	}
@@ -475,7 +498,7 @@ export default function Table() {
 					rowKey={ ( record ) => record.id }
 					pagination={ {
 						current: pagination?.current_page,
-						pageSize: 2,
+						pageSize: 10,
 						total: pagination?.total_items,
 						showTotal: ( total, range ) =>
 							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
