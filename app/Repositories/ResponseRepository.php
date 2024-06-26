@@ -117,6 +117,17 @@ class ResponseRepository {
     public function get_summary( ?int $form_id = null ) {
         $form_meta_table = FormMeta::get_table_name();
 
+        $total_completion_time_query = <<<SQL
+        SUM(
+            CASE
+                WHEN response.is_completed = '1' THEN TIME_TO_SEC(
+                    TIMEDIFF( response.updated_at, response.created_at )
+                )
+                ELSE 0
+            END
+        ) AS total_completion_time
+SQL;
+
         $base_query = Response::query( 'response' )
             ->select( 
                 [
@@ -124,7 +135,7 @@ class ResponseRepository {
                     "COUNT( response.form_id ) AS total_stared",
                     "SUM( CASE WHEN response.is_completed = '1' THEN 1 ELSE 0 END ) AS total_finished",
                     "form_meta.meta_value AS total_views",
-                    "ROUND( AVG( TIME_TO_SEC( TIMEDIFF( response.updated_at, response.created_at ) ) ), 0 ) AS average_completion_time",
+                    $total_completion_time_query,
                 ]
             )
             ->left_join(
@@ -135,12 +146,10 @@ class ResponseRepository {
                 }
             );
 
-        $group_by = 'response.form_id';
-
         if ( $form_id ) {
             $base_query->where( 'response.form_id', $form_id );
         }
 
-        return $base_query->group_by( $group_by )->get();
+        return $base_query->group_by( 'response.form_id' );
     }
 }
