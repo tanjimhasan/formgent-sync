@@ -150,6 +150,6 @@ SQL;
             $base_query->where( 'response.form_id', $form_id );
         }
 
-        return $base_query->group_by( 'response.form_id' );
+        return $base_query->group_by( 'response.form_id' )->get();
     }
 }
