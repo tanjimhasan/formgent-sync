@@ -51,6 +51,7 @@ export default function MainContent( props ) {
 		( event ) =>
 			handleDragStart(
 				event,
+				id,
 				fields,
 				updateFormFields,
 				currentDragFieldRef,
@@ -64,6 +65,7 @@ export default function MainContent( props ) {
 		( event ) =>
 			handleDragOver(
 				event,
+				id,
 				fields,
 				spacerInsertedRef,
 				updateFormFields
@@ -75,6 +77,7 @@ export default function MainContent( props ) {
 		( event ) =>
 			handleDragEnd(
 				event,
+				id,
 				fields,
 				currentDragFieldRef,
 				spacerInsertedRef,

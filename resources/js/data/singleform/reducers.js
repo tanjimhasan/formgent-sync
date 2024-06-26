@@ -5,13 +5,19 @@ const DEFAULT_STATE = {
 	isCreatingForm: false,
 	isLoading: false,
 	isUpdatingForm: false,
+	pagination: {
+		current_page: '1',
+		total_pages: '1',
+		total_items: '0',
+	},
 	activeCustomizerTab: 'element',
 	activeField: '',
 	error: null,
 };
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
-	const { type, isLoading, data, error } = action;
+	const { type, isLoading, data, currentPage, error } = action;
+
 	let fieldList = {};
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
@@ -22,9 +28,11 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'CREATE_FORM_SUCCESS':
 			return {
 				...state,
-				singleForm: {
-					...state.singleForm,
-					data,
+				forms: {
+					...state.forms,
+					[ action.id ]: {
+						data,
+					},
 				},
 			};
 		case 'CREATE_FORM_ERROR':
@@ -63,16 +71,20 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				activeCustomizerTab: action?.activeTab,
 			};
 		case 'ADD_FIELD_AFTER':
-			fieldList = structuredClone( state?.singleForm?.content?.fields );
+			fieldList = structuredClone(
+				state?.forms[ state.selectedFormId ]?.content?.fields
+			);
 			fieldList.splice( action.index + 1, 0, action.field );
-
 			return {
 				...state,
-				singleForm: {
-					...state.singleForm,
-					content: {
-						...state.singleForm.content,
-						fields: fieldList,
+				forms: {
+					...state.forms,
+					[ state.selectedFormId ]: {
+						...state.forms[ state.selectedFormId ],
+						content: {
+							...state.forms[ state.selectedFormId ].content,
+							fields: fieldList,
+						},
 					},
 				},
 			};
@@ -129,6 +141,20 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				},
 				singleForm: action.singleForm,
 			};
+		case 'RESPONSE_STORE':
+			return {
+				...state,
+				...data,
+			};
+
+		case 'UPDATE_CURRENT_RESPONSE_PAGE':
+			return {
+				...state,
+				pagination: {
+					...state.pagination,
+					current_page: currentPage,
+				},
+			};
 		case 'SELECT_FORM':
 			return {
 				...state,
@@ -142,13 +168,23 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'FORM_FIELDS_UPDATE':
 			return {
 				...state,
-				singleForm: {
-					...state.singleForm,
-					content: {
-						...state.singleForm.content,
-						fields: data,
+				forms: {
+					...state.forms,
+					[ action.id ]: {
+						...state.forms[ action.id ],
+						content: {
+							...state.forms[ action.id ].content,
+							fields: data,
+						},
 					},
 				},
+				// singleForm: {
+				// 	...state.singleForm,
+				// 	content: {
+				// 		...state.singleForm.content,
+				// 		fields: data,
+				// 	},
+				// },
 			};
 		case 'UPDATE_FIELD_LABEL':
 			fieldList = structuredClone( state?.singleForm?.content?.fields );

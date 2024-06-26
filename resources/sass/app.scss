@@ -647,7 +647,24 @@ a.formgent-btn-disabled {
 
 // antd default style
 .ant-dropdown {
-	width: 175px;
+	width: 225px;
+}
+.ant-dropdown-menu-title-content {
+	.dropdown-header-content {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+	}
+}
+.ant-dropdown-menu-item-group-title {
+	padding: 15px;
+	margin: 0 0 8px;
+	background: var(--formgent-color-bg-light);
+	span {
+		font-size: 14px;
+		font-weight: 600;
+		color: var(--formgent-color-dark);
+	}
 }
 
 .formgent-editor-inserter__field {

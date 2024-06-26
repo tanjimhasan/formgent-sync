@@ -25,10 +25,11 @@ export const SingleFormActions = {
 		};
 	},
 
-	createFormSuccess: ( data ) => {
+	createFormSuccess: ( data, id ) => {
 		return {
 			type: 'CREATE_FORM_SUCCESS',
 			data,
+			id,
 		};
 	},
 
@@ -81,11 +82,12 @@ export const SingleFormActions = {
 		};
 	},
 
-	addFieldAfter: ( field, index ) => {
+	addFieldAfter: ( field, index, formId ) => {
 		return {
 			type: 'ADD_FIELD_AFTER',
 			field,
 			index,
+			formId,
 		};
 	},
 
@@ -121,6 +123,37 @@ export const SingleFormActions = {
 		};
 	},
 
+	/**
+	 * Action creator to handle successful form fetch
+	 * @param {String} path - path for requesting api
+	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
+	 */
+	fetchResponse: ( path, currentPage, perPage, formID ) => {
+		return {
+			type: 'FETCH_RESPONSE',
+			payload: { path, currentPage, perPage, formID },
+		};
+	},
+
+	/**
+	 * Action creator to handle store form data
+	 * @param {Object} data - The fetched form data
+	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
+	 */
+	storeResponse: ( data ) => {
+		return {
+			type: 'RESPONSE_STORE',
+			data,
+		};
+	},
+
+	updateCurrentResponsePage: ( currentPage ) => {
+		return {
+			type: 'UPDATE_CURRENT_RESPONSE_PAGE',
+			currentPage,
+		};
+	},
+
 	selectForm: ( formId ) => {
 		return {
 			type: 'SELECT_FORM',
@@ -141,14 +174,15 @@ export const SingleFormActions = {
 	},
 
 	/**
-	 * Action to updae form fields
+	 * Action to update form fields
 	 * @param {Object} data - updated
 	 * @returns {Object} Action object with type 'FORM_FIELDS_UPDATE' and updated data
 	 */
-	updateFormFields: ( data ) => {
+	updateFormFields: ( data, id ) => {
 		return {
 			type: 'FORM_FIELDS_UPDATE',
 			data,
+			id,
 		};
 	},
 

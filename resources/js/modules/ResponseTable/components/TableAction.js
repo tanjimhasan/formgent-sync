@@ -1,19 +1,18 @@
 import AntDropdown from '@formgent/components/Dropdown';
-import PopUp from '@formgent/components/PopUp';
+import AntModal from '@formgent/components/Modal';
 import deleteData from '@formgent/helper/deleteData';
 import ellipsisV from '@icon/ellipsis-v.svg';
 import penNib from '@icon/pen-nib.svg';
 import trash from '@icon/trash.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
-import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import FormDeleteAlert from './FormDeleteAlert';
 export default function TableAction( props ) {
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
-	const { form, editableForm, setEditableForm } = props;
+	const { type, responseData } = props;
 
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
@@ -26,30 +25,25 @@ export default function TableAction( props ) {
 
 	function handleActivateEditor( e ) {
 		e.preventDefault();
-		const editableForm = {
-			id: form.id,
-			title: form.title,
+		const editableResponseData = {
+			id: responseData.id,
+			title: responseData.title,
 		};
-		setEditableForm( editableForm );
 	}
 
 	function handleActivateDeleteFormModal() {
 		setIsActivateFormDeleteModal( true );
 	}
 
-	const items = applyFilters( 'formgent_form_table_action', [
+	const actionsItems = [
 		{
 			key: '1',
 			label: (
 				<a onClick={ handleActivateEditor }>
-					<ReactSVG src={ penNib } /> { __( 'Rename', 'formgent' ) }
+					<ReactSVG src={ penNib } /> { __( 'Edit', 'formgent' ) }
 				</a>
 			),
 		},
-		// {
-		// 	key: '2',
-		// 	label: __( 'Duplicate', 'formgent' ),
-		// },
 		{
 			type: 'divider',
 		},
@@ -57,11 +51,30 @@ export default function TableAction( props ) {
 			key: '3',
 			label: (
 				<a onClick={ handleActivateDeleteFormModal }>
-					<ReactSVG src={ trash } /> { __( 'Delete', 'formgent' ) }
+					<ReactSVG src={ trash } width="16" height="16" />{ ' ' }
+					{ __( 'Delete', 'formgent' ) }
 				</a>
 			),
 		},
-	] );
+	];
+
+	function handleSortby( key ) {
+		console.log( 'Handle Sortby Clicked', key );
+	}
+
+	const sortbyItems = [
+		{
+			key: 'name',
+			label: <a onClick={ () => handleSortby( 'name' ) }>Sortby Name</a>,
+		},
+		{
+			type: 'divider',
+		},
+		{
+			key: 'type',
+			label: <a onClick={ () => handleSortby( 'type' ) }>Sortby Type</a>,
+		},
+	];
 
 	function handleCancelDeleteAlert() {
 		setIsActivateFormDeleteModal( false );
@@ -71,10 +84,11 @@ export default function TableAction( props ) {
 		if ( isFormDeleting ) return;
 		deleteFormRequest();
 		try {
+			// Delete responseData (Need to delete responseTable data)
 			const formDeleteResponse = await deleteData(
-				`admin/forms/${ form.id }`
+				`admin/forms/${ responseData.id }`
 			);
-			deleteFormSuccess( form.id );
+			deleteFormSuccess( responseData.id );
 			setIsActivateFormDeleteModal( false );
 		} catch ( error ) {
 			deleteFormError( error );
@@ -84,7 +98,9 @@ export default function TableAction( props ) {
 	return (
 		<div className="formgent-table-action">
 			<AntDropdown
-				menu={ { items } }
+				menu={ {
+					items: type === 'sortby' ? sortbyItems : actionsItems,
+				} }
 				trigger={ [ 'click' ] }
 				placement="bottomRight"
 				overlayStyle={ { minWidth: '240px' } }
@@ -94,13 +110,11 @@ export default function TableAction( props ) {
 				</a>
 			</AntDropdown>
 			{ isActivateFormDeleteModal && (
-				<PopUp
-					title={ __( 'Delete Form', 'formgent' ) }
+				<AntModal
+					open={ isActivateFormDeleteModal }
+					title={ __( 'Delete responseData', 'formgent' ) }
 					onCancel={ handleCancelDeleteAlert }
-					onSubmit={ handleDeleteForm }
-					hasCancelButton
-					hasSubmitButton
-					isActiveSubmit
+					onOk={ handleDeleteForm }
 					submitText={
 						isFormDeleting
 							? __( 'Deleting', 'formgent' )
@@ -110,9 +124,9 @@ export default function TableAction( props ) {
 				>
 					<FormDeleteAlert
 						// error={ formDeletionError }
-						formTitle={ form.title }
+						formTitle={ responseData.title }
 					/>
-				</PopUp>
+				</AntModal>
 			) }
 		</div>
 	);

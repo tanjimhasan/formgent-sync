@@ -19,7 +19,7 @@ export default async function handleCreateForm(
 
 	try {
 		const createFormResponse = await postData( 'admin/forms', formData );
-		createFormSuccess( formData );
+		createFormSuccess( formData, createFormResponse?.form?.id );
 		updateForms( createFormResponse.form );
 		updateCreatePopUp( false );
 		navigate( `/forms/${ createFormResponse?.form?.id }/edit` );

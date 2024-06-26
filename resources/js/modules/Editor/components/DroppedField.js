@@ -39,9 +39,23 @@ const DroppedField = ( {
 		addFieldAfter,
 	} = useDispatch( 'formgent' );
 
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+	const { useParams } = CommonReducer.routerComponents;
+
+	const { id: formId } = useParams();
+
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
+
+	const { singleForm } = useSelect(
+		( select ) => {
+			return { singleForm: select( 'formgent' ).getSingleForm( formId ) };
+		},
+		[ formId ]
+	);
 
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable( {
@@ -63,13 +77,13 @@ const DroppedField = ( {
 	//Shift field to up index
 	function handleShiftUp() {
 		const updatedFields = arrayMove( fields, index, index - 1 );
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}
 
 	//Shift field to down index
 	function handleShiftDown() {
 		const updatedFields = arrayMove( fields, index, index + 1 );
-		updateFormFields( updatedFields );
+		updateFormFields( updatedFields, formId );
 	}
 
 	//Duplicatefield
@@ -96,13 +110,13 @@ const DroppedField = ( {
 	}
 
 	function handleAddNewFieldInititalAfter( field ) {
-		const { fields } = SingleFormReducer.singleForm.content;
+		const { fields } = singleForm.content;
 		const newField = {
 			...field,
 			id: nanoid( 10 ),
 			name: `${ field.type }${ fields.length }`,
 		};
-		addFieldAfter( newField, index );
+		addFieldAfter( newField, index, formId );
 	}
 
 	const fieldListPopoverContent = (
@@ -144,6 +158,8 @@ const DroppedField = ( {
 	useEffect( () => {
 		checkClickedOutside( domStatus, setDomStatus, contentRef );
 	}, [ domStatus ] );
+
+	console.log( fields.length );
 
 	return field.type === 'spacer' ? (
 		<div

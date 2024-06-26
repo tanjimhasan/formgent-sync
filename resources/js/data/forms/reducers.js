@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
 	isFormBulkDeleting: false,
 	isTitleUpdating: false,
 	error: null,
+	responseTableData: {},
 };
 
 export const FormReducer = ( state = DEFAULT_STATE, action ) => {

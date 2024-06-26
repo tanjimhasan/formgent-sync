@@ -33,7 +33,7 @@ class ResponseRepository {
 
         do_action( 'formgent_responses_count_query', $count_query, $dto );
 
-        $select_columns = ['response.id', 'response.form_id', 'form.title as form_title', 'response.is_read', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
+        $select_columns = ['response.id', 'response.form_id', 'form.title as form_title', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
 
         /**
          * Get response answers from answer table by select field ids

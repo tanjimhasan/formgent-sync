@@ -12,11 +12,26 @@ import { AntButton } from '@formgent/components';
 export default function DropableBox( props ) {
 	const { fields, rootFields, setRootFields } = props;
 	const { updateActiveField } = useDispatch( 'formgent' );
+
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+	const { useParams } = CommonReducer.routerComponents;
+
+	const { id: formId } = useParams();
+
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { singleForm, activeField } = SingleFormReducer;
+	const { singleForm } = useSelect(
+		( select ) => {
+			return { singleForm: select( 'formgent' ).getSingleForm( formId ) };
+		},
+		[ formId ]
+	);
+
+	const { activeField } = SingleFormReducer;
 
 	const { listeners, setNodeRef, transform, transition } = useDroppable( {
 		id: 'canvas_droppable',

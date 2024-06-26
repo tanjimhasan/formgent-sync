@@ -7,4 +7,7 @@ export const SingleFormSelectors = {
 	getSingleFormState( SingleFormReducer ) {
 		return SingleFormReducer;
 	},
+	getSingleFormResponse( SingleFormReducer ) {
+		return SingleFormReducer;
+	},
 };
