@@ -32,7 +32,6 @@ export const SingleFormResolvers = {
 		}
 	},
 	*getSingleFormResponse( currentPage = '1', perPage = '10', formID = '1' ) {
-		console.log( 'getSingleFormResponse', currentPage, perPage, formID );
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchResponse(

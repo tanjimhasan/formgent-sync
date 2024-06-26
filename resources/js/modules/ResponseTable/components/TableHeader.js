@@ -1,4 +1,3 @@
-import { SearchOutlined } from '@ant-design/icons';
 import {
 	AntButton,
 	AntCheckbox,
@@ -21,6 +20,7 @@ import fileIcon from '@icon/file.svg';
 import filterIcon from '@icon/filter-lines.svg';
 import printIcon from '@icon/print.svg';
 import refreshIcon from '@icon/refresh.svg';
+import searchIcon from '@icon/search.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableHeader( props ) {
@@ -210,23 +210,37 @@ export default function TableHeader( props ) {
 						} }
 						placement="bottomLeft"
 					>
-						<AntButton onClick={ ( e ) => e.preventDefault() }>
+						<AntButton
+							onClick={ ( e ) => e.preventDefault() }
+							icon={
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ downloadIcon }
+								/>
+							}
+						/>
+					</AntDropdown>
+					<AntButton
+						onClick={ handlePrint }
+						icon={
 							<ReactSVG
 								width="14"
 								height="14"
-								src={ downloadIcon }
+								src={ printIcon }
 							/>
-						</AntButton>
-					</AntDropdown>
-					<AntButton onClick={ handlePrint }>
-						<ReactSVG width="14" height="14" src={ printIcon } />
-					</AntButton>
+						}
+					/>
 					<AntButton
 						onClick={ handleDelete }
-						className="formgent-table-header__delete"
-					>
-						<ReactSVG width="14" height="14" src={ trashIcon } />
-					</AntButton>
+						icon={
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ trashIcon }
+							/>
+						}
+					/>
 				</TableActionStyle>
 			) : (
 				<TableTabStyle className="formgent-table-header__tab">
@@ -241,12 +255,18 @@ export default function TableHeader( props ) {
 			<TableActionStyle className="formgent-table-header__action">
 				<AntInput
 					placeholder="Search responses"
-					prefix={ <SearchOutlined /> }
+					prefix={
+						<ReactSVG width="14" height="14" src={ searchIcon } />
+					}
 					onChange={ ( e ) => handleSearch( e.target.value ) }
 					className="formgent-table-header__search"
 				/>
-				<AntButton onClick={ handleFilter }>
-					<ReactSVG width="14" height="14" src={ filterIcon } />
+				<AntButton
+					onClick={ handleFilter }
+					icon={
+						<ReactSVG width="14" height="14" src={ filterIcon } />
+					}
+				>
 					Filters
 				</AntButton>
 
@@ -286,22 +306,28 @@ export default function TableHeader( props ) {
 							} }
 							placement="bottomRight"
 						>
-							<AntButton>
+							<AntButton
+								onClick={ ( e ) => e.preventDefault() }
+								icon={
+									<ReactSVG
+										width="14"
+										height="14"
+										src={ downloadIcon }
+									/>
+								}
+							/>
+						</AntDropdown>
+
+						<AntButton
+							onClick={ handleRefresh }
+							icon={
 								<ReactSVG
 									width="14"
 									height="14"
-									src={ downloadIcon }
+									src={ refreshIcon }
 								/>
-							</AntButton>
-						</AntDropdown>
-
-						<AntButton onClick={ handleRefresh }>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ refreshIcon }
-							/>
-						</AntButton>
+							}
+						/>
 					</>
 				) : (
 					''
