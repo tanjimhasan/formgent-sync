@@ -1,16 +1,15 @@
-import { useState } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { applyFilters } from '@wordpress/hooks';
-import ReactSVG from 'react-inlinesvg';
 import AntDropdown from '@formgent/components/Dropdown';
-import { __ } from '@wordpress/i18n';
+import PopUp from '@formgent/components/PopUp';
+import deleteData from '@formgent/helper/deleteData';
 import ellipsisV from '@icon/ellipsis-v.svg';
 import penNib from '@icon/pen-nib.svg';
 import trash from '@icon/trash.svg';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
+import ReactSVG from 'react-inlinesvg';
 import FormDeleteAlert from './FormDeleteAlert';
-import PopUp from '@formgent/components/PopUp';
-import patchData from '@formgent/helper/patchData';
-import deleteData from '@formgent/helper/deleteData';
 export default function TableAction( props ) {
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
@@ -91,7 +90,7 @@ export default function TableAction( props ) {
 				overlayStyle={ { minWidth: '240px' } }
 			>
 				<a onClick={ ( e ) => e.preventDefault() }>
-					<ReactSVG src={ ellipsisV } />
+					<ReactSVG src={ ellipsisV } width="20" height="20" />
 				</a>
 			</AntDropdown>
 			{ isActivateFormDeleteModal && (
