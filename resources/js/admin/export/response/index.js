@@ -1,6 +1,6 @@
-import { utils, write } from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { utils, write } from 'xlsx';
 
 const PrepareExportData = ( data ) => {
 	const { form, responses } = data;
@@ -173,4 +173,4 @@ const exportToPDF = ( data, fileName ) => {
 	doc.save( `${ fileName }.pdf` );
 };
 
-export { PrepareExportData, exportToSpreadsheet, exportToPDF };
+export { PrepareExportData, exportToPDF, exportToSpreadsheet };

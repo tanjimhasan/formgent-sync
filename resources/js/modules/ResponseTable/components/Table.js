@@ -492,6 +492,7 @@ export default function Table() {
 		<TableStyle>
 			<AntSpin spinning={ isLoading }>
 				<TableHeader
+					id={ id }
 					responses={ responses }
 					selectedRowKeys={ selectedRowKeys }
 					setSelectedRowKeys={ setSelectedRowKeys }
