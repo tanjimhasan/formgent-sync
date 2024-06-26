@@ -240,6 +240,7 @@ export default function TableHeader( props ) {
 								src={ trashIcon }
 							/>
 						}
+						className="formgent-table-header__delete"
 					/>
 				</TableActionStyle>
 			) : (
