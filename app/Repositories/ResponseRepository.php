@@ -150,6 +150,20 @@ SQL;
             $base_query->where( 'response.form_id', $form_id );
         }
 
-        return $base_query->group_by( 'response.form_id' )->get();
+        $results = $base_query->group_by( 'response.form_id' )->get();
+
+        foreach ( $results as $index => $item ) {
+            $average_completion_time = absint( $item->total_finished ) > 0 
+                ? absint( $item->total_completion_time ) / absint( $item->total_finished ) 
+                : 0;
+
+            $item->average_completion_time = round( $average_completion_time );
+
+            unset( $item->total_completion_time );
+
+            $results[ $index ] = $item;
+        }
+
+        return $results;
     }
 }
