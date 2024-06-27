@@ -10,7 +10,7 @@ import {
 	AntInput,
 	AntTabs,
 } from '@formgent/components';
-import { useRef, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
@@ -41,9 +41,10 @@ export default function TableHeader( props ) {
 		setActiveTab,
 	} = props;
 
-	const csvLinkRef = useRef();
 	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {} );
-	const [ csvExportedData, setCsvExportedData ] = useState( [] );
+	const [ csvExportData, setCSVExportData ] = useState( [] );
+
+	const csvLinkRef = useRef();
 
 	const apiResponse = {
 		form: {
@@ -134,16 +135,18 @@ export default function TableHeader( props ) {
 		setActiveTab( key );
 	}
 
+	function handleExportCSV( e ) {
+		e.stopPropagation();
+		setCSVExportData( PrepareExportData( apiResponse ) );
+	}
+
 	function handleDownload( { key } ) {
-		console.log( 'Download clicked', key );
-		if ( key === 'csv' ) {
-			console.log( 'CSV download' );
-			// setCsvExportedData( PrepareExportData( apiResponse ) );
-			csvLinkRef.current.link.click();
-		} else if ( key === 'pdf' ) {
+		if ( key === 'pdf' ) {
 			return exportToPDF( apiResponse, 'formgent-response' );
 		} else if ( key === 'excel' ) {
 			return exportToSpreadsheet( apiResponse, 'formgent-response' );
+		} else {
+			return;
 		}
 	}
 
@@ -239,18 +242,19 @@ export default function TableHeader( props ) {
 			key: 'csv',
 			label: (
 				<>
-					<span className="dropdown-header-content">
+					<span
+						className="dropdown-header-content"
+						onClick={ ( e ) => handleExportCSV( e ) }
+					>
 						<ReactSVG width="14" height="14" src={ fileIcon } />
 						Download as CSV
 					</span>
-
 					<CSVLink
-						data={ PrepareExportData( apiResponse ) }
-						filename={ 'formgent-responses.csv' }
-						target="_blank"
-						className="dropdown-header-content"
-						ref={ csvLinkRef }
+						data={ csvExportData }
+						filename={ 'formgent-response-list.csv' }
+						className="csv-downloader"
 						style={ { display: 'none' } }
+						ref={ csvLinkRef }
 					/>
 				</>
 			),
@@ -285,6 +289,12 @@ export default function TableHeader( props ) {
 			label: `Partial (${ totalPartialItems })`,
 		},
 	];
+
+	useEffect( () => {
+		if ( csvExportData.length ) {
+			csvLinkRef.current?.link.click();
+		}
+	}, [ csvExportData ] );
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">
