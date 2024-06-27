@@ -17,6 +17,7 @@ import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
 // Icon
+import fetchData from '@formgent/helper/fetchData';
 import checkIcon from '@icon/check-square.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
@@ -130,42 +131,69 @@ export default function TableHeader( props ) {
 		],
 	};
 
-	// Handle Tab Operations
+	// Handle Tab Change
 	function handleTabChange( key ) {
 		setActiveTab( key );
 	}
 
-	function handleExportCSV( e ) {
-		e.stopPropagation();
-		setCSVExportData( PrepareExportData( apiResponse ) );
+	// Handle Create Export Data
+	async function handleCreateExportData() {
+		const responsesToExport =
+			selectedRowKeys.length > 0
+				? selectedRowKeys
+				: responses.map( ( item ) => item.id );
+		console.log( 'responsesToExport', responsesToExport );
+		return await fetchData(
+			`admin/responses/export?form_id=${ id }&response_ids[]=${ responsesToExport }`
+		);
 	}
 
-	function handleDownload( { key } ) {
-		if ( key === 'pdf' ) {
-			return exportToPDF( apiResponse, 'formgent-response' );
-		} else if ( key === 'excel' ) {
-			return exportToSpreadsheet( apiResponse, 'formgent-response' );
+	// Handle Download
+	async function handleDownload( { key } ) {
+		const exportedData = await handleCreateExportData();
+		if ( exportedData ) {
+			if ( key === 'pdf' ) {
+				return exportToPDF( exportedData, 'formgent-response' );
+			} else if ( key === 'excel' ) {
+				return exportToSpreadsheet( exportedData, 'formgent-response' );
+			} else {
+				return;
+			}
 		} else {
-			return;
+			console.error( 'No data to export' );
 		}
 	}
 
+	// Handle Export CSV
+	async function handleExportCSV( e ) {
+		e.stopPropagation();
+		const exportedData = await handleCreateExportData();
+		if ( exportedData ) {
+			setCSVExportData( PrepareExportData( exportedData ) );
+		}
+	}
+
+	// Handle Search
 	function handleSearch( value ) {
 		console.log( 'Search:', value );
 	}
 
+	// Handle Print
 	function handlePrint() {
 		console.log( 'Print clicked' );
 	}
 
+	// Handle Delete
 	function handleDelete() {
 		console.log( 'Delete clicked', selectedRowKeys );
 	}
 
+	// Handle Filter
 	function handleFilter() {
 		console.log( 'Filter clicked' );
 	}
 
+	// Handle Refresh
 	function handleRefresh() {
 		console.log( 'Refresh clicked' );
 	}
@@ -178,14 +206,17 @@ export default function TableHeader( props ) {
 		} );
 	}
 
+	// Handle Bulk Selection
 	function handleBulkSelection() {
 		setSelectedRowKeys( responses?.map( ( item ) => item.id ) );
 	}
 
+	// Handle Clear Selection
 	function handleClearSelection() {
 		setSelectedRowKeys( [] );
 	}
 
+	// Column Items
 	const columnItems = applyFilters( 'formgent_response_column', [
 		{
 			label: (
@@ -237,6 +268,7 @@ export default function TableHeader( props ) {
 		},
 	] );
 
+	// Download Items
 	const downloadItems = [
 		{
 			key: 'csv',
@@ -279,6 +311,7 @@ export default function TableHeader( props ) {
 		},
 	];
 
+	// Tab Items
 	const tabItems = [
 		{
 			key: 'completed',
@@ -290,6 +323,7 @@ export default function TableHeader( props ) {
 		},
 	];
 
+	// Export CSV Data
 	useEffect( () => {
 		if ( csvExportData.length ) {
 			csvLinkRef.current?.link.click();
