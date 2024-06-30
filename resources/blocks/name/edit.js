@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { InspectorControls } from '@wordpress/block-editor';
 import Controls from '../controls';
+import { setUniqueNameAndId } from '../utils';
 
 const controls = [
 	{
@@ -40,6 +41,8 @@ const controls = [
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
+	setUniqueNameAndId( attributes, setAttributes );
+
 	return (
 		<>
 			<p { ...useBlockProps() }>{ attributes.content }</p>

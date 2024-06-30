@@ -5,13 +5,6 @@ import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import Edit from './edit';
 
-const attributes = {
-	formId: {
-		type: 'string',
-		default: '0',
-	},
-};
-
 const exampleAttributes = {
 	// formId: {
 	// 	type: 'string',
@@ -23,7 +16,7 @@ registerBlockType( 'formgent/form', {
 	title: __( 'Form', 'formgent' ),
 	icon: 'smiley',
 	category: 'formgent',
-	attributes: attributes,
+	attributes: formgent_blocks[ 'formgent/name' ].attrs,
 	example: {
 		attributes: exampleAttributes,
 	},

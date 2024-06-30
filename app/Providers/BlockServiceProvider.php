@@ -17,7 +17,7 @@ class BlockServiceProvider implements Provider {
     public function action_init() : void {
         foreach ( formgent_config( 'blocks' ) as $block_name => $block_data ) {
             register_block_type(
-                "formgent/{$block_name}", [
+                "{$block_name}", [
                     'editor_script'   => 'formgent/block/editor',
                     'editor_style'    => 'formgent/block/editor',
                     'script'          => 'formgent/block/frontend',
@@ -25,15 +25,11 @@ class BlockServiceProvider implements Provider {
                     'title'           => $block_data['title'],
                     'render_callback' => function( $attributes ) use( $block_name ) {
                         ob_start();
-                        include formgent()->get_dir( "resources/blocks/{$block_name}/render.php" );
+                        $name = ltrim( $block_name, 'formgent' );
+                        include formgent()->get_dir( "resources/blocks{$name}/render.php" );
                         return ob_get_clean();
                     },
-                    'attributes'      => [
-                        'formId' => [
-                            'type'    => 'string',
-                            'default' => '0',
-                        ]
-                    ],
+                    'attributes'      => $block_data['attrs']
                 ]
             );
         }
