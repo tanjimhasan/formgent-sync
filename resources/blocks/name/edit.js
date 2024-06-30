@@ -3,15 +3,53 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
+import Controls from '../controls';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
+const controls = [
+	{
+		type: 'panel',
+		label: 'Basic info',
+		children: [
+			{
+				type: 'text',
+				attr_key: 'label',
+				label: __( 'Label', 'formgent' ),
+			},
+			{
+				type: 'select',
+				attr_key: 'format',
+				label: __( 'Format', 'formgent' ),
+				options: [
+					{
+						label: __( 'Full Name', 'formgent' ),
+						value: 'full_name',
+					},
+					{
+						label: __( 'First and Last', 'formgent' ),
+						value: 'first_last',
+					},
+					{
+						label: __( 'First, Middle, and Last', 'formgent' ),
+						value: 'first_middle_last',
+					},
+				],
+			},
+		],
+	},
+];
+
 export default function Edit( { attributes, setAttributes } ) {
-	return <p { ...useBlockProps() }>{ attributes.content }</p>;
+	return (
+		<>
+			<p { ...useBlockProps() }>{ attributes.content }</p>
+			<InspectorControls>
+				<Controls
+					controls={ controls }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			</InspectorControls>
+		</>
+	);
 }

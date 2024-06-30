@@ -11,6 +11,14 @@ const attributes = {
 		type: 'string',
 		default: 'Content for edit',
 	},
+	label: {
+		type: 'string',
+		default: 'Hello World',
+	},
+	format: {
+		type: 'string',
+		default: 'first_last',
+	},
 };
 
 const exampleAttributes = {
