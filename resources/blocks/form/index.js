@@ -13,10 +13,10 @@ const attributes = {
 };
 
 const exampleAttributes = {
-	formId: {
-		type: 'string',
-		default: '0',
-	},
+	// formId: {
+	// 	type: 'string',
+	// 	default: '0',
+	// },
 };
 
 registerBlockType( 'formgent/form', {
