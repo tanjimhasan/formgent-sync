@@ -1,9 +1,15 @@
+/**
+ * Internal dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { InspectorControls } from '@wordpress/block-editor';
+import Controls from './controls';
 import { useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { select } from '@wordpress/data';
 
-export function setUniqueNameAndId( attributes, setAttributes ) {
+export default function Block( { controls, Edit, attributes, setAttributes } ) {
 	useEffect( () => {
 		/**
 		 * If id length is empty, that's mean it's a new block.
@@ -27,4 +33,17 @@ export function setUniqueNameAndId( attributes, setAttributes ) {
 			name: name,
 		} );
 	}, [] );
+
+	return (
+		<>
+			<Edit attributes={ attributes } setAttributes={ setAttributes } />
+			<InspectorControls>
+				<Controls
+					controls={ controls }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			</InspectorControls>
+		</>
+	);
 }
