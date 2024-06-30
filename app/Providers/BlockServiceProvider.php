@@ -28,6 +28,12 @@ class BlockServiceProvider implements Provider {
                         include formgent()->get_dir( "resources/blocks/{$block_name}/render.php" );
                         return ob_get_clean();
                     },
+                    'attributes'      => [
+                        'formId' => [
+                            'type'    => 'string',
+                            'default' => '0',
+                        ]
+                    ],
                 ]
             );
         }

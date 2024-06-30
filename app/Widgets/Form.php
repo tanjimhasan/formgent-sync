@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use FormGent\WpMVC\View\View;
 
 class Form extends Widget_Base {
     public static function get_type() {
@@ -51,8 +52,18 @@ class Form extends Widget_Base {
         if ( '0' === $settings['form_id'] ) {
             return;
         }
-        ?>
-            <div class="formgent formgent-elementor-widget" data-form_id="<?php formgent_render( $settings['form_id'] )?>">Selected Form Id is <?php formgent_render( $settings['form_id'] ) ?></div>
-        <?php
+
+        $post = get_post( $settings['form_id'] );
+
+        if ( empty( $post ) ) {
+            echo "Form not found";
+            return;
+        }
+
+        View::render(
+            'form', [
+                'fields' => do_blocks( $post->post_content )
+            ]
+        );
     }
 }

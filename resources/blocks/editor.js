@@ -1,1 +1,5 @@
-require( './name' );
+require( './form' );
+
+if ( 'formgent_form' === typenow ) {
+	require( './name' );
+}

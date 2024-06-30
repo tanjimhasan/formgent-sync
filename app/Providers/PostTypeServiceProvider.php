@@ -23,19 +23,22 @@ class PostTypeServiceProvider implements Provider {
      * @return array[] Array of categories for block types.
      */
     public function filter_block_categories_all( array $block_categories, \WP_Block_Editor_Context $block_editor_context ) : array {
-        if ( empty( $block_editor_context->post->post_type ) || formgent_app_config( 'post_type' ) !== $block_editor_context->post->post_type ) {
-            return $block_categories;
-        }
-
         $block_categories[] = [
-            'slug'  => 'formgent_fields',
-            'title' => esc_html__( 'Fields', 'formgent' )
+            'slug'  => 'formgent',
+            'title' => esc_html__( 'FormGent', 'formgent' ),
+            'icon'  => ''
         ];
     
         return $block_categories;
     }
 
     public function filter_the_content( string $content ) : string {
+        global $post;
+
+        if ( $post->post_type !==  formgent_app_config( 'post_type' ) ) {
+            return $content;
+        }
+
         return View::get(
             'form', [
                 'fields' => $content
@@ -103,17 +106,16 @@ class PostTypeServiceProvider implements Provider {
         if ( empty( $editor_context->post->post_type ) || formgent_app_config( 'post_type' ) !== $editor_context->post->post_type ) {
             return $allowed_block_types;
         }
-
-        // 'core/paragraph',
-        // 'core/image',
-        // 'core/heading',
+        
+        $blocks = formgent_config( 'blocks' );
+        unset( $blocks['form'] );
 
         return apply_filters(
             'formgent_allowed_blocks', 
             array_map(
-                function( $block ) {
-                    return "formgent/{$block}";
-                }, array_keys( formgent_config( 'blocks' ) )
+                function( $block_type ) {
+                    return "formgent/{$block_type}";
+                }, array_keys( $blocks )
             )
         );
     }

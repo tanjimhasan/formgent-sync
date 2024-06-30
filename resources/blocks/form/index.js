@@ -3,34 +3,29 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
-
 import Edit from './edit';
 
 const attributes = {
-	content: {
+	formId: {
 		type: 'string',
-		default: 'Content for edit',
+		default: '0',
 	},
 };
 
 const exampleAttributes = {
-	content: 'Sample content for preview',
+	formId: {
+		type: 'string',
+		default: '0',
+	},
 };
 
-registerBlockType( 'formgent/name', {
-	title: __( 'Name', 'formgnet' ),
-	category: 'formgent',
+registerBlockType( 'formgent/form', {
+	title: __( 'Form', 'formgent' ),
 	icon: 'smiley',
-	description: 'FormGent Name Field',
-	supports: {
-		html: false,
-	},
-	attributes,
+	category: 'formgent',
+	attributes: attributes,
 	example: {
 		attributes: exampleAttributes,
 	},
-	/**
-	 * @see ./edit.js
-	 */
 	edit: Edit,
 } );

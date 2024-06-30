@@ -11,6 +11,7 @@ use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Models\Answer;
 use FormGent\App\Models\Form;
+use FormGent\App\Models\Post;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
@@ -358,7 +359,7 @@ class FormController extends Controller {
     public function select( Validator $validator, WP_REST_Request $wp_rest_request ) {
         return Response::send(
             [
-                'forms' => Form::query( 'form' )->select( 'form.title as label', 'form.id as value' )->where( 'form.status', 'publish' )->order_by_desc( 'form.id' )->get()
+                'forms' => Post::query( 'form' )->select( 'form.post_title as label', 'form.ID as value' )->where( 'form.post_type', formgent_app_config( 'post_type' ) )->where( 'form.post_status', 'publish' )->order_by_desc( 'form.id' )->get()
             ]
         );
     }
