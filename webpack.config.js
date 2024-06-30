@@ -31,6 +31,14 @@ module.exports = {
 		'js/modules': './resources/js/modules/index.js',
 		'js/components': './resources/js/components/index.js',
 		'css/app': './resources/sass/app.scss',
+
+		/**
+		 * Block scripts
+		 */
+		'js/block/editor': './resources/blocks/editor.js',
+		'js/block/frontend': './resources/blocks/frontend.js',
+		'css/block/frontend': './resources/blocks/frontend.scss',
+		'css/block/editor': './resources/blocks/editor.scss',
 	},
 	output: {
 		path: path.resolve( __dirname, './assets/build/' ),

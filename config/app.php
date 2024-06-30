@@ -6,6 +6,7 @@ use FormGent\App\Http\Middleware\EnsureIsUserAdmin;
 use FormGent\App\Providers\BlockServiceProvider;
 use FormGent\App\Providers\ElementorServiceProvider;
 use FormGent\App\Providers\FontFamilyServiceProvider;
+use FormGent\App\Providers\PostTypeServiceProvider;
 use FormGent\App\Providers\Admin\MenuServiceProvider;
 use FormGent\App\Providers\ShortCodeServiceProvider;
 use FormGent\WpMVC\App;
@@ -27,7 +28,8 @@ return [
         ShortCodeServiceProvider::class,
         ElementorServiceProvider::class,
         BlockServiceProvider::class,
-        FontFamilyServiceProvider::class
+        FontFamilyServiceProvider::class,
+        PostTypeServiceProvider::class
     ],
 
     'admin_providers'         => [
@@ -37,6 +39,8 @@ return [
     'middleware'              => [
         'admin' => EnsureIsUserAdmin::class
     ],
+
+    'post_type'               => 'formgent_form',
 
     'migration_db_option_key' => 'formgent_migrations',
 
