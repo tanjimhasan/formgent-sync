@@ -4,8 +4,8 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import Edit from './edit';
 import Block from '../block';
+import Edit from './Edit';
 
 const exampleAttributes = {
 	content: 'Sample content for preview',
