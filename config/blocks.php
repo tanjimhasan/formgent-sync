@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return [
-    'formgent/form' => [
+    'formgent/form'  => [
         'title' => esc_html__( 'Form', 'formgent' ),
         'attrs' => [
             'formId' => [
@@ -12,7 +12,7 @@ return [
             ]
         ],
     ],
-    'formgent/name' => [
+    'formgent/name'  => [
         'title' => esc_html__( 'Name', 'formgent' ),
         'types' => ['general', 'conversational'],
         'attrs' => [
@@ -37,5 +37,27 @@ return [
                 'default' => 'first_last',
             ],
         ]
-    ]
+    ],
+    'formgent/email' => [
+        'title' => esc_html__( 'Email', 'formgent' ),
+        'types' => ['general', 'conversational'],
+        'attrs' => [
+            'id'    => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'  => [
+                'type'    => 'string',
+                'default' => 'email',
+            ],
+            'label' => [
+                'type'    => 'string',
+                'default' => 'Email',
+            ],
+            'value' => [
+                'type'    => 'string',
+                'default' => 'test@email.com',
+            ],
+        ]
+    ],
 ];
