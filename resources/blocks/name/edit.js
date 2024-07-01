@@ -51,7 +51,6 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<div { ...useBlockProps() }>
-			{ /* <pre>{ JSON.stringify( attributes, null, 2 ) }</pre> */ }
 			<h4>{ attributes.label }</h4>
 			{ attributes.format === 'full_name' ? (
 				<div className="formgent-form-group">
