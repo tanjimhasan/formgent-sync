@@ -10,9 +10,9 @@ use FormGent\WpMVC\Contracts\Provider;
 class PostTypeServiceProvider implements Provider {
     public function boot() {
         add_action( 'init', [$this, 'register_post_type'] );
-        // add_filter( 'allowed_block_types_all', [$this, 'allow_blocks_for_formgent_form'], 10, 2 );
+        add_filter( 'allowed_block_types_all', [$this, 'allow_blocks_for_formgent_form'], 10, 2 );
         add_filter( 'the_content', [$this, 'filter_the_content'] );
-        // add_filter( 'block_categories_all', [$this, 'filter_block_categories_all'], 10, 2 );
+        add_filter( 'block_categories_all', [$this, 'filter_block_categories_all'], 10, 2 );
     }
 
     /**
@@ -108,15 +108,8 @@ class PostTypeServiceProvider implements Provider {
         }
         
         $blocks = formgent_config( 'blocks' );
-        unset( $blocks['form'] );
+        unset( $blocks['formgent/form'] );
 
-        return apply_filters(
-            'formgent_allowed_blocks', 
-            array_map(
-                function( $block_type ) {
-                    return "formgent/{$block_type}";
-                }, array_keys( $blocks )
-            )
-        );
+        return apply_filters( 'formgent_allowed_blocks',  array_keys( $blocks ) );
     }
 }
