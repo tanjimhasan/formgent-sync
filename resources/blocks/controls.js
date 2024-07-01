@@ -2,7 +2,7 @@ import { PanelBody, SelectControl } from '@wordpress/components';
 import { __experimentalInputControl as InputControl } from '@wordpress/components';
 
 const controlGenerators = {
-	panel: function ( control, attributes, setAttributes ) {
+	panel: function ( { control, attributes, setAttributes } ) {
 		return (
 			<PanelBody title={ control.label }>
 				<Controls
@@ -13,28 +13,28 @@ const controlGenerators = {
 			</PanelBody>
 		);
 	},
-	text: function ( control, attributes, setAttributes ) {
+	text: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<>
 				<label>{ control.label }</label>
 				<InputControl
-					value={ attributes[ control.attr_key ] }
+					value={ attributes[ attr_key ] }
 					onChange={ ( value ) =>
-						setAttributes( { [ control.attr_key ]: value } )
+						setAttributes( { [ attr_key ]: value } )
 					}
 				/>
 			</>
 		);
 	},
-	select: function ( control, attributes, setAttributes ) {
+	select: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<>
 				<label>{ control.label }</label>
 				<SelectControl
-					value={ attributes[ control.attr_key ] }
+					value={ attributes[ attr_key ] }
 					options={ control.options }
 					onChange={ ( value ) =>
-						setAttributes( { [ control.attr_key ]: value } )
+						setAttributes( { [ attr_key ]: value } )
 					}
 				/>
 			</>
@@ -43,11 +43,17 @@ const controlGenerators = {
 };
 
 export default function Controls( { controls, attributes, setAttributes } ) {
-	return controls.map( ( control ) => {
-		return controlGenerators[ control.type ](
-			control,
-			attributes,
-			setAttributes
+	return Object.keys( controls ).map( ( key ) => {
+		const control = controls[ key ];
+		const ControlView = controlGenerators[ control[ 'type' ] ];
+		return (
+			<ControlView
+				key={ key }
+				attr_key={ key }
+				control={ control }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
 		);
 	} );
 }

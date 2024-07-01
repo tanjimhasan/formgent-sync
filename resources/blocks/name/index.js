@@ -11,19 +11,17 @@ const exampleAttributes = {
 	content: 'Sample content for preview',
 };
 
-const controls = [
-	{
+const controls = {
+	basic_info: {
 		type: 'panel',
 		label: __( 'Basic info', 'formgent' ),
-		children: [
-			{
+		children: {
+			label: {
 				type: 'text',
-				attr_key: 'label',
 				label: __( 'Label', 'formgent' ),
 			},
-			{
+			format: {
 				type: 'select',
-				attr_key: 'format',
 				label: __( 'Format', 'formgent' ),
 				options: [
 					{
@@ -40,9 +38,9 @@ const controls = [
 					},
 				],
 			},
-		],
+		},
 	},
-];
+};
 
 registerBlockType( 'formgent/name', {
 	title: __( 'Name', 'formgent' ),
