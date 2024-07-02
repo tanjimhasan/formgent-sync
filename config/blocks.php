@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Name\Name;
+use FormGent\App\Fields\Email\Email;
 
 return [
     'formgent/form'  => [
@@ -15,16 +16,13 @@ return [
         ],
     ],
     'formgent/name'  => [
-        'title' => esc_html__( 'Name', 'formgent' ),
-        'types' => ['general', 'conversational'],
-        'attrs' => [
+        'title'      => esc_html__( 'Name', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Name::get_key(),
+        'attrs'      => [
             'id'      => [
                 'type'    => 'string',
                 'default' => '',
-            ],
-            'type'    => [
-                'type'    => 'string',
-                'default' => Name::get_key(),
             ],
             'name'    => [
                 'type'    => 'string',
@@ -45,9 +43,10 @@ return [
         ]
     ],
     'formgent/email' => [
-        'title' => esc_html__( 'Email', 'formgent' ),
-        'types' => ['general', 'conversational'],
-        'attrs' => [
+        'title'      => esc_html__( 'Email', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Email::get_key(),
+        'attrs'      => [
             'id'    => [
                 'type'    => 'string',
                 'default' => '',

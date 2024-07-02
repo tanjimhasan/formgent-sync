@@ -206,7 +206,8 @@ function formgent_get_form_field_settings( $post ) {
             $default_values[$key] = $attr['default'];
         }
 
-        $block_value = array_merge( $default_values, $block['attrs'] );
+        $block_value               = array_merge( $default_values, $block['attrs'] );
+        $block_value['field_type'] = $block_config[$block['blockName']]['field_type'];
 
         $settings[$block_value['name']] = $block_value;
     }
