@@ -45,12 +45,12 @@ const controlGenerators = {
 			</>
 		);
 	},
-	switch: function ( { attr_key, control, attributes, setAttributes } ) {
+	checkbox: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<>
 				<label>{ control.label }</label>
-				<ToggleControl
-					label={ control.switch_text }
+				<CheckboxControl
+					label={ control.checkbox_text }
 					checked={ attributes[ attr_key ] === '0' ? false : true }
 					onChange={ ( value ) => {
 						value === true
