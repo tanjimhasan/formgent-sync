@@ -5,7 +5,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		<div { ...useBlockProps() }>
 			<div className="formgent-form-group">
 				<label>{ attributes.label }</label>
-				<input type="email" value={ attributes.value } />
+				<input type="email" />
 			</div>
 		</div>
 	);
