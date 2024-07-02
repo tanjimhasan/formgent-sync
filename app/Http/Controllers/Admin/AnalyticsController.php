@@ -30,10 +30,10 @@ class AnalyticsController extends Controller {
             );
         }
 
-        $summary = $this->analytic_repository->form_summary( $wp_rest_request->get_param( 'id' ) );
-        $summary = apply_filters( 'formgent_form_summary', $summary, $wp_rest_request );
+        $data = $this->analytic_repository->form_summary( $wp_rest_request->get_param( 'id' ) );
+        $data = apply_filters( 'formgent_form_summary', $data, $wp_rest_request );
 
-        return Response::send( [ 'summary' => $summary ] );
+        return Response::send( $data );
     }
 
     public function increment_or_decrement_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {
