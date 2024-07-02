@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 return [
-    'formgent/form' => [
+    'formgent/form'       => [
         'title' => esc_html__( 'Form', 'formgent' ),
         'attrs' => [
             'formId' => [
@@ -12,7 +12,7 @@ return [
             ]
         ],
     ],
-    'formgent/name' => [
+    'formgent/name'       => [
         'title' => esc_html__( 'Name', 'formgent' ),
         'types' => ['general', 'conversational'],
         'attrs' => [
@@ -35,6 +35,28 @@ return [
             'format'  => [
                 'type'    => 'string',
                 'default' => 'first_last',
+            ],
+        ]
+    ],
+    'formgent/short-text' => [
+        'title' => esc_html__( 'Short Text', 'formgent' ),
+        'types' => ['general', 'conversational'],
+        'attrs' => [
+            'id'    => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'  => [
+                'type'    => 'string',
+                'default' => 'short_text',
+            ],
+            'value' => [
+                'type'    => 'string',
+                'default' => 'Short Text Edit',
+            ],
+            'label' => [
+                'type'    => 'string',
+                'default' => 'Short Text',
             ],
         ]
     ]
