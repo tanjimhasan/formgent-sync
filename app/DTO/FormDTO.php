@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 class FormDTO extends DTO {
     private int $id;
 
+    private int $post_id;
+
     private string $title;
 
     private string $status = 'draft';
@@ -15,11 +17,13 @@ class FormDTO extends DTO {
 
     private string $content;
 
-    private ?string $font_family = null;
-
-    private int $created_by;
-
     private int $save_incomplete_data = 0;
+
+    /**
+     * Get the value of id
+     *
+     * @return int
+     */
 
     /**
      * Get the value of id
@@ -39,6 +43,28 @@ class FormDTO extends DTO {
      */
     public function set_id( int $id ) {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of post_id
+     *
+     * @return int
+     */
+    public function get_post_id() {
+        return $this->post_id;
+    }
+
+    /**
+     * Set the value of post_id
+     *
+     * @param int $post_id 
+     *
+     * @return self
+     */
+    public function set_post_id( int $post_id ) {
+        $this->post_id = $post_id;
 
         return $this;
     }
@@ -127,50 +153,6 @@ class FormDTO extends DTO {
      */
     public function set_content( string $content ) {
         $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of font_family
-     *
-     * @return string
-     */
-    public function get_font_family() {
-        return $this->font_family;
-    }
-
-    /**
-     * Set the value of font_family
-     *
-     * @param string $font_family 
-     *
-     * @return self
-     */
-    public function set_font_family( string $font_family ) {
-        $this->font_family = $font_family;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of created_by
-     *
-     * @return int
-     */
-    public function get_created_by() {
-        return $this->created_by;
-    }
-
-    /**
-     * Set the value of created_by
-     *
-     * @param int $created_by 
-     *
-     * @return self
-     */
-    public function set_created_by( int $created_by ) {
-        $this->created_by = $created_by;
 
         return $this;
     }

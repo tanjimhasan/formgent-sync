@@ -11,6 +11,7 @@ use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Models\Answer;
 use FormGent\App\Models\Form;
+use FormGent\App\Models\Post;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
@@ -60,9 +61,10 @@ class FormController extends Controller {
             $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
         }
 
-        $data              = $this->form_repository->get( $dto );
-        $response          = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
-        $response['forms'] = $data['forms'];
+        $data                      = $this->form_repository->get( $dto );
+        $response                  = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
+        $response['forms']         = $data['forms'];
+        $response['form_edit_url'] = add_query_arg( ['action' => 'edit'], admin_url( 'post.php' ) );
 
         return Response::send( $response );
     }
@@ -124,7 +126,6 @@ class FormController extends Controller {
             $dto->set_status( $wp_rest_request->get_param( 'status' ) );
             $dto->set_content( $wp_rest_request->get_param( 'content' ) );
             $dto->set_type( $wp_rest_request->get_param( 'type' ) );
-            $dto->set_created_by( get_current_user_id() );
 
             do_action( "formgent_before_create_form", $dto, $wp_rest_request );
 
@@ -358,7 +359,7 @@ class FormController extends Controller {
     public function select( Validator $validator, WP_REST_Request $wp_rest_request ) {
         return Response::send(
             [
-                'forms' => Form::query( 'form' )->select( 'form.title as label', 'form.id as value' )->where( 'form.status', 'publish' )->order_by_desc( 'form.id' )->get()
+                'forms' => Post::query( 'form' )->select( 'form.post_title as label', 'form.ID as value' )->where( 'form.post_type', formgent_app_config( 'post_type' ) )->where( 'form.post_status', 'publish' )->order_by_desc( 'form.id' )->get()
             ]
         );
     }

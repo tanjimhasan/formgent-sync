@@ -181,4 +181,37 @@ function formgent_font_family_dir( string $file = '' ) {
     return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
 }
 
+function formgent_post_type() {
+    return formgent_app_config( 'post_type' );
+}
+
+function formgent_get_form_field_settings( $post ) {
+    if ( ! $post instanceof WP_Post ) {
+        return [];
+    }
+
+    $blocks       = parse_blocks( $post->post_content );
+    $block_config = formgent_config( 'blocks' );
+
+    $settings = [];
+
+    foreach ( $blocks as $block ) {
+        if ( empty( $block['blockName'] ) ) {
+            continue;
+        }
+
+        $default_values = [];
+
+        foreach ( $block_config[$block['blockName']]['attrs'] as $key => $attr ) {
+            $default_values[$key] = $attr['default'];
+        }
+
+        $block_value = array_merge( $default_values, $block['attrs'] );
+
+        $settings[$block_value['name']] = $block_value;
+    }
+
+    return $settings;
+}
+
 include_once 'formmeta.php';
