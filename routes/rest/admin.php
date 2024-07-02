@@ -41,7 +41,8 @@ Route::group(
 
         Route::group(
             'analytics', function() {
-                Route::get( 'forms/summary/{id}', [ AnalyticsController::class, 'form_summary' ] );
+                Route::get( 'forms/{id}/summary', [ AnalyticsController::class, 'form_summary' ] );
+                Route::post( 'forms/{id}/update-view-count', [ AnalyticsController::class, 'increment_or_decrement_form_view_count' ], [] );
             }
         );
     }, ['admin']
