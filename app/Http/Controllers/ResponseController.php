@@ -33,7 +33,7 @@ class ResponseController extends Controller {
     public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id'   => 'required|integer',
+                'id'        => 'required|integer',
                 'form_data' => 'required|array'
             ]
         );
@@ -46,9 +46,9 @@ class ResponseController extends Controller {
             );
         }
 
-        $form_id = $wp_rest_request->get_param( 'form_id' );
+        $id = $wp_rest_request->get_param( 'id' );
 
-        $form = $this->form_repository->get_by_id_publish( $form_id );
+        $form = $this->form_repository->get_by_id_publish( $id, ['post.ID as id', 'post.post_content', 'form.id as form_id', 'form.type'], true );
 
         if ( ! $form ) {
             return Response::send(
@@ -72,7 +72,7 @@ class ResponseController extends Controller {
         }
 
         $response_dto = new ResponseDTO;
-        $response_dto->set_form_id( $form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
+        $response_dto->set_form_id( $form->form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
 
         /**
          * Storing the current user browser and device information, if information is present.
@@ -130,36 +130,32 @@ class ResponseController extends Controller {
      */
     private function validate( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request ) {
         $form_data = $wp_rest_request->get_param( 'form_data' );
+
         $wp_rest_request->set_body_params( $form_data );
 
         $allowed_fields = formgent_get_response_allowed_fields();
 
-        $form_content = json_decode( $form->content, true );
-        $fields       = $form_content['fields'];
-        $field_names  = array_column( $fields, 'name' );
-
+        $fields           = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
         $errors           = [];
         $field_dtos       = [];
         $children_dtos    = [];
         $parent_field_ids = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
-            $field_key = array_search( $field_name, $field_names );
-
             /**
              * Skip if field not found in db fields list
              */
-            if ( ! is_int( $field_key ) ) {
-                unset( $form_data[$field_key] );
+            if ( empty( $fields[$field_name] ) ) {
+                unset( $form_data[$field_name] );
                 continue;
             }
 
-            $field = $fields[$field_key];
+            $field = $fields[$field_name];
 
             /**
              * Ignore this field if field is not allowed form submission
              */
-            if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
+            if ( ! in_array( $field['field_type'], $allowed_fields, true ) ) {
                 continue;
             }
 
@@ -167,7 +163,7 @@ class ResponseController extends Controller {
                 /**
                  * Get this field dedicated handler class
                  */
-                $field_handler = formgent_field_handler( $field['type'] );
+                $field_handler = formgent_field_handler( $field['field_type'] );
 
                 if ( ! in_array( $form->type, $field_handler::get_supported_form_types(), true ) ) {
                     continue;
@@ -176,7 +172,7 @@ class ResponseController extends Controller {
                 $field_handler->validate( $field, $wp_rest_request, $validator );
 
                 $dto = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
-                
+
                 if ( $field_handler->has_children ) {
                     $parent_field_ids[] = $dto->get_field_id();
                     foreach ( $field_handler->get_children_dtos( $field, $wp_rest_request, $form ) as $children_dto ) {
