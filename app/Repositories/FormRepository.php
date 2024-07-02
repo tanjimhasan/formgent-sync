@@ -304,12 +304,24 @@ class FormRepository {
         );
     }
 
-    public function get_by_id( int $id, $columns = ['*'] ) {
-        return Form::query()->select( $columns )->where( 'id', $id )->first();
+    public function get_by_id( int $id, $columns = ['post.*'], bool $join_form = false ) {
+        $post = Post::query( 'post' )->select( $columns )->where( 'post.ID', $id );
+
+        if ( $join_form ) {
+            $post->join( Form::get_table_name() . ' as form', 'post.ID', 'form.post_id' );
+        }
+
+        return $post->first();
     }
 
-    public function get_by_id_publish( int $id, $columns = ['*'] ) {
-        return Form::query()->select( $columns )->where( 'id', $id )->where( 'status', 'publish' )->first();
+    public function get_by_id_publish( int $id, $columns = ['post.*'], bool $join_form = false ) {
+        $post = Post::query( 'post' )->select( $columns )->where( 'post.ID', $id )->where( 'post.post_status', 'publish' );
+
+        if ( $join_form ) {
+            $post->join( Form::get_table_name() . ' as form', 'post.ID', 'form.post_id' );
+        }
+
+        return $post->first();
     }
 
     public function delete_by_id( int $id ) {
