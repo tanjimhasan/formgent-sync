@@ -29,13 +29,10 @@ class CreateDB implements Migration {
 
         $sql = "CREATE TABLE {$db_prefix}forms (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `title` VARCHAR(255) NOT NULL,
-            `status` VARCHAR(50) NOT NULL DEFAULT 'draft' COMMENT 'value: publish/draft',
+            `post_id` BIGINT UNSIGNED NOT NULL,
             `type` VARCHAR(50) NOT NULL DEFAULT 'general',
             `save_incomplete_data` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `content` LONGTEXT NOT NULL,
-            `font_family` VARCHAR(255) NULL,
-            `created_by` BIGINT UNSIGNED NOT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`)

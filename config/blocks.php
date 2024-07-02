@@ -2,6 +2,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\Name\Name;
+
 return [
     'formgent/form'  => [
         'title' => esc_html__( 'Form', 'formgent' ),
@@ -20,9 +22,13 @@ return [
                 'type'    => 'string',
                 'default' => '',
             ],
+            'type'    => [
+                'type'    => 'string',
+                'default' => Name::get_key(),
+            ],
             'name'    => [
                 'type'    => 'string',
-                'default' => 'name',
+                'default' => 'names',
             ],
             'content' => [
                 'type'    => 'string',

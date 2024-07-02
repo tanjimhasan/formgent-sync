@@ -18,7 +18,7 @@ const controls = {
 		children: {
 			label: {
 				type: 'text',
-				value: __( 'Label', 'formgent' ),
+				label: __( 'Label', 'formgent' ),
 			},
 		},
 	},
