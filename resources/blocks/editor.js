@@ -24,4 +24,5 @@ if ( 'formgent_form' === typenow ) {
 	require( './number' );
 } else {
 	require( './form' );
+	require( './Sidebar' );
 }
