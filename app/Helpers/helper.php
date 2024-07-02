@@ -6,6 +6,7 @@ use FormGent\WpMVC\App;
 use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
 use FormGent\App\Fields\Name\Name;
+use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\LongText\LongText;
 use FormGent\App\Utils\DateTime;
@@ -67,7 +68,7 @@ function formgent_is_valid_date( string $date, string $format ) {
 }
 
 function formgent_get_response_allowed_fields() {
-    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
+    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key(), Email::get_key()] );
 }
 
 function formgent_get_response_table_allowed_fields() {
@@ -179,6 +180,35 @@ function formgent_get_response_by_token( string $token, int $form_id ) {
 
 function formgent_font_family_dir( string $file = '' ) {
     return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
+}
+
+function formgent_post_type() {
+    return formgent_app_config( 'post_type' );
+}
+
+function formgent_get_form_field_settings( array $parsed_blocks ):array {
+    $blocks = formgent_config( 'blocks' );
+
+    $settings = [];
+
+    foreach ( $parsed_blocks as $parsed_block ) {
+        if ( empty( $parsed_block['blockName'] ) ) {
+            continue;
+        }
+
+        $default_attributes = [];
+
+        foreach ( $blocks[$parsed_block['blockName']]['attrs'] as $key => $attr ) {
+            $default_attributes[$key] = $attr['default'];
+        }
+
+        $attributes               = array_merge( $default_attributes, $parsed_block['attrs'] );
+        $attributes['field_type'] = $blocks[$parsed_block['blockName']]['field_type'];
+
+        $settings[$attributes['name']] = $attributes;
+    }
+
+    return $settings;
 }
 
 include_once 'formmeta.php';

@@ -14,7 +14,7 @@ class FontFamilyServiceProvider implements Provider {
     public function boot() {
         $this->background_process = new FontFamily;
 
-        add_action( 'formgent_after_update_form', [$this, 'download_font_family'] );
+        // add_action( 'formgent_after_update_form', [$this, 'download_font_family'] );
     }
 
     public function download_font_family( FormDTO $dto ) {

@@ -2,6 +2,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\Name\Name;
+use FormGent\App\Fields\Email\Email;
+use FormGent\App\Fields\ShortText\ShortText;
+
 return [
     'formgent/form'       => [
         'title' => esc_html__( 'Form', 'formgent' ),
@@ -13,16 +17,17 @@ return [
         ],
     ],
     'formgent/name'       => [
-        'title' => esc_html__( 'Name', 'formgent' ),
-        'types' => ['general', 'conversational'],
-        'attrs' => [
+        'title'      => esc_html__( 'Name', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Name::get_key(),
+        'attrs'      => [
             'id'      => [
                 'type'    => 'string',
                 'default' => '',
             ],
             'name'    => [
                 'type'    => 'string',
-                'default' => 'name',
+                'default' => 'names',
             ],
             'content' => [
                 'type'    => 'string',
@@ -38,10 +43,34 @@ return [
             ],
         ]
     ],
+    'formgent/email'      => [
+        'title'      => esc_html__( 'Email', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Email::get_key(),
+        'attrs'      => [
+            'id'    => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'  => [
+                'type'    => 'string',
+                'default' => 'email',
+            ],
+            'value' => [
+                'type'    => 'string',
+                'default' => 'test@formgent.com',
+            ],
+            'label' => [
+                'type'    => 'string',
+                'default' => 'Formgent Email',
+            ],
+        ]
+    ],
     'formgent/short-text' => [
-        'title' => esc_html__( 'Short Text', 'formgent' ),
-        'types' => ['general', 'conversational'],
-        'attrs' => [
+        'title'      => esc_html__( 'Short Text', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => ShortText::get_key(),
+        'attrs'      => [
             'id'    => [
                 'type'    => 'string',
                 'default' => '',

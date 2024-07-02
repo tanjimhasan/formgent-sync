@@ -9,6 +9,7 @@ const DEFAULT_STATE = {
 		current_page: '1',
 		total_items: '0',
 	},
+	form_edit_url: '',
 	isLoading: false,
 	isFormDeleting: false,
 	isFormBulkDeleting: false,
