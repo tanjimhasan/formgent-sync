@@ -11,7 +11,7 @@ use FormGent\WpMVC\Database\Query\JoinClause;
 use Exception;
 
 class AnalyticRepository {
-    public function form_summary( ?int $form_id = null ) {
+    public function form_summary( int $form_id ) {
         $form_meta_table = FormMeta::get_table_name();
 
         $total_completion_time_query = <<<SQL
@@ -28,7 +28,6 @@ SQL;
         $base_query = Response::query( 'response' )
             ->select( 
                 [
-                    "response.form_id",
                     "COUNT( response.form_id ) AS total_stared",
                     "SUM( CASE WHEN response.is_completed = '1' THEN 1 ELSE 0 END ) AS total_finished",
                     "form_meta.meta_value AS total_views",
@@ -43,13 +42,8 @@ SQL;
                 }
             );
 
-        if ( $form_id ) {
-            $base_query->where( 'response.form_id', $form_id );
-        }
-
-        $results = $base_query->group_by( 'response.form_id' )->get();
-
-        foreach ( $results as $index => $item ) {
+        function transform_item_data( $item ) {
+            // Calculate average completion time
             $average_completion_time = absint( $item->total_finished ) > 0 
                 ? absint( $item->total_completion_time ) / absint( $item->total_finished ) 
                 : 0;
@@ -58,10 +52,16 @@ SQL;
 
             unset( $item->total_completion_time );
 
-            $results[ $index ] = $item;
+            return $item;
         }
 
-        return $results;
+        $result = $base_query->where( 'response.form_id', $form_id )->group_by( 'response.form_id' )->first();
+
+        if ( ! $result ) {
+            return null;
+        }
+
+        return transform_item_data( $result );
     }
 
     /**
