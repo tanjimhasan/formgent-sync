@@ -10,6 +10,7 @@ use FormGent\App\Repositories\AnalyticRepository;
 use FormGent\WpMVC\Routing\Response;
 use FormGent\WpMVC\RequestValidator\Validator;
 use WP_REST_Request;
+use Exception;
 
 class AnalyticsController extends Controller {
     public AnalyticRepository $analytic_repository;
@@ -37,5 +38,67 @@ class AnalyticsController extends Controller {
         $summary = apply_filters( 'formgent_form_summary', $summary, $wp_rest_request );
 
         return Response::send( [ 'summary' => $summary ] );
+    }
+
+    public function increment_or_decrement_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'type' => 'string|accepted:+,-',
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $wp_rest_request->set_param( 'count', 1 );
+
+        return $this->update_form_view_count( $validator, $wp_rest_request );
+    }
+
+    public function update_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'    => 'required|numeric',
+                'count' => 'required|numeric',
+                'type'  => 'string|accepted:=,+,-',
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $type = $wp_rest_request->get_param( 'type' );
+        $type = $type ? $type : '=';
+
+        try {
+            $new_count = $this->analytic_repository->update_form_view_count(
+                absint( $wp_rest_request->get_param( 'id' ) ), 
+                absint( $wp_rest_request->get_param( 'count' ) ),
+                $type
+            );
+
+            return Response::send(
+                [
+                    'new_count' => $new_count
+                ]
+            );
+
+        } catch ( Exception $e ) {
+            return Response::send(
+                [
+                    'messages' => esc_html__( 'Could\'t update the view count', 'formgent' )
+                ], 422
+            );
+        }
     }
 }

@@ -49,56 +49,6 @@ class FormMetaRepository {
         );
     }
 
-    /**
-     * @throws Exception
-     */
-    public function update_view_count( int $form_id, int $count, $type = '=' ): int {
-        $old_count_meta = FormMeta::query()
-            ->where( 'form_id', $form_id )
-            ->where( 'meta_key', 'view_count' )
-            ->first();
-
-        if ( ! $old_count_meta ) {
-            $count = $count < 0 || '-' === $type ? 0 : $count;
-            $id    = FormMeta::query()->insert_get_id(
-                [
-                    'form_id'    => $form_id,
-                    'meta_key'   => 'view_count',
-                    'meta_value' => $count,
-                ]
-            );
-
-            if ( $id ) {
-                return $count;
-            }
-
-            throw new Exception( esc_html__( 'Could not update the view count.', 'formgent' ), 403 );
-        }
-
-        $type = in_array( $type, [ '=', '+', '-' ] ) ? $type : '=';
-
-        switch ( $type ) {
-            case '+':
-                $count = absint( $old_count_meta->meta_value ) + $count;
-                break;
-            case '-':
-                $count = absint( $old_count_meta->meta_value ) - $count;
-                $count = $count < 0 ? 0 : $count;
-                break;
-        }
-
-        $status = FormMeta::query()
-            ->where( 'form_id', $form_id )
-            ->where( 'meta_key', 'view_count' )
-            ->update( [  'meta_value' => $count ] );
-
-        if ( false === $status ) {
-            throw new Exception( esc_html__( 'Could not update the view count.', 'formgent' ), 403 );
-        }
-
-        return $count;
-    }
-
     public function get_meta( int $form_id, string $meta_key ) {
         return FormMeta::query()->where( 'form_id', $form_id )->where( 'meta_key', $meta_key )->first();
     }
