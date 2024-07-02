@@ -13,7 +13,7 @@ return [
         ],
     ],
     'formgent/name' => [
-        'title' => esc_html__( 'Name', 'formgent' ),
+        'title' => esc_html__( 'Names', 'formgent' ),
         'types' => ['general', 'conversational'],
         'attrs' => [
             'id'      => [
@@ -35,6 +35,10 @@ return [
             'format'  => [
                 'type'    => 'string',
                 'default' => 'first_last',
+            ],
+            'switch'  => [
+                'type'    => 'string',
+                'default' => '0',
             ],
         ]
     ]

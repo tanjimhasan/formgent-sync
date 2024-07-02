@@ -38,6 +38,11 @@ const controls = {
 					},
 				],
 			},
+			switch: {
+				type: 'switch',
+				label: __( 'Switch', 'formgent' ),
+				switch_text: __( 'Enable user validation', 'formgent' ),
+			},
 		},
 	},
 };
