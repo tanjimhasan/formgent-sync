@@ -45,6 +45,18 @@ return [
                 'type'    => 'string',
                 'default' => '0',
             ],
+            'switch'   => [
+                'type'    => 'string',
+                'default' => '0',
+            ],
+            'margin'   => [
+                'type'    => 'string',
+                'default' => '10px',
+            ],
+            'padding'  => [
+                'type'    => 'string',
+                'default' => '10px',
+            ],
         ]
     ],
     'formgent/email'      => [
