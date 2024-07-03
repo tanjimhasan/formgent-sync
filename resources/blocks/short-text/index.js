@@ -20,6 +20,10 @@ const controls = {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
 			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
+			},
 		},
 	},
 };

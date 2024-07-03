@@ -46,8 +46,8 @@ return [
                 'default' => '0',
             ],
             'switch'   => [
-                'type'    => 'string',
-                'default' => '0',
+                'type'    => 'boolean',
+                'default' => true,
             ],
             'margin'   => [
                 'type'    => 'string',
@@ -117,7 +117,7 @@ return [
             ],
             'required'        => [
                 'type'    => 'boolean',
-                'default' => 'false',
+                'default' => false,
             ],
         ]
     ]
