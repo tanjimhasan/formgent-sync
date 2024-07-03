@@ -4,7 +4,7 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "wp-scripts start",
+    "start": "wp-scripts start --experimental-modules",
     "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
     "minify": "wp-scripts build",
@@ -53,12 +53,13 @@
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.11",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "@wordpress/interactivity": "^6.2.0"
   },
   "devDependencies": {
     "@automattic/i18n-loader-webpack-plugin": "^2.0.42",
     "@laravel-mix/webpack-build-output": "^0.1.0",
-    "@wordpress/scripts": "^27.8.0",
+    "@wordpress/scripts": "^27.9.0",
     "filemanager-webpack-plugin": "^8.0.0",
     "grunt": "^1.6.1",
     "grunt-checktextdomain": "^1.0.1",

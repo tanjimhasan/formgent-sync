@@ -16,9 +16,9 @@ registerBlockType( 'formgent/form', {
 	title: __( 'Form', 'formgent' ),
 	icon: 'smiley',
 	category: 'formgent',
-	attributes: formgent_blocks[ 'formgent/name' ].attrs,
+	attributes: formgent_blocks[ 'formgent/form' ].attrs,
 	example: {
-		attributes: exampleAttributes,
+		// attributes: exampleAttributes,
 	},
 	edit: Edit,
 } );

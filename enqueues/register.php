@@ -16,7 +16,7 @@ Enqueue::register_style( 'formgent/style', 'build/css/app', ['formgent/notificat
 Enqueue::register_script( 'formgent/block/editor', 'build/js/block/editor' );
 wp_localize_script( 'formgent/block/editor', 'formgent_blocks', formgent_config( 'blocks' ) );
 
-Enqueue::register_script( 'formgent/block/frontend', 'build/js/block/frontend' );
+// Enqueue::register_script( 'formgent/block/frontend', 'build/js/block/frontend' );
 
 Enqueue::register_style( 'formgent/block/editor', 'build/css/block/editor' );
 Enqueue::register_style( 'formgent/block/frontend', 'build/css/block/frontend' );
