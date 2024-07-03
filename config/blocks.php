@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\ShortText\ShortText;
+use FormGent\App\Fields\LongText\LongText;
 
 return [
     'formgent/form'       => [
@@ -102,6 +103,45 @@ return [
             'placeholder'     => [
                 'type'    => 'string',
                 'default' => 'Short Text Placeholder',
+            ],
+            'label'           => [
+                'type'    => 'string',
+                'default' => 'Label',
+            ],
+            'label_alignment' => [
+                'type'    => 'string',
+                'default' => 'left',
+            ],
+            'sub_label'       => [
+                'type'    => 'string',
+                'default' => 'Sub Label',
+            ],
+            'required'        => [
+                'type'    => 'boolean',
+                'default' => false,
+            ],
+        ]
+    ],
+    'formgent/long-text'  => [
+        'title'      => esc_html__( 'Long Text', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => LongText::get_key(),
+        'attrs'      => [
+            'id'              => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'            => [
+                'type'    => 'string',
+                'default' => 'long_text',
+            ],
+            'value'           => [
+                'type'    => 'string',
+                'default' => 'Long Text Value',
+            ],
+            'placeholder'     => [
+                'type'    => 'string',
+                'default' => 'Long Text Placeholder',
             ],
             'label'           => [
                 'type'    => 'string',
