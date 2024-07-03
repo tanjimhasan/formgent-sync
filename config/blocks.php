@@ -16,7 +16,7 @@ return [
         ],
     ],
     'formgent/name'  => [
-        'title'      => esc_html__( 'Name', 'formgent' ),
+        'title'      => esc_html__( 'Names', 'formgent' ),
         'types'      => ['general', 'conversational'],
         'field_type' => Name::get_key(),
         'attrs'      => [
@@ -39,6 +39,10 @@ return [
             'format'  => [
                 'type'    => 'string',
                 'default' => 'first_last',
+            ],
+            'switch'  => [
+                'type'    => 'string',
+                'default' => '0',
             ],
         ]
     ],

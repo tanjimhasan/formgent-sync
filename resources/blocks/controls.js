@@ -1,4 +1,9 @@
-import { PanelBody, SelectControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	CheckboxControl,
+} from '@wordpress/components';
 import { __experimentalInputControl as InputControl } from '@wordpress/components';
 
 const controlGenerators = {
@@ -36,6 +41,22 @@ const controlGenerators = {
 					onChange={ ( value ) =>
 						setAttributes( { [ attr_key ]: value } )
 					}
+				/>
+			</>
+		);
+	},
+	switch: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<>
+				<label>{ control.label }</label>
+				<ToggleControl
+					label={ control.switch_text }
+					checked={ attributes[ attr_key ] === '0' ? false : true }
+					onChange={ ( value ) => {
+						value === true
+							? setAttributes( { [ attr_key ]: '1' } )
+							: setAttributes( { [ attr_key ]: '0' } );
+					} }
 				/>
 			</>
 		);
