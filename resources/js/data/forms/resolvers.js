@@ -11,6 +11,7 @@ export const FormResolvers = {
 			yield FormActions.storsForm( {
 				forms: data.forms,
 				pagination: data.pagination,
+				form_edit_url: data.form_edit_url,
 			} );
 			yield FormActions.isFormFetchLoading( false );
 		} catch ( error ) {

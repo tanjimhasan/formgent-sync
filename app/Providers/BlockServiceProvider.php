@@ -20,7 +20,7 @@ class BlockServiceProvider implements Provider {
                 "{$block_name}", [
                     'editor_script'   => 'formgent/block/editor',
                     'editor_style'    => 'formgent/block/editor',
-                    'script'          => 'formgent/block/frontend',
+                    // 'script'          => 'formgent/block/frontend',
                     'style'           => 'formgent/block/frontend',
                     'title'           => $block_data['title'],
                     'render_callback' => function( $attributes ) use( $block_name ) {
@@ -29,7 +29,10 @@ class BlockServiceProvider implements Provider {
                         include formgent()->get_dir( "resources/blocks{$name}/render.php" );
                         return ob_get_clean();
                     },
-                    'attributes'      => $block_data['attrs']
+                    'attributes'      => $block_data['attrs'],
+                    'supports'        => [
+                        'interactivity' => true
+                    ]
                 ]
             );
         }

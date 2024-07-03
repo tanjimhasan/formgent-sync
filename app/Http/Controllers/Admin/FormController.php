@@ -61,9 +61,10 @@ class FormController extends Controller {
             $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
         }
 
-        $data              = $this->form_repository->get( $dto );
-        $response          = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
-        $response['forms'] = $data['forms'];
+        $data                      = $this->form_repository->get( $dto );
+        $response                  = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
+        $response['forms']         = $data['forms'];
+        $response['form_edit_url'] = add_query_arg( ['action' => 'edit'], admin_url( 'post.php' ) );
 
         return Response::send( $response );
     }
@@ -125,7 +126,6 @@ class FormController extends Controller {
             $dto->set_status( $wp_rest_request->get_param( 'status' ) );
             $dto->set_content( $wp_rest_request->get_param( 'content' ) );
             $dto->set_type( $wp_rest_request->get_param( 'type' ) );
-            $dto->set_created_by( get_current_user_id() );
 
             do_action( "formgent_before_create_form", $dto, $wp_rest_request );
 
