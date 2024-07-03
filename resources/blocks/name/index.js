@@ -38,6 +38,11 @@ const controls = {
 					},
 				],
 			},
+			checkbox: {
+				type: 'checkbox',
+				label: __( 'Checkbox', 'formgent' ),
+				checkbox_text: __( 'Is author?', 'formgent' ),
+			},
 		},
 	},
 };
