@@ -5,7 +5,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 import Block from '../block';
-import Edit from './edit';
+import Edit from './Edit';
 
 const exampleAttributes = {
 	content: 'Sample content for preview',
@@ -19,6 +19,10 @@ const controls = {
 			label: {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},
@@ -37,7 +41,7 @@ registerBlockType( 'formgent/email', {
 		attributes: exampleAttributes,
 	},
 	/**
-	 * @see ./edit.js
+	 * @see ./Edit.js
 	 */
 	edit: function ( { attributes, setAttributes } ) {
 		return (
