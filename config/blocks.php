@@ -16,29 +16,45 @@ return [
         ],
     ],
     'formgent/name'  => [
-        'title'      => esc_html__( 'Name', 'formgent' ),
+        'title'      => esc_html__( 'Names', 'formgent' ),
         'types'      => ['general', 'conversational'],
         'field_type' => Name::get_key(),
         'attrs'      => [
-            'id'      => [ // 
+            'id'       => [
                 'type'    => 'string',
                 'default' => '',
             ],
-            'name'    => [
+            'name'     => [
                 'type'    => 'string',
                 'default' => 'names',
             ],
-            'content' => [
+            'content'  => [
                 'type'    => 'string',
                 'default' => 'Content for edit',
             ],
-            'label'   => [
+            'label'    => [
                 'type'    => 'string',
                 'default' => 'Hello World',
             ],
-            'format'  => [
+            'format'   => [
                 'type'    => 'string',
                 'default' => 'first_last',
+            ],
+            'checkbox' => [
+                'type'    => 'string',
+                'default' => '0',
+            ],
+            'switch'   => [
+                'type'    => 'string',
+                'default' => '0',
+            ],
+            'margin'   => [
+                'type'    => 'string',
+                'default' => '10px',
+            ],
+            'padding'  => [
+                'type'    => 'string',
+                'default' => '10px',
             ],
         ]
     ],

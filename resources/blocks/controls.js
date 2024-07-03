@@ -1,5 +1,12 @@
-import { PanelBody, SelectControl } from '@wordpress/components';
-import { __experimentalInputControl as InputControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	CheckboxControl,
+	__experimentalInputControl as InputControl,
+	__experimentalBoxControl as BoxControl,
+} from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 const controlGenerators = {
 	panel: function ( { control, attributes, setAttributes } ) {
@@ -36,6 +43,54 @@ const controlGenerators = {
 					onChange={ ( value ) =>
 						setAttributes( { [ attr_key ]: value } )
 					}
+				/>
+			</>
+		);
+	},
+	checkbox: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<>
+				<label>{ control.label }</label>
+				<CheckboxControl
+					label={ control.checkbox_text }
+					checked={ attributes[ attr_key ] === '0' ? false : true }
+					onChange={ ( value ) => {
+						value === true
+							? setAttributes( { [ attr_key ]: '1' } )
+							: setAttributes( { [ attr_key ]: '0' } );
+					} }
+				/>
+			</>
+		);
+	},
+	switch: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<>
+				<label>{ control.label }</label>
+				<ToggleControl
+					label={ control.switch_text }
+					checked={ attributes[ attr_key ] === '0' ? false : true }
+					onChange={ ( value ) => {
+						value === true
+							? setAttributes( { [ attr_key ]: '1' } )
+							: setAttributes( { [ attr_key ]: '0' } );
+					} }
+				/>
+			</>
+		);
+	},
+	dimension: function ( { attr_key, control, setAttributes } ) {
+		const [ values, setValues ] = useState( control.values );
+		return (
+			<>
+				<label>{ control.label }</label>
+				<BoxControl
+					label=""
+					values={ values }
+					onChange={ ( value ) => {
+						setValues( value );
+						setAttributes( { [ attr_key ]: value } );
+					} }
 				/>
 			</>
 		);
