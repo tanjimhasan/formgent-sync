@@ -24,23 +24,23 @@ return [
                 'type'    => 'string',
                 'default' => '',
             ],
-            'name'    => [
+            'name'     => [
                 'type'    => 'string',
                 'default' => 'names',
             ],
-            'content' => [
+            'content'  => [
                 'type'    => 'string',
                 'default' => 'Content for edit',
             ],
-            'label'   => [
+            'label'    => [
                 'type'    => 'string',
                 'default' => 'Hello World',
             ],
-            'format'  => [
+            'format'   => [
                 'type'    => 'string',
                 'default' => 'first_last',
             ],
-            'switch'  => [
+            'checkbox' => [
                 'type'    => 'string',
                 'default' => '0',
             ],
