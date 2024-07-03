@@ -2,8 +2,11 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\Name\Name;
+use FormGent\App\Fields\Email\Email;
+
 return [
-    'formgent/form' => [
+    'formgent/form'  => [
         'title' => esc_html__( 'Form', 'formgent' ),
         'attrs' => [
             'formId' => [
@@ -12,17 +15,18 @@ return [
             ]
         ],
     ],
-    'formgent/name' => [
-        'title' => esc_html__( 'Names', 'formgent' ),
-        'types' => ['general', 'conversational'],
-        'attrs' => [
+    'formgent/name'  => [
+        'title'      => esc_html__( 'Names', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Name::get_key(),
+        'attrs'      => [
             'id'      => [
                 'type'    => 'string',
                 'default' => '',
             ],
             'name'    => [
                 'type'    => 'string',
-                'default' => 'name',
+                'default' => 'names',
             ],
             'content' => [
                 'type'    => 'string',
@@ -39,6 +43,29 @@ return [
             'switch'  => [
                 'type'    => 'string',
                 'default' => '0',
+            ],
+        ]
+    ],
+    'formgent/email' => [
+        'title'      => esc_html__( 'Email', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Email::get_key(),
+        'attrs'      => [
+            'id'    => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'  => [
+                'type'    => 'string',
+                'default' => 'email',
+            ],
+            'value' => [
+                'type'    => 'string',
+                'default' => 'test@formgent.com',
+            ],
+            'label' => [
+                'type'    => 'string',
+                'default' => 'Formgent Email',
             ],
         ]
     ]

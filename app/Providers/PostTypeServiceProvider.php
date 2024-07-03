@@ -13,6 +13,19 @@ class PostTypeServiceProvider implements Provider {
         add_filter( 'allowed_block_types_all', [$this, 'allow_blocks_for_formgent_form'], 10, 2 );
         add_filter( 'the_content', [$this, 'filter_the_content'] );
         add_filter( 'block_categories_all', [$this, 'filter_block_categories_all'], 10, 2 );
+        add_action( 'admin_init', [$this, 'redirect_to_forms_page'] );
+    }
+
+    public function redirect_to_forms_page() {
+        global $pagenow;
+
+        //phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if ( $pagenow !== 'edit.php' || empty( $_GET['post_type'] ) || 'formgent_form' !== $_GET['post_type'] ) {
+            return;
+        }
+
+        wp_safe_redirect( admin_url( 'admin.php?page=formgent' ) );
+        exit();
     }
 
     /**
@@ -35,7 +48,7 @@ class PostTypeServiceProvider implements Provider {
     public function filter_the_content( string $content ) : string {
         global $post;
 
-        if ( $post->post_type !==  formgent_app_config( 'post_type' ) ) {
+        if ( $post->post_type !==  formgent_post_type() ) {
             return $content;
         }
 
@@ -79,18 +92,18 @@ class PostTypeServiceProvider implements Provider {
             'public'             => true,
             'publicly_queryable' => true,
             'show_ui'            => true,
-            'show_in_menu'       => true,
+            'show_in_menu'       => false,
             'query_var'          => true,
             'rewrite'            => [ 'slug' => 'formgent-form' ],
             'capability_type'    => 'post',
             'has_archive'        => true,
             'hierarchical'       => false,
             'menu_position'      => null,
-            'supports'           => [ 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' ],
+            'supports'           => [ 'editor', 'author', 'thumbnail' ],
             'show_in_rest'       => true, // Enables Gutenberg editor support
         ];
 
-        register_post_type( formgent_app_config( 'post_type' ), $args );
+        register_post_type( formgent_post_type(), $args );
     }
 
         /**
@@ -103,7 +116,7 @@ class PostTypeServiceProvider implements Provider {
      * @param \WP_Block_Editor_Context $block_editor_context The current block editor context.
      */
     function allow_blocks_for_formgent_form( $allowed_block_types, $editor_context ) {
-        if ( empty( $editor_context->post->post_type ) || formgent_app_config( 'post_type' ) !== $editor_context->post->post_type ) {
+        if ( empty( $editor_context->post->post_type ) || formgent_post_type() !== $editor_context->post->post_type ) {
             return $allowed_block_types;
         }
         

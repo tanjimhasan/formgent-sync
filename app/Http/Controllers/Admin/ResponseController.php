@@ -29,7 +29,7 @@ class ResponseController extends Controller {
                 'per_page'         => 'numeric',
                 'page'             => 'numeric',
                 's'                => 'string|max:255',
-                'form_id'          => 'numeric',
+                'post_id'          => 'numeric',
                 'is_read'          => 'numeric|accepted:0,1',
                 'order_by'         => 'string|max:50',
                 'order'            => 'string|accepted:asc,desc',
@@ -53,8 +53,8 @@ class ResponseController extends Controller {
         $dto->set_per_page( intval( $wp_rest_request->get_param( 'per_page' ) ) );
         $dto->set_search( (string) $wp_rest_request->get_param( 's' ) );
 
-        if ( $wp_rest_request->has_param( 'form_id' ) ) {
-            $dto->set_form_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        if ( $wp_rest_request->has_param( 'post_id' ) ) {
+            $dto->set_post_id( intval( $wp_rest_request->get_param( 'post_id' ) ) );
         }
 
         if ( $wp_rest_request->has_param( 'is_read' ) ) {
@@ -125,7 +125,7 @@ class ResponseController extends Controller {
     public function get_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id' => 'required|numeric'
+                'post_id' => 'required|numeric'
             ]
         );
 
@@ -137,7 +137,8 @@ class ResponseController extends Controller {
             );
         }
 
-        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        $post_id = intval( $wp_rest_request->get_param( 'post_id' ) );
+        $form    = $this->form_repository->get_by_id( $post_id );
 
         if ( ! $form ) {
             return Response::send(
@@ -150,7 +151,7 @@ class ResponseController extends Controller {
         $allowed_fields = formgent_get_response_table_allowed_fields();
         $fields         = [];
 
-        $selected_fields = maybe_unserialize( formgent_get_form_meta_value( $form->id, 'response_table_field_ids' ) );
+        $selected_fields = get_post_meta( $form->id, 'response_table_field_ids', true );
 
         foreach ( json_decode( $form->content, true )['fields'] as $field ) {
             if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
@@ -174,7 +175,7 @@ class ResponseController extends Controller {
     public function update_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id'   => 'required|numeric',
+                'post_id'   => 'required|numeric',
                 'field_ids' => 'required|array'
             ]
         );
@@ -197,7 +198,8 @@ class ResponseController extends Controller {
             );
         }
 
-        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        $post_id = intval( $wp_rest_request->get_param( 'post_id' ) );
+        $form    = $this->form_repository->get_by_id( $post_id, [1] );
 
         if ( ! $form ) {
             return Response::send(
@@ -209,7 +211,7 @@ class ResponseController extends Controller {
 
         $field_ids = map_deep( $field_ids, "sanitize_text_field" );
 
-        formgent_update_form_meta( $form->id, "response_table_field_ids", serialize( $field_ids ) );
+        update_post_meta( $post_id, "response_table_field_ids", $field_ids );
 
         return Response::send( [] );
     }

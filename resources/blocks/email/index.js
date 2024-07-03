@@ -20,42 +20,19 @@ const controls = {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
 			},
-			format: {
-				type: 'select',
-				label: __( 'Format', 'formgent' ),
-				options: [
-					{
-						label: __( 'Full Name', 'formgent' ),
-						value: 'full_name',
-					},
-					{
-						label: __( 'First and Last', 'formgent' ),
-						value: 'first_last',
-					},
-					{
-						label: __( 'First, Middle, and Last', 'formgent' ),
-						value: 'first_middle_last',
-					},
-				],
-			},
-			switch: {
-				type: 'switch',
-				label: __( 'Switch', 'formgent' ),
-				switch_text: __( 'Enable user validation', 'formgent' ),
-			},
 		},
 	},
 };
 
-registerBlockType( 'formgent/name', {
-	title: __( 'Name', 'formgent' ),
+registerBlockType( 'formgent/email', {
+	title: __( 'Email', 'formgent' ),
 	category: 'formgent',
 	icon: 'smiley',
-	description: __( 'FormGent name field', 'formgent' ),
+	description: __( 'FormGent Email field', 'formgent' ),
 	supports: {
 		html: false,
 	},
-	attributes: formgent_blocks[ 'formgent/name' ].attrs,
+	attributes: formgent_blocks[ 'formgent/email' ].attrs,
 	example: {
 		attributes: exampleAttributes,
 	},
