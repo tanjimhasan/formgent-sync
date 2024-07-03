@@ -48,6 +48,16 @@ const controls = {
 				label: __( 'Switch', 'formgent' ),
 				switch_text: __( 'Enable user validation', 'formgent' ),
 			},
+			repeater: {
+				type: 'repeater',
+				label: __( 'Options', 'formgent' ),
+				fields: [
+					{
+						title: 'Option 1',
+						content: 'Option 1 content',
+					},
+				],
+			},
 		},
 	},
 };

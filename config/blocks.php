@@ -48,6 +48,10 @@ return [
                 'type'    => 'string',
                 'default' => '0',
             ],
+            'repeater' => [
+                'type'    => 'string',
+                'default' => '[]',
+            ]
         ]
     ],
     'formgent/email' => [
