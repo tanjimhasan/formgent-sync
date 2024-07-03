@@ -43,6 +43,11 @@ const controls = {
 				label: __( 'Checkbox', 'formgent' ),
 				checkbox_text: __( 'Is author?', 'formgent' ),
 			},
+			switch: {
+				type: 'switch',
+				label: __( 'Switch', 'formgent' ),
+				switch_text: __( 'Enable user validation', 'formgent' ),
+			},
 		},
 	},
 };
