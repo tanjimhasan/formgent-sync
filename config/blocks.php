@@ -20,7 +20,7 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Name::get_key(),
         'attrs'      => [
-            'id'      => [
+            'id'       => [
                 'type'    => 'string',
                 'default' => '',
             ],
@@ -41,6 +41,10 @@ return [
                 'default' => 'first_last',
             ],
             'checkbox' => [
+                'type'    => 'string',
+                'default' => '0',
+            ],
+            'switch'   => [
                 'type'    => 'string',
                 'default' => '0',
             ],
