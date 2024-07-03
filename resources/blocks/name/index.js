@@ -48,6 +48,26 @@ const controls = {
 				label: __( 'Switch', 'formgent' ),
 				switch_text: __( 'Enable user validation', 'formgent' ),
 			},
+			margin: {
+				type: 'dimension',
+				label: __( 'Margin', 'formgent' ),
+				values: {
+					top: '10px',
+					right: '10px',
+					bottom: '10px',
+					left: '10px',
+				},
+			},
+			padding: {
+				type: 'dimension',
+				label: __( 'Padding', 'formgent' ),
+				values: {
+					top: '10px',
+					right: '10px',
+					bottom: '10px',
+					left: '10px',
+				},
+			},
 		},
 	},
 };
