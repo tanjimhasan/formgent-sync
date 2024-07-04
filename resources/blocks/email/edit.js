@@ -9,6 +9,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</label>
 				<input
 					type="email"
+					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }
 				/>
