@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\ShortText\ShortText;
+use FormGent\App\Fields\Number\Number;
 
 return [
     'formgent/form'       => [
@@ -102,6 +103,41 @@ return [
             'placeholder'     => [
                 'type'    => 'string',
                 'default' => 'Short Text Placeholder',
+            ],
+            'label'           => [
+                'type'    => 'string',
+                'default' => 'Label',
+            ],
+            'label_alignment' => [
+                'type'    => 'string',
+                'default' => 'left',
+            ],
+            'sub_label'       => [
+                'type'    => 'string',
+                'default' => 'Sub Label',
+            ],
+            'required'        => [
+                'type'    => 'boolean',
+                'default' => false,
+            ],
+        ]
+    ],
+    'formgent/number'     => [
+        'title'      => esc_html__( 'Number', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => Number::get_key(),
+        'attrs'      => [
+            'id'              => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'            => [
+                'type'    => 'string',
+                'default' => 'number',
+            ],
+            'value'           => [
+                'type'    => 'number',
+                'default' => '123',
             ],
             'label'           => [
                 'type'    => 'string',
