@@ -10,7 +10,12 @@ export default function Edit( { attributes, setAttributes } ) {
 				<label>
 					{ attributes.label } { attributes.required ? '*' : '' }
 				</label>
-				<input type="text" value={ attributes.value } />
+				<textarea
+					value={ attributes.value }
+					name={ attributes.name }
+					rows="4"
+					cols="50"
+				/>
 			</div>
 		</p>
 	);
