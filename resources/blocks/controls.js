@@ -1,5 +1,12 @@
-import { PanelBody, SelectControl } from '@wordpress/components';
-import { __experimentalInputControl as InputControl } from '@wordpress/components';
+import {
+	__experimentalBoxControl as BoxControl,
+	CheckboxControl,
+	__experimentalInputControl as InputControl,
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 const controlGenerators = {
 	panel: function ( { control, attributes, setAttributes } ) {
@@ -36,6 +43,44 @@ const controlGenerators = {
 					onChange={ ( value ) =>
 						setAttributes( { [ attr_key ]: value } )
 					}
+				/>
+			</>
+		);
+	},
+	checkbox: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<CheckboxControl
+				label={ control.label }
+				checked={ attributes[ attr_key ] }
+				onChange={ ( value ) =>
+					setAttributes( { [ attr_key ]: value } )
+				}
+			/>
+		);
+	},
+	switch: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<ToggleControl
+				label={ control.label }
+				checked={ attributes[ attr_key ] }
+				onChange={ ( value ) =>
+					setAttributes( { [ attr_key ]: value } )
+				}
+			/>
+		);
+	},
+	dimension: function ( { attr_key, control, setAttributes } ) {
+		const [ values, setValues ] = useState( control.values );
+		return (
+			<>
+				<label>{ control.label }</label>
+				<BoxControl
+					label=""
+					values={ values }
+					onChange={ ( value ) => {
+						setValues( value );
+						setAttributes( { [ attr_key ]: value } );
+					} }
 				/>
 			</>
 		);

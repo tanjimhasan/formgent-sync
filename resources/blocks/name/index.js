@@ -38,6 +38,34 @@ const controls = {
 					},
 				],
 			},
+			checkbox: {
+				type: 'checkbox',
+				label: __( 'Checkbox', 'formgent' ),
+			},
+			switch: {
+				type: 'switch',
+				label: __( 'Switch', 'formgent' ),
+			},
+			margin: {
+				type: 'dimension',
+				label: __( 'Margin', 'formgent' ),
+				values: {
+					top: '10px',
+					right: '10px',
+					bottom: '10px',
+					left: '10px',
+				},
+			},
+			padding: {
+				type: 'dimension',
+				label: __( 'Padding', 'formgent' ),
+				values: {
+					top: '10px',
+					right: '10px',
+					bottom: '10px',
+					left: '10px',
+				},
+			},
 		},
 	},
 };
