@@ -120,5 +120,44 @@ return [
                 'default' => false,
             ],
         ]
+    ],
+    'formgent/website'    => [
+        'title'      => esc_html__( 'Website', 'formgent' ),
+        'types'      => ['general', 'conversational'],
+        'field_type' => ShortText::get_key(),
+        'attrs'      => [
+            'id'              => [
+                'type'    => 'string',
+                'default' => '',
+            ],
+            'name'            => [
+                'type'    => 'string',
+                'default' => 'website',
+            ],
+            'value'           => [
+                'type'    => 'string',
+                'default' => 'https://',
+            ],
+            'placeholder'     => [
+                'type'    => 'string',
+                'default' => 'Website Placeholder',
+            ],
+            'label'           => [
+                'type'    => 'string',
+                'default' => 'Label',
+            ],
+            'label_alignment' => [
+                'type'    => 'string',
+                'default' => 'left',
+            ],
+            'sub_label'       => [
+                'type'    => 'string',
+                'default' => 'Sub Label',
+            ],
+            'required'        => [
+                'type'    => 'boolean',
+                'default' => false,
+            ],
+        ]
     ]
 ];
