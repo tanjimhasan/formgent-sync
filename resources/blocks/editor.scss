@@ -1,6 +1,11 @@
 @import "form/editor.scss";
 @import "name/editor.scss";
 
+.formgent-control-label {
+	display: block;
+	margin-bottom: 6px;
+}
+
 .formgent-repeater-field {
 	border: 1px solid #dadada;
 	margin-bottom: 10px;
@@ -8,7 +13,6 @@
 .formgent-repeater-field-control {
 	display: flex;
 	align-items: center;
-	padding: 10px;
 	button {
 		background: none;
 		border: 0 none;
@@ -17,9 +21,15 @@
 		padding: 0;
 		margin: 0;
 		text-align: left;
+		padding: 10px;
+		cursor: pointer;
+		transition: 0.3s ease;
+		&:hover {
+			background: #f2f2f2;
+		}
 	}
 }
-.formgent-repeater-field--collapsed .formgent-repeater-field-control {
+.formgent-repeater-field--expanded .formgent-repeater-field-control {
 	border-bottom: 1px solid #dadada;
 }
 button.formgent-repeater-field-title {
@@ -32,4 +42,8 @@ button.formgent-repeater-field-remove {
 }
 .formgent-repeater-field-control-content {
 	padding: 10px;
+	label {
+		display: block;
+		margin-bottom: 6px;
+	}
 }
