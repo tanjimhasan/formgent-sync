@@ -4,7 +4,7 @@ namespace FormGent\App\Providers;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Models\Form;
+use FormGent\App\Models\Post;
 use FormGent\WpMVC\Contracts\Provider;
 use FormGent\WpMVC\View\View;
 
@@ -26,7 +26,7 @@ class ShortCodeServiceProvider implements Provider {
         }
 
         $form_id = intval( $attributes['form_id'] );
-        $form    = Form::query()->select( '1' )->where( 'id', $form_id )->where( 'status', 'publish' )->get();
+        $form    = Post::query()->select( '1' )->where( 'ID', $form_id )->where( 'post_status', 'publish' )->get();
 
         if ( empty( $form ) ) {
             return;

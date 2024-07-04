@@ -48,7 +48,7 @@ class ResponseController extends Controller {
 
         $id = $wp_rest_request->get_param( 'id' );
 
-        $form = $this->form_repository->get_by_id_publish( $id, ['post.ID as id', 'post.post_content', 'form.id as form_id', 'form.type'], true );
+        $form = $this->form_repository->get_by_id_publish( $id, ['ID', 'post_content'] );
 
         if ( ! $form ) {
             return Response::send(
@@ -57,6 +57,8 @@ class ResponseController extends Controller {
                 ], 404
             );
         }
+
+        $form->form_type = get_post_meta( $form->ID, 'formgent_type', true );
 
         /**
          * Validating field data and creating field dto for insert.
@@ -72,7 +74,7 @@ class ResponseController extends Controller {
         }
 
         $response_dto = new ResponseDTO;
-        $response_dto->set_form_id( $form->form_id )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
+        $response_dto->set_form_id( $form->ID )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
 
         /**
          * Storing the current user browser and device information, if information is present.
@@ -165,7 +167,7 @@ class ResponseController extends Controller {
                  */
                 $field_handler = formgent_field_handler( $field['field_type'] );
 
-                if ( ! in_array( $form->type, $field_handler::get_supported_form_types(), true ) ) {
+                if ( ! in_array( $form->form_type, $field_handler::get_supported_form_types(), true ) ) {
                     continue;
                 }
 
@@ -192,72 +194,5 @@ class ResponseController extends Controller {
 
         return compact( 'field_dtos', 'children_dtos', 'parent_field_ids', 'errors' );
     }
-
-    // private function form_fields() {
-    //     return [
-    //         [
-    //             'id'             => '5641354164131',
-    //             'type'           => 'long_text',
-    //             'name'           => 'long_text',
-    //             'general_option' => [
-    //                 'validations' => [
-    //                     'required' => [
-    //                         'value' => '1'
-    //                     ]
-    //                 ]
-    //             ]
-    //         ],
-    //         [
-    //             'id'             => '68563161631',
-    //             'type'           => 'short_text',
-    //             'name'           => 'short_text',
-    //             'general_option' => [
-    //                 'validations' => [
-    //                     'required' => [
-    //                         'value' => '1'
-    //                     ]
-    //                 ]
-    //             ]
-    //         ],
-    //         [
-    //             'id'         => '66863161631',
-    //             'type'       => 'name',
-    //             'name'       => 'names',
-    //             'group_name' => 'general',
-    //             'fields'     => [
-    //                 [
-    //                     'id'          => '64563161631',
-    //                     'type'        => 'first_name',
-    //                     'validations' => [
-    //                         'required' => [
-    //                             'value'   => '0',
-    //                             'message' => 'This field is required'
-    //                         ],
-    //                     ],
-    //                 ],
-    //                 [
-    //                     'id'          => '64563166301',
-    //                     'type'        => 'middle_name',
-    //                     'validations' => [
-    //                         'required' => [
-    //                             'value'   => '1',
-    //                             'message' => 'This field is required'
-    //                         ],
-    //                     ],
-    //                 ],
-    //                 [
-    //                     'id'          => '64563161630',
-    //                     'type'        => 'last_name',
-    //                     'validations' => [
-    //                         'required' => [
-    //                             'value'   => '0',
-    //                             'message' => 'This field is required'
-    //                         ],
-    //                     ],
-    //                 ],
-    //             ],
-    //         ]
-    //     ];
-    // }
 }
 
