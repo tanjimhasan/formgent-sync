@@ -11,7 +11,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					type="email"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
-					value={ attributes.value }
 				/>
 			</div>
 		</div>
