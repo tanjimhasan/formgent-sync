@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\ShortText\ShortText;
+use FormGent\App\Fields\Website\Website;
 
 return [
     'formgent/form'       => [
@@ -124,7 +125,7 @@ return [
     'formgent/website'    => [
         'title'      => esc_html__( 'Website', 'formgent' ),
         'types'      => ['general', 'conversational'],
-        'field_type' => ShortText::get_key(),
+        'field_type' => Website::get_key(),
         'attrs'      => [
             'id'              => [
                 'type'    => 'string',
