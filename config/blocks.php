@@ -65,21 +65,37 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Email::get_key(),
         'attrs'      => [
-            'id'    => [
+            'id'              => [
                 'type'    => 'string',
                 'default' => '',
             ],
-            'name'  => [
+            'name'            => [
                 'type'    => 'string',
                 'default' => 'email',
             ],
-            'value' => [
+            'value'           => [
                 'type'    => 'string',
                 'default' => 'test@formgent.com',
             ],
-            'label' => [
+            'placeholder'     => [
                 'type'    => 'string',
-                'default' => 'Formgent Email',
+                'default' => 'Email Placeholder',
+            ],
+            'label'           => [
+                'type'    => 'string',
+                'default' => 'Email Label',
+            ],
+            'label_alignment' => [
+                'type'    => 'string',
+                'default' => 'left',
+            ],
+            'sub_label'       => [
+                'type'    => 'string',
+                'default' => 'Email Sub Label',
+            ],
+            'required'        => [
+                'type'    => 'boolean',
+                'default' => false,
             ],
         ]
     ],
