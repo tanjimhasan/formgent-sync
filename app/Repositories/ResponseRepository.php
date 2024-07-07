@@ -7,7 +7,6 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\DTO\ResponseReadDTO;
 use FormGent\App\Models\Response;
-use FormGent\App\Models\Form;
 use FormGent\App\Models\User;
 use FormGent\App\Models\Post;
 use FormGent\WpMVC\Database\Query\Builder;
@@ -17,12 +16,11 @@ use FormGent\WpMVC\Database\Query\JoinClause;
 class ResponseRepository {
     public function get( ResponseReadDTO $dto ) {
         $responses_query = Response::query( 'response' )
-        ->join( Form::get_table_name() . ' as form', "response.form_id", "form.id" )
-        ->join( Post::get_table_name() . ' as post', 'post.ID', 'form.post_id' )
+        ->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )
         ->where( 'response.is_completed', 1 );
 
-        if ( $dto->get_post_id() ) {
-            $responses_query->where( 'post.ID', $dto->get_post_id() );
+        if ( $dto->get_form_id() ) {
+            $responses_query->where( 'post.ID', $dto->get_form_id() );
         }
 
         if ( $dto->get_is_read() ) {
@@ -30,7 +28,7 @@ class ResponseRepository {
         }
 
         // $this->forms_date_query( $forms_query, $dto );
-        $this->responses_search_query( $responses_query, $dto );
+        // $this->responses_search_query( $responses_query, $dto );
 
         $count_query = clone $responses_query;
 
@@ -41,7 +39,7 @@ class ResponseRepository {
         /**
          * Get response answers from answer table by select field ids
          */
-        $table_field_ids = get_post_meta( $dto->get_post_id(), 'response_table_field_ids', true );
+        $table_field_ids = get_post_meta( $dto->get_form_id(), 'response_table_field_ids', true );
 
         // if ( ! empty( $table_field_ids ) && is_array( $table_field_ids ) ) {
         //     $responses_query->with(
@@ -53,7 +51,7 @@ class ResponseRepository {
 
         $responses_query->select( $select_columns );
 
-        $this->responses_order_query( $responses_query, $dto );
+        // $this->responses_order_query( $responses_query, $dto );
 
         do_action( 'formgent_responses_query', $responses_query, $dto );
 
@@ -93,8 +91,10 @@ class ResponseRepository {
         return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->first();
     }
 
-    public function get_single_by_id( int $id, $columns = ['response.*', 'user.display_name as username', 'form.content as form_content'] ) {
-        return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' )->left_join( Form::get_table_name() . ' as form', 'response.form_id', 'form.id' )->first();
+    public function get_single_by_id( int $id, $columns = ['response.*', 'user.display_name as username'] ) {
+        return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' )
+        // ->left_join( Form::get_table_name() . ' as form', 'response.form_id', 'form.id' )
+        ->first();
     }
 
     public function update_starred( int $response_id, int $is_starred ) {

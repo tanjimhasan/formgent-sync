@@ -22,39 +22,11 @@ class CreateDB implements Migration {
 
         $db_prefix = "{$wpdb->prefix}formgent_";
 
-        
         // -- -----------------------------------------------------
-        // -- Table forms
+        // -- Table responses
         // -- -----------------------------------------------------
 
-        $sql = "CREATE TABLE {$db_prefix}forms (
-            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `post_id` BIGINT UNSIGNED NOT NULL,
-            `type` VARCHAR(50) NOT NULL DEFAULT 'general',
-            `save_incomplete_data` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
-            `content` LONGTEXT NOT NULL,
-            `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`)
-        ) {$charset_collate};
-
-        -- -----------------------------------------------------
-        -- Table form meta
-        -- -----------------------------------------------------
-
-        CREATE TABLE {$db_prefix}form_meta (
-            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-            `form_id` BIGINT UNSIGNED NOT NULL,
-            `meta_key` VARCHAR(255) NOT NULL,
-            `meta_value` LONGTEXT DEFAULT '',
-            PRIMARY KEY (`id`)
-        ) {$charset_collate};
-
-        -- -----------------------------------------------------
-        -- Table responses
-        -- -----------------------------------------------------
-
-        CREATE TABLE {$db_prefix}responses (
+        $sql = "CREATE TABLE {$db_prefix}responses (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
             `is_read` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',

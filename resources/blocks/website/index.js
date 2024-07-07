@@ -1,15 +1,13 @@
 /**
  * Internal dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import Block from '../block';
+import { registerBlock } from '../utils';
 import Edit from './Edit';
+import metadata from './block.json';
 
-const exampleAttributes = {
-	content: 'Sample content for preview',
-};
+const exampleAttributes = {};
 
 const controls = {
 	basic_info: {
@@ -20,37 +18,24 @@ const controls = {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
 			},
+			sub_label: {
+				type: 'text',
+				label: __( 'Sub Label', 'formgent' ),
+			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
+			},
+			placeholder: {
+				type: 'text',
+				label: __( 'Field Placeholder', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
 			},
 		},
 	},
 };
 
-registerBlockType( 'formgent/website', {
-	title: __( 'Website', 'formgent' ),
-	category: 'formgent',
-	icon: 'smiley',
-	description: __( 'FormGent Website Field', 'formgent' ),
-	supports: {
-		html: false,
-	},
-	attributes: formgent_blocks[ 'formgent/website' ].attrs,
-	example: {
-		attributes: exampleAttributes,
-	},
-	/**
-	 * @see ./Edit.js
-	 */
-	edit: function ( { attributes, setAttributes } ) {
-		return (
-			<Block
-				controls={ controls }
-				Edit={ Edit }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-			/>
-		);
-	},
-} );
+registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );
