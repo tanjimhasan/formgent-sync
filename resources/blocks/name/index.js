@@ -66,6 +66,16 @@ const controls = {
 					left: '10px',
 				},
 			},
+			repeater: {
+				type: 'repeater',
+				label: __( 'Options', 'formgent' ),
+				fields: [
+					{
+						title: 'Option 1',
+						content: 'Option 1 content',
+					},
+				],
+			},
 		},
 	},
 };

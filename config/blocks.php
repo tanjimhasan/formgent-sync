@@ -58,6 +58,10 @@ return [
                 'type'    => 'string',
                 'default' => '10px',
             ],
+            'repeater' => [
+                'type'    => 'string',
+                'default' => '[]',
+            ]
         ]
     ],
     'formgent/email'      => [
