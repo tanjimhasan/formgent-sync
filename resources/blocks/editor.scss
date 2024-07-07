@@ -47,3 +47,9 @@ button.formgent-repeater-field-remove {
 		margin-bottom: 6px;
 	}
 }
+
+.formgent-form-group {
+	display: flex;
+	gap: 6px;
+	flex-direction: column;
+}
