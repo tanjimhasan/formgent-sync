@@ -1,11 +1,14 @@
 /**
- * Internal dependencies
+ * wordpress dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import Block from '../block';
+/**
+ * Internal dependencies
+ */
+import { registerBlock } from '../utils';
 import Edit from './Edit';
+import metadata from './block.json';
 
 const exampleAttributes = {
 	content: 'Sample content for preview',
@@ -28,29 +31,4 @@ const controls = {
 	},
 };
 
-registerBlockType( 'formgent/number', {
-	title: __( 'Number', 'formgent' ),
-	category: 'formgent',
-	icon: 'smiley',
-	description: __( 'FormGent Number Field', 'formgent' ),
-	supports: {
-		html: false,
-	},
-	attributes: formgent_blocks[ 'formgent/number' ].attrs,
-	example: {
-		attributes: exampleAttributes,
-	},
-	/**
-	 * @see ./Edit.js
-	 */
-	edit: function ( { attributes, setAttributes } ) {
-		return (
-			<Block
-				controls={ controls }
-				Edit={ Edit }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-			/>
-		);
-	},
-} );
+registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );

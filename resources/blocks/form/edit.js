@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
@@ -32,7 +32,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	const [ options, setOptions ] = useState( [] );
 
 	const onChangeForm = ( formId ) => {
-		setAttributes( { formId: formId } );
+		setAttributes( { formId: parseInt( formId ) } );
 	};
 
 	useEffect( () => {
@@ -41,9 +41,12 @@ export default function Edit( { attributes, setAttributes } ) {
 				setOptions( [
 					{
 						label: __( '-- Select a form --', 'formgent' ),
-						value: '0',
+						value: 0,
 					},
-					...response.forms,
+					...response.forms.map( ( form ) => {
+						form.value = parseInt( form.value );
+						return form;
+					} ),
 				] );
 
 				const formExists = response.forms.some(
@@ -54,7 +57,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				 * If the form does not exist then resetting it.
 				 */
 				if ( ! formExists ) {
-					onChangeForm( '0' );
+					onChangeForm( 0 );
 				}
 			}
 		);
@@ -72,19 +75,21 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			{ '0' === formId ? (
-				<>
-					<h3>FormGent Logo</h3>
-					<SelectControl
-						label={ __( 'SELECT A FORM', 'formgent' ) }
-						value={ formId }
-						options={ options }
-						onChange={ onChangeForm }
-					/>
-				</>
-			) : (
-				<Form formId={ formId } />
-			) }
+			<div { ...useBlockProps() }>
+				{ 0 === formId ? (
+					<>
+						<h3>FormGent Logo</h3>
+						<SelectControl
+							label={ __( 'SELECT A FORM', 'formgent' ) }
+							value={ formId }
+							options={ options }
+							onChange={ onChangeForm }
+						/>
+					</>
+				) : (
+					<Form formId={ formId } />
+				) }
+			</div>
 		</>
 	);
 }

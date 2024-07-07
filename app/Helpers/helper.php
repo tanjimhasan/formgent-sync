@@ -171,7 +171,8 @@ function formgent_post_type() {
 }
 
 function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false ):array {
-    $blocks = formgent_config( 'blocks' );
+    $blocks            = formgent_config( 'blocks' );
+    $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
     $settings = [];
 
@@ -184,8 +185,10 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
 
         $default_attributes = [];
 
-        foreach ( $blocks[$parsed_block['blockName']]['attrs'] as $key => $attr ) {
-            $default_attributes[$key] = $attr['default'];
+        foreach ( $registered_blocks[$parsed_block['blockName']]->get_attributes() as $key => $attr ) {
+            if ( isset( $attr['default'] ) ) {
+                $default_attributes[$key] = $attr['default'];
+            }
         }
 
         $attributes               = array_merge( $default_attributes, $parsed_block['attrs'] );
