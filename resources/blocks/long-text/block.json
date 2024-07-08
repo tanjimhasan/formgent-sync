@@ -21,11 +21,11 @@
     },
     "placeholder": {
       "type": "string",
-      "default": "Long Text Placeholder"
+      "default": "Enter Long Text"
     },
     "label": {
       "type": "string",
-      "default": "Label"
+      "default": "Long Text"
     },
     "label_alignment": {
       "type": "string",
@@ -33,7 +33,7 @@
     },
     "sub_label": {
       "type": "string",
-      "default": "Sub Label"
+      "default": "Enter Long Text Here"
     },
     "required": {
       "type": "boolean",

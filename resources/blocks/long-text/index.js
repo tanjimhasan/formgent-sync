@@ -27,6 +27,24 @@ const controls = {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
 			},
+			label_alignment: {
+				type: 'select',
+				label: __( 'Label Alignment', 'formgent' ),
+				options: [
+					{
+						label: __( 'Left', 'formgent' ),
+						value: 'left',
+					},
+					{
+						label: __( 'Right', 'formgent' ),
+						value: 'right',
+					},
+					{
+						label: __( 'Top', 'formgent' ),
+						value: 'top',
+					},
+				],
+			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
