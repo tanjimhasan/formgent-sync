@@ -41,13 +41,13 @@ class ResponseRepository {
          */
         $table_field_ids = get_post_meta( $dto->get_form_id(), 'response_table_field_ids', true );
 
-        // if ( ! empty( $table_field_ids ) && is_array( $table_field_ids ) ) {
-        //     $responses_query->with(
-        //         'answers', function( Builder $query ) use( $table_field_ids ) {
-        //             $query->select( 'field_id', 'field_type', 'value', 'response_id' )->where_in( 'field_id', $table_field_ids );
-        //         }
-        //     );
-        // }
+        if ( ! empty( $table_field_ids ) && is_array( $table_field_ids ) ) {
+            $responses_query->with(
+                'answers', function( Builder $query ) use( $table_field_ids ) {
+                    $query->select( 'field_id', 'field_type', 'value', 'response_id' )->where_in( 'field_id', $table_field_ids );
+                }
+            );
+        }
 
         $responses_query->select( $select_columns );
 
