@@ -1,19 +1,26 @@
-import { useBlockProps } from '@wordpress/block-editor';
-
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div { ...useBlockProps() }>
-			<div className="formgent-form-group">
-				<label>
-					Label: { attributes.label }{ ' ' }
-					{ attributes.required ? '*' : '' }
-				</label>
+		<div className="formgent-form-block">
+			<label
+				className={ `formgent-form-block__label label-align-${ attributes.label_alignment }` }
+			>
+				{ attributes.label }
+				{ attributes.required ? (
+					<span className="formgent-form-block__label__required">
+						*
+					</span>
+				) : null }
+			</label>
+			<div className="formgent-form-block__wrapper">
 				<input
-					type="text"
+					className="formgent-form-block__input"
+					type="email"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 				/>
-				<span>{ attributes.sub_label }</span>
+				<span className="formgent-form-block__sub-label">
+					{ attributes.sub_label }
+				</span>
 			</div>
 		</div>
 	);
