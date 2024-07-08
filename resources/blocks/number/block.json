@@ -1,42 +1,42 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "formgent/number",
-	"title": "Number",
-	"category": "formgent",
-	"description": "FormGent Number field.",
-	"textdomain": "formgent",
-	"attributes": {
-		"id": {
-			"type": "string",
-			"default": ""
-		},
-		"name": {
-			"type": "string",
-			"default": "number"
-		},
-		"value": {
-			"type": "number",
-			"default": "123"
-		},
-		"label": {
-			"type": "string",
-			"default": "Label"
-		},
-		"label_alignment": {
-			"type": "string",
-			"default": "left"
-		},
-		"sub_label": {
-			"type": "string",
-			"default": "Sub Label"
-		},
-		"required": {
-			"type": "boolean",
-			"default": false
-		}
-	},
-	"supports": {
-		"interactivity": true
-	}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "formgent/number",
+  "title": "Number",
+  "category": "formgent",
+  "description": "FormGent Number field.",
+  "textdomain": "formgent",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "default": ""
+    },
+    "name": {
+      "type": "string",
+      "default": "number"
+    },
+    "value": {
+      "type": "number",
+      "default": "123"
+    },
+    "label": {
+      "type": "string",
+      "default": "Number"
+    },
+    "label_alignment": {
+      "type": "string",
+      "default": "left"
+    },
+    "sub_label": {
+      "type": "string",
+      "default": "Enter Number Here"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "interactivity": true
+  }
 }

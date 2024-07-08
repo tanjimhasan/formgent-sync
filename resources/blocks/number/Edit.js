@@ -1,11 +1,26 @@
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div className="formgent-form-group">
-			<label>
-				Label: { attributes.label } { attributes.required ? '*' : '' }
+		<div className="formgent-form-block">
+			<label
+				className={ `formgent-form-block__label label-align-${ attributes.label_alignment }` }
+			>
+				{ attributes.label }
+				{ attributes.required ? (
+					<span className="formgent-form-block__label__required">
+						*
+					</span>
+				) : null }
 			</label>
-			<input type="number" name={ attributes.name } />
-			<span>{ attributes.sub_label }</span>
+			<div className="formgent-form-block__wrapper">
+				<input
+					className="formgent-form-block__input"
+					type="number"
+					name={ attributes.name }
+				/>
+				<span className="formgent-form-block__sub-label">
+					{ attributes.sub_label }
+				</span>
+			</div>
 		</div>
 	);
 }
