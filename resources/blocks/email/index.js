@@ -38,12 +38,12 @@ const controls = {
 						value: 'left',
 					},
 					{
-						label: __( 'Center', 'formgent' ),
-						value: 'center',
-					},
-					{
 						label: __( 'Right', 'formgent' ),
 						value: 'right',
+					},
+					{
+						label: __( 'Top', 'formgent' ),
+						value: 'top',
 					},
 				],
 			},
