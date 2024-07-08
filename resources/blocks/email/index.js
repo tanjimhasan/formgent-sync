@@ -17,21 +17,43 @@ const controls = {
 		type: 'panel',
 		label: __( 'Basic info', 'formgent' ),
 		children: {
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			label: {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
+			},
+			sub_label: {
+				type: 'text',
+				label: __( 'Sub Label', 'formgent' ),
 			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
 			},
-			sub_label: {
+			label_alignment: {
+				type: 'select',
+				label: __( 'Label Alignment', 'formgent' ),
+				options: [
+					{
+						label: __( 'Left', 'formgent' ),
+						value: 'left',
+					},
+					{
+						label: __( 'Center', 'formgent' ),
+						value: 'center',
+					},
+					{
+						label: __( 'Right', 'formgent' ),
+						value: 'right',
+					},
+				],
+			},
+			placeholder: {
 				type: 'text',
-				label: __( 'Sub Label', 'formgent' ),
+				label: __( 'Field Placeholder', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
 			},
 		},
 	},
