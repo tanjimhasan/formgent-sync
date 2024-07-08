@@ -4,7 +4,11 @@ export default function Edit( { attributes, setAttributes } ) {
 			<label>
 				{ attributes.label } { attributes.required ? '*' : '' }
 			</label>
-			<input type="text" value={ attributes.value } />
+			<input
+				type="email"
+				name={ attributes.name }
+				placeholder={ attributes.placeholder }
+			/>
 		</div>
 	);
 }

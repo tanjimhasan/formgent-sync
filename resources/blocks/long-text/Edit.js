@@ -2,18 +2,19 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<p { ...useBlockProps() }>
+		<div { ...useBlockProps() }>
 			<div className="formgent-form-group">
 				<label>
-					{ attributes.label } { attributes.required ? '*' : '' }
+					Label: { attributes.label }{ ' ' }
+					{ attributes.required ? '*' : '' }
 				</label>
-				<textarea
+				<input
+					type="text"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
-					rows="4"
-					cols="50"
 				/>
+				<span>{ attributes.sub_label }</span>
 			</div>
-		</p>
+		</div>
 	);
 }

@@ -2,23 +2,29 @@
  * Internal dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import Controls from './controls';
 import { useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { select } from '@wordpress/data';
+import { registerBlockType } from '@wordpress/blocks';
 
-export default function Block( { controls, Edit, attributes, setAttributes } ) {
+function Block( { controls, Edit, attributes, setAttributes } ) {
 	useEffect( () => {
 		/**
 		 * If id length is empty, that's mean it's a new block.
 		 */
-		if ( 0 !== attributes.id.length ) {
+		if ( undefined === attributes.id || 0 !== attributes.id.length ) {
 			return;
 		}
 
 		const selectedBlock = select( 'core/block-editor' ).getSelectedBlock();
+
+		if ( ! selectedBlock ) {
+			return;
+		}
+
 		const blocks = select( blockEditorStore )
 			.getBlocks()
 			.filter( ( block ) => block.name === selectedBlock.name );
@@ -36,7 +42,12 @@ export default function Block( { controls, Edit, attributes, setAttributes } ) {
 
 	return (
 		<>
-			<Edit attributes={ attributes } setAttributes={ setAttributes } />
+			<div { ...useBlockProps() }>
+				<Edit
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			</div>
 			<InspectorControls>
 				<Controls
 					controls={ controls }
@@ -46,4 +57,29 @@ export default function Block( { controls, Edit, attributes, setAttributes } ) {
 			</InspectorControls>
 		</>
 	);
+}
+
+export function registerBlock(
+	metadata,
+	controls,
+	Edit,
+	icon = 'smiley',
+	exampleAttributes = {}
+) {
+	registerBlockType( metadata.name, {
+		icon,
+		example: {
+			attributes: exampleAttributes,
+		},
+		edit: function ( { attributes, setAttributes } ) {
+			return (
+				<Block
+					controls={ controls }
+					Edit={ Edit }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			);
+		},
+	} );
 }

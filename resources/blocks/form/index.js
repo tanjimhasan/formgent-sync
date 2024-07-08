@@ -1,24 +1,21 @@
 /**
+ * wordpress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+
+/**
  * Internal dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
-import Edit from './edit';
+import Edit from './Edit';
+import metadata from './block.json';
 
-const exampleAttributes = {
-	// formId: {
-	// 	type: 'string',
-	// 	default: '0',
-	// },
-};
+const exampleAttributes = {};
 
-registerBlockType( 'formgent/form', {
-	title: __( 'Form', 'formgent' ),
+registerBlockType( metadata.name, {
 	icon: 'smiley',
-	category: 'formgent',
-	attributes: formgent_blocks[ 'formgent/form' ].attrs,
 	example: {
-		// attributes: exampleAttributes,
+		attributes: exampleAttributes,
 	},
 	edit: Edit,
 } );
