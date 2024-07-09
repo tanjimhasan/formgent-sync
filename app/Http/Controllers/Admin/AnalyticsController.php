@@ -20,7 +20,7 @@ class AnalyticsController extends Controller {
     }
 
     public function form_summary( Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $validator->validate( [ 'id' => 'required|numeric' ] );
+        $validator->validate( [ 'form_id' => 'required|numeric' ] );
 
         if ( $validator->is_fail() ) {
             return Response::send(
@@ -39,7 +39,7 @@ class AnalyticsController extends Controller {
     public function increment_or_decrement_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'type' => 'string|accepted:+,-',
+                'type' => 'required|string|accepted:+,-',
             ]
         );
 
