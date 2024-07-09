@@ -5,6 +5,9 @@ const ResultsHeaderStyle = Styled.div`
         display: flex;
         justify-content: center;
         .formgent-results-header__nav__link {
+            display: flex;
+            gap: 6px;
+            align-items: center;
             font-size: 14px;
             font-weight: 600;
             padding: 10px 15px;
