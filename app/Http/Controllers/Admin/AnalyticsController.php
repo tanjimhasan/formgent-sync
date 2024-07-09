@@ -83,7 +83,6 @@ class AnalyticsController extends Controller {
                     )
                 ]
             );
-
         } catch ( Exception $e ) {
             return Response::send(
                 [
