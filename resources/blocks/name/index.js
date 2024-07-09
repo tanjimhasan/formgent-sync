@@ -1,11 +1,14 @@
 /**
- * Internal dependencies
+ * wordpress dependencies
  */
-import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import Block from '../block';
-import Edit from './edit';
+/**
+ * Internal dependencies
+ */
+import { registerBlock } from '../utils';
+import Edit from './Edit';
+import metadata from './block.json';
 
 const exampleAttributes = {
 	content: 'Sample content for preview',
@@ -41,12 +44,10 @@ const controls = {
 			checkbox: {
 				type: 'checkbox',
 				label: __( 'Checkbox', 'formgent' ),
-				checkbox_text: __( 'Is author?', 'formgent' ),
 			},
 			switch: {
 				type: 'switch',
 				label: __( 'Switch', 'formgent' ),
-				switch_text: __( 'Enable user validation', 'formgent' ),
 			},
 			margin: {
 				type: 'dimension',
@@ -68,33 +69,18 @@ const controls = {
 					left: '10px',
 				},
 			},
+			repeater: {
+				type: 'repeater',
+				label: __( 'Options', 'formgent' ),
+				fields: [
+					{
+						title: 'Option 1',
+						content: 'Option 1 content',
+					},
+				],
+			},
 		},
 	},
 };
 
-registerBlockType( 'formgent/name', {
-	title: __( 'Name', 'formgent' ),
-	category: 'formgent',
-	icon: 'smiley',
-	description: __( 'FormGent name field', 'formgent' ),
-	supports: {
-		html: false,
-	},
-	attributes: formgent_blocks[ 'formgent/name' ].attrs,
-	example: {
-		attributes: exampleAttributes,
-	},
-	/**
-	 * @see ./edit.js
-	 */
-	edit: function ( { attributes, setAttributes } ) {
-		return (
-			<Block
-				controls={ controls }
-				Edit={ Edit }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-			/>
-		);
-	},
-} );
+registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );

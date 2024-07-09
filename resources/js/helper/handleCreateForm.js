@@ -19,13 +19,15 @@ export default async function handleCreateForm(
 
 	try {
 		const createFormResponse = await postData( 'admin/forms', formData );
-		createFormSuccess( formData, createFormResponse?.form?.id );
-		updateForms( createFormResponse.form );
-		updateCreatePopUp( false );
-		navigate( `/forms/${ createFormResponse?.form?.id }/edit` );
+
+		// TODO
+		// createFormSuccess( formData, createFormResponse?.form?.id );
+		// updateForms( createFormResponse.form );
+		// updateCreatePopUp( false );
 		doAction( 'formgent-toast', {
 			message: createFormResponse.message,
 		} );
+		location.href = createFormResponse.form_edit_url;
 	} catch ( error ) {
 		let errors = {};
 		if ( error.message ) {

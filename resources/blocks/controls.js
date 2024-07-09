@@ -1,12 +1,16 @@
 import {
+	CheckboxControl,
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	CheckboxControl,
+	Button,
+	Icon,
+	TextareaControl,
 	__experimentalInputControl as InputControl,
 	__experimentalBoxControl as BoxControl,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import Repeater from './controls/Repeater';
 
 const controlGenerators = {
 	panel: function ( { control, attributes, setAttributes } ) {
@@ -23,7 +27,9 @@ const controlGenerators = {
 	text: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<>
-				<label>{ control.label }</label>
+				<label className="formgent-control-label">
+					{ control.label }
+				</label>
 				<InputControl
 					value={ attributes[ attr_key ] }
 					onChange={ ( value ) =>
@@ -36,7 +42,9 @@ const controlGenerators = {
 	select: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<>
-				<label>{ control.label }</label>
+				<label className="formgent-control-label">
+					{ control.label }
+				</label>
 				<SelectControl
 					value={ attributes[ attr_key ] }
 					options={ control.options }
@@ -49,41 +57,33 @@ const controlGenerators = {
 	},
 	checkbox: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
-			<>
-				<label>{ control.label }</label>
-				<CheckboxControl
-					label={ control.checkbox_text }
-					checked={ attributes[ attr_key ] === '0' ? false : true }
-					onChange={ ( value ) => {
-						value === true
-							? setAttributes( { [ attr_key ]: '1' } )
-							: setAttributes( { [ attr_key ]: '0' } );
-					} }
-				/>
-			</>
+			<CheckboxControl
+				label={ control.label }
+				checked={ attributes[ attr_key ] }
+				onChange={ ( value ) =>
+					setAttributes( { [ attr_key ]: value } )
+				}
+			/>
 		);
 	},
 	switch: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
-			<>
-				<label>{ control.label }</label>
-				<ToggleControl
-					label={ control.switch_text }
-					checked={ attributes[ attr_key ] === '0' ? false : true }
-					onChange={ ( value ) => {
-						value === true
-							? setAttributes( { [ attr_key ]: '1' } )
-							: setAttributes( { [ attr_key ]: '0' } );
-					} }
-				/>
-			</>
+			<ToggleControl
+				label={ control.label }
+				checked={ attributes[ attr_key ] }
+				onChange={ ( value ) =>
+					setAttributes( { [ attr_key ]: value } )
+				}
+			/>
 		);
 	},
 	dimension: function ( { attr_key, control, setAttributes } ) {
 		const [ values, setValues ] = useState( control.values );
 		return (
 			<>
-				<label>{ control.label }</label>
+				<label className="formgent-control-label">
+					{ control.label }
+				</label>
 				<BoxControl
 					label=""
 					values={ values }
@@ -95,6 +95,7 @@ const controlGenerators = {
 			</>
 		);
 	},
+	repeater: Repeater,
 };
 
 export default function Controls( { controls, attributes, setAttributes } ) {

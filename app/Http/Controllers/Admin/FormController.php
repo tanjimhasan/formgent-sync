@@ -10,7 +10,6 @@ use FormGent\App\DTO\FormReadDTO;
 use FormGent\App\EnumeratedList\FormType;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Models\Answer;
-use FormGent\App\Models\Form;
 use FormGent\App\Models\Post;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
@@ -69,45 +68,13 @@ class FormController extends Controller {
         return Response::send( $response );
     }
 
-    public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $validator->validate(
-            [
-                'id' => 'required|numeric'
-            ]
-        );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
-
-        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
-
-        if ( ! $form ) {
-            return Response::send(
-                [
-                    'message' => esc_html__( 'Form not found', 'formgent' )
-                ], 404
-            );
-        }
-
-        return Response::send(
-            [
-                'form' => $form
-            ]
-        );
-    }
-
     public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'title'   => 'required|string|max:255|min:5',
-                'status'  => 'required|string|accepted:publish,draft',
-                'content' => 'required|json',
-                'type'    => 'required|string|accepted:general,conversational'
+                'title'  => 'required|string|max:255|min:5',
+                'status' => 'required|string|accepted:publish,draft',
+                // 'content' => 'required|json',
+                'type'   => 'required|string|accepted:general,conversational'
             ]
         );
 
@@ -124,7 +91,7 @@ class FormController extends Controller {
 
             $dto->set_title( $wp_rest_request->get_param( 'title' ) );
             $dto->set_status( $wp_rest_request->get_param( 'status' ) );
-            $dto->set_content( $wp_rest_request->get_param( 'content' ) );
+            // $dto->set_content( $wp_rest_request->get_param( 'content' ) );
             $dto->set_type( $wp_rest_request->get_param( 'type' ) );
 
             do_action( "formgent_before_create_form", $dto, $wp_rest_request );
@@ -137,91 +104,9 @@ class FormController extends Controller {
 
             return Response::send(
                 [
-                    'form'    => $this->form_repository->get_by_id( $form_id ),
-                    'message' => esc_html__( 'The form has been created successfully.', 'formgent' )
+                    'form_edit_url' => add_query_arg( ['post' => $form_id, 'action' => 'edit'], admin_url( 'post.php' ) ),
+                    'message'       => esc_html__( 'The form has been created successfully.', 'formgent' )
                 ], 201
-            );
-        } catch ( Exception $exception ) {
-            return Response::send(
-                [
-                    'message' => $exception->getMessage()
-                ],
-                $exception->getCode()
-            );
-        }
-    }
-
-    public function update( Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $validator->validate(
-            [
-                'id'          => 'required|numeric',
-                'title'       => 'required|string|max:255|min:5',
-                'status'      => 'required|string|accepted:publish,draft',
-                'font_family' => 'required|string',
-                'content'     => 'required|json'
-            ]
-        );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
-
-        $form = $this->form_repository->get_by_id( $wp_rest_request->get_param( 'id' ), ['id', 'type'] );
-
-        if ( ! $form ) {
-            return Response::send(
-                [
-                    'message' => esc_html__( "Form not found", "formgent" )
-                ], 404
-            );
-        }
-
-        $dto = new FormDTO;
-
-        if ( FormType::CONVERSATIONAL === $form->type ) {
-            $validator->validate(
-                [
-                    'save_incomplete_data' => 'required|integer|accepted:0,1'
-                ]
-            );
-    
-            if ( $validator->is_fail() ) {
-                return Response::send(
-                    [
-                        'messages' => $validator->errors
-                    ], 422
-                );
-            }
-
-            $dto->set_save_incomplete_data( $wp_rest_request->get_param( 'save_incomplete_data' ) );
-        }
-
-        $dto->set_id( $wp_rest_request->get_param( 'id' ) );
-        $dto->set_title( $wp_rest_request->get_param( 'title' ) );
-        $dto->set_status( $wp_rest_request->get_param( 'status' ) );
-        $dto->set_content( $wp_rest_request->get_param( 'content' ) );
-
-        if ( $wp_rest_request->has_param( 'font_family' ) ) {
-            $dto->set_font_family( $wp_rest_request->get_param( 'font_family' ) );
-        }
-
-        $dto->set_created_by( get_current_user_id() );
-
-        try {
-            do_action( "formgent_before_update_form", $dto, $wp_rest_request );
-
-            $this->form_repository->update( $dto );
-
-            do_action( "formgent_after_update_form", $dto, $wp_rest_request );
-
-            return Response::send(
-                [
-                    'message' => esc_html__( 'The form has been updated successfully.', 'formgent' )
-                ]
             );
         } catch ( Exception $exception ) {
             return Response::send(
@@ -317,17 +202,11 @@ class FormController extends Controller {
         }
 
         $dto = new FormDTO;
-
-        foreach ( $form as $column => $value ) {
-            if ( in_array( $column, ['id', 'title', 'created_at', 'updated_at'], true ) ) {
-                continue;
-            }
-            $set_method = "set_{$column}";
-            $dto->$set_method( $value );
-        }
-
-        $dto->set_title( $form->title . ' - copy' );
-        $dto->set_created_by( get_current_user_id() );
+        $dto->set_title( $form->post_title . ' - copy' );
+        $dto->set_status( $form->post_status );
+        $dto->set_content( $form->post_content );
+        $dto->set_type( get_post_meta( $form->ID, 'formgent_type', true ) );
+        $dto->set_save_incomplete_data( (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true ) );
 
         try {
             do_action( "formgent_before_duplicate_form", $dto, $wp_rest_request );
@@ -359,7 +238,7 @@ class FormController extends Controller {
     public function select( Validator $validator, WP_REST_Request $wp_rest_request ) {
         return Response::send(
             [
-                'forms' => Post::query( 'form' )->select( 'form.post_title as label', 'form.ID as value' )->where( 'form.post_type', formgent_app_config( 'post_type' ) )->where( 'form.post_status', 'publish' )->order_by_desc( 'form.id' )->get()
+                'forms' => Post::query( 'post' )->select( 'post.post_title as label', 'post.ID as value' )->where( 'post.post_type', formgent_app_config( 'post_type' ) )->where( 'post.post_status', 'publish' )->order_by_desc( 'post.ID' )->get()
             ]
         );
     }
@@ -425,7 +304,7 @@ class FormController extends Controller {
             $forms = $this->form_repository->deletes( $form_ids );
 
             foreach ( $forms as $form ) {
-                do_action( 'formgent_after_delete_form', $form->id, $form );
+                do_action( 'formgent_after_delete_form', $form->ID, $form );
             }
 
             return Response::send(
@@ -529,7 +408,7 @@ class FormController extends Controller {
 
         $content['fields'] = array_values( $fields );
 
-        $this->form_repository->update_content( $form_id, json_encode( $content ) );
+        // $this->form_repository->update_content( $form_id, json_encode( $content ) );
 
         /**
          * Remove field response
