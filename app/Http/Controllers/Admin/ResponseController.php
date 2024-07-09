@@ -137,7 +137,8 @@ class ResponseController extends Controller {
             );
         }
 
-        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        $form_id = intval( $wp_rest_request->get_param( 'form_id' ) );
+        $form    = $this->form_repository->get_by_id( $form_id );
 
         if ( ! $form ) {
             return Response::send(
@@ -150,16 +151,17 @@ class ResponseController extends Controller {
         $allowed_fields = formgent_get_response_table_allowed_fields();
         $fields         = [];
 
-        $selected_fields = maybe_unserialize( formgent_get_form_meta_value( $form->id, 'response_table_field_ids' ) );
+        $selected_fields = get_post_meta( $form->ID, 'response_table_field_ids', true );
+        $fields_settings = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
-        foreach ( json_decode( $form->content, true )['fields'] as $field ) {
-            if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
+        foreach ( $fields_settings as $field ) {
+            if ( ! in_array( $field['field_type'], $allowed_fields, true ) ) {
                 continue;
             }
 
             $fields[] = [
                 'id'    => $field['id'],
-                'label' => $field['general_option']['label']
+                'label' => $field['label']
             ];
         }
 
@@ -197,7 +199,8 @@ class ResponseController extends Controller {
             );
         }
 
-        $form = $this->form_repository->get_by_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
+        $form_id = intval( $wp_rest_request->get_param( 'form_id' ) );
+        $form    = $this->form_repository->get_by_id( $form_id, [1] );
 
         if ( ! $form ) {
             return Response::send(
@@ -209,7 +212,7 @@ class ResponseController extends Controller {
 
         $field_ids = map_deep( $field_ids, "sanitize_text_field" );
 
-        formgent_update_form_meta( $form->id, "response_table_field_ids", serialize( $field_ids ) );
+        update_post_meta( $form_id, "response_table_field_ids", $field_ids );
 
         return Response::send( [] );
     }
@@ -302,7 +305,11 @@ class ResponseController extends Controller {
 
         return Response::send(
             [
-                'form'      => $this->form_repository->get_by_id( $form_id, ['content'] ),
+                'form'      => array_map(
+                    function( $field ) {
+                        return ['label' => $field['label'], 'field_type' => $field['field_type']];
+                    }, formgent_get_form_field_settings( parse_blocks( $this->form_repository->get_by_id( $form_id, ['post_content'] )->post_content ), true )
+                ),
                 'responses' => $this->repository->get_export_data( $form_id, $response_ids )
             ]
         );

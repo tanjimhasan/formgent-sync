@@ -30,9 +30,11 @@ abstract class Field {
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
         $rules = [];
 
-        if ( '1' === formgent_get_nested_value( "general_option.validations.required.value", $field ) ) {
-            $rules[] = 'required|string';
+        if ( isset( $field["required"] ) && '1' ===  $field["required"] ) {
+            $rules[] = 'required';
         }
+
+        $rules[] = 'string';
 
         if ( ! empty( $rules ) ) {
 
@@ -48,7 +50,7 @@ abstract class Field {
 
     public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
         $dto = new AnswerDTO();
-        return $dto->set_form_id( $form->id )->set_field_type( $field['type'] )->set_field_id( $field['id'] )->set_value( $wp_rest_request->get_param( static::get_key() ) );
+        return $dto->set_form_id( $form->ID )->set_field_type( $field['field_type'] )->set_field_id( $field['id'] )->set_value( $wp_rest_request->get_param( static::get_key() ) );
     }
  
     public function get_children_dtos( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): array {

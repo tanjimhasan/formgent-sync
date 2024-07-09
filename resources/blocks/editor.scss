@@ -1,0 +1,49 @@
+@import "form/editor.scss";
+@import "name/editor.scss";
+
+.formgent-control-label {
+	display: block;
+	margin-bottom: 6px;
+}
+
+.formgent-repeater-field {
+	border: 1px solid #dadada;
+	margin-bottom: 10px;
+}
+.formgent-repeater-field-control {
+	display: flex;
+	align-items: center;
+	button {
+		background: none;
+		border: 0 none;
+		outline: 0;
+		box-shadow: none;
+		padding: 0;
+		margin: 0;
+		text-align: left;
+		padding: 10px;
+		cursor: pointer;
+		transition: 0.3s ease;
+		&:hover {
+			background: #f2f2f2;
+		}
+	}
+}
+.formgent-repeater-field--expanded .formgent-repeater-field-control {
+	border-bottom: 1px solid #dadada;
+}
+button.formgent-repeater-field-title {
+	width: 80%;
+}
+button.formgent-repeater-field-remove {
+	flex: 20%;
+	text-align: center;
+	border-left: 1px solid #dadada;
+}
+.formgent-repeater-field-control-content {
+	padding: 10px;
+	label {
+		display: block;
+		margin-bottom: 6px;
+	}
+}

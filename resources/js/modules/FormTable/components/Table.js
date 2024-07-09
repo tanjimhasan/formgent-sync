@@ -17,7 +17,7 @@ export default function Table() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { forms, pagination, isLoading } = FormReducer;
+	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
 
 	const rowSelection = {
 		selectedRowKeys,
@@ -41,6 +41,7 @@ export default function Table() {
 			render: ( text, record ) => (
 				<TitleBox
 					form={ record }
+					form_edit_url={ form_edit_url }
 					editableForm={ editableForm }
 					setEditableForm={ setEditableForm }
 				/>

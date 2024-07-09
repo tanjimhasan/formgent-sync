@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "formgent/email",
+	"title": "Email",
+	"category": "formgent",
+	"description": "FormGent Email field.",
+	"textdomain": "formgent",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"name": {
+			"type": "string",
+			"default": "email"
+		},
+		"value": {
+			"type": "string",
+			"default": "test@formgent.com"
+		},
+		"placeholder": {
+			"type": "string",
+			"default": "Email Placeholder"
+		},
+		"label": {
+			"type": "string",
+			"default": "Email Label"
+		},
+		"label_alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"sub_label": {
+			"type": "string",
+			"default": "Email Sub Label"
+		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"interactivity": true
+	}
+}

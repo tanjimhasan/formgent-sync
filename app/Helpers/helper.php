@@ -6,11 +6,11 @@ use FormGent\WpMVC\App;
 use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
 use FormGent\App\Fields\Name\Name;
+use FormGent\App\Fields\Email\Email;
+use FormGent\App\Fields\Number\Number;
 use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\LongText\LongText;
 use FormGent\App\Utils\DateTime;
-use FormGent\App\Repositories\ResponseRepository;
-use FormGent\App\Repositories\FormMetaRepository;
 
 function formgent():App {
     return App::$instance;
@@ -67,11 +67,11 @@ function formgent_is_valid_date( string $date, string $format ) {
 }
 
 function formgent_get_response_allowed_fields() {
-    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key()] );
+    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key(), Email::get_key(), Number::get_key()] );
 }
 
 function formgent_get_response_table_allowed_fields() {
-    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key()] );
+    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key(), Email::get_key(), Number::get_key()] );
 }
 
 /**
@@ -163,22 +163,40 @@ function formgent_generate_token() {
     return $token;
 }
 
-function formgent_get_response_by_token( string $token, int $form_id ) {
-    /**
-     * @var FormMetaRepository $form_meta_repository
-     */
-    $form_meta_repository = formgent_singleton( FormMetaRepository::class );
-    $response_id          = $form_meta_repository->get_meta_value( $form_id, $token );
-
-    /**
-     * @var ResponseRepository $response_repository
-     */
-    $response_repository = formgent_singleton( ResponseRepository::class );
-    return $response_repository->get_by_id( $response_id );
-}
-
 function formgent_font_family_dir( string $file = '' ) {
     return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
 }
 
-include_once 'formmeta.php';
+function formgent_post_type() {
+    return formgent_app_config( 'post_type' );
+}
+
+function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false ):array {
+    $blocks            = formgent_config( 'blocks' );
+    $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
+
+    $settings = [];
+
+    $array_key = $by_id ? 'id' : 'name';
+
+    foreach ( $parsed_blocks as $parsed_block ) {
+        if ( empty( $parsed_block['blockName'] ) ) {
+            continue;
+        }
+
+        $default_attributes = [];
+
+        foreach ( $registered_blocks[$parsed_block['blockName']]->get_attributes() as $key => $attr ) {
+            if ( isset( $attr['default'] ) ) {
+                $default_attributes[$key] = $attr['default'];
+            }
+        }
+
+        $attributes               = array_merge( $default_attributes, $parsed_block['attrs'] );
+        $attributes['field_type'] = $blocks[$parsed_block['blockName']]['field_type'];
+
+        $settings[$attributes[$array_key]] = $attributes;
+    }
+
+    return $settings;
+}

@@ -7,18 +7,20 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\DTO\ResponseReadDTO;
 use FormGent\App\Models\Response;
-use FormGent\App\Models\Form;
 use FormGent\App\Models\User;
+use FormGent\App\Models\Post;
 use FormGent\WpMVC\Database\Query\Builder;
 use FormGent\App\Models\Answer;
 use FormGent\WpMVC\Database\Query\JoinClause;
 
 class ResponseRepository {
     public function get( ResponseReadDTO $dto ) {
-        $responses_query = Response::query( 'response' )->left_join( Form::get_table_name() . ' as form', "response.form_id", "form.id" )->where( 'response.is_completed', 1 );
+        $responses_query = Response::query( 'response' )
+        ->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )
+        ->where( 'response.is_completed', 1 );
 
         if ( $dto->get_form_id() ) {
-            $responses_query->where( 'response.form_id', $dto->get_form_id() );
+            $responses_query->where( 'post.ID', $dto->get_form_id() );
         }
 
         if ( $dto->get_is_read() ) {
@@ -26,18 +28,18 @@ class ResponseRepository {
         }
 
         // $this->forms_date_query( $forms_query, $dto );
-        $this->responses_search_query( $responses_query, $dto );
+        // $this->responses_search_query( $responses_query, $dto );
 
         $count_query = clone $responses_query;
 
         do_action( 'formgent_responses_count_query', $count_query, $dto );
 
-        $select_columns = ['response.id', 'response.form_id', 'form.title as form_title', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
+        $select_columns = ['response.id', 'response.form_id', 'post.post_title as form_title', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
 
         /**
          * Get response answers from answer table by select field ids
          */
-        $table_field_ids = maybe_unserialize( formgent_get_form_meta_value( $dto->get_form_id(), 'response_table_field_ids' ) );
+        $table_field_ids = get_post_meta( $dto->get_form_id(), 'response_table_field_ids', true );
 
         if ( ! empty( $table_field_ids ) && is_array( $table_field_ids ) ) {
             $responses_query->with(
@@ -49,7 +51,7 @@ class ResponseRepository {
 
         $responses_query->select( $select_columns );
 
-        $this->responses_order_query( $responses_query, $dto );
+        // $this->responses_order_query( $responses_query, $dto );
 
         do_action( 'formgent_responses_query', $responses_query, $dto );
 
@@ -78,7 +80,7 @@ class ResponseRepository {
             return $query;
         }
 
-        return $query->where( "form.title", 'like',  "%{$search}%" );
+        return $query->where( "post.post_title", 'like',  "%{$search}%" );
     }
 
     public function create( ResponseDTO $dto ) {
@@ -89,8 +91,10 @@ class ResponseRepository {
         return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->first();
     }
 
-    public function get_single_by_id( int $id, $columns = ['response.*', 'user.display_name as username', 'form.content as form_content'] ) {
-        return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' )->left_join( Form::get_table_name() . ' as form', 'response.form_id', 'form.id' )->first();
+    public function get_single_by_id( int $id, $columns = ['response.*', 'user.display_name as username'] ) {
+        return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' )
+        // ->left_join( Form::get_table_name() . ' as form', 'response.form_id', 'form.id' )
+        ->first();
     }
 
     public function update_starred( int $response_id, int $is_starred ) {

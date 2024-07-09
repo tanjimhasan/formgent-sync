@@ -10,7 +10,7 @@ import { TitleBoxStyle } from './style';
 import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
-	const { form, editableForm, setEditableForm } = props;
+	const { form, form_edit_url, editableForm, setEditableForm } = props;
 	const { id, title, created_at } = form;
 
 	const { updateTitleRequest, updateTitleSuccess, updateTitleError } =
@@ -100,9 +100,9 @@ export default function TItleBox( props ) {
 			) : (
 				<div className="formgent-titlebox__content">
 					<div className="formgent-titleBox-text">
-						<Link to={ `forms/${ id }/edit` }>
+						<a href={ `${ form_edit_url }&post=${ id }` }>
 							<span className="formgent-title">{ title }</span>
-						</Link>
+						</a>
 						<ul className="formgent-titleBox-meta">
 							<li className="formgent-titleBox-meta__id">
 								{ __( 'ID', 'formgent' ) } #{ id }

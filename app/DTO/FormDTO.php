@@ -13,13 +13,9 @@ class FormDTO extends DTO {
 
     private string $type;
 
-    private string $content;
+    private string $content = '';
 
-    private ?string $font_family = null;
-
-    private int $created_by;
-
-    private int $save_incomplete_data = 0;
+    private bool $save_incomplete_data = false;
 
     /**
      * Get the value of id
@@ -132,66 +128,22 @@ class FormDTO extends DTO {
     }
 
     /**
-     * Get the value of font_family
-     *
-     * @return string
-     */
-    public function get_font_family() {
-        return $this->font_family;
-    }
-
-    /**
-     * Set the value of font_family
-     *
-     * @param string $font_family 
-     *
-     * @return self
-     */
-    public function set_font_family( string $font_family ) {
-        $this->font_family = $font_family;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of created_by
-     *
-     * @return int
-     */
-    public function get_created_by() {
-        return $this->created_by;
-    }
-
-    /**
-     * Set the value of created_by
-     *
-     * @param int $created_by 
-     *
-     * @return self
-     */
-    public function set_created_by( int $created_by ) {
-        $this->created_by = $created_by;
-
-        return $this;
-    }
-
-    /**
      * Get the value of save_incomplete_data
      *
-     * @return int
+     * @return bool
      */
-    public function get_save_incomplete_data() {
+    public function is_save_incomplete_data() {
         return $this->save_incomplete_data;
     }
 
     /**
      * Set the value of save_incomplete_data
      *
-     * @param int $save_incomplete_data 
+     * @param bool $save_incomplete_data 
      *
      * @return self
      */
-    public function set_save_incomplete_data( int $save_incomplete_data ) {
+    public function set_save_incomplete_data( bool $save_incomplete_data ) {
         $this->save_incomplete_data = $save_incomplete_data;
 
         return $this;
