@@ -71,7 +71,7 @@ function formgent_get_response_allowed_fields() {
 }
 
 function formgent_get_response_table_allowed_fields() {
-    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key(), Email::get_key()] );
+    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key(), Email::get_key(), Number::get_key()] );
 }
 
 /**
