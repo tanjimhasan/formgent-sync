@@ -73,8 +73,7 @@ class AnalyticsController extends Controller {
             );
         }
 
-        $type = $wp_rest_request->get_param( 'type' );
-        $type = $type ? $type : '=';
+        $type = $wp_rest_request->get_param( 'type' ) ?? '=';
 
         try {
             $new_count = $this->analytic_repository->update_form_view_count(
