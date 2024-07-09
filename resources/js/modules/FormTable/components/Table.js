@@ -1,12 +1,12 @@
-import { useState } from '@wordpress/element';
-import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
-import { applyFilters } from '@wordpress/hooks';
-import { AntTable, AntSpin } from '@formgent/components';
+import { AntSpin, AntTable } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
-import TitleBox from './TitleBox';
+import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
+import TitleBox from './TitleBox';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );
@@ -16,8 +16,12 @@ export default function Table() {
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
-
 	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
+
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+	const { Link } = CommonReducer.routerComponents;
 
 	const rowSelection = {
 		selectedRowKeys,
@@ -52,17 +56,15 @@ export default function Table() {
 			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
-					<a
-					//to={ `responses` }
-					>
-						{ record.total_unread_responses > 0 ? (
+					<Link to={ `forms/${ record.id }/results/responses` }>
+						{ record.total_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
-								{ record.total_unread_responses }
+								{ record.total_responses }
 							</div>
 						) : (
 							''
 						) }
-					</a>
+					</Link>
 				</div>
 			),
 		},
