@@ -7,23 +7,15 @@ defined( 'ABSPATH' ) || exit;
 class FormDTO extends DTO {
     private int $id;
 
-    private int $post_id;
-
     private string $title;
 
     private string $status = 'draft';
 
     private string $type;
 
-    private string $content;
+    private string $content = '';
 
-    private int $save_incomplete_data = 0;
-
-    /**
-     * Get the value of id
-     *
-     * @return int
-     */
+    private bool $save_incomplete_data = false;
 
     /**
      * Get the value of id
@@ -43,28 +35,6 @@ class FormDTO extends DTO {
      */
     public function set_id( int $id ) {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of post_id
-     *
-     * @return int
-     */
-    public function get_post_id() {
-        return $this->post_id;
-    }
-
-    /**
-     * Set the value of post_id
-     *
-     * @param int $post_id 
-     *
-     * @return self
-     */
-    public function set_post_id( int $post_id ) {
-        $this->post_id = $post_id;
 
         return $this;
     }
@@ -160,20 +130,20 @@ class FormDTO extends DTO {
     /**
      * Get the value of save_incomplete_data
      *
-     * @return int
+     * @return bool
      */
-    public function get_save_incomplete_data() {
+    public function is_save_incomplete_data() {
         return $this->save_incomplete_data;
     }
 
     /**
      * Set the value of save_incomplete_data
      *
-     * @param int $save_incomplete_data 
+     * @param bool $save_incomplete_data 
      *
      * @return self
      */
-    public function set_save_incomplete_data( int $save_incomplete_data ) {
+    public function set_save_incomplete_data( bool $save_incomplete_data ) {
         $this->save_incomplete_data = $save_incomplete_data;
 
         return $this;

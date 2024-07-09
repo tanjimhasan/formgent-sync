@@ -9,7 +9,7 @@ class ResponseReadDTO extends DTO {
 
     private int $per_page;
 
-    private ?int $post_id = null;
+    private ?int $form_id = null;
 
     private ?int $is_read = null;
 
@@ -66,23 +66,23 @@ class ResponseReadDTO extends DTO {
     }
 
     /**
-     * Get the value of post_id
+     * Get the value of form_id
      *
      * @return int
      */
-    public function get_post_id() {
-        return $this->post_id;
+    public function get_form_id() {
+        return $this->form_id;
     }
 
     /**
-     * Set the value of post_id
+     * Set the value of form_id
      *
-     * @param int $post_id 
+     * @param int $form_id 
      *
      * @return self
      */
-    public function set_post_id( int $post_id ) {
-        $this->post_id = $post_id;
+    public function set_form_id( int $form_id ) {
+        $this->form_id = $form_id;
 
         return $this;
     }

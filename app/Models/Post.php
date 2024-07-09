@@ -15,7 +15,7 @@ class Post extends Model {
     }
 
     public function meta(): HasMany {
-        return $this->has_many( PostMeta::class, 'post_id', 'ID' );
+        return $this->has_many( PostMeta::class, 'post_id', 'id' );
     }
 
     public function resolver():Resolver {

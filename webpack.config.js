@@ -35,10 +35,9 @@ module.exports = [
 			/**
 			 * Block scripts
 			 */
-			'js/block/editor': './resources/blocks/editor.js',
-			// 'js/block/frontend': './resources/blocks/frontend.js',
-			'css/block/frontend': './resources/blocks/frontend.scss',
-			'css/block/editor': './resources/blocks/editor.scss',
+			'js/blocks-editor': './resources/blocks/editor.js',
+			'css/blocks-frontend': './resources/blocks/frontend.scss',
+			'css/blocks-editor': './resources/blocks/editor.scss',
 		},
 		output: {
 			path: path.resolve( __dirname, './assets/build/' ),
@@ -47,11 +46,19 @@ module.exports = [
 			clean: false,
 		},
 		plugins: [
-			...defaultConfig[ 0 ].plugins.filter(
-				( plugin ) =>
+			...defaultConfig[ 0 ].plugins.reduce( ( acc, plugin ) => {
+				if (
 					plugin.constructor.name !==
 					'DependencyExtractionWebpackPlugin'
-			),
+				) {
+					if ( plugin.constructor.name === 'CopyPlugin' ) {
+						plugin.patterns[ 0 ].context = 'resources/blocks';
+						plugin.patterns[ 0 ].to = 'blocks';
+					}
+					acc.push( plugin );
+				}
+				return acc;
+			}, [] ),
 			new DependencyExtractionWebpackPlugin( {
 				requestToExternal( request ) {
 					if (
@@ -91,7 +98,7 @@ module.exports = [
 	{
 		...defaultConfig[ 1 ],
 		entry: {
-			'js/block/frontend': './resources/blocks/frontend.js',
+			'js/blocks-frontend': './resources/blocks/frontend.js',
 		},
 		devtool: 'source-map',
 		output: {

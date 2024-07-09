@@ -9,8 +9,8 @@ use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
 use FormGent\App\Models\Response;
-use FormGent\App\Models\Form;
 use FormGent\App\Models\Post;
+use FormGent\App\Models\User;
 use FormGent\WpMVC\Database\Query\Builder;
 use FormGent\WpMVC\Database\Query\JoinClause;
 
@@ -18,7 +18,13 @@ class FormRepository {
     const DEMOMEDIAOPTIONKEY = 'formgent_demo_medias';
 
     public function get( FormReadDTO $dto ) {
-        $posts_query = Post::query( 'post' )->join( Form::get_table_name() . ' as form', 'post.ID', 'form.post_id' )->left_join( "users as user", "user.ID", "post.post_author" )->where( 'post.post_type', formgent_post_type() );
+        $posts_query = Post::query( 'post' )->with(
+            "meta", function( Builder $query ) {
+                $query->select( 'meta_key', 'meta_value', 'post_id' )->where_in( 'meta_key', ['formgent_type'] );
+            } 
+        )
+        ->left_join( User::get_table_name() . " as user", "user.ID", "post.post_author" )
+        ->where( 'post.post_type', formgent_post_type() )->where_in( 'post.post_status', ['publish', 'draft'] );
 
         $this->forms_date_query( $posts_query, $dto );
         $this->forms_search_query( $posts_query, $dto );
@@ -27,10 +33,10 @@ class FormRepository {
 
         do_action( 'formgent_forms_count_query', $count_query, $dto );
 
-        $select_columns   = ['post.ID as id', 'form.id as form_id', 'post.post_title as title', 'post.post_status as status', 'form.type', 'form.created_at', 'form.updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
+        $select_columns   = ['post.ID as id', 'post.post_title as title', 'post.post_status as status', 'post.post_date as created_at', 'post.post_modified as updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
         $group_by_columns = ['post.ID', 'post.post_title', 'post.post_status', 'user.display_name' ];
 
-        $posts_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'form.id', 'response.form_id' )->group_by( $group_by_columns );
+        $posts_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'post.ID', 'response.form_id' )->group_by( $group_by_columns );
 
         $this->forms_sort_query( $posts_query, $dto );
 
@@ -70,7 +76,7 @@ class FormRepository {
 
         if ( 'today' === $date_type ) {
             $today = $now->format( $from_date_format );
-            return $query->where_raw( "((form.updated_at is not null and form.updated_at > '{$today}') or (form.updated_at is null and form.created_at > '{$today}'))" );
+            return $query->where_raw( "(post.post_modified > '{$today}' or post.post_date > '{$today}')" );
         }
 
         if ( 'date_frame' === $date_type ) {
@@ -104,21 +110,21 @@ class FormRepository {
             $to   = formgent_now()->format( $to_date_format );
         }
 
-        return $query->where_raw( "((form.updated_at is not null and form.updated_at > '{$form}' and form.updated_at < '{$to}') or (form.updated_at is null and form.created_at > '{$form}' and form.created_at < '{$to}'))" );
+        return $query->where_raw( "((post.post_modified > '{$form}' and post.post_modified < '{$to}') or (post.post_date > '{$form}' and post.post_date < '{$to}'))" );
     }
 
     private function forms_sort_query( Builder $query, FormReadDTO $dto ) {
         $sort_by = $dto->get_sort_by();
 
         if ( empty( $sort_by ) ) {
-            return $query->order_by_desc( 'form.id' );
+            return $query->order_by_desc( 'post.ID' );
         }
 
         switch ( $sort_by ) {
             case 'last_modified':
-                return $query->order_by_desc( 'form.updated_at' );
+                return $query->order_by_desc( 'post.post_modified' );
             case 'alphabetical':
-                return $query->order_by_raw( 'form.title asc, form.id desc' );
+                return $query->order_by_raw( 'post.post_title asc, post.ID desc' );
             case 'last_submission':
                 return $query->left_join(
                     Response::get_table_name() . ' as max_response', function( JoinClause $join ) {
@@ -135,24 +141,25 @@ class FormRepository {
                     WHEN response.is_read = 0 THEN 1
                     WHEN response.is_read = 1 THEN 2
                     ELSE 3
-                END, form.id desc"
+                END, post.ID desc"
                 );
             case 'publish':
-                return $query->order_by_desc( 'form.status' );
+                return $query->order_by_desc( 'post.post_status' );
             case 'draft':
-                return $query->order_by( 'form.status' );
+                return $query->order_by( 'post.post_status' );
             case 'date_created':
             default:
-                return $query->order_by_desc( 'form.id' );
+                return $query->order_by_desc( 'post.ID' );
         }
     } 
 
     public function create( FormDTO $dto ) {
         $post_id = wp_insert_post(
             [
-                'post_title'  => $dto->get_title(),
-                'post_status' => $dto->get_status(),
-                'post_type'   => formgent_post_type()
+                'post_title'   => $dto->get_title(),
+                'post_status'  => $dto->get_status(),
+                'post_content' => $dto->get_content(),
+                'post_type'    => formgent_post_type()
             ]
         );
 
@@ -160,25 +167,10 @@ class FormRepository {
             throw new Exception( $post_id->get_error_message(), $post_id->get_error_code() );
         }
 
-        return Form::query()->insert_get_id(
-            [
-                'post_id'              => $post_id,
-                'type'                 => $dto->get_type(),
-                'save_incomplete_data' => $dto->get_save_incomplete_data(),
-                'content'              => $dto->get_content()
-            ] 
-        );
-    }
+        add_post_meta( $post_id, 'formgent_type', $dto->get_type() );
+        add_post_meta( $post_id, 'formgent_save_incomplete_data', $dto->is_save_incomplete_data() );
 
-    public function update( FormDTO $dto ) {
-        return Form::query()->where( 'id', $dto->get_id() )->update(
-            [
-                'title'                => $dto->get_title(),
-                'status'               => $dto->get_status(),
-                'content'              => $dto->get_content(),
-                'save_incomplete_data' => $dto->get_save_incomplete_data(),
-            ]
-        );
+        return $post_id;
     }
 
     public function insert_media( string $attachment_url ) {
@@ -270,14 +262,6 @@ class FormRepository {
         ];
     }
 
-    public function update_content( int $id, string $content ) {
-        return Form::query()->where( 'id', $id )->update(
-            [
-                'content' => $content
-            ]
-        );
-    }
-
     public function get_demo_attachments():array {
         return get_option( self::DEMOMEDIAOPTIONKEY, [] );
     }
@@ -290,7 +274,8 @@ class FormRepository {
         return wp_update_post(
             [
                 'ID'          => $post_id,
-                'post_status' => $status
+                'post_status' => $status,
+                'post_type'   => formgent_post_type()
             ]
         );
     }
@@ -299,29 +284,18 @@ class FormRepository {
         return wp_update_post(
             [
                 'ID'         => $post_id,
-                'post_title' => $title
+                'post_title' => $title,
+                'post_type'  => formgent_post_type()
             ]
         );
     }
 
-    public function get_by_id( int $id, $columns = ['post.*'], bool $join_form = false ) {
-        $post = Post::query( 'post' )->select( $columns )->where( 'post.ID', $id );
-
-        if ( $join_form ) {
-            $post->join( Form::get_table_name() . ' as form', 'post.ID', 'form.post_id' );
-        }
-
-        return $post->first();
+    public function get_by_id( int $id, $columns = ['*'] ) {
+        return Post::query()->select( $columns )->where( 'ID', $id )->where( 'post_type', formgent_post_type() )->first();
     }
 
-    public function get_by_id_publish( int $id, $columns = ['post.*'], bool $join_form = false ) {
-        $post = Post::query( 'post' )->select( $columns )->where( 'post.ID', $id )->where( 'post.post_status', 'publish' );
-
-        if ( $join_form ) {
-            $post->join( Form::get_table_name() . ' as form', 'post.ID', 'form.post_id' );
-        }
-
-        return $post->first();
+    public function get_by_id_publish( int $id, $columns = ['*'] ) {
+        return Post::query()->select( $columns )->where( 'ID', $id )->where( 'post_type', formgent_post_type() )->where( 'post_status', 'publish' )->first();
     }
 
     public function delete_by_id( int $id ) {
