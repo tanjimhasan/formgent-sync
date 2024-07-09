@@ -1,20 +1,22 @@
 /**
  * WordPress dependencies
  */
-import { store, getContext } from '@wordpress/interactivity';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
-store( 'create-block', {
+const { state } = store( 'create-block', {
+	state: {
+		email: '',
+	},
 	actions: {
 		toggle: () => {
 			const context = getContext();
 			context.isOpen = ! context.isOpen;
 		},
-	},
-	callbacks: {
-		logIsOpen: () => {
-			const { isOpen } = getContext();
-			// Log the value of `isOpen` each time it changes.
-			console.log( `Is open: ${ isOpen }` );
+		updateEmail: () => {
+			const element = getElement();
+			const context = getContext();
+			context.email = element.ref.value;
 		},
 	},
+	callbacks: {},
 } );

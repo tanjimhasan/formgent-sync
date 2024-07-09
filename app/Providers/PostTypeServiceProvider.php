@@ -54,6 +54,7 @@ class PostTypeServiceProvider implements Provider {
 
         return View::get(
             'form', [
+                'form'   => $post,
                 'fields' => $content
             ]
         );
