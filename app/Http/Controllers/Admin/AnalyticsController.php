@@ -74,15 +74,13 @@ class AnalyticsController extends Controller {
         }
 
         try {
-            $new_count = $this->analytic_repository->update_form_view_count(
-                absint( $wp_rest_request->get_param( 'id' ) ), 
-                absint( $wp_rest_request->get_param( 'count' ) ),
-                $wp_rest_request->get_param( 'type' ) ?? '='
-            );
-
             return Response::send(
                 [
-                    'new_count' => $new_count
+                    'new_count' => $this->analytic_repository->update_form_view_count(
+                        absint( $wp_rest_request->get_param( 'id' ) ), 
+                        absint( $wp_rest_request->get_param( 'count' ) ),
+                        $wp_rest_request->get_param( 'type' ) ?? '='
+                    )
                 ]
             );
 
