@@ -41,7 +41,7 @@ Route::group(
 
         Route::group(
             'analytics', function() {
-                Route::get( 'forms/{form_id}/summary', [ AnalyticsController::class, 'form_summary' ] );
+                Route::get( 'forms/{id}/summary', [ AnalyticsController::class, 'form_summary' ] );
             }
         );
     }, ['admin']

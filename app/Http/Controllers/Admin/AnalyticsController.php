@@ -20,7 +20,7 @@ class AnalyticsController extends Controller {
     }
 
     public function form_summary( Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $validator->validate( [ 'form_id' => 'required|numeric' ] );
+        $validator->validate( [ 'id' => 'required|numeric' ] );
 
         if ( $validator->is_fail() ) {
             return Response::send(
@@ -33,7 +33,7 @@ class AnalyticsController extends Controller {
         $data = $this->analytic_repository->form_summary( $wp_rest_request->get_param( 'id' ) );
         $data = apply_filters( 'formgent_form_summary', $data, $wp_rest_request );
 
-        return Response::send( $data );
+        return Response::send( [ 'data' => $data ] );
     }
 
     public function increment_or_decrement_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {

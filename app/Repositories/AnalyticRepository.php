@@ -8,6 +8,7 @@ use FormGent\App\Models\Response;
 use FormGent\App\Models\PostMeta;
 use FormGent\WpMVC\Database\Query\JoinClause;
 
+use stdClass;
 use Exception;
 
 class AnalyticRepository {
@@ -38,22 +39,9 @@ SQL;
                 "{$meta_table} as meta", function( JoinClause $join ) {
                     $join
                         ->on_column( "response.form_id", "=", "meta.post_id" )
-                        ->on( "form_meta.meta_key", '_view_count' );
+                        ->on( "meta.meta_key", '_view_count' );
                 }
             );
-
-        function transform_item_data( $item ) {
-            // Calculate average completion time
-            $average_completion_time = absint( $item->total_finished ) > 0 
-                ? absint( $item->total_completion_time ) / absint( $item->total_finished ) 
-                : 0;
-
-            $item->average_completion_time = round( $average_completion_time );
-
-            unset( $item->total_completion_time );
-
-            return $item;
-        }
 
         $result = $base_query->where( 'response.form_id', $form_id )->group_by( 'response.form_id' )->first();
 
@@ -61,7 +49,20 @@ SQL;
             return null;
         }
 
-        return transform_item_data( $result );
+        return $this->transform_summary_item_data( $result );
+    }
+
+    private function transform_summary_item_data( stdClass $item ) {
+        // Calculate average completion time
+        $average_completion_time = absint( $item->total_finished ) > 0 
+            ? absint( $item->total_completion_time ) / absint( $item->total_finished ) 
+            : 0;
+
+        $item->average_completion_time = round( $average_completion_time );
+
+        unset( $item->total_completion_time );
+
+        return $item;
     }
 
     /**
