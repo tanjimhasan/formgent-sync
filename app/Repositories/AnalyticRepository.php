@@ -5,14 +5,14 @@ namespace FormGent\App\Repositories;
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Models\Response;
-use FormGent\App\Models\FormMeta;
+use FormGent\App\Models\PostMeta;
 use FormGent\WpMVC\Database\Query\JoinClause;
 
 use Exception;
 
 class AnalyticRepository {
     public function form_summary( int $form_id ) {
-        $form_meta_table = FormMeta::get_table_name();
+        $meta_table = PostMeta::get_table_name();
 
         $total_completion_time_query = <<<SQL
         SUM(
@@ -30,15 +30,15 @@ SQL;
                 [
                     "COUNT( response.form_id ) AS total_stared",
                     "SUM( CASE WHEN response.is_completed = '1' THEN 1 ELSE 0 END ) AS total_finished",
-                    "form_meta.meta_value AS total_views",
+                    "meta.meta_value AS total_views",
                     $total_completion_time_query,
                 ]
             )
             ->left_join(
-                "{$form_meta_table} as form_meta", function( JoinClause $join ) {
+                "{$meta_table} as meta", function( JoinClause $join ) {
                     $join
-                        ->on_column( "response.form_id", "=", "form_meta.form_id" )
-                        ->on( "form_meta.meta_key", 'view_count' );
+                        ->on_column( "response.form_id", "=", "meta.post_id" )
+                        ->on( "form_meta.meta_key", '_view_count' );
                 }
             );
 
@@ -68,17 +68,17 @@ SQL;
      * @throws Exception
      */
     public function update_form_view_count( int $form_id, int $count, $type = '=' ): int {
-        $old_count_meta = FormMeta::query()
-            ->where( 'form_id', $form_id )
-            ->where( 'meta_key', 'view_count' )
+        $old_count_meta = PostMeta::query()
+            ->where( 'post_id', $form_id )
+            ->where( 'meta_key', '_view_count' )
             ->first();
 
         if ( ! $old_count_meta ) {
             $count = $count < 0 || '-' === $type ? 0 : $count;
-            $id    = FormMeta::query()->insert_get_id(
+            $id    = PostMeta::query()->insert_get_id(
                 [
-                    'form_id'    => $form_id,
-                    'meta_key'   => 'view_count',
+                    'post_id'    => $form_id,
+                    'meta_key'   => '_view_count',
                     'meta_value' => $count,
                 ]
             );
@@ -102,9 +102,9 @@ SQL;
                 break;
         }
 
-        $status = FormMeta::query()
-            ->where( 'form_id', $form_id )
-            ->where( 'meta_key', 'view_count' )
+        $status = PostMeta::query()
+            ->where( 'post_id', $form_id )
+            ->where( 'meta_key', '_view_count' )
             ->update( [  'meta_value' => $count ] );
 
         if ( false === $status ) {
