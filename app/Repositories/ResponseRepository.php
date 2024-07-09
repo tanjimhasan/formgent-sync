@@ -15,9 +15,7 @@ use FormGent\WpMVC\Database\Query\JoinClause;
 
 class ResponseRepository {
     public function get( ResponseReadDTO $dto ) {
-        $responses_query = Response::query( 'response' )
-        ->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )
-        ->where( 'response.is_completed', 1 );
+        $responses_query = Response::query( 'response' )->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )->where( 'response.is_completed', 1 );
 
         if ( $dto->get_form_id() ) {
             $responses_query->where( 'post.ID', $dto->get_form_id() );
@@ -27,21 +25,30 @@ class ResponseRepository {
             $responses_query->where( 'response.is_read', $dto->get_is_read() );
         }
 
-        // $this->forms_date_query( $forms_query, $dto );
-        // $this->responses_search_query( $responses_query, $dto );
-
-        $count_query = clone $responses_query;
-
-        do_action( 'formgent_responses_count_query', $count_query, $dto );
-
-        $select_columns = ['response.id', 'response.form_id', 'post.post_title as form_title', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
-
         /**
          * Get response answers from answer table by select field ids
          */
         $table_field_ids = get_post_meta( $dto->get_form_id(), 'response_table_field_ids', true );
 
-        if ( ! empty( $table_field_ids ) && is_array( $table_field_ids ) ) {
+        if ( ! is_array( $table_field_ids ) ) {
+            $table_field_ids = [];
+        }
+
+        if ( ! empty( $table_field_ids ) ) {
+            $responses_query->left_join(
+                Answer::get_table_name() . " as answer", function( JoinClause $join ) use( $table_field_ids ) {
+                    $join->on_column( "response.id", "answer.response_id" )->on_in( 'field_id', $table_field_ids );
+                } 
+            );
+        }
+
+        $this->responses_search_query( $responses_query, $dto, $table_field_ids );
+
+        $count_query = clone $responses_query;
+
+        do_action( 'formgent_responses_count_query', $count_query, $dto );
+
+        if ( ! empty( $table_field_ids ) ) {
             $responses_query->with(
                 'answers', function( Builder $query ) use( $table_field_ids ) {
                     $query->select( 'field_id', 'field_type', 'value', 'response_id' )->where_in( 'field_id', $table_field_ids );
@@ -49,9 +56,12 @@ class ResponseRepository {
             );
         }
 
-        $responses_query->select( $select_columns );
+        $select_columns = ['response.id', 'response.form_id', 'post.post_title as form_title', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
+        $group_columns  = ['response.id', 'response.form_id', 'response.is_read', 'response.is_starred', 'response.is_completed', 'response.device', 'response.browser', 'response.created_at', 'response.updated_at'];
 
-        // $this->responses_order_query( $responses_query, $dto );
+        $responses_query->select( $select_columns )->group_by( $group_columns );
+
+        $this->responses_order_query( $responses_query, $dto, $table_field_ids );
 
         do_action( 'formgent_responses_query', $responses_query, $dto );
 
@@ -61,26 +71,30 @@ class ResponseRepository {
         ];
     }
 
-    private function responses_order_query( Builder $query, ResponseReadDTO $dto ) {
+    private function responses_order_query( Builder $query, ResponseReadDTO $dto, array $table_field_ids ) {
         if ( 'response' === $dto->get_order_field_type() ) {
             $query->order_by( $dto->get_order_by(), $dto->get_order() );
-        } else {
+        } elseif ( ! empty( $table_field_ids ) ) {
             $query->left_join(
-                Answer::get_table_name() . " as answer", function( JoinClause $join ) use( $dto ) {
-                    $join->on_column( "response.id", "answer.response_id" )->on( "answer.field_id", $dto->get_order_by() );
+                Answer::get_table_name() . " as order_answer", function( JoinClause $join ) use( $dto ) {
+                    $join->on_column( "response.id", "order_answer.response_id" )->on( "order_answer.field_id", $dto->get_order_by() );
                 } 
-            )->order_by( "answer.value", $dto->get_order() );
+            )->order_by( "order_answer.value", $dto->get_order() );
         }
     }
 
-    private function responses_search_query( Builder $query, ResponseReadDTO $dto ) {
+    private function responses_search_query( Builder $query, ResponseReadDTO $dto, array $table_field_ids ) {
         $search = $dto->get_search();
 
         if ( empty( $search ) ) {
             return $query;
         }
 
-        return $query->where( "post.post_title", 'like',  "%{$search}%" );
+        if ( empty( $table_field_ids ) ) {
+            return $query->where( "post.post_title", 'like',  "%{$search}%" );
+        }
+    
+        return $query->where( "post.post_title", 'like',  "%{$search}%" )->or_where( 'answer.value', 'like', "%{$search}%" );
     }
 
     public function create( ResponseDTO $dto ) {
