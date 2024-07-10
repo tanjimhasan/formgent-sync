@@ -6,6 +6,7 @@ use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\Number\Number;
+use FormGent\App\Fields\Button\Button;
 
 return [
     'formgent/form'       => [],
@@ -24,5 +25,9 @@ return [
     'formgent/number'     => [
         'types'      => ['general', 'conversational'],
         'field_type' => Number::get_key()
+    ],
+    'formgent/button'     => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => Button::get_key()
     ]
 ];

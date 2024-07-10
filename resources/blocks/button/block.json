@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "formgent/button",
+  "title": "Button",
+  "category": "formgent",
+  "description": "FormGent Button field.",
+  "textdomain": "formgent",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "default": ""
+    },
+    "value": {
+      "type": "string",
+      "default": "Button"
+    },
+    "label": {
+      "type": "string",
+      "default": "Button"
+    },
+    "label_alignment": {
+      "type": "string",
+      "default": "left"
+    },
+    "sub_label": {
+      "type": "string",
+      "default": "Enter Your Button Here"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "interactivity": true
+  }
+}
