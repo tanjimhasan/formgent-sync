@@ -35,6 +35,16 @@ class AnalyticsController extends Controller {
             );
         }
 
+        $form = $this->form_repository->get_by_id( absint( $wp_rest_request->get_param( 'id' ) ) );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'messages' => esc_html__( 'Form not found', 'formgent' )
+                ], 404
+            );
+        }
+
         $data = $this->analytic_repository->form_summary( $wp_rest_request->get_param( 'id' ) );
         $data = apply_filters( 'formgent_form_summary', $data, $wp_rest_request );
 
