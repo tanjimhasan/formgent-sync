@@ -42,7 +42,7 @@ class AnalyticRepository {
         SUM(
             CASE
                 WHEN response.is_completed = '1' THEN TIME_TO_SEC(
-                    TIMEDIFF( response.updated_at, response.created_at )
+                    TIMEDIFF( response.completed_at, response.created_at )
                 )
                 ELSE 0
             END
