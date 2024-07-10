@@ -6,6 +6,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './button' );
 	require( './phone-number' );
 	require( './select' );
+	require( './address' );
 } else {
 	require( './form' );
 }

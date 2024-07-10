@@ -9,6 +9,7 @@ use FormGent\App\Fields\Number\Number;
 use FormGent\App\Fields\Button\Button;
 use FormGent\App\Fields\Phone\Phone;
 use FormGent\App\Fields\Select\Select;
+use FormGent\App\Fields\Address\Address;
 
 return [
     'formgent/form'         => [],
@@ -39,5 +40,9 @@ return [
     'formgent/select'       => [
         'types'      => ['general', 'conversational'],
         'field_type' => Select::get_key()
+    ],
+    'formgent/address'      => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => Address::get_key()
     ]
 ];

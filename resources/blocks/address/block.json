@@ -1,0 +1,150 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "formgent/address",
+  "title": "Address",
+  "category": "formgent",
+  "description": "FormGent Address field.",
+  "textdomain": "formgent",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "default": ""
+    },
+    "label_alignment": {
+      "type": "string",
+      "default": "left"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    },
+    "street_id": {
+      "type": "string",
+      "default": ""
+    },
+    "street_name": {
+      "type": "string",
+      "default": "street-address"
+    },
+    "street_placeholder": {
+      "type": "string",
+      "default": "Street Address"
+    },
+    "street_label": {
+      "type": "string",
+      "default": "Street Address"
+    },
+    "street_sub_label": {
+      "type": "string",
+      "default": "Enter Street Address"
+    },
+    "street_value": {
+      "type": "string",
+      "default": "Park Street 123"
+    },
+    "street_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "address_line_id": {
+      "type": "string",
+      "default": ""
+    },
+    "address_line_name": {
+      "type": "string",
+      "default": ""
+    },
+    "address_line_label": {
+      "type": "string",
+      "default": ""
+    },
+    "address_line_sub_label": {
+      "type": "string",
+      "default": ""
+    },
+    "address_line_value": {
+      "type": "string",
+      "default": ""
+    },
+    "address_line_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "city_id": {
+      "type": "string",
+      "default": ""
+    },
+    "city_name": {
+      "type": "string",
+      "default": ""
+    },
+    "city_label": {
+      "type": "string",
+      "default": ""
+    },
+    "city_sub_label": {
+      "type": "string",
+      "default": ""
+    },
+    "city_value": {
+      "type": "string",
+      "default": ""
+    },
+    "city_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "state_id": {
+      "type": "string",
+      "default": ""
+    },
+    "state_name": {
+      "type": "string",
+      "default": ""
+    },
+    "state_label": {
+      "type": "string",
+      "default": ""
+    },
+    "state_sub_label": {
+      "type": "string",
+      "default": ""
+    },
+    "state_value": {
+      "type": "string",
+      "default": ""
+    },
+    "state_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "zip_id": {
+      "type": "string",
+      "default": ""
+    },
+    "zip_name": {
+      "type": "string",
+      "default": ""
+    },
+    "zip_label": {
+      "type": "string",
+      "default": ""
+    },
+    "zip_sub_label": {
+      "type": "string",
+      "default": ""
+    },
+    "zip_value": {
+      "type": "string",
+      "default": ""
+    },
+    "zip_required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "interactivity": true
+  }
+}
