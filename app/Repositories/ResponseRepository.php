@@ -119,6 +119,15 @@ class ResponseRepository {
         return Response::query()->where( 'id', $response_id )->update( [ 'is_read' => $is_read ] );
     }
 
+    public function update_completed( int $response_id, int $is_completed ) {
+        $data = [
+            'is_completed' => $is_completed,
+            'completed_at' => $is_completed ? formgent_now() : null,
+        ];
+
+        return Response::query()->where( 'id', $response_id )->update( $data );
+    }
+
     public function get_export_data( int $form_id, array $response_ids ) {
         $response_query = Response::query( 'response' )->with(
             'answers', function( Builder $query ) {
