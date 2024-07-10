@@ -10,8 +10,9 @@ use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\AnswerRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
-use WP_REST_Request;
 use FormGent\WpMVC\Routing\Response;
+use WP_REST_Request;
+use Exception;
 
 class ResponseController extends Controller {
     public ResponseRepository $repository;
@@ -313,5 +314,53 @@ class ResponseController extends Controller {
                 'responses' => $this->repository->get_export_data( $form_id, $response_ids )
             ]
         );
+    }
+
+    public function delete_bulk_response( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'ids'     => 'required|array',
+                'form_id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $response_ids = $wp_rest_request->get_param( 'ids' );
+
+        if ( empty( $response_ids ) || ! formgent_is_one_level_array( $response_ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Sorry, Something was wrong.', 'formgent' )
+                ]
+            );
+        }
+
+        try {
+            do_action( 'formgent_before_delete_responses', $response_ids, $wp_rest_request );
+
+            $this->repository->deletes( intval( $wp_rest_request->get_param( 'form_id' ) ), $response_ids );
+
+            do_action( 'formgent_after_delete_responses', $response_ids, $wp_rest_request );
+
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Responses have been successfully deleted.', 'formgent' )
+                ]
+            );
+        } catch ( Exception $exception ) {
+            return Response::send(
+                [
+                    'message' => $exception->getMessage()
+                ],
+                $exception->getCode()
+            );
+        }
     }
 }

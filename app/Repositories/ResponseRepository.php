@@ -130,4 +130,8 @@ class ResponseRepository {
             }
         )->where( 'form_id', $form_id )->where_in( 'id', $response_ids )->get();
     }
+
+    public function deletes( int $form_id, array $ids ) {
+        return Response::query( 'response' )->where( 'form_id', $form_id )->where_in( 'id', $ids )->delete();
+    }
 }
