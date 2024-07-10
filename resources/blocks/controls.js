@@ -8,6 +8,8 @@ import {
 	TextareaControl,
 	__experimentalInputControl as InputControl,
 	__experimentalBoxControl as BoxControl,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import Repeater from './controls/Repeater';
@@ -96,6 +98,32 @@ const controlGenerators = {
 		);
 	},
 	repeater: Repeater,
+	toggle_group: function ( { attr_key, control, setAttributes } ) {
+		const toggleOptions = control.options;
+		return (
+			<>
+				<label className="formgent-control-label">
+					{ control.label }
+				</label>
+				<ToggleGroupControl
+					isBlock
+					onChange={ ( value ) => {
+						setAttributes( { [ attr_key ]: value } );
+					} }
+				>
+					{ toggleOptions.map( ( option, index ) => {
+						return (
+							<ToggleGroupControlOption
+								key={ index }
+								value={ option.value }
+								label={ option.label }
+							/>
+						);
+					} ) }
+				</ToggleGroupControl>
+			</>
+		);
+	},
 };
 
 export default function Controls( { controls, attributes, setAttributes } ) {
