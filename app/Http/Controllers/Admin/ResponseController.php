@@ -152,15 +152,16 @@ class ResponseController extends Controller {
         $fields         = [];
 
         $selected_fields = get_post_meta( $form->ID, 'response_table_field_ids', true );
+        $fields_settings = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
-        foreach ( json_decode( $form->content, true )['fields'] as $field ) {
-            if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
+        foreach ( $fields_settings as $field ) {
+            if ( ! in_array( $field['field_type'], $allowed_fields, true ) ) {
                 continue;
             }
 
             $fields[] = [
                 'id'    => $field['id'],
-                'label' => $field['general_option']['label']
+                'label' => $field['label']
             ];
         }
 
