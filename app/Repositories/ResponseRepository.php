@@ -129,7 +129,7 @@ class ResponseRepository {
                 $query->select( 'id', 'response_id', 'parent_id', 'field_id', 'value' );
             }
         )->where( 'form_id', $form_id );
-        
+    
         if ( ! empty( $response_ids ) ) {
             $response_query->where_in( 'id', $response_ids );
         }
