@@ -57,7 +57,7 @@ const controls = {
 			},
 			options: {
 				type: 'repeater',
-				label: __( 'Single Choice Options', 'formgent' ),
+				label: __( 'Single Choice Items', 'formgent' ),
 				fields: [],
 			},
 		},

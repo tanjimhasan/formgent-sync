@@ -57,7 +57,7 @@ const controls = {
 			},
 			options: {
 				type: 'repeater',
-				label: __( 'Dropdown Options', 'formgent' ),
+				label: __( 'Dropdown Items', 'formgent' ),
 				fields: [],
 			},
 		},

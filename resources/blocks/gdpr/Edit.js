@@ -18,6 +18,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					id={ attributes.id }
 					name={ attributes.name }
 					checked={ attributes.checked }
+					onChange={ () => {} }
 				/>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

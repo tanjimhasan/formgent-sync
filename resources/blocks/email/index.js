@@ -55,6 +55,10 @@ const controls = {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
 			},
+			value: {
+				type: 'text',
+				label: __( 'Field Value', 'formgent' ),
+			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),

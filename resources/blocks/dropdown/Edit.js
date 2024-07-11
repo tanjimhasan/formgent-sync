@@ -12,22 +12,19 @@ export default function Edit( { attributes, setAttributes } ) {
 				) : null }
 			</label>
 			<div className="formgent-form-block__wrapper">
-				<select name={ attributes.name }>
+				<select
+					name={ attributes.name }
+					value={ attributes.value || 'formgent-default-option' }
+					onChange={ () => {} }
+				>
 					{ attributes.options.length > 0 ? (
 						attributes.options.map( ( option, index ) => (
-							<option
-								key={ index }
-								value={ option.title }
-								selected={ option.title === attributes.value }
-							>
+							<option key={ index } value={ option.title }>
 								{ option.title }
 							</option>
 						) )
 					) : (
-						<option
-							value="formgent-default-option"
-							selected={ true }
-						>
+						<option value="formgent-default-option">
 							Please Select
 						</option>
 					) }
