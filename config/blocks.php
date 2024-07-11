@@ -6,12 +6,6 @@ use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\Text\Text;
 use FormGent\App\Fields\Number\Number;
-use FormGent\App\Fields\Button\Button;
-use FormGent\App\Fields\Phone\Phone;
-use FormGent\App\Fields\Dropdown\Dropdown;
-use FormGent\App\Fields\Address\Address;
-use FormGent\App\Fields\GDPR\GDPR;
-use FormGent\App\Fields\MultiChoice\MultiChoice;
 
 return [
     'formgent/form'         => [],
@@ -33,26 +27,26 @@ return [
     ],
     'formgent/button'       => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Button::get_key()
+        'field_type' => ''
     ],
     'formgent/phone-number' => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Phone::get_key()
+        'field_type' => ''
     ],
     'formgent/dropdown'     => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Dropdown::get_key()
+        'field_type' => ''
     ],
     'formgent/multi-choice' => [
         'types'      => ['general', 'conversational'],
-        'field_type' => MultiChoice::get_key()
+        'field_type' => ''
     ],
     'formgent/address'      => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Address::get_key()
+        'field_type' => ''
     ],
     'formgent/gdpr'         => [
         'types'      => ['general', 'conversational'],
-        'field_type' => GDPR::get_key()
+        'field_type' => ''
     ],
 ];
