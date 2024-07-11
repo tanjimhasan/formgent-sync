@@ -1,6 +1,10 @@
 @import "form/editor.scss";
 @import "name/editor.scss";
 
+.components-panel__body.edit-post-post-status {
+	display: none;
+}
+
 .formgent-control-label {
 	display: block;
 	margin-bottom: 6px;
