@@ -11,6 +11,7 @@ use FormGent\App\Fields\Phone\Phone;
 use FormGent\App\Fields\Dropdown\Dropdown;
 use FormGent\App\Fields\Address\Address;
 use FormGent\App\Fields\GDPR\GDPR;
+use FormGent\App\Fields\MultiChoice\MultiChoice;
 
 return [
     'formgent/form'         => [],
@@ -41,6 +42,10 @@ return [
     'formgent/dropdown'     => [
         'types'      => ['general', 'conversational'],
         'field_type' => Dropdown::get_key()
+    ],
+    'formgent/multi-choice' => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => MultiChoice::get_key()
     ],
     'formgent/address'      => [
         'types'      => ['general', 'conversational'],
