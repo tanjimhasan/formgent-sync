@@ -12,11 +12,14 @@ export default function Edit( { attributes, setAttributes } ) {
 				) : null }
 			</label>
 			<div className="formgent-form-block__wrapper">
+				<span className="formgent-form-block__code">+88</span>
 				<input
 					className="formgent-form-block__input"
 					type="text"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
+					value={ attributes.value }
+					onchange={ () => {} }
 				/>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

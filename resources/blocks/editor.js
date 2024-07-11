@@ -25,9 +25,9 @@ if ( 'formgent_form' === typenow ) {
 	require( './gdpr' );
 	require( './single-choice' );
 	require( './multi-choice' );
-	// require( './button' );
-	// require( './phone-number' );
+	require( './phone-number' );
 	// require( './address' );
+	// require( './button' );
 } else {
 	require( './form' );
 }
