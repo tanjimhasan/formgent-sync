@@ -19,7 +19,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }
-					onchange={ () => {} }
+					onChange={ () => {} }
 				/>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

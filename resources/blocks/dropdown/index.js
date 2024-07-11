@@ -58,12 +58,7 @@ const controls = {
 			options: {
 				type: 'repeater',
 				label: __( 'Dropdown Options', 'formgent' ),
-				fields: [
-					{
-						title: 'Option 1',
-						content: 'Option 1 content',
-					},
-				],
+				fields: [],
 			},
 		},
 	},

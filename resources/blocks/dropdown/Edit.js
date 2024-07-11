@@ -13,15 +13,24 @@ export default function Edit( { attributes, setAttributes } ) {
 			</label>
 			<div className="formgent-form-block__wrapper">
 				<select name={ attributes.name }>
-					{ attributes.options.map( ( option, index ) => (
+					{ attributes.options.length > 0 ? (
+						attributes.options.map( ( option, index ) => (
+							<option
+								key={ index }
+								value={ option.title }
+								selected={ option.title === attributes.value }
+							>
+								{ option.title }
+							</option>
+						) )
+					) : (
 						<option
-							key={ index }
-							value={ option.title }
-							selected={ option.title === attributes.value }
+							value="formgent-default-option"
+							selected={ true }
 						>
-							{ option.title }
+							Please Select
 						</option>
-					) ) }
+					) }
 				</select>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

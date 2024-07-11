@@ -13,17 +13,36 @@ export default function Edit( { attributes, setAttributes } ) {
 			</label>
 			<div className="formgent-form-block__wrapper">
 				<div className="formgent-form-block__wrapper__box">
-					{ attributes.options.map( ( option, index ) => (
+					{ attributes.options.length > 0 ? (
+						attributes.options.map( ( option, index ) => (
+							<div
+								key={ index }
+								className="formgent-form-block__wrapper__single"
+							>
+								<input
+									className="formgent-form-block__input"
+									type="radio"
+									id={ option.title }
+									name={ attributes.name }
+								/>
+								<label htmlFor={ option.title }>
+									{ option.title }
+								</label>
+							</div>
+						) )
+					) : (
 						<div className="formgent-form-block__wrapper__single">
 							<input
 								className="formgent-form-block__input"
 								type="radio"
-								id={ option.title }
+								id="formgent-default-radio"
 								name={ attributes.name }
 							/>
-							<label for={ option.title }>{ option.title }</label>
+							<label htmlFor="formgent-default-radio">
+								Choose Default
+							</label>
 						</div>
-					) ) }
+					) }
 				</div>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

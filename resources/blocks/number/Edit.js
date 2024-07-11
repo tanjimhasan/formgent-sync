@@ -16,6 +16,8 @@ export default function Edit( { attributes, setAttributes } ) {
 					className="formgent-form-block__input"
 					type="number"
 					name={ attributes.name }
+					value={ attributes.value }
+					onChange={ () => {} }
 				/>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }
