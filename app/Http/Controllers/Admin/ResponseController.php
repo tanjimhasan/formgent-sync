@@ -5,13 +5,15 @@ namespace FormGent\App\Http\Controllers\Admin;
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\DTO\ResponseReadDTO;
+use FormGent\App\DTO\ResponseSingleDTO;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\AnswerRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
-use WP_REST_Request;
 use FormGent\WpMVC\Routing\Response;
+use WP_REST_Request;
+use Exception;
 
 class ResponseController extends Controller {
     public ResponseRepository $repository;
@@ -86,7 +88,13 @@ class ResponseController extends Controller {
     public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'id' => 'required|numeric'
+                'page'             => 'required|numeric',
+                's'                => 'string|max:255',
+                'form_id'          => 'numeric',
+                'is_read'          => 'numeric|accepted:0,1',
+                'order_by'         => 'string|max:50',
+                'order'            => 'string|accepted:asc,desc',
+                'order_field_type' => 'string|accepted:response,answer',
             ]
         );
 
@@ -98,28 +106,27 @@ class ResponseController extends Controller {
             );
         }
 
-        $response = $this->repository->get_single_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+        $dto = new ResponseSingleDTO;
+        $dto->set_page( intval( $wp_rest_request->get_param( 'page' ) ) );
+        $dto->set_search( (string) $wp_rest_request->get_param( 's' ) );
 
-        if ( ! $response ) {
-            return Response::send(
-                [
-                    'message' => esc_html__( 'Response not found', 'formgent' )
-                ], 404
-            );
+        if ( $wp_rest_request->has_param( 'form_id' ) ) {
+            $dto->set_form_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
         }
-        
-        /**
-         * @var AnswerRepository $answer_repository
-         */
-        $answer_repository = formgent_singleton( AnswerRepository::class );
 
-        $response->data = $answer_repository->get( $response->id );
+        if ( $wp_rest_request->has_param( 'is_read' ) ) {
+            $dto->set_is_read( $wp_rest_request->get_param( 'is_read' ) );
+        }
 
-        return Response::send(
-            [
-                'response' => $response
-            ]
-        );
+        $dto->set_order( $wp_rest_request->get_param( 'order' ) ?? 'desc' )
+        ->set_order_by( $wp_rest_request->get_param( 'order_by' ) ?? 'id' )
+        ->set_order_field_type( $wp_rest_request->get_param( 'order_field_type' ) ?? 'response' );
+
+        $data                  = $this->repository->get_single( $dto );
+        $response              = $this->pagination( $wp_rest_request, $data['total'], 1, false );
+        $response['responses'] = $data['responses'];
+
+        return Response::send( $response );
     }
 
     public function get_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
@@ -148,19 +155,20 @@ class ResponseController extends Controller {
             );
         }
 
-        $allowed_fields = formgent_get_response_table_allowed_fields();
-        $fields         = [];
+        $registered_fields = formgent_config( 'fields' );
+        $fields            = [];
 
         $selected_fields = get_post_meta( $form->ID, 'response_table_field_ids', true );
+        $fields_settings = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
-        foreach ( json_decode( $form->content, true )['fields'] as $field ) {
-            if ( ! in_array( $field['type'], $allowed_fields, true ) ) {
+        foreach ( $fields_settings as $field ) {
+            if ( empty( $registered_fields[$field['field_type']]['allowed_in_response_table'] ) ) {
                 continue;
             }
 
             $fields[] = [
                 'id'    => $field['id'],
-                'label' => $field['general_option']['label']
+                'label' => $field['label']
             ];
         }
 
@@ -312,5 +320,53 @@ class ResponseController extends Controller {
                 'responses' => $this->repository->get_export_data( $form_id, $response_ids )
             ]
         );
+    }
+
+    public function delete_bulk_response( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'ids'     => 'required|array',
+                'form_id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $response_ids = $wp_rest_request->get_param( 'ids' );
+
+        if ( empty( $response_ids ) || ! formgent_is_one_level_array( $response_ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Sorry, Something was wrong.', 'formgent' )
+                ]
+            );
+        }
+
+        try {
+            do_action( 'formgent_before_delete_responses', $response_ids, $wp_rest_request );
+
+            $this->repository->deletes( intval( $wp_rest_request->get_param( 'form_id' ) ), $response_ids );
+
+            do_action( 'formgent_after_delete_responses', $response_ids, $wp_rest_request );
+
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Responses have been successfully deleted.', 'formgent' )
+                ]
+            );
+        } catch ( Exception $exception ) {
+            return Response::send(
+                [
+                    'message' => $exception->getMessage()
+                ],
+                $exception->getCode()
+            );
+        }
     }
 }

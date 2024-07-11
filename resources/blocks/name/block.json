@@ -46,6 +46,10 @@
 		"repeater": {
 			"type": "string",
 			"default": "[]"
+		},
+		"toggle_group": {
+			"type": "string",
+			"default": "left"
 		}
 	},
 	"supports": {

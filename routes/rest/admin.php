@@ -32,6 +32,8 @@ Route::group(
                     } 
                 );
                 Route::get( 'export', [ResponseController::class, 'export'] );
+                Route::get( 'single', [ResponseController::class, 'show'] );
+                Route::delete( '/', [ResponseController::class, 'delete_bulk_response'] );
                 Route::resource( '/', ResponseController::class );
             }
         );

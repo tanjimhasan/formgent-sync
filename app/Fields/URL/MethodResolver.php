@@ -1,15 +1,18 @@
 <?php
 
-namespace FormGent\App\Fields\Email;
+namespace FormGent\App\Fields\URL;
+use FormGent\WpMVC\RequestValidator\Validator;
 
 defined( 'ABSPATH' ) || exit;
 
+use WP_REST_Request;
+
 trait MethodResolver {
     public static function get_key(): string {
-        return 'email';
+        return 'url';
     }
 
     protected function get_validation_rules(): array {
-        return ['string', 'email', 'max:250'];
+        return ['string', 'url', 'max:250'];
     }
 }
