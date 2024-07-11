@@ -19,7 +19,7 @@ if ( 'formgent_form' === typenow ) {
 	 */
 	require( './name' );
 	require( './email' );
-	require( './short-text' );
+	require( './text' );
 	require( './number' );
 } else {
 	require( './form' );

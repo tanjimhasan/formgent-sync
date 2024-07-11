@@ -5,6 +5,7 @@ namespace FormGent\App\Http\Controllers\Admin;
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\DTO\ResponseReadDTO;
+use FormGent\App\DTO\ResponseSingleDTO;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\AnswerRepository;
@@ -87,7 +88,13 @@ class ResponseController extends Controller {
     public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'id' => 'required|numeric'
+                'page'             => 'required|numeric',
+                's'                => 'string|max:255',
+                'form_id'          => 'numeric',
+                'is_read'          => 'numeric|accepted:0,1',
+                'order_by'         => 'string|max:50',
+                'order'            => 'string|accepted:asc,desc',
+                'order_field_type' => 'string|accepted:response,answer',
             ]
         );
 
@@ -99,28 +106,27 @@ class ResponseController extends Controller {
             );
         }
 
-        $response = $this->repository->get_single_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+        $dto = new ResponseSingleDTO;
+        $dto->set_page( intval( $wp_rest_request->get_param( 'page' ) ) );
+        $dto->set_search( (string) $wp_rest_request->get_param( 's' ) );
 
-        if ( ! $response ) {
-            return Response::send(
-                [
-                    'message' => esc_html__( 'Response not found', 'formgent' )
-                ], 404
-            );
+        if ( $wp_rest_request->has_param( 'form_id' ) ) {
+            $dto->set_form_id( intval( $wp_rest_request->get_param( 'form_id' ) ) );
         }
-        
-        /**
-         * @var AnswerRepository $answer_repository
-         */
-        $answer_repository = formgent_singleton( AnswerRepository::class );
 
-        $response->data = $answer_repository->get( $response->id );
+        if ( $wp_rest_request->has_param( 'is_read' ) ) {
+            $dto->set_is_read( $wp_rest_request->get_param( 'is_read' ) );
+        }
 
-        return Response::send(
-            [
-                'response' => $response
-            ]
-        );
+        $dto->set_order( $wp_rest_request->get_param( 'order' ) ?? 'desc' )
+        ->set_order_by( $wp_rest_request->get_param( 'order_by' ) ?? 'id' )
+        ->set_order_field_type( $wp_rest_request->get_param( 'order_field_type' ) ?? 'response' );
+
+        $data                  = $this->repository->get_single( $dto );
+        $response              = $this->pagination( $wp_rest_request, $data['total'], 1, false );
+        $response['responses'] = $data['responses'];
+
+        return Response::send( $response );
     }
 
     public function get_fields( Validator $validator, WP_REST_Request $wp_rest_request ) {
