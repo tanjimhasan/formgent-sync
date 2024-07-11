@@ -16,6 +16,8 @@ export default function Edit( { attributes, setAttributes } ) {
 					className="formgent-form-block__input"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
+					value={ attributes.value }
+					onChange={ () => {} }
 					rows="4"
 					cols="50"
 				/>

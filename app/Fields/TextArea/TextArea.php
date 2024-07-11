@@ -1,11 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\LongText;
+namespace FormGent\App\Fields\TextArea;
 
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Field;
 
-class LongText extends Field {
+class TextArea extends Field {
     use MethodResolver;
 }

@@ -1,10 +1,10 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "formgent/long-text",
-  "title": "Long Text",
+  "name": "formgent/textarea",
+  "title": "Textarea",
   "category": "formgent",
-  "description": "FormGent Long Text field.",
+  "description": "FormGent Textarea field.",
   "textdomain": "formgent",
   "attributes": {
     "id": {
@@ -13,19 +13,19 @@
     },
     "name": {
       "type": "string",
-      "default": "long_text"
+      "default": "textarea"
     },
     "value": {
       "type": "string",
-      "default": "Long Text Value"
+      "default": "Textarea Value"
     },
     "placeholder": {
       "type": "string",
-      "default": "Enter Long Text"
+      "default": "Enter Textarea"
     },
     "label": {
       "type": "string",
-      "default": "Long Text"
+      "default": "Textarea"
     },
     "label_alignment": {
       "type": "string",
@@ -33,7 +33,7 @@
     },
     "sub_label": {
       "type": "string",
-      "default": "Enter Long Text Here"
+      "default": "Enter Textarea Here"
     },
     "required": {
       "type": "boolean",

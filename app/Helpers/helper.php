@@ -7,8 +7,9 @@ use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
-use FormGent\App\Fields\ShortText\ShortText;
-use FormGent\App\Fields\LongText\LongText;
+use FormGent\App\Fields\Number\Number;
+use FormGent\App\Fields\Text\Text;
+use FormGent\App\Fields\TextArea\TextArea;
 use FormGent\App\Utils\DateTime;
 
 function formgent():App {
@@ -66,11 +67,11 @@ function formgent_is_valid_date( string $date, string $format ) {
 }
 
 function formgent_get_response_allowed_fields() {
-    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key(), Email::get_key()] );
+    return apply_filters( 'formgent_response_allowed_fields', [Text::get_key(), TextArea::get_key(), Name::get_key(), Email::get_key(), Number::get_key()] );
 }
 
 function formgent_get_response_table_allowed_fields() {
-    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key()] );
+    return apply_filters( 'formgent_response_table_allowed_fields', [Text::get_key(), TextArea::get_key(), Email::get_key(), Number::get_key()] );
 }
 
 /**

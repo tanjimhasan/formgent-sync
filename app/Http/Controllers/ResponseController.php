@@ -58,7 +58,8 @@ class ResponseController extends Controller {
             );
         }
 
-        $form->form_type = get_post_meta( $form->ID, 'formgent_type', true );
+        $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
+        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
 
         /**
          * Validating field data and creating field dto for insert.
