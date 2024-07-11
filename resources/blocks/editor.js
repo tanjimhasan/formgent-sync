@@ -23,6 +23,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './number' );
 	require( './dropdown' );
 	require( './gdpr' );
+	require( './single-choice' );
 	require( './multi-choice' );
 	// require( './button' );
 	// require( './phone-number' );
