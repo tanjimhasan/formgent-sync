@@ -1,59 +1,59 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "formgent/select",
-  "title": "Select",
-  "category": "formgent",
-  "description": "FormGent Select field.",
-  "textdomain": "formgent",
-  "attributes": {
-    "id": {
-      "type": "string",
-      "default": ""
-    },
-    "name": {
-      "type": "string",
-      "default": "select"
-    },
-    "value": {
-      "type": "string",
-      "default": "one"
-    },
-    "options": {
-      "type": "array",
-      "default": [
-        {
-          "label": "One",
-          "value": "one"
-        },
-        {
-          "label": "Two",
-          "value": "two"
-        },
-        {
-          "label": "Three",
-          "value": "three"
-        }
-      ]
-    },
-    "label": {
-      "type": "string",
-      "default": "Select"
-    },
-    "label_alignment": {
-      "type": "string",
-      "default": "left"
-    },
-    "sub_label": {
-      "type": "string",
-      "default": "Enter Select Here"
-    },
-    "required": {
-      "type": "boolean",
-      "default": false
-    }
-  },
-  "supports": {
-    "interactivity": true
-  }
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "formgent/select",
+	"title": "Select",
+	"category": "formgent",
+	"description": "FormGent Select field.",
+	"textdomain": "formgent",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"name": {
+			"type": "string",
+			"default": "select"
+		},
+		"value": {
+			"type": "string",
+			"default": "one"
+		},
+		"options": {
+			"type": "array",
+			"default": [
+				{
+					"label": "One",
+					"value": "one"
+				},
+				{
+					"label": "Two",
+					"value": "two"
+				},
+				{
+					"label": "Three",
+					"value": "three"
+				}
+			]
+		},
+		"label": {
+			"type": "string",
+			"default": "Select"
+		},
+		"label_alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"sub_label": {
+			"type": "string",
+			"default": "Enter Select Here"
+		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"interactivity": true
+	}
 }

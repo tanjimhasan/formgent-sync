@@ -17,15 +17,23 @@
     },
     "checked": {
       "type": "string",
-      "default": "0"
+      "default": false
     },
     "label": {
       "type": "string",
-      "default": "I Accept GDPR"
+      "default": "GDPR"
+    },
+    "label_alignment": {
+      "type": "string",
+      "default": "left"
     },
     "sub_label": {
       "type": "string",
-      "default": "Accept GDPR Here"
+      "default": "I Accept GDPR"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
     }
   },
   "supports": {

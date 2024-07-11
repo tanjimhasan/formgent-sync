@@ -21,11 +21,11 @@ if ( 'formgent_form' === typenow ) {
 	require( './email' );
 	require( './short-text' );
 	require( './number' );
-	require( './button' );
-	require( './phone-number' );
 	require( './select' );
-	require( './address' );
 	require( './gdpr' );
+	// require( './button' );
+	// require( './phone-number' );
+	// require( './address' );
 } else {
 	require( './form' );
 }

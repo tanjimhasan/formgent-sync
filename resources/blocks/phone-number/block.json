@@ -1,46 +1,46 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "formgent/phone-number",
-  "title": "Phone Number",
-  "category": "formgent",
-  "description": "FormGent Phone Number field.",
-  "textdomain": "formgent",
-  "attributes": {
-    "id": {
-      "type": "string",
-      "default": ""
-    },
-    "name": {
-      "type": "string",
-      "default": "phone-number"
-    },
-    "value": {
-      "type": "string",
-      "default": "(000) 000000"
-    },
-    "placeholder": {
-      "type": "string",
-      "default": "(000) 000000"
-    },
-    "label": {
-      "type": "string",
-      "default": "Phone Number"
-    },
-    "label_alignment": {
-      "type": "string",
-      "default": "left"
-    },
-    "sub_label": {
-      "type": "string",
-      "default": "Enter Phone Number Here"
-    },
-    "required": {
-      "type": "boolean",
-      "default": false
-    }
-  },
-  "supports": {
-    "interactivity": true
-  }
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "formgent/phone-number",
+	"title": "Phone Number",
+	"category": "formgent",
+	"description": "FormGent Phone Number field.",
+	"textdomain": "formgent",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"name": {
+			"type": "string",
+			"default": "phone-number"
+		},
+		"value": {
+			"type": "string",
+			"default": "(000) 000000"
+		},
+		"placeholder": {
+			"type": "string",
+			"default": "(000) 000000"
+		},
+		"label": {
+			"type": "string",
+			"default": "Phone Number"
+		},
+		"label_alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"sub_label": {
+			"type": "string",
+			"default": "Enter Phone Number Here"
+		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"interactivity": true
+	}
 }

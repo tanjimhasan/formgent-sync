@@ -23,6 +23,32 @@ const controls = {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
 			},
+			sub_label: {
+				type: 'text',
+				label: __( 'Sub Label', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
+			},
+			label_alignment: {
+				type: 'select',
+				label: __( 'Label Alignment', 'formgent' ),
+				options: [
+					{
+						label: __( 'Left', 'formgent' ),
+						value: 'left',
+					},
+					{
+						label: __( 'Right', 'formgent' ),
+						value: 'right',
+					},
+					{
+						label: __( 'Top', 'formgent' ),
+						value: 'top',
+					},
+				],
+			},
 			checked: {
 				type: 'checkbox',
 				label: __( 'Accept', 'formgent' ),
