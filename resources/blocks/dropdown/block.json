@@ -23,23 +23,6 @@
       "type": "array",
       "default": []
     },
-    "optionst": {
-      "type": "array",
-      "default": [
-        {
-          "label": "One",
-          "value": "one"
-        },
-        {
-          "label": "Two",
-          "value": "two"
-        },
-        {
-          "label": "Three",
-          "value": "three"
-        }
-      ]
-    },
     "label": {
       "type": "string",
       "default": "Dropdown"
