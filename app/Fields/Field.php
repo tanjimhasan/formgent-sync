@@ -27,14 +27,16 @@ abstract class Field {
         return [FormType::GENERAL, FormType::CONVERSATIONAL];
     }
 
+    protected function get_validation_rules(): array {
+        return [];
+    }
+
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
-        $rules = [];
+        $rules = $this->get_validation_rules();
 
         if ( isset( $field["required"] ) && '1' ===  $field["required"] ) {
             $rules[] = 'required';
         }
-
-        $rules[] = 'string';
 
         if ( ! empty( $rules ) ) {
 

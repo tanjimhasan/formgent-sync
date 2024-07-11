@@ -43,7 +43,7 @@ module.exports = [
 			path: path.resolve( __dirname, './assets/build/' ),
 			filename: '[name].js',
 			chunkFilename: '[name].js?ver=' + chunkUniqueKey,
-			clean: true,
+			clean: false,
 		},
 		plugins: [
 			...defaultConfig[ 0 ].plugins.reduce( ( acc, plugin ) => {
@@ -105,7 +105,7 @@ module.exports = [
 			path: path.resolve( __dirname, './assets/build/' ),
 			filename: '[name].js',
 			chunkFilename: '[name].js?ver=' + chunkUniqueKey,
-			clean: true,
+			clean: false,
 			module: true,
 		},
 		experiments: {
