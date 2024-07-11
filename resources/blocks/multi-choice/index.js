@@ -53,7 +53,7 @@ const controls = {
 			},
 			options: {
 				type: 'repeater',
-				label: __( 'Dropdown Options', 'formgent' ),
+				label: __( 'Multi Choice Options', 'formgent' ),
 				fields: [],
 			},
 		},
