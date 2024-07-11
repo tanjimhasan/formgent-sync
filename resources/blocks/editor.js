@@ -1,5 +1,5 @@
-import domReady from '@wordpress/dom-ready';
 import { dispatch } from '@wordpress/data';
+import domReady from '@wordpress/dom-ready';
 
 if ( 'formgent_form' === typenow ) {
 	/**
@@ -25,6 +25,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './phone-number' );
 	require( './select' );
 	require( './address' );
+	require( './gdpr' );
 } else {
 	require( './form' );
 }

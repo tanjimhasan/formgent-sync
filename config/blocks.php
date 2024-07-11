@@ -10,6 +10,7 @@ use FormGent\App\Fields\Button\Button;
 use FormGent\App\Fields\Phone\Phone;
 use FormGent\App\Fields\Select\Select;
 use FormGent\App\Fields\Address\Address;
+use FormGent\App\Fields\GDPR\GDPR;
 
 return [
     'formgent/form'         => [],
@@ -44,5 +45,9 @@ return [
     'formgent/address'      => [
         'types'      => ['general', 'conversational'],
         'field_type' => Address::get_key()
-    ]
+    ],
+    'formgent/gdpr'         => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => GDPR::get_key()
+    ],
 ];
