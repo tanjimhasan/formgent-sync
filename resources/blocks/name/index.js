@@ -79,6 +79,28 @@ const controls = {
 					},
 				],
 			},
+			toggle_group: {
+				type: 'toggle_group',
+				label: __( 'Toggle Group', 'formgent' ),
+				options: [
+					{
+						label: 'Left',
+						value: 'left',
+					},
+					{
+						label: 'Right',
+						value: 'right',
+					},
+					{
+						label: 'Center',
+						value: 'center',
+					},
+					{
+						label: 'Justify',
+						value: 'justify',
+					},
+				],
+			},
 		},
 	},
 };
