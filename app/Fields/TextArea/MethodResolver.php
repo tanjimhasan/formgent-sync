@@ -1,11 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\LongText;
+namespace FormGent\App\Fields\TextArea;
 
 defined( 'ABSPATH' ) || exit;
 
 trait MethodResolver {
     public static function get_key(): string {
-        return 'long_text';
+        return 'textarea';
     }
 }

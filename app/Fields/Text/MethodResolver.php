@@ -1,11 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\ShortText;
+namespace FormGent\App\Fields\Text;
 
 defined( 'ABSPATH' ) || exit;
 
 trait MethodResolver {
     public static function get_key(): string {
-        return 'short_text';
+        return 'text';
     }
 }
