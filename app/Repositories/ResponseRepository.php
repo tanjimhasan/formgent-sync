@@ -120,7 +120,7 @@ class ResponseRepository {
     }
 
     public function get_export_data( int $form_id, array $response_ids ) {
-        return Response::query( 'response' )->with(
+        $response_query = Response::query( 'response' )->with(
             'answers', function( Builder $query ) {
                 $query->select( 'id', 'response_id', 'field_id', 'value' )->where_is_null( 'parent_id' );
             }
@@ -128,6 +128,16 @@ class ResponseRepository {
             'answers.children', function( Builder $query ) {
                 $query->select( 'id', 'response_id', 'parent_id', 'field_id', 'value' );
             }
-        )->where( 'form_id', $form_id )->where_in( 'id', $response_ids )->get();
+        )->where( 'form_id', $form_id );
+    
+        if ( ! empty( $response_ids ) ) {
+            $response_query->where_in( 'id', $response_ids );
+        }
+
+        return $response_query->get();
+    }
+
+    public function deletes( int $form_id, array $ids ) {
+        return Response::query( 'response' )->where( 'form_id', $form_id )->where_in( 'id', $ids )->delete();
     }
 }
