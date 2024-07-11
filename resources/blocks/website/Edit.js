@@ -17,6 +17,8 @@ export default function Edit( { attributes, setAttributes } ) {
 					type="email"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
+					value={ attributes.value }
+					onChange={ () => {} }
 				/>
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }

@@ -27,7 +27,7 @@ const controls = {
 				label: __( 'Required', 'formgent' ),
 			},
 			label_alignment: {
-				type: 'select',
+				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
 				options: [
 					{
@@ -42,11 +42,19 @@ const controls = {
 						label: __( 'Top', 'formgent' ),
 						value: 'top',
 					},
+					{
+						label: __( 'Justify', 'formgent' ),
+						value: 'justify',
+					},
 				],
 			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
+			},
+			value: {
+				type: 'text',
+				label: __( 'Field Value', 'formgent' ),
 			},
 			name: {
 				type: 'text',
