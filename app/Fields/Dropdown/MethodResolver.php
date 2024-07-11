@@ -1,6 +1,6 @@
 <?php
 
-namespace FormGent\App\Fields\Select;
+namespace FormGent\App\Fields\Dropdown;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -9,7 +9,7 @@ use WP_REST_Request;
 
 trait MethodResolver {
     public static function get_key(): string {
-        return 'select';
+        return 'dropdown';
     }
 
     public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {

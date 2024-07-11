@@ -8,7 +8,7 @@ use FormGent\App\Fields\ShortText\ShortText;
 use FormGent\App\Fields\Number\Number;
 use FormGent\App\Fields\Button\Button;
 use FormGent\App\Fields\Phone\Phone;
-use FormGent\App\Fields\Select\Select;
+use FormGent\App\Fields\Dropdown\Dropdown;
 use FormGent\App\Fields\Address\Address;
 use FormGent\App\Fields\GDPR\GDPR;
 
@@ -38,9 +38,9 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Phone::get_key()
     ],
-    'formgent/select'       => [
+    'formgent/dropdown'     => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Select::get_key()
+        'field_type' => Dropdown::get_key()
     ],
     'formgent/address'      => [
         'types'      => ['general', 'conversational'],

@@ -16,10 +16,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					{ attributes.options.map( ( option, index ) => (
 						<option
 							key={ index }
-							value={ option.value }
-							selected={ option.value === attributes.value }
+							value={ option.title }
+							selected={ option.title === attributes.value }
 						>
-							{ option.label }
+							{ option.title }
 						</option>
 					) ) }
 				</select>

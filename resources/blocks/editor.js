@@ -21,7 +21,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './email' );
 	require( './short-text' );
 	require( './number' );
-	require( './select' );
+	require( './dropdown' );
 	require( './gdpr' );
 	// require( './button' );
 	// require( './phone-number' );

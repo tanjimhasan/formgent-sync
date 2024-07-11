@@ -47,27 +47,19 @@ const controls = {
 					},
 				],
 			},
-			value: {
-				type: 'select',
-				label: __( 'Select Value', 'formgent' ),
-				options: [
-					{
-						label: __( 'One', 'formgent' ),
-						value: 'one',
-					},
-					{
-						label: __( 'Two', 'formgent' ),
-						value: 'two',
-					},
-					{
-						label: __( 'Three', 'formgent' ),
-						value: 'three',
-					},
-				],
-			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
+			},
+			options: {
+				type: 'repeater',
+				label: __( 'Dropdown Options', 'formgent' ),
+				fields: [
+					{
+						title: 'Option 1',
+						content: 'Option 1 content',
+					},
+				],
 			},
 		},
 	},

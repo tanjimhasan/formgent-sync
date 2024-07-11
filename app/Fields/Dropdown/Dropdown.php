@@ -1,11 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\Select;
+namespace FormGent\App\Fields\Dropdown;
 
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Field;
 
-class Select extends Field {
+class Dropdown extends Field {
     use MethodResolver;
 }
