@@ -1,11 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\ShortText;
+namespace FormGent\App\Fields\Text;
 
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Field;
 
-class ShortText extends Field {
+class Text extends Field {
     use MethodResolver;
 }

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "formgent/text",
+  "title": "Text",
+  "category": "formgent",
+  "description": "FormGent Text field.",
+  "textdomain": "formgent",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "default": ""
+    },
+    "name": {
+      "type": "string",
+      "default": "text"
+    },
+    "value": {
+      "type": "string",
+      "default": "Text Value"
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "Text Placeholder"
+    },
+    "label": {
+      "type": "string",
+      "default": "Short Text"
+    },
+    "label_alignment": {
+      "type": "string",
+      "default": "left"
+    },
+    "sub_label": {
+      "type": "string",
+      "default": "Enter Short Text Here"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "interactivity": true
+  }
+}
