@@ -50,6 +50,10 @@
 		"repeater": {
 			"type": "array",
 			"default": []
+		},
+		"input_group": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"supports": {

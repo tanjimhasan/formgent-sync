@@ -41,6 +41,11 @@ export default function Repeater( {
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
+	const handleLabelChange = ( value ) => {
+		const updatedFields = { ...control, label: value };
+		setAttributes( { ...attributes, control: updatedFields } );
+	};
+
 	return (
 		<div className="formgent-repeater-control">
 			<label className="formgent-control-label">{ control.label }</label>
@@ -51,7 +56,7 @@ export default function Repeater( {
 							className="formgent-repeater-field-title"
 							onClick={ () => toggleFieldContent( index ) }
 						>
-							{ control.label } { index + 1 }
+							{ control.label }
 						</div>
 						<button
 							onClick={ () => handleRemoveField( index ) }
@@ -62,6 +67,24 @@ export default function Repeater( {
 					</div>
 					{ openIndex === index && (
 						<div className="formgent-repeater-field-control-content">
+							{ Object.keys( control.fields ).length === 1 &&
+								Object.keys( control.fields ).map(
+									( fieldKey ) => {
+										const fieldControl =
+											control.fields[ fieldKey ];
+										return (
+											<InputControl
+												key={ fieldKey }
+												label="Label"
+												value={ fieldControl.label }
+												onChange={ ( value ) =>
+													handleLabelChange( value )
+												}
+											/>
+										);
+									}
+								) }
+
 							{ Object.keys( control.fields ).map(
 								( fieldKey ) => {
 									const fieldControl =
@@ -72,6 +95,7 @@ export default function Repeater( {
 										case 'text':
 											return (
 												<InputControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													value={ fieldValue }
 													onChange={ ( value ) =>
@@ -86,6 +110,7 @@ export default function Repeater( {
 										case 'textarea':
 											return (
 												<TextareaControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													value={ fieldValue }
 													onChange={ ( value ) =>
@@ -100,6 +125,7 @@ export default function Repeater( {
 										case 'switch':
 											return (
 												<ToggleControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													checked={ fieldValue }
 													onChange={ ( value ) =>
@@ -114,6 +140,7 @@ export default function Repeater( {
 										case 'checkbox':
 											return (
 												<CheckboxControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													checked={ fieldValue }
 													onChange={ ( value ) =>
@@ -128,6 +155,7 @@ export default function Repeater( {
 										case 'radio':
 											return (
 												<RadioControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													selected={ fieldValue }
 													options={
@@ -145,6 +173,7 @@ export default function Repeater( {
 										case 'select':
 											return (
 												<SelectControl
+													key={ fieldKey }
 													label={ fieldControl.label }
 													value={ fieldValue }
 													options={
