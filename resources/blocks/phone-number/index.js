@@ -53,6 +53,28 @@ const controls = {
 					},
 				],
 			},
+			country_code: {
+				type: 'select',
+				label: __( 'Country Code', 'formgent' ),
+				options: [
+					{
+						label: __( '+88', 'formgent' ),
+						value: '+88',
+					},
+					{
+						label: __( '+11', 'formgent' ),
+						value: '+11',
+					},
+					{
+						label: __( '+22', 'formgent' ),
+						value: '+22',
+					},
+					{
+						label: __( '+33', 'formgent' ),
+						value: '+33',
+					},
+				],
+			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
