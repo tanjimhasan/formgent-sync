@@ -87,7 +87,6 @@ const controlGenerators = {
 					{ control.label }
 				</label>
 				<BoxControl
-					label=""
 					values={ values }
 					onChange={ ( value ) => {
 						setValues( value );

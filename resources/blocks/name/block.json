@@ -28,28 +28,32 @@
 			"default": "first_last"
 		},
 		"checkbox": {
-			"type": "string",
-			"default": "0"
+			"type": "boolean",
+			"default": true
 		},
 		"switch": {
 			"type": "boolean",
 			"default": true
 		},
 		"margin": {
-			"type": "string",
-			"default": "10px"
+			"type": "object",
+			"default": {}
 		},
 		"padding": {
-			"type": "string",
-			"default": "10px"
+			"type": "object",
+			"default": {}
 		},
 		"repeater": {
-			"type": "string",
-			"default": "[]"
+			"type": "array",
+			"default": []
 		},
 		"toggle_group": {
 			"type": "string",
 			"default": "left"
+		},
+		"switch_group": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"supports": {

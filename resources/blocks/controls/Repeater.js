@@ -1,8 +1,7 @@
-import { useState } from '@wordpress/element';
+import { Fragment, useState } from '@wordpress/element';
 import {
 	Button,
 	Icon,
-	TextareaControl,
 	__experimentalInputControl as InputControl,
 } from '@wordpress/components';
 
@@ -13,8 +12,8 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 		const newFields = [
 			...control.fields,
 			{
-				title: `Option ${ control.fields.length + 1 }`,
-				content: 'Field Contents',
+				type: control.field_type,
+				label: `Option ${ control.fields.length + 1 }`,
 			},
 		];
 		control.fields = newFields;
@@ -23,21 +22,14 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 	};
 
 	const handleRemoveField = ( index ) => {
-		const newFields = control.fields.filter( ( _, i ) => i !== index );
+		const newFields = control.fields.filter( ( item, i ) => i !== index );
 		control.fields = newFields;
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
 	const handleChangeFieldTitle = ( index, value ) => {
 		const newFields = [ ...control.fields ];
-		newFields[ index ].title = value;
-		control.fields = newFields;
-		setAttributes( { [ attr_key ]: newFields } );
-	};
-
-	const handleChangeFieldContent = ( index, value ) => {
-		const newFields = [ ...control.fields ];
-		newFields[ index ].content = value;
+		newFields[ index ].label = value;
 		control.fields = newFields;
 		setAttributes( { [ attr_key ]: newFields } );
 	};
@@ -47,8 +39,9 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 	};
 
 	return (
-		<>
+		<Fragment>
 			<label className="formgent-control-label">{ control.label }</label>
+			{ /* { control.field_type === 'switch' } */ }
 			{ control.fields.map( ( field, index ) => (
 				<div
 					key={ index }
@@ -63,7 +56,7 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 							className="formgent-repeater-field-title"
 							onClick={ () => toggleFieldContent( index ) }
 						>
-							{ field.title }
+							{ field.label }
 						</button>
 						<button
 							onClick={ () => handleRemoveField( index ) }
@@ -77,18 +70,9 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 							<div className="formgent-repeater-field-control-title">
 								<label>Title</label>
 								<InputControl
-									value={ field.title }
+									value={ field.label }
 									onChange={ ( value ) =>
 										handleChangeFieldTitle( index, value )
-									}
-								/>
-							</div>
-							<div className="formgent-repeater-field-control-content-inner">
-								<label>Content</label>
-								<TextareaControl
-									value={ field.content }
-									onChange={ ( value ) =>
-										handleChangeFieldContent( index, value )
 									}
 								/>
 							</div>
@@ -102,6 +86,6 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 					<Icon icon="plus" /> Add option
 				</Button>
 			</div>
-		</>
+		</Fragment>
 	);
 }

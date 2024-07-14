@@ -72,10 +72,11 @@ const controls = {
 			repeater: {
 				type: 'repeater',
 				label: __( 'Options', 'formgent' ),
+				field_type: 'text',
 				fields: [
 					{
-						title: 'Option 1',
-						content: 'Option 1 content',
+						type: 'text',
+						label: __( 'Option 1', 'formgent' ),
 					},
 				],
 			},
@@ -98,6 +99,17 @@ const controls = {
 					{
 						label: 'Justify',
 						value: 'justify',
+					},
+				],
+			},
+			switch_group: {
+				type: 'repeater',
+				label: __( 'Switch Group', 'formgent' ),
+				field_type: 'switch',
+				fields: [
+					{
+						type: 'switch',
+						label: __( 'Enable new world?', 'formgent' ),
 					},
 				],
 			},
