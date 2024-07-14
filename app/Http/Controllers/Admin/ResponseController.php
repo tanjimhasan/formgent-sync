@@ -155,14 +155,14 @@ class ResponseController extends Controller {
             );
         }
 
-        $allowed_fields = formgent_get_response_table_allowed_fields();
-        $fields         = [];
+        $registered_fields = formgent_config( 'fields' );
+        $fields            = [];
 
         $selected_fields = get_post_meta( $form->ID, 'response_table_field_ids', true );
         $fields_settings = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
         foreach ( $fields_settings as $field ) {
-            if ( ! in_array( $field['field_type'], $allowed_fields, true ) ) {
+            if ( empty( $registered_fields[$field['field_type']]['allowed_in_response_table'] ) ) {
                 continue;
             }
 
