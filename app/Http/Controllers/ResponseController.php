@@ -136,7 +136,7 @@ class ResponseController extends Controller {
 
         $wp_rest_request->set_body_params( $form_data );
 
-        $allowed_fields = formgent_get_response_allowed_fields();
+        $registered_fields = formgent_config( "fields" );
 
         $fields           = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
         $errors           = [];
@@ -158,7 +158,7 @@ class ResponseController extends Controller {
             /**
              * Ignore this field if field is not allowed form submission
              */
-            if ( ! in_array( $field['field_type'], $allowed_fields, true ) ) {
+            if ( empty( $registered_fields[$field['field_type']]['allowed_in_response'] ) ) {
                 continue;
             }
 

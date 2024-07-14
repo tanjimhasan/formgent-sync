@@ -66,14 +66,6 @@ function formgent_is_valid_date( string $date, string $format ) {
     return $date_time && $date_time->format( $format ) === $date;
 }
 
-function formgent_get_response_allowed_fields() {
-    return apply_filters( 'formgent_response_allowed_fields', [Text::get_key(), TextArea::get_key(), Name::get_key(), Email::get_key(), Number::get_key()] );
-}
-
-function formgent_get_response_table_allowed_fields() {
-    return apply_filters( 'formgent_response_table_allowed_fields', [Text::get_key(), TextArea::get_key(), Email::get_key(), Number::get_key()] );
-}
-
 /**
  * Get current user ip address
  *
@@ -132,7 +124,7 @@ function formgent_get_nested_value( string $keys, array $values, $default = null
 }
 
 function formgent_field_handler( string $field_type ):Field {
-    $field_handler_class = formgent_config( "fields.{$field_type}" );
+    $field_handler_class = formgent_config( "fields.{$field_type}.class" );
 
     if ( ! class_exists( $field_handler_class ) ) {
         throw new Exception( __( 'Field handler not found.', 'formgent' ), 500 );
