@@ -10,6 +10,10 @@
 	margin-bottom: 6px;
 }
 
+.formgent-repeater-control {
+	margin-bottom: 30px;
+}
+
 .formgent-repeater-field {
 	border: 1px solid #dadada;
 	margin-bottom: 10px;
@@ -25,7 +29,7 @@
 		padding: 0;
 		margin: 0;
 		text-align: left;
-		padding: 10px;
+		padding: 10px 5px;
 		cursor: pointer;
 		transition: 0.3s ease;
 		&:hover {
@@ -36,18 +40,41 @@
 .formgent-repeater-field--expanded .formgent-repeater-field-control {
 	border-bottom: 1px solid #dadada;
 }
-button.formgent-repeater-field-title {
+.formgent-repeater-field-title {
+	cursor: pointer;
 	width: 80%;
+	padding: 10px;
+	.components-base-control,
+	.components-base-control__field {
+		margin-bottom: 0 !important;
+	}
 }
 button.formgent-repeater-field-remove {
 	flex: 20%;
 	text-align: center;
 	border-left: 1px solid #dadada;
 }
+button.formgent-repeater-field-expand {
+	text-align: center;
+	border-left: 1px solid #dadada;
+	.dashicon::before {
+		color: #959595;
+		font-size: 16px;
+	}
+}
 .formgent-repeater-field-control-content {
 	padding: 10px;
 	label {
-		display: block;
 		margin-bottom: 6px;
+	}
+}
+
+.formgent-repeater-field-control--extended {
+	.formgent-repeater-field-title {
+		width: 76%;
+	}
+	button.formgent-repeater-field-remove,
+	button.formgent-repeater-field-expand {
+		flex: 12%;
 	}
 }

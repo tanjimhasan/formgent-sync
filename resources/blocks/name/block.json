@@ -43,15 +43,11 @@
 			"type": "object",
 			"default": {}
 		},
-		"repeater": {
-			"type": "array",
-			"default": []
-		},
 		"toggle_group": {
 			"type": "string",
 			"default": "left"
 		},
-		"switch_group": {
+		"repeater": {
 			"type": "array",
 			"default": []
 		}

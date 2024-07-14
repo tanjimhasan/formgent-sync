@@ -69,17 +69,6 @@ const controls = {
 					left: '10px',
 				},
 			},
-			repeater: {
-				type: 'repeater',
-				label: __( 'Options', 'formgent' ),
-				field_type: 'text',
-				fields: [
-					{
-						type: 'text',
-						label: __( 'Option 1', 'formgent' ),
-					},
-				],
-			},
 			toggle_group: {
 				type: 'toggle_group',
 				label: __( 'Toggle Group', 'formgent' ),
@@ -102,19 +91,70 @@ const controls = {
 					},
 				],
 			},
-			switch_group: {
+			repeater: {
 				type: 'repeater',
-				label: __( 'Switch Group', 'formgent' ),
-				field_type: 'switch',
-				fields: [
-					{
-						type: 'switch',
-						label: __( 'Enable new world?', 'formgent' ),
+				label: __( 'Repeater fields', 'formgent' ),
+				item_label: 'header_value',
+				fields: {
+					full_name: {
+						type: 'text',
+						label: __( 'Text', 'formgent' ),
 					},
-				],
+					address: {
+						type: 'textarea',
+						label: __( 'Textarea', 'formgent' ),
+					},
+					enable_notification: {
+						type: 'switch',
+						label: __( 'Switch', 'formgent' ),
+					},
+					re_entry: {
+						type: 'checkbox',
+						label: __( 'Checkbox', 'formgent' ),
+					},
+					radio_option: {
+						type: 'radio',
+						label: __( 'Radio', 'formgent' ),
+						options: [
+							{
+								label: __( 'Option One' ),
+								value: 'option1',
+							},
+							{
+								label: __( 'Option Two' ),
+								value: 'option2',
+							},
+						],
+					},
+					select_option: {
+						type: 'select',
+						label: __( 'Select', 'formgent' ),
+						options: [
+							{
+								label: __( 'Cookie', 'formgent' ),
+								value: 'cookie',
+							},
+							{
+								label: __( 'Expect', 'formgent' ),
+								value: 'expect',
+							},
+						],
+					},
+				},
 			},
 		},
 	},
 };
+
+// [
+// 	{
+// 		"header": "asdfsadf"
+// 		"header_value": "|dasfasdf"
+// 	},
+// 	{
+// 		"header": "asdfsadf"
+// 		"header_value": "|dasfasdf"
+// 	}
+// ]
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );
