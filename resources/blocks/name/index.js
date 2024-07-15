@@ -100,10 +100,6 @@ const controls = {
 						type: 'text',
 						label: __( 'Text', 'formgent' ),
 					},
-					address: {
-						type: 'textarea',
-						label: __( 'Textarea', 'formgent' ),
-					},
 					enable_notification: {
 						type: 'switch',
 						label: __( 'Switch', 'formgent' ),
@@ -111,20 +107,6 @@ const controls = {
 					re_entry: {
 						type: 'checkbox',
 						label: __( 'Checkbox', 'formgent' ),
-					},
-					radio_option: {
-						type: 'radio',
-						label: __( 'Radio', 'formgent' ),
-						options: [
-							{
-								label: __( 'Option One' ),
-								value: 'option1',
-							},
-							{
-								label: __( 'Option Two' ),
-								value: 'option2',
-							},
-						],
 					},
 					select_option: {
 						type: 'select',
@@ -145,16 +127,5 @@ const controls = {
 		},
 	},
 };
-
-// [
-// 	{
-// 		"header": "asdfsadf"
-// 		"header_value": "|dasfasdf"
-// 	},
-// 	{
-// 		"header": "asdfsadf"
-// 		"header_value": "|dasfasdf"
-// 	}
-// ]
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );

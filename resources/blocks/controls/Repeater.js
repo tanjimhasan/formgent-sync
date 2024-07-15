@@ -1,14 +1,6 @@
 import { useState } from '@wordpress/element';
-import {
-	Button,
-	Icon,
-	__experimentalInputControl as InputControl,
-	ToggleControl,
-	CheckboxControl,
-	RadioControl,
-	TextareaControl,
-	SelectControl,
-} from '@wordpress/components';
+import { Button, Icon } from '@wordpress/components';
+import Controls from '../controls';
 
 export default function Repeater( {
 	attr_key,
@@ -41,162 +33,51 @@ export default function Repeater( {
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
-	const handleLabelChange = ( value ) => {
-		const updatedFields = { ...control, label: value };
-		setAttributes( { ...attributes, control: updatedFields } );
-	};
-
 	return (
 		<div className="formgent-repeater-control">
 			<label className="formgent-control-label">{ control.label }</label>
-			{ attributes[ attr_key ].map( ( field, index ) => (
-				<div key={ index } className="formgent-repeater-field">
-					<div className="formgent-repeater-field-control">
-						<div
-							className="formgent-repeater-field-title"
-							onClick={ () => toggleFieldContent( index ) }
-						>
-							{ control.label }
-						</div>
-						<button
-							onClick={ () => handleRemoveField( index ) }
-							className="formgent-repeater-field-remove"
-						>
-							X
-						</button>
-					</div>
-					{ openIndex === index && (
-						<div className="formgent-repeater-field-control-content">
-							{ Object.keys( control.fields ).length === 1 &&
-								Object.keys( control.fields ).map(
-									( fieldKey ) => {
-										const fieldControl =
-											control.fields[ fieldKey ];
-										return (
-											<InputControl
-												key={ fieldKey }
-												label="Label"
-												value={ fieldControl.label }
-												onChange={ ( value ) =>
-													handleLabelChange( value )
+			{ attributes[ attr_key ] &&
+				attributes[ attr_key ].map( ( field, index ) => {
+					return (
+						<div key={ index } className="formgent-repeater-field">
+							<div className="formgent-repeater-field-control">
+								<div
+									className="formgent-repeater-field-title"
+									onClick={ () =>
+										toggleFieldContent( index )
+									}
+								>
+									{ control.item_label }
+								</div>
+								<button
+									onClick={ () => handleRemoveField( index ) }
+									className="formgent-repeater-field-remove"
+								>
+									X
+								</button>
+							</div>
+							{ openIndex === index && (
+								<div className="formgent-repeater-field-control-content">
+									<Controls
+										controls={ control.fields }
+										attributes={ field }
+										setAttributes={ ( updatedField ) => {
+											Object.keys( updatedField ).forEach(
+												( fieldKey ) => {
+													handleChange(
+														index,
+														fieldKey,
+														updatedField[ fieldKey ]
+													);
 												}
-											/>
-										);
-									}
-								) }
-
-							{ Object.keys( control.fields ).map(
-								( fieldKey ) => {
-									const fieldControl =
-										control.fields[ fieldKey ];
-									const fieldValue = field[ fieldKey ] || '';
-
-									switch ( fieldControl.type ) {
-										case 'text':
-											return (
-												<InputControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													value={ fieldValue }
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
 											);
-										case 'textarea':
-											return (
-												<TextareaControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													value={ fieldValue }
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
-											);
-										case 'switch':
-											return (
-												<ToggleControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													checked={ fieldValue }
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
-											);
-										case 'checkbox':
-											return (
-												<CheckboxControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													checked={ fieldValue }
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
-											);
-										case 'radio':
-											return (
-												<RadioControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													selected={ fieldValue }
-													options={
-														fieldControl.options
-													}
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
-											);
-										case 'select':
-											return (
-												<SelectControl
-													key={ fieldKey }
-													label={ fieldControl.label }
-													value={ fieldValue }
-													options={
-														fieldControl.options
-													}
-													onChange={ ( value ) =>
-														handleChange(
-															index,
-															fieldKey,
-															value
-														)
-													}
-												/>
-											);
-										default:
-											return null;
-									}
-								}
+										} }
+									/>
+								</div>
 							) }
 						</div>
-					) }
-				</div>
-			) ) }
+					);
+				} ) }
 			<div className="formgent-repeater__add-item">
 				<Button variant="primary" onClick={ handleAddField }>
 					<Icon icon="plus" /> Add option
