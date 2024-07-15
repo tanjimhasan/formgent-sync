@@ -22,7 +22,7 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ forms && (
+			{ forms.length > 0 && (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table />
 				</Suspense>
