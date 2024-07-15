@@ -142,17 +142,6 @@ const controls = {
 					},
 				},
 			},
-			input_group: {
-				type: 'repeater',
-				label: __( 'Input Group', 'formgent' ),
-				item_label: 'header_value',
-				fields: {
-					field_name: {
-						type: 'text',
-						label: __( 'Field Name', 'formgent' ),
-					},
-				},
-			},
 		},
 	},
 };
