@@ -1,4 +1,10 @@
+import Phone from './Phone';
+
 export default function Edit( { attributes, setAttributes } ) {
+	const handlePhoneChange = ( value ) => {
+		attributes.value = value;
+	};
+
 	return (
 		<div className="formgent-form-block">
 			<label
@@ -11,8 +17,9 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 				) : null }
 			</label>
-			<div className="formgent-form-block__wrapper">
-				{ /* <span className="formgent-form-block__code">+88</span> */ }
+			{ attributes.value || 'No value' }
+			<Phone handlePhoneChange={ handlePhoneChange } />
+			{ /* <div className="formgent-form-block__wrapper">
 				<select
 					name={ attributes.country_code }
 					value={ attributes.country_code || 'formgent-default-code' }
@@ -35,7 +42,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<span className="formgent-form-block__sub-label">
 					{ attributes.sub_label }
 				</span>
-			</div>
+			</div> */ }
 		</div>
 	);
 }

@@ -46,6 +46,7 @@
     "@wordpress/plugins": "^6.26.0",
     "antd": "^5.17.0",
     "immutability-helper": "^3.1.1",
+    "intl-tel-input": "^23.3.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "nanoid": "^5.0.7",
