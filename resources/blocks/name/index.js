@@ -94,7 +94,8 @@ const controls = {
 			repeater: {
 				type: 'repeater',
 				label: __( 'Repeater fields', 'formgent' ),
-				item_label: 'header_value',
+				label_key: 'full_name',
+				add_button_text: 'Add Option',
 				fields: {
 					full_name: {
 						type: 'text',

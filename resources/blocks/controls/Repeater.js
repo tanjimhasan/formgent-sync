@@ -38,8 +38,16 @@ export default function Repeater( {
 			<label className="formgent-control-label">{ control.label }</label>
 			{ attributes[ attr_key ] &&
 				attributes[ attr_key ].map( ( field, index ) => {
+					const labelKey = control.label_key;
 					return (
-						<div key={ index } className="formgent-repeater-field">
+						<div
+							key={ index }
+							className={ `formgent-repeater-field ${
+								openIndex === index
+									? 'formgent-repeater-field--expanded'
+									: ''
+							}` }
+						>
 							<div className="formgent-repeater-field-control">
 								<div
 									className="formgent-repeater-field-title"
@@ -47,14 +55,17 @@ export default function Repeater( {
 										toggleFieldContent( index )
 									}
 								>
-									{ control.item_label }
+									{ typeof field[ labelKey ] === 'undefined'
+										? control.fields[ control.label_key ]
+												.label
+										: field[ labelKey ] }
 								</div>
-								<button
+								<Button
 									onClick={ () => handleRemoveField( index ) }
 									className="formgent-repeater-field-remove"
 								>
 									X
-								</button>
+								</Button>
 							</div>
 							{ openIndex === index && (
 								<div className="formgent-repeater-field-control-content">
@@ -80,7 +91,7 @@ export default function Repeater( {
 				} ) }
 			<div className="formgent-repeater__add-item">
 				<Button variant="primary" onClick={ handleAddField }>
-					<Icon icon="plus" /> Add option
+					<Icon icon="plus" /> { control.add_button_text }
 				</Button>
 			</div>
 		</div>
