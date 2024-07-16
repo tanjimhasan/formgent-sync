@@ -9,6 +9,6 @@
         class="formgent-form-field__element"
         data-wp-interactive="formgent-block"
         data-wp-on--input="actions.updateEmail"
-        data-wp-bind--value="context.email"
+        data-wp-bind--value="context.<?php echo esc_attr( $attributes['name'] ); ?>"
     >
 </div>

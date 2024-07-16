@@ -9,11 +9,29 @@ store( 'formgent-block', {
 			const context = getContext();
 			context.isOpen = ! context.isOpen;
 		},
+
 		updateEmail: () => {
-			console.log( 'yes' );
 			const element = getElement();
 			const context = getContext();
-			context.email = element.ref.value;
+			context[ element.ref.name ] = element.ref.value;
+		},
+
+		updateNumber: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = parseInt( element.ref.value );
+		},
+
+		updateText: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = element.ref.value;
+		},
+
+		updateTextarea: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = element.ref.value;
 		},
 	},
 	callbacks: {},

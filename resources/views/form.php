@@ -87,11 +87,17 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
         const names = <?php formgent_render( $names_json ); ?>;
         const form = event.target;
         const formData = new FormData(form);
-
         const rowData = {};
 
         for(const name of Object.keys(names)){
-            rowData[name] = formData.get(name);
+            const inputElement = form.querySelector(`[name="${name}"]`);
+            const inputType = inputElement ? inputElement.type : null;
+
+            if(inputType === 'number') {
+                rowData[name] = parseInt(formData.get(name), 10);
+            }else {
+                rowData[name] = formData.get(name);
+            }
         }
 
         const submissionData = {

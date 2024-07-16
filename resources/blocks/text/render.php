@@ -8,7 +8,7 @@
         id="<?php echo esc_attr( $attributes['name'] ); ?>"
         class="formgent-form-field__element"
         data-wp-interactive="formgent-block"
-        data-wp-on--input="actions.updateShortText"
-        data-wp-bind--value="context.short_text"
+        data-wp-on--input="actions.updateText"
+        data-wp-bind--value="context.<?php echo esc_attr( $attributes['name'] ); ?>"
     >
 </div>
