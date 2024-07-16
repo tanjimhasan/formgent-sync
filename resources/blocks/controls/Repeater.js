@@ -1,5 +1,6 @@
 import { useState } from '@wordpress/element';
 import { Button, Icon } from '@wordpress/components';
+import { v4 as uuidv4 } from 'uuid';
 import Controls from '../controls';
 
 export default function Repeater( {
@@ -10,15 +11,16 @@ export default function Repeater( {
 } ) {
 	const [ openIndex, setOpenIndex ] = useState( null );
 
-	const handleRemoveField = ( index ) => {
+	const handleRemoveField = ( id ) => {
 		const newFields = attributes[ attr_key ].filter(
-			( item, i ) => i !== index
+			( item ) => item.id !== id
 		);
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
 	const handleAddField = () => {
-		const newFields = [ ...attributes[ attr_key ], {} ];
+		const newField = { id: uuidv4(), ...{} };
+		const newFields = [ ...attributes[ attr_key ], newField ];
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
 	};
@@ -27,9 +29,13 @@ export default function Repeater( {
 		setOpenIndex( openIndex === index ? null : index );
 	};
 
-	const handleChange = ( index, fieldKey, value ) => {
-		const newFields = [ ...attributes[ attr_key ] ];
-		newFields[ index ][ fieldKey ] = value;
+	const handleChange = ( id, fieldKey, value ) => {
+		const newFields = attributes[ attr_key ].map( ( item ) => {
+			if ( item.id === id ) {
+				return { ...item, [ fieldKey ]: value };
+			}
+			return item;
+		} );
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
@@ -41,7 +47,7 @@ export default function Repeater( {
 					const labelKey = control.label_key;
 					return (
 						<div
-							key={ index }
+							key={ field.id }
 							className={ `formgent-repeater-field ${
 								openIndex === index
 									? 'formgent-repeater-field--expanded'
@@ -61,7 +67,9 @@ export default function Repeater( {
 										: field[ labelKey ] }
 								</div>
 								<Button
-									onClick={ () => handleRemoveField( index ) }
+									onClick={ () =>
+										handleRemoveField( field.id )
+									}
 									className="formgent-repeater-field-remove"
 								>
 									X
@@ -76,7 +84,7 @@ export default function Repeater( {
 											Object.keys( updatedField ).forEach(
 												( fieldKey ) => {
 													handleChange(
-														index,
+														field.id,
 														fieldKey,
 														updatedField[ fieldKey ]
 													);
