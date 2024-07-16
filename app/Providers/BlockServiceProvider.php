@@ -17,12 +17,16 @@ class BlockServiceProvider implements Provider {
     public function action_init() : void {
         foreach ( formgent_config( 'blocks' ) as $block_name => $block_data ) {
             $name = ltrim( $block_name, 'formgent' );
+
+            wp_enqueue_block_style(
+                $block_name, [
+                    'handle' => 'formgent/blocks-frontend',
+                    'src'    => formgent_url( 'assets/build/css/blocks-frontend.css' )
+                ]
+            );
+
             register_block_type(
                 formgent_dir( "assets/build/blocks{$name}/block.json" ), [
-                    'editor_script'   => 'formgent/blocks-editor',
-                    'editor_style'    => 'formgent/blocks-editor',
-                    // 'script'          => 'formgent/block/frontend',
-                    'style'           => 'formgent/block-frontend',
                     'render_callback' => function( $attributes ) use( $name ) {
                         ob_start();
                         include formgent()->get_dir( "resources/blocks{$name}/render.php" );

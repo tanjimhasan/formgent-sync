@@ -54,5 +54,8 @@
 	},
 	"supports": {
 		"interactivity": true
-	}
+	},
+	"editorScript": "formgent/blocks-editor",
+	"editorStyle": "formgent/blocks-editor",
+	"style": "formgent/blocks-frontend"
 }
