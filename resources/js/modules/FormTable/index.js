@@ -5,6 +5,7 @@ const Table = lazy( () => import( './components/Table' ) );
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
 import { AntSkeleton } from '@formgent/components';
+import StarterContent from './components/StarterContent';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
@@ -22,10 +23,12 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ forms.length > 0 && (
+			{ forms.length > 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table />
 				</Suspense>
+			) : (
+				<StarterContent />
 			) }
 			<CreatePopup />
 		</div>

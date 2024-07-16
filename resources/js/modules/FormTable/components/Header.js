@@ -24,7 +24,9 @@ export default function Header() {
 					<AntButton
 						type="dark"
 						className="formgent-page-header-btn"
-						onClick={ () => updateCreatePopUp( true ) }
+						onClick={ ( e ) => {
+							updateCreatePopUp( true );
+						} }
 					>
 						{ __( 'Create New', 'formgent' ) }
 					</AntButton>
