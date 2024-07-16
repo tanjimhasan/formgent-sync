@@ -1,19 +1,20 @@
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div className="formgent-form-block">
+		<div className="block-editor-block-list__single">
 			<label
-				className={ `formgent-form-block__label label-align-${ attributes.label_alignment }` }
+				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
 				{ attributes.label }
 				{ attributes.required ? (
-					<span className="formgent-form-block__label__required">
+					<span className="block-editor-block-list__single__label__required">
 						*
 					</span>
 				) : null }
 			</label>
-			<div className="formgent-form-block__wrapper">
+			<div className="block-editor-block-list__single__wrapper">
 				<select
 					name={ attributes.name }
+					className="block-editor-block-list__single__input"
 					value={ attributes.value || 'formgent-default-option' }
 					onChange={ () => {} }
 				>
@@ -29,7 +30,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						</option>
 					) }
 				</select>
-				<span className="formgent-form-block__sub-label">
+				<span className="block-editor-block-list__single__sub-label">
 					{ attributes.sub_label }
 				</span>
 			</div>

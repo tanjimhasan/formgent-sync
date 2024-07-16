@@ -20,6 +20,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './name' );
 	require( './email' );
 	require( './text' );
+	require( './textarea' );
 	require( './number' );
 	require( './dropdown' );
 	require( './gdpr' );

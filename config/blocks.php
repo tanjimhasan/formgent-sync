@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\Text\Text;
+use FormGent\App\Fields\TextArea\TextArea;
 use FormGent\App\Fields\Number\Number;
 
 return [
@@ -20,6 +21,10 @@ return [
     'formgent/text'          => [
         'types'      => ['general', 'conversational'],
         'field_type' => Text::get_key(),
+    ],
+    'formgent/textarea'      => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => TextArea::get_key(),
     ],
     'formgent/number'        => [
         'types'      => ['general', 'conversational'],

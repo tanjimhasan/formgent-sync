@@ -6,20 +6,20 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	return (
-		<div className="formgent-form-block">
+		<div className="block-editor-block-list__single">
 			<label
-				className={ `formgent-form-block__label label-align-${ attributes.label_alignment }` }
+				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
 				{ attributes.label }
 				{ attributes.required ? (
-					<span className="formgent-form-block__label__required">
+					<span className="block-editor-block-list__single__label__required">
 						*
 					</span>
 				) : null }
 			</label>
 			{ attributes.value || 'No value' }
 			<Phone handlePhoneChange={ handlePhoneChange } />
-			{ /* <div className="formgent-form-block__wrapper">
+			{ /* <div className="block-editor-block-list__single__wrapper">
 				<select
 					name={ attributes.country_code }
 					value={ attributes.country_code || 'formgent-default-code' }
@@ -32,14 +32,14 @@ export default function Edit( { attributes, setAttributes } ) {
 					<option value="+33">+33</option>
 				</select>
 				<input
-					className="formgent-form-block__input"
+					className="block-editor-block-list__single__input"
 					type="text"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }
 					onChange={ () => {} }
 				/>
-				<span className="formgent-form-block__sub-label">
+				<span className="block-editor-block-list__single__sub-label">
 					{ attributes.sub_label }
 				</span>
 			</div> */ }
