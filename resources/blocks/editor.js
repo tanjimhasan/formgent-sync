@@ -27,7 +27,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './single-choice' );
 	require( './multi-choice' );
 	require( './phone-number' );
-	// require( './address' );
+	require( './address' );
 	// require( './button' );
 } else {
 	require( './form' );
