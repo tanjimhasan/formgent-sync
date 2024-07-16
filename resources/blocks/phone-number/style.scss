@@ -1,1 +1,11 @@
 @import "phone.scss";
+
+.wp-block-formgent-phone-number {
+	.iti--inline-dropdown {
+		.iti__tel-input {
+			height: 40px;
+			border-radius: 4px;
+			border: 1px solid #dadada;
+		}
+	}
+}
