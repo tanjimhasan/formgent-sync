@@ -1,6 +1,8 @@
 @import "form/style.scss";
 @import "name/style.scss";
 @import "website/style.scss";
+@import "email/style.scss";
+
 // Block Input Field Style
 .block-editor-block-list {
 	&__single {
@@ -14,9 +16,8 @@
 			flex-direction: column;
 		}
 		&__input {
-			width: 100%;
 			height: 40px;
-			padding: 10px;
+			padding: 0 10px;
 			border: 1px solid #dadada;
 			border-radius: 4px;
 			font-size: 14px;
@@ -35,6 +36,9 @@
 				order: 1;
 			}
 			&.label-align-top {
+				flex: 0 0 100%;
+			}
+			&.label-align-justify {
 				flex: 0 0 100%;
 			}
 		}

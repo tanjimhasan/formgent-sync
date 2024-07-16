@@ -1,5 +1,5 @@
-import domReady from '@wordpress/dom-ready';
 import { dispatch } from '@wordpress/data';
+import domReady from '@wordpress/dom-ready';
 
 if ( 'formgent_form' === typenow ) {
 	/**
@@ -20,6 +20,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './name' );
 	require( './email' );
 	require( './text' );
+	require( './textarea' );
 	require( './number' );
 	require( './website' );
 } else {
