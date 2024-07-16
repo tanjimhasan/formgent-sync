@@ -21,7 +21,7 @@ const controls = {
 		children: {
 			label: {
 				type: 'text',
-				label: __( 'Street Label', 'formgent' ),
+				label: __( 'Label', 'formgent' ),
 			},
 			label_alignment: {
 				type: 'select',
@@ -43,7 +43,7 @@ const controls = {
 			},
 			required: {
 				type: 'switch',
-				label: __( 'Street Label Required', 'formgent' ),
+				label: __( 'Label Required', 'formgent' ),
 			},
 			street_sub_label: {
 				type: 'text',
