@@ -46,9 +46,16 @@
 		"repeater": {
 			"type": "string",
 			"default": "[]"
+		},
+		"toggle_group": {
+			"type": "string",
+			"default": "left"
 		}
 	},
 	"supports": {
 		"interactivity": true
-	}
+	},
+	"editorScript": "formgent/blocks-editor",
+	"editorStyle": "formgent/blocks-editor",
+	"style": "formgent/blocks-frontend"
 }

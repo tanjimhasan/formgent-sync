@@ -7,8 +7,9 @@ use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
-use FormGent\App\Fields\ShortText\ShortText;
-use FormGent\App\Fields\LongText\LongText;
+use FormGent\App\Fields\Number\Number;
+use FormGent\App\Fields\Text\Text;
+use FormGent\App\Fields\TextArea\TextArea;
 use FormGent\App\Utils\DateTime;
 
 function formgent():App {
@@ -63,14 +64,6 @@ function formgent_now() {
 function formgent_is_valid_date( string $date, string $format ) {
     $date_time = \DateTime::createFromFormat( $format, $date );
     return $date_time && $date_time->format( $format ) === $date;
-}
-
-function formgent_get_response_allowed_fields() {
-    return apply_filters( 'formgent_response_allowed_fields', [ShortText::get_key(), LongText::get_key(), Name::get_key(), Email::get_key()] );
-}
-
-function formgent_get_response_table_allowed_fields() {
-    return apply_filters( 'formgent_response_table_allowed_fields', [ShortText::get_key(), LongText::get_key(), Email::get_key()] );
 }
 
 /**
@@ -131,7 +124,7 @@ function formgent_get_nested_value( string $keys, array $values, $default = null
 }
 
 function formgent_field_handler( string $field_type ):Field {
-    $field_handler_class = formgent_config( "fields.{$field_type}" );
+    $field_handler_class = formgent_config( "fields.{$field_type}.class" );
 
     if ( ! class_exists( $field_handler_class ) ) {
         throw new Exception( __( 'Field handler not found.', 'formgent' ), 500 );

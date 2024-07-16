@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "formgent/short-text",
-	"title": "Short Text",
+	"name": "formgent/text",
+	"title": "Text",
 	"category": "formgent",
-	"description": "FormGent Short Text field.",
+	"description": "FormGent Text field.",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
@@ -13,15 +13,15 @@
 		},
 		"name": {
 			"type": "string",
-			"default": "short_text"
+			"default": "text"
 		},
 		"value": {
 			"type": "string",
-			"default": "Short Text Value"
+			"default": "Text Value"
 		},
 		"placeholder": {
 			"type": "string",
-			"default": "Short Text Placeholder"
+			"default": "Text Placeholder"
 		},
 		"label": {
 			"type": "string",
@@ -42,5 +42,8 @@
 	},
 	"supports": {
 		"interactivity": true
-	}
+	},
+	"editorScript": "formgent/blocks-editor",
+	"editorStyle": "formgent/blocks-editor",
+	"style": "formgent/blocks-frontend"
 }

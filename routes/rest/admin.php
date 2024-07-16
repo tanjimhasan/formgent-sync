@@ -2,6 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Http\Controllers\Admin\NoteController;
 use FormGent\App\Http\Controllers\Admin\ResponseController;
 use FormGent\App\Http\Controllers\Admin\FormController;
 use FormGent\App\Http\Controllers\FontController;
@@ -23,6 +24,7 @@ Route::group(
         );
         Route::group(
             'responses', function() {
+                Route::resource( 'notes', NoteController::class );
                 Route::patch( '{id}/starred', [ResponseController::class, 'update_starred'] );
                 Route::patch( '{id}/read', [ResponseController::class, 'update_read'] );
                 Route::get( 'table', [ResponseController::class, 'get_fields'] );
@@ -32,6 +34,8 @@ Route::group(
                     } 
                 );
                 Route::get( 'export', [ResponseController::class, 'export'] );
+                Route::get( 'single', [ResponseController::class, 'show'] );
+                Route::delete( '/', [ResponseController::class, 'delete_bulk_response'] );
                 Route::resource( '/', ResponseController::class );
             }
         );

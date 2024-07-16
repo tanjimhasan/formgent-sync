@@ -100,7 +100,7 @@ class PostTypeServiceProvider implements Provider {
             'has_archive'        => true,
             'hierarchical'       => false,
             'menu_position'      => null,
-            'supports'           => [ 'editor', 'author', 'thumbnail' ],
+            'supports'           => [ 'editor', 'author' ],
             'show_in_rest'       => true, // Enables Gutenberg editor support
         ];
 
