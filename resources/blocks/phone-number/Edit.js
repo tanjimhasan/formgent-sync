@@ -17,7 +17,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 				) : null }
 			</label>
-			{ attributes.value || 'No value' }
 			<Phone handlePhoneChange={ handlePhoneChange } />
 			{ /* <div className="block-editor-block-list__single__wrapper">
 				<select
