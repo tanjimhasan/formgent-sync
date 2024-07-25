@@ -23,8 +23,12 @@ const controls = {
 				type: 'text',
 				label: __( 'Label', 'formgent' ),
 			},
+			required: {
+				type: 'switch',
+				label: __( 'Label Required', 'formgent' ),
+			},
 			label_alignment: {
-				type: 'select',
+				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
 				options: [
 					{
@@ -39,11 +43,11 @@ const controls = {
 						label: __( 'Top', 'formgent' ),
 						value: 'top',
 					},
+					{
+						label: __( 'Justify', 'formgent' ),
+						value: 'justify',
+					},
 				],
-			},
-			required: {
-				type: 'switch',
-				label: __( 'Label Required', 'formgent' ),
 			},
 			street_sub_label: {
 				type: 'text',

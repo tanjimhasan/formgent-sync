@@ -2,7 +2,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="block-editor-block-list__single">
 			<label
-				className={ `block-editor-block-list__single__label label-align-${ attributes.street_label_alignment }` }
+				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
 				{ attributes.label }
 				{ attributes.required ? (
