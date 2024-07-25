@@ -6,6 +6,7 @@ import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
 import { AntSkeleton } from '@formgent/components';
 import StarterContent from './components/StarterContent';
+import Filter from './components/Filter';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
@@ -20,6 +21,7 @@ function FormTable( props ) {
 					<>
 						{ /* { fills } */ }
 						<Header />
+						<Filter />
 					</>
 				) }
 			</FormTableHead.Slot>

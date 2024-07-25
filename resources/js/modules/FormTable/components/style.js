@@ -232,6 +232,7 @@ const TableStyle = Styled.div`
 const HeaderStyle = Styled.div`
     .formgent-header-top__content{
         align-items: center;
+        gap: 20px;
     }
 `;
 
@@ -253,7 +254,7 @@ const TablkSelectionStyle = Styled.div`
         margin: 0 12px;
         color: var(--formgent-color-dark);
         &:hover{
-            
+
             background-color: var(--formgent-color-primary);
             span{
                 color: var(--formgent-color-white);
@@ -288,10 +289,46 @@ const FormDeleteAlertStyle = Styled.div`
     }
 `;
 
+const FilterStyle = Styled.div`
+    background: #fff;
+    margin-bottom: 20px;
+`;
+
+const StarterContentStyle = Styled.div`
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 100px 0;
+    .formgent-starter-content__info{
+        text-align: center;
+        img{
+            width: 260px;
+            height: auto;
+        }
+        h2{
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--formgent-color-dark);
+            margin: 25px 0 5px;
+        }
+        p{
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--formgent-color-light-gray);
+        }
+    }
+`;
+
 export {
 	TitleBoxStyle,
 	TableStyle,
 	HeaderStyle,
 	TablkSelectionStyle,
 	FormDeleteAlertStyle,
+	FilterStyle,
+	StarterContentStyle,
 };
