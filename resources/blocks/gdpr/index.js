@@ -53,10 +53,6 @@ const controls = {
 					},
 				],
 			},
-			checked: {
-				type: 'checkbox',
-				label: __( 'Accept', 'formgent' ),
-			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
