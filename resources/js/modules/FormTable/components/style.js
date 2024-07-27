@@ -290,7 +290,6 @@ const FormDeleteAlertStyle = Styled.div`
 `;
 
 const FilterStyle = Styled.div`
-    background: #fff;
     margin-bottom: 20px;
 `;
 
@@ -320,6 +319,63 @@ const StarterContentStyle = Styled.div`
             font-weight: 400;
             color: var(--formgent-color-light-gray);
         }
+    }
+    .formgent-starter-cards{
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 40px;
+        margin-bottom: 80px;
+    }
+    .formgent-starter-card{
+        border-radius: 20px;
+        width: 220px;
+        height: 190px;
+        background: var(--formgent-color-gray-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+        cursor: pointer;
+    }
+    .formgent-starter-card--ai{
+        background: linear-gradient(233deg, #FFEFF8 0%, #EDD6FF 100%);
+    }
+    .formgent-starter-card--template{
+        background: linear-gradient(233deg, #FFFCED 0.49%, #FFE8DB 100%);
+    }
+    .formgent-starter-card__icon{
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        background: #fff;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg{
+            width: 28px;
+            height: 28px;
+        }
+    }
+    .formgent-starter-card__title{
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--formgent-color-dark);
+        margin: 0;
+    }
+    .formgent-starter-card__badge{
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--formgent-color-warning-light);
+        color: #853D0E;
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+        padding: 3px 6px 4px 6px;
+        border-radius: 6px;
     }
 `;
 
