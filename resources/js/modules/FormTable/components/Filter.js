@@ -8,7 +8,7 @@ import sliderIcon from '@icon/sliders.svg';
 import filterLines from '@icon/filter-lines.svg';
 
 export default function Filter() {
-	const options = [
+	const formTypes = [
 		{ value: 'all', label: 'All forms' },
 		{ value: 'forms', label: 'Forms' },
 		{ value: 'quizzes', label: 'Quizzes' },
@@ -53,7 +53,7 @@ export default function Filter() {
 				<AntSelect
 					onChange={ handleFormTypes }
 					placeholder="Select an option"
-					options={ options }
+					options={ formTypes }
 					defaultValue="all"
 				></AntSelect>
 			</div>
