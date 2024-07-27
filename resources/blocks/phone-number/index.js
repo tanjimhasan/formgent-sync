@@ -14,6 +14,8 @@ const exampleAttributes = {
 	content: 'Sample content for preview',
 };
 
+// DECISION NOT FINAL YET
+
 const controls = {
 	basic_info: {
 		type: 'panel',

@@ -5,6 +5,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		attributes.value = value;
 	};
 
+	// DECISION NOT FINAL YET
 	return (
 		<div className="block-editor-block-list__single">
 			<label
