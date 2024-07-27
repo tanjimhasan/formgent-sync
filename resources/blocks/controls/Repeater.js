@@ -11,6 +11,7 @@ export default function Repeater( {
 } ) {
 	const [ openIndex, setOpenIndex ] = useState( null );
 
+	//handle repeater field remove
 	const handleRemoveField = ( id ) => {
 		const newFields = attributes[ attr_key ].filter(
 			( item ) => item.id !== id
@@ -18,6 +19,7 @@ export default function Repeater( {
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
+	//handle add repeater field
 	const handleAddField = () => {
 		const newField = { id: nanoid(), ...{} };
 		const newFields = [ ...attributes[ attr_key ], newField ];
@@ -25,10 +27,12 @@ export default function Repeater( {
 		setOpenIndex( newFields.length - 1 );
 	};
 
+	//handle repeater field accordion
 	const toggleFieldContent = ( index ) => {
 		setOpenIndex( openIndex === index ? null : index );
 	};
 
+	//update repeater field value to block attributes
 	const handleChange = ( id, fieldKey, value ) => {
 		const newFields = attributes[ attr_key ].map( ( item ) => {
 			if ( item.id === id ) {

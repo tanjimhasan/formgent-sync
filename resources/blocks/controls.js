@@ -34,9 +34,10 @@ const controlGenerators = {
 				</label>
 				<InputControl
 					value={ attributes[ attr_key ] }
-					onChange={ ( value ) =>
-						setAttributes( { [ attr_key ]: value } )
-					}
+					onChange={ function ( value ) {
+						// Update the attribute value in the block's attributes
+						setAttributes( { [ attr_key ]: value } );
+					} }
 				/>
 			</Fragment>
 		);
@@ -50,9 +51,10 @@ const controlGenerators = {
 				<SelectControl
 					value={ attributes[ attr_key ] }
 					options={ control.options }
-					onChange={ ( value ) =>
-						setAttributes( { [ attr_key ]: value } )
-					}
+					onChange={ function ( value ) {
+						// Update the attribute value in the block's attributes
+						setAttributes( { [ attr_key ]: value } );
+					} }
 				/>
 			</Fragment>
 		);
@@ -62,9 +64,10 @@ const controlGenerators = {
 			<CheckboxControl
 				label={ control.label }
 				checked={ attributes[ attr_key ] }
-				onChange={ ( value ) =>
-					setAttributes( { [ attr_key ]: value } )
-				}
+				onChange={ function ( value ) {
+					// Update the attribute value in the block's attributes
+					setAttributes( { [ attr_key ]: value } );
+				} }
 			/>
 		);
 	},
@@ -73,9 +76,10 @@ const controlGenerators = {
 			<ToggleControl
 				label={ control.label }
 				checked={ attributes[ attr_key ] }
-				onChange={ ( value ) =>
-					setAttributes( { [ attr_key ]: value } )
-				}
+				onChange={ function ( value ) {
+					// Update the attribute value in the block's attributes
+					setAttributes( { [ attr_key ]: value } );
+				} }
 			/>
 		);
 	},
@@ -88,8 +92,10 @@ const controlGenerators = {
 				</label>
 				<BoxControl
 					values={ values }
-					onChange={ ( value ) => {
+					onChange={ function ( value ) {
+						// Update dimension values
 						setValues( value );
+						// Update the attribute value in the block's attributes
 						setAttributes( { [ attr_key ]: value } );
 					} }
 				/>
@@ -106,7 +112,8 @@ const controlGenerators = {
 				</label>
 				<ToggleGroupControl
 					isBlock
-					onChange={ ( value ) => {
+					onChange={ function ( value ) {
+						// Update the attribute value in the block's attributes
 						setAttributes( { [ attr_key ]: value } );
 					} }
 				>
