@@ -1,10 +1,9 @@
-import { useState } from '@wordpress/element';
 import {
 	Button,
 	Icon,
-	TextareaControl,
 	__experimentalInputControl as InputControl,
 } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 
 export default function Repeater( { attr_key, control, setAttributes } ) {
 	const [ openIndex, setOpenIndex ] = useState( null );
@@ -14,7 +13,7 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 			...control.fields,
 			{
 				title: `Option ${ control.fields.length + 1 }`,
-				content: 'Field Contents',
+				value: 'Field Value',
 			},
 		];
 		control.fields = newFields;
@@ -35,14 +34,14 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
-	const handleChangeFieldContent = ( index, value ) => {
+	const handleChangeFieldValue = ( index, value ) => {
 		const newFields = [ ...control.fields ];
-		newFields[ index ].content = value;
+		newFields[ index ].value = value;
 		control.fields = newFields;
 		setAttributes( { [ attr_key ]: newFields } );
 	};
 
-	const toggleFieldContent = ( index ) => {
+	const toggleFieldValue = ( index ) => {
 		setOpenIndex( openIndex === index ? null : index );
 	};
 
@@ -61,7 +60,7 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 					<div className="formgent-repeater-field-control">
 						<button
 							className="formgent-repeater-field-title"
-							onClick={ () => toggleFieldContent( index ) }
+							onClick={ () => toggleFieldValue( index ) }
 						>
 							{ field.title }
 						</button>
@@ -84,11 +83,11 @@ export default function Repeater( { attr_key, control, setAttributes } ) {
 								/>
 							</div>
 							<div className="formgent-repeater-field-control-content-inner">
-								<label>Content</label>
-								<TextareaControl
-									value={ field.content }
+								<label>Value</label>
+								<InputControl
+									value={ field.value }
 									onChange={ ( value ) =>
-										handleChangeFieldContent( index, value )
+										handleChangeFieldValue( index, value )
 									}
 								/>
 							</div>
