@@ -58,4 +58,8 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => ''
     ],
+    'formgent/website'       => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => '',
+    ]
 ];
