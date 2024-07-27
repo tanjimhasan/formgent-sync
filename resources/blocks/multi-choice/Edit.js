@@ -1,7 +1,9 @@
+import { __ } from '@wordpress/i18n';
+
 export default function Edit( { attributes, setAttributes } ) {
-	function handleClick( event ) {
-		event.preventDefault(); // Prevents the default action
-		event.stopPropagation(); // Stops the event from propagating
+	function handleClick( e ) {
+		e.preventDefault(); // Prevents the default action
+		e.stopPropagation(); // Stops the event from propagating
 	}
 
 	return (
@@ -27,11 +29,12 @@ export default function Edit( { attributes, setAttributes } ) {
 								<input
 									className="block-editor-block-list__single__input block-editor-block-list__single__input--checkbox"
 									type="checkbox"
-									name={ option.title }
-									value={ option.title }
+									name={ option.value }
+									value={ option.value }
+									onChange={ () => {} }
 									onClick={ ( e ) => handleClick( e ) }
 								/>
-								<label htmlFor={ option.title }>
+								<label htmlFor={ option.value }>
 									{ option.title }
 								</label>
 							</div>
@@ -46,10 +49,11 @@ export default function Edit( { attributes, setAttributes } ) {
 									attributes.value ||
 									'formgent-default-option'
 								}
+								onChange={ () => {} }
 								onClick={ ( e ) => handleClick( e ) }
 							/>
 							<label htmlFor="formgent-default-checkbox">
-								Choose Default
+								{ __( 'Choose Default', 'formgent' ) }
 							</label>
 						</div>
 					) }

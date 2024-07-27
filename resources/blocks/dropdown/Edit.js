@@ -1,7 +1,9 @@
+import { __ } from '@wordpress/i18n';
+
 export default function Edit( { attributes, setAttributes } ) {
-	function handleMouseDown( event ) {
-		event.preventDefault(); // Prevents the default action
-		event.stopPropagation(); // Stops the event from propagating
+	function handleMouseDown( e ) {
+		e.preventDefault(); // Prevents the default action
+		e.stopPropagation(); // Stops the event from propagating
 	}
 
 	return (
@@ -26,13 +28,13 @@ export default function Edit( { attributes, setAttributes } ) {
 				>
 					{ attributes.options.length > 0 ? (
 						attributes.options.map( ( option, index ) => (
-							<option key={ index } value={ option.title }>
+							<option key={ index } value={ option.value }>
 								{ option.title }
 							</option>
 						) )
 					) : (
 						<option value="formgent-default-option">
-							Please Select
+							{ __( 'Please Select', 'formgent' ) }
 						</option>
 					) }
 				</select>

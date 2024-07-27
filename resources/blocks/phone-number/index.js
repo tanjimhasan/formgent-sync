@@ -10,9 +10,7 @@ import { registerBlock } from '../utils';
 import Edit from './Edit';
 import metadata from './block.json';
 
-const exampleAttributes = {
-	content: 'Sample content for preview',
-};
+const exampleAttributes = {};
 
 // DECISION NOT FINAL YET
 

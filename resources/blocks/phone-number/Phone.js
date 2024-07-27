@@ -1,7 +1,5 @@
 import { useState } from '@wordpress/element';
 import IntlTelInput from 'intl-tel-input/react';
-// import 'intl-tel-input/build/css/intlTelInput.css';
-// import "intl-tel-input/styles";
 
 export default function Phone( { handlePhoneChange } ) {
 	const [ phoneNumber, setPhoneNumber ] = useState( '' );
@@ -9,7 +7,6 @@ export default function Phone( { handlePhoneChange } ) {
 	const handleChange = ( value ) => {
 		setPhoneNumber( value );
 		handlePhoneChange( value );
-		console.log( 'Number Changed', { value } );
 	};
 
 	return (

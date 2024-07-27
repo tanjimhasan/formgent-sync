@@ -20,6 +20,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							name={ attributes.street_name }
 							placeholder={ attributes.street_placeholder }
 							value={ attributes.street_value }
+							onChange={ () => {} }
 						/>
 						<span className="block-editor-block-list__single__sub-label">
 							{ attributes.street_sub_label }
@@ -32,6 +33,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							name={ attributes.address_line_name }
 							placeholder={ attributes.address_line_placeholder }
 							value={ attributes.address_line_value }
+							onChange={ () => {} }
 						/>
 						<span className="block-editor-block-list__single__sub-label">
 							{ attributes.address_line_sub_label }
@@ -45,6 +47,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								name={ attributes.city_name }
 								placeholder={ attributes.city_placeholder }
 								value={ attributes.city_value }
+								onChange={ () => {} }
 							/>
 							<span className="block-editor-block-list__single__sub-label">
 								{ attributes.city_sub_label }
@@ -57,6 +60,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								name={ attributes.state_name }
 								placeholder={ attributes.state_placeholder }
 								value={ attributes.state_value }
+								onChange={ () => {} }
 							/>
 							<span className="block-editor-block-list__single__sub-label">
 								{ attributes.state_sub_label }
@@ -70,6 +74,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							name={ attributes.zip_name }
 							placeholder={ attributes.zip_placeholder }
 							value={ attributes.zip_value }
+							onChange={ () => {} }
 						/>
 						<span className="block-editor-block-list__single__sub-label">
 							{ attributes.zip_sub_label }
