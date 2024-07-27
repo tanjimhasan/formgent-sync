@@ -1,6 +1,6 @@
 import { useState } from '@wordpress/element';
 import { Button, Icon } from '@wordpress/components';
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 import Controls from '../controls';
 
 export default function Repeater( {
@@ -19,7 +19,7 @@ export default function Repeater( {
 	};
 
 	const handleAddField = () => {
-		const newField = { id: uuidv4(), ...{} };
+		const newField = { id: nanoid(), ...{} };
 		const newFields = [ ...attributes[ attr_key ], newField ];
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
