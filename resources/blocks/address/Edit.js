@@ -77,31 +77,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					</div>
 				</div>
 			</div>
-			{ /* { attributes.options.map( ( option, index ) => (
-				<>
-					<label
-						className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
-					>
-						{ option.label }
-						{ attributes.required ? (
-							<span className="block-editor-block-list__single__label__required">
-								*
-							</span>
-						) : null }
-					</label>
-					<div className="block-editor-block-list__single__wrapper">
-						<input
-							className="block-editor-block-list__single__input"
-							type="text"
-							name={ option.name }
-							placeholder={ option.placeholder }
-						/>
-						<span className="block-editor-block-list__single__sub-label">
-							{ option.sub_label }
-						</span>
-					</div>
-				</>
-			) ) } */ }
 		</div>
 	);
 }
