@@ -1,4 +1,9 @@
 export default function Edit( { attributes, setAttributes } ) {
+	function handleClick( event ) {
+		event.preventDefault(); // Prevents the default action
+		event.stopPropagation(); // Stops the event from propagating
+	}
+
 	return (
 		<div className="block-editor-block-list__single">
 			<label
@@ -23,6 +28,8 @@ export default function Edit( { attributes, setAttributes } ) {
 									className="block-editor-block-list__single__input block-editor-block-list__single__input--checkbox"
 									type="checkbox"
 									name={ option.title }
+									value={ option.title }
+									onClick={ ( e ) => handleClick( e ) }
 								/>
 								<label htmlFor={ option.title }>
 									{ option.title }
@@ -35,6 +42,11 @@ export default function Edit( { attributes, setAttributes } ) {
 								className="block-editor-block-list__single__input block-editor-block-list__single__input--checkbox"
 								type="checkbox"
 								name="formgent-default-checkbox"
+								value={
+									attributes.value ||
+									'formgent-default-option'
+								}
+								onClick={ ( e ) => handleClick( e ) }
 							/>
 							<label htmlFor="formgent-default-checkbox">
 								Choose Default

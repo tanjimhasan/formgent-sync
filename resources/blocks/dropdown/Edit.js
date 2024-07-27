@@ -1,4 +1,9 @@
 export default function Edit( { attributes, setAttributes } ) {
+	function handleMouseDown( event ) {
+		event.preventDefault(); // Prevents the default action
+		event.stopPropagation(); // Stops the event from propagating
+	}
+
 	return (
 		<div className="block-editor-block-list__single">
 			<label
@@ -17,6 +22,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					className="block-editor-block-list__single__input"
 					value={ attributes.value || 'formgent-default-option' }
 					onChange={ () => {} }
+					onMouseDown={ ( e ) => handleMouseDown( e ) }
 				>
 					{ attributes.options.length > 0 ? (
 						attributes.options.map( ( option, index ) => (

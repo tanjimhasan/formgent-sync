@@ -1,4 +1,9 @@
 export default function Edit( { attributes, setAttributes } ) {
+	function handleClick( event ) {
+		event.preventDefault(); // Prevents the default action
+		event.stopPropagation(); // Stops the event from propagating
+	}
+
 	return (
 		<div className="block-editor-block-list__single">
 			<label
@@ -24,6 +29,8 @@ export default function Edit( { attributes, setAttributes } ) {
 									type="radio"
 									id={ option.title }
 									name={ attributes.name }
+									value={ option.title }
+									onClick={ ( e ) => handleClick( e ) }
 								/>
 								<label htmlFor={ option.title }>
 									{ option.title }
@@ -37,6 +44,11 @@ export default function Edit( { attributes, setAttributes } ) {
 								type="radio"
 								id="formgent-default-radio"
 								name={ attributes.name }
+								value={
+									attributes.value ||
+									'formgent-default-option'
+								}
+								onClick={ ( e ) => handleClick( e ) }
 							/>
 							<label htmlFor="formgent-default-radio">
 								Choose Default
