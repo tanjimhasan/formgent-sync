@@ -1,10 +1,11 @@
-import { useState } from '@wordpress/elements';
+import { useState } from '@wordpress/element';
 import { AntSelect } from '@formgent/components';
 import { FilterStyle } from './style';
 import { SearchOutlined } from '@ant-design/icons';
 import { Input, Dropdown, Space, Radio } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import sliderIcon from '@icon/sliders.svg';
+import filterLines from '@icon/filter-lines.svg';
 
 export default function Filter() {
 	const options = [
@@ -22,6 +23,29 @@ export default function Filter() {
 	const handleFilteredItems = ( e ) => {
 		setFilteredItems( e.target.value );
 	};
+
+	const sortItems = [
+		{
+			key: 'date_created',
+			label: <span>Date Created</span>,
+		},
+		{
+			key: 'last_modified',
+			label: <span>Last Modified</span>,
+		},
+		{
+			key: 'alphabetical',
+			label: <span>Alphabetical</span>,
+		},
+		{
+			key: 'last_submission',
+			label: <span>Last Submission</span>,
+		},
+		{
+			key: 'unread',
+			label: <span>Unread</span>,
+		},
+	];
 
 	return (
 		<FilterStyle className="formgent-form-filter">
@@ -43,6 +67,7 @@ export default function Filter() {
 				<div className="formgent-form-filter__by-time">
 					<Dropdown
 						trigger={ [ 'click' ] }
+						overlayClassName="formgent-form-filter__by-time__options"
 						dropdownRender={ () => (
 							<Radio.Group
 								onChange={ handleFilteredItems }
@@ -56,7 +81,7 @@ export default function Filter() {
 									<Radio value="last_month">Last Month</Radio>
 									<Radio value="custom">
 										Custom
-										{ value === 'custom' ? (
+										{ filteredItems === 'custom' ? (
 											<Input
 												style={ {
 													width: 100,
@@ -69,11 +94,23 @@ export default function Filter() {
 							</Radio.Group>
 						) }
 					>
-						<a onClick={ ( e ) => e.preventDefault() }>
-							<Space>
-								Filter <ReactSVG src={ sliderIcon } />
-							</Space>
-						</a>
+						<span className="formgent-form-filter__by-time__trigger">
+							<ReactSVG src={ sliderIcon } /> Filter
+						</span>
+					</Dropdown>
+				</div>
+				<div className="formgent-form-filter__sorting">
+					<Dropdown
+						menu={ {
+							items: sortItems,
+							selectable: true,
+							defaultSelectedKeys: [ 'date_created' ],
+						} }
+						trigger={ [ 'click' ] }
+					>
+						<span className="formgent-form-filter__sorting__trigger">
+							<ReactSVG src={ filterLines } />
+						</span>
 					</Dropdown>
 				</div>
 			</div>

@@ -291,6 +291,40 @@ const FormDeleteAlertStyle = Styled.div`
 
 const FilterStyle = Styled.div`
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .formgent-form-filter__right{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .formgent-form-filter__by-time{
+
+    }
+    .formgent-form-filter__by-time__trigger,
+    .formgent-form-filter__sorting__trigger{
+        background: #fff;
+        border: 1px solid var(--formgent-color-border-light);
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .formgent-form-filter__sorting__trigger{
+        svg{
+            width: 16px;
+            height: 16px;
+        }
+    }
+    .formgent-form-filter__search{
+        .ant-input-affix-wrapper{
+            border: 1px solid var(--formgent-color-border-light);
+            border-radius: 10px;
+        }
+    }
 `;
 
 const StarterContentStyle = Styled.div`
