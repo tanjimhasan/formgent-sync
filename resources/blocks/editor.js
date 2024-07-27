@@ -22,6 +22,7 @@ if ( 'formgent_form' === typenow ) {
 	require( './text' );
 	require( './textarea' );
 	require( './number' );
+	require( './website' );
 } else {
 	require( './form' );
 }
