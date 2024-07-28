@@ -1,106 +1,119 @@
-import {
-	Button,
-	Icon,
-	__experimentalInputControl as InputControl,
-} from '@wordpress/components';
+import { Button, Icon } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import { nanoid } from 'nanoid';
+import Controls from '../controls';
 
-export default function Repeater( { attr_key, control, setAttributes } ) {
+export default function Repeater( {
+	attr_key,
+	control,
+	attributes,
+	setAttributes,
+} ) {
 	const [ openIndex, setOpenIndex ] = useState( null );
 
+	//handle repeater field remove
+	const handleRemoveField = ( id ) => {
+		const newFields = attributes[ attr_key ].filter(
+			( item ) => item.id !== id
+		);
+		setAttributes( { [ attr_key ]: newFields } );
+	};
+
+	//handle add repeater field
 	const handleAddField = () => {
-		const newFields = [
-			...control.fields,
-			{
-				title: `Option ${ control.fields.length + 1 }`,
-				value: 'Field Value',
-			},
-		];
-		control.fields = newFields;
+		const newField = { id: nanoid(), ...{} };
+		console.log(
+			'newField',
+			newField,
+			attr_key,
+			attributes,
+			attributes[ attr_key ]
+		);
+		const newFields = [ ...attributes[ attr_key ], newField ];
+		console.log( 'newFields', newFields, attr_key );
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
 	};
 
-	const handleRemoveField = ( index ) => {
-		const newFields = control.fields.filter( ( _, i ) => i !== index );
-		control.fields = newFields;
-		setAttributes( { [ attr_key ]: newFields } );
-	};
-
-	const handleChangeFieldTitle = ( index, value ) => {
-		const newFields = [ ...control.fields ];
-		newFields[ index ].title = value;
-		control.fields = newFields;
-		setAttributes( { [ attr_key ]: newFields } );
-	};
-
-	const handleChangeFieldValue = ( index, value ) => {
-		const newFields = [ ...control.fields ];
-		newFields[ index ].value = value;
-		control.fields = newFields;
-		setAttributes( { [ attr_key ]: newFields } );
-	};
-
-	const toggleFieldValue = ( index ) => {
+	//handle repeater field accordion
+	const toggleFieldContent = ( index ) => {
 		setOpenIndex( openIndex === index ? null : index );
 	};
 
-	return (
-		<>
-			<label className="formgent-control-label">{ control.label }</label>
-			{ control.fields.map( ( field, index ) => (
-				<div
-					key={ index }
-					className={ `formgent-repeater-field ${
-						openIndex === index
-							? 'formgent-repeater-field--expanded'
-							: ''
-					}` }
-				>
-					<div className="formgent-repeater-field-control">
-						<button
-							className="formgent-repeater-field-title"
-							onClick={ () => toggleFieldValue( index ) }
-						>
-							{ field.title }
-						</button>
-						<button
-							onClick={ () => handleRemoveField( index ) }
-							className="formgent-repeater-field-remove"
-						>
-							X
-						</button>
-					</div>
-					{ openIndex === index && (
-						<div className="formgent-repeater-field-control-content">
-							<div className="formgent-repeater-field-control-title">
-								<label>Title</label>
-								<InputControl
-									value={ field.title }
-									onChange={ ( value ) =>
-										handleChangeFieldTitle( index, value )
-									}
-								/>
-							</div>
-							<div className="formgent-repeater-field-control-content-inner">
-								<label>Value</label>
-								<InputControl
-									value={ field.value }
-									onChange={ ( value ) =>
-										handleChangeFieldValue( index, value )
-									}
-								/>
-							</div>
-						</div>
-					) }
-				</div>
-			) ) }
+	//update repeater field value to block attributes
+	const handleChange = ( id, fieldKey, value ) => {
+		const newFields = attributes[ attr_key ].map( ( item ) => {
+			if ( item.id === id ) {
+				return { ...item, [ fieldKey ]: value };
+			}
+			return item;
+		} );
+		setAttributes( { [ attr_key ]: newFields } );
+	};
 
+	return (
+		<div className="formgent-repeater-control">
+			<label className="formgent-control-label">{ control.label }</label>
+			{ attributes[ attr_key ] &&
+				attributes[ attr_key ].map( ( field, index ) => {
+					const labelKey = control.label_key;
+					return (
+						<div
+							key={ field.id }
+							className={ `formgent-repeater-field ${
+								openIndex === index
+									? 'formgent-repeater-field--expanded'
+									: ''
+							}` }
+						>
+							<div className="formgent-repeater-field-control">
+								<div
+									className="formgent-repeater-field-title"
+									onClick={ () =>
+										toggleFieldContent( index )
+									}
+								>
+									{ typeof field[ labelKey ] === 'undefined'
+										? control.fields[ control.label_key ]
+												.label
+										: field[ labelKey ] }
+								</div>
+								<Button
+									onClick={ () =>
+										handleRemoveField( field.id )
+									}
+									className="formgent-repeater-field-remove"
+								>
+									X
+								</Button>
+							</div>
+							{ openIndex === index && (
+								<div className="formgent-repeater-field-control-content">
+									<Controls
+										controls={ control.fields }
+										attributes={ field }
+										setAttributes={ ( updatedField ) => {
+											Object.keys( updatedField ).forEach(
+												( fieldKey ) => {
+													handleChange(
+														field.id,
+														fieldKey,
+														updatedField[ fieldKey ]
+													);
+												}
+											);
+										} }
+									/>
+								</div>
+							) }
+						</div>
+					);
+				} ) }
 			<div className="formgent-repeater__add-item">
 				<Button variant="primary" onClick={ handleAddField }>
-					<Icon icon="plus" /> Add option
+					<Icon icon="plus" /> { control.add_button_text }
 				</Button>
 			</div>
-		</>
+		</div>
 	);
 }
