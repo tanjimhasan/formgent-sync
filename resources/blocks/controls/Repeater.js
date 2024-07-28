@@ -22,15 +22,7 @@ export default function Repeater( {
 	//handle add repeater field
 	const handleAddField = () => {
 		const newField = { id: nanoid(), ...{} };
-		console.log(
-			'newField',
-			newField,
-			attr_key,
-			attributes,
-			attributes[ attr_key ]
-		);
 		const newFields = [ ...attributes[ attr_key ], newField ];
-		console.log( 'newFields', newFields, attr_key );
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
 	};

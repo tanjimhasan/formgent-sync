@@ -58,7 +58,18 @@ const controls = {
 			options: {
 				type: 'repeater',
 				label: __( 'Single Choice Items', 'formgent' ),
-				fields: [],
+				label_key: 'title',
+				add_button_text: 'Add Item',
+				fields: {
+					title: {
+						type: 'text',
+						label: __( 'Title', 'formgent' ),
+					},
+					value: {
+						type: 'text',
+						label: __( 'Value', 'formgent' ),
+					},
+				},
 			},
 		},
 	},
