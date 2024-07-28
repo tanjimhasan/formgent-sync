@@ -33,6 +33,12 @@ store( 'formgent-block', {
 			const context = getContext();
 			context[ element.ref.name ] = element.ref.value;
 		},
+
+		updateWebsite: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = element.ref.value;
+		},
 	},
 	callbacks: {},
 } );
