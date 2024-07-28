@@ -15,13 +15,23 @@ export default function Filter() {
 		{ value: 'payment', label: 'Payment' },
 	];
 
+	//handle form type selection
 	const handleFormTypes = ( value ) => {
 		console.log( `Selected: ${ value }` );
 	};
 
 	const [ filteredItems, setFilteredItems ] = useState( 'all' );
+	const [ searchQuery, setSearchQuery ] = useState( '' );
+
+	//handle filtered items by time
 	const handleFilteredItems = ( e ) => {
 		setFilteredItems( e.target.value );
+	};
+
+	//handle input search query
+	const handleSearchQuery = ( e ) => {
+		setSearchQuery( e.target.value );
+		console.log( `Search Query: ${ e.target.value }` );
 	};
 
 	const sortItems = [
@@ -60,8 +70,9 @@ export default function Filter() {
 			<div className="formgent-form-filter__right">
 				<div className="formgent-form-filter__search">
 					<Input
-						placeholder="default size"
+						placeholder="Search"
 						prefix={ <SearchOutlined /> }
+						onChange={ handleSearchQuery }
 					/>
 				</div>
 				<div className="formgent-form-filter__by-time">
