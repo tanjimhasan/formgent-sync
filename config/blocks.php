@@ -28,6 +28,10 @@ return [
     ],
     'formgent/number'   => [
         'types'      => ['general', 'conversational'],
-        'field_type' => Number::get_key()
+        'field_type' => Number::get_key(),
+    ],
+    'formgent/website'  => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => '',
     ]
 ];
