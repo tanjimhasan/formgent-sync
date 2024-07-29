@@ -27,7 +27,9 @@ export default function Table() {
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
-	const [ responseFields, setResponseFields ] = useState( [] );
+	const [ customColumns, setCustomColumns ] = useState( [] );
+	const [ frozenColumns, setFrozenColumns ] = useState( [] );
+	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -77,15 +79,26 @@ export default function Table() {
 						new Date( b[ dropdownId ] ) -
 						new Date( a[ dropdownId ] )
 				),
-			freeze: () => console.log( 'Freeze Column' ),
-			hide: () => console.log( 'Hide Column' ),
+			freeze: () => {
+				console.log( 'Freeze Column', item );
+				// freezeColumn(dropdownId)
+				setFrozenColumns( [ ...frozenColumns, dropdownId ] );
+			},
+			hide: () => {
+				console.log( 'Hide Column', item, dropdownId, hiddenColumns );
+				setHiddenColumns( [ ...hiddenColumns, dropdownId ] );
+			},
 		};
 
 		// Get the sorted data based on the key
-		const sortedData = sortFunctions[ key ]
-			? sortFunctions[ key ]()
-			: responses;
-		setFilteredData( sortedData );
+		if ( key === 'freeze' || key === 'hide' ) {
+			sortFunctions[ key ]();
+		} else {
+			const sortedData = sortFunctions[ key ]
+				? sortFunctions[ key ]()
+				: filteredData;
+			setFilteredData( sortedData );
+		}
 	}
 
 	async function handleStarred( id, isStarredStatus ) {
@@ -146,7 +159,7 @@ export default function Table() {
 	}, [ responses, activeTab ] );
 
 	useEffect( () => {
-		setResponseFields( handleColumnChange() );
+		handleColumnChange();
 	}, [ fields ] );
 
 	// Select Items Data
@@ -286,7 +299,7 @@ export default function Table() {
 			},
 		},
 		{
-			title: 'created_at',
+			key: 'created_at',
 			dataIndex: 'created_at',
 			title: () => (
 				<div className="formgent-column-action">
@@ -498,8 +511,53 @@ export default function Table() {
 		);
 	}
 
+	const freezeColumn = ( columnKey ) => {
+		const newFrozenColumns = [ ...frozenColumns, columnKey ];
+		setFrozenColumns( newFrozenColumns );
+		updateColumns( newFrozenColumns );
+	};
+
+	const updateColumns = ( frozenColumns ) => {
+		const newColumns = defaultColumns.map( ( col ) => {
+			if ( frozenColumns.includes( col.dataIndex ) ) {
+				return { ...col, fixed: 'left' };
+			}
+			return col;
+		} );
+		setCustomColumns( newColumns );
+	};
+
+	useEffect( () => {
+		const newColumns = defaultColumns.map( ( col ) => {
+			return {
+				...col,
+				hidden: hiddenColumns.includes( col.key ),
+			};
+		} );
+
+		setCustomColumns( newColumns );
+
+		console.log( 'hide customColumns : ', hiddenColumns, newColumns );
+	}, [ hiddenColumns ] );
+
+	useEffect( () => {
+		const newColumns = defaultColumns.map( ( col ) => {
+			return {
+				...col,
+				fixed: frozenColumns.includes( col.dataIndex )
+					? 'left'
+					: col.fixed,
+			};
+		} );
+
+		setCustomColumns( newColumns );
+
+		console.log( 'freeze customColumns : ', frozenColumns, newColumns );
+	}, [ frozenColumns ] );
+
 	useEffect( () => {
 		handleTableChange();
+		setCustomColumns( defaultColumns );
 	}, [] );
 
 	return (
@@ -526,7 +584,7 @@ export default function Table() {
 						},
 					} }
 					rowSelection={ rowSelection }
-					columns={ defaultColumns }
+					columns={ customColumns }
 					dataSource={ filteredData }
 					rowKey={ ( record ) => record.id }
 					pagination={ {
