@@ -21,7 +21,7 @@
 		},
 		"placeholder": {
 			"type": "string",
-			"default": "(000) 000000"
+			"default": "(000) "
 		},
 		"label": {
 			"type": "string",

@@ -1,9 +1,29 @@
-import Phone from './Phone';
+import { AntSelect } from '@formgent/components';
+import { useState } from '@wordpress/element';
+import ReactSVG from 'react-inlinesvg';
+import countries from './countries';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const handlePhoneChange = ( value ) => {
-		attributes.value = value;
-	};
+	const countryOptions = countries.map( ( country ) => {
+		return {
+			label: <ReactSVG src={ country.flag } />,
+			value: country.dial_code,
+			name: country.name,
+		};
+	} );
+
+	const [ selectedCountry, setSelectedCountry ] = useState(
+		countryOptions[ 18 ]
+	);
+
+	const currentValue = '';
+	let currentDialCode = '';
+	let currentPhoneNumber = '';
+	if ( currentValue ) {
+		const currentDialCodeMatch = currentValue.match( /\(\+\d+\)/ );
+		currentDialCode = currentDialCodeMatch ? currentDialCodeMatch[ 0 ] : '';
+		currentPhoneNumber = currentValue.replace( /\([^)]*\)/g, '' ).trim();
+	}
 
 	// DECISION NOT FINAL YET
 	return (
@@ -18,31 +38,30 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 				) : null }
 			</label>
-			<Phone handlePhoneChange={ handlePhoneChange } />
-			{ /* <div className="block-editor-block-list__single__wrapper">
-				<select
-					name={ attributes.country_code }
-					value={ attributes.country_code || 'formgent-default-code' }
-					onChange={ () => {} }
-				>
-					<option value="formgent-default-code">Please Select</option>
-					<option value="+88">+88</option>
-					<option value="+11">+11</option>
-					<option value="+22">+22</option>
-					<option value="+33">+33</option>
-				</select>
-				<input
-					className="block-editor-block-list__single__input"
-					type="text"
-					name={ attributes.name }
-					placeholder={ attributes.placeholder }
-					value={ attributes.value }
-					onChange={ () => {} }
-				/>
+			<div className="block-editor-block-list__single__wrapper">
+				<div className="block-editor-block-list__single__dialer">
+					<AntSelect
+						options={ countryOptions }
+						defaultValue={ selectedCountry }
+						className="formgent-select formgent-select--flag"
+						onChange={ () => {} }
+					/>
+					<span className="block-editor-block-list__single__dialer__code">
+						({ selectedCountry.value })
+					</span>
+					<input
+						className="block-editor-block-list__single__dialer__input"
+						type="text"
+						name={ attributes.name }
+						placeholder={ attributes.placeholder }
+						value={ attributes.value }
+						onChange={ () => {} }
+					/>
+				</div>
 				<span className="block-editor-block-list__single__sub-label">
 					{ attributes.sub_label }
 				</span>
-			</div> */ }
+			</div>
 		</div>
 	);
 }

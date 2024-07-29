@@ -42,6 +42,7 @@
 			border: 1px solid #dadada;
 			border-radius: 4px;
 			font-size: 14px;
+			background: transparent;
 			&--radio,
 			&--checkbox {
 				width: 15px;
@@ -76,6 +77,49 @@
 		&__sub-label {
 			font-size: 12px;
 			color: #666;
+		}
+		&__dialer {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			height: 40px;
+			line-height: 40px;
+			padding: 0 10px;
+			border: 1px solid #dadada;
+			border-radius: 4px;
+			font-size: 14px;
+			background: transparent;
+			&__input {
+				border: none;
+				outline: none;
+				box-shadow: none;
+				background: transparent;
+			}
+		}
+
+		.formgent-select--flag {
+			.ant-select-selector {
+				display: inline-flex;
+				max-width: 35px;
+			}
+			.ant-select-selection-item {
+				display: flex;
+				align-items: center;
+				order: -1;
+				svg {
+					width: 25px;
+					height: 17px;
+				}
+			}
+			.ant-select-arrow {
+				svg {
+					width: 14px;
+					height: 14px;
+				}
+			}
+			.ant-select-selection-search {
+				width: 30px;
+			}
 		}
 	}
 }
