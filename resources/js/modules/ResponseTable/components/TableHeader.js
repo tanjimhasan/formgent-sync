@@ -10,8 +10,8 @@ import {
 	AntInput,
 	AntTabs,
 } from '@formgent/components';
+import { useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { applyFilters } from '@wordpress/hooks';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
@@ -33,7 +33,6 @@ import trashIcon from '@icon/trash.svg';
 export default function TableHeader( props ) {
 	const {
 		id,
-		responses,
 		selectedRowKeys,
 		setSelectedRowKeys,
 		totalCompletedItems,
@@ -44,92 +43,17 @@ export default function TableHeader( props ) {
 
 	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {} );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
+	const [ responseFields, setResponseFields ] = useState( [] );
+	const [ formResponse, setFormResponse ] = useState( [] );
+
+	// Retrieve from the store
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getSingleFormState();
+	}, [] );
+
+	const { fields } = SingleFormReducer;
 
 	const csvLinkRef = useRef();
-
-	const apiResponse = {
-		form: {
-			content:
-				'{"fields":[{"id":"hxtTKxpkE7","type":"long_text","name":"long_text1","fields":[{"id":"I3VvinDPZcjs","type":"long_text","label":"Long Text","placeholder":"Short text"}],"general_option":{"label":"Long text","label_alignment":"left","format":"full","validations":{"required":{"value":"0","message":"This field is required","global_message":"This field is required"}}},"advance_option":{"default_value":"","css_class":"","logics":{"is_advance_logic_active":"0"}}},{"id":"PX0C1cmMmn","type":"names","name":"names3","fields":[{"id":"AWxmV-VH7GAq","type":"first_name","label":"First Name","placeholder":"First Name"},{"id":"jPdT8rXRTUhU","label":"Middle Name","type":"middle_name","placeholder":"Middle Name"},{"id":"PtCJq9pPOP94","type":"last_name","label":"Last Name","placeholder":"Last Name"}],"general_option":{"label":"","label_alignment":"left","format":"full","validations":{"required":{"value":"0","message":"This field is required","global_message":"This field is required"}}},"advance_option":{"default_value":"","css_class":"","logics":{"is_advance_logic_active":"0"}}},{"id":"nnlUiJGJ3U","type":"short_text","name":"short_text2","fields":[{"id":"5AqA7B52ZbrK","type":"short_text","label":"Short Text","placeholder":"Short text"}],"general_option":{"label":"Short text","label_alignment":"left","format":"full","validations":{"required":{"value":"0","message":"This field is required","global_message":"This field is required"}}},"advance_option":{"default_value":"","css_class":"","logics":{"is_advance_logic_active":"0"}}}]}',
-		},
-		responses: [
-			{
-				id: '1',
-				form_id: '3',
-				is_read: '0',
-				is_completed: '0',
-				is_starred: '1',
-				ip: null,
-				device: null,
-				browser: null,
-				browser_version: null,
-				created_by: null,
-				created_at: '2024-06-20 19:22:27',
-				updated_at: '2024-06-20 19:25:08',
-				answers: [],
-			},
-			{
-				id: '2',
-				form_id: '3',
-				is_read: '0',
-				is_completed: '1',
-				is_starred: '0',
-				ip: '127.0.0.1',
-				device: null,
-				browser: null,
-				browser_version: null,
-				created_by: '1',
-				created_at: '2024-06-20 20:18:37',
-				updated_at: null,
-				answers: [
-					{
-						id: '1',
-						response_id: '2',
-						field_id: 'hxtTKxpkE7',
-						value: 'Bfficia culpa nisi u',
-						children: [],
-					},
-					{
-						id: '2',
-						response_id: '2',
-						field_id: 'nnlUiJGJ3U',
-						value: 'asdfkasd;fas',
-						children: [],
-					},
-				],
-			},
-			{
-				id: '3',
-				form_id: '3',
-				is_read: '0',
-				is_completed: '1',
-				is_starred: '0',
-				ip: '127.0.0.1',
-				device: null,
-				browser: null,
-				browser_version: null,
-				created_by: '1',
-				created_at: '2024-06-20 20:19:45',
-				updated_at: null,
-				answers: [
-					{
-						id: '3',
-						response_id: '3',
-						field_id: 'hxtTKxpkE7',
-						value: 'Officia culpa nisi u',
-						children: [],
-					},
-					{
-						id: '4',
-						response_id: '3',
-						field_id: 'nnlUiJGJ3U',
-						value: 'asdfkasd;fas',
-						children: [],
-					},
-				],
-			},
-		],
-	};
 
 	// Handle Tab Change
 	function handleTabChange( key ) {
@@ -199,10 +123,10 @@ export default function TableHeader( props ) {
 	}
 
 	// Handle column checkbox change
-	function handleColumnCheckbox( e, name ) {
+	function handleColumnCheckbox( e, id ) {
 		setColumnCheckedItems( {
 			...columnCheckedItems,
-			[ name ]: e.target.checked,
+			[ id ]: e.target.checked,
 		} );
 	}
 
@@ -215,58 +139,6 @@ export default function TableHeader( props ) {
 	function handleClearSelection() {
 		setSelectedRowKeys( [] );
 	}
-
-	// Column Items
-	const columnItems = applyFilters( 'formgent_response_column', [
-		{
-			label: (
-				<span
-					style={ {
-						fontWeight: 'bold',
-						display: 'block',
-						marginBottom: '8px',
-					} }
-				>
-					Show Hide Columns
-				</span>
-			),
-			value: 'heading',
-			type: 'group',
-		},
-		{
-			key: 'column1',
-			label: (
-				<AntCheckbox
-					checked={ columnCheckedItems.column1 }
-					onChange={ ( e ) => handleColumnCheckbox( e, 'column1' ) }
-				>
-					Screen name
-				</AntCheckbox>
-			),
-		},
-		{
-			key: 'column2',
-			label: (
-				<AntCheckbox
-					checked={ columnCheckedItems.column2 }
-					onChange={ ( e ) => handleColumnCheckbox( e, 'column2' ) }
-				>
-					Screen name
-				</AntCheckbox>
-			),
-		},
-		{
-			key: 'column3',
-			label: (
-				<AntCheckbox
-					checked={ columnCheckedItems.column3 }
-					onChange={ ( e ) => handleColumnCheckbox( e, 'column3' ) }
-				>
-					Screen name
-				</AntCheckbox>
-			),
-		},
-	] );
 
 	// Download Items
 	const downloadItems = [
@@ -329,6 +201,10 @@ export default function TableHeader( props ) {
 			csvLinkRef.current?.link.click();
 		}
 	}, [ csvExportData ] );
+
+	useEffect( () => {
+		setResponseFields( fields );
+	}, [ fields ] );
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">
@@ -419,6 +295,7 @@ export default function TableHeader( props ) {
 					onChange={ ( e ) => handleSearch( e.target.value ) }
 					className="formgent-table-header__search"
 				/>
+
 				<AntButton
 					onClick={ handleFilter }
 					icon={
@@ -451,9 +328,24 @@ export default function TableHeader( props ) {
 								<span className="formgent-table-header__dropdown__title">
 									Show Hide Columns
 								</span>
-								{ columnItems
-									.map( ( item ) => item.label )
-									.slice( 1, 4 ) }
+								{ responseFields?.map( ( field, index ) => {
+									return (
+										<AntCheckbox
+											key={ index }
+											checked={
+												columnCheckedItems[ field.id ]
+											}
+											onChange={ ( e ) =>
+												handleColumnCheckbox(
+													e,
+													field.id
+												)
+											}
+										>
+											{ field.label }
+										</AntCheckbox>
+									);
+								} ) }
 							</div>
 						</div>
 

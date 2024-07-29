@@ -147,6 +147,12 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...data,
 			};
 
+		case 'FIELDS_STORE':
+			return {
+				...state,
+				...data,
+			};
+
 		case 'UPDATE_CURRENT_RESPONSE_PAGE':
 			return {
 				...state,

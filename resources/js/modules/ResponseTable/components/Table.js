@@ -27,6 +27,7 @@ export default function Table() {
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
+	const [ responseFields, setResponseFields ] = useState( [] );
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -35,7 +36,7 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { responses, pagination, isLoading } = SingleFormReducer;
+	const { responses, pagination, isLoading, fields } = SingleFormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -119,7 +120,12 @@ export default function Table() {
 		setTotalCompletedItems( completedItems?.length || 0 );
 		setTotalPartialItems( partialItems?.length || 0 );
 
-		console.log( 'handleFilterData', responses, completedItems );
+		console.log(
+			'handleFilterData',
+			responses,
+			completedItems,
+			partialItems
+		);
 
 		if ( activeTab === 'completed' ) {
 			return completedItems;
@@ -129,11 +135,19 @@ export default function Table() {
 		return [];
 	}
 
+	// Response Column Data
+	function handleColumnChange() {
+		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
+	}
+
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
 		setFilteredData( handleFilterData() );
-		console.log( 'Response Changed', responses );
 	}, [ responses, activeTab ] );
+
+	useEffect( () => {
+		setResponseFields( handleColumnChange() );
+	}, [ fields ] );
 
 	// Select Items Data
 	const selectItems = [

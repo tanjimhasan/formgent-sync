@@ -53,4 +53,25 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
+	*getSingleFormFields( formID ) {
+		yield SingleFormActions.isSingleFormFetchLoading( true );
+		try {
+			const data = yield SingleFormActions.fetchFields(
+				`formgent/admin/responses/table`,
+				formID
+			);
+
+			console.log( 'getSingleFormFields data', data );
+
+			yield SingleFormActions.storeResponse( {
+				fields: data.fields,
+				selected_fields: data.selected_fields,
+			} );
+			yield SingleFormActions.isSingleFormFetchLoading( false );
+		} catch ( error ) {
+			console.log( 'getSingleFormFields error' );
+			yield SingleFormActions.fetchSingleFormError( error );
+			yield SingleFormActions.isSingleFormFetchLoading( false );
+		}
+	},
 };

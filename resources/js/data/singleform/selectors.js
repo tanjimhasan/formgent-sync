@@ -8,6 +8,11 @@ export const SingleFormSelectors = {
 		return SingleFormReducer;
 	},
 	getSingleFormResponse( SingleFormReducer ) {
+		console.log( 'getSingleFormResponse chk', SingleFormReducer );
+		return SingleFormReducer;
+	},
+	getSingleFormFields( SingleFormReducer ) {
+		console.log( 'getSingleFormFields chk', SingleFormReducer );
 		return SingleFormReducer;
 	},
 };
