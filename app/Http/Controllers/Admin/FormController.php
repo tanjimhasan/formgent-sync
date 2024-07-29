@@ -417,4 +417,59 @@ class FormController extends Controller {
 
         return Response::send( $response );
     }
+
+    public function get_settings( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+        
+        return Response::send(
+            [
+                'settings' => $this->form_repository->get_settings( intval( $wp_rest_request->get_param( 'id' ) ) ),
+            ]  
+        );
+    }
+
+    public function update_settings( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'       => 'required|numeric',
+                'settings' => 'required|array'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form_id = intval( $wp_rest_request->get_param( 'id' ) );
+
+        $this->form_repository->save_settings(
+            $form_id,
+            array_merge( 
+                $this->form_repository->get_settings( $form_id ), 
+                $wp_rest_request->get_param( 'settings' ) 
+            )
+        );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Settings have been saved successfully.', 'formgent' )
+            ]
+        );
+    }
 }

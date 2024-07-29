@@ -325,4 +325,26 @@ class FormRepository {
 
         return $forms;
     }
+
+    public function get_settings( int $form_id ) {
+        $settings = get_post_meta( $form_id, 'formgent-settings', true );
+        return is_array( $settings ) ? $settings : [];
+    }
+
+    public function save_settings( int $form_id, array $settings ) {
+        return update_post_meta( $form_id, 'formgent-settings', map_deep( $settings, 'sanitize_text_field' ) );
+    }
+
+    public function get_setting_by_key( int $form_id, string $key, $default = null ) {
+        $settings = $this->get_settings( $form_id );
+        return isset( $settings[$key] ) ? $settings[$key] : $default;
+    }
+
+    public function update_settings( int $form_id, string $key, $value ) {
+        $key            = sanitize_text_field( $key );
+        $settings       = $this->get_settings( $form_id );
+        $settings[$key] = $value;
+
+        return $this->save_settings( $form_id, $settings );
+    }
 }
