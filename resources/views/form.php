@@ -35,49 +35,51 @@ $context = [
 </div>
 
 <script>
-    (() => {
+    ( () => {
         //Getting data from php variable
         const formOptions = <?php formgent_render( wp_json_encode( $data ) ); ?>;
 
         //Inititalize validation form
-        const validation = new window.JustValidate('#formgent-<?php formgent_render( $unique_id ) ?>');
+        const validation = new window.JustValidate(
+            '#formgent-<?php formgent_render( $unique_id ) ?>'
+        );
 
         let rulesList = {
-            email: function( rules ) {
-                rules.push({
+            email: function ( rules ) {
+                rules.push( {
                     rule: 'email',
                     errorMessage: 'Email is invalid!',
-                });
-            }
-        }
+                } );
+            },
+        };
 
         //Loop over each field & prepare validation group
-        Object.values(formOptions).map((item, index) => {
-            const field = formOptions[item.name];
-            const selector = `#${field.name}`;
+        Object.values( formOptions ).map( ( item, index ) => {
+            const field = formOptions[ item.name ];
+            const selector = `#${ field.name }`;
             const rules = [];
 
             //General validation rules
-            if(field.required){
-                rules.push({
+            if ( field.required ) {
+                rules.push( {
                     rule: 'required',
-                    errorMessage: `${field.label} is required`,
-                })
+                    errorMessage: `${ field.label } is required`,
+                } );
             }
 
             // Type specific validation rules
-            if(rulesList[item.field_type]){
-                rulesList[item.field_type](rules);
+            if ( rulesList[ item.field_type ] ) {
+                rulesList[ item.field_type ]( rules );
             }
 
-            if(rules.length < 1){
+            if ( rules.length < 1 ) {
                 return;
             }
 
-            validation.addField( selector,rules ).onSuccess( (event) => {
+            validation.addField( selector, rules ).onSuccess( ( event ) => {
                 event.preventDefault();
-                event.target.querySelector(".formgent-submit").click()
-            });
-        });
-    })();
+                event.target.querySelector( '.formgent-submit' ).click();
+            } );
+        } );
+    } )();
 </script>
