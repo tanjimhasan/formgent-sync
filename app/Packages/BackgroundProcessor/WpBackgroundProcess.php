@@ -654,9 +654,9 @@ abstract class WpBackgroundProcess extends WpAsyncRequest {
         }
 
         if ( 1 === $interval ) {
-            $display = __( 'Every Minute', 'helpgent' );
+            $display = __( 'Every Minute', 'formgent' );
         } else {
-            $display = sprintf( __( 'Every %d Minutes', 'helpgent' ), $interval );
+            $display = sprintf( __( 'Every %d Minutes', 'formgent' ), $interval );
         }
 
         // Adds an "Every NNN Minute(s)" schedule to the existing cron schedules.

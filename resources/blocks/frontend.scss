@@ -1,2 +1,50 @@
 @import "form/style.scss";
 @import "name/style.scss";
+@import "website/style.scss";
+@import "email/style.scss";
+
+// Block Input Field Style
+.block-editor-block-list {
+	&__single {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		&__wrapper {
+			display: flex;
+			gap: 10px;
+			flex: 1;
+			flex-direction: column;
+		}
+		&__input {
+			height: 40px;
+			padding: 0 10px;
+			border: 1px solid #dadada;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+		&__label {
+			display: flex;
+			gap: 6px;
+			font-size: 16px;
+			&__required {
+				color: #f04;
+			}
+			&.label-align-left {
+				order: -1;
+			}
+			&.label-align-right {
+				order: 1;
+			}
+			&.label-align-top {
+				flex: 0 0 100%;
+			}
+			&.label-align-justify {
+				flex: 0 0 100%;
+			}
+		}
+		&__sub-label {
+			font-size: 12px;
+			color: #666;
+		}
+	}
+}

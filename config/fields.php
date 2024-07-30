@@ -2,18 +2,56 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\GDPR\GDPR;
+use FormGent\App\Fields\PhoneNumber\PhoneNumber;
+use FormGent\App\Fields\URL\URL;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
-use FormGent\App\Fields\ShortText\ShortText;
-use FormGent\App\Fields\LongText\LongText;
+use FormGent\App\Fields\Text\Text;
+use FormGent\App\Fields\TextArea\TextArea;
 use FormGent\App\Fields\Number\Number;
 
 return apply_filters(
     'formgent_fields', [
-        ShortText::get_key() => ShortText::class,
-        LongText::get_key()  => LongText::class,
-        Name::get_key()      => Name::class,
-        Email::get_key()     => Email::class,
-        Number::get_key()    => Number::class,
+        Text::get_key()        => [
+            'class'                     => Text::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
+        TextArea::get_key()    => [
+            'class'                     => TextArea::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
+        Name::get_key()        => [
+            'class'                     => Name::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => false
+        ],
+        Email::get_key()       => [
+            'class'                     => Email::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
+        Number::get_key()      => [
+            'class'                     => Number::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
+        GDPR::get_key()        => [
+            'class'                     => GDPR::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => false
+        ],
+        PhoneNumber::get_key() => [
+            'class'                     => PhoneNumber::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
+        URL::get_key()         => [
+            'class'                     => URL::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => true
+        ],
     ]
 );

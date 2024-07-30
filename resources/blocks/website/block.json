@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "formgent/short-text",
-	"title": "Short Text",
+	"name": "formgent/website",
+	"title": "Website",
 	"category": "formgent",
-	"description": "FormGent Short Text field.",
+	"description": "FormGent Website field.",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
@@ -13,19 +13,19 @@
 		},
 		"name": {
 			"type": "string",
-			"default": "short_text"
+			"default": "website"
 		},
 		"value": {
 			"type": "string",
-			"default": "Short Text Value"
+			"default": "https://formgent.test"
 		},
 		"placeholder": {
 			"type": "string",
-			"default": "Short Text Placeholder"
+			"default": "Type Website URL"
 		},
 		"label": {
 			"type": "string",
-			"default": "Label"
+			"default": "Website"
 		},
 		"label_alignment": {
 			"type": "string",
@@ -33,7 +33,7 @@
 		},
 		"sub_label": {
 			"type": "string",
-			"default": "Sub Label"
+			"default": "Enter Website URL Here"
 		},
 		"required": {
 			"type": "boolean",

@@ -19,4 +19,5 @@ wp_localize_script( 'formgent/blocks-editor', 'formgent_blocks', formgent_config
 // Enqueue::register_script( 'formgent/block/frontend', 'build/js/block/frontend' );
 
 Enqueue::register_style( 'formgent/blocks-editor', 'build/css/blocks-editor' );
-Enqueue::register_style( 'formgent/blocks-frontend', 'build/css/blocks-frontend' );
+// Enqueue::register_style( 'formgent/blocks-frontend', 'build/css/blocks-frontend' );
+// wp_enqueue_style( 'formgent/blocks-frontend' );
