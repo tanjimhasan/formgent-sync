@@ -16,16 +16,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		countryOptions[ 18 ]
 	);
 
-	const currentValue = '';
-	let currentDialCode = '';
-	let currentPhoneNumber = '';
-	if ( currentValue ) {
-		const currentDialCodeMatch = currentValue.match( /\(\+\d+\)/ );
-		currentDialCode = currentDialCodeMatch ? currentDialCodeMatch[ 0 ] : '';
-		currentPhoneNumber = currentValue.replace( /\([^)]*\)/g, '' ).trim();
-	}
-
-	// DECISION NOT FINAL YET
 	return (
 		<div className="block-editor-block-list__single">
 			<label

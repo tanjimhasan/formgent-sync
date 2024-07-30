@@ -12,8 +12,6 @@ import metadata from './block.json';
 
 const exampleAttributes = {};
 
-// DECISION NOT FINAL YET
-
 const controls = {
 	basic_info: {
 		type: 'panel',
