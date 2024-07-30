@@ -1,9 +1,10 @@
 import AntDropdown from '@formgent/components/Dropdown';
 import PopUp from '@formgent/components/PopUp';
 import deleteData from '@formgent/helper/deleteData';
-import ellipsisV from '@icon/ellipsis-v.svg';
+import ellipsisH from '@icon/ellipsis-h.svg';
 import penNib from '@icon/pen-nib.svg';
 import trash from '@icon/trash.svg';
+import trashAlt from '@icon/trash-alt.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
@@ -88,14 +89,22 @@ export default function TableAction( props ) {
 				trigger={ [ 'click' ] }
 				placement="bottomRight"
 				overlayStyle={ { minWidth: '240px' } }
+				overlayClassName="formgent-table-action__dropdown"
 			>
 				<a onClick={ ( e ) => e.preventDefault() }>
-					<ReactSVG src={ ellipsisV } width="20" height="20" />
+					<ReactSVG src={ ellipsisH } width="20" height="20" />
 				</a>
 			</AntDropdown>
 			{ isActivateFormDeleteModal && (
 				<PopUp
-					title={ __( 'Delete Form', 'formgent' ) }
+					title={
+						<>
+							<span className="formgent-popup-title-icon">
+								<ReactSVG src={ trashAlt } />
+							</span>
+							{ __( 'Delete Form', 'formgent' ) }
+						</>
+					}
 					onCancel={ handleCancelDeleteAlert }
 					onSubmit={ handleDeleteForm }
 					hasCancelButton

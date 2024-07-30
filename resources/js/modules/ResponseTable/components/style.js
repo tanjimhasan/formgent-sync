@@ -74,13 +74,13 @@ const TableStyle = Styled.div`
                     padding-right: 0;
                     transition: var(--formgent-transition);
                 }
-                &:last-child{ 
+                &:last-child{
                     padding-right: 21px;
                 }
             }
         }
     }
-    
+
     .formgent-column-action {
         display: flex;
         justify-content: space-between;
@@ -95,7 +95,7 @@ const TableStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             text-transform: capitalize;
-            
+
         }
 
         &.formgent-column-action__id {
@@ -120,9 +120,10 @@ const TableSelectionStyle = Styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding: 8px 15px;
+        padding: 9px 15px;
         border-radius: 12px;
         background-color: #efd9c1;
+        margin-top: 30px;
     }
     .formgent-btn-bulk-delete{
         display: flex;
@@ -133,7 +134,7 @@ const TableSelectionStyle = Styled.div`
         margin: 0 12px;
         color: var(--formgent-color-dark);
         &:hover{
-            
+
             background-color: var(--formgent-color-primary);
             span{
                 color: var(--formgent-color-white);
@@ -166,7 +167,7 @@ const TableActionStyle = Styled.div`
     flex: 1;
     display: flex;
     gap: 10px;
-    &:last-child { 
+    &:last-child {
         justify-content: end;
     }
     .formgent-table-header__selection {
@@ -255,7 +256,7 @@ const TableActionStyle = Styled.div`
         .formgent-table-header__dropdown__title {
             font-size: 14px;
             font-weight: 600;
-            color: var(--formgent-color-dark);  
+            color: var(--formgent-color-dark);
             padding: 15px;
             margin: 0 0 8px;
             background: var(--formgent-color-bg-light);
@@ -309,7 +310,7 @@ const TableActionStyle = Styled.div`
             border-radius: 100%;
         }
     }
-    
+
 `;
 
 const TableTabStyle = Styled.div`

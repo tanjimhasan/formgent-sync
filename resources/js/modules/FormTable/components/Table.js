@@ -7,9 +7,26 @@ import TitleBox from './TitleBox';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
+import ReactSVG from 'react-inlinesvg';
+import copyIcon from '@icon/copy.svg';
+import checkIcon from '@icon/check.svg';
+import spinnerIcon from '@icon/spinner.svg';
+import { Tooltip } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import handleTextSelect from '@formgent/helper/handleTextSelect';
+import FormTableStatus from './FormTableStatus';
+
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );
+
+	const [ copiedText, setCopiedText ] = useState( '' );
+	const [ isCopied, setIsCopied ] = useState( false );
+	const [ isCopying, setIsCopying ] = useState( false );
+	const [ copiedShortcode, setCopiedShortcode ] = useState( null );
+	const [ inputPosition, setInputPosition ] = useState( null );
+	const [ copyingTimeoutId, setCopyingTimeoutId ] = useState( null );
+	const [ copiedTimeoutId, setCopiedTimeoutId ] = useState( null );
 
 	const { updateCurrentPage } = useDispatch( 'formgent' );
 
@@ -34,6 +51,36 @@ export default function Table() {
 		day: 'numeric',
 	};
 
+	const handleShortcodeCopy = ( event ) => {
+		const copyableText = event.target.value;
+		handleTextSelect( { copyableText, setCopiedText } );
+		const inputRect = event.target.getBoundingClientRect();
+		setInputPosition( inputRect );
+		if ( copyingTimeoutId ) {
+			clearTimeout( copyingTimeoutId );
+		}
+		if ( copiedTimeoutId ) {
+			clearTimeout( copiedTimeoutId );
+		}
+		setIsCopying( true );
+		const copyingTimeout = setTimeout( () => {
+			setIsCopying( false );
+			setIsCopied( true );
+			const copiedTimeout = setTimeout( () => {
+				setIsCopied( false );
+			}, 3000 );
+			setCopiedTimeoutId( copiedTimeout );
+		}, 500 );
+		setCopyingTimeoutId( copyingTimeout );
+	};
+
+	document.addEventListener( 'scroll', () => {
+		const inputRects = document.querySelector(
+			`input[data-shortcode_id="${ copiedShortcode }"]`
+		);
+		setInputPosition( inputRects && inputRects.getBoundingClientRect() );
+	} );
+
 	const formTableColumns = applyFilters( 'formgent_form_table_columns', [
 		{
 			title: 'Name',
@@ -45,6 +92,62 @@ export default function Table() {
 					editableForm={ editableForm }
 					setEditableForm={ setEditableForm }
 				/>
+			),
+		},
+		{
+			title: 'Shortcode',
+			className: 'formgent-form-shortcode',
+			render: ( text, record ) => (
+				<Tooltip
+					text={
+						isCopied && copiedShortcode === record.id
+							? ''
+							: __( 'Click to copy', 'formgent' )
+					}
+					delay="0"
+					placement="bottom"
+					hideOnClick={ true }
+				>
+					<label
+						className={
+							isCopying && copiedShortcode === record.id
+								? 'formgent-form-shortcode__copying'
+								: ! isCopying &&
+								  isCopied &&
+								  copiedShortcode === record.id
+								? 'formgent-form-shortcode__copied'
+								: ''
+						}
+					>
+						{ isCopying && copiedShortcode === record.id ? (
+							<ReactSVG src={ spinnerIcon } />
+						) : ! isCopying &&
+						  isCopied &&
+						  copiedShortcode === record.id ? (
+							<ReactSVG src={ checkIcon } />
+						) : (
+							<ReactSVG src={ copyIcon } />
+						) }
+						<input
+							type="text"
+							readOnly
+							value={
+								isCopying & ( copiedShortcode === record.id )
+									? ''
+									: ! isCopying &&
+									  isCopied &&
+									  copiedShortcode === record.id
+									? __( 'Copied!', 'formgent' )
+									: `[formgent-form id="${ record.id }"]`
+							}
+							data-shortcode_id={ record.id }
+							onClick={ ( e ) => {
+								setCopiedShortcode( record.id );
+								handleShortcodeCopy( e );
+							} }
+						/>
+					</label>
+				</Tooltip>
 			),
 		},
 		{
@@ -87,6 +190,15 @@ export default function Table() {
 					</div>
 				);
 			},
+		},
+		{
+			title: __( 'Status', 'helpgent' ),
+			className: 'formgent-head-status',
+			render: ( text, record ) => (
+				<td className="formgent-form-status">
+					<FormTableStatus />
+				</td>
+			),
 		},
 		{
 			title: 'More',

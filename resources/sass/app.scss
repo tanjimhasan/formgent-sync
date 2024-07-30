@@ -1,6 +1,7 @@
 :root {
 	--formgent-color-primary: #6551f2;
 	--formgent-color-primary-2: #2188ff;
+	--formgent-color-primary-100: #dee3ff;
 	--formgent-color-secondary: #fc495d;
 	--formgent-color-dark: #000000;
 	--formgent-color-bg-white: #ffffff;
@@ -13,7 +14,8 @@
 	--formgent-color-light-gray: #6e6e6e;
 	--formgent-color-extra-light: #a2a2a2;
 	--formgent-color-info: #2188ff;
-	--formgent-color-danger: #ef0000;
+	--formgent-color-danger: #d94a4a;
+	--formgent-color-danger-100: #fbe5e5;
 	--formgent-color-disable: #dddada;
 	--formgent-color-warning-deep: #ff7300;
 	--formgent-color-warning-light: #f9dfac;
@@ -45,7 +47,12 @@
 	--formgent-color-twitter: #000000;
 	--formgent-color-youtube: #f3081a;
 	--formgent-color-instagram: #bf3ad4;
+	--formgent-color-gray-50: #f9fafb;
 	--formgent-color-gray-100: #f3f4f6;
+	--formgent-color-gray-200: #e5e7eb;
+	--formgent-color-gray-300: #d2d6db;
+	--formgent-color-gray-500: #747c89;
+	--formgent-color-gray-600: #4d5761;
 }
 
 /* Spacing */
@@ -357,6 +364,26 @@ a.formgent-btn-disabled {
 		}
 		.components-modal__header-heading {
 			font-family: inherit;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.formgent-popup-title-icon {
+			width: 48px;
+			height: 48px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			background: var(--formgent-color-gray-100);
+			svg {
+				width: 24px;
+				height: 24px;
+			}
+			svg,
+			path {
+				fill: var(--formgent-color-dark);
+			}
 		}
 	}
 	.components-modal__content {
@@ -519,15 +546,17 @@ a.formgent-btn-disabled {
 			background-color: var(--formgent-color-bg-gray);
 		}
 		.components-modal__header {
-			padding: 0 20px;
+			padding: 5px 20px 5px 10px;
 			.formgent-create-modal-logo {
 				order: -1;
+				display: flex;
+				align-items: center;
 			}
 			.components-button {
 				position: static;
 				padding: 0;
-				width: 48px;
-				height: 48px;
+				width: 36px;
+				height: 36px;
 				border-radius: 50%;
 				inset-inline-end: 30px;
 				background-color: var(--formgent-color-bg-gray);
@@ -637,6 +666,19 @@ a.formgent-btn-disabled {
 	}
 	&.formgent-form-delete-alert {
 		z-index: 99999999999;
+		.formgent-popup-title-icon {
+			background: var(--formgent-color-danger-100);
+			svg,
+			path {
+				fill: var(--formgent-color-danger);
+			}
+		}
+		.components-modal__header {
+			border: 0 none;
+		}
+		.helpgent-alert-content > p {
+			margin-top: 0;
+		}
 	}
 }
 
@@ -714,4 +756,128 @@ a.formgent-btn-disabled {
 	padding: 20px;
 	border-radius: 10px;
 	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.formgent-table-action__dropdown {
+	li a {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
+}
+
+//Tooltip
+.components-tooltip {
+	padding: 7px 12px;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	position: relative;
+	max-width: 200px;
+	font-size: 12px;
+	font-weight: 600;
+	top: 5px;
+	&:before {
+		content: "";
+		position: fixed;
+		left: 50%;
+		top: 2px;
+		transform: translateX(-50%) rotate(45deg);
+		width: 8px;
+		height: 8px;
+		border-radius: 2px;
+		background: inherit;
+	}
+}
+
+/* Formgent Toggle */
+.formgent-toggle {
+	.components-form-toggle__input {
+		&:focus {
+			outline: none;
+			box-shadow: 0 0;
+			& + .components-form-toggle__track {
+				outline: none;
+				box-shadow: 0 0;
+			}
+		}
+	}
+	.components-form-toggle__track {
+		width: 35px;
+		height: 20px;
+		border-radius: 10px;
+		border: 0 none;
+		background-color: var(--formgent-color-bg-deep);
+	}
+	.components-form-toggle__thumb {
+		width: 14px;
+		height: 14px;
+		border: 0 none;
+		background-color: var(--formgent-color-bg-white);
+	}
+	.components-form-toggle {
+		&.is-checked {
+			.components-form-toggle__track {
+				background-color: var(--formgent-color-primary);
+			}
+			.components-form-toggle__thumb {
+				transform: translateX(15px);
+			}
+		}
+	}
+	.components-toggle-control {
+		margin-bottom: 0;
+	}
+	&.formgent-toggle--md {
+		.components-form-toggle__track {
+			width: 46px;
+			height: 24px;
+			border-radius: 12px;
+		}
+		.components-form-toggle__thumb {
+			width: 18px;
+			height: 18px;
+		}
+		.components-form-toggle {
+			&.is-checked {
+				.components-form-toggle__thumb {
+					transform: translateX(22px);
+				}
+			}
+		}
+	}
+
+	&.formgent-toggle-success {
+		.components-form-toggle {
+			&.is-checked {
+				.components-form-toggle__track {
+					background-color: var(--formgent-color-success);
+				}
+			}
+		}
+	}
+
+	&.formgent-disabled {
+		pointer-events: none;
+		.formgent-toggle__label {
+			opacity: 0.5;
+		}
+	}
+}
+
+//Keyframes
+@keyframes formgent_spinner {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
 }

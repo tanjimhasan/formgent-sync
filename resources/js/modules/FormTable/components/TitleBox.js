@@ -1,10 +1,11 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
 import { AntInput } from '@formgent/components';
-import ReactSVG from 'react-inlinesvg';
 import { formatDate } from '@formgent/helper/utils';
+import ReactSVG from 'react-inlinesvg';
 import times from '@icon/times.svg';
 import check from '@icon/check.svg';
+import formIcon from '@icon/form.svg';
 import { __ } from '@wordpress/i18n';
 import { TitleBoxStyle } from './style';
 import patchData from '@formgent/helper/patchData';
@@ -99,6 +100,9 @@ export default function TItleBox( props ) {
 				</div>
 			) : (
 				<div className="formgent-titlebox__content">
+					<div className="formgent-titleBox-icon">
+						<ReactSVG src={ formIcon } />
+					</div>
 					<div className="formgent-titleBox-text">
 						<a href={ `${ form_edit_url }&post=${ id }` }>
 							<span className="formgent-title">{ title }</span>

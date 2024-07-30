@@ -20,7 +20,9 @@ export default function CreatePopupAction( props ) {
 	return item.url ? (
 		<Link to={ item.url || '#' } className="formgent-createPopup__action">
 			<div className="formgent-createPopup__action-icon">
-				<ReactSVG src={ item.icon } />
+				<div className="formgent-createPopup__action-icon-wrap">
+					<ReactSVG src={ item.icon } />
+				</div>
 			</div>
 			{ item.label && (
 				<span className="formgent-createPopup__action-label">
@@ -39,7 +41,9 @@ export default function CreatePopupAction( props ) {
 			onClick={ () => handleFormAction() }
 		>
 			<div className="formgent-createPopup__action-icon">
-				<ReactSVG src={ item.icon } />
+				<div className="formgent-createPopup__action-icon-wrap">
+					<ReactSVG src={ item.icon } />
+				</div>
 			</div>
 			{ item.label && (
 				<span className="formgent-createPopup__action-label">

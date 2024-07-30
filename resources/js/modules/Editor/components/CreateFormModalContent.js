@@ -54,12 +54,28 @@ export default function CreateFormModalContent() {
 		);
 	}
 
+	const customTokens = {
+		colorBgContainer: '#ffffff',
+		colorBorder: '#cccccc',
+		borderRadius: 8,
+		lineWidth: 1,
+	};
+
+	const customComponentTokens = {
+		Input: {
+			paddingBlock: 8,
+			paddingBlockLG: 10,
+			paddingInlineLG: 18,
+			activeBorderColor: '#ff0000',
+		},
+	};
+
 	return (
 		<CreateFormStyle className="formgent-create-modal">
 			<h2 className="formgent-create-modal-title">
 				{ __( "Let's get started", 'formgent' ) }
 			</h2>
-			<p>
+			<p className="formgent-create-modal-subtitle">
 				{ __(
 					'Please enter a name for your ffffor. You can edit it later.',
 					'formgent'
@@ -79,7 +95,7 @@ export default function CreateFormModalContent() {
 								min: 5,
 								message: __(
 									'The title field must be at least 5 characters.',
-									'helpgent'
+									'formgent'
 								),
 							},
 							{
@@ -95,15 +111,13 @@ export default function CreateFormModalContent() {
 							},
 						] }
 					>
-						<AntInput size="large" />
+						<AntInput
+							tokens={ customTokens }
+							componentTokens={ customComponentTokens }
+						/>
 					</Form.Item>
 					<Form.Item>
-						<AntButton
-							type="dark"
-							size="large"
-							htmlType="submit"
-							block
-						>
+						<AntButton type="primary" htmlType="submit" block>
 							{ SingleFormReducer?.isCreatingForm
 								? __( 'Creating', 'formgent' )
 								: __( 'Create Form', 'formgent' ) }
