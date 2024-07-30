@@ -27,10 +27,9 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
         data-wp-context='<?php formgent_render( $names_json ); ?>'
     >
         <?php formgent_render( $fields )?>
-        <button class="formgent-btn formgent-primary formgent-btn-md" type="submit">Submit</button>
+        <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
     </form>
 </div>
-
 
 <script>
     
@@ -39,7 +38,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
         const formOptions = <?php formgent_render( $data_json ); ?>;
 
         //Inititalize validation form
-        const validation = new window.JustValidate('#formgent-<?php formgent_render( $unique_id ) ?>', {validateBeforeSubmitting: true});
+        const validation = new window.JustValidate('#formgent-<?php formgent_render( $unique_id ) ?>');
 
         let rulesList = {
             email: function( rules ) {
@@ -73,59 +72,60 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
             if(rules.length < 1){
                 return;
             }
-            validation.addField( selector,rules );
+
+            validation
+                .addField( selector,rules )
+                .onSuccess( async(event) => {
+                    event.preventDefault();
+                    const formId = <?php formgent_render( $form->ID );?>;
+                    const names = <?php formgent_render( $names_json ); ?>;
+                    const form = event.target;
+                    const formData = new FormData(form);
+                    const rowData = {};
+
+                    for(const name of Object.keys(names)){
+                        const inputElement = form.querySelector(`[name="${name}"]`);
+                        const inputType = inputElement ? inputElement.type : null;
+
+                        if(inputType === 'number') {
+                            rowData[name] = parseInt(formData.get(name), 10);
+                        }else {
+                            rowData[name] = formData.get(name);
+                        }
+                    }
+
+                    const submissionData = {
+                        id: parseInt(formId),
+                        form_data: {
+                            ...rowData
+                        }
+                    }
+
+                    try {
+                        const response = await fetch('/wp-json/formgent/responses', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(submissionData),
+                        });
+                        const data = await response.json();
+                        const noticeContainer = document.getElementById('<?php formgent_render( $unique_id ) ?>-submission-notice');
+                        noticeContainer.innerHTML = `
+                            <span>${data.message}</span>
+                        `
+                        form.reset();
+                        
+                        
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                });
 
         });
     }
 
     formgent_form<?php formgent_render( $unique_id )?>();
-
-    // Form submission
-    document.getElementById('formgent-<?php formgent_render( $unique_id ) ?>').addEventListener('submit', async function(event){
-        event.preventDefault();
-        const formId = <?php formgent_render( $form->ID );?>;
-        const names = <?php formgent_render( $names_json ); ?>;
-        const form = event.target;
-        const formData = new FormData(form);
-        const rowData = {};
-
-        for(const name of Object.keys(names)){
-            const inputElement = form.querySelector(`[name="${name}"]`);
-            const inputType = inputElement ? inputElement.type : null;
-
-            if(inputType === 'number') {
-                rowData[name] = parseInt(formData.get(name), 10);
-            }else {
-                rowData[name] = formData.get(name);
-            }
-        }
-
-        const submissionData = {
-            id: parseInt(formId),
-            form_data: {
-                ...rowData
-            }
-        }
-
-        try {
-            const response = await fetch('/wp-json/formgent/responses', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(submissionData),
-            });
-            const data = await response.json();
-            const noticeContainer = document.getElementById('<?php formgent_render( $unique_id ) ?>-submission-notice');
-            noticeContainer.innerHTML = `
-                <span>${data.message}</span>
-            `
-            form.reset();
-            
-            
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    });
+    
     
 </script>

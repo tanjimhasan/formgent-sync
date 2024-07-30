@@ -1,7 +1,7 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
 <div class="formgent-form-field">
-    <label for="<?php echo esc_attr( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_attr( $attributes['label'] ); ?></label>
+    <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
     <input
         type="number"
         name="<?php echo esc_attr( $attributes['name'] ); ?>"

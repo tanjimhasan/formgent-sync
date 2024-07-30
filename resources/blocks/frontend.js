@@ -9,8 +9,7 @@ store( 'formgent-block', {
 			const context = getContext();
 			context.isOpen = ! context.isOpen;
 		},
-
-		updateEmail: () => {
+		updateInput: () => {
 			const element = getElement();
 			const context = getContext();
 			context[ element.ref.name ] = element.ref.value;
@@ -20,24 +19,6 @@ store( 'formgent-block', {
 			const element = getElement();
 			const context = getContext();
 			context[ element.ref.name ] = parseInt( element.ref.value );
-		},
-
-		updateText: () => {
-			const element = getElement();
-			const context = getContext();
-			context[ element.ref.name ] = element.ref.value;
-		},
-
-		updateTextarea: () => {
-			const element = getElement();
-			const context = getContext();
-			context[ element.ref.name ] = element.ref.value;
-		},
-
-		updateWebsite: () => {
-			const element = getElement();
-			const context = getContext();
-			context[ element.ref.name ] = element.ref.value;
 		},
 	},
 	callbacks: {},
