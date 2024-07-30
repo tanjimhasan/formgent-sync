@@ -10,7 +10,8 @@ import {
 	AntInput,
 	AntTabs,
 } from '@formgent/components';
-import { useSelect } from '@wordpress/data';
+import postData from '@formgent/helper/postData';
+import { resolveSelect, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
@@ -51,7 +52,7 @@ export default function TableHeader( props ) {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { fields } = SingleFormReducer;
+	const { fields, selected_fields } = SingleFormReducer;
 
 	const csvLinkRef = useRef();
 
@@ -124,10 +125,15 @@ export default function TableHeader( props ) {
 
 	// Handle column checkbox change
 	function handleColumnCheckbox( e, id ) {
-		setColumnCheckedItems( {
-			...columnCheckedItems,
-			[ id ]: e.target.checked,
+		setColumnCheckedItems( ( prevState ) => {
+			if ( e.target.checked ) {
+				return [ ...prevState, id ];
+			} else {
+				return prevState.filter( ( item ) => item !== id );
+			}
 		} );
+
+		handleColumn();
 	}
 
 	// Handle Bulk Selection
@@ -195,6 +201,17 @@ export default function TableHeader( props ) {
 		},
 	];
 
+	async function handleColumn() {
+		const updateColumn = await postData( 'admin/responses/fields', {
+			form_id: id,
+			field_ids: columnCheckedItems,
+		} );
+		if ( updateColumn ) {
+			resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
+			console.log( 'updateColumn : ', updateColumn, id );
+		}
+	}
+
 	// Export CSV Data
 	useEffect( () => {
 		if ( csvExportData.length ) {
@@ -204,7 +221,17 @@ export default function TableHeader( props ) {
 
 	useEffect( () => {
 		setResponseFields( fields );
+		console.log( 'fields header', fields );
 	}, [ fields ] );
+
+	useEffect( () => {
+		setColumnCheckedItems( selected_fields );
+		console.log( 'selected_fields header', fields, selected_fields );
+	}, [ selected_fields ] );
+
+	useEffect( () => {
+		console.log( 'columnCheckedItems: ', columnCheckedItems, id );
+	}, [ columnCheckedItems ] );
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">
@@ -332,9 +359,9 @@ export default function TableHeader( props ) {
 									return (
 										<AntCheckbox
 											key={ index }
-											checked={
-												columnCheckedItems[ field.id ]
-											}
+											checked={ columnCheckedItems.includes(
+												field.id
+											) }
 											onChange={ ( e ) =>
 												handleColumnCheckbox(
 													e,

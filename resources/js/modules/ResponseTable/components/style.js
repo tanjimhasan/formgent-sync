@@ -3,18 +3,22 @@ import Styled from 'styled-components';
 const TableStyle = Styled.div`
     .ant-table{
         background-color: transparent;
+        .ant-table-content {
+            overflow-x: auto;
+        }
         table{
             border-spacing: 0 10px;
             tr{
                 th,
                 td{
+                    min-width: 250px;
                     &:first-child{
+                        min-width: auto;
                         border-radius: 12px 0 0 12px;
                         padding-inline-start: 15px;
                     }
                     &:last-child{
                         border-radius: 0 12px 12px 0;
-                        text-align: end;
                     }
                     .formgent-form-wrap {
                         display: flex;
@@ -95,7 +99,6 @@ const TableStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             text-transform: capitalize;
-            
         }
 
         &.formgent-column-action__id {

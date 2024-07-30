@@ -27,6 +27,7 @@ export default function Table() {
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
+	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
@@ -38,7 +39,8 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { responses, pagination, isLoading, fields } = SingleFormReducer;
+	const { responses, pagination, isLoading, fields, selected_fields } =
+		SingleFormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -152,15 +154,6 @@ export default function Table() {
 	function handleColumnChange() {
 		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}
-
-	// Use effect to update filtered data when the active tab changes
-	useEffect( () => {
-		setFilteredData( handleFilterData() );
-	}, [ responses, activeTab ] );
-
-	useEffect( () => {
-		handleColumnChange();
-	}, [ fields ] );
 
 	// Select Items Data
 	const selectItems = [
@@ -511,21 +504,10 @@ export default function Table() {
 		);
 	}
 
-	const freezeColumn = ( columnKey ) => {
-		const newFrozenColumns = [ ...frozenColumns, columnKey ];
-		setFrozenColumns( newFrozenColumns );
-		updateColumns( newFrozenColumns );
-	};
-
-	const updateColumns = ( frozenColumns ) => {
-		const newColumns = defaultColumns.map( ( col ) => {
-			if ( frozenColumns.includes( col.dataIndex ) ) {
-				return { ...col, fixed: 'left' };
-			}
-			return col;
-		} );
-		setCustomColumns( newColumns );
-	};
+	// Use effect to update filtered data when the active tab changes
+	useEffect( () => {
+		setFilteredData( handleFilterData() );
+	}, [ responses, activeTab ] );
 
 	useEffect( () => {
 		const newColumns = defaultColumns.map( ( col ) => {
@@ -556,9 +538,78 @@ export default function Table() {
 	}, [ frozenColumns ] );
 
 	useEffect( () => {
+		handleColumnChange();
+	}, [ fields ] );
+
+	useEffect( () => {
 		handleTableChange();
 		setCustomColumns( defaultColumns );
 	}, [] );
+
+	// Generate Column
+	const generateCustomColumns = ( selectedFields, responses, fields ) => {
+		console.log( 'selectedFields', selectedFields, responses, fields );
+
+		return ( selectedFields || [] ).map( ( fieldId ) => {
+			const field = fields?.find( ( f ) => f.id === fieldId );
+			const title = field ? field.label : `Field ${ fieldId }`;
+
+			return {
+				key: fieldId,
+				dataIndex: fieldId,
+				title: () => (
+					<div className="formgent-column-action">
+						<span className="formgent-column-action__title">
+							{ title }
+						</span>
+						<AntDropdown
+							menu={ {
+								items: sortItems,
+								onClick: ( item ) =>
+									handleSortby( item, fieldId ),
+							} }
+							trigger={ [ 'click' ] }
+							placement="bottomRight"
+							overlayStyle={ { minWidth: '240px' } }
+						>
+							<a onClick={ ( e ) => e.preventDefault() }>
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ ellipsisVIcon }
+								/>
+							</a>
+						</AntDropdown>
+					</div>
+				),
+				render: ( text, record ) => {
+					const response = responses.find(
+						( r ) => r.id === record.id
+					);
+					if ( response ) {
+						const answer = response.answers.find(
+							( a ) => a.field_id === fieldId
+						);
+						if ( answer ) {
+							return <div>{ answer.value }</div>;
+						}
+					}
+					return <div>No data</div>;
+				},
+			};
+		} );
+	};
+	useEffect( () => {
+		setFilteredData( responses );
+		const generatedColumns = generateCustomColumns(
+			selected_fields,
+			responses,
+			fields
+		);
+		const allColumns = [ ...defaultColumns, ...generatedColumns ];
+
+		setCustomColumns( allColumns );
+	}, [ selected_fields, responses ] );
 
 	return (
 		<TableStyle>
@@ -594,6 +645,7 @@ export default function Table() {
 						showTotal: ( total, range ) =>
 							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
 					} }
+					className="formgent-result-table"
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>
