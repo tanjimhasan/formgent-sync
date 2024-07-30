@@ -30,8 +30,9 @@ class FormController extends Controller {
                 'page'       => 'numeric',
                 's'          => 'string|max:255',
                 'sort_by'    => 'string|accepted:last_modified,date_created,alphabetical,last_submission,unread,draft,publish',
-                'date_type'  => 'string|accepted:today,yesterday,last_week,last_month,date_frame',
-                'date_frame' => 'array'
+                'date_type'  => 'string|accepted:all,today,yesterday,last_week,last_month,date_frame',
+                'date_frame' => 'array',
+                'type'       => 'string|accepted:all,general,conversational'
             ]
         );
 
@@ -60,8 +61,13 @@ class FormController extends Controller {
             $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
         }
 
+        if ( $wp_rest_request->has_param( 'type' ) ) {
+            $dto->set_type( $wp_rest_request->get_param( 'type' ) );
+        }
+
         $data                      = $this->form_repository->get( $dto );
         $response                  = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
+        $response['types']         = $data['types'];
         $response['forms']         = $data['forms'];
         $response['form_edit_url'] = add_query_arg( ['action' => 'edit'], admin_url( 'post.php' ) );
 
