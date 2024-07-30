@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Http\Controllers\Admin\NoteController;
+use FormGent\App\Http\Controllers\Admin\SettingsController;
 use FormGent\App\Http\Controllers\Admin\ResponseController;
 use FormGent\App\Http\Controllers\Admin\FormController;
 use FormGent\App\Http\Controllers\FontController;
@@ -12,6 +13,8 @@ Route::group(
     'admin', function() {
         Route::group(
             'forms', function() {
+                Route::get( '{id}/settings', [FormController::class, 'get_settings'] );
+                Route::post( '{id}/settings', [FormController::class, 'update_settings'] );
                 Route::patch( '{id}/status', [FormController::class, 'update_status'] );
                 Route::patch( '{id}/title', [FormController::class, 'update_title'] );
                 Route::post( '{id}/duplicate', [FormController::class, 'duplicate'] );
@@ -41,5 +44,8 @@ Route::group(
         );
 
         Route::get( 'fonts', [FontController::class, 'index'] );
+
+        Route::get( 'settings', [SettingsController::class, 'index'] );
+        Route::post( 'settings', [SettingsController::class, 'update'] );
     }, ['admin']
 );
