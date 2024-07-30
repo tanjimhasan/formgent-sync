@@ -1,20 +1,25 @@
 /**
  * WordPress dependencies
  */
-import { store, getContext } from '@wordpress/interactivity';
+import { store, getContext, getElement } from '@wordpress/interactivity';
 
-store( 'create-block', {
+store( 'formgent-block', {
 	actions: {
 		toggle: () => {
 			const context = getContext();
 			context.isOpen = ! context.isOpen;
 		},
-	},
-	callbacks: {
-		logIsOpen: () => {
-			const { isOpen } = getContext();
-			// Log the value of `isOpen` each time it changes.
-			console.log( `Is open: ${ isOpen }` );
+		updateInput: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = element.ref.value;
+		},
+
+		updateNumber: () => {
+			const element = getElement();
+			const context = getContext();
+			context[ element.ref.name ] = parseInt( element.ref.value );
 		},
 	},
+	callbacks: {},
 } );
