@@ -1,4 +1,4 @@
-/**
+E/**
  * Internal dependencies
  */
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
