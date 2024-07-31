@@ -94,3 +94,4 @@ jobs:
             **/Installable
             **/tests
             **/yarn.lock
+            **/.DS_Store

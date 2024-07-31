@@ -59,6 +59,7 @@ const buildFiles = [
 const buildIgnoreFiles = [
 	'**/Gruntfile.js',
 	'**/.gitignore',
+	'**/.DS_Store',
 	'vendor/vendor-src/bin',
 	'vendor/scoper-autoload.php',
 	'**/dev-*/**',
