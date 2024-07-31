@@ -173,7 +173,9 @@ export default function Table() {
 			title: 'Created By',
 			className: 'formgent-head-created-by',
 			render: ( text, record ) => (
-				<td className="helpgent-form-username">{ record.username }</td>
+				<div className="helpgent-form-username">
+					{ record.username }
+				</div>
 			),
 		},
 		{
@@ -195,9 +197,9 @@ export default function Table() {
 			title: __( 'Status', 'helpgent' ),
 			className: 'formgent-head-status',
 			render: ( text, record ) => (
-				<td className="formgent-form-status">
+				<div className="formgent-form-status">
 					<FormTableStatus />
-				</td>
+				</div>
 			),
 		},
 		{
@@ -257,8 +259,9 @@ export default function Table() {
 						current: pagination?.current_page,
 						pageSize: 10,
 						total: pagination?.total_items,
+						position: [ 'bottomCenter' ],
 						showTotal: ( total, range ) =>
-							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
+							`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`,
 					} }
 					onChange={ handleFormTableChange }
 				/>

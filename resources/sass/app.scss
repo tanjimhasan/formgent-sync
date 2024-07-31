@@ -13,7 +13,7 @@
 	--formgent-color-gray: #3c3c3c;
 	--formgent-color-light-gray: #6e6e6e;
 	--formgent-color-extra-light: #a2a2a2;
-	--formgent-color-info: #2188ff;
+	--formgent-color-info: #2e94fa;
 	--formgent-color-danger: #d94a4a;
 	--formgent-color-danger-100: #fbe5e5;
 	--formgent-color-disable: #dddada;
@@ -867,6 +867,41 @@ a.formgent-btn-disabled {
 		pointer-events: none;
 		.formgent-toggle__label {
 			opacity: 0.5;
+		}
+	}
+}
+
+.ant-table-pagination {
+	gap: 4px;
+	.ant-pagination-total-text {
+		font-size: 12px;
+		font-weight: 400;
+		color: var(--formgent-color-gray-600);
+	}
+	.ant-pagination-prev,
+	.ant-pagination-item,
+	.ant-pagination-next {
+		background: #fff;
+		box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+		border-radius: 8px;
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.ant-pagination-item-active {
+		background: var(--formgent-color-dark);
+		border-color: var(--formgent-color-dark);
+		a {
+			color: #fff;
+		}
+		&:hover {
+			background: var(--formgent-color-dark);
+			border-color: var(--formgent-color-dark);
+			a {
+				color: #fff;
+			}
 		}
 	}
 }

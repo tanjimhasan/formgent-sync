@@ -78,6 +78,9 @@ const TableStyle = Styled.div`
                     padding-right: 21px;
                 }
             }
+            &.ant-table-row-selected{
+                border: 1px solid #BEE3FF;
+            }
         }
     }
 
@@ -129,12 +132,13 @@ const TableSelectionStyle = Styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         padding: 5px 16px;
-        font-weight:; 500;
+        font-size: 14px;
+        font-weight: 500;
         margin: 0 12px;
-        color: var(--formgent-color-dark);
+        color: var(--formgent-color-gray-600);
         &:hover{
-
             background-color: var(--formgent-color-primary);
             span{
                 color: var(--formgent-color-white);
@@ -146,7 +150,11 @@ const TableSelectionStyle = Styled.div`
             }
         }
         svg{
-            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+            path{
+                stroke: var(--formgent-color-gray-500);
+            }
         }
     }
     .formgent-clear-bulk{

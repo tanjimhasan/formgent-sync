@@ -83,7 +83,7 @@ export default function TableAction( props ) {
 	}
 
 	return (
-		<div className="formgent-table-action">
+		<div className="formgent-table-action" data-tooltip="Rename & Delete">
 			<AntDropdown
 				menu={ { items } }
 				trigger={ [ 'click' ] }

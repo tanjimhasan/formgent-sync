@@ -214,6 +214,7 @@ const TableStyle = Styled.div`
             box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
             border-radius: 12px;
             td{
+                border: 1px solid transparent;
                 &:first-child{
                     position: relative;
                     border-left: 2px solid transparent;
@@ -232,6 +233,19 @@ const TableStyle = Styled.div`
                     border-left: 4px solid var(--formgent-color-primary);
                 }
             }
+
+            &.ant-table-row-selected{
+                td{
+                    border-top: 1px solid #BEE3FF;
+                    border-bottom: 1px solid #BEE3FF;
+                }
+                td:first-child{
+                    border-left: 1px solid #BEE3FF;
+                }
+                td:last-child{
+                    border-right: 1px solid #BEE3FF;
+                }
+            }
         }
     }
     .helpgent-form-date,
@@ -241,10 +255,44 @@ const TableStyle = Styled.div`
         color: var(--formgent-color-gray-600);
     }
     .formgent-table-action{
+        position: relative;
+        &:before{
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 0;
+            top: calc(100% + 4px);
+            width: 100px;
+            line-height: 30px;
+            padding: 0 10px;
+            background: var(--formgent-color-dark);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
+            display: none;
+        }
+        &:after{
+            content: "";
+            position: absolute;
+            right: 4px;
+            top: calc(100% + 1px);
+            transform: translateX(-50%) rotate(45deg);
+            width: 9px;
+            height: 9px;
+            border-radius: 2px;
+            background: var(--formgent-color-dark);
+            display: none;
+        }
         .ant-dropdown-trigger{
             display: flex;
             align-items: center;
             justify-content: flex-end;
+        }
+        &:hover{
+            &:before,
+            &:after{
+                display: block;
+            }
         }
     }
     .formgent-form-shortcode{
@@ -320,39 +368,110 @@ const TablkSelectionStyle = Styled.div`
         justify-content: flex-start;
         padding: 9px 15px;
         border-radius: 12px;
-        background-color: #efd9c1;
+        background-color: #fff;
         margin-top: 30px;
+        box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
     }
-    .formgent-btn-bulk-delete{
+    .formgent-btn-bulk-delete,
+    .formgent-btn-bulk-status{
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         padding: 5px 16px;
-        font-weight:; 500;
-        margin: 0 12px;
-        color: var(--formgent-color-dark);
-        &:hover{
-
-            background-color: var(--formgent-color-primary);
-            span{
-                color: var(--formgent-color-white);
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0 8px;
+        color: var(--formgent-color-gray-600);
+        svg{
+            width: 16px;
+            height: 16px;
+            path{
+                stroke: var(--formgent-color-gray-500);
             }
+        }
+        &:hover{
+            background-color: var(--formgent-color-primary);
             svg{
                 path{
-                    fill: var(--formgent-color-white);
+                    stroke: var(--formgent-color-primary);
                 }
             }
         }
+    }
+    .formgent-btn-bulk-status{
         svg{
-            margin-right: 5px;
+            path{
+                fill: var(--formgent-color-gray-500);
+                stroke: none;
+            }
+        }
+        &:hover{
+            svg{
+                path{
+                    fill: var(--formgent-color-primary);
+                    stroke: none;
+                }
+            }
         }
     }
     .formgent-clear-bulk{
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 500;
         display: inline-block;
         margin-left: 20px;
-        color: #C96C00;
+        color: var(--formgent-color-info);
+        transition: 0.3s ease;
+        &:hover{
+            color: var(--formgent-color-primary);
+        }
+    }
+    .formgent-bulk-selection__text{
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--formgent-color-gray-600);
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: var(--formgent-color-gray-100);
+    }
+    .formgent-form-bulk-action__more{
+        margin-left: 16px;
+        position: relative;
+        .formgent-form-bulk-action__dropdown{
+            position: absolute;
+            left: 7px;
+            top: 100%;
+            border: 1px solid #ecedee;
+            background: #fff;
+            min-width: 140px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            list-style: none;
+            margin: 0;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 999;
+            li{
+                margin: 0;
+                padding: 0;
+
+            }
+            a{
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 14px;
+                font-weight: 500;
+                color: var(--formgent-color-gray);
+                padding: 12px 20px;
+                transition: var(--formgent-transition);
+                &:hover{
+                    background: var(--formgent-color-bg-light);
+                }
+            }
+        }
     }
 `;
 
