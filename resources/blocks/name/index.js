@@ -69,16 +69,6 @@ const controls = {
 					left: '10px',
 				},
 			},
-			repeater: {
-				type: 'repeater',
-				label: __( 'Options', 'formgent' ),
-				fields: [
-					{
-						title: 'Option 1',
-						content: 'Option 1 content',
-					},
-				],
-			},
 			toggle_group: {
 				type: 'toggle_group',
 				label: __( 'Toggle Group', 'formgent' ),
@@ -100,6 +90,40 @@ const controls = {
 						value: 'justify',
 					},
 				],
+			},
+			repeater: {
+				type: 'repeater',
+				label: __( 'Repeater fields', 'formgent' ),
+				label_key: 'full_name',
+				add_button_text: 'Add Option',
+				fields: {
+					full_name: {
+						type: 'text',
+						label: __( 'Text', 'formgent' ),
+					},
+					enable_notification: {
+						type: 'switch',
+						label: __( 'Switch', 'formgent' ),
+					},
+					re_entry: {
+						type: 'checkbox',
+						label: __( 'Checkbox', 'formgent' ),
+					},
+					select_option: {
+						type: 'select',
+						label: __( 'Select', 'formgent' ),
+						options: [
+							{
+								label: __( 'Cookie', 'formgent' ),
+								value: 'cookie',
+							},
+							{
+								label: __( 'Expect', 'formgent' ),
+								value: 'expect',
+							},
+						],
+					},
+				},
 			},
 		},
 	},

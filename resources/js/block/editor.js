@@ -85,7 +85,7 @@ registerBlockType( 'formgent/form', {
 	save: ( { attributes } ) => {
 		return (
 			<div
-				className="formgent formgent-block"
+				className="formgent formgent/form"
 				data-form_id={ attributes.formId }
 			/>
 		);

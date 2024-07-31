@@ -21,8 +21,8 @@ module.exports = [
 	{
 		...defaultConfig[ 0 ],
 		entry: {
-			'js/frontend/FormSubmission/index':
-				'./resources/js/frontend/pages/FormSubmission/index.js',
+			// 'js/frontend/FormSubmission/index':
+			// 	'./resources/js/frontend/pages/FormSubmission/index.js',
 			'js/notification': './resources/js/components/Notification.js',
 			'css/notification': './resources/js/components/notification.scss',
 			'js/block/editor': './resources/js/block/editor.js',
