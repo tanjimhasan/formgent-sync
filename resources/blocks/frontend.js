@@ -23,7 +23,7 @@ store( 'formgent/form', {
 			const context = getContext();
 			const element = getElement();
 
-			const formData = [];
+			const formData = {};
 
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
