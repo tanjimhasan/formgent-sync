@@ -7,7 +7,7 @@
     "start": "wp-scripts start --experimental-modules",
     "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
-    "minify": "wp-scripts build",
+    "minify": "wp-scripts build  --experimental-modules",
     "compress": "webpack --config tools/webpack.compress.js",
     "git-compress": "webpack --config tools/webpack.compress.git.js",
     "fixtextdomain": "grunt fixtextdomain",

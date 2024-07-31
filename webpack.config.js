@@ -40,10 +40,10 @@ module.exports = [
 			'css/blocks-editor': './resources/blocks/editor.scss',
 		},
 		output: {
+			...defaultConfig[ 0 ].output,
 			path: path.resolve( __dirname, './assets/build/' ),
 			filename: '[name].js',
 			chunkFilename: '[name].js?ver=' + chunkUniqueKey,
-			clean: false,
 		},
 		plugins: [
 			...defaultConfig[ 0 ].plugins.reduce( ( acc, plugin ) => {
@@ -100,16 +100,11 @@ module.exports = [
 		entry: {
 			'js/blocks-frontend': './resources/blocks/frontend.js',
 		},
-		devtool: 'source-map',
 		output: {
+			...defaultConfig[ 1 ].output,
 			path: path.resolve( __dirname, './assets/build/' ),
 			filename: '[name].js',
 			chunkFilename: '[name].js?ver=' + chunkUniqueKey,
-			clean: false,
-			module: true,
-		},
-		experiments: {
-			outputModule: true,
 		},
 	},
 ];

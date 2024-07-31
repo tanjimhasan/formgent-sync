@@ -49,6 +49,7 @@ const buildFiles = [
 	'enqueues',
 	'languages',
 	'resources/views',
+	[ 'resources/blocks/**/*.php', 'resources/blocks' ],
 	'routes',
 	'vendor',
 	'readme.txt',
@@ -68,6 +69,7 @@ const buildIgnoreFiles = [
 	'**/.*',
 	'**/build/*.txt',
 	'**/*.map',
+	'**/build/css/*-rtl.css',
 	'**/*.config',
 	'**/*.config.js',
 	'**/package.json',
@@ -85,6 +87,7 @@ const buildIgnoreFiles = [
 	'**/LICENSE',
 	'**/Installable',
 	'**/tests',
+	'**/composer/installed.json',
 ].map( ( file_path ) => `${ dist }/zip/${ pluginRootFile }/${ file_path }` );
 
 module.exports = {
