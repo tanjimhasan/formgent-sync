@@ -8,7 +8,7 @@
         class="formgent-form-field__element"
         col="8"
         rows="5"
-        data-wp-interactive="formgent-block"
+        data-wp-interactive="formgent/form"
         data-wp-on--input="actions.updateInput"
-        data-wp-bind--value="context.<?php echo esc_attr( $attributes['name'] ); ?>"></textarea>
+        data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"></textarea>
 </div>
