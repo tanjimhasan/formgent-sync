@@ -41,8 +41,6 @@ export const SingleFormResolvers = {
 				formID
 			);
 
-			console.log( 'getSingleFormResponse data', data );
-
 			yield SingleFormActions.storeResponse( {
 				responses: data.responses,
 				pagination: data.pagination,
@@ -61,15 +59,13 @@ export const SingleFormResolvers = {
 				formID
 			);
 
-			console.log( 'getSingleFormFields data', data );
-
 			yield SingleFormActions.storeResponse( {
 				fields: data.fields,
 				selected_fields: data.selected_fields,
 			} );
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		} catch ( error ) {
-			console.log( 'getSingleFormFields error' );
+			console.error( 'getSingleFormFields error', error );
 			yield SingleFormActions.fetchSingleFormError( error );
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}

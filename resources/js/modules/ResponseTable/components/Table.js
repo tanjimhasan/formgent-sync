@@ -1,8 +1,9 @@
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
 import patchData from '@formgent/helper/patchData';
+import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import TableHeader from './TableHeader';
 import { TableStyle } from './style';
@@ -25,12 +26,15 @@ export default function Table() {
 	const [ totalCompletedItems, setTotalCompletedItems ] = useState( null );
 	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
+	const [ responseModal, setResponseModal ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
-	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
+	const [ visibleColumns, setVisibleColumns ] = useState( [] );
+	const [ fieldColumnHide, setFieldColumnHide ] = useState( [] );
+	const [ responseFields, setResponseFields ] = useState( [] );
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -48,6 +52,7 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	// handleSelectItems
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
 			all: () => responses,
@@ -66,6 +71,7 @@ export default function Table() {
 		setFilteredData( selectedData );
 	}
 
+	// handleSortby
 	function handleSortby( item, dropdownId ) {
 		const { key } = item;
 		const sortFunctions = {
@@ -82,13 +88,14 @@ export default function Table() {
 						new Date( a[ dropdownId ] )
 				),
 			freeze: () => {
-				console.log( 'Freeze Column', item );
-				// freezeColumn(dropdownId)
-				setFrozenColumns( [ ...frozenColumns, dropdownId ] );
+				setFrozenColumns( ( prevFrozenColumns ) => {
+					return [ ...prevFrozenColumns, dropdownId ];
+				} );
 			},
 			hide: () => {
-				console.log( 'Hide Column', item, dropdownId, hiddenColumns );
-				setHiddenColumns( [ ...hiddenColumns, dropdownId ] );
+				setHiddenColumns( ( prevHiddenColumns ) => {
+					return [ ...prevHiddenColumns, dropdownId ];
+				} );
 			},
 		};
 
@@ -103,6 +110,7 @@ export default function Table() {
 		}
 	}
 
+	// handleStarred
 	async function handleStarred( id, isStarredStatus ) {
 		const reverseStarredStatus = isStarredStatus ? 0 : 1;
 		const updateStarredStatus = await patchData(
@@ -117,6 +125,13 @@ export default function Table() {
 		}
 	}
 
+	// handleResponseModal
+	function handleResponseModal( id ) {
+		console.log( 'handleResponseModal', id );
+		setResponseModal( true );
+	}
+
+	// Date Format
 	const dateFormatOptions = {
 		year: 'numeric',
 		month: 'long',
@@ -148,11 +163,6 @@ export default function Table() {
 			return partialItems;
 		}
 		return [];
-	}
-
-	// Response Column Data
-	function handleColumnChange() {
-		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}
 
 	// Select Items Data
@@ -328,6 +338,13 @@ export default function Table() {
 							record.created_at,
 							dateFormatOptions
 						) }
+						<button
+							onClick={ () => {
+								handleResponseModal( record.id );
+							} }
+						>
+							View
+						</button>
 					</div>
 				);
 			},
@@ -494,7 +511,7 @@ export default function Table() {
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 
-	function handleTableChange( pagination ) {
+	function handleTableChange() {
 		console.log( 'Table Changed', responses, pagination, isLoading );
 		updateCurrentResponsePage( pagination?.current );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
@@ -510,7 +527,7 @@ export default function Table() {
 	}, [ responses, activeTab ] );
 
 	useEffect( () => {
-		const newColumns = defaultColumns.map( ( col ) => {
+		const newColumns = customColumns.map( ( col ) => {
 			return {
 				...col,
 				hidden: hiddenColumns.includes( col.key ),
@@ -518,8 +535,6 @@ export default function Table() {
 		} );
 
 		setCustomColumns( newColumns );
-
-		console.log( 'hide customColumns : ', hiddenColumns, newColumns );
 	}, [ hiddenColumns ] );
 
 	useEffect( () => {
@@ -533,23 +548,15 @@ export default function Table() {
 		} );
 
 		setCustomColumns( newColumns );
-
-		console.log( 'freeze customColumns : ', frozenColumns, newColumns );
 	}, [ frozenColumns ] );
 
 	useEffect( () => {
-		handleColumnChange();
+		setResponseFields( fields );
+		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}, [ fields ] );
-
-	useEffect( () => {
-		handleTableChange();
-		setCustomColumns( defaultColumns );
-	}, [] );
 
 	// Generate Column
 	const generateCustomColumns = ( selectedFields, responses, fields ) => {
-		console.log( 'selectedFields', selectedFields, responses, fields );
-
 		return ( selectedFields || [] ).map( ( fieldId ) => {
 			const field = fields?.find( ( f ) => f.id === fieldId );
 			const title = field ? field.label : `Field ${ fieldId }`;
@@ -587,7 +594,7 @@ export default function Table() {
 						( r ) => r.id === record.id
 					);
 					if ( response ) {
-						const answer = response.answers.find(
+						const answer = response.answers?.find(
 							( a ) => a.field_id === fieldId
 						);
 						if ( answer ) {
@@ -599,6 +606,28 @@ export default function Table() {
 			};
 		} );
 	};
+
+	const isInitialRender = useRef( true );
+
+	// Handle Show/Hide Column
+	async function handleColumn() {
+		if ( ! fieldColumnHide ) {
+			const updateColumn = await postData( 'admin/responses/fields', {
+				form_id: id,
+				field_ids: visibleColumns,
+			} );
+
+			if ( updateColumn ) {
+				resolveSelect( 'formgent' ).getSingleFormFields(
+					parseInt( id ),
+					visibleColumns
+				);
+			}
+		} else {
+			setHiddenColumns( [ ...hiddenColumns, fieldColumnHide ] );
+		}
+	}
+
 	useEffect( () => {
 		setFilteredData( responses );
 		const generatedColumns = generateCustomColumns(
@@ -610,6 +639,23 @@ export default function Table() {
 
 		setCustomColumns( allColumns );
 	}, [ selected_fields, responses ] );
+
+	useEffect( () => {
+		setVisibleColumns( selected_fields );
+	}, [ selected_fields ] );
+
+	useEffect( () => {
+		if ( isInitialRender.current ) {
+			isInitialRender.current = false;
+		} else {
+			handleColumn();
+		}
+	}, [ visibleColumns ] );
+
+	useEffect( () => {
+		handleTableChange();
+		setCustomColumns( defaultColumns );
+	}, [] );
 
 	return (
 		<TableStyle>
@@ -623,6 +669,11 @@ export default function Table() {
 					totalPartialItems={ totalPartialItems }
 					activeTab={ activeTab }
 					setActiveTab={ setActiveTab }
+					visibleColumns={ visibleColumns }
+					setVisibleColumns={ setVisibleColumns }
+					responseFields={ responseFields }
+					setResponseFields={ setResponseFields }
+					setFieldColumnHide={ setFieldColumnHide }
 				/>
 
 				<AntTable
@@ -649,6 +700,42 @@ export default function Table() {
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>
+			{ responseModal && (
+				<div id="myModal" className="modal">
+					<div className="modal-content">
+						<span className="close">&times;</span>
+						<div className="tags">
+							<strong>Tags:</strong>
+							<span className="tag">Tag one</span>
+							<span className="tag">Tag two</span>
+							<button>Add tag</button>
+						</div>
+						<div className="question">
+							<p>
+								<strong>Show question title here</strong>
+							</p>
+							<p>
+								Lorem ipsum dolor sit amet consectetur.
+								Suspendisse morbi mattis gravida aliquet nunc
+								suscipit aliquam. Turpis sed id elementum
+								auctor.
+							</p>
+						</div>
+						<div className="answers">
+							<p>Select multiple answers</p>
+							<button>Option 1</button>
+							<button>Option 2</button>
+							<p>Select your answers</p>
+							<button>Yes</button>
+						</div>
+						<div className="submission-note">
+							<p>Submission note</p>
+							<textarea placeholder="You can create your note here..."></textarea>
+							<button>Save note</button>
+						</div>
+					</div>
+				</div>
+			) }
 		</TableStyle>
 	);
 }

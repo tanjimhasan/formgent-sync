@@ -10,8 +10,6 @@ import {
 	AntInput,
 	AntTabs,
 } from '@formgent/components';
-import postData from '@formgent/helper/postData';
-import { resolveSelect, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
@@ -40,19 +38,13 @@ export default function TableHeader( props ) {
 		totalPartialItems,
 		activeTab,
 		setActiveTab,
+		visibleColumns,
+		setVisibleColumns,
+		setFieldColumnHide,
+		responseFields,
 	} = props;
 
-	const [ columnCheckedItems, setColumnCheckedItems ] = useState( {} );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
-	const [ responseFields, setResponseFields ] = useState( [] );
-	const [ formResponse, setFormResponse ] = useState( [] );
-
-	// Retrieve from the store
-	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleFormState();
-	}, [] );
-
-	const { fields, selected_fields } = SingleFormReducer;
 
 	const csvLinkRef = useRef();
 
@@ -125,15 +117,15 @@ export default function TableHeader( props ) {
 
 	// Handle column checkbox change
 	function handleColumnCheckbox( e, id ) {
-		setColumnCheckedItems( ( prevState ) => {
+		setVisibleColumns( ( prevState ) => {
 			if ( e.target.checked ) {
+				setFieldColumnHide( false );
 				return [ ...prevState, id ];
 			} else {
+				setFieldColumnHide( id );
 				return prevState.filter( ( item ) => item !== id );
 			}
 		} );
-
-		handleColumn();
 	}
 
 	// Handle Bulk Selection
@@ -201,37 +193,12 @@ export default function TableHeader( props ) {
 		},
 	];
 
-	async function handleColumn() {
-		const updateColumn = await postData( 'admin/responses/fields', {
-			form_id: id,
-			field_ids: columnCheckedItems,
-		} );
-		if ( updateColumn ) {
-			resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
-			console.log( 'updateColumn : ', updateColumn, id );
-		}
-	}
-
 	// Export CSV Data
 	useEffect( () => {
 		if ( csvExportData.length ) {
 			csvLinkRef.current?.link.click();
 		}
 	}, [ csvExportData ] );
-
-	useEffect( () => {
-		setResponseFields( fields );
-		console.log( 'fields header', fields );
-	}, [ fields ] );
-
-	useEffect( () => {
-		setColumnCheckedItems( selected_fields );
-		console.log( 'selected_fields header', fields, selected_fields );
-	}, [ selected_fields ] );
-
-	useEffect( () => {
-		console.log( 'columnCheckedItems: ', columnCheckedItems, id );
-	}, [ columnCheckedItems ] );
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">
@@ -359,7 +326,7 @@ export default function TableHeader( props ) {
 									return (
 										<AntCheckbox
 											key={ index }
-											checked={ columnCheckedItems.includes(
+											checked={ visibleColumns.includes(
 												field.id
 											) }
 											onChange={ ( e ) =>
