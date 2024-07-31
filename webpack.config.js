@@ -1,6 +1,11 @@
 const path = require( 'path' );
+const fs = require( 'fs-extra' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const I18nLoaderWebpackPlugin = require( '@automattic/i18n-loader-webpack-plugin' );
+
+// removing old build files
+fs.removeSync( path.resolve( __dirname, './assets/build/' ) );
 
 /**
  * Given a string, returns a new string with dash separators converted to
@@ -38,6 +43,13 @@ module.exports = [
 			'js/blocks-editor': './resources/blocks/editor.js',
 			'css/blocks-frontend': './resources/blocks/frontend.scss',
 			'css/blocks-editor': './resources/blocks/editor.scss',
+			'js/i18n-loader': {
+				import: './resources/js/i18n-loader.js',
+				library: {
+					name: [ 'wp', 'formgent18nLoader' ],
+					type: 'window',
+				},
+			},
 		},
 		output: {
 			...defaultConfig[ 0 ].output,
@@ -59,6 +71,10 @@ module.exports = [
 				}
 				return acc;
 			}, [] ),
+			new I18nLoaderWebpackPlugin( {
+				textdomain: 'formgent',
+				loaderModule: 'formgent/i18n',
+			} ),
 			new DependencyExtractionWebpackPlugin( {
 				requestToExternal( request ) {
 					if (
