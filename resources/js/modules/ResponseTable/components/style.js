@@ -106,58 +106,35 @@ const TableStyle = Styled.div`
         }
     }
 
-    /* Basic styling for the modal */
-    .modal {
-        display: none; 
-        position: fixed; 
-        z-index: 1; 
-        left: 0;
-        top: 0;
-        width: 100%; 
-        height: 100%; 
-        overflow: auto; 
-        background-color: rgb(0,0,0); 
-        background-color: rgba(0,0,0,0.4); 
-        padding-top: 60px;
+    .formgent-form-date {
+        &:hover {
+            .response-table__modal__open {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
     }
-    
-    .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto; 
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%; 
-    }
-    
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
+
+    .response-table__modal__open {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+        padding: 5px 10px;
+        height: 30px;
+        margin: 0;
+        color: var(--formgent-color-white);
+        background: var(--formgent-color-gray);
+        border: none;
+        border-radius: 4px;
         cursor: pointer;
-    }
-    
-    .tags, .answers, .submission-note {
-        margin-bottom: 20px;
-    }
-
-    .tag {
-        background-color: #e0e0e0;
-        padding: 5px;
-        border-radius: 5px;
-        display: inline-block;
-        margin-right: 5px;
-    }
-
-    .submission-note textarea {
-        width: 100%;
-        height: 50px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all ease .3s;
     }
 `;
 
@@ -407,18 +384,18 @@ const TableTabStyle = Styled.div`
 `;
 const ModalStyle = Styled.div`
     width: 500px;
+    height: 100%;
     position: absolute;
     top: 0;
-    right: 0;
+    right: -15px;
     z-index: 1;
-    padding: 10px 15px;
     background: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     .response-table__modal__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
+        padding: 15px 20px;
         border-bottom: 1px solid var(--formgent-color-border-light);
     }
     .response-table__modal__header__response {
@@ -430,7 +407,11 @@ const ModalStyle = Styled.div`
             gap: 10px;
             align-items: center;
             .response-table__modal__header__response__btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 height: 40px;
+                width: 40px;
                 font-size: 14px;
                 font-weight: 600;
                 padding: 0 10px;
@@ -444,9 +425,9 @@ const ModalStyle = Styled.div`
                 cursor: pointer;
                 transition: all ease .3s;
                 &:hover {
-                    color: var(--formgent-color-white) !important;
-                    background: var(--formgent-color-light-gray) !important;
-                    border-color: var(--formgent-color-light-gray) !important;
+                    color: var(--formgent-color-white);
+                    background: var(--formgent-color-dark);
+                    border-color: var(--formgent-color-light-gray);
                 }
             }
         }
@@ -470,24 +451,27 @@ const ModalStyle = Styled.div`
             cursor: pointer;
             transition: all ease .3s;
             &:hover {
-                color: var(--formgent-color-white) !important;
-                background: var(--formgent-color-light-gray) !important;
-                border-color: var(--formgent-color-light-gray) !important;
+                color: var(--formgent-color-white);
+                background: var(--formgent-color-light-gray);
+                border-color: var(--formgent-color-light-gray);
             }
         }
         .response-table__modal__close {
             height: 40px;
             padding: 0 10px;
-            background-color: transparent;
+            background: var(--formgent-color-bg-general);
             border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all ease .3s;
             &:hover {
-                color: var(--formgent-color-danger)
+                color: var(--formgent-color-white);
+                background: var(--formgent-color-danger);
             }
         }
     }
     .response-table__modal__content {
-        padding: 30px 0 0;
+        padding: 20px;
     }
     .response-table__modal__tab__content {
         padding: 30px 0 0;
@@ -549,7 +533,12 @@ const ModalStyle = Styled.div`
         gap: 10px;
         padding: 20px 0;
         .response-table__modal__tab__item__icon {
-            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 40px;
+            min-width: 40px;
             border-radius: 8px;
             background-color: var(--formgent-color-bg-light);
         }
@@ -572,11 +561,16 @@ const ModalStyle = Styled.div`
             margin: 0;
         }
         .response-table__modal__tab__item__add {
+            display: flex;
+            align-items: center;
             background: transparent;
             border: none;
             margin: 0;
             padding: 0;
             cursor: pointer;
+            &:hover {
+                color: var(--formgent-color-primary);
+            }
         }
         .response-table__modal__tab__item__btns {
             display: flex;
@@ -587,14 +581,14 @@ const ModalStyle = Styled.div`
                 padding: 5px 10px;
                 margin: 0;
                 background: var(--formgent-color-bg-light);
-                border: 1px solid var(--formgent-color-bg-light) !important;
+                border: 1px solid var(--formgent-color-bg-light);
                 border-radius: 8px;
                 cursor: pointer;
                 transition: all ease .3s;
                 &:hover {
-                    color: var(--formgent-color-white) !important;
-                    background: var(--formgent-color-light-gray) !important;
-                    border-color: var(--formgent-color-light-gray) !important;
+                    color: var(--formgent-color-white);
+                    background: var(--formgent-color-light-gray);
+                    border-color: var(--formgent-color-light-gray);
                 }
             }
         }
@@ -602,6 +596,7 @@ const ModalStyle = Styled.div`
     .response-table__modal__tab__tag {
         display: flex;
         gap: 6px;
+        align-items: center;
         margin: 0;
         .response-table__modal__tab__tag__item {
             display: flex;
@@ -610,13 +605,20 @@ const ModalStyle = Styled.div`
             padding: 5px 10px;
             margin: 0;
             border-radius: 8px;
+            box-sizing: border-box;
             background-color: var(--formgent-color-bg-light);
             .response-table__modal__tab__tag__item__single__close {
+                display: flex;
+                align-items: center;
                 font-size: 12px;
                 color: var(--formgent-color-dark);
                 background: transparent;
                 border: none;
                 cursor: pointer;
+                transition: all ease .3s;
+                &:hover {
+                    color: var(--formgent-color-danger);
+                }
             }
         }
     }
@@ -637,8 +639,11 @@ const ModalStyle = Styled.div`
             margin: 0;
         }
         .response-table__modal__tab__submission__add {
+            display: flex;
+            gap: 6px;
+            align-items: center;
             font-size: 12px;
-            padding: 5px 10px;
+            padding: 8px 15px;
             margin: 0;
             color: var(--formgent-color-white);
             background: var(--formgent-color-gray);
@@ -647,7 +652,7 @@ const ModalStyle = Styled.div`
             cursor: pointer;
             transition: all ease .3s;
             &:hover {
-                background: var(--formgent-color-dark) !important;
+                background: var(--formgent-color-dark);
             }
         }
         .response-table__modal__tab__submission__content {
@@ -672,7 +677,8 @@ const ModalStyle = Styled.div`
                 width: 100%;
                 height: 200px;
                 padding: 15px;
-                border: 1px solid var(--formgent-color-border-light);
+                border: none;
+                border-radius: 10px;
             }
             .response-table__modal__tab__submission__save {
                 font-size: 12px;
@@ -685,7 +691,7 @@ const ModalStyle = Styled.div`
                 cursor: pointer;
                 transition: all ease .3s;
                 &:hover {
-                    background: var(--formgent-color-dark) !important;
+                    background: var(--formgent-color-dark);
                 }
             }
         }

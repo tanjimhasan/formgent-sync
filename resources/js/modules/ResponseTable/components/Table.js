@@ -9,16 +9,25 @@ import TableHeader from './TableHeader';
 import { ModalStyle, TableStyle } from './style';
 
 // Icon
+import arrowLeftIcon from '@icon/arrow-left.svg';
+import arrowRightIcon from '@icon/arrow-right.svg';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
 import calendarIcon from '@icon/calendar.svg';
+import closeIcon from '@icon/close.svg';
+import downloadIcon from '@icon/download.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
+import expandIcon from '@icon/expand.svg';
 import hideIcon from '@icon/eye-off.svg';
 import gridIcon from '@icon/grid.svg';
 import mailOpenIcon from '@icon/mail-open.svg';
 import mailIcon from '@icon/mail.svg';
 import pinIcon from '@icon/pin.svg';
+import plusIcon from '@icon/plus.svg';
+import printIcon from '@icon/print.svg';
 import starIcon from '@icon/star.svg';
+import tagIcon from '@icon/tag.svg';
+import transformIcon from '@icon/transform.svg';
 import userIcon from '@icon/user.svg';
 
 export default function Table() {
@@ -27,6 +36,8 @@ export default function Table() {
 	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ activeModalTab, setActiveModalTab ] = useState( 'answers' );
+	const [ enableSubmissionInput, setEnableSubmissionInput ] =
+		useState( false );
 	const [ responseModal, setResponseModal ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
@@ -53,6 +64,7 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	// Modal Tab Items
 	const modalTabItems = [
 		{
 			key: 'answers',
@@ -356,6 +368,11 @@ export default function Table() {
 								handleResponseModal( record.id );
 							} }
 						>
+							<ReactSVG
+								width="12"
+								height="12"
+								src={ expandIcon }
+							/>
 							View
 						</button>
 					</div>
@@ -724,17 +741,29 @@ export default function Table() {
 						<div className="response-table__modal__header__response">
 							<div className="response-table__modal__header__response__btns">
 								<button className="response-table__modal__header__response__btn">
-									Prev
+									<ReactSVG
+										width="14"
+										height="14"
+										src={ arrowLeftIcon }
+									/>
 								</button>
 								<button className="response-table__modal__header__response__btn">
-									Next
+									<ReactSVG
+										width="14"
+										height="14"
+										src={ arrowRightIcon }
+									/>
 								</button>
 							</div>
 							<span className="">1 of 4 Responses</span>
 						</div>
 						<div className="response-table__modal__header__action">
 							<button className="response-table__modal__header__action__btn">
-								Download
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ downloadIcon }
+								/>
 							</button>
 							<div className="response-table__modal__header__dropdown">
 								<AntDropdown
@@ -764,7 +793,11 @@ export default function Table() {
 									setResponseModal( false );
 								} }
 							>
-								x
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ closeIcon }
+								/>
 							</button>
 						</div>
 					</div>
@@ -778,12 +811,13 @@ export default function Table() {
 							{ activeModalTab === 'answers' && (
 								<div className="response-table__modal__tab__content">
 									<div className="response-table__modal__tab__item">
-										<ReactSVG
-											width="14"
-											height="14"
-											src={ gridIcon }
-											className="response-table__modal__tab__item__icon"
-										/>
+										<div className="response-table__modal__tab__item__icon">
+											<ReactSVG
+												width="14"
+												height="14"
+												src={ tagIcon }
+											/>
+										</div>
 										<h5 className="response-table__modal__tab__item__title">
 											Tags:
 										</h5>
@@ -801,7 +835,11 @@ export default function Table() {
 													Tag two
 												</span>
 												<button className="response-table__modal__tab__tag__item__single__close">
-													x
+													<ReactSVG
+														width="14"
+														height="14"
+														src={ closeIcon }
+													/>
 												</button>
 											</li>
 										</ul>
@@ -812,12 +850,13 @@ export default function Table() {
 									</div>
 									<div className="response-table__modal__tab__wrapper">
 										<div className="response-table__modal__tab__item">
-											<ReactSVG
-												width="14"
-												height="14"
-												src={ gridIcon }
-												className="response-table__modal__tab__item__icon"
-											/>
+											<div className="response-table__modal__tab__item__icon">
+												<ReactSVG
+													width="14"
+													height="14"
+													src={ transformIcon }
+												/>
+											</div>
 											<div className="response-table__modal__tab__item__content">
 												<h5 className="response-table__modal__tab__item__title">
 													Show question title here
@@ -833,12 +872,13 @@ export default function Table() {
 											</div>
 										</div>
 										<div className="response-table__modal__tab__item">
-											<ReactSVG
-												width="14"
-												height="14"
-												src={ gridIcon }
-												className="response-table__modal__tab__item__icon"
-											/>
+											<div className="response-table__modal__tab__item__icon">
+												<ReactSVG
+													width="14"
+													height="14"
+													src={ printIcon }
+												/>
+											</div>
 											<div className="response-table__modal__tab__item__content">
 												<h5 className="response-table__modal__tab__item__title">
 													Select multiple answers
@@ -854,12 +894,13 @@ export default function Table() {
 											</div>
 										</div>
 										<div className="response-table__modal__tab__item">
-											<ReactSVG
-												width="14"
-												height="14"
-												src={ gridIcon }
-												className="response-table__modal__tab__item__icon"
-											/>
+											<div className="response-table__modal__tab__item__icon">
+												<ReactSVG
+													width="14"
+													height="14"
+													src={ printIcon }
+												/>
+											</div>
 											<div className="response-table__modal__tab__item__content">
 												<h5 className="response-table__modal__tab__item__title">
 													Select your answers
@@ -877,47 +918,62 @@ export default function Table() {
 											<h4 className="response-table__modal__tab__submission__title">
 												Submission Note
 											</h4>
-											<button className="response-table__modal__tab__submission__add">
+											<button
+												className="response-table__modal__tab__submission__add"
+												onClick={ () => {
+													setEnableSubmissionInput(
+														! enableSubmissionInput
+													);
+												} }
+											>
+												<ReactSVG
+													width="14"
+													height="14"
+													src={ plusIcon }
+												/>
 												Add Note
 											</button>
 										</div>
-										<div className="response-table__modal__tab__submission__content">
-											<div className="response-table__modal__tab__submission__content__single">
-												<span className="response-table__modal__tab__submission__content__published-date">
-													Sat, Jun 22, 1:18 PM
-												</span>
-												<p className="response-table__modal__tab__submission__content__text">
-													Lorem ipsum dolor sit amet
-													consectetur. Suspendisse
-													morbi mattis gravida aliquet
-													nunc suscipit aliquam.
-													Turpis sed id elementum
-													auctor.
-												</p>
+										{ enableSubmissionInput ? (
+											<div className="response-table__modal__tab__submission__note">
+												<textarea
+													placeholder="You can create your note here..."
+													className="response-table__modal__tab__submission__input"
+												/>
+												<button className="response-table__modal__tab__submission__save">
+													Save note
+												</button>
 											</div>
-											<div className="response-table__modal__tab__submission__content__single">
-												<span className="response-table__modal__tab__submission__content__published-date">
-													Sat, Jun 22, 1:18 PM
-												</span>
-												<p className="response-table__modal__tab__submission__content__text">
-													Lorem ipsum dolor sit amet
-													consectetur. Suspendisse
-													morbi mattis gravida aliquet
-													nunc suscipit aliquam.
-													Turpis sed id elementum
-													auctor.
-												</p>
+										) : (
+											<div className="response-table__modal__tab__submission__content">
+												<div className="response-table__modal__tab__submission__content__single">
+													<span className="response-table__modal__tab__submission__content__published-date">
+														Sat, Jun 22, 1:18 PM
+													</span>
+													<p className="response-table__modal__tab__submission__content__text">
+														Lorem ipsum dolor sit
+														amet consectetur.
+														Suspendisse morbi mattis
+														gravida aliquet nunc
+														suscipit aliquam. Turpis
+														sed id elementum auctor.
+													</p>
+												</div>
+												<div className="response-table__modal__tab__submission__content__single">
+													<span className="response-table__modal__tab__submission__content__published-date">
+														Sat, Jun 22, 1:18 PM
+													</span>
+													<p className="response-table__modal__tab__submission__content__text">
+														Lorem ipsum dolor sit
+														amet consectetur.
+														Suspendisse morbi mattis
+														gravida aliquet nunc
+														suscipit aliquam. Turpis
+														sed id elementum auctor.
+													</p>
+												</div>
 											</div>
-										</div>
-										<div className="response-table__modal__tab__submission__note">
-											<textarea
-												placeholder="You can create your note here..."
-												className="response-table__modal__tab__submission__input"
-											/>
-											<button className="response-table__modal__tab__submission__save">
-												Save note
-											</button>
-										</div>
+										) }
 									</div>
 								</div>
 							) }
