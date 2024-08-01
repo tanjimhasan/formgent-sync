@@ -26,7 +26,7 @@ class BlockServiceProvider implements Provider {
             );
 
             register_block_type(
-                formgent_dir( "assets/build/blocks{$name}/block.json" ), [
+                formgent_dir( "assets/build{$name}/block.json" ), [
                     'render_callback' => function( $attributes ) use( $name ) {
                         ob_start();
                         include formgent()->get_dir( "resources/blocks{$name}/render.php" );

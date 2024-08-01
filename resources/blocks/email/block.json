@@ -43,7 +43,7 @@
 	"supports": {
 		"interactivity": true
 	},
-	"editorScript": "formgent/blocks-editor",
-	"editorStyle": "formgent/blocks-editor",
-	"style": "formgent/blocks-frontend"
+	"editorScript": "file:index.js",
+	"style": "file:style-index.css",
+	"editorStyle": "file:index.css"
 }

@@ -22,7 +22,60 @@ function camelCaseDash( string ) {
 
 const chunkUniqueKey = Date.now().toString();
 
+const resolve = {
+	alias: {
+		'@formgent': path.resolve( __dirname, 'resources/js' ),
+		'@icon': path.resolve( __dirname, 'resources/svg/icons' ),
+		'@assets': path.resolve( __dirname, 'assets' ),
+	},
+};
+
+const plugins = [
+	...defaultConfig[ 0 ].plugins.reduce( ( acc, plugin ) => {
+		if ( plugin.constructor.name !== 'DependencyExtractionWebpackPlugin' ) {
+			acc.push( plugin );
+		}
+		return acc;
+	}, [] ),
+	new I18nLoaderWebpackPlugin( {
+		textdomain: 'formgent',
+		loaderModule: 'formgent/i18n',
+	} ),
+	new DependencyExtractionWebpackPlugin( {
+		requestToExternal( request ) {
+			if (
+				'@formgent/modules' === request ||
+				'@formgent/components' === request ||
+				'@formgent/hooks' === request ||
+				'formgent/i18n' === request
+			) {
+				return [
+					'formgent',
+					camelCaseDash( request.split( '/' )[ 1 ] ),
+				];
+			}
+		},
+		requestToHandle( request ) {
+			if (
+				'@formgent/modules' === request ||
+				'@formgent/components' === request ||
+				'@formgent/hooks' === request ||
+				'formgent/i18n' === request
+			) {
+				return `formgent/${ camelCaseDash(
+					request.split( '/' )[ 1 ]
+				) }`;
+			}
+		},
+	} ),
+];
+
 module.exports = [
+	{
+		...defaultConfig[ 0 ],
+		plugins,
+		resolve,
+	},
 	{
 		...defaultConfig[ 0 ],
 		entry: {
@@ -57,59 +110,8 @@ module.exports = [
 			filename: '[name].js',
 			chunkFilename: '[name].js?ver=' + chunkUniqueKey,
 		},
-		plugins: [
-			...defaultConfig[ 0 ].plugins.reduce( ( acc, plugin ) => {
-				if (
-					plugin.constructor.name !==
-					'DependencyExtractionWebpackPlugin'
-				) {
-					if ( plugin.constructor.name === 'CopyPlugin' ) {
-						plugin.patterns[ 0 ].context = 'resources/blocks';
-						plugin.patterns[ 0 ].to = 'blocks';
-					}
-					acc.push( plugin );
-				}
-				return acc;
-			}, [] ),
-			new I18nLoaderWebpackPlugin( {
-				textdomain: 'formgent',
-				loaderModule: 'formgent/i18n',
-			} ),
-			new DependencyExtractionWebpackPlugin( {
-				requestToExternal( request ) {
-					if (
-						'@formgent/modules' === request ||
-						'@formgent/components' === request ||
-						'@formgent/hooks' === request ||
-						'formgent/i18n' === request
-					) {
-						return [
-							'formgent',
-							camelCaseDash( request.split( '/' )[ 1 ] ),
-						];
-					}
-				},
-				requestToHandle( request ) {
-					if (
-						'@formgent/modules' === request ||
-						'@formgent/components' === request ||
-						'@formgent/hooks' === request ||
-						'formgent/i18n' === request
-					) {
-						return `formgent/${ camelCaseDash(
-							request.split( '/' )[ 1 ]
-						) }`;
-					}
-				},
-			} ),
-		],
-		resolve: {
-			alias: {
-				'@formgent': path.resolve( __dirname, 'resources/js' ),
-				'@icon': path.resolve( __dirname, 'resources/svg/icons' ),
-				'@assets': path.resolve( __dirname, 'assets' ),
-			},
-		},
+		plugins,
+		resolve,
 	},
 	{
 		...defaultConfig[ 1 ],
