@@ -43,6 +43,10 @@ const InputStyle = Styled.div`
     }
 `;
 
+const TagStyle = Styled.div`
+    
+`;
+
 const ButtonStyle = Styled.div`
     .ant-btn-dark{
         color: var(--formgent-color-white);
@@ -408,4 +412,5 @@ export {
 	ModalAlertStyle,
 	SelectStyle,
 	SubmissionFormStyle,
+	TagStyle,
 };
