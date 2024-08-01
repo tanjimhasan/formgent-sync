@@ -49,7 +49,6 @@ const buildFiles = [
 	'enqueues',
 	'languages',
 	'resources/views',
-	[ 'resources/blocks/**/*.php', 'resources/blocks' ],
 	'routes',
 	'vendor',
 	'readme.txt',
