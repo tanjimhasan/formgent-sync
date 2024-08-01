@@ -34,6 +34,7 @@ export default function TableHeader( props ) {
 		id,
 		selectedRowKeys,
 		setSelectedRowKeys,
+		handleTableChange,
 		totalCompletedItems,
 		totalPartialItems,
 		activeTab,
@@ -112,6 +113,7 @@ export default function TableHeader( props ) {
 
 	// Handle Refresh
 	function handleRefresh() {
+		handleTableChange();
 		console.log( 'Refresh clicked' );
 	}
 

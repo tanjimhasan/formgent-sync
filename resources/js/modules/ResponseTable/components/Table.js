@@ -521,9 +521,9 @@ export default function Table() {
 
 	function handleTableChange() {
 		console.log( 'Table Changed', responses, pagination, isLoading );
-		updateCurrentResponsePage( pagination?.current );
+		updateCurrentResponsePage( pagination?.current_page );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
-			pagination?.current,
+			pagination?.current_page,
 			10,
 			parseInt( id )
 		);
@@ -673,6 +673,7 @@ export default function Table() {
 					responses={ responses }
 					selectedRowKeys={ selectedRowKeys }
 					setSelectedRowKeys={ setSelectedRowKeys }
+					handleTableChange={ handleTableChange }
 					totalCompletedItems={ totalCompletedItems }
 					totalPartialItems={ totalPartialItems }
 					activeTab={ activeTab }
