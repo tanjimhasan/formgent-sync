@@ -7,7 +7,7 @@
     "start": "wp-scripts start --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
     "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
-    "minify": "wp-scripts build  --experimental-modules",
+    "minify": "wp-scripts build  --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
     "compress": "webpack --config tools/webpack.compress.js",
     "git-compress": "webpack --config tools/webpack.compress.git.js",
     "fixtextdomain": "grunt fixtextdomain",
