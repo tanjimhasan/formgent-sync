@@ -405,9 +405,332 @@ const TableTabStyle = Styled.div`
         }
     }
 `;
+const ModalStyle = Styled.div`
+    width: 500px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    padding: 10px 15px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    .response-table__modal__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid var(--formgent-color-border-light);
+    }
+    .response-table__modal__header__response {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        .response-table__modal__header__response__btns {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            .response-table__modal__header__response__btn {
+                height: 40px;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 0 10px;
+                margin: 0;
+                background-color: transparent;
+                color: var(--formgent-color-dark);
+                border: 1px solid var(--formgent-color-border-light);
+                border-radius: 8px;
+                box-shadow: none;
+                outline: none;
+                cursor: pointer;
+                transition: all ease .3s;
+                &:hover {
+                    color: var(--formgent-color-white) !important;
+                    background: var(--formgent-color-light-gray) !important;
+                    border-color: var(--formgent-color-light-gray) !important;
+                }
+            }
+        }
+    }
+    .response-table__modal__header__action {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        .response-table__modal__header__action__btn {
+            height: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0 10px;
+            margin: 0;
+            background-color: transparent;
+            color: var(--formgent-color-dark);
+            border: 1px solid var(--formgent-color-border-light);
+            border-radius: 8px;
+            box-shadow: none;
+            outline: none;
+            cursor: pointer;
+            transition: all ease .3s;
+            &:hover {
+                color: var(--formgent-color-white) !important;
+                background: var(--formgent-color-light-gray) !important;
+                border-color: var(--formgent-color-light-gray) !important;
+            }
+        }
+        .response-table__modal__close {
+            height: 40px;
+            padding: 0 10px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            &:hover {
+                color: var(--formgent-color-danger)
+            }
+        }
+    }
+    .response-table__modal__content {
+        padding: 30px 0 0;
+    }
+    .response-table__modal__tab__content {
+        padding: 30px 0 0;
+    }
+    .response-table__modal__tab {
+        .response-table__modal__tab__nav {
+            display: flex;
+            gap: 0;
+        }
+        .ant-tabs-nav {
+            margin: 0;
+            &:before {
+                display: none;
+            }
+        }
+        .ant-tabs-ink-bar {
+            display: none;
+        }
+        .ant-tabs-nav-list {
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .ant-tabs-tab {
+            padding: 0;
+            margin: 0;
+            .ant-tabs-tab-btn {
+                font-size: 14px;
+                font-weight: 600;
+                padding: 15px 20px;
+                margin: 0;
+                background-color: var(--formgent-color-bg-light);
+                color: var(--formgent-color-dark);
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                outline: none;
+                cursor: pointer;
+                transition: all ease .3s;
+            }
+            
+            &.ant-tabs-tab-active,
+            &:hover {
+                .ant-tabs-tab-btn {
+                    color: var(--formgent-color-white);
+                    background-color: var(--formgent-color-dark);
+                }
+            }
+        }
+    }
+    .response-table__modal__tab__wrapper {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .response-table__modal__tab__item {
+        display: flex;
+        gap: 10px;
+        padding: 20px 0;
+        .response-table__modal__tab__item__icon {
+            padding: 10px;
+            border-radius: 8px;
+            background-color: var(--formgent-color-bg-light);
+        }
+        .response-table__modal__tab__item__content {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+        .response-table__modal__tab__item__title {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--formgent-color-dark);
+            margin: 0;
+        }
+        .response-table__modal__tab__item__desc {
+            font-size: 14px;
+            color: var(--formgent-color-light-gray);
+            margin: 0;
+        }
+        .response-table__modal__tab__item__add {
+            background: transparent;
+            border: none;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+        .response-table__modal__tab__item__btns {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            .response-table__modal__tab__item__btn {
+                font-size: 12px;
+                padding: 5px 10px;
+                margin: 0;
+                background: var(--formgent-color-bg-light);
+                border: 1px solid var(--formgent-color-bg-light) !important;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all ease .3s;
+                &:hover {
+                    color: var(--formgent-color-white) !important;
+                    background: var(--formgent-color-light-gray) !important;
+                    border-color: var(--formgent-color-light-gray) !important;
+                }
+            }
+        }
+    }
+    .response-table__modal__tab__tag {
+        display: flex;
+        gap: 6px;
+        margin: 0;
+        .response-table__modal__tab__tag__item {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 5px 10px;
+            margin: 0;
+            border-radius: 8px;
+            background-color: var(--formgent-color-bg-light);
+            .response-table__modal__tab__tag__item__single__close {
+                font-size: 12px;
+                color: var(--formgent-color-dark);
+                background: transparent;
+                border: none;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .response-table__modal__tab__submission {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        .response-table__modal__tab__submission__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .response-table__modal__tab__submission__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--formgent-color-dark);
+            margin: 0;
+        }
+        .response-table__modal__tab__submission__add {
+            font-size: 12px;
+            padding: 5px 10px;
+            margin: 0;
+            color: var(--formgent-color-white);
+            background: var(--formgent-color-gray);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all ease .3s;
+            &:hover {
+                background: var(--formgent-color-dark) !important;
+            }
+        }
+        .response-table__modal__tab__submission__content {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            .response-table__modal__tab__submission__content__single {
+                display: flex;
+                gap: 10px;
+                flex-direction: column;
+                .response-table__modal__tab__submission__content__published-date {
+                    font-size: 12px;
+                }
+                .response-table__modal__tab__submission__content__text {
+                    font-size: 12px;
+                    margin: 0;
+                }
+            }
+        }
+        .response-table__modal__tab__submission__note {
+            .response-table__modal__tab__submission__input {
+                width: 100%;
+                height: 200px;
+                padding: 15px;
+                border: 1px solid var(--formgent-color-border-light);
+            }
+            .response-table__modal__tab__submission__save {
+                font-size: 12px;
+                padding: 5px 10px;
+                margin: 10px 0 0;
+                color: var(--formgent-color-white);
+                background: var(--formgent-color-gray);
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all ease .3s;
+                &:hover {
+                    background: var(--formgent-color-dark) !important;
+                }
+            }
+        }
+    }
+
+    .response-table__modal__tab__info {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+        .response-table__modal__tab__info__single {
+            display: flex;
+            gap: 10px;
+            .response-table__modal__tab__info__title {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--formgent-color-dark);
+                margin: 0;
+                width: 200px;
+            }
+            .response-table__modal__tab__info__value {
+                font-size: 14px;
+                color: var(--formgent-color-light-gray);
+                margin: 0;
+            }
+        }
+
+        .response-table__modal__tab__info__tag {
+            display: flex;
+            gap: 6px;
+            margin: 0;
+            padding: 3px 5px;
+            border-radius: 6px;
+            color: var(--formgent-color-dark);
+            background-color: var(--formgent-color-bg-light);
+            &.completed {
+                color: var(--formgent-color-primary);
+                background-color: var(--formgent-primary-light-button-bg);
+            }
+        }
+    }
+`;
 
 export {
 	FormDeleteAlertStyle,
+	ModalStyle,
 	TableActionStyle,
 	TableHeaderStyle,
 	TableSelectionStyle,
