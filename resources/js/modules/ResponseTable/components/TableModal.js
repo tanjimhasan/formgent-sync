@@ -19,7 +19,7 @@ import transformIcon from '@icon/transform.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableModal( props ) {
-	const { responses, setTableModal } = props;
+	const { response, setTableModal } = props;
 	const [ activeModalTab, setActiveModalTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
@@ -88,20 +88,25 @@ export default function TableModal( props ) {
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
-			all: () => responses,
-			read: () => responses?.filter( ( item ) => item.is_read === '1' ),
-			unread: () => responses?.filter( ( item ) => item.is_read === '0' ),
-			starred: () =>
-				responses?.filter( ( item ) => item.is_starred === '1' ),
-			unstarred: () =>
-				responses?.filter( ( item ) => item.is_starred === '0' ),
+			edit: () => {
+				console.log( ' Edit Response ', response );
+			},
+			star: () => {
+				console.log( ' Star Response ', response );
+			},
+			'read-unread': () => {
+				console.log( ' Read/Unread Response ', response );
+			},
+			print: () => {
+				console.log( ' Print Response ', response );
+			},
+			delete: () => {
+				console.log( ' Delete Response ', response );
+			},
 		};
 
 		// Get the sorted data based on the key
-		const selectedData = selectFunctions[ key ]
-			? selectFunctions[ key ]()
-			: responses;
-		setFilteredData( selectedData );
+		return selectFunctions[ key ] ? selectFunctions[ key ]() : null;
 	}
 
 	// Handle Modal Tab Change

@@ -128,9 +128,9 @@ export default function Table() {
 	}
 
 	// handleTableModal
-	function handleTableModal( id ) {
-		console.log( 'handleTableModal', id );
-		setTableModal( id );
+	function handleTableModal( record ) {
+		console.log( 'handleTableModal', record );
+		setTableModal( record );
 	}
 
 	// Date Format
@@ -343,7 +343,7 @@ export default function Table() {
 						<button
 							className="response-table__modal__open"
 							onClick={ () => {
-								handleTableModal( record.id );
+								handleTableModal( record );
 							} }
 						>
 							<ReactSVG
@@ -710,7 +710,7 @@ export default function Table() {
 			</AntSpin>
 			{ tableModal && (
 				<TableModal
-					responses={ responseFields }
+					response={ tableModal }
 					setTableModal={ setTableModal }
 				/>
 			) }
