@@ -31,12 +31,13 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleFormResponse( currentPage = '1', perPage = '10', formID = '1' ) {
+	*getSingleFormResponse( currentPage, perPage, formID ) {
+		console.log( 'getSingleFormResponse', currentPage, perPage, formID );
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchResponse(
 				'formgent/admin/responses',
-				currentPage,
+				currentPage || '1',
 				perPage,
 				formID
 			);

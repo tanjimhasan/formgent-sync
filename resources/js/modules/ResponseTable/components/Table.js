@@ -519,7 +519,8 @@ export default function Table() {
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 
-	function handleTableChange() {
+	function handleTableChange( pagination ) {
+		// const { current } = pagination;
 		console.log( 'Table Changed', responses, pagination, isLoading );
 		updateCurrentResponsePage( pagination?.current_page );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
@@ -700,7 +701,7 @@ export default function Table() {
 					rowKey={ ( record ) => record.id }
 					pagination={ {
 						current: pagination?.current_page,
-						pageSize: 10,
+						pageSize: 5,
 						total: pagination?.total_items,
 						showTotal: ( total, range ) =>
 							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
