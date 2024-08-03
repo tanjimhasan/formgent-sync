@@ -68,7 +68,7 @@ const CreatePopupStyle = Styled.div`
     }
 
     .formgent-createPopup__form-type{
-        margin: 25px 0 20px;
+        margin: 25px 0 5px;
         .ant-radio-group {
             background: #fff;
             padding: 6px;
