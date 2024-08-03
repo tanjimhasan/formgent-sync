@@ -2,14 +2,13 @@ import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
-import { TableModalStyle } from './style';
+import { TableDrawerStyle } from './style';
 
 // Icon
 import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
 import closeIcon from '@icon/close.svg';
 import downloadIcon from '@icon/download.svg';
-import editIcon from '@icon/edit.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import mailIcon from '@icon/mail.svg';
 import plusIcon from '@icon/plus.svg';
@@ -18,10 +17,10 @@ import starIcon from '@icon/star.svg';
 import transformIcon from '@icon/transform.svg';
 import trashIcon from '@icon/trash.svg';
 
-export default function TableModal( props ) {
+export default function TableDrawer( props ) {
 	const {
 		response,
-		setTableModal,
+		setTableDrawer,
 		handleDownload,
 		handleDelete,
 		handleStarred,
@@ -49,15 +48,6 @@ export default function TableModal( props ) {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ editIcon } />
-					Edit Response
-				</span>
-			),
-			key: 'edit',
-		},
-		{
-			label: (
-				<span className="dropdown-header-content">
 					<ReactSVG width="14" height="14" src={ starIcon } />
 					Star
 				</span>
@@ -72,15 +62,6 @@ export default function TableModal( props ) {
 				</span>
 			),
 			key: 'read-unread',
-		},
-		{
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ starIcon } />
-					print
-				</span>
-			),
-			key: 'print',
 		},
 		{
 			label: (
@@ -124,7 +105,7 @@ export default function TableModal( props ) {
 	}
 
 	return (
-		<TableModalStyle className="response-table__modal">
+		<TableDrawerStyle className="response-table__modal">
 			<div className="response-table__modal__header">
 				<div className="response-table__modal__header__response">
 					<div className="response-table__modal__header__response__btns">
@@ -190,7 +171,7 @@ export default function TableModal( props ) {
 					<button
 						className="response-table__modal__close"
 						onClick={ () => {
-							setTableModal( false );
+							setTableDrawer( false );
 						} }
 					>
 						<ReactSVG width="14" height="14" src={ closeIcon } />
@@ -402,6 +383,6 @@ export default function TableModal( props ) {
 					) }
 				</div>
 			</div>
-		</TableModalStyle>
+		</TableDrawerStyle>
 	);
 }

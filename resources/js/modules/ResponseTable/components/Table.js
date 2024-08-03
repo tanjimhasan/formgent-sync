@@ -13,8 +13,8 @@ import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
+import TableDrawer from './TableDrawer';
 import TableHeader from './TableHeader';
-import TableModal from './TableModal';
 import { TableStyle } from './style';
 
 // Icon
@@ -37,7 +37,7 @@ export default function Table() {
 	const [ totalCompletedItems, setTotalCompletedItems ] = useState( null );
 	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
-	const [ tableModal, setTableModal ] = useState( false );
+	const [ tableDrawer, setTableDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
 	const [ customColumns, setCustomColumns ] = useState( [] );
@@ -184,10 +184,10 @@ export default function Table() {
 		}
 	}
 
-	// handleTableModal
-	function handleTableModal( record ) {
-		console.log( 'handleTableModal', record );
-		setTableModal( record );
+	// handleTableDrawer
+	function handleTableDrawer( record ) {
+		console.log( 'handleTableDrawer', record );
+		setTableDrawer( record );
 	}
 
 	// Date Format
@@ -436,7 +436,7 @@ export default function Table() {
 						<button
 							className="response-table__modal__open"
 							onClick={ () => {
-								handleTableModal( record );
+								handleTableDrawer( record );
 							} }
 						>
 							<ReactSVG
@@ -698,10 +698,10 @@ export default function Table() {
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>
-			{ tableModal && (
-				<TableModal
-					response={ tableModal }
-					setTableModal={ setTableModal }
+			{ tableDrawer && (
+				<TableDrawer
+					response={ tableDrawer }
+					setTableDrawer={ setTableDrawer }
 					handleDelete={ handleDelete }
 					handleStarred={ handleStarred }
 					dateFormatOptions={ dateFormatOptions }

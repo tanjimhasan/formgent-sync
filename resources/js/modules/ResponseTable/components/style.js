@@ -382,7 +382,7 @@ const TableTabStyle = Styled.div`
         }
     }
 `;
-const TableModalStyle = Styled.div`
+const TableDrawerStyle = Styled.div`
     width: 500px;
     height: 100%;
     position: absolute;
@@ -746,8 +746,8 @@ const TableModalStyle = Styled.div`
 export {
 	FormDeleteAlertStyle,
 	TableActionStyle,
+	TableDrawerStyle,
 	TableHeaderStyle,
-	TableModalStyle,
 	TableSelectionStyle,
 	TableStyle,
 	TableTabStyle,
