@@ -532,6 +532,11 @@ const TableModalStyle = Styled.div`
         display: flex;
         gap: 10px;
         padding: 20px 0;
+        &.response-table__modal__tab__item--tag {
+            .response-table__modal__tab__item__title {
+                height: 40px;
+            }
+        }
         .response-table__modal__tab__item__icon {
             display: flex;
             align-items: center;
@@ -597,6 +602,7 @@ const TableModalStyle = Styled.div`
         display: flex;
         gap: 6px;
         align-items: center;
+        flex-wrap: wrap;
         margin: 0;
         .response-table__modal__tab__tag__item {
             display: flex;

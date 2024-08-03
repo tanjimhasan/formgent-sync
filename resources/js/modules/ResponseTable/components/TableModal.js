@@ -1,10 +1,16 @@
-import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
+import {
+	AntButton,
+	AntDropdown,
+	AntInput,
+	AntTabs,
+} from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
-import { useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { TableModalStyle } from './style';
 
 // Icon
+import AntTag from '@formgent/components/Tag';
 import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
 import closeIcon from '@icon/close.svg';
@@ -33,6 +39,52 @@ export default function TableModal( props ) {
 	const [ activeModalTab, setActiveModalTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
+	const [ tags, setTags ] = useState( [ 'Unremovable', 'Tag 2', 'Tag 3' ] );
+	const [ inputVisible, setInputVisible ] = useState( false );
+	const [ inputValue, setInputValue ] = useState( '' );
+	const [ editInputIndex, setEditInputIndex ] = useState( -1 );
+	const [ editInputValue, setEditInputValue ] = useState( '' );
+	const inputRef = useRef( null );
+	const editInputRef = useRef( null );
+
+	useEffect( () => {
+		if ( inputVisible ) {
+			inputRef.current?.focus();
+		}
+	}, [ inputVisible ] );
+
+	useEffect( () => {
+		editInputRef.current?.focus();
+	}, [ editInputValue ] );
+
+	const handleClose = ( removedTag ) => {
+		const newTags = tags.filter( ( tag ) => tag !== removedTag );
+		console.log( newTags );
+		setTags( newTags );
+	};
+	const showInput = () => {
+		setInputVisible( true );
+	};
+	const handleInputChange = ( e ) => {
+		setInputValue( e.target.value );
+	};
+	const handleInputConfirm = () => {
+		if ( inputValue && ! tags.includes( inputValue ) ) {
+			setTags( [ ...tags, inputValue ] );
+		}
+		setInputVisible( false );
+		setInputValue( '' );
+	};
+	const handleEditInputChange = ( e ) => {
+		setEditInputValue( e.target.value );
+	};
+	const handleEditInputConfirm = () => {
+		const newTags = [ ...tags ];
+		newTags[ editInputIndex ] = editInputValue;
+		setTags( newTags );
+		setEditInputIndex( -1 );
+		setEditInputValue( '' );
+	};
 
 	// Modal Tab Items
 	const modalTabItems = [
@@ -215,7 +267,7 @@ export default function TableModal( props ) {
 					/>
 					{ activeModalTab === 'answers' && (
 						<div className="response-table__modal__tab__content">
-							<div className="response-table__modal__tab__item">
+							<div className="response-table__modal__tab__item response-table__modal__tab__item--tag">
 								<div className="response-table__modal__tab__item__icon">
 									<ReactSVG
 										width="14"
@@ -226,8 +278,89 @@ export default function TableModal( props ) {
 								<h5 className="response-table__modal__tab__item__title">
 									Tags:
 								</h5>
-								<ul className="response-table__modal__tab__tag">
-									<li className="response-table__modal__tab__tag__item">
+								<div className="response-table__modal__tab__tag">
+									{ tags.map( ( tag, index ) => {
+										if ( editInputIndex === index ) {
+											return (
+												<AntInput
+													ref={ editInputRef }
+													key={ tag }
+													size="small"
+													value={ editInputValue }
+													onChange={
+														handleEditInputChange
+													}
+													onBlur={
+														handleEditInputConfirm
+													}
+													onPressEnter={
+														handleEditInputConfirm
+													}
+													className="response-table__modal__tab__tag__item"
+												/>
+											);
+										}
+										const isLongTag = tag.length > 20;
+										const tagElem = (
+											<AntTag
+												key={ tag }
+												closable
+												style={ {
+													userSelect: 'none',
+												} }
+												onClose={ () =>
+													handleClose( tag )
+												}
+												className="response-table__modal__tab__tag__item"
+											>
+												<span
+													onDoubleClick={ ( e ) => {
+														setEditInputIndex(
+															index
+														);
+														setEditInputValue(
+															tag
+														);
+														e.preventDefault();
+													} }
+												>
+													{ isLongTag
+														? `${ tag.slice(
+																0,
+																20
+														  ) }...`
+														: tag }
+												</span>
+											</AntTag>
+										);
+										return isLongTag ? (
+											<Tooltip title={ tag } key={ tag }>
+												{ tagElem }
+											</Tooltip>
+										) : (
+											tagElem
+										);
+									} ) }
+									{ inputVisible ? (
+										<AntInput
+											ref={ inputRef }
+											type="text"
+											size="small"
+											value={ inputValue }
+											onChange={ handleInputChange }
+											onBlur={ handleInputConfirm }
+											onPressEnter={ handleInputConfirm }
+											className="response-table__modal__tab__tag__item"
+										/>
+									) : (
+										<AntTag
+											className="response-table__modal__tab__item__add"
+											onClick={ showInput }
+										>
+											+ New Tag
+										</AntTag>
+									) }
+									{ /* <li className="response-table__modal__tab__tag__item">
 										<span className="response-table__modal__tab__tag__item__single">
 											Tag one
 										</span>
@@ -246,12 +379,8 @@ export default function TableModal( props ) {
 												src={ closeIcon }
 											/>
 										</button>
-									</li>
-								</ul>
-
-								<button className="response-table__modal__tab__item__add">
-									+ Add tag
-								</button>
+									</li> */ }
+								</div>
 							</div>
 							<div className="response-table__modal__tab__wrapper">
 								<div className="response-table__modal__tab__item">
