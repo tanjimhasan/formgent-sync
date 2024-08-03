@@ -364,26 +364,6 @@ a.formgent-btn-disabled {
 		}
 		.components-modal__header-heading {
 			font-family: inherit;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-		}
-		.formgent-popup-title-icon {
-			width: 48px;
-			height: 48px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border-radius: 50%;
-			background: var(--formgent-color-gray-100);
-			svg {
-				width: 24px;
-				height: 24px;
-			}
-			svg,
-			path {
-				fill: var(--formgent-color-dark);
-			}
 		}
 	}
 	.components-modal__content {
@@ -546,17 +526,15 @@ a.formgent-btn-disabled {
 			background-color: var(--formgent-color-bg-gray);
 		}
 		.components-modal__header {
-			padding: 5px 20px 5px 10px;
+			padding: 0 20px;
 			.formgent-create-modal-logo {
 				order: -1;
-				display: flex;
-				align-items: center;
 			}
 			.components-button {
 				position: static;
 				padding: 0;
-				width: 36px;
-				height: 36px;
+				width: 48px;
+				height: 48px;
 				border-radius: 50%;
 				inset-inline-end: 30px;
 				background-color: var(--formgent-color-bg-gray);

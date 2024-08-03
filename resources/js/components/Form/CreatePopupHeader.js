@@ -11,7 +11,7 @@ export default function CreatePopupHeader( props ) {
 			</span>
 			{ title && <h4>{ title }</h4> }
 			{ step === '1' ? (
-				<p>Select the type of form you want to create</p>
+				<p>Select the type of form youwant to create</p>
 			) : (
 				<p>
 					Start from scratch or you can select a template to assist

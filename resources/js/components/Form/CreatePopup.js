@@ -8,8 +8,6 @@ import Pencil from '@icon/pencil-plus.svg';
 import { __ } from '@wordpress/i18n';
 import CreatePopupAction from './CreatePopupAction.js';
 import CreatePopupHeader from './CreatePopupHeader.js';
-import CreatePopupFormType from './CreatePopupFormType.js';
-import formgentLogo from '@icon/formgent-logo.svg';
 
 function CreatePopup( props ) {
 	const [ step, setStep ] = useState( '1' );
@@ -75,7 +73,7 @@ function CreatePopup( props ) {
 					isDismissible={ ! isImportingAttachment }
 					headerActions={
 						<span className="formgent-create-modal-logo">
-							<ReactSVG src={ formgentLogo } />
+							FormGent
 						</span>
 					}
 				>
@@ -99,7 +97,7 @@ function CreatePopup( props ) {
 							title={ __( 'Create a New Form', 'formgent' ) }
 							step={ step }
 						/>
-						<CreatePopupFormType />
+
 						{ actionData.map( ( item, index ) => {
 							if ( step === item.step ) {
 								return (
