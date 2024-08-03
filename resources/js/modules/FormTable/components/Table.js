@@ -1,5 +1,5 @@
-import { useState } from '@wordpress/element';
-import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
+import { useState, useEffect } from '@wordpress/element';
+import { useDispatch, resolveSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { AntTable, AntSpin } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
@@ -15,11 +15,11 @@ import { Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import handleTextSelect from '@formgent/helper/handleTextSelect';
 import FormTableStatus from './FormTableStatus';
+import Filter from './Filter';
 
-export default function Table() {
+export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );
-
 	const [ copiedText, setCopiedText ] = useState( '' );
 	const [ isCopied, setIsCopied ] = useState( false );
 	const [ isCopying, setIsCopying ] = useState( false );
@@ -27,14 +27,20 @@ export default function Table() {
 	const [ inputPosition, setInputPosition ] = useState( null );
 	const [ copyingTimeoutId, setCopyingTimeoutId ] = useState( null );
 	const [ copiedTimeoutId, setCopiedTimeoutId ] = useState( null );
+	const [ formType, setFormType ] = useState( 'all' );
+	const [ searchQuery, setSearchQuery ] = useState( '' );
+	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
+	const [ formDateType, setFormDateType ] = useState( 'all' );
 
-	const { updateCurrentPage } = useDispatch( 'formgent' );
-
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
-	}, [] );
-
-	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
+	const {
+		updateCurrentPage,
+		updateFormSortBy,
+		updateFormDateType,
+		updateFormDateFrom,
+		updateFormDateTo,
+	} = useDispatch( 'formgent' );
+	const { forms, pagination, isLoading, form_edit_url } = props;
+	const [ filteredForms, setFilteredForms ] = useState( forms );
 
 	const rowSelection = {
 		selectedRowKeys,
@@ -43,6 +49,86 @@ export default function Table() {
 
 	function handleRowSelection( newSelectedRowKeys ) {
 		setSelectedRowKeys( newSelectedRowKeys );
+	}
+
+	useEffect( () => {
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType
+		);
+	}, [ defaultSorting, pagination.current_page ] );
+
+	useEffect( () => {
+		let sortedForms = [ ...forms ];
+		if ( defaultSorting === 'date_created' ) {
+			sortedForms.sort(
+				( a, b ) => new Date( b.created_at ) - new Date( a.created_at )
+			);
+		} else if ( defaultSorting === 'title' ) {
+			sortedForms.sort( ( a, b ) => a.title.localeCompare( b.title ) );
+		}
+		setFilteredForms( sortedForms );
+	}, [ forms, defaultSorting ] );
+
+	useEffect( () => {
+		const filteredForms = forms.filter( ( form ) => {
+			const matchesFormType =
+				formType === 'all' || form.type === formType;
+			const matchesSearchQuery = form.title
+				?.toLowerCase()
+				.includes( searchQuery?.toLowerCase() );
+			return matchesFormType && matchesSearchQuery;
+		} );
+		setFilteredForms( filteredForms );
+	}, [ forms, formType, searchQuery ] );
+
+	const handleFormTypeChange = ( type ) => {
+		setFormType( type );
+	};
+
+	const handleSearchQueryChange = ( query ) => {
+		setSearchQuery( query );
+	};
+
+	const handleFormSorting = ( key ) => {
+		setDefaultSorting( key );
+		updateFormSortBy( key );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			key
+		);
+	};
+
+	const handleFormDateType = ( value ) => {
+		updateFormDateType( value );
+		setFormDateType( value );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			value
+		);
+	};
+
+	function handleFormDateRange( dateStrings ) {
+		const [ dateFrom, dateTo ] = dateStrings;
+		updateFormDateFrom( `${ dateFrom } 00:00:01` );
+		updateFormDateTo( `${ dateTo } 23:59:59` );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			`${ dateFrom } 00:00:01`,
+			`${ dateTo } 23:59:59`
+		);
 	}
 
 	const dateFormatOptions = {
@@ -194,11 +280,14 @@ export default function Table() {
 			},
 		},
 		{
-			title: __( 'Status', 'helpgent' ),
+			title: __( 'Status', 'formgent' ),
 			className: 'formgent-head-status',
 			render: ( text, record ) => (
 				<div className="formgent-form-status">
-					<FormTableStatus />
+					<FormTableStatus
+						form={ record }
+						setEditableForm={ setEditableForm }
+					/>
 				</div>
 			),
 		},
@@ -222,50 +311,61 @@ export default function Table() {
 			},
 		},
 	] );
+
 	function handleFormTableChange( pagination ) {
 		updateCurrentPage( pagination?.current );
 		resolveSelect( 'formgent' ).getForms(
 			pagination?.current,
-			10,
-			Date.now()
+			pagination?.pageSize,
+			Date.now(),
+			defaultSorting
 		);
 	}
 
 	return (
-		<TableStyle>
-			<AntSpin spinning={ isLoading }>
-				{ selectedRowKeys.length !== 0 && (
-					<TableBulkSelection
-						data={ forms }
-						selectedRowKeys={ selectedRowKeys }
-						setSelectedRowKeys={ setSelectedRowKeys }
+		<>
+			<Filter
+				onFormTypeChange={ handleFormTypeChange }
+				onSearchQueryChange={ handleSearchQueryChange }
+				onSortingChange={ handleFormSorting }
+				onFormDateTypeChange={ handleFormDateType }
+				onFormDateRangeChange={ handleFormDateRange }
+			/>
+			<TableStyle>
+				<AntSpin spinning={ isLoading }>
+					{ selectedRowKeys.length !== 0 && (
+						<TableBulkSelection
+							data={ forms }
+							selectedRowKeys={ selectedRowKeys }
+							setSelectedRowKeys={ setSelectedRowKeys }
+						/>
+					) }
+					<AntTable
+						componentTokens={ {
+							Table: {
+								headerColor: '#6e6e6e',
+								headerBg: '#d5d5d5',
+								headerSplitColor: '#d5d5d5',
+								cellPaddingBlock: 20,
+							},
+						} }
+						showHeader={ selectedRowKeys.length === 0 }
+						rowSelection={ rowSelection }
+						columns={ formTableColumns }
+						dataSource={ filteredForms }
+						rowKey={ ( record ) => record?.id }
+						pagination={ {
+							current: pagination?.current_page,
+							pageSize: 10,
+							total: pagination?.total_items,
+							position: [ 'bottomCenter' ],
+							showTotal: ( total, range ) =>
+								`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`,
+						} }
+						onChange={ handleFormTableChange }
 					/>
-				) }
-				<AntTable
-					componentTokens={ {
-						Table: {
-							headerColor: '#6e6e6e',
-							headerBg: '#d5d5d5',
-							headerSplitColor: '#d5d5d5',
-							cellPaddingBlock: 20,
-						},
-					} }
-					showHeader={ selectedRowKeys.length === 0 }
-					rowSelection={ rowSelection }
-					columns={ formTableColumns }
-					dataSource={ forms }
-					rowKey={ ( record ) => record.id }
-					pagination={ {
-						current: pagination?.current_page,
-						pageSize: 10,
-						total: pagination?.total_items,
-						position: [ 'bottomCenter' ],
-						showTotal: ( total, range ) =>
-							`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`,
-					} }
-					onChange={ handleFormTableChange }
-				/>
-			</AntSpin>
-		</TableStyle>
+				</AntSpin>
+			</TableStyle>
+		</>
 	);
 }

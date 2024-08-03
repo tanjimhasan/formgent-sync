@@ -120,6 +120,33 @@ export default function TItleBox( props ) {
 								) }
 							</li>
 						</ul>
+						<ul className="formgent-form-action">
+							<li className="formgent-form-action__items">
+								<a
+									href={ `${ form_edit_url }&post=${ id }` }
+									className="formgent-btn formgent-btn-xxs formgent-btn-light-gray"
+								>
+									{ __( 'Edit', 'formgent' ) }
+								</a>
+							</li>
+							<li>
+								<a
+									href="#"
+									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
+								>
+									{ __( 'All Responses', 'formgent' ) }
+								</a>
+							</li>
+							<li>
+								<a
+									href="#"
+									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
+									target="_blank"
+								>
+									{ __( 'Preview', 'formgent' ) }
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			) }

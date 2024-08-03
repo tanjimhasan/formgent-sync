@@ -1,61 +1,148 @@
 import { useState } from '@wordpress/element';
 import { AntSelect } from '@formgent/components';
 import { FilterStyle } from './style';
-import { SearchOutlined } from '@ant-design/icons';
-import { Input, Dropdown, Space, Radio } from 'antd';
+import { Input, Dropdown, DatePicker } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import sliderIcon from '@icon/sliders.svg';
 import filterLines from '@icon/filter-lines.svg';
+import searchIcon from '@icon/search.svg';
+import PropTypes from 'prop-types';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import checkThin from '@icon/check-thin.svg';
+import chevronDown from '@icon/chevron-down.svg';
+dayjs.extend( customParseFormat );
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 
-export default function Filter() {
-	const formTypes = [
-		{ value: 'all', label: 'All forms' },
-		{ value: 'forms', label: 'Forms' },
-		{ value: 'quizzes', label: 'Quizzes' },
-		{ value: 'payment', label: 'Payment' },
-	];
-
-	//handle form type selection
-	const handleFormTypes = ( value ) => {
-		console.log( `Selected: ${ value }` );
-	};
-
-	const [ filteredItems, setFilteredItems ] = useState( 'all' );
-	const [ searchQuery, setSearchQuery ] = useState( '' );
+export default function Filter( {
+	onFormTypeChange,
+	onSearchQueryChange,
+	onSortingChange,
+	onFormDateTypeChange,
+	onFormDateRangeChange,
+} ) {
+	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
+	const [ selectedFormSort, setSelectedFormSort ] =
+		useState( 'date_created' );
 
 	//handle filtered items by time
 	const handleFilteredItems = ( e ) => {
-		setFilteredItems( e.target.value );
+		e.target.value === 'date_frame'
+			? setToggleTimepicker( true )
+			: setToggleTimepicker( false );
+		onFormDateTypeChange( e.target.value );
+	};
+
+	const formTypes = [
+		{
+			value: 'all',
+			label: 'All Forms',
+		},
+		{
+			value: 'general',
+			label: 'General',
+		},
+	];
+
+	const handleFormTypes = ( value ) => {
+		onFormTypeChange( value );
 	};
 
 	//handle input search query
 	const handleSearchQuery = ( e ) => {
-		setSearchQuery( e.target.value );
-		console.log( `Search Query: ${ e.target.value }` );
+		const query = e.target.value;
+		onSearchQueryChange( query );
 	};
+
+	function handleCheckedIcon( key ) {
+		const checkedIcon =
+			selectedFormSort === key ? <ReactSVG src={ checkThin } /> : null;
+		return checkedIcon;
+	}
 
 	const sortItems = [
 		{
 			key: 'date_created',
-			label: <span>Date Created</span>,
+			label: (
+				<span>
+					Date Created { handleCheckedIcon( 'date_created' ) }
+				</span>
+			),
 		},
 		{
 			key: 'last_modified',
-			label: <span>Last Modified</span>,
+			label: (
+				<span>
+					Last Modified { handleCheckedIcon( 'last_modified' ) }
+				</span>
+			),
 		},
 		{
 			key: 'alphabetical',
-			label: <span>Alphabetical</span>,
+			label: (
+				<span>
+					Alphabetical { handleCheckedIcon( 'alphabetical' ) }
+				</span>
+			),
 		},
 		{
 			key: 'last_submission',
-			label: <span>Last Submission</span>,
+			label: (
+				<span>
+					Last Submission { handleCheckedIcon( 'last_submission' ) }
+				</span>
+			),
 		},
 		{
 			key: 'unread',
-			label: <span>Unread</span>,
+			label: <span>Unread { handleCheckedIcon( 'unread' ) }</span>,
+		},
+		{
+			key: 'publish',
+			label: <span>Active { handleCheckedIcon( 'publish' ) }</span>,
+		},
+		{
+			key: 'draft',
+			label: <span>Inactive { handleCheckedIcon( 'draft' ) }</span>,
 		},
 	];
+
+	const formDateSorting = [
+		{
+			key: 'all',
+			label: <span>All</span>,
+		},
+		{
+			key: 'today',
+			label: <span>Today</span>,
+		},
+		{
+			key: 'yesterday',
+			label: <span>Yesterday</span>,
+		},
+		{
+			key: 'last_week',
+			label: <span>Last Week</span>,
+		},
+		{
+			key: 'last_month',
+			label: <span>Last Month</span>,
+		},
+		{
+			key: 'date_frame',
+			label: <span>Custom</span>,
+		},
+	];
+
+	const handleFormSorting = ( { key } ) => {
+		onSortingChange( key );
+		setSelectedFormSort( key );
+	};
+
+	const handleDateRange = ( dates, dateStrings ) => {
+		onFormDateRangeChange( dateStrings );
+	};
 
 	return (
 		<FilterStyle className="formgent-form-filter">
@@ -65,13 +152,16 @@ export default function Filter() {
 					placeholder="Select an option"
 					options={ formTypes }
 					defaultValue="all"
+					popupClassName="formgent-form-filter__form-type-options"
+					menuItemSelectedIcon={ <ReactSVG src={ checkThin } /> }
+					suffixIcon={ <ReactSVG src={ chevronDown } /> }
 				></AntSelect>
 			</div>
 			<div className="formgent-form-filter__right">
 				<div className="formgent-form-filter__search">
 					<Input
 						placeholder="Search"
-						prefix={ <SearchOutlined /> }
+						prefix={ <ReactSVG src={ searchIcon } /> }
 						onChange={ handleSearchQuery }
 					/>
 				</div>
@@ -80,29 +170,57 @@ export default function Filter() {
 						trigger={ [ 'click' ] }
 						overlayClassName="formgent-form-filter__by-time__options"
 						dropdownRender={ () => (
-							<Radio.Group
-								onChange={ handleFilteredItems }
-								value={ filteredItems }
-							>
-								<Space direction="vertical">
-									<Radio value="all">All</Radio>
-									<Radio value="today">Today</Radio>
-									<Radio value="yesterday">Yesterday</Radio>
-									<Radio value="last_week">Last Week</Radio>
-									<Radio value="last_month">Last Month</Radio>
-									<Radio value="custom">
-										Custom
-										{ filteredItems === 'custom' ? (
-											<Input
-												style={ {
-													width: 100,
-													marginLeft: 10,
-												} }
-											/>
-										) : null }
-									</Radio>
-								</Space>
-							</Radio.Group>
+							<>
+								<div className="formgent-form-filter-by-time">
+									{ formDateSorting.map( ( item, index ) => {
+										return (
+											<div
+												className="formgent-select-radio"
+												key={ index }
+											>
+												<input
+													type="radio"
+													name="filter-by-time"
+													id={ `formgent-select-option-${ item.key }` }
+													onChange={
+														handleFilteredItems
+													}
+													value={ item.key }
+												/>
+												<label
+													htmlFor={ `formgent-select-option-${ item.key }` }
+													className="formgent-single-select__option"
+												>
+													{ item.label }
+												</label>
+											</div>
+										);
+									} ) }
+								</div>
+								{ toggleTimepicker && (
+									<div className="formgent-form-filter-by-date-range">
+										<div className="formgent-form-filter-select-timeframe">
+											<span>Select a Timeframe</span>
+											<div className="formgent-form-filter-select-dates">
+												<RangePicker
+													defaultValue={ [
+														dayjs(
+															'2024-08-01',
+															dateFormat
+														),
+														dayjs(
+															'2015-09-01',
+															dateFormat
+														),
+													] }
+													format={ dateFormat }
+													onChange={ handleDateRange }
+												/>
+											</div>
+										</div>
+									</div>
+								) }
+							</>
 						) }
 					>
 						<span className="formgent-form-filter__by-time__trigger">
@@ -116,8 +234,10 @@ export default function Filter() {
 							items: sortItems,
 							selectable: true,
 							defaultSelectedKeys: [ 'date_created' ],
+							onClick: handleFormSorting,
 						} }
 						trigger={ [ 'click' ] }
+						overlayClassName="formgent-form-filter__sorting-dropdown"
 					>
 						<span className="formgent-form-filter__sorting__trigger">
 							<ReactSVG src={ filterLines } />
@@ -128,3 +248,8 @@ export default function Filter() {
 		</FilterStyle>
 	);
 }
+
+// Define prop types
+Filter.propTypes = {
+	onFormTypeChange: PropTypes.func.isRequired,
+};

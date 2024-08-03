@@ -1,46 +1,65 @@
-//import useStore from '@helpgent/hooks/useStore.js';
-//import useUpdateMutation from '@helpgent/hooks/useUpdateMutation.js';
-//import handleUpdateFormStatus from '../helper/handleUpdateFormStatus';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { doAction } from '@wordpress/hooks';
 import { ToggleControl } from '@wordpress/components';
-//import { useFormTableState } from '../context/FormTableStateContext';
-//import { useQueryClient } from '@tanstack/react-query';
+import patchData from '@formgent/helper/patchData';
+import { __ } from '@wordpress/i18n';
+import { useState, useEffect } from 'react';
 
 export default function FormTableStatus( props ) {
-	//const { formTableState } = useFormTableState();
-	//const { fetchParams, filterKey } = formTableState;
-	//const { id, status, baseApiRoute } = props;
-	//const statusText = status === 'publish' ? 'Active' : 'Inactive';
-	//const { setStoreData, getStoreData } = useStore();
-	// const forms = getStoreData( [
-	// 	`helpgent-form-${ filterKey }-${ fetchParams?.page }`,
-	// ] );
-	//const queryClient = useQueryClient();
+	const { form } = props;
+	const { id, status } = form;
 
-	/* Form Update Mutation */
-	// const { mutateAsync: updateStatusFormMutation, isLoading } =
-	// 	useUpdateMutation( `${ baseApiRoute?.forms }/${ id }/status` );
+	const [ currentStatus, setCurrentStatus ] = useState( status );
 
-	const status = 'publish';
-	const statusText = status === 'publish' ? 'Active' : 'Inactive';
+	const { updateStatusRequest, updateStatusSuccess, updateStatusError } =
+		useDispatch( 'formgent' );
+
+	const { FormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getForms();
+	}, [] );
+
+	const { isStatusUpdating } = FormReducer;
+
+	const statusText = currentStatus === 'publish' ? 'Active' : 'Inactive';
+
+	function handleUpdateCurrentStatus( newStatus ) {
+		setCurrentStatus( newStatus ? 'publish' : 'draft' );
+	}
+
+	async function handleUpdateFormStatus() {
+		if ( status === currentStatus || isStatusUpdating ) return;
+
+		updateStatusRequest();
+		try {
+			const statusUpdateResponse = await patchData(
+				`admin/forms/${ id }/status`,
+				{ status: String( currentStatus ) }
+			);
+			doAction( 'formgent-toast', {
+				message: statusUpdateResponse.message,
+			} );
+			updateStatusSuccess( {
+				...form,
+				status: currentStatus,
+			} );
+		} catch ( error ) {
+			updateStatusError( error );
+		}
+	}
+
+	useEffect( () => {
+		handleUpdateFormStatus();
+	}, [ currentStatus ] );
 
 	return (
-		<div className="formgent-toggle formgent-toggle-success">
+		<div className="formgent-toggle">
 			<ToggleControl
-				onChange={ ( e ) => {
-					// handleUpdateFormStatus(
-					// 	id,
-					// 	forms,
-					// 	status,
-					// 	updateStatusFormMutation,
-					// 	setStoreData,
-					// 	fetchParams?.page,
-					// 	filterKey,
-					// 	queryClient
-					// )
-					console.log( e );
+				checked={ currentStatus === 'publish' }
+				label={ __( statusText, 'formgent' ) }
+				onChange={ ( isChecked ) => {
+					handleUpdateCurrentStatus( isChecked );
 				} }
-				checked={ status === 'publish' }
-				label={ statusText }
+				disabled={ isStatusUpdating }
 			/>
 		</div>
 	);

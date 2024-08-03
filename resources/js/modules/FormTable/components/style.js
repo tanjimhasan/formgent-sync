@@ -152,9 +152,13 @@ const TitleBoxStyle = Styled.div`
         transition: var(--formgent-transition);
         .formgent-btn{
             color: var(--formgent-color-dark);
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: var(--formgent-color-gray-200);
+            font-size: 13px;
+            font-weight: 500;
             &:hover{
                 background: var(--formgent-color-primary);
-                border-color: var(--formgent-color-primary);
                 color: #fff;
             }
         }
@@ -231,6 +235,17 @@ const TableStyle = Styled.div`
             &:hover{
                 td.ant-table-selection-column{
                     border-left: 4px solid var(--formgent-color-primary);
+                }
+                .formgent-title{
+                    color: var(--formgent-color-primary);
+                }
+                .formgent-form-action{
+                    opacity: 1;
+                    visibility: visible;
+                }
+                .formgent-titleBox-meta{
+                    opacity: 0;
+                    visibility: hidden;
                 }
             }
 
@@ -381,7 +396,6 @@ const TablkSelectionStyle = Styled.div`
         padding: 5px 16px;
         font-size: 14px;
         font-weight: 500;
-        margin: 0 8px;
         color: var(--formgent-color-gray-600);
         svg{
             width: 16px;
@@ -399,7 +413,11 @@ const TablkSelectionStyle = Styled.div`
             }
         }
     }
+    .formgent-btn-bulk-delete{
+        margin-right: 12px;
+    }
     .formgent-btn-bulk-status{
+        margin-right: 8px;
         svg{
             path{
                 fill: var(--formgent-color-gray-500);
@@ -419,7 +437,7 @@ const TablkSelectionStyle = Styled.div`
         font-size: 13px;
         font-weight: 500;
         display: inline-block;
-        margin-left: 20px;
+        margin-left: 16px;
         color: var(--formgent-color-info);
         transition: 0.3s ease;
         &:hover{
@@ -439,7 +457,7 @@ const TablkSelectionStyle = Styled.div`
         position: relative;
         .formgent-form-bulk-action__dropdown{
             position: absolute;
-            left: 7px;
+            left: 0;
             top: 100%;
             border: 1px solid #ecedee;
             background: #fff;
@@ -491,6 +509,30 @@ const FilterStyle = Styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .formgent-form-filter__left{
+        .ant-select{
+            width: 100%;
+            height: 38px;
+            &.ant-select-focused .ant-select-selector{
+                box-shadow: 0 0 0 2px #2C3239 !important;
+                border-color: transparent !important;
+            }
+            .ant-select-selector{
+                border-radius: 10px;
+            }
+            .ant-select-selection-item{
+                svg{
+                    display: none;
+                }
+            }
+            .ant-select-arrow{
+                svg{
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
+    }
     .formgent-form-filter__right{
         display: flex;
         align-items: center;
@@ -509,6 +551,10 @@ const FilterStyle = Styled.div`
         gap: 8px;
         border-radius: 10px;
         cursor: pointer;
+        &.ant-dropdown-open{
+            box-shadow: 0 0 0 2px #2C3239;
+            border-color: transparent;
+        }
     }
     .formgent-form-filter__sorting__trigger{
         svg{
@@ -520,6 +566,15 @@ const FilterStyle = Styled.div`
         .ant-input-affix-wrapper{
             border: 1px solid var(--formgent-color-border-light);
             border-radius: 10px;
+            &.ant-input-affix-wrapper-focused{
+                box-shadow: 0 0 0 2px #2C3239;
+                border-color: transparent;
+            }
+            .ant-input{
+                border: 0 none;
+                outline: 0;
+                box-shadow: none;
+            }
         }
     }
 `;

@@ -1,4 +1,4 @@
-import { useDispatch } from '@wordpress/data';
+import { dispatch, useDispatch } from '@wordpress/data';
 import { addQueryArgs } from '@wordpress/url';
 import { AntCheckbox, AntButton } from '@formgent/components';
 import { useState, useEffect, useRef } from '@wordpress/element';
@@ -7,6 +7,7 @@ import ReactSVG from 'react-inlinesvg';
 import trashIcon from '@icon/trash.svg';
 import toggleIcon from '@icon/toggle.svg';
 import deleteData from '@formgent/helper/deleteData';
+import patchData from '@formgent/helper/patchData';
 import checkClickedOutside from '@formgent/helper/checkClickedOutside';
 import { __ } from '@wordpress/i18n';
 
@@ -19,6 +20,9 @@ export default function TableBulkSelection( props ) {
 		bulkDeleteFormRequest,
 		bulkDeleteFormSuccess,
 		bulkDeleteFormError,
+		bulkStatusUpdateRequest,
+		bulkStatusUpdateSuccess,
+		bulkStatusUpdateError,
 	} = useDispatch( 'formgent' );
 
 	function handleBulkSelection( event ) {
@@ -28,6 +32,8 @@ export default function TableBulkSelection( props ) {
 			setSelectedRowKeys( [] );
 		}
 	}
+
+	console.log( selectedRowKeys );
 
 	function handleClearSelection() {
 		setSelectedRowKeys( [] );
@@ -45,6 +51,29 @@ export default function TableBulkSelection( props ) {
 			setSelectedRowKeys( [] );
 		} catch ( error ) {
 			bulkDeleteFormError( error );
+		}
+	}
+
+	async function handleBulkStatusUpdate( newStatus ) {
+		dispatch( bulkStatusUpdateRequest() );
+		console.log( selectedRowKeys );
+		try {
+			const bulkStatusUpdateResponse = await patchData(
+				addQueryArgs( `admin/forms/status`, {
+					ids: selectedRowKeys,
+					status: newStatus,
+				} )
+			);
+			dispatch(
+				bulkStatusUpdateSuccess( {
+					ids: selectedRowKeys,
+					payload: { status: newStatus },
+				} )
+			);
+			setSelectedRowKeys( [] );
+		} catch ( error ) {
+			console.error( 'Error posting data:', error ); // Log the error for debugging
+			dispatch( bulkStatusUpdateError( error ) );
 		}
 	}
 
@@ -87,7 +116,7 @@ export default function TableBulkSelection( props ) {
 								href=""
 								onClick={ ( e ) => {
 									e.preventDefault();
-									//handleUpdateStatus( 'draft' );
+									handleBulkStatusUpdate( 'publish' );
 								} }
 							>
 								{ __( 'Activate', 'formgent' ) }
@@ -98,7 +127,7 @@ export default function TableBulkSelection( props ) {
 								href=""
 								onClick={ ( e ) => {
 									e.preventDefault();
-									//handleUpdateStatus( 'publish' );
+									handleBulkStatusUpdate( 'draft' );
 								} }
 							>
 								{ __( 'Deactivate', 'formgent' ) }

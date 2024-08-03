@@ -1,12 +1,24 @@
 import { FormActions } from './actions';
 export const FormResolvers = {
-	*getForms( currentPage = '1', perPage = '10', timestamp = 0 ) {
+	*getForms(
+		currentPage = '1',
+		perPage = '10',
+		timestamp = 0,
+		sortBy = 'date_created',
+		dateType = 'all',
+		dateFrom = null,
+		dateTo = null
+	) {
 		yield FormActions.isFormFetchLoading( true );
 		try {
 			const data = yield FormActions.fetchForm(
 				'formgent/admin/forms',
 				currentPage,
-				perPage
+				perPage,
+				sortBy,
+				dateType,
+				dateFrom,
+				dateTo
 			);
 			yield FormActions.storsForm( {
 				forms: data.forms,
