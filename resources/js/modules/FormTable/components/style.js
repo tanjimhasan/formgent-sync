@@ -505,7 +505,7 @@ const FormDeleteAlertStyle = Styled.div`
 `;
 
 const FilterStyle = Styled.div`
-    margin-bottom: 20px;
+    margin: 17px 0 7px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -588,6 +588,7 @@ const StarterContentStyle = Styled.div`
     justify-content: center;
     flex-direction: column;
     padding: 100px 0;
+    margin-top: 20px;
     .formgent-starter-content__info{
         text-align: center;
         img{
