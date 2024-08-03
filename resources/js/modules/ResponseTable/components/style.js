@@ -699,7 +699,7 @@ const TableModalStyle = Styled.div`
 
     .response-table__modal__tab__info {
         display: flex;
-        gap: 10px;
+        gap: 15px;
         flex-direction: column;
         .response-table__modal__tab__info__single {
             display: flex;
@@ -710,8 +710,11 @@ const TableModalStyle = Styled.div`
                 color: var(--formgent-color-dark);
                 margin: 0;
                 width: 200px;
+                min-width: 200px;
             }
             .response-table__modal__tab__info__value {
+                display: flex;
+                gap: 5px;
                 font-size: 14px;
                 color: var(--formgent-color-light-gray);
                 margin: 0;
@@ -736,9 +739,9 @@ const TableModalStyle = Styled.div`
 
 export {
 	FormDeleteAlertStyle,
-	TableModalStyle,
 	TableActionStyle,
 	TableHeaderStyle,
+	TableModalStyle,
 	TableSelectionStyle,
 	TableStyle,
 	TableTabStyle,

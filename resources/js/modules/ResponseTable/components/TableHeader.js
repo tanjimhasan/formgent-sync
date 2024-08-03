@@ -1,28 +1,19 @@
 import {
-	PrepareExportData,
-	exportToPDF,
-	exportToSpreadsheet,
-} from '@formgent/admin/export/response';
-import {
 	AntButton,
 	AntCheckbox,
 	AntDropdown,
 	AntInput,
 	AntTabs,
 } from '@formgent/components';
-import { useEffect, useRef, useState } from '@wordpress/element';
-import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
 // Icon
-import fetchData from '@formgent/helper/fetchData';
 import checkIcon from '@icon/check-square.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
 import columnIcon from '@icon/column-3.svg';
 import downloadIcon from '@icon/download.svg';
-import fileIcon from '@icon/file.svg';
 import filterIcon from '@icon/filter-lines.svg';
 import printIcon from '@icon/print.svg';
 import refreshIcon from '@icon/refresh.svg';
@@ -43,67 +34,20 @@ export default function TableHeader( props ) {
 		setVisibleColumns,
 		setFieldColumnHide,
 		responseFields,
+		handleDelete,
+		handlePrint,
+		downloadItems,
+		handleDownload,
 	} = props;
-
-	const [ csvExportData, setCSVExportData ] = useState( [] );
-
-	const csvLinkRef = useRef();
 
 	// Handle Tab Change
 	function handleTabChange( key ) {
 		setActiveTab( key );
 	}
 
-	// Handle Create Export Data
-	async function handleCreateExportData() {
-		const responsesToExport =
-			selectedRowKeys.length > 0
-				? selectedRowKeys
-				: responses.map( ( item ) => item.id );
-		console.log( 'responsesToExport', responsesToExport );
-		return await fetchData(
-			`admin/responses/export?form_id=${ id }&response_ids[]=${ responsesToExport }`
-		);
-	}
-
-	// Handle Download
-	async function handleDownload( { key } ) {
-		const exportedData = await handleCreateExportData();
-		if ( exportedData ) {
-			if ( key === 'pdf' ) {
-				return exportToPDF( exportedData, 'formgent-response' );
-			} else if ( key === 'excel' ) {
-				return exportToSpreadsheet( exportedData, 'formgent-response' );
-			} else {
-				return;
-			}
-		} else {
-			console.error( 'No data to export' );
-		}
-	}
-
-	// Handle Export CSV
-	async function handleExportCSV( e ) {
-		e.stopPropagation();
-		const exportedData = await handleCreateExportData();
-		if ( exportedData ) {
-			setCSVExportData( PrepareExportData( exportedData ) );
-		}
-	}
-
 	// Handle Search
 	function handleSearch( value ) {
 		console.log( 'Search:', value );
-	}
-
-	// Handle Print
-	function handlePrint() {
-		console.log( 'Print clicked' );
-	}
-
-	// Handle Delete
-	function handleDelete() {
-		console.log( 'Delete clicked', selectedRowKeys );
 	}
 
 	// Handle Filter
@@ -140,49 +84,6 @@ export default function TableHeader( props ) {
 		setSelectedRowKeys( [] );
 	}
 
-	// Download Items
-	const downloadItems = [
-		{
-			key: 'csv',
-			label: (
-				<>
-					<span
-						className="dropdown-header-content"
-						onClick={ ( e ) => handleExportCSV( e ) }
-					>
-						<ReactSVG width="14" height="14" src={ fileIcon } />
-						Download as CSV
-					</span>
-					<CSVLink
-						data={ csvExportData }
-						filename={ 'formgent-response-list.csv' }
-						className="csv-downloader"
-						style={ { display: 'none' } }
-						ref={ csvLinkRef }
-					/>
-				</>
-			),
-		},
-		{
-			key: 'excel',
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ fileIcon } />
-					Download as Excel
-				</span>
-			),
-		},
-		{
-			key: 'pdf',
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ fileIcon } />
-					Download as PDF
-				</span>
-			),
-		},
-	];
-
 	// Tab Items
 	const tabItems = [
 		{
@@ -194,13 +95,6 @@ export default function TableHeader( props ) {
 			label: `Partial (${ totalPartialItems })`,
 		},
 	];
-
-	// Export CSV Data
-	useEffect( () => {
-		if ( csvExportData.length ) {
-			csvLinkRef.current?.link.click();
-		}
-	}, [ csvExportData ] );
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">

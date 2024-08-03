@@ -1,4 +1,5 @@
-import { AntDropdown, AntTabs } from '@formgent/components';
+import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
+import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { TableModalStyle } from './style';
@@ -19,7 +20,16 @@ import transformIcon from '@icon/transform.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableModal( props ) {
-	const { response, setTableModal } = props;
+	const {
+		response,
+		setTableModal,
+		handleDownload,
+		handleDelete,
+		handlePrint,
+		handleStarred,
+		downloadItems,
+		dateFormatOptions,
+	} = props;
 	const [ activeModalTab, setActiveModalTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
@@ -93,15 +103,23 @@ export default function TableModal( props ) {
 			},
 			star: () => {
 				console.log( ' Star Response ', response );
+				handleStarred(
+					response.id,
+					response.is_starred === '1' ? '0' : '1'
+				);
 			},
 			'read-unread': () => {
-				console.log( ' Read/Unread Response ', response );
+				response.is_read === '1'
+					? console.log( 'Mark as Unread' )
+					: console.log( 'Mark as Read' );
 			},
 			print: () => {
 				console.log( ' Print Response ', response );
+				handlePrint();
 			},
 			delete: () => {
 				console.log( ' Delete Response ', response );
+				handleDelete();
 			},
 		};
 
@@ -137,9 +155,25 @@ export default function TableModal( props ) {
 					<span className="">1 of 4 Responses</span>
 				</div>
 				<div className="response-table__modal__header__action">
-					<button className="response-table__modal__header__action__btn">
-						<ReactSVG width="14" height="14" src={ downloadIcon } />
-					</button>
+					<AntDropdown
+						menu={ {
+							items: downloadItems,
+							onClick: handleDownload,
+						} }
+						placement="bottomRight"
+					>
+						<AntButton
+							onClick={ ( e ) => e.preventDefault() }
+							icon={
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ downloadIcon }
+								/>
+							}
+						/>
+					</AntDropdown>
+
 					<div className="response-table__modal__header__dropdown">
 						<AntDropdown
 							menu={ {
@@ -353,7 +387,11 @@ export default function TableModal( props ) {
 										Submission Date
 									</span>
 									<span className="response-table__modal__tab__info__value">
-										Jun 22, 2024 12:38 PM
+										{ formatDate(
+											'en-US',
+											response.created_at,
+											dateFormatOptions
+										) }
 									</span>
 								</div>
 								<div className="response-table__modal__tab__info__single">
@@ -369,7 +407,7 @@ export default function TableModal( props ) {
 										User Email
 									</span>
 									<span className="response-table__modal__tab__info__value">
-										abc@test.com
+										{ response.user_email }
 									</span>
 								</div>
 								<div className="response-table__modal__tab__info__single">
@@ -377,8 +415,16 @@ export default function TableModal( props ) {
 										Status
 									</span>
 									<span className="response-table__modal__tab__info__value">
-										<span className="response-table__modal__tab__info__tag completed">
-											Completed
+										<span
+											className={ `response-table__modal__tab__info__tag ${
+												response.is_completed === '1'
+													? 'completed'
+													: null
+											}` }
+										>
+											{ response.is_completed === '1'
+												? 'Completed'
+												: 'In Progress' }
 										</span>
 									</span>
 								</div>

@@ -1,9 +1,17 @@
+import {
+	PrepareExportData,
+	exportToPDF,
+	exportToSpreadsheet,
+} from '@formgent/admin/export/response';
+
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
+import fetchData from '@formgent/helper/fetchData';
 import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
+import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
 import TableHeader from './TableHeader';
 import TableModal from './TableModal';
@@ -16,6 +24,7 @@ import calendarIcon from '@icon/calendar.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
 import hideIcon from '@icon/eye-off.svg';
+import fileIcon from '@icon/file.svg';
 import gridIcon from '@icon/grid.svg';
 import mailOpenIcon from '@icon/mail-open.svg';
 import mailIcon from '@icon/mail.svg';
@@ -37,6 +46,11 @@ export default function Table() {
 	const [ visibleColumns, setVisibleColumns ] = useState( [] );
 	const [ fieldColumnHide, setFieldColumnHide ] = useState( [] );
 	const [ responseFields, setResponseFields ] = useState( [] );
+	const [ csvExportData, setCSVExportData ] = useState( [] );
+
+	// Reference
+	const isInitialRender = useRef( true );
+	const csvLinkRef = useRef();
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -53,6 +67,49 @@ export default function Table() {
 	}, [] );
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
+
+	// Download Items
+	const downloadItems = [
+		{
+			key: 'csv',
+			label: (
+				<>
+					<span
+						className="dropdown-header-content"
+						onClick={ ( e ) => handleExportCSV( e ) }
+					>
+						<ReactSVG width="14" height="14" src={ fileIcon } />
+						Download as CSV
+					</span>
+					<CSVLink
+						data={ csvExportData }
+						filename={ 'formgent-response-list.csv' }
+						className="csv-downloader"
+						style={ { display: 'none' } }
+						ref={ csvLinkRef }
+					/>
+				</>
+			),
+		},
+		{
+			key: 'excel',
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ fileIcon } />
+					Download as Excel
+				</span>
+			),
+		},
+		{
+			key: 'pdf',
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ fileIcon } />
+					Download as PDF
+				</span>
+			),
+		},
+	];
 
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
@@ -139,6 +196,42 @@ export default function Table() {
 		month: 'long',
 		day: 'numeric',
 	};
+
+	// Handle Create Export Data
+	async function handleCreateExportData() {
+		const responsesToExport =
+			selectedRowKeys.length > 0
+				? selectedRowKeys
+				: responses.map( ( item ) => item.id );
+		return await fetchData(
+			`admin/responses/export?form_id=${ id }&response_ids[]=${ responsesToExport }`
+		);
+	}
+
+	// Handle Download
+	async function handleDownload( { key } ) {
+		const exportedData = await handleCreateExportData();
+		if ( exportedData ) {
+			if ( key === 'pdf' ) {
+				return exportToPDF( exportedData, 'formgent-response' );
+			} else if ( key === 'excel' ) {
+				return exportToSpreadsheet( exportedData, 'formgent-response' );
+			} else {
+				return;
+			}
+		} else {
+			console.error( 'No data to export' );
+		}
+	}
+
+	// Handle Export CSV
+	async function handleExportCSV( e ) {
+		e.stopPropagation();
+		const exportedData = await handleCreateExportData();
+		if ( exportedData ) {
+			setCSVExportData( PrepareExportData( exportedData ) );
+		}
+	}
 
 	// Filter data based on active tab
 	function handleFilterData() {
@@ -529,6 +622,16 @@ export default function Table() {
 		);
 	}
 
+	// Handle Print
+	function handlePrint() {
+		console.log( 'Print clicked' );
+	}
+
+	// Handle Delete
+	function handleDelete() {
+		console.log( 'Delete clicked', selectedRowKeys );
+	}
+
 	// Use effect to update filtered data when the active tab changes
 	useEffect( () => {
 		setFilteredData( handleFilterData() );
@@ -615,8 +718,6 @@ export default function Table() {
 		} );
 	};
 
-	const isInitialRender = useRef( true );
-
 	// Handle Show/Hide Column
 	async function handleColumn() {
 		if ( ! fieldColumnHide ) {
@@ -665,6 +766,13 @@ export default function Table() {
 		setCustomColumns( defaultColumns );
 	}, [] );
 
+	// Export CSV Data
+	useEffect( () => {
+		if ( csvExportData.length ) {
+			csvLinkRef.current?.link.click();
+		}
+	}, [ csvExportData ] );
+
 	return (
 		<TableStyle>
 			<AntSpin spinning={ isLoading }>
@@ -683,6 +791,13 @@ export default function Table() {
 					responseFields={ responseFields }
 					setResponseFields={ setResponseFields }
 					setFieldColumnHide={ setFieldColumnHide }
+					handleDelete={ handleDelete }
+					handlePrint={ handlePrint }
+					downloadItems={ downloadItems }
+					handleDownload={ handleDownload }
+					handleExportCSV={ handleExportCSV }
+					csvExportData={ csvExportData }
+					setCSVExportData={ setCSVExportData }
 				/>
 
 				<AntTable
@@ -713,6 +828,12 @@ export default function Table() {
 				<TableModal
 					response={ tableModal }
 					setTableModal={ setTableModal }
+					handleDelete={ handleDelete }
+					handlePrint={ handlePrint }
+					handleStarred={ handleStarred }
+					dateFormatOptions={ dateFormatOptions }
+					handleDownload={ handleDownload }
+					downloadItems={ downloadItems }
 				/>
 			) }
 		</TableStyle>
