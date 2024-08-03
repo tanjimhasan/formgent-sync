@@ -480,126 +480,6 @@ export default function Table() {
 				</div>
 			),
 		},
-		{
-			key: 'shortText',
-			dataIndex: 'shortText',
-			title: () => (
-				<div className="formgent-column-action">
-					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ userIcon } />
-						Short Text
-					</span>
-					<AntDropdown
-						menu={ {
-							items: sortItems,
-							onClick: ( item ) =>
-								handleSortby( item, 'shortText' ),
-						} }
-						trigger={ [ 'click' ] }
-						placement="bottomRight"
-						overlayStyle={ { minWidth: '240px' } }
-					>
-						<a onClick={ ( e ) => e.preventDefault() }>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ ellipsisVIcon }
-							/>
-						</a>
-					</AntDropdown>
-				</div>
-			),
-		},
-		{
-			key: 'longText',
-			dataIndex: 'longText',
-			title: () => (
-				<div className="formgent-column-action">
-					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ userIcon } />
-						Long Text
-					</span>
-					<AntDropdown
-						menu={ {
-							items: sortItems,
-							onClick: ( item ) =>
-								handleSortby( item, 'longText' ),
-						} }
-						trigger={ [ 'click' ] }
-						placement="bottomRight"
-						overlayStyle={ { minWidth: '240px' } }
-					>
-						<a onClick={ ( e ) => e.preventDefault() }>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ ellipsisVIcon }
-							/>
-						</a>
-					</AntDropdown>
-				</div>
-			),
-		},
-		{
-			key: 'multiple',
-			dataIndex: 'multiple',
-			title: () => (
-				<div className="formgent-column-action">
-					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ userIcon } />
-						Multiple Select
-					</span>
-					<AntDropdown
-						menu={ {
-							items: sortItems,
-							onClick: ( item ) =>
-								handleSortby( item, 'multiple' ),
-						} }
-						trigger={ [ 'click' ] }
-						placement="bottomRight"
-						overlayStyle={ { minWidth: '240px' } }
-					>
-						<a onClick={ ( e ) => e.preventDefault() }>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ ellipsisVIcon }
-							/>
-						</a>
-					</AntDropdown>
-				</div>
-			),
-		},
-		{
-			key: 'dropdown',
-			dataIndex: 'dropdown',
-			title: () => (
-				<div className="formgent-column-action">
-					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ userIcon } />
-						Dropdown
-					</span>
-					<AntDropdown
-						menu={ {
-							items: sortItems,
-							onClick: ( item ) =>
-								handleSortby( item, 'dropdown' ),
-						} }
-						trigger={ [ 'click' ] }
-						placement="bottomRight"
-						overlayStyle={ { minWidth: '240px' } }
-					>
-						<a onClick={ ( e ) => e.preventDefault() }>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ ellipsisVIcon }
-							/>
-						</a>
-					</AntDropdown>
-				</div>
-			),
-		},
 	];
 
 	// Table Operations
@@ -620,11 +500,6 @@ export default function Table() {
 			10,
 			parseInt( id )
 		);
-	}
-
-	// Handle Print
-	function handlePrint() {
-		console.log( 'Print clicked' );
 	}
 
 	// Handle Delete
@@ -792,7 +667,6 @@ export default function Table() {
 					setResponseFields={ setResponseFields }
 					setFieldColumnHide={ setFieldColumnHide }
 					handleDelete={ handleDelete }
-					handlePrint={ handlePrint }
 					downloadItems={ downloadItems }
 					handleDownload={ handleDownload }
 					handleExportCSV={ handleExportCSV }
@@ -829,7 +703,6 @@ export default function Table() {
 					response={ tableModal }
 					setTableModal={ setTableModal }
 					handleDelete={ handleDelete }
-					handlePrint={ handlePrint }
 					handleStarred={ handleStarred }
 					dateFormatOptions={ dateFormatOptions }
 					handleDownload={ handleDownload }

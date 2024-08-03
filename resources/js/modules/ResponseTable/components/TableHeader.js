@@ -14,7 +14,6 @@ import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
 import columnIcon from '@icon/column-3.svg';
 import downloadIcon from '@icon/download.svg';
-import filterIcon from '@icon/filter-lines.svg';
 import printIcon from '@icon/print.svg';
 import refreshIcon from '@icon/refresh.svg';
 import searchIcon from '@icon/search.svg';
@@ -186,14 +185,14 @@ export default function TableHeader( props ) {
 					className="formgent-table-header__search"
 				/>
 
-				<AntButton
+				{ /* <AntButton
 					onClick={ handleFilter }
 					icon={
 						<ReactSVG width="14" height="14" src={ filterIcon } />
 					}
 				>
 					Filters
-				</AntButton>
+				</AntButton> */ }
 
 				{ selectedRowKeys.length === 0 ? (
 					<>

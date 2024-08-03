@@ -131,14 +131,14 @@ export default function FormHeader( props ) {
 
 			{ /* Editor Header Nav */ }
 			<nav className="formgent-editor-header__nav">
-				<NavLink to={ `${ forms }/edit` }>Editor</NavLink>
+				{ /* <NavLink to={ `${ forms }/edit` }>Editor</NavLink> */ }
 				<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
 				<NavLink to={ `${ forms }/results` }>Results</NavLink>
 			</nav>
 
 			{ /* Editor Header Actions */ }
 			<div className="formgent-editor-header__actions">
-				<button
+				{ /* <button
 					className="formgent-editor-header__actions__button"
 					onClick={ formPreview }
 				>
@@ -151,7 +151,7 @@ export default function FormHeader( props ) {
 					{ isUpdatingForm
 						? __( 'Publishing', 'formgent' )
 						: __( 'Publish', 'formgent' ) }
-				</button>
+				</button> */ }
 			</div>
 		</FormHeaderStyle>
 	);
