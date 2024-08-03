@@ -1,3 +1,5 @@
+import './editor.scss';
+
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<code>

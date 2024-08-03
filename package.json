@@ -4,10 +4,10 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "wp-scripts start --experimental-modules",
+    "start": "wp-scripts start --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
     "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
-    "minify": "wp-scripts build",
+    "minify": "wp-scripts build  --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
     "compress": "webpack --config tools/webpack.compress.js",
     "git-compress": "webpack --config tools/webpack.compress.git.js",
     "fixtextdomain": "grunt fixtextdomain",
@@ -61,10 +61,11 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@automattic/i18n-loader-webpack-plugin": "^2.0.42",
+    "@automattic/i18n-loader-webpack-plugin": "^2.0.53",
     "@laravel-mix/webpack-build-output": "^0.1.0",
     "@wordpress/scripts": "^27.9.0",
     "filemanager-webpack-plugin": "^8.0.0",
+    "fs-extra": "^11.2.0",
     "grunt": "^1.6.1",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-contrib-clean": "^2.0.1",

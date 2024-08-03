@@ -1,9 +1,9 @@
-name: 🚀 Deploy to the templates site
+name: 🚀 Deploy to the staging site
 
 on:
   push:
     branches:
-      - templates
+      - staging
 
 jobs:
   build:
@@ -33,13 +33,13 @@ jobs:
         run: yarn install
 
       - name: Compile Scripts
-        run: yarn minify
+        run: yarn start --no-watch
 
       - name: Fix Text Domain
         run: yarn fixtextdomain
 
       - name: Generate Text Domain POT file
-        run: composer make-production-pot
+        run: composer make-unminified-pot
 
       - name: Remove Composer Dev Dependencies
         run: composer build
@@ -47,9 +47,9 @@ jobs:
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.ftp_templates_server }}
-          username: ${{ secrets.ftp_templates_username }}
-          password: ${{ secrets.ftp_templates_password }}
+          server: ${{ secrets.ftp_staging_server }}
+          username: ${{ secrets.ftp_staging_username }}
+          password: ${{ secrets.ftp_staging_password }}
           port: 21
           exclude: |
             .github/**
