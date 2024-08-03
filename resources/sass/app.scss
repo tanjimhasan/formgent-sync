@@ -1,6 +1,7 @@
 :root {
 	--formgent-color-primary: #6551f2;
 	--formgent-color-primary-2: #2188ff;
+	--formgent-color-primary-100: #dee3ff;
 	--formgent-color-secondary: #fc495d;
 	--formgent-color-dark: #000000;
 	--formgent-color-bg-white: #ffffff;
@@ -45,6 +46,12 @@
 	--formgent-color-twitter: #000000;
 	--formgent-color-youtube: #f3081a;
 	--formgent-color-instagram: #bf3ad4;
+	--formgent-color-gray-50: #f9fafb;
+	--formgent-color-gray-100: #f3f4f6;
+	--formgent-color-gray-200: #e5e7eb;
+	--formgent-color-gray-300: #d2d6db;
+	--formgent-color-gray-500: #747c89;
+	--formgent-color-gray-600: #4d5761;
 }
 
 /* Spacing */
@@ -356,6 +363,26 @@ a.formgent-btn-disabled {
 		}
 		.components-modal__header-heading {
 			font-family: inherit;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.formgent-popup-title-icon {
+			width: 48px;
+			height: 48px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			background: var(--formgent-color-gray-100);
+			svg {
+				width: 24px;
+				height: 24px;
+			}
+			svg,
+			path {
+				fill: var(--formgent-color-dark);
+			}
 		}
 	}
 	.components-modal__content {
@@ -518,15 +545,17 @@ a.formgent-btn-disabled {
 			background-color: var(--formgent-color-bg-gray);
 		}
 		.components-modal__header {
-			padding: 0 20px;
+			padding: 5px 20px 5px 10px;
 			.formgent-create-modal-logo {
 				order: -1;
+				display: flex;
+				align-items: center;
 			}
 			.components-button {
 				position: static;
 				padding: 0;
-				width: 48px;
-				height: 48px;
+				width: 36px;
+				height: 36px;
 				border-radius: 50%;
 				inset-inline-end: 30px;
 				background-color: var(--formgent-color-bg-gray);
