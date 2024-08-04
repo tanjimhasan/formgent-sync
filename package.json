@@ -48,6 +48,7 @@
     "antd": "^5.17.0",
     "dayjs": "^1.11.12",
     "immutability-helper": "^3.1.1",
+    "intl-tel-input": "^23.3.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "just-validate": "^4.3.0",

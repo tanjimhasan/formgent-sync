@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "formgent/gdpr",
+	"title": "GDPR",
+	"category": "formgent",
+	"description": "FormGent GDPR field.",
+	"textdomain": "formgent",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"name": {
+			"type": "string",
+			"default": "gdpr"
+		},
+		"checked": {
+			"type": "string",
+			"default": false
+		},
+		"label": {
+			"type": "string",
+			"default": "GDPR"
+		},
+		"label_alignment": {
+			"type": "string",
+			"default": "left"
+		},
+		"sub_label": {
+			"type": "string",
+			"default": "I Accept GDPR"
+		},
+		"required": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"interactivity": true
+	}
+}

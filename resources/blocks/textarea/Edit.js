@@ -2,20 +2,20 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div className="formgent-form-block">
+		<div className="block-editor-block-list__single">
 			<label
-				className={ `formgent-form-block__label label-align-${ attributes.label_alignment }` }
+				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
 				{ attributes.label }
 				{ attributes.required ? (
-					<span className="formgent-form-block__label__required">
+					<span className="block-editor-block-list__single__label__required">
 						*
 					</span>
 				) : null }
 			</label>
-			<div className="formgent-form-block__wrapper">
+			<div className="block-editor-block-list__single__wrapper">
 				<textarea
-					className="formgent-form-block__input"
+					className="block-editor-block-list__single__input block-editor-block-list__single__input--textarea"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }
@@ -23,7 +23,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					rows="4"
 					cols="50"
 				/>
-				<span className="formgent-form-block__sub-label">
+				<span className="block-editor-block-list__single__sub-label">
 					{ attributes.sub_label }
 				</span>
 			</div>
