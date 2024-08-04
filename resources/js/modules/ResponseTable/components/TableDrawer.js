@@ -333,7 +333,7 @@ export default function TableDrawer( props ) {
 										Username
 									</span>
 									<span className="response-table__modal__tab__info__value">
-										Ahmed Hannan
+										{ response.user_name }
 									</span>
 								</div>
 								<div className="response-table__modal__tab__info__single">

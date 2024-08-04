@@ -89,10 +89,10 @@ export default function TableHeader( props ) {
 			key: 'completed',
 			label: `Completed (${ totalCompletedItems })`,
 		},
-		{
-			key: 'partial',
-			label: `Partial (${ totalPartialItems })`,
-		},
+		// {
+		// 	key: 'partial',
+		// 	label: `Partial (${ totalPartialItems })`,
+		// },
 	];
 
 	return (

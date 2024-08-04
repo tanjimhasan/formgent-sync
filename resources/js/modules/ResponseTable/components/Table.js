@@ -5,6 +5,7 @@ import {
 } from '@formgent/admin/export/response';
 
 import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
+import deleteData from '@formgent/helper/deleteData';
 import fetchData from '@formgent/helper/fetchData';
 import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
@@ -185,9 +186,15 @@ export default function Table() {
 	}
 
 	// handleTableDrawer
-	function handleTableDrawer( record ) {
-		console.log( 'handleTableDrawer', record );
-		setTableDrawer( record );
+	async function handleTableDrawer( record ) {
+		const responseDrawer = await fetchData(
+			`admin/responses/single?form_id=${ id }&page=${ record.id }`
+		);
+
+		if ( responseDrawer ) {
+			console.log( 'handleTableDrawer', responseDrawer );
+			setTableDrawer( responseDrawer );
+		}
 	}
 
 	// Date Format
@@ -503,8 +510,18 @@ export default function Table() {
 	}
 
 	// Handle Delete
-	function handleDelete() {
+	async function handleDelete() {
 		console.log( 'Delete clicked', selectedRowKeys );
+		const deleteResponse = await deleteData(
+			`admin/responses?form_id=${ parseInt(
+				id
+			) }&ids[]==${ selectedRowKeys }`
+		);
+
+		if ( deleteResponse ) {
+			console.log( 'Deleted SUccessfully : ', deleteResponse );
+			handleTableChange();
+		}
 	}
 
 	// Use effect to update filtered data when the active tab changes
