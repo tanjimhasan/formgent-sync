@@ -153,6 +153,41 @@ class FormController extends Controller {
         );
     }
 
+    public function update_bulk_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'ids'    => 'required|array',
+                'status' => 'required|string|accepted:publish,draft'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $ids = $wp_rest_request->get_param( 'ids' );
+    
+        if ( ! formgent_is_one_level_array( $ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Sorry, some thing was wrong','formgent' )
+                ]
+            );
+        }
+
+        $this->form_repository->update_bulk_status( $ids, $wp_rest_request->get_param( 'status' ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The form status has been updated successfully.', 'formgent' )
+            ]
+        );
+    }
+
     public function update_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
