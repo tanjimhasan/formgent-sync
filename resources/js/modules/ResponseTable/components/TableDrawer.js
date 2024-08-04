@@ -24,6 +24,7 @@ export default function TableDrawer( props ) {
 		handleDownload,
 		handleDelete,
 		handleStarred,
+		handleRead,
 		downloadItems,
 		dateFormatOptions,
 	} = props;
@@ -85,9 +86,11 @@ export default function TableDrawer( props ) {
 				);
 			},
 			'read-unread': () => {
-				response.is_read === '1'
-					? console.log( 'Mark as Unread' )
-					: console.log( 'Mark as Read' );
+				console.log( ' Star Response ', response );
+				handleRead(
+					response.id,
+					response.is_read === '1' ? true : false
+				);
 			},
 			delete: () => {
 				console.log( ' Delete Response ', response );

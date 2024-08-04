@@ -42,6 +42,7 @@ export default function Table() {
 	const [ tableDrawer, setTableDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ starredItems, setStarredItems ] = useState( {} );
+	const [ readItems, setReadItems ] = useState( {} );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
@@ -183,6 +184,22 @@ export default function Table() {
 			setStarredItems( ( prevStarredItems ) => ( {
 				...prevStarredItems,
 				[ id ]: reverseStarredStatus,
+			} ) );
+		}
+	}
+
+	// handleRead
+	async function handleRead( id, isReadStatus ) {
+		console.log( 'handleRead : ', id, isReadStatus );
+		const reverseReadStatus = isReadStatus ? 0 : 1;
+		const updateReadStatus = await patchData(
+			`admin/responses/${ id }/read/`,
+			{ is_read: reverseReadStatus }
+		);
+		if ( updateReadStatus ) {
+			setReadItems( ( prevReadItems ) => ( {
+				...prevReadItems,
+				[ id ]: reverseReadStatus,
 			} ) );
 		}
 	}
@@ -641,7 +658,7 @@ export default function Table() {
 		const allColumns = [ ...defaultColumns, ...generatedColumns ];
 
 		setCustomColumns( allColumns );
-	}, [ selected_fields, responses, starredItems ] );
+	}, [ selected_fields, responses, starredItems, readItems ] );
 
 	useEffect( () => {
 		setVisibleColumns( selected_fields );
@@ -724,6 +741,7 @@ export default function Table() {
 					handleDelete={ handleDelete }
 					starredItems={ starredItems }
 					handleStarred={ handleStarred }
+					handleRead={ handleRead }
 					dateFormatOptions={ dateFormatOptions }
 					handleDownload={ handleDownload }
 					downloadItems={ downloadItems }
