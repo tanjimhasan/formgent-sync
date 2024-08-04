@@ -1,3 +1,6 @@
+import { dispatch } from '@wordpress/data';
+import domReady from '@wordpress/dom-ready';
+
 /**
  * Initially open editor left and right both sidebar
  */
