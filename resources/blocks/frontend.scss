@@ -1,17 +1,12 @@
 @import "form/style.scss";
-@import "address/style.scss";
 @import "name/style.scss";
 @import "website/style.scss";
 @import "email/style.scss";
 @import "button/style.scss";
-@import "dropdown/style.scss";
 @import "number/style.scss";
-@import "gdpr/style.scss";
 @import "text/style.scss";
 @import "textarea/style.scss";
 @import "phone-number/style.scss";
-@import "single-choice/style.scss";
-@import "multi-choice/style.scss";
 
 // Block Input Field Style
 .block-editor-block-list {
@@ -68,7 +63,7 @@
 				order: 1;
 				~ .block-editor-block-list__single__wrapper {
 					justify-content: flex-end;
-					align-items: flex-end;
+					text-align: end;
 				}
 			}
 			&.label-align-top {
