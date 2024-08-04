@@ -173,6 +173,7 @@ export default function Table() {
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus ) {
+		console.log( 'handleStarred : ', id, isStarredStatus );
 		const reverseStarredStatus = isStarredStatus ? 0 : 1;
 		const updateStarredStatus = await patchData(
 			`admin/responses/${ id }/starred/`,
@@ -188,14 +189,16 @@ export default function Table() {
 
 	// handleTableDrawer
 	async function handleTableDrawer( record ) {
-		const responseDrawer = await fetchData(
-			`admin/responses/single?form_id=${ id }&page=${ record.id }`
-		);
+		console.log( ' record: ', record );
+		setTableDrawer( record );
+		// const responseDrawer = await fetchData(
+		// 	`admin/responses/single?form_id=${ id }&page=${ record.id }`
+		// );
 
-		if ( responseDrawer ) {
-			console.log( 'handleTableDrawer', responseDrawer );
-			setTableDrawer( responseDrawer );
-		}
+		// if ( responseDrawer ) {
+		// 	console.log( 'handleTableDrawer', responseDrawer );
+		// 	setTableDrawer( responseDrawer );
+		// }
 	}
 
 	// Date Format
@@ -638,7 +641,7 @@ export default function Table() {
 		const allColumns = [ ...defaultColumns, ...generatedColumns ];
 
 		setCustomColumns( allColumns );
-	}, [ selected_fields, responses ] );
+	}, [ selected_fields, responses, starredItems ] );
 
 	useEffect( () => {
 		setVisibleColumns( selected_fields );

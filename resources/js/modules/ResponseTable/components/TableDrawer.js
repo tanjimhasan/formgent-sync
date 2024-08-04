@@ -81,7 +81,7 @@ export default function TableDrawer( props ) {
 				console.log( ' Star Response ', response );
 				handleStarred(
 					response.id,
-					response.is_starred === '1' ? '0' : '1'
+					response.is_starred === '1' ? true : false
 				);
 			},
 			'read-unread': () => {
