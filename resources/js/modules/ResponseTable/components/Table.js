@@ -207,12 +207,10 @@ export default function Table() {
 
 	// Handle Create Export Data
 	async function handleCreateExportData() {
-		const responsesToExport =
-			selectedRowKeys.length > 0
-				? selectedRowKeys
-				: responses.map( ( item ) => item.id );
 		return await fetchData(
-			`admin/responses/export?form_id=${ id }&response_ids[]=${ responsesToExport }`
+			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
+				response_ids: selectedRowKeys,
+			} )
 		);
 	}
 
