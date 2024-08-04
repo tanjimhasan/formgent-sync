@@ -7,7 +7,6 @@ import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
 import ServerSideRender from '@wordpress/server-side-render';
-import './editor.scss';
 
 const Form = ( { formId } ) => {
 	return (

@@ -39,8 +39,7 @@
 	"supports": {
 		"interactivity": true
 	},
-	"editorScript": "file:index.js",
-	"style": "file:style-index.css",
-	"editorStyle": "file:index.css",
-	"render": "file:render.php"
+	"editorScript": "formgent/blocks-editor",
+	"editorStyle": "formgent/blocks-editor",
+	"style": "formgent/blocks-frontend"
 }

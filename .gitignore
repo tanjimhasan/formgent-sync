@@ -16,5 +16,3 @@ phpcs-report.xml
 /assets/**/*.js.map
 /assets/css/*.js
 .DS_Store
-/languages
-/__build

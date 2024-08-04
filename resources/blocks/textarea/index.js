@@ -3,11 +3,10 @@
  */
 import { __ } from '@wordpress/i18n';
 
-import { registerBlock } from '@formgent/modules';
+import { registerBlock } from '../utils';
 
 import Edit from './Edit';
 import metadata from './block.json';
-import './style.scss';
 
 const exampleAttributes = {};
 

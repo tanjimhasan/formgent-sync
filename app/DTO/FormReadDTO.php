@@ -17,8 +17,6 @@ class FormReadDTO extends DTO {
 
     private array $date_frame = [];
 
-    private ?string $type = null;
-
     /**
      * Get the value of page
      *
@@ -147,28 +145,6 @@ class FormReadDTO extends DTO {
      */
     public function set_date_frame( array $date_frame ) {
         $this->date_frame = $date_frame;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of type
-     *
-     * @return string
-     */
-    public function get_type() {
-        return $this->type;
-    }
-
-    /**
-     * Set the value of type
-     *
-     * @param string $type 
-     *
-     * @return self
-     */
-    public function set_type( string $type ) {
-        $this->type = $type;
 
         return $this;
     }

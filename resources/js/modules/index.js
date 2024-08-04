@@ -1,7 +1,5 @@
 import { registerModule } from '@formgent/modules/helpers';
 import { lazy } from '@wordpress/element';
-import { registerBlock } from './../../blocks/utils';
-
 const EditorModule = lazy( () => import( './Editor' ) );
 const SettingsModule = lazy( () => import( './Settings' ) );
 const ResultsModule = lazy( () => import( './Results' ) );
@@ -16,7 +14,6 @@ registerModule( 'modules', {
 	FormTableModule,
 	ResponseTableModule,
 	FormSubmissionModule,
-	registerBlock,
 } );
 
 /**
@@ -29,5 +26,4 @@ export {
 	ResultsModule,
 	SettingsModule,
 	FormSubmissionModule,
-	registerBlock,
 };

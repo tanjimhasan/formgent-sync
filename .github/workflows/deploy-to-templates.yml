@@ -21,10 +21,10 @@ jobs:
       - name: Setup composer
         run: composer setup
 
-      - name: Setup Node.js 20.10.0
+      - name: Setup Node.js 18.15.0
         uses: actions/setup-node@v2
         with:
-          node-version: "20.10.0"
+          node-version: "18.15.0"
 
       - name: Install yarn globally
         run: npm install --global yarn
@@ -94,4 +94,3 @@ jobs:
             **/Installable
             **/tests
             **/yarn.lock
-            **/.DS_Store

@@ -5,6 +5,8 @@ namespace FormGent\App\Repositories;
 defined( 'ABSPATH' ) || exit;
 
 class SettingsRepository {
+    protected array $settings = [];
+
     public function save( array $settings ) {
         return update_option( 'formgent-settings', map_deep( $settings, 'sanitize_text_field' ) );
     }

@@ -1,5 +1,3 @@
-import './editor.scss';
-
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="block-editor-block-list__single">

@@ -28,16 +28,8 @@ if ( 'formgent_form' === typenow ) {
 	require( './multi-choice' );
 	require( './phone-number' );
 	require( './address' );
+	// require( './button' );
 	require( './website' );
 } else {
 	require( './form' );
 }
-/**
- * Initially open editor left and right both sidebar
- */
-domReady( function () {
-	setTimeout( function () {
-		dispatch( 'core/editor' ).setIsInserterOpened( true );
-		dispatch( 'core/edit-post' ).openGeneralSidebar( 'edit-post/document' );
-	}, 0 );
-} );
