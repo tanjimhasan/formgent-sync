@@ -1,62 +1,62 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "formgent/name",
-	"title": "Name",
-	"category": "formgent",
-	"description": "FormGent Name field.",
-	"textdomain": "formgent",
-	"attributes": {
-		"id": {
-			"type": "string",
-			"default": ""
-		},
-		"name": {
-			"type": "string",
-			"default": "names"
-		},
-		"content": {
-			"type": "string",
-			"default": "Content for edit"
-		},
-		"label": {
-			"type": "string",
-			"default": "Hello World"
-		},
-		"format": {
-			"type": "string",
-			"default": "first_last"
-		},
-		"checkbox": {
-			"type": "boolean",
-			"default": true
-		},
-		"switch": {
-			"type": "boolean",
-			"default": true
-		},
-		"margin": {
-			"type": "object",
-			"default": {}
-		},
-		"padding": {
-			"type": "object",
-			"default": {}
-		},
-		"toggle_group": {
-			"type": "string",
-			"default": "left"
-		},
-		"repeater": {
-			"type": "array",
-			"default": []
-		}
-	},
-	"supports": {
-		"interactivity": true
-	},
-	"editorScript": "file:index.js",
-	"style": "file:style-index.css",
-	"editorStyle": "file:index.css",
-	"render": "file:render.php"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "formgent/name",
+  "title": "Name",
+  "category": "formgent",
+  "description": "FormGent Name field.",
+  "textdomain": "formgent",
+  "attributes": {
+    "id": {
+      "type": "string",
+      "default": ""
+    },
+    "name": {
+      "type": "string",
+      "default": "names"
+    },
+    "content": {
+      "type": "string",
+      "default": "Content for edit"
+    },
+    "label": {
+      "type": "string",
+      "default": "Hello World"
+    },
+    "format": {
+      "type": "string",
+      "default": "first_last"
+    },
+    "checkbox": {
+      "type": "boolean",
+      "default": true
+    },
+    "switch": {
+      "type": "boolean",
+      "default": true
+    },
+    "margin": {
+      "type": "object",
+      "default": {}
+    },
+    "padding": {
+      "type": "object",
+      "default": {}
+    },
+    "toggle_group": {
+      "type": "string",
+      "default": "left"
+    },
+    "repeater": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "supports": {
+    "interactivity": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:style-index.css",
+  "editorStyle": "file:index.css",
+  "render": "file:render.php"
 }

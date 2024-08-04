@@ -91,7 +91,7 @@ export default function TableDrawer( props ) {
 			},
 			delete: () => {
 				console.log( ' Delete Response ', response );
-				handleDelete();
+				handleDelete( [ response.id ] );
 			},
 		};
 

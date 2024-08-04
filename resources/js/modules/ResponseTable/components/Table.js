@@ -512,11 +512,11 @@ export default function Table() {
 	}
 
 	// Handle Delete
-	async function handleDelete() {
-		console.log( 'Delete clicked', selectedRowKeys );
+	async function handleDelete( ids ) {
+		console.log( 'Delete clicked', ids, selectedRowKeys );
 		const deleteResponse = await deleteData(
 			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
-				ids: selectedRowKeys,
+				ids: ids || selectedRowKeys,
 			} )
 		);
 
@@ -722,6 +722,7 @@ export default function Table() {
 					response={ tableDrawer }
 					setTableDrawer={ setTableDrawer }
 					handleDelete={ handleDelete }
+					starredItems={ starredItems }
 					handleStarred={ handleStarred }
 					dateFormatOptions={ dateFormatOptions }
 					handleDownload={ handleDownload }
