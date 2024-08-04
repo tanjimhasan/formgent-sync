@@ -298,6 +298,16 @@ class FormRepository {
         );
     }
 
+    public function update_bulk_status( array $ids, string $post_status ) {
+        $ids = map_deep( $ids, "intval" );
+
+        return Post::query()->where( 'post_type', formgent_post_type() )->where_in( 'ID', $ids )->update(
+            [
+                'post_status' => $post_status
+            ]
+        );
+    }
+
     public function get_by_id( int $id, $columns = ['*'] ) {
         return Post::query()->select( $columns )->where( 'ID', $id )->where( 'post_type', formgent_post_type() )->first();
     }

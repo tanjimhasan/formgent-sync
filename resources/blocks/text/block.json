@@ -25,7 +25,7 @@
 		},
 		"label": {
 			"type": "string",
-			"default": "Label"
+			"default": "Text"
 		},
 		"label_alignment": {
 			"type": "string",
@@ -33,7 +33,7 @@
 		},
 		"sub_label": {
 			"type": "string",
-			"default": "Sub Label"
+			"default": "Enter Text Here"
 		},
 		"required": {
 			"type": "boolean",

@@ -13,6 +13,7 @@ Route::group(
     'admin', function() {
         Route::group(
             'forms', function() {
+                Route::post( 'status', [FormController::class, 'update_bulk_status'] );
                 Route::get( '{id}/settings', [FormController::class, 'get_settings'] );
                 Route::post( '{id}/settings', [FormController::class, 'update_settings'] );
                 Route::patch( '{id}/status', [FormController::class, 'update_status'] );
