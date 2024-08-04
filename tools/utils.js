@@ -58,6 +58,7 @@ const buildFiles = [
 const buildIgnoreFiles = [
 	'**/Gruntfile.js',
 	'**/.gitignore',
+	'**/.DS_Store',
 	'vendor/vendor-src/bin',
 	'vendor/scoper-autoload.php',
 	'**/dev-*/**',
@@ -68,6 +69,7 @@ const buildIgnoreFiles = [
 	'**/.*',
 	'**/build/*.txt',
 	'**/*.map',
+	'**/assets/build/**/*-rtl.css',
 	'**/*.config',
 	'**/*.config.js',
 	'**/package.json',
@@ -85,6 +87,7 @@ const buildIgnoreFiles = [
 	'**/LICENSE',
 	'**/Installable',
 	'**/tests',
+	'**/composer/installed.json',
 ].map( ( file_path ) => `${ dist }/zip/${ pluginRootFile }/${ file_path }` );
 
 module.exports = {

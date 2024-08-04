@@ -1,5 +1,14 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
-<pre>
-    <?php print_r( $attributes ); ?>
-</pre>
+<div class="formgent-form-field">
+    <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
+    <textarea
+        name="<?php echo esc_attr( $attributes['name'] ); ?>"
+        id="<?php echo esc_attr( $attributes['name'] ); ?>"
+        class="formgent-form-field__element"
+        col="8"
+        rows="5"
+        data-wp-interactive="formgent/form"
+        data-wp-on--input="actions.updateInput"
+        data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"></textarea>
+</div>
