@@ -66,6 +66,10 @@
 			}
 			&.label-align-right {
 				order: 1;
+				~ .block-editor-block-list__single__wrapper {
+					justify-content: flex-end;
+					align-items: flex-end;
+				}
 			}
 			&.label-align-top {
 				flex: 0 0 100%;
