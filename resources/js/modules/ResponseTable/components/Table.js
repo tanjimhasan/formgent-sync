@@ -12,6 +12,7 @@ import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
 import TableDrawer from './TableDrawer';
@@ -513,9 +514,9 @@ export default function Table() {
 	async function handleDelete() {
 		console.log( 'Delete clicked', selectedRowKeys );
 		const deleteResponse = await deleteData(
-			`admin/responses?form_id=${ parseInt(
-				id
-			) }&ids[]==${ selectedRowKeys }`
+			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
+				ids: selectedRowKeys,
+			} )
 		);
 
 		if ( deleteResponse ) {
