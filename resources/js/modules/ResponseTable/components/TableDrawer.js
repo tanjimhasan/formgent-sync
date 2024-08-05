@@ -9,6 +9,7 @@ import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
 import closeIcon from '@icon/close.svg';
 import downloadIcon from '@icon/download.svg';
+import editIcon from '@icon/edit.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import mailIcon from '@icon/mail.svg';
 import plusIcon from '@icon/plus.svg';
@@ -75,6 +76,38 @@ export default function TableDrawer( props ) {
 		},
 	];
 
+	// Select Note Items Data
+	const selectItemsNote = [
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ editIcon } />
+					Edit
+				</span>
+			),
+			key: 'edit',
+		},
+		{
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="14" height="14" src={ trashIcon } />
+					Delete
+				</span>
+			),
+			key: 'delete',
+		},
+	];
+
+	// Note Action Functions
+
+	function handleNoteEdit( id ) {
+		console.log( 'handleNoteEdit ! ', id );
+	}
+
+	function handleNoteDelete( id ) {
+		console.log( 'handleNoteDelete ! ', id );
+	}
+
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
@@ -102,9 +135,44 @@ export default function TableDrawer( props ) {
 		return selectFunctions[ key ] ? selectFunctions[ key ]() : null;
 	}
 
+	// handleSelectItems
+	function handleSelectItemsNote( { key }, id ) {
+		const selectFunctionsNote = {
+			edit: () => {
+				console.log( ' Response Note Edit ', id );
+				setEnableSubmissionInput( id );
+			},
+			delete: () => {
+				console.log( ' Response Note Edit ', id );
+				handleNoteDelete( id );
+			},
+		};
+
+		// Get the sorted data based on the key
+		return selectFunctionsNote[ key ] ? selectFunctionsNote[ key ]() : null;
+	}
+
 	// Handle Drawer Tab Change
 	function handleDrawerTabChange( key ) {
 		setActiveDrawerTab( key );
+	}
+
+	function handleNoteFormSubmit( e ) {
+		e.preventDefault();
+		const status = enableSubmissionInput === 'create' ? 'create' : 'edit';
+		console.log( 'Note Form Submitted', status );
+
+		if ( status === 'create' ) {
+			// Handle the creation of a new note
+			// Your logic for creating a new note goes here
+			console.log( 'Creating a new note' );
+			setEnableSubmissionInput( false );
+		} else {
+			// Handle the update of an existing note
+			// Your logic for updating an existing note goes here
+			console.log( 'Updating note with ID:', enableSubmissionInput );
+			setEnableSubmissionInput( false );
+		}
 	}
 
 	return (
@@ -263,7 +331,7 @@ export default function TableDrawer( props ) {
 										className="response-table__drawer__tab__submission__add"
 										onClick={ () => {
 											setEnableSubmissionInput(
-												! enableSubmissionInput
+												'create'
 											);
 										} }
 									>
@@ -276,40 +344,107 @@ export default function TableDrawer( props ) {
 									</button>
 								</div>
 								{ enableSubmissionInput ? (
-									<div className="response-table__drawer__tab__submission__note">
+									<form className="response-table__drawer__tab__submission__note">
 										<textarea
 											placeholder="You can create your note here..."
 											className="response-table__drawer__tab__submission__input"
 										/>
-										<button className="response-table__drawer__tab__submission__save">
+										<button
+											className="response-table__drawer__tab__submission__save"
+											onClick={ ( e ) =>
+												handleNoteFormSubmit( e )
+											}
+										>
 											Save note
 										</button>
-									</div>
+									</form>
 								) : (
 									<div className="response-table__drawer__tab__submission__content">
 										<div className="response-table__drawer__tab__submission__content__single">
-											<span className="response-table__drawer__tab__submission__content__published-date">
-												Sat, Jun 22, 1:18 PM
-											</span>
-											<p className="response-table__drawer__tab__submission__content__text">
-												Lorem ipsum dolor sit amet
-												consectetur. Suspendisse morbi
-												mattis gravida aliquet nunc
-												suscipit aliquam. Turpis sed id
-												elementum auctor.
-											</p>
+											<div className="response-table__drawer__tab__submission__content__wrapper">
+												<span className="response-table__drawer__tab__submission__content__published-date">
+													Sat, Jun 22, 1:18 PM
+												</span>
+												<p className="response-table__drawer__tab__submission__content__text">
+													Lorem ipsum dolor sit amet
+													consectetur. Suspendisse
+													morbi mattis gravida aliquet
+													nunc suscipit aliquam.
+													Turpis sed id elementum
+													auctor.
+												</p>
+											</div>
+											<AntDropdown
+												menu={ {
+													items: selectItemsNote,
+													onClick: ( e ) =>
+														handleSelectItemsNote(
+															e,
+															'1'
+														),
+												} }
+												trigger={ [ 'click' ] }
+												placement="bottomLeft"
+												overlayStyle={ {
+													minWidth: '240px',
+												} }
+											>
+												<button
+													className="response-table__drawer__tab__submission__content__btn"
+													onClick={ ( e ) =>
+														e.preventDefault()
+													}
+												>
+													<ReactSVG
+														width="14"
+														height="14"
+														src={ ellipsisVIcon }
+													/>
+												</button>
+											</AntDropdown>
 										</div>
 										<div className="response-table__drawer__tab__submission__content__single">
-											<span className="response-table__drawer__tab__submission__content__published-date">
-												Sat, Jun 22, 1:18 PM
-											</span>
-											<p className="response-table__drawer__tab__submission__content__text">
-												Lorem ipsum dolor sit amet
-												consectetur. Suspendisse morbi
-												mattis gravida aliquet nunc
-												suscipit aliquam. Turpis sed id
-												elementum auctor.
-											</p>
+											<div className="response-table__drawer__tab__submission__content__wrapper">
+												<span className="response-table__drawer__tab__submission__content__published-date">
+													Sat, Jun 22, 1:18 PM
+												</span>
+												<p className="response-table__drawer__tab__submission__content__text">
+													Lorem ipsum dolor sit amet
+													consectetur. Suspendisse
+													morbi mattis gravida aliquet
+													nunc suscipit aliquam.
+													Turpis sed id elementum
+													auctor.
+												</p>
+											</div>
+											<AntDropdown
+												menu={ {
+													items: selectItemsNote,
+													onClick: ( e ) =>
+														handleSelectItemsNote(
+															e,
+															'2'
+														),
+												} }
+												trigger={ [ 'click' ] }
+												placement="bottomLeft"
+												overlayStyle={ {
+													minWidth: '240px',
+												} }
+											>
+												<button
+													className="response-table__drawer__tab__submission__content__btn"
+													onClick={ ( e ) =>
+														e.preventDefault()
+													}
+												>
+													<ReactSVG
+														width="14"
+														height="14"
+														src={ ellipsisVIcon }
+													/>
+												</button>
+											</AntDropdown>
 										</div>
 									</div>
 								) }

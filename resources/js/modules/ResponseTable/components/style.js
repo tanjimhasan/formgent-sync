@@ -390,7 +390,7 @@ const TableDrawerStyle = Styled.div`
     right: -15px;
     z-index: 1;
     background: #fff;
-    overflow: hidden;
+    overflow-y: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     .response-table__drawer__header {
         display: flex;
@@ -669,7 +669,21 @@ const TableDrawerStyle = Styled.div`
             .response-table__drawer__tab__submission__content__single {
                 display: flex;
                 gap: 10px;
-                flex-direction: column;
+                .response-table__drawer__tab__submission__content__single__wrapper {
+                    display: flex;
+                    gap: 10px;
+                    flex-direction: column;
+                }
+                .response-table__drawer__tab__submission__content__btn {
+                    font-size: 12px;
+                    padding: 0;
+                    margin: 0;
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    transition: all ease .3s;
+                }
+                
                 .response-table__drawer__tab__submission__content__published-date {
                     font-size: 12px;
                 }
@@ -684,7 +698,6 @@ const TableDrawerStyle = Styled.div`
                 width: 100%;
                 height: 200px;
                 padding: 15px;
-                border: none;
                 border-radius: 10px;
             }
             .response-table__drawer__tab__submission__save {
