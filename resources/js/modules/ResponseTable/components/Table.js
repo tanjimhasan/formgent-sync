@@ -529,6 +529,14 @@ export default function Table() {
 		);
 	}
 
+	function handleSearch( value ) {
+		console.log( 'Search Item Changed', value );
+		resolveSelect( 'formgent' ).getSingleFormResponseSearch(
+			value,
+			parseInt( id )
+		);
+	}
+
 	// Handle Delete
 	async function handleDelete( ids ) {
 		console.log( 'Delete clicked', ids, selectedRowKeys );
@@ -696,6 +704,7 @@ export default function Table() {
 					handleTableChange={ handleTableChange }
 					totalCompletedItems={ totalCompletedItems }
 					totalPartialItems={ totalPartialItems }
+					handleSearch={ handleSearch }
 					activeTab={ activeTab }
 					setActiveTab={ setActiveTab }
 					visibleColumns={ visibleColumns }

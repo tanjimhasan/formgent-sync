@@ -27,6 +27,7 @@ export default function TableHeader( props ) {
 		handleTableChange,
 		totalCompletedItems,
 		totalPartialItems,
+		handleSearch,
 		activeTab,
 		setActiveTab,
 		visibleColumns,
@@ -42,11 +43,6 @@ export default function TableHeader( props ) {
 	// Handle Tab Change
 	function handleTabChange( key ) {
 		setActiveTab( key );
-	}
-
-	// Handle Search
-	function handleSearch( value ) {
-		console.log( 'Search:', value );
 	}
 
 	// Handle Filter
