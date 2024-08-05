@@ -128,10 +128,10 @@ export const SingleFormActions = {
 	 * @param {String} path - path for requesting api
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
-	fetchResponse: ( path, currentPage, perPage, formID ) => {
+	fetchResponse: ( path, currentPage, perPage, searchItem, formID ) => {
 		return {
 			type: 'FETCH_RESPONSE',
-			payload: { path, currentPage, perPage, formID },
+			payload: { path, currentPage, perPage, searchItem, formID },
 		};
 	},
 

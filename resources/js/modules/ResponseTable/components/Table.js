@@ -41,6 +41,7 @@ export default function Table() {
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ tableDrawer, setTableDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
+	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ starredItems, setStarredItems ] = useState( {} );
 	const [ readItems, setReadItems ] = useState( {} );
 	const [ customColumns, setCustomColumns ] = useState( [] );
@@ -158,6 +159,13 @@ export default function Table() {
 				setHiddenColumns( ( prevHiddenColumns ) => {
 					return [ ...prevHiddenColumns, dropdownId ];
 				} );
+				setVisibleColumns(
+					visibleColumns.includes( dropdownId )
+						? visibleColumns.filter(
+								( item ) => item !== dropdownId
+						  )
+						: visibleColumns
+				);
 			},
 		};
 
@@ -168,6 +176,7 @@ export default function Table() {
 			const sortedData = sortFunctions[ key ]
 				? sortFunctions[ key ]()
 				: filteredData;
+
 			setFilteredData( sortedData );
 		}
 	}
@@ -519,27 +528,38 @@ export default function Table() {
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 
-	function handleTableChange( pagination ) {
-		console.log( 'Table Changed', responses, pagination, isLoading );
-		updateCurrentResponsePage( pagination?.current );
+	function handleTableChange( page ) {
+		console.log(
+			'Table Changed',
+			responses,
+			page,
+			searchItem,
+			isLoading,
+			defaultColumns,
+			customColumns
+		);
+		updateCurrentResponsePage( page?.current );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
-			pagination?.current,
+			page?.current || pagination.current_page,
 			10,
+			searchItem,
 			parseInt( id )
 		);
+		setHiddenColumns( [] );
+		setFrozenColumns( [] );
 	}
 
 	function handleSearch( value ) {
 		console.log( 'Search Item Changed', value );
-		resolveSelect( 'formgent' ).getSingleFormResponseSearch(
-			value,
-			parseInt( id )
-		);
+		setSearchItem( value );
+		// resolveSelect( 'formgent' ).getSingleFormResponseSearch(
+		// 	value,
+		// 	parseInt( id )
+		// );
 	}
 
 	// Handle Delete
 	async function handleDelete( ids ) {
-		console.log( 'Delete clicked', ids, selectedRowKeys );
 		const deleteResponse = await deleteData(
 			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
 				ids: ids || selectedRowKeys,
@@ -547,7 +567,6 @@ export default function Table() {
 		);
 
 		if ( deleteResponse ) {
-			console.log( 'Deleted SUccessfully : ', deleteResponse );
 			handleTableChange();
 		}
 	}
@@ -569,12 +588,10 @@ export default function Table() {
 	}, [ hiddenColumns ] );
 
 	useEffect( () => {
-		const newColumns = defaultColumns.map( ( col ) => {
+		const newColumns = customColumns.map( ( col ) => {
 			return {
 				...col,
-				fixed: frozenColumns.includes( col.dataIndex )
-					? 'left'
-					: col.fixed,
+				fixed: frozenColumns.includes( col.dataIndex ) ? 'left' : null,
 			};
 		} );
 
@@ -667,9 +684,16 @@ export default function Table() {
 		const allColumns = [ ...defaultColumns, ...generatedColumns ];
 
 		setCustomColumns( allColumns );
-	}, [ selected_fields, responses, starredItems, readItems ] );
+	}, [
+		selected_fields,
+		responses,
+		visibleColumns,
+		starredItems,
+		readItems,
+	] );
 
 	useEffect( () => {
+		console.log( 'selected_fields : ', selected_fields );
 		setVisibleColumns( selected_fields );
 	}, [ selected_fields ] );
 
@@ -680,6 +704,11 @@ export default function Table() {
 			handleColumn();
 		}
 	}, [ visibleColumns ] );
+
+	useEffect( () => {
+		console.log( 'searchItem  Changes: ', searchItem );
+		handleTableChange();
+	}, [ searchItem ] );
 
 	useEffect( () => {
 		handleTableChange();

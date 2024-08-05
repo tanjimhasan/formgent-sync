@@ -53,7 +53,6 @@ export default function TableHeader( props ) {
 	// Handle Refresh
 	function handleRefresh() {
 		handleTableChange();
-		console.log( 'Refresh clicked' );
 	}
 
 	// Handle column checkbox change
