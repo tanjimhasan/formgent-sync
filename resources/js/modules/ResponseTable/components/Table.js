@@ -229,7 +229,10 @@ export default function Table() {
 	async function handleCreateExportData() {
 		return await fetchData(
 			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
-				response_ids: [ tableDrawer.id ] || selectedRowKeys,
+				response_ids:
+					selectedRowKeys.length > 0
+						? selectedRowKeys
+						: [ tableDrawer.id ],
 			} )
 		);
 	}
