@@ -226,21 +226,18 @@ export default function Table() {
 	};
 
 	// Handle Create Export Data
-	async function handleCreateExportData() {
+	async function handleCreateExportData( source ) {
 		return await fetchData(
 			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
 				response_ids:
-					selectedRowKeys.length > 0
-						? selectedRowKeys
-						: [ tableDrawer.id ],
+					source === 'drawer' ? [ tableDrawer.id ] : selectedRowKeys,
 			} )
 		);
 	}
 
 	// Handle Download
-	async function handleDownload( { key } ) {
-		console.log( 'handleDownload', key );
-		const exportedData = await handleCreateExportData();
+	async function handleDownload( { key }, source ) {
+		const exportedData = await handleCreateExportData( source );
 		if ( exportedData ) {
 			if ( key === 'pdf' ) {
 				return exportToPDF( exportedData, 'formgent-response' );
@@ -709,9 +706,6 @@ export default function Table() {
 					handleDelete={ handleDelete }
 					downloadItems={ downloadItems }
 					handleDownload={ handleDownload }
-					handleExportCSV={ handleExportCSV }
-					csvExportData={ csvExportData }
-					setCSVExportData={ setCSVExportData }
 				/>
 
 				<AntTable
@@ -747,7 +741,9 @@ export default function Table() {
 					handleStarred={ handleStarred }
 					handleRead={ handleRead }
 					dateFormatOptions={ dateFormatOptions }
-					handleDownload={ handleDownload }
+					handleDownload={ ( key ) =>
+						handleDownload( key, 'drawer' )
+					}
 					downloadItems={ downloadItems }
 				/>
 			) }
