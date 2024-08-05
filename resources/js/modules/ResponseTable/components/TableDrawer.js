@@ -471,7 +471,7 @@ export default function TableDrawer( props ) {
 										Username
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.user_name }
+										{ response.user_name || 'Default User' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
@@ -479,7 +479,8 @@ export default function TableDrawer( props ) {
 										User Email
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.user_email }
+										{ response.user_email ||
+											'Default Mail' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
@@ -505,7 +506,8 @@ export default function TableDrawer( props ) {
 										Browser
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										Chrome 125.0.0.0
+										{ response.browser ||
+											'Default Browser' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
@@ -513,7 +515,7 @@ export default function TableDrawer( props ) {
 										Operating System
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										MAC OS10.15.17
+										{ response.device || 'Default Device' }
 									</span>
 								</div>
 							</div>
