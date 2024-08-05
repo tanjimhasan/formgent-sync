@@ -108,14 +108,14 @@ const TableStyle = Styled.div`
 
     .formgent-form-date {
         &:hover {
-            .response-table__modal__open {
+            .response-table__drawer__open {
                 opacity: 1;
                 visibility: visible;
             }
         }
     }
 
-    .response-table__modal__open {
+    .response-table__drawer__open {
         position: absolute;
         right: 40px;
         top: 50%;
@@ -390,23 +390,24 @@ const TableDrawerStyle = Styled.div`
     right: -15px;
     z-index: 1;
     background: #fff;
+    overflow: hidden;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    .response-table__modal__header {
+    .response-table__drawer__header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 15px 20px;
         border-bottom: 1px solid var(--formgent-color-border-light);
     }
-    .response-table__modal__header__response {
+    .response-table__drawer__header__response {
         display: flex;
         gap: 10px;
         align-items: center;
-        .response-table__modal__header__response__btns {
+        .response-table__drawer__header__response__btns {
             display: flex;
             gap: 10px;
             align-items: center;
-            .response-table__modal__header__response__btn {
+            .response-table__drawer__header__response__btn {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -432,11 +433,11 @@ const TableDrawerStyle = Styled.div`
             }
         }
     }
-    .response-table__modal__header__action {
+    .response-table__drawer__header__action {
         display: flex;
         gap: 10px;
         align-items: center;
-        .response-table__modal__header__action__btn {
+        .response-table__drawer__header__action__btn {
             height: 40px;
             font-size: 14px;
             font-weight: 600;
@@ -456,7 +457,7 @@ const TableDrawerStyle = Styled.div`
                 border-color: var(--formgent-color-light-gray);
             }
         }
-        .response-table__modal__close {
+        .response-table__drawer__close {
             height: 40px;
             padding: 0 10px;
             background: var(--formgent-color-bg-general);
@@ -470,14 +471,14 @@ const TableDrawerStyle = Styled.div`
             }
         }
     }
-    .response-table__modal__content {
+    .response-table__drawer__content {
         padding: 20px;
     }
-    .response-table__modal__tab__content {
+    .response-table__drawer__tab__content {
         padding: 30px 0 0;
     }
-    .response-table__modal__tab {
-        .response-table__modal__tab__nav {
+    .response-table__drawer__tab {
+        .response-table__drawer__tab__nav {
             display: flex;
             gap: 0;
         }
@@ -521,23 +522,23 @@ const TableDrawerStyle = Styled.div`
             }
         }
     }
-    .response-table__modal__tab__wrapper {
+    .response-table__drawer__tab__wrapper {
         display: flex;
         gap: 10px;
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .response-table__modal__tab__item {
+    .response-table__drawer__tab__item {
         display: flex;
         gap: 10px;
         padding: 20px 0;
-        &.response-table__modal__tab__item--tag {
-            .response-table__modal__tab__item__title {
+        &.response-table__drawer__tab__item--tag {
+            .response-table__drawer__tab__item__title {
                 height: 40px;
             }
         }
-        .response-table__modal__tab__item__icon {
+        .response-table__drawer__tab__item__icon {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -547,12 +548,12 @@ const TableDrawerStyle = Styled.div`
             border-radius: 8px;
             background-color: var(--formgent-color-bg-light);
         }
-        .response-table__modal__tab__item__content {
+        .response-table__drawer__tab__item__content {
             display: flex;
             gap: 10px;
             flex-direction: column;
         }
-        .response-table__modal__tab__item__title {
+        .response-table__drawer__tab__item__title {
             display: flex;
             align-items: center;
             font-size: 14px;
@@ -560,12 +561,12 @@ const TableDrawerStyle = Styled.div`
             color: var(--formgent-color-dark);
             margin: 0;
         }
-        .response-table__modal__tab__item__desc {
+        .response-table__drawer__tab__item__desc {
             font-size: 14px;
             color: var(--formgent-color-light-gray);
             margin: 0;
         }
-        .response-table__modal__tab__item__add {
+        .response-table__drawer__tab__item__add {
             display: flex;
             align-items: center;
             background: transparent;
@@ -577,11 +578,11 @@ const TableDrawerStyle = Styled.div`
                 color: var(--formgent-color-primary);
             }
         }
-        .response-table__modal__tab__item__btns {
+        .response-table__drawer__tab__item__btns {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            .response-table__modal__tab__item__btn {
+            .response-table__drawer__tab__item__btn {
                 font-size: 12px;
                 padding: 5px 10px;
                 margin: 0;
@@ -598,13 +599,13 @@ const TableDrawerStyle = Styled.div`
             }
         }
     }
-    .response-table__modal__tab__tag {
+    .response-table__drawer__tab__tag {
         display: flex;
         gap: 6px;
         align-items: center;
         flex-wrap: wrap;
         margin: 0;
-        .response-table__modal__tab__tag__item {
+        .response-table__drawer__tab__tag__item {
             display: flex;
             gap: 5px;
             align-items: center;
@@ -613,7 +614,7 @@ const TableDrawerStyle = Styled.div`
             border-radius: 8px;
             box-sizing: border-box;
             background-color: var(--formgent-color-bg-light);
-            .response-table__modal__tab__tag__item__single__close {
+            .response-table__drawer__tab__tag__item__single__close {
                 display: flex;
                 align-items: center;
                 font-size: 12px;
@@ -629,22 +630,22 @@ const TableDrawerStyle = Styled.div`
         }
     }
 
-    .response-table__modal__tab__submission {
+    .response-table__drawer__tab__submission {
         display: flex;
         gap: 20px;
         flex-direction: column;
-        .response-table__modal__tab__submission__header {
+        .response-table__drawer__tab__submission__header {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        .response-table__modal__tab__submission__title {
+        .response-table__drawer__tab__submission__title {
             font-size: 14px;
             font-weight: 600;
             color: var(--formgent-color-dark);
             margin: 0;
         }
-        .response-table__modal__tab__submission__add {
+        .response-table__drawer__tab__submission__add {
             display: flex;
             gap: 6px;
             align-items: center;
@@ -661,32 +662,32 @@ const TableDrawerStyle = Styled.div`
                 background: var(--formgent-color-dark);
             }
         }
-        .response-table__modal__tab__submission__content {
+        .response-table__drawer__tab__submission__content {
             display: flex;
             gap: 20px;
             flex-direction: column;
-            .response-table__modal__tab__submission__content__single {
+            .response-table__drawer__tab__submission__content__single {
                 display: flex;
                 gap: 10px;
                 flex-direction: column;
-                .response-table__modal__tab__submission__content__published-date {
+                .response-table__drawer__tab__submission__content__published-date {
                     font-size: 12px;
                 }
-                .response-table__modal__tab__submission__content__text {
+                .response-table__drawer__tab__submission__content__text {
                     font-size: 12px;
                     margin: 0;
                 }
             }
         }
-        .response-table__modal__tab__submission__note {
-            .response-table__modal__tab__submission__input {
+        .response-table__drawer__tab__submission__note {
+            .response-table__drawer__tab__submission__input {
                 width: 100%;
                 height: 200px;
                 padding: 15px;
                 border: none;
                 border-radius: 10px;
             }
-            .response-table__modal__tab__submission__save {
+            .response-table__drawer__tab__submission__save {
                 font-size: 12px;
                 padding: 5px 10px;
                 margin: 10px 0 0;
@@ -703,14 +704,14 @@ const TableDrawerStyle = Styled.div`
         }
     }
 
-    .response-table__modal__tab__info {
+    .response-table__drawer__tab__info {
         display: flex;
         gap: 15px;
         flex-direction: column;
-        .response-table__modal__tab__info__single {
+        .response-table__drawer__tab__info__single {
             display: flex;
             gap: 10px;
-            .response-table__modal__tab__info__title {
+            .response-table__drawer__tab__info__title {
                 font-size: 14px;
                 font-weight: 600;
                 color: var(--formgent-color-dark);
@@ -718,7 +719,7 @@ const TableDrawerStyle = Styled.div`
                 width: 200px;
                 min-width: 200px;
             }
-            .response-table__modal__tab__info__value {
+            .response-table__drawer__tab__info__value {
                 display: flex;
                 gap: 5px;
                 font-size: 14px;
@@ -727,7 +728,7 @@ const TableDrawerStyle = Styled.div`
             }
         }
 
-        .response-table__modal__tab__info__tag {
+        .response-table__drawer__tab__info__tag {
             display: flex;
             gap: 6px;
             margin: 0;

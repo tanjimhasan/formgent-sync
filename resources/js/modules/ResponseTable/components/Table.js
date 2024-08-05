@@ -229,13 +229,14 @@ export default function Table() {
 	async function handleCreateExportData() {
 		return await fetchData(
 			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
-				response_ids: selectedRowKeys,
+				response_ids: [ tableDrawer.id ] || selectedRowKeys,
 			} )
 		);
 	}
 
 	// Handle Download
 	async function handleDownload( { key } ) {
+		console.log( 'handleDownload', key );
 		const exportedData = await handleCreateExportData();
 		if ( exportedData ) {
 			if ( key === 'pdf' ) {
@@ -460,7 +461,7 @@ export default function Table() {
 							dateFormatOptions
 						) }
 						<button
-							className="response-table__modal__open"
+							className="response-table__drawer__open"
 							onClick={ () => {
 								handleTableDrawer( record );
 							} }

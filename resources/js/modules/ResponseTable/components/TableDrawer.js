@@ -28,12 +28,12 @@ export default function TableDrawer( props ) {
 		downloadItems,
 		dateFormatOptions,
 	} = props;
-	const [ activeModalTab, setActiveModalTab ] = useState( 'answers' );
+	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
 
-	// Modal Tab Items
-	const modalTabItems = [
+	// Drawer Tab Items
+	const drawerTabItems = [
 		{
 			key: 'answers',
 			label: 'Answers',
@@ -102,24 +102,24 @@ export default function TableDrawer( props ) {
 		return selectFunctions[ key ] ? selectFunctions[ key ]() : null;
 	}
 
-	// Handle Modal Tab Change
-	function handleModalTabChange( key ) {
-		setActiveModalTab( key );
+	// Handle Drawer Tab Change
+	function handleDrawerTabChange( key ) {
+		setActiveDrawerTab( key );
 	}
 
 	return (
-		<TableDrawerStyle className="response-table__modal">
-			<div className="response-table__modal__header">
-				<div className="response-table__modal__header__response">
-					<div className="response-table__modal__header__response__btns">
-						<button className="response-table__modal__header__response__btn">
+		<TableDrawerStyle className="response-table__drawer">
+			<div className="response-table__drawer__header">
+				<div className="response-table__drawer__header__response">
+					<div className="response-table__drawer__header__response__btns">
+						<button className="response-table__drawer__header__response__btn">
 							<ReactSVG
 								width="14"
 								height="14"
 								src={ arrowLeftIcon }
 							/>
 						</button>
-						<button className="response-table__modal__header__response__btn">
+						<button className="response-table__drawer__header__response__btn">
 							<ReactSVG
 								width="14"
 								height="14"
@@ -129,7 +129,7 @@ export default function TableDrawer( props ) {
 					</div>
 					<span className="">1 of 4 Responses</span>
 				</div>
-				<div className="response-table__modal__header__action">
+				<div className="response-table__drawer__header__action">
 					<AntDropdown
 						menu={ {
 							items: downloadItems,
@@ -149,7 +149,7 @@ export default function TableDrawer( props ) {
 						/>
 					</AntDropdown>
 
-					<div className="response-table__modal__header__dropdown">
+					<div className="response-table__drawer__header__dropdown">
 						<AntDropdown
 							menu={ {
 								items: selectItems,
@@ -160,7 +160,7 @@ export default function TableDrawer( props ) {
 							overlayStyle={ { minWidth: '240px' } }
 						>
 							<button
-								className="response-table__modal__header__action__btn"
+								className="response-table__drawer__header__action__btn"
 								onClick={ ( e ) => e.preventDefault() }
 							>
 								<ReactSVG
@@ -172,7 +172,7 @@ export default function TableDrawer( props ) {
 						</AntDropdown>
 					</div>
 					<button
-						className="response-table__modal__close"
+						className="response-table__drawer__close"
 						onClick={ () => {
 							setTableDrawer( false );
 						} }
@@ -181,29 +181,29 @@ export default function TableDrawer( props ) {
 					</button>
 				</div>
 			</div>
-			<div className="response-table__modal__content">
-				<div className="response-table__modal__tab">
+			<div className="response-table__drawer__content">
+				<div className="response-table__drawer__tab">
 					<AntTabs
-						activeKey={ activeModalTab }
-						onChange={ handleModalTabChange }
-						items={ modalTabItems }
+						activeKey={ activeDrawerTab }
+						onChange={ handleDrawerTabChange }
+						items={ drawerTabItems }
 					/>
-					{ activeModalTab === 'answers' && (
-						<div className="response-table__modal__tab__content">
-							<div className="response-table__modal__tab__wrapper">
-								<div className="response-table__modal__tab__item">
-									<div className="response-table__modal__tab__item__icon">
+					{ activeDrawerTab === 'answers' && (
+						<div className="response-table__drawer__tab__content">
+							<div className="response-table__drawer__tab__wrapper">
+								<div className="response-table__drawer__tab__item">
+									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
 											width="14"
 											height="14"
 											src={ transformIcon }
 										/>
 									</div>
-									<div className="response-table__modal__tab__item__content">
-										<h5 className="response-table__modal__tab__item__title">
+									<div className="response-table__drawer__tab__item__content">
+										<h5 className="response-table__drawer__tab__item__title">
 											Show question title here
 										</h5>
-										<p className="response-table__modal__tab__item__desc">
+										<p className="response-table__drawer__tab__item__desc">
 											Lorem ipsum dolor sit amet
 											consectetur. Suspendisse morbi
 											mattis gravida aliquet nunc suscipit
@@ -212,55 +212,55 @@ export default function TableDrawer( props ) {
 										</p>
 									</div>
 								</div>
-								<div className="response-table__modal__tab__item">
-									<div className="response-table__modal__tab__item__icon">
+								<div className="response-table__drawer__tab__item">
+									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
 											width="14"
 											height="14"
 											src={ printIcon }
 										/>
 									</div>
-									<div className="response-table__modal__tab__item__content">
-										<h5 className="response-table__modal__tab__item__title">
+									<div className="response-table__drawer__tab__item__content">
+										<h5 className="response-table__drawer__tab__item__title">
 											Select multiple answers
 										</h5>
-										<div className="response-table__modal__tab__item__btns">
-											<button className="response-table__modal__tab__item__btn">
+										<div className="response-table__drawer__tab__item__btns">
+											<button className="response-table__drawer__tab__item__btn">
 												Option 1
 											</button>
-											<button className="response-table__modal__tab__item__btn">
+											<button className="response-table__drawer__tab__item__btn">
 												Option 2
 											</button>
 										</div>
 									</div>
 								</div>
-								<div className="response-table__modal__tab__item">
-									<div className="response-table__modal__tab__item__icon">
+								<div className="response-table__drawer__tab__item">
+									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
 											width="14"
 											height="14"
 											src={ printIcon }
 										/>
 									</div>
-									<div className="response-table__modal__tab__item__content">
-										<h5 className="response-table__modal__tab__item__title">
+									<div className="response-table__drawer__tab__item__content">
+										<h5 className="response-table__drawer__tab__item__title">
 											Select your answers
 										</h5>
-										<div className="response-table__modal__tab__item__btns">
-											<button className="response-table__modal__tab__item__btn">
+										<div className="response-table__drawer__tab__item__btns">
+											<button className="response-table__drawer__tab__item__btn">
 												Yes
 											</button>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className="response-table__modal__tab__submission">
-								<div className="response-table__modal__tab__submission__header">
-									<h4 className="response-table__modal__tab__submission__title">
+							<div className="response-table__drawer__tab__submission">
+								<div className="response-table__drawer__tab__submission__header">
+									<h4 className="response-table__drawer__tab__submission__title">
 										Submission Note
 									</h4>
 									<button
-										className="response-table__modal__tab__submission__add"
+										className="response-table__drawer__tab__submission__add"
 										onClick={ () => {
 											setEnableSubmissionInput(
 												! enableSubmissionInput
@@ -276,22 +276,22 @@ export default function TableDrawer( props ) {
 									</button>
 								</div>
 								{ enableSubmissionInput ? (
-									<div className="response-table__modal__tab__submission__note">
+									<div className="response-table__drawer__tab__submission__note">
 										<textarea
 											placeholder="You can create your note here..."
-											className="response-table__modal__tab__submission__input"
+											className="response-table__drawer__tab__submission__input"
 										/>
-										<button className="response-table__modal__tab__submission__save">
+										<button className="response-table__drawer__tab__submission__save">
 											Save note
 										</button>
 									</div>
 								) : (
-									<div className="response-table__modal__tab__submission__content">
-										<div className="response-table__modal__tab__submission__content__single">
-											<span className="response-table__modal__tab__submission__content__published-date">
+									<div className="response-table__drawer__tab__submission__content">
+										<div className="response-table__drawer__tab__submission__content__single">
+											<span className="response-table__drawer__tab__submission__content__published-date">
 												Sat, Jun 22, 1:18 PM
 											</span>
-											<p className="response-table__modal__tab__submission__content__text">
+											<p className="response-table__drawer__tab__submission__content__text">
 												Lorem ipsum dolor sit amet
 												consectetur. Suspendisse morbi
 												mattis gravida aliquet nunc
@@ -299,11 +299,11 @@ export default function TableDrawer( props ) {
 												elementum auctor.
 											</p>
 										</div>
-										<div className="response-table__modal__tab__submission__content__single">
-											<span className="response-table__modal__tab__submission__content__published-date">
+										<div className="response-table__drawer__tab__submission__content__single">
+											<span className="response-table__drawer__tab__submission__content__published-date">
 												Sat, Jun 22, 1:18 PM
 											</span>
-											<p className="response-table__modal__tab__submission__content__text">
+											<p className="response-table__drawer__tab__submission__content__text">
 												Lorem ipsum dolor sit amet
 												consectetur. Suspendisse morbi
 												mattis gravida aliquet nunc
@@ -316,14 +316,14 @@ export default function TableDrawer( props ) {
 							</div>
 						</div>
 					) }
-					{ activeModalTab === 'submission' && (
-						<div className="response-table__modal__tab__content">
-							<div className="response-table__modal__tab__info">
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+					{ activeDrawerTab === 'submission' && (
+						<div className="response-table__drawer__tab__content">
+							<div className="response-table__drawer__tab__info">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Submission Date
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										{ formatDate(
 											'en-US',
 											response.created_at,
@@ -331,29 +331,29 @@ export default function TableDrawer( props ) {
 										) }
 									</span>
 								</div>
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Username
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										{ response.user_name }
 									</span>
 								</div>
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										User Email
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										{ response.user_email }
 									</span>
 								</div>
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Status
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										<span
-											className={ `response-table__modal__tab__info__tag ${
+											className={ `response-table__drawer__tab__info__tag ${
 												response.is_completed === '1'
 													? 'completed'
 													: null
@@ -365,19 +365,19 @@ export default function TableDrawer( props ) {
 										</span>
 									</span>
 								</div>
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Browser
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										Chrome 125.0.0.0
 									</span>
 								</div>
-								<div className="response-table__modal__tab__info__single">
-									<span className="response-table__modal__tab__info__title">
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Operating System
 									</span>
-									<span className="response-table__modal__tab__info__value">
+									<span className="response-table__drawer__tab__info__value">
 										MAC OS10.15.17
 									</span>
 								</div>
