@@ -63,8 +63,14 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	const { responses, pagination, isLoading, fields, selected_fields } =
-		SingleFormReducer;
+	const {
+		responses,
+		pagination,
+		isLoading,
+		fields,
+		selected_fields,
+		single_response,
+	} = SingleFormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -170,15 +176,34 @@ export default function Table() {
 		};
 
 		// Get the sorted data based on the key
-		if ( key === 'freeze' || key === 'hide' ) {
-			sortFunctions[ key ]();
+		if ( sortFunctions[ key ] ) {
+			// Handle freeze and hide actions separately
+			if ( key === 'freeze' || key === 'hide' ) {
+				sortFunctions[ key ]();
+			} else {
+				const sortedData = sortFunctions[ key ]();
+				setFilteredData( sortedData );
+				console.log( 'sortedData:', sortedData );
+			}
 		} else {
-			const sortedData = sortFunctions[ key ]
-				? sortFunctions[ key ]()
-				: filteredData;
-
-			setFilteredData( sortedData );
+			console.error( `Invalid key: ${ key }` );
 		}
+	}
+
+	// handleTableDrawer
+	async function handleTableDrawer( record ) {
+		console.log( ' record: ', record, responses, filteredData );
+
+		const drawerResponse = responses.findIndex(
+			( item ) => item.id === record
+		);
+		console.log( 'record drawerResponse', drawerResponse );
+
+		resolveSelect( 'formgent' ).getSingleResponse(
+			drawerResponse + 1,
+			searchItem,
+			parseInt( id )
+		);
 	}
 
 	// handleStarred
@@ -212,20 +237,6 @@ export default function Table() {
 				[ id ]: reverseReadStatus,
 			} ) );
 			handleTableChange();
-		}
-	}
-
-	// handleTableDrawer
-	async function handleTableDrawer( record ) {
-		console.log( ' record: ', record );
-		setTableDrawer( record );
-		const responseDrawer = await fetchData(
-			`admin/responses/single?s=gmail&is_read=0&form_id=80&order=asc&order_by=id&page=1`
-		);
-
-		if ( responseDrawer ) {
-			console.log( 'handleTableDrawer', responseDrawer );
-			// setTableDrawer( responseDrawer );
 		}
 	}
 
@@ -272,31 +283,32 @@ export default function Table() {
 	}
 
 	// Filter data based on active tab
-	function handleFilterData() {
-		const completedItems = responses?.filter(
-			( item ) => item.is_completed === '1'
-		);
-		const partialItems = responses?.filter(
-			( item ) => item.is_completed === '0'
-		);
+	// function handleFilterData() {
+	// 	const completedItems = responses?.filter(
+	// 		( item ) => item.is_completed === '1'
+	// 	);
+	// 	const partialItems = responses?.filter(
+	// 		( item ) => item.is_completed === '0'
+	// 	);
 
-		setTotalCompletedItems( completedItems?.length || 0 );
-		setTotalPartialItems( partialItems?.length || 0 );
+	// 	setTotalCompletedItems( completedItems?.length || 0 );
+	// 	setTotalPartialItems( partialItems?.length || 0 );
 
-		console.log(
-			'handleFilterData',
-			responses,
-			completedItems,
-			partialItems
-		);
+	// 	console.log(
+	// 		'handleFilterData',
+	// 		activeTab,
+	// 		responses,
+	// 		completedItems,
+	// 		partialItems
+	// 	);
 
-		if ( activeTab === 'completed' ) {
-			return completedItems;
-		} else if ( activeTab === 'partial' ) {
-			return partialItems;
-		}
-		return [];
-	}
+	// 	if ( activeTab === 'completed' ) {
+	// 		return completedItems;
+	// 	} else if ( activeTab === 'partial' ) {
+	// 		return partialItems;
+	// 	}
+	// 	return [];
+	// }
 
 	// Select Items Data
 	const selectItems = [
@@ -474,7 +486,7 @@ export default function Table() {
 						<button
 							className="response-table__drawer__open"
 							onClick={ () => {
-								handleTableDrawer( record );
+								handleTableDrawer( record.id );
 							} }
 						>
 							<ReactSVG
@@ -541,15 +553,14 @@ export default function Table() {
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
 
-		console.log(
-			'Table Changed',
+		console.log( 'Table Changed', {
 			responses,
 			page,
 			searchItem,
 			isLoading,
 			defaultColumns,
-			customColumns
-		);
+			customColumns,
+		} );
 	}
 
 	function handleSearch( value ) {
@@ -570,10 +581,7 @@ export default function Table() {
 		}
 	}
 
-	// Use effect to update filtered data when the active tab changes
-	useEffect( () => {
-		setFilteredData( handleFilterData() );
-	}, [ responses, activeTab ] );
+	// Use effect to update
 
 	useEffect( () => {
 		const newColumns = customColumns.map( ( col ) => {
@@ -674,7 +682,7 @@ export default function Table() {
 	}
 
 	useEffect( () => {
-		setFilteredData( responses );
+		// setFilteredData( responses );
 		const generatedColumns = generateCustomColumns(
 			selected_fields,
 			responses,
@@ -689,6 +697,7 @@ export default function Table() {
 		visibleColumns,
 		starredItems,
 		readItems,
+		filteredData,
 	] );
 
 	useEffect( () => {
@@ -708,6 +717,27 @@ export default function Table() {
 		console.log( 'searchItem  Changes: ', searchItem );
 		handleTableChange();
 	}, [ searchItem ] );
+
+	useEffect( () => {
+		console.log(
+			'single_response  Changes: ',
+			single_response,
+			SingleFormReducer,
+			filteredData
+		);
+		setTableDrawer( single_response && single_response[ 0 ] );
+	}, [ single_response ] );
+
+	useEffect( () => {
+		// setFilteredData( handleFilterData() );
+		setFilteredData( responses );
+		console.log( ' responses changes: ', responses );
+	}, [ responses ] );
+
+	// useEffect( () => {
+	// 	console.log( 'filteredData  Changes: ', filteredData, responses )
+	// 	setCustomColumns( defaultColumns );
+	// }, [ filteredData ] );
 
 	useEffect( () => {
 		handleTableChange();

@@ -65,6 +65,29 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
+	*getSingleResponse( currentPage = '1', searchItem, formID, timestamp = 0 ) {
+		console.log( 'getSingleResponse', currentPage, searchItem, formID );
+		yield SingleFormActions.isSingleFormFetchLoading( true );
+		try {
+			const data = yield SingleFormActions.fetchSingleResponse(
+				'formgent/admin/responses/single',
+				currentPage,
+				searchItem,
+				formID
+			);
+
+			console.log( 'fetchSingleResponse response : ', data );
+
+			yield SingleFormActions.storeResponse( {
+				single_response: data.responses,
+				// pagination: data.pagination,
+			} );
+			yield SingleFormActions.isSingleFormFetchLoading( false );
+		} catch ( error ) {
+			yield SingleFormActions.fetchSingleFormError( error );
+			yield SingleFormActions.isSingleFormFetchLoading( false );
+		}
+	},
 	*getSingleFormFields( formID ) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {

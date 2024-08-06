@@ -506,8 +506,14 @@ export default function TableDrawer( props ) {
 										Browser
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.browser ||
-											'Default Browser' }
+										<span>
+											{ response.browser ||
+												'Default Browser' }
+										</span>
+										<span>
+											{ response.browser_version ||
+												'Default Version' }
+										</span>
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">

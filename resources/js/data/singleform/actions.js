@@ -136,11 +136,24 @@ export const SingleFormActions = {
 	},
 
 	/**
+	 * Action creator to handle successful form fetch
+	 * @param {String} path - path for requesting api
+	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
+	 */
+	fetchSingleResponse: ( path, currentPage, searchItem, formID ) => {
+		return {
+			type: 'FETCH_SINGLE_RESPONSE',
+			payload: { path, currentPage, searchItem, formID },
+		};
+	},
+
+	/**
 	 * Action creator to handle store form data
 	 * @param {Object} data - The fetched form data
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
 	storeResponse: ( data ) => {
+		console.log( ' RESPONSE_STORE: ', data );
 		return {
 			type: 'RESPONSE_STORE',
 			data,
