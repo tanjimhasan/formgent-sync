@@ -70,6 +70,7 @@ export default function Table() {
 		fields,
 		selected_fields,
 		single_response,
+		single_response_pagination,
 	} = SingleFormReducer;
 
 	const { CommonReducer } = useSelect( ( select ) => {
@@ -191,16 +192,35 @@ export default function Table() {
 	}
 
 	// handleTableDrawer
-	async function handleTableDrawer( record ) {
-		console.log( ' record: ', record, responses, filteredData );
-
-		const drawerResponse = responses.findIndex(
+	async function handleTableDrawer( record, nav ) {
+		let drawerResponse = responses.findIndex(
 			( item ) => item.id === record
 		);
+
+		console.log(
+			' record: ',
+			record,
+			nav,
+			drawerResponse,
+			responses,
+			filteredData
+		);
+
+		switch ( nav ) {
+			case 'prev':
+				drawerResponse = drawerResponse;
+				break;
+			case 'next':
+				drawerResponse = drawerResponse + 2;
+				break;
+			default:
+				drawerResponse = drawerResponse + 1;
+		}
+
 		console.log( 'record drawerResponse', drawerResponse );
 
 		resolveSelect( 'formgent' ).getSingleResponse(
-			drawerResponse + 1,
+			drawerResponse,
 			searchItem,
 			parseInt( id )
 		);
@@ -283,32 +303,32 @@ export default function Table() {
 	}
 
 	// Filter data based on active tab
-	// function handleFilterData() {
-	// 	const completedItems = responses?.filter(
-	// 		( item ) => item.is_completed === '1'
-	// 	);
-	// 	const partialItems = responses?.filter(
-	// 		( item ) => item.is_completed === '0'
-	// 	);
+	function handleFilterData() {
+		const completedItems = responses?.filter(
+			( item ) => item.is_completed === '1'
+		);
+		const partialItems = responses?.filter(
+			( item ) => item.is_completed === '0'
+		);
 
-	// 	setTotalCompletedItems( completedItems?.length || 0 );
-	// 	setTotalPartialItems( partialItems?.length || 0 );
+		setTotalCompletedItems( completedItems?.length || 0 );
+		setTotalPartialItems( partialItems?.length || 0 );
 
-	// 	console.log(
-	// 		'handleFilterData',
-	// 		activeTab,
-	// 		responses,
-	// 		completedItems,
-	// 		partialItems
-	// 	);
+		console.log(
+			'handleFilterData',
+			activeTab,
+			responses,
+			completedItems,
+			partialItems
+		);
 
-	// 	if ( activeTab === 'completed' ) {
-	// 		return completedItems;
-	// 	} else if ( activeTab === 'partial' ) {
-	// 		return partialItems;
-	// 	}
-	// 	return [];
-	// }
+		if ( activeTab === 'completed' ) {
+			return completedItems;
+		} else if ( activeTab === 'partial' ) {
+			return partialItems;
+		}
+		return [];
+	}
 
 	// Select Items Data
 	const selectItems = [
@@ -725,19 +745,18 @@ export default function Table() {
 			SingleFormReducer,
 			filteredData
 		);
-		setTableDrawer( single_response && single_response[ 0 ] );
+		setTableDrawer( ( single_response && single_response[ 0 ] ) || null );
 	}, [ single_response ] );
 
 	useEffect( () => {
-		// setFilteredData( handleFilterData() );
+		setFilteredData( handleFilterData() );
 		setFilteredData( responses );
 		console.log( ' responses changes: ', responses );
 	}, [ responses ] );
 
-	// useEffect( () => {
-	// 	console.log( 'filteredData  Changes: ', filteredData, responses )
-	// 	setCustomColumns( defaultColumns );
-	// }, [ filteredData ] );
+	useEffect( () => {
+		console.log( 'TableDrawer  Changes: ', tableDrawer );
+	}, [ tableDrawer ] );
 
 	useEffect( () => {
 		handleTableChange();
@@ -802,7 +821,9 @@ export default function Table() {
 			{ tableDrawer && (
 				<TableDrawer
 					response={ tableDrawer }
+					handleTableDrawer={ handleTableDrawer }
 					setTableDrawer={ setTableDrawer }
+					pagination={ single_response_pagination }
 					handleDelete={ handleDelete }
 					starredItems={ starredItems }
 					handleStarred={ handleStarred }

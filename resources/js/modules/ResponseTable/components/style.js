@@ -430,6 +430,14 @@ const TableDrawerStyle = Styled.div`
                     background: var(--formgent-color-dark);
                     border-color: var(--formgent-color-light-gray);
                 }
+                &.disabled {
+                    opacity: .5;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                    background-color: transparent;
+                    color: var(--formgent-color-dark);
+                    border: 1px solid var(--formgent-color-border-light);
+                }
             }
         }
     }

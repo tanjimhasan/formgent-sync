@@ -21,6 +21,8 @@ import trashIcon from '@icon/trash.svg';
 export default function TableDrawer( props ) {
 	const {
 		response,
+		handleTableDrawer,
+		pagination,
 		setTableDrawer,
 		handleDownload,
 		handleDelete,
@@ -175,19 +177,44 @@ export default function TableDrawer( props ) {
 		}
 	}
 
+	function handlePrevResponse() {
+		console.log( 'Prev Response' );
+	}
+
+	function handleNextResponse() {
+		console.log( 'Next Response' );
+	}
+
 	return (
 		<TableDrawerStyle className="response-table__drawer">
 			<div className="response-table__drawer__header">
 				<div className="response-table__drawer__header__response">
 					<div className="response-table__drawer__header__response__btns">
-						<button className="response-table__drawer__header__response__btn">
+						<button
+							className={ `response-table__drawer__header__response__btn ${
+								pagination.current_page <= 1 ? 'disabled' : ''
+							}` }
+							onClick={ () => {
+								handleTableDrawer( response.id, 'prev' );
+							} }
+						>
 							<ReactSVG
 								width="14"
 								height="14"
 								src={ arrowLeftIcon }
 							/>
 						</button>
-						<button className="response-table__drawer__header__response__btn">
+						<button
+							className={ `response-table__drawer__header__response__btn ${
+								pagination.current_page ===
+								pagination.total_page
+									? 'disabled'
+									: ''
+							}` }
+							onClick={ () => {
+								handleTableDrawer( response.id, 'next' );
+							} }
+						>
 							<ReactSVG
 								width="14"
 								height="14"
@@ -195,7 +222,10 @@ export default function TableDrawer( props ) {
 							/>
 						</button>
 					</div>
-					<span className="">1 of 4 Responses</span>
+					<span className="">
+						{ pagination.current_page } of{ ' ' }
+						{ pagination.total_pages } Responses
+					</span>
 				</div>
 				<div className="response-table__drawer__header__action">
 					<AntDropdown

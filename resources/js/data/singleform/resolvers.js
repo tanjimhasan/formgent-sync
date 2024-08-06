@@ -65,7 +65,7 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleResponse( currentPage = '1', searchItem, formID, timestamp = 0 ) {
+	*getSingleResponse( currentPage = '1', searchItem, formID ) {
 		console.log( 'getSingleResponse', currentPage, searchItem, formID );
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
@@ -80,7 +80,7 @@ export const SingleFormResolvers = {
 
 			yield SingleFormActions.storeResponse( {
 				single_response: data.responses,
-				// pagination: data.pagination,
+				single_response_pagination: data.pagination,
 			} );
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		} catch ( error ) {
