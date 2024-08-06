@@ -194,6 +194,7 @@ export default function Table() {
 				...prevStarredItems,
 				[ id ]: reverseStarredStatus,
 			} ) );
+			handleTableChange();
 		}
 	}
 
@@ -210,6 +211,7 @@ export default function Table() {
 				...prevReadItems,
 				[ id ]: reverseReadStatus,
 			} ) );
+			handleTableChange();
 		}
 	}
 
@@ -217,14 +219,14 @@ export default function Table() {
 	async function handleTableDrawer( record ) {
 		console.log( ' record: ', record );
 		setTableDrawer( record );
-		// const responseDrawer = await fetchData(
-		// 	`admin/responses/single?form_id=${ id }&page=${ record.id }`
-		// );
+		const responseDrawer = await fetchData(
+			`admin/responses/single?s=gmail&is_read=0&form_id=80&order=asc&order_by=id&page=1`
+		);
 
-		// if ( responseDrawer ) {
-		// 	console.log( 'handleTableDrawer', responseDrawer );
-		// 	setTableDrawer( responseDrawer );
-		// }
+		if ( responseDrawer ) {
+			console.log( 'handleTableDrawer', responseDrawer );
+			// setTableDrawer( responseDrawer );
+		}
 	}
 
 	// Date Format
@@ -529,15 +531,6 @@ export default function Table() {
 	}
 
 	function handleTableChange( page ) {
-		console.log(
-			'Table Changed',
-			responses,
-			page,
-			searchItem,
-			isLoading,
-			defaultColumns,
-			customColumns
-		);
 		updateCurrentResponsePage( page?.current );
 		resolveSelect( 'formgent' ).getSingleFormResponse(
 			page?.current || pagination.current_page,
@@ -547,15 +540,21 @@ export default function Table() {
 		);
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
+
+		console.log(
+			'Table Changed',
+			responses,
+			page,
+			searchItem,
+			isLoading,
+			defaultColumns,
+			customColumns
+		);
 	}
 
 	function handleSearch( value ) {
 		console.log( 'Search Item Changed', value );
 		setSearchItem( value );
-		// resolveSelect( 'formgent' ).getSingleFormResponseSearch(
-		// 	value,
-		// 	parseInt( id )
-		// );
 	}
 
 	// Handle Delete

@@ -10,9 +10,6 @@ export const SingleFormSelectors = {
 	getSingleFormResponse( SingleFormReducer ) {
 		return SingleFormReducer;
 	},
-	getSingleFormResponseSearch( SingleFormReducer ) {
-		return SingleFormReducer;
-	},
 	getSingleFormFields( SingleFormReducer ) {
 		return SingleFormReducer;
 	},

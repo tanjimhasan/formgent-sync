@@ -9,11 +9,6 @@ export const SingleFormControls = {
 			path: `${ action.payload.path }?page=${ action.payload.currentPage }&per_page=${ action.payload.perPage }&s=${ action.payload.searchItem }&form_id=${ action.payload.formID }`,
 		} );
 	},
-	FETCH_RESPONSE_SEARCH( action ) {
-		return apiFetch( {
-			path: `${ action.payload.path }?s=${ action.payload.searchItem }&form_id=${ action.payload.formID }`,
-		} );
-	},
 	FETCH_FIELDS( action ) {
 		return apiFetch( {
 			path: `${ action.payload.path }?form_id=${ action.payload.formID }`,
