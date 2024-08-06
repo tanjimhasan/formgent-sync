@@ -30,14 +30,14 @@ function CreatePopup( props ) {
 		{
 			type: 'general',
 			icon: Pencil,
-			label: 'Traditional Form',
-			text: 'Multiple questions on single page',
+			label: 'Classic Form',
+			text: 'Show multiple questions on single page',
 			step: '1',
 		},
 		{
 			type: 'scratch',
 			icon: Pencil,
-			label: 'Start From Scratch',
+			label: 'Start from Scratch',
 			text: 'Start with a blank form',
 			url: `forms/form-new/${ SingleFormReducer?.selectedFormType }`,
 			step: '2',

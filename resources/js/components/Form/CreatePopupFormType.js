@@ -16,22 +16,6 @@ export default function CreatePopupFormType() {
 			),
 			value: 'form',
 		},
-		{
-			label: (
-				<span className="formgent-createPopup__form-type__btn">
-					<ReactSVG src={ quizIcon } /> Quiz
-				</span>
-			),
-			value: 'quiz',
-		},
-		{
-			label: (
-				<span className="formgent-createPopup__form-type__btn">
-					<ReactSVG src={ paymentIcon } /> Payment
-				</span>
-			),
-			value: 'payment',
-		},
 	];
 
 	const [ selectedType, setSelectedType ] = useState( 'form' );

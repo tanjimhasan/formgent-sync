@@ -1,7 +1,7 @@
 import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { CreateFormStyle } from './style';
+import { CreateFormStyle } from '../../modules/Editor/components/style';
 import AntInput from '@formgent/components/Input';
 import { Form } from 'antd';
 import AntButton from '@formgent/components/Button';
@@ -16,7 +16,7 @@ export default function CreateFormModalContent() {
 	const { useNavigate, useParams } = CommonReducer.routerComponents;
 	// const { selectedTemplate } = moduleState;
 	const navigate = useNavigate();
-	const { id, type } = useParams();
+	const { id } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState( id );
@@ -39,7 +39,7 @@ export default function CreateFormModalContent() {
 
 		const newform = {
 			status: 'draft',
-			type: type,
+			type: 'general',
 		};
 		Object.assign( formData, newform );
 
@@ -61,7 +61,7 @@ export default function CreateFormModalContent() {
 			</h2>
 			<p>
 				{ __(
-					'Please enter a name for your ffffor. You can edit it later.',
+					'Please enter a name for your form. You can edit it later.',
 					'formgent'
 				) }
 			</p>
@@ -85,7 +85,7 @@ export default function CreateFormModalContent() {
 							{
 								whitespace: true,
 								message: __(
-									'Only spaces not allowed',
+									'Only spaces are not allowed',
 									'formgent'
 								),
 							},
