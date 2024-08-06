@@ -156,10 +156,24 @@ export const SingleFormActions = {
 	 * @param {String} path - path for requesting api
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
-	fetchSingleResponse: ( path, currentPage, searchItem, formID ) => {
+	fetchSingleResponse: (
+		path,
+		currentPage,
+		searchItem,
+		formID,
+		readStatus,
+		orderType
+	) => {
 		return {
 			type: 'FETCH_SINGLE_RESPONSE',
-			payload: { path, currentPage, searchItem, formID },
+			payload: {
+				path,
+				currentPage,
+				searchItem,
+				formID,
+				readStatus,
+				orderType,
+			},
 		};
 	},
 

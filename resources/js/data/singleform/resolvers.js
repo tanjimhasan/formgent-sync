@@ -70,15 +70,30 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleResponse( currentPage = '1', searchItem, formID ) {
-		console.log( 'getSingleResponse', currentPage, searchItem, formID );
+	*getSingleResponse(
+		currentPage = '1',
+		searchItem,
+		formID,
+		readStatus,
+		orderType
+	) {
+		console.log(
+			'getSingleResponse',
+			currentPage,
+			searchItem,
+			formID,
+			readStatus,
+			orderType
+		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchSingleResponse(
 				'formgent/admin/responses/single',
 				currentPage,
 				searchItem,
-				formID
+				formID,
+				readStatus,
+				orderType
 			);
 
 			console.log( 'fetchSingleResponse response : ', data );

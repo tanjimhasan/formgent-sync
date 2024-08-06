@@ -22,12 +22,12 @@ export default function TableDrawer( props ) {
 	const {
 		response,
 		handleTableDrawer,
-		pagination,
 		setTableDrawer,
-		handleDownload,
+		pagination,
 		handleDelete,
 		handleStarred,
 		handleRead,
+		handleDownload,
 		downloadItems,
 		dateFormatOptions,
 	} = props;
@@ -199,7 +199,7 @@ export default function TableDrawer( props ) {
 						<button
 							className={ `response-table__drawer__header__response__btn ${
 								pagination.current_page ===
-								pagination.total_page
+								pagination.total_pages
 									? 'disabled'
 									: ''
 							}` }

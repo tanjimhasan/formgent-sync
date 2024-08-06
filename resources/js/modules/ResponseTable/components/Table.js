@@ -36,14 +36,11 @@ import userIcon from '@icon/user.svg';
 
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
-	const [ totalCompletedItems, setTotalCompletedItems ] = useState( null );
-	const [ totalPartialItems, setTotalPartialItems ] = useState( null );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ tableDrawer, setTableDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ starredItems, setStarredItems ] = useState( {} );
-	const [ readItems, setReadItems ] = useState( {} );
 	const [ readStatus, setReadStatus ] = useState( 0 );
 	const [ orderType, setOrderType ] = useState( 'asc' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
@@ -211,13 +208,15 @@ export default function Table() {
 		resolveSelect( 'formgent' ).getSingleResponse(
 			drawerResponse,
 			searchItem,
-			parseInt( id )
+			parseInt( id ),
+			readStatus,
+			orderType
 		);
 	}
 
 	// handleStarred
-	async function handleStarred( id, isStarredStatus ) {
-		console.log( 'handleStarred : ', id, isStarredStatus );
+	async function handleStarred( id, isStarredStatus, source ) {
+		console.log( 'handleStarred : ', id, isStarredStatus, source );
 		const reverseStarredStatus = isStarredStatus ? 0 : 1;
 		const updateStarredStatus = await patchData(
 			`admin/responses/${ id }/starred/`,
@@ -228,12 +227,16 @@ export default function Table() {
 				...prevStarredItems,
 				[ id ]: reverseStarredStatus,
 			} ) );
+			if ( source === 'drawer' ) {
+				console.log( 'source star : ', source );
+				handleTableDrawer( id );
+			}
 			handleTableChange();
 		}
 	}
 
 	// handleRead
-	async function handleRead( id, isReadStatus ) {
+	async function handleRead( id, isReadStatus, source ) {
 		console.log( 'handleRead : ', id, isReadStatus );
 		const reverseReadStatus = isReadStatus ? 0 : 1;
 		const updateReadStatus = await patchData(
@@ -241,10 +244,10 @@ export default function Table() {
 			{ is_read: reverseReadStatus }
 		);
 		if ( updateReadStatus ) {
-			setReadItems( ( prevReadItems ) => ( {
-				...prevReadItems,
-				[ id ]: reverseReadStatus,
-			} ) );
+			if ( source === 'drawer' ) {
+				console.log( 'source star : ', source );
+				handleTableDrawer( id );
+			}
 			handleTableChange();
 		}
 	}
@@ -560,6 +563,7 @@ export default function Table() {
 		);
 
 		if ( deleteResponse ) {
+			setTableDrawer( null );
 			handleTableChange();
 		}
 	}
@@ -677,7 +681,6 @@ export default function Table() {
 		responses,
 		visibleColumns,
 		starredItems,
-		readItems,
 		filteredData,
 	] );
 
@@ -779,14 +782,17 @@ export default function Table() {
 					setTableDrawer={ setTableDrawer }
 					pagination={ single_response_pagination }
 					handleDelete={ handleDelete }
-					starredItems={ starredItems }
-					handleStarred={ handleStarred }
-					handleRead={ handleRead }
-					dateFormatOptions={ dateFormatOptions }
+					handleStarred={ ( id, isStarredStatus ) =>
+						handleStarred( id, isStarredStatus, 'drawer' )
+					}
+					handleRead={ ( id, isReadStatus ) =>
+						handleRead( id, isReadStatus, 'drawer' )
+					}
 					handleDownload={ ( key ) =>
 						handleDownload( key, 'drawer' )
 					}
 					downloadItems={ downloadItems }
+					dateFormatOptions={ dateFormatOptions }
 				/>
 			) }
 		</TableStyle>
