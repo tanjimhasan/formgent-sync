@@ -13,6 +13,7 @@ import {
 } from '@wordpress/components';
 import { Fragment, useState } from '@wordpress/element';
 import Repeater from './controls/Repeater';
+import DefaultValue from './controls/DefaultValue';
 
 const controlGenerators = {
 	panel: function ( { control, attributes, setAttributes } ) {
@@ -130,6 +131,7 @@ const controlGenerators = {
 			</Fragment>
 		);
 	},
+	default_value: DefaultValue,
 };
 
 export default function Controls( { controls, attributes, setAttributes } ) {

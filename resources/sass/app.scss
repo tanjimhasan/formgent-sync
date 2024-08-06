@@ -707,3 +707,34 @@ a.formgent-btn-disabled {
 		margin: 7.5px 0;
 	}
 }
+
+.formgent-control-default-value-wrapper {
+	.formgent-control-default-value {
+		position: relative;
+		input {
+			border: 1px solid #949494;
+			min-height: 32px;
+			padding: 0 35px 0 8px;
+			width: 100%;
+		}
+		.components-dropdown {
+			position: absolute;
+			right: 0;
+			top: 0;
+			svg {
+				width: 16px;
+				height: 16px;
+			}
+		}
+	}
+}
+.formgent-control-default-value-list-content {
+	.components-popover__content {
+		width: 200px;
+	}
+	span {
+		display: block;
+		padding: 5px;
+		cursor: pointer;
+	}
+}
