@@ -22,11 +22,10 @@ import trashIcon from '@icon/trash.svg';
 export default function TableHeader( props ) {
 	const {
 		id,
+		responses,
 		selectedRowKeys,
 		setSelectedRowKeys,
 		handleTableChange,
-		totalCompletedItems,
-		totalPartialItems,
 		handleSearch,
 		activeTab,
 		setActiveTab,
@@ -82,11 +81,11 @@ export default function TableHeader( props ) {
 	const tabItems = [
 		{
 			key: 'completed',
-			label: `Completed (${ totalCompletedItems })`,
+			label: `Completed (${ responses?.length })`,
 		},
 		// {
 		// 	key: 'partial',
-		// 	label: `Partial (${ totalPartialItems })`,
+		// 	label: `Partial (${ responses?.length })`,
 		// },
 	];
 

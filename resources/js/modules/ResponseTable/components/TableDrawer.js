@@ -177,14 +177,6 @@ export default function TableDrawer( props ) {
 		}
 	}
 
-	function handlePrevResponse() {
-		console.log( 'Prev Response' );
-	}
-
-	function handleNextResponse() {
-		console.log( 'Next Response' );
-	}
-
 	return (
 		<TableDrawerStyle className="response-table__drawer">
 			<div className="response-table__drawer__header">

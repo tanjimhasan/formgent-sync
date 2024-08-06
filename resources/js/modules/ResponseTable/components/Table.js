@@ -44,6 +44,8 @@ export default function Table() {
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ starredItems, setStarredItems ] = useState( {} );
 	const [ readItems, setReadItems ] = useState( {} );
+	const [ readStatus, setReadStatus ] = useState( 0 );
+	const [ orderType, setOrderType ] = useState( 'asc' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
@@ -126,8 +128,12 @@ export default function Table() {
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
 			all: () => responses,
-			read: () => responses?.filter( ( item ) => item.is_read === '1' ),
-			unread: () => responses?.filter( ( item ) => item.is_read === '0' ),
+			read: () => {
+				setReadStatus( 1 );
+			},
+			unread: () => {
+				setReadStatus( 0 );
+			},
 			starred: () =>
 				responses?.filter( ( item ) => item.is_starred === '1' ),
 			unstarred: () =>
@@ -138,6 +144,7 @@ export default function Table() {
 		const selectedData = selectFunctions[ key ]
 			? selectFunctions[ key ]()
 			: responses;
+		console.log( 'selectedData : ', selectedData );
 		setFilteredData( selectedData );
 	}
 
@@ -145,18 +152,12 @@ export default function Table() {
 	function handleSortby( item, dropdownId ) {
 		const { key } = item;
 		const sortFunctions = {
-			ascending: () =>
-				[ ...responses ].sort(
-					( a, b ) =>
-						new Date( a[ dropdownId ] ) -
-						new Date( b[ dropdownId ] )
-				),
-			descending: () =>
-				[ ...responses ].sort(
-					( a, b ) =>
-						new Date( b[ dropdownId ] ) -
-						new Date( a[ dropdownId ] )
-				),
+			ascending: () => {
+				setOrderType( 'asc' );
+			},
+			descending: () => {
+				setOrderType( 'desc' );
+			},
 			freeze: () => {
 				setFrozenColumns( ( prevFrozenColumns ) => {
 					return [ ...prevFrozenColumns, dropdownId ];
@@ -176,19 +177,7 @@ export default function Table() {
 			},
 		};
 
-		// Get the sorted data based on the key
-		if ( sortFunctions[ key ] ) {
-			// Handle freeze and hide actions separately
-			if ( key === 'freeze' || key === 'hide' ) {
-				sortFunctions[ key ]();
-			} else {
-				const sortedData = sortFunctions[ key ]();
-				setFilteredData( sortedData );
-				console.log( 'sortedData:', sortedData );
-			}
-		} else {
-			console.error( `Invalid key: ${ key }` );
-		}
+		sortFunctions[ key ]();
 	}
 
 	// handleTableDrawer
@@ -300,34 +289,6 @@ export default function Table() {
 		if ( exportedData ) {
 			setCSVExportData( PrepareExportData( exportedData ) );
 		}
-	}
-
-	// Filter data based on active tab
-	function handleFilterData() {
-		const completedItems = responses?.filter(
-			( item ) => item.is_completed === '1'
-		);
-		const partialItems = responses?.filter(
-			( item ) => item.is_completed === '0'
-		);
-
-		setTotalCompletedItems( completedItems?.length || 0 );
-		setTotalPartialItems( partialItems?.length || 0 );
-
-		console.log(
-			'handleFilterData',
-			activeTab,
-			responses,
-			completedItems,
-			partialItems
-		);
-
-		if ( activeTab === 'completed' ) {
-			return completedItems;
-		} else if ( activeTab === 'partial' ) {
-			return partialItems;
-		}
-		return [];
 	}
 
 	// Select Items Data
@@ -568,7 +529,9 @@ export default function Table() {
 			page?.current || pagination.current_page,
 			10,
 			searchItem,
-			parseInt( id )
+			parseInt( id ),
+			readStatus,
+			orderType
 		);
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
@@ -602,7 +565,6 @@ export default function Table() {
 	}
 
 	// Use effect to update
-
 	useEffect( () => {
 		const newColumns = customColumns.map( ( col ) => {
 			return {
@@ -702,7 +664,6 @@ export default function Table() {
 	}
 
 	useEffect( () => {
-		// setFilteredData( responses );
 		const generatedColumns = generateCustomColumns(
 			selected_fields,
 			responses,
@@ -734,9 +695,9 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		console.log( 'searchItem  Changes: ', searchItem );
+		// console.log( ' Changes: ', searchItem );
 		handleTableChange();
-	}, [ searchItem ] );
+	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
 		console.log(
@@ -749,14 +710,9 @@ export default function Table() {
 	}, [ single_response ] );
 
 	useEffect( () => {
-		setFilteredData( handleFilterData() );
 		setFilteredData( responses );
 		console.log( ' responses changes: ', responses );
 	}, [ responses ] );
-
-	useEffect( () => {
-		console.log( 'TableDrawer  Changes: ', tableDrawer );
-	}, [ tableDrawer ] );
 
 	useEffect( () => {
 		handleTableChange();
@@ -779,8 +735,6 @@ export default function Table() {
 					selectedRowKeys={ selectedRowKeys }
 					setSelectedRowKeys={ setSelectedRowKeys }
 					handleTableChange={ handleTableChange }
-					totalCompletedItems={ totalCompletedItems }
-					totalPartialItems={ totalPartialItems }
 					handleSearch={ handleSearch }
 					activeTab={ activeTab }
 					setActiveTab={ setActiveTab }

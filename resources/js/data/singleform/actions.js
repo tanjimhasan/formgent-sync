@@ -128,10 +128,26 @@ export const SingleFormActions = {
 	 * @param {String} path - path for requesting api
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
-	fetchResponse: ( path, currentPage, perPage, searchItem, formID ) => {
+	fetchResponse: (
+		path,
+		currentPage,
+		perPage,
+		searchItem,
+		formID,
+		readStatus,
+		orderType
+	) => {
 		return {
 			type: 'FETCH_RESPONSE',
-			payload: { path, currentPage, perPage, searchItem, formID },
+			payload: {
+				path,
+				currentPage,
+				perPage,
+				searchItem,
+				formID,
+				readStatus,
+				orderType,
+			},
 		};
 	},
 
@@ -153,7 +169,6 @@ export const SingleFormActions = {
 	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
 	 */
 	storeResponse: ( data ) => {
-		console.log( ' RESPONSE_STORE: ', data );
 		return {
 			type: 'RESPONSE_STORE',
 			data,

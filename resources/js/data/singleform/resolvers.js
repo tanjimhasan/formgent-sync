@@ -36,14 +36,17 @@ export const SingleFormResolvers = {
 		perPage = '10',
 		searchItem,
 		formID,
-		timestamp = 0
+		readStatus,
+		orderType
 	) {
 		console.log(
 			'getSingleFormResponse',
 			currentPage,
 			perPage,
 			searchItem,
-			formID
+			formID,
+			readStatus,
+			orderType
 		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
@@ -52,7 +55,9 @@ export const SingleFormResolvers = {
 				currentPage,
 				perPage,
 				searchItem,
-				formID
+				formID,
+				readStatus,
+				orderType
 			);
 
 			yield SingleFormActions.storeResponse( {
