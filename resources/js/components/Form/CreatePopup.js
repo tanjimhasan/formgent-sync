@@ -19,15 +19,14 @@ function CreatePopup( props ) {
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
-	const { updateFormState } = useDispatch( 'formgent' );
+	const { updateFormState, updateCreatePopupStage } =
+		useDispatch( 'formgent' );
 	const {
 		isImportingAttachment,
 		isCreatePopupOpen,
 		createFormStage,
 		addBackBtn,
 	} = FormReducer;
-
-	console.log( addBackBtn );
 
 	const actionData = [
 		{
@@ -56,10 +55,8 @@ function CreatePopup( props ) {
 	}
 
 	function handleFormBack() {
-		updateFormState( {
-			createFormStage: 'initial',
-			addBackBtn: false,
-		} );
+		setStep( '1' );
+		updateCreatePopupStage( 'initial' );
 	}
 
 	return (
@@ -82,15 +79,6 @@ function CreatePopup( props ) {
 						</span>
 					}
 				>
-					{ createFormStage === 'scratch' && addBackBtn && (
-						<span
-							className="formgent-btn-back"
-							onClick={ handleFormBack }
-						>
-							<ReactSVG src={ arrowLeft } />{ ' ' }
-							{ __( 'Back', 'formgent' ) }
-						</span>
-					) }
 					<CreatePopupStyle
 						className={ `formgent-create-form-modal ${
 							createFormStage === 'prepared-elements'
@@ -114,6 +102,16 @@ function CreatePopup( props ) {
 								);
 							}
 						} ) }
+
+						{ createFormStage === 'scratch' && (
+							<span
+								className="formgent-btn-back"
+								onClick={ handleFormBack }
+							>
+								<ReactSVG src={ arrowLeft } />{ ' ' }
+								{ __( 'Back', 'formgent' ) }
+							</span>
+						) }
 					</CreatePopupStyle>
 				</Modal>
 			</Fragment>

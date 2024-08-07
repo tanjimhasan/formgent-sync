@@ -11,7 +11,8 @@ export default function CreatePopupAction( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	const { updateSingleFormType } = useDispatch( 'formgent' );
+	const { updateSingleFormType, updateCreatePopupStage } =
+		useDispatch( 'formgent' );
 
 	const { Link, useParams, useNavigate } = CommonReducer.routerComponents;
 
@@ -19,6 +20,7 @@ export default function CreatePopupAction( props ) {
 
 	function handleFormAction() {
 		updateSingleFormType( item.type );
+		updateCreatePopupStage( 'scratch' );
 		setStep( '2' );
 	}
 
