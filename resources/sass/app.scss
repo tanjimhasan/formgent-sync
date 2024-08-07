@@ -9,11 +9,15 @@
 	--formgent-color-bg-deep: #d5d5d5;
 	--formgent-color-bg-general: #f5f5f5;
 	--formgent-color-bg-page: #f0f0f0;
+	--formgent-color-bg-sec: #f3f4f6;
 	--formgent-color-gray: #3c3c3c;
 	--formgent-color-light-gray: #6e6e6e;
 	--formgent-color-extra-light: #a2a2a2;
-	--formgent-color-info: #2188ff; //#1b83fb
+	--formgent-color-info: #217aef;
+	--formgent-color-info-light: #91d2ff;
+	--formgent-color-info-deep: #eff8ff;
 	--formgent-color-danger: #ef0000; //#ef0000;
+	--formgent-color-danger-light: #fdf3f3;
 	--formgent-color-disable: #dddada;
 	--formgent-color-warning-deep: #ff7300;
 	--formgent-color-warning-light: #f9dfac;
@@ -39,6 +43,7 @@
 	--formgent-color-bg-badge-success: rgba(37, 128, 8, 0.2);
 	--formgent-color-bg-badge-gray: #b1b1b1;
 	--formgent-footer-text-font-size: "medium";
+	--formgent-color-border: #e5e7eb;
 	--formgent-color-border-light: #e6e6e6;
 	--formgent-transition: 0.3s ease;
 	--formgent-color-facebook: #2d75ed;
@@ -677,7 +682,7 @@ a.formgent-btn-disabled {
 		align-items: center;
 		font-size: 14px;
 		font-weight: 500;
-		color: var(--formgent-color-gray);
+		color: var(--formgent-font-color);
 	}
 }
 .ant-dropdown-menu-item-group-title {

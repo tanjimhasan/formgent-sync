@@ -9,7 +9,6 @@ import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
 // Icon
-import checkIcon from '@icon/check-square.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
 import columnIcon from '@icon/column-3.svg';
@@ -95,19 +94,14 @@ export default function TableHeader( props ) {
 				<TableActionStyle className="formgent-table-header__action">
 					<div className="formgent-table-header__selection">
 						<span className="formgent-table-header__selection__text">
-							<ReactSVG
-								width="16"
-								height="16"
-								src={ checkIcon }
-							/>
 							{ selectedRowKeys.length } response selected
 							<button
 								className="formgent-table-header__selection__clear"
 								onClick={ handleClearSelection }
 							>
 								<ReactSVG
-									width="16"
-									height="16"
+									width="12"
+									height="12"
 									src={ closeIcon }
 								/>
 							</button>

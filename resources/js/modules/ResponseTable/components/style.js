@@ -10,13 +10,17 @@ const TableStyle = Styled.div`
             tr{
                 th,
                 td{
+                    min-width: 215px;
+                    border-color: var(--formgent-color-border) !important;
                     &:first-child{
-                        min-width: auto;
+                        min-width: unset;
+                        text-align: start;
                         border-right: none !important;
-                        padding-inline-start: 15px;
+                        padding-inline-end: 12px !important;
                     }
                     &:nth-child(2){
-
+                        min-width: unset;
+                        padding-inline-start: 0 !important;
                     }
                     .formgent-form-wrap {
                         display: flex;
@@ -24,7 +28,7 @@ const TableStyle = Styled.div`
                     }
                     .formgent-form-table-item-wrap {
                         display: flex;
-                        gap: 6px;
+                        gap: 12px;
                         align-items: center;
                         .starred {
                             path {
@@ -43,19 +47,33 @@ const TableStyle = Styled.div`
             width: 4.5px;
             height: 8px;
         }
+        &:hover {
+            .ant-checkbox-inner {
+                border-color: var(--formgent-color-info) !important;
+            }
+        }
+        &.ant-checkbox-checked {
+            .ant-checkbox-inner {
+                background-color: var(--formgent-color-info) !important;
+                border-color: var(--formgent-color-info) !important;
+            }
+        }
+    }
+    .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+        background-color: var(--formgent-color-info) !important;
     }
     .ant-table-thead{
         tr{
             th{
                 font-size: 13px;
-                line-height: 1;
-                text-transform: uppercase;
+                line-height: 20px;
                 letter-spacing: 1px;
-                font-weight: 500;
-                padding: 15px 15px;
+                font-weight: 600;
+                padding: 8px 12px !important;
+                min-height: 40px;
                 text-align: start;
                 color: var(--formgent-color-light-gray);
-                background-color: var(--formgent-color-bg-light);
+                background-color: var(--formgent-color-bg-sec);
                 &:before {
                     height: 100% !important;
                     background-color: var(--formgent-color-extra-light) !important;
@@ -70,21 +88,23 @@ const TableStyle = Styled.div`
         tr{
             background-color: var(--formgent-color-white);
             td{
+                padding: 8px 12px !important;
                 &:first-child{
                     position: relative;
-                    border-left: 2px solid transparent;
                     padding-right: 0;
                     transition: var(--formgent-transition);
-                }
-                &:last-child{ 
-                    padding-right: 21px;
-                }
+                }               
             }
+        }
+        .ant-table-row.ant-table-row-selected >.ant-table-cell {
+            background: var(--formgent-color-info-deep);
         }
     }
     
     .formgent-column-action {
         display: flex;
+        gap: 10px;
+        align-items: center;
         justify-content: space-between;
         svg {
             width: 14px;
@@ -98,9 +118,17 @@ const TableStyle = Styled.div`
             font-size: 14px;
             text-transform: capitalize;
         }
-
-        &.formgent-column-action__id {
-            justify-content: flex-end;
+        
+        .formgent-column-action__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+            min-width: 24px;
+            border-radius: 6px;
+            color: var(--formgent-color-white);
+            background-color: var(--formgent-color-extra-light);
         }
     }
 
@@ -115,20 +143,21 @@ const TableStyle = Styled.div`
 
     .response-table__drawer__open {
         position: absolute;
-        right: 40px;
+        right: 12px;
         top: 50%;
         transform: translateY(-50%);
         display: flex;
         gap: 10px;
         align-items: center;
-        font-size: 12px;
+        font-size: 13px;
+        font-weight: 500;
         padding: 5px 10px;
         height: 30px;
         margin: 0;
         color: var(--formgent-color-white);
         background: var(--formgent-color-gray);
         border: none;
-        border-radius: 4px;
+        border-radius: 8px;
         cursor: pointer;
         opacity: 0;
         visibility: hidden;
@@ -214,8 +243,9 @@ const TableActionStyle = Styled.div`
             padding: 0 15px;
             border-radius: 10px;
             font-size: 12px;
-            color: var(--formgent-color-white);
-            background: var(--formgent-color-light-gray);
+            color: var(--formgent-color-info);
+            background: var(--formgent-color-info-deep);
+            border: 1px solid var(--formgent-color-info-light);
         }
         .formgent-table-header__selection__all {
             display: flex;
@@ -235,6 +265,8 @@ const TableActionStyle = Styled.div`
             }
         }
         .formgent-table-header__selection__clear {
+            width: 16px;
+            height: 16px;
             padding: 0;
             margin: 0;
             border: none;
@@ -242,11 +274,12 @@ const TableActionStyle = Styled.div`
             box-shadow: none;
             line-height: 1;
             color: var(--formgent-color-white);
-            background: transparent;
+            background: var(--formgent-color-info-light);
+            border-radius: 100%;
             cursor: pointer;
             transition: color ease .3s;
             &:hover {
-                color: var(--formgent-color-warning);
+                background: var(--formgent-color-info);
             }
         }
     }
@@ -291,10 +324,12 @@ const TableActionStyle = Styled.div`
             border-color: var(--formgent-color-bg-page)!important;
         }
         &.formgent-table-header__delete {
+            color: var(--formgent-color-danger) !important;
+            background: var(--formgent-color-danger-light) !important;
+            border-color: var(--formgent-color-danger) !important;
             &:hover {
-                color: var(--formgent-color-dark) !important;
-                background: var(--formgent-color-warning-light) !important;
-                border-color: transparent !important;
+                color: var(--formgent-color-white) !important;
+                background: var(--formgent-color-danger) !important;
             }
         }
     }
@@ -366,7 +401,7 @@ const TableActionStyle = Styled.div`
         padding: 0 15px;
         font-size: 14px;
         font-weight: 600;
-        color: var(--formgent-color-body);
+        color: var(--formgent-font-color);
         span {
             padding: 0;
         }

@@ -23,6 +23,7 @@ import { TableStyle } from './style';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
 import calendarIcon from '@icon/calendar.svg';
+import chevronDownIcon from '@icon/chevron-down.svg';
 import csvIcon from '@icon/csv.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
@@ -409,9 +410,9 @@ export default function Table() {
 					>
 						<a onClick={ ( e ) => e.preventDefault() }>
 							<ReactSVG
-								width="14"
-								height="14"
-								src={ ellipsisVIcon }
+								width="16"
+								height="16"
+								src={ chevronDownIcon }
 							/>
 						</a>
 					</AntDropdown>
@@ -426,8 +427,8 @@ export default function Table() {
 					<div className="formgent-form-table-item-wrap">
 						{ record.id }
 						<ReactSVG
-							width="14"
-							height="14"
+							width="16"
+							height="16"
 							src={ starIcon }
 							className={ isStarred ? 'starred' : '' }
 							onClick={ () =>
@@ -444,7 +445,13 @@ export default function Table() {
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ calendarIcon } />
+						<span className="formgent-column-action__icon">
+							<ReactSVG
+								width="16"
+								height="16"
+								src={ calendarIcon }
+							/>
+						</span>
 						Submission Date
 					</span>
 					<AntDropdown
@@ -459,8 +466,8 @@ export default function Table() {
 					>
 						<a onClick={ ( e ) => e.preventDefault() }>
 							<ReactSVG
-								width="14"
-								height="14"
+								width="16"
+								height="16"
 								src={ ellipsisVIcon }
 							/>
 						</a>
@@ -498,7 +505,9 @@ export default function Table() {
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
-						<ReactSVG width="14" height="14" src={ userIcon } />
+						<span className="formgent-column-action__icon">
+							<ReactSVG width="16" height="16" src={ userIcon } />
+						</span>
 						Submitted By
 					</span>
 					<AntDropdown
@@ -513,8 +522,8 @@ export default function Table() {
 					>
 						<a onClick={ ( e ) => e.preventDefault() }>
 							<ReactSVG
-								width="14"
-								height="14"
+								width="16"
+								height="16"
 								src={ ellipsisVIcon }
 							/>
 						</a>
@@ -620,6 +629,15 @@ export default function Table() {
 				title: () => (
 					<div className="formgent-column-action">
 						<span className="formgent-column-action__title">
+							{ field.icon ? (
+								<span className="formgent-column-action__icon">
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ field.icon }
+									/>
+								</span>
+							) : null }
 							{ title }
 						</span>
 						<AntDropdown
@@ -634,8 +652,8 @@ export default function Table() {
 						>
 							<a onClick={ ( e ) => e.preventDefault() }>
 								<ReactSVG
-									width="14"
-									height="14"
+									width="16"
+									height="16"
 									src={ ellipsisVIcon }
 								/>
 							</a>
