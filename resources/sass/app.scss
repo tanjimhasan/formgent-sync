@@ -657,13 +657,27 @@ a.formgent-btn-disabled {
 
 // antd default style
 .ant-dropdown {
-	width: 225px;
+	width: 168px;
+	.ant-dropdown-menu {
+		padding: 4px 0;
+		border: 1px solid var(--formgent-color-border);
+		box-shadow: 0px 8px 16px 0px rgba(16, 24, 40, 0.1);
+		overflow: hidden;
+	}
+	.ant-dropdown-menu-item {
+		height: 40px;
+		padding: 0 16px !important;
+		border-radius: 0 !important;
+	}
 }
 .ant-dropdown-menu-title-content {
 	.dropdown-header-content {
 		display: flex;
-		gap: 5px;
+		gap: 12px;
 		align-items: center;
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--formgent-color-gray);
 	}
 }
 .ant-dropdown-menu-item-group-title {

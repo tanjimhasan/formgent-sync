@@ -23,16 +23,18 @@ import { TableStyle } from './style';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
 import calendarIcon from '@icon/calendar.svg';
+import csvIcon from '@icon/csv.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
 import hideIcon from '@icon/eye-off.svg';
-import fileIcon from '@icon/file.svg';
 import gridIcon from '@icon/grid.svg';
 import mailOpenIcon from '@icon/mail-open.svg';
 import mailIcon from '@icon/mail.svg';
+import pdfIcon from '@icon/pdf.svg';
 import pinIcon from '@icon/pin.svg';
 import starIcon from '@icon/star.svg';
 import userIcon from '@icon/user.svg';
+import xlsIcon from '@icon/xls.svg';
 
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -88,7 +90,7 @@ export default function Table() {
 						className="dropdown-header-content"
 						onClick={ ( e ) => handleExportCSV( e ) }
 					>
-						<ReactSVG width="14" height="14" src={ fileIcon } />
+						<ReactSVG width="16" height="16" src={ csvIcon } />
 						Download as CSV
 					</span>
 					<CSVLink
@@ -105,7 +107,7 @@ export default function Table() {
 			key: 'excel',
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ fileIcon } />
+					<ReactSVG width="16" height="16" src={ xlsIcon } />
 					Download as Excel
 				</span>
 			),
@@ -114,7 +116,7 @@ export default function Table() {
 			key: 'pdf',
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ fileIcon } />
+					<ReactSVG width="16" height="16" src={ pdfIcon } />
 					Download as PDF
 				</span>
 			),
@@ -300,7 +302,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ gridIcon } />
+					<ReactSVG width="16" height="16" src={ gridIcon } />
 					All
 				</span>
 			),
@@ -309,7 +311,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ mailOpenIcon } />
+					<ReactSVG width="16" height="16" src={ mailOpenIcon } />
 					Read
 				</span>
 			),
@@ -318,7 +320,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ mailIcon } />
+					<ReactSVG width="16" height="16" src={ mailIcon } />
 					Unread
 				</span>
 			),
@@ -327,7 +329,12 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ starIcon } />
+					<ReactSVG
+						width="16"
+						height="16"
+						src={ starIcon }
+						fill="currentColor"
+					/>
 					Starred
 				</span>
 			),
@@ -336,7 +343,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ starIcon } />
+					<ReactSVG width="16" height="16" src={ starIcon } />
 					Unstarred
 				</span>
 			),
@@ -349,7 +356,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ arrowsUpIcon } />
+					<ReactSVG width="16" height="16" src={ arrowsUpIcon } />
 					Ascending
 				</span>
 			),
@@ -358,7 +365,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ arrowsDownIcon } />
+					<ReactSVG width="16" height="16" src={ arrowsDownIcon } />
 					Descending
 				</span>
 			),
@@ -367,7 +374,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ pinIcon } />
+					<ReactSVG width="16" height="16" src={ pinIcon } />
 					Freeze Column
 				</span>
 			),
@@ -376,7 +383,7 @@ export default function Table() {
 		{
 			label: (
 				<span className="dropdown-header-content">
-					<ReactSVG width="14" height="14" src={ hideIcon } />
+					<ReactSVG width="16" height="16" src={ hideIcon } />
 					Hide Column
 				</span>
 			),
@@ -557,16 +564,19 @@ export default function Table() {
 	}
 
 	// Handle Delete
-	async function handleDelete( ids ) {
+	async function handleDelete( ids, source ) {
+		const deleteItems = source === 'drawer' ? ids : selectedRowKeys;
+		console.log( 'Delete Items: ', ids, typeof ids, source, deleteItems );
 		const deleteResponse = await deleteData(
 			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
-				ids: ids || selectedRowKeys,
+				ids: deleteItems,
 			} )
 		);
 
 		if ( deleteResponse ) {
 			setTableDrawer( null );
 			handleTableChange();
+			setSelectedRowKeys( [] );
 		}
 	}
 
@@ -784,7 +794,7 @@ export default function Table() {
 					handleTableDrawer={ handleTableDrawer }
 					setTableDrawer={ setTableDrawer }
 					pagination={ single_response_pagination }
-					handleDelete={ handleDelete }
+					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
 					handleStarred={ ( id, isStarredStatus ) =>
 						handleStarred( id, isStarredStatus, 'drawer' )
 					}

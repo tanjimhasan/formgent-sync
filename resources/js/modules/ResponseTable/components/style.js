@@ -272,16 +272,23 @@ const TableActionStyle = Styled.div`
         .ant-input-prefix {
             margin-inline-end: 8px;
         }
+        .ant-input-suffix {
+            .anticon svg {
+                width: 14px;
+                height: 14px;
+            }
+        }
     }
     .ant-btn {
+        height: 36px;
+        width: 36px;
         background: transparent;
         color: var(--formgent-font-color) !important;
         border: 1px solid var(--formgent-color-bg-light) !important;
         border-radius: 8px;
         &:hover {
-            color: var(--formgent-color-white) !important;
-            background: var(--formgent-color-light-gray) !important;
-            border-color: var(--formgent-color-light-gray) !important;
+            background: var(--formgent-color-bg-page)!important;
+            border-color: var(--formgent-color-bg-page)!important;
         }
         &.formgent-table-header__delete {
             &:hover {
@@ -295,38 +302,44 @@ const TableActionStyle = Styled.div`
     .formgent-table-header__dropdown {
         position: relative;
         .formgent-table-header__dropdown__title {
+            display: flex;
+            align-items: center;
             font-size: 14px;
             font-weight: 600;
-            color: var(--formgent-color-dark);  
-            padding: 15px;
+            height: 40px;
+            padding: 0 15px;
             margin: 0 0 8px;
-            background: var(--formgent-color-bg-light);
+            color: var(--formgent-color-dark);  
+            background: var(--formgent-color-bg-general);
         }
         .formgent-table-header__dropdown__toggle {
             display: flex;
             align-items: center;
             gap: 6px;
-            height: 40px;
-            padding: 0 15px;
-            border-radius: 6px;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 8px;
             color: var(--formgent-font-color);
             background: var(--formgent-color-bg-white);
             border: 1px solid var(--formgent-color-border-light);
+            box-sizing: border-box;
             cursor: pointer;
             span {
                 display: flex;
                 align-items: center;
                 gap: 6px;
             }
+            &:hover {
+                background: var(--formgent-color-bg-page);
+            }
         }
         .formgent-table-header__dropdown__content {
             display: flex;
-            gap: 6px;
             flex-direction: column;
             position: absolute;
             top: 100%;
             right: 0;
-            width: 200px;
+            width: 240px;
             padding: 0 0 15px;
             border-radius: 6px;
             background: var(--formgent-color-bg-white);
@@ -346,9 +359,19 @@ const TableActionStyle = Styled.div`
         }
     }
     .ant-checkbox-wrapper {
+        height: 36px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
         padding: 0 15px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--formgent-color-body);
+        span {
+            padding: 0;
+        }
         .ant-checkbox-inner {
-            border-radius: 100%;
+            border-radius: 4px;
         }
     }
     
@@ -371,7 +394,8 @@ const TableTabStyle = Styled.div`
         align-items: center;
         font-size: 14px;
         font-weight: 600;
-        padding: 10px 16px;
+        height: 36px;
+        padding: 0 16px;
         border-radius: 8px;
         border: 1px solid var(--formgent-primary-light-button-bg);
         text-decoration: none;

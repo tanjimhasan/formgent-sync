@@ -323,7 +323,8 @@ const FormHeaderStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             font-weight: 600;
-            padding: 10px 16px;
+            height: 36px;
+            padding: 0 16px;
             border-radius: 8px;
             color: var(--formgent-font-color);
             text-decoration: none;

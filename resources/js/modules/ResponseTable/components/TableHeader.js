@@ -81,7 +81,7 @@ export default function TableHeader( props ) {
 	const tabItems = [
 		{
 			key: 'completed',
-			label: `Completed (${ responses?.length })`,
+			label: `Completed ${ responses ? `(${ responses.length })` : '' }`,
 		},
 		// {
 		// 	key: 'partial',
@@ -125,6 +125,7 @@ export default function TableHeader( props ) {
 							onClick: handleDownload,
 						} }
 						placement="bottomLeft"
+						overlayStyle={ { width: 210 } }
 					>
 						<AntButton
 							onClick={ ( e ) => e.preventDefault() }
@@ -175,6 +176,7 @@ export default function TableHeader( props ) {
 					prefix={
 						<ReactSVG width="14" height="14" src={ searchIcon } />
 					}
+					allowClear
 					onChange={ ( e ) => handleSearch( e.target.value ) }
 					className="formgent-table-header__search"
 				/>
@@ -193,8 +195,8 @@ export default function TableHeader( props ) {
 						<div className="formgent-table-header__dropdown">
 							<div className="formgent-table-header__dropdown__toggle">
 								<ReactSVG
-									width="14"
-									height="14"
+									width="16"
+									height="16"
 									src={ columnIcon }
 								/>
 								<span>
@@ -238,13 +240,14 @@ export default function TableHeader( props ) {
 								onClick: handleDownload,
 							} }
 							placement="bottomRight"
+							overlayStyle={ { width: 210 } }
 						>
 							<AntButton
 								onClick={ ( e ) => e.preventDefault() }
 								icon={
 									<ReactSVG
-										width="14"
-										height="14"
+										width="16"
+										height="16"
 										src={ downloadIcon }
 									/>
 								}
@@ -255,8 +258,8 @@ export default function TableHeader( props ) {
 							onClick={ handleRefresh }
 							icon={
 								<ReactSVG
-									width="14"
-									height="14"
+									width="16"
+									height="16"
 									src={ refreshIcon }
 								/>
 							}

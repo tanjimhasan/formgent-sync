@@ -225,6 +225,7 @@ export default function TableDrawer( props ) {
 							items: downloadItems,
 							onClick: handleDownload,
 						} }
+						overlayStyle={ { width: 210 } }
 						placement="bottomRight"
 					>
 						<AntButton
