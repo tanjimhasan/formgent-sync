@@ -3,6 +3,8 @@ import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import countries from './countries';
 
+import './editor.scss';
+
 export default function Edit( { attributes, setAttributes } ) {
 	const countryOptions = countries.map( ( country ) => {
 		return {

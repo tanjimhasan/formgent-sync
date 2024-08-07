@@ -1,5 +1,7 @@
 import { __ } from '@wordpress/i18n';
 
+import './editor.scss';
+
 export default function Edit( { attributes, setAttributes } ) {
 	function handleMouseDown( e ) {
 		e.preventDefault(); // Prevents the default action
