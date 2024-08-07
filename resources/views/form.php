@@ -18,7 +18,6 @@ $context = [
 ];
 
 ?>
-<h1>FormGent Form</h1>
 <div class="formgent-form">
     <form
         id="formgent-<?php formgent_render( $unique_id ) ?>"
