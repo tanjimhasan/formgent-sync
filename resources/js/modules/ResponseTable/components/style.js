@@ -7,18 +7,16 @@ const TableStyle = Styled.div`
             overflow-x: auto;
         }
         table{
-            border-spacing: 0 10px;
             tr{
                 th,
                 td{
-                    min-width: 250px;
                     &:first-child{
                         min-width: auto;
-                        border-radius: 12px 0 0 12px;
+                        border-right: none !important;
                         padding-inline-start: 15px;
                     }
-                    &:last-child{
-                        border-radius: 0 12px 12px 0;
+                    &:nth-child(2){
+                        
                     }
                     .formgent-form-wrap {
                         display: flex;

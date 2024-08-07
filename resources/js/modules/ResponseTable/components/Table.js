@@ -210,7 +210,8 @@ export default function Table() {
 			searchItem,
 			parseInt( id ),
 			readStatus,
-			orderType
+			orderType,
+			Date.now()
 		);
 	}
 
@@ -534,7 +535,8 @@ export default function Table() {
 			searchItem,
 			parseInt( id ),
 			readStatus,
-			orderType
+			orderType,
+			Date.now()
 		);
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
@@ -764,6 +766,7 @@ export default function Table() {
 					columns={ customColumns }
 					dataSource={ filteredData }
 					rowKey={ ( record ) => record.id }
+					bordered
 					pagination={ {
 						current: pagination?.current_page,
 						pageSize: 10,

@@ -34,10 +34,11 @@ export const SingleFormResolvers = {
 	*getSingleFormResponse(
 		currentPage = '1',
 		perPage = '10',
-		searchItem,
-		formID,
-		readStatus,
-		orderType
+		searchItem = '',
+		formID = '',
+		readStatus = 0,
+		orderType = 'asc',
+		timestamp = 0
 	) {
 		console.log(
 			'getSingleFormResponse',
@@ -46,7 +47,8 @@ export const SingleFormResolvers = {
 			searchItem,
 			formID,
 			readStatus,
-			orderType
+			orderType,
+			timestamp
 		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
@@ -75,7 +77,8 @@ export const SingleFormResolvers = {
 		searchItem,
 		formID,
 		readStatus,
-		orderType
+		orderType,
+		timestamp = 0
 	) {
 		console.log(
 			'getSingleResponse',
@@ -83,7 +86,8 @@ export const SingleFormResolvers = {
 			searchItem,
 			formID,
 			readStatus,
-			orderType
+			orderType,
+			timestamp
 		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
@@ -108,7 +112,7 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleFormFields( formID ) {
+	*getSingleFormFields( formID, timestamp = 0 ) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchFields(
