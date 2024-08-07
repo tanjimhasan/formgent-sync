@@ -11,12 +11,9 @@ $form_data = array_map(
 
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 
-var_dump( $data );
-
 $context = [
     'formId'         => $form->ID,
     'blocksSettings' => $data,
-    'dialCode'       => '',
     'data'           => $form_data,
 ];
 

@@ -51,14 +51,12 @@ const { callbacks } = store( 'formgent/form', {
 				const field = context.blocksSettings[ name ];
 
 				// // General validation rules
-				if ( field.required ) {
+				if ( field.required || field.field_type === 'gdpr' ) {
 					rules.push( {
 						rule: 'required',
 						errorMessage: `${ field.label } is required`,
 					} );
 				}
-
-				console.log( field.field_type );
 
 				// // Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
@@ -68,7 +66,6 @@ const { callbacks } = store( 'formgent/form', {
 				if ( rules.length > 0 ) {
 					validation.addField( selector, rules );
 				}
-				console.log( selector, rules );
 			}
 
 			validation.onSuccess( ( event ) => {
