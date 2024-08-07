@@ -203,11 +203,10 @@ const FormHeaderStyle = Styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     background-color: var(--formgent-color-white);
     position: sticky;
     top: 32px;
-    min-height: 60px;
     z-index: 98;
     box-shadow: 0 2px 5px rgba(0,0,0,0.02);
     .formgent-editor-header__info {
@@ -231,9 +230,10 @@ const FormHeaderStyle = Styled.div`
                 display: flex;
                 align-items: center;
                 gap: 6px;
+                height: 54px;
                 padding: 0 15px;
-                font-size: 14px;
-                font-weight: 600;
+                font-size: 13px;
+                font-weight: 500;
                 color: var(--formgent-color-dark);
                 background-color: transparent;
                 border: none;
@@ -276,6 +276,10 @@ const FormHeaderStyle = Styled.div`
             display: flex;
             gap: 6px;
             align-items: center;
+            padding: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--formgent-color-dark);
             svg {
                 &:hover {
                     cursor: pointer;
@@ -314,9 +318,12 @@ const FormHeaderStyle = Styled.div`
         gap: 15px;
         justify-content: center;
         a {
+            display: flex;
+            gap: 8px;
+            align-items: center;
             font-size: 14px;
             font-weight: 600;
-            padding: 10px 15px;
+            padding: 10px 16px;
             border-radius: 8px;
             color: var(--formgent-font-color);
             text-decoration: none;
@@ -325,6 +332,7 @@ const FormHeaderStyle = Styled.div`
             &:hover {
                 color: var(--formgent-color-primary);
                 background-color: var(--formgent-primary-light-button-bg);
+                box-shadow: none;
             }
         }
     }

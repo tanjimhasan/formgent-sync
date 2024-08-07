@@ -1,6 +1,5 @@
 import patchData from '@formgent/helper/patchData';
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
-import favIcon from '@icon/fav.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -8,7 +7,7 @@ import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
 
 export default function FormHeader( props ) {
-	const { id, useNavigate } = props;
+	const { id, useNavigate, navItems } = props;
 	const navigate = useNavigate && useNavigate();
 	const { publishFormRequest, publishFormSuccess, publishFormError } =
 		useDispatch( 'formgent' );
@@ -83,9 +82,9 @@ export default function FormHeader( props ) {
 		<FormHeaderStyle className="formgent-editor-header">
 			<div className="formgent-editor-header__info">
 				<div className="formgent-editor-header__info__redirect">
-					<div className="formgent-editor-header__info__logo">
+					{ /* <div className="formgent-editor-header__info__logo">
 						<ReactSVG src={ favIcon } />
-					</div>
+					</div> */ }
 					<button
 						className="formgent-editor-header__info__previous"
 						onClick={ handleBackButtonClick }
@@ -94,6 +93,9 @@ export default function FormHeader( props ) {
 						{ __( 'Back', 'formgent' ) }
 					</button>
 				</div>
+				<span className="formgent-editor-header__info__title">
+					{ title }
+				</span>
 
 				{ /* <div className="formgent-editor-header__info__wrap">
 					<div className="formgent-editor-header__info__title">
@@ -131,9 +133,13 @@ export default function FormHeader( props ) {
 
 			{ /* Editor Header Nav */ }
 			<nav className="formgent-editor-header__nav">
-				{ /* <NavLink to={ `${ forms }/edit` }>Editor</NavLink> */ }
-				<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
-				<NavLink to={ `${ forms }/results` }>Results</NavLink>
+				{ navItems || (
+					<>
+						{ /* <NavLink to={ `${ forms }/edit` }>Editor</NavLink> */ }
+						<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
+						<NavLink to={ `${ forms }/results` }>Results</NavLink>
+					</>
+				) }
 			</nav>
 
 			{ /* Editor Header Actions */ }

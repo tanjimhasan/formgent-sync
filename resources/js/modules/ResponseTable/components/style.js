@@ -16,7 +16,7 @@ const TableStyle = Styled.div`
                         padding-inline-start: 15px;
                     }
                     &:nth-child(2){
-                        
+
                     }
                     .formgent-form-wrap {
                         display: flex;
@@ -192,6 +192,7 @@ const TableSelectionStyle = Styled.div`
 const TableHeaderStyle = Styled.div`
     display: flex;
     gap: 10px;
+    margin-bottom: 24px;
 `;
 
 const TableActionStyle = Styled.div`
@@ -251,16 +252,25 @@ const TableActionStyle = Styled.div`
     }
     .formgent-table-header__search {
         width: 275px;
-        height: 40px;
-        padding: 0 20px;
+        height: 36px;
+        padding: 0 12px;
         box-shadow: none;
         outline: none;
         border-radius: 8px;
         background: transparent;
         border: 1px solid var(--formgent-color-bg-gray);
+        &.ant-input-affix-wrapper-focused {
+            border: 2px solid var(--formgent-color-dark);
+        }
         .ant-input {
             outline: none;
             border: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--formgent-color-dark);
+        }
+        .ant-input-prefix {
+            margin-inline-end: 8px;
         }
     }
     .ant-btn {
@@ -356,26 +366,27 @@ const TableTabStyle = Styled.div`
         overflow: hidden;
     }
     .ant-tabs-tab {
+        display: flex;
+        gap: 8px;
+        align-items: center;
         font-size: 14px;
         font-weight: 600;
-        padding: 10px 15px;
-        margin: 0 !important;
-        background-color: var(--formgent-color-bg-gray);
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid var(--formgent-primary-light-button-bg);
         text-decoration: none;
-        border: none;
-        box-shadow: none;
-        outline: none;
         transition: all ease .3s;
         .ant-tabs-tab-btn {
-            color: var(--formgent-color-dark);
+            color: var(--formgent-font-color);
         }
         ~ .ant-tabs-ink-bar {
             display: none;
         }
+        &:hover,
         &.ant-tabs-tab-active {
-            background-color: var(--formgent-color-dark);
+            background-color: var(--formgent-primary-light-button-bg);
             .ant-tabs-tab-btn {
-                color: var(--formgent-color-white);
+                color: var(--formgent-color-primary);
             }
         }
     }

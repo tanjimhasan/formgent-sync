@@ -4,7 +4,7 @@ import { ResultsHeaderStyle } from './style';
 
 import chartIcon from '@icon/line-chart.svg';
 import pieIcon from '@icon/pie-chart.svg';
-import tableIcon from '@icon/table.svg';
+import rowIcon from '@icon/row-3.svg';
 
 export default function ResultsHeader( props ) {
 	const { id } = props;
@@ -25,21 +25,21 @@ export default function ResultsHeader( props ) {
 					to={ `${ results }/responses` }
 					className="formgent-results-header__nav__link"
 				>
-					<ReactSVG src={ tableIcon } width="16" height="16" />
+					<ReactSVG src={ rowIcon } width="18" height="18" />
 					Responses
 				</NavLink>
 				<NavLink
 					to={ `${ results }/summary` }
 					className="formgent-results-header__nav__link"
 				>
-					<ReactSVG src={ pieIcon } width="16" height="16" />
+					<ReactSVG src={ pieIcon } width="18" height="18" />
 					Summary
 				</NavLink>
 				<NavLink
 					to={ `${ results }/analytics` }
 					className="formgent-results-header__nav__link"
 				>
-					<ReactSVG src={ chartIcon } width="16" height="16" />
+					<ReactSVG src={ chartIcon } width="18" height="18" />
 					Analytics
 				</NavLink>
 			</nav>
