@@ -768,6 +768,9 @@ const TableDrawerStyle = Styled.div`
                     margin: 0;
                 }
             }
+            .response-table__drawer__tab__submission__content__wrapper {
+                flex: 1;
+            }
         }
         .response-table__drawer__tab__submission__note {
             .response-table__drawer__tab__submission__input {

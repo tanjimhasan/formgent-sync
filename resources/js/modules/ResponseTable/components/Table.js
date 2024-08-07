@@ -41,6 +41,7 @@ export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ tableDrawer, setTableDrawer ] = useState( false );
+	const [ responseNotes, setResponseNotes ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ starredItems, setStarredItems ] = useState( {} );
@@ -216,6 +217,18 @@ export default function Table() {
 			orderType,
 			Date.now()
 		);
+
+		handleResponseNotes( record );
+	}
+
+	// handleTableDrawer
+	async function handleResponseNotes( responseID ) {
+		const getResponseNotes = await fetchData(
+			`admin/responses/notes?response_id=${ responseID }`
+		);
+		setResponseNotes( getResponseNotes.notes );
+
+		console.log( 'Response Notes', responseID, getResponseNotes );
 	}
 
 	// handleStarred
@@ -810,6 +823,7 @@ export default function Table() {
 				<TableDrawer
 					response={ tableDrawer }
 					handleTableDrawer={ handleTableDrawer }
+					responseNotes={ responseNotes }
 					setTableDrawer={ setTableDrawer }
 					pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }

@@ -1,4 +1,5 @@
 import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
+import deleteData from '@formgent/helper/deleteData';
 import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
@@ -22,6 +23,7 @@ export default function TableDrawer( props ) {
 	const {
 		response,
 		handleTableDrawer,
+		responseNotes,
 		setTableDrawer,
 		pagination,
 		handleDelete,
@@ -106,8 +108,15 @@ export default function TableDrawer( props ) {
 		console.log( 'handleNoteEdit ! ', id );
 	}
 
-	function handleNoteDelete( id ) {
-		console.log( 'handleNoteDelete ! ', id );
+	async function handleNoteDelete( id ) {
+		const responseDeleteResponse = await deleteData(
+			`admin/responses/notes/${ id }`,
+			{
+				response_id: response.id,
+			}
+		);
+
+		console.log( 'handleNoteDelete ! ', id, responseDeleteResponse );
 	}
 
 	// handleSelectItems
@@ -145,7 +154,7 @@ export default function TableDrawer( props ) {
 				setEnableSubmissionInput( id );
 			},
 			delete: () => {
-				console.log( ' Response Note Edit ', id );
+				console.log( ' Response Note Delete ', id, response.id );
 				handleNoteDelete( id );
 			},
 		};
@@ -383,92 +392,66 @@ export default function TableDrawer( props ) {
 									</form>
 								) : (
 									<div className="response-table__drawer__tab__submission__content">
-										<div className="response-table__drawer__tab__submission__content__single">
-											<div className="response-table__drawer__tab__submission__content__wrapper">
-												<span className="response-table__drawer__tab__submission__content__published-date">
-													Sat, Jun 22, 1:18 PM
-												</span>
-												<p className="response-table__drawer__tab__submission__content__text">
-													Lorem ipsum dolor sit amet
-													consectetur. Suspendisse
-													morbi mattis gravida aliquet
-													nunc suscipit aliquam.
-													Turpis sed id elementum
-													auctor.
-												</p>
-											</div>
-											<AntDropdown
-												menu={ {
-													items: selectItemsNote,
-													onClick: ( e ) =>
-														handleSelectItemsNote(
-															e,
-															'1'
-														),
-												} }
-												trigger={ [ 'click' ] }
-												placement="bottomLeft"
-												overlayStyle={ {
-													minWidth: '240px',
-												} }
-											>
-												<button
-													className="response-table__drawer__tab__submission__content__btn"
-													onClick={ ( e ) =>
-														e.preventDefault()
-													}
-												>
-													<ReactSVG
-														width="14"
-														height="14"
-														src={ ellipsisVIcon }
-													/>
-												</button>
-											</AntDropdown>
-										</div>
-										<div className="response-table__drawer__tab__submission__content__single">
-											<div className="response-table__drawer__tab__submission__content__wrapper">
-												<span className="response-table__drawer__tab__submission__content__published-date">
-													Sat, Jun 22, 1:18 PM
-												</span>
-												<p className="response-table__drawer__tab__submission__content__text">
-													Lorem ipsum dolor sit amet
-													consectetur. Suspendisse
-													morbi mattis gravida aliquet
-													nunc suscipit aliquam.
-													Turpis sed id elementum
-													auctor.
-												</p>
-											</div>
-											<AntDropdown
-												menu={ {
-													items: selectItemsNote,
-													onClick: ( e ) =>
-														handleSelectItemsNote(
-															e,
-															'2'
-														),
-												} }
-												trigger={ [ 'click' ] }
-												placement="bottomLeft"
-												overlayStyle={ {
-													minWidth: '240px',
-												} }
-											>
-												<button
-													className="response-table__drawer__tab__submission__content__btn"
-													onClick={ ( e ) =>
-														e.preventDefault()
-													}
-												>
-													<ReactSVG
-														width="14"
-														height="14"
-														src={ ellipsisVIcon }
-													/>
-												</button>
-											</AntDropdown>
-										</div>
+										{ responseNotes?.map(
+											( note, index ) => {
+												return (
+													<div
+														key={ index }
+														className="response-table__drawer__tab__submission__content__single"
+													>
+														<div className="response-table__drawer__tab__submission__content__wrapper">
+															<span className="response-table__drawer__tab__submission__content__published-date">
+																{ formatDate(
+																	'en-US',
+																	note.created_at,
+																	dateFormatOptions
+																) }
+															</span>
+															<p className="response-table__drawer__tab__submission__content__text">
+																{ note.note }
+															</p>
+														</div>
+														<AntDropdown
+															menu={ {
+																items: selectItemsNote,
+																onClick: (
+																	e
+																) =>
+																	handleSelectItemsNote(
+																		e,
+																		note.id
+																	),
+															} }
+															trigger={ [
+																'click',
+															] }
+															placement="bottomLeft"
+															overlayStyle={ {
+																minWidth:
+																	'240px',
+															} }
+														>
+															<button
+																className="response-table__drawer__tab__submission__content__btn"
+																onClick={ (
+																	e
+																) =>
+																	e.preventDefault()
+																}
+															>
+																<ReactSVG
+																	width="14"
+																	height="14"
+																	src={
+																		ellipsisVIcon
+																	}
+																/>
+															</button>
+														</AntDropdown>
+													</div>
+												);
+											}
+										) }
 									</div>
 								) }
 							</div>
