@@ -112,7 +112,7 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleFormFields( formID, timestamp = 0 ) {
+	*getSingleFormFields( formID ) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchFields(
