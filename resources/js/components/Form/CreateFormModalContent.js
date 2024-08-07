@@ -7,7 +7,7 @@ import { Form } from 'antd';
 import AntButton from '@formgent/components/Button';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
 
-export default function CreateFormModalContent() {
+export default function CreateFormModalContent( { type } ) {
 	const [ serverErrors, setServerErrors ] = useState( {} );
 
 	const { CommonReducer } = useSelect( ( select ) => {
@@ -34,12 +34,12 @@ export default function CreateFormModalContent() {
 		updateCreatePopUp,
 	} = useDispatch( 'formgent' );
 
-	function hadnleFormSubmission( formData ) {
+	function handleFormSubmission( formData ) {
 		if ( SingleFormReducer?.isCreatingForm ) return;
 
 		const newform = {
 			status: 'draft',
-			type: 'general',
+			type: type,
 		};
 		Object.assign( formData, newform );
 
@@ -69,7 +69,7 @@ export default function CreateFormModalContent() {
 				<Form
 					name="formgent-create-form"
 					layout="vertical"
-					onFinish={ hadnleFormSubmission }
+					onFinish={ handleFormSubmission }
 				>
 					<Form.Item
 						label="Form name"

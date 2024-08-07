@@ -100,7 +100,7 @@ export default function CreatePopupAction( props ) {
 					isDismissible={ true }
 					onRequestClose={ closeModal }
 				>
-					<CreateFormModalContent />
+					<CreateFormModalContent type={ item.type } />
 				</Modal>
 			) }
 		</>

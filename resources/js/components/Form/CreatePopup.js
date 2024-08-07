@@ -26,19 +26,22 @@ function CreatePopup( props ) {
 		createFormStage,
 		addBackBtn,
 	} = FormReducer;
+
+	console.log( addBackBtn );
+
 	const actionData = [
-		{
-			type: 'general',
-			icon: Pencil,
-			label: 'Classic Form',
-			text: 'Show multiple questions on single page',
-			step: '1',
-		},
 		{
 			type: 'scratch',
 			icon: Pencil,
 			label: 'Start from Scratch',
 			text: 'Start with a blank form',
+			step: '1',
+		},
+		{
+			type: 'general',
+			icon: Pencil,
+			label: 'Classic Form',
+			text: 'Show multiple questions on single page',
 			url: `forms/form-new/${ SingleFormReducer?.selectedFormType }`,
 			step: '2',
 		},
