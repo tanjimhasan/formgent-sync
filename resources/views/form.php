@@ -7,6 +7,7 @@ $data = array_map(
     function( $item ) {
         unset( $item['label'] );
         unset( $item['sub_label'] );
+        unset( $item['description'] );
         return $item;
     }, $data 
 );
