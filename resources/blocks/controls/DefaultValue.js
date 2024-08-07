@@ -1,4 +1,8 @@
-import { Dropdown, Button } from '@wordpress/components';
+import {
+	Dropdown,
+	Button,
+	__experimentalInputControl as InputControl,
+} from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import ellipsisH from '@icon/ellipsis-h.svg';
@@ -27,17 +31,17 @@ export default function DefaultValue( {
 	function handleAddValue( e ) {
 		const dataValue = e.target.dataset.value;
 		const currentValue = attributes[ attr_key ] || '';
-		if ( ! currentValue.includes( dataValue ) ) {
-			const newValue = `${ currentValue }${ dataValue }`;
-			setAttributes( { [ attr_key ]: newValue } );
-		}
+		//if ( ! currentValue.includes( dataValue ) ) {
+		const newValue = `${ currentValue }${ dataValue }`;
+		setAttributes( { [ attr_key ]: newValue } );
+		//}
 	}
 
 	return (
 		<div className="formgent-control-default-value-wrapper">
-			<label className="formgent-control-label">{ control.label }</label>
 			<div className="formgent-control-default-value">
-				<input
+				<InputControl
+					label={ control.label }
 					value={ attributes[ attr_key ] }
 					onChange={ function ( value ) {
 						// Update the attribute value in the block's attributes
