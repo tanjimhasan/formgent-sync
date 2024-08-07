@@ -6,7 +6,7 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import Controls from './Controls';
 import { useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
-import { select } from '@wordpress/data';
+import { select, dispatch } from '@wordpress/data';
 import { addFilter } from '@wordpress/hooks';
 import { registerBlockType } from '@wordpress/blocks';
 
@@ -61,41 +61,60 @@ addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
 } );
 
 function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
+	const blockProps = useBlockProps();
+
 	useEffect( () => {
 		const blockEditorStore = select( 'core/block-editor' );
-		/**
-		 * If id length is empty, that's mean it's a new block.
-		 */
-		if ( undefined === attributes.id || 0 !== attributes.id.length ) {
-			return;
-		}
+		const blocks = blockEditorStore.getBlocks();
+		const blockName = metaData.name;
+		const currentId = attributes.id;
+		const isNewBlock = ! currentId || currentId.length === 0;
 
-		const selectedBlock = blockEditorStore.getSelectedBlock();
-
-		if ( ! selectedBlock ) {
-			return;
-		}
-
-		const blocks = blockEditorStore
-			.getBlocks()
-			.filter(
+		if ( isNewBlock ) {
+			// All blocks of the same type, excluding the current block
+			const filteredBlocks = blocks.filter(
 				( block ) =>
-					block.name === metaData.name &&
-					block.clientId !== selectedBlock.clientId
+					block.name === blockName &&
+					! blockProps.id.includes( block.clientId )
 			);
 
-		setAttributes( {
-			id: nanoid( 12 ),
-			name: generateUniqueKey(
-				metaData.name.substring( 'formgent/'.length ),
-				blocks
-			),
-		} );
+			setAttributes( {
+				id: nanoid( 12 ),
+				name: generateUniqueKey(
+					blockName.substring( 'formgent/'.length ),
+					filteredBlocks
+				),
+			} );
+		} else {
+			const duplicateBlocks = blocks.filter( ( block ) => {
+				return block.attributes.id === currentId;
+			} );
+
+			if ( duplicateBlocks[ 1 ] ) {
+				// All blocks of the same type, excluding the duplicate block
+				const filteredBlocks = blocks.filter(
+					( block ) =>
+						block.name === blockName &&
+						block.clientId !== duplicateBlocks[ 1 ].clientId
+				);
+
+				dispatch( 'core/block-editor' ).updateBlockAttributes(
+					duplicateBlocks[ 1 ].clientId,
+					{
+						id: nanoid( 12 ),
+						name: generateUniqueKey(
+							blockName.substring( 'formgent/'.length ),
+							filteredBlocks
+						),
+					}
+				);
+			}
+		}
 	}, [] );
 
 	return (
 		<>
-			<div { ...useBlockProps() }>
+			<div { ...blockProps }>
 				<Edit
 					attributes={ attributes }
 					setAttributes={ setAttributes }
