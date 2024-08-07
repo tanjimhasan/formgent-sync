@@ -23,7 +23,8 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 
 			const validation = new JustValidate(
-				`#${ element.attributes.id }`
+				`#${ element.attributes.id }`,
+				{ validateBeforeSubmitting: true }
 			);
 
 			let rulesList = {
@@ -34,16 +35,22 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				},
 			};
-
 			//Loop over each field & prepare validation group
 			for ( const name in context.data ) {
-				const selector = element.ref.querySelector(
+				let selector = element.ref.querySelector(
 					`input[name="${ name }"]`
 				);
+
+				if ( ! selector ) {
+					selector = element.ref.querySelector(
+						`textarea[name="${ name }"]`
+					);
+				}
+
 				const rules = [];
 				const field = context.blocksSettings[ name ];
 
-				// General validation rules
+				// // General validation rules
 				if ( field.required ) {
 					rules.push( {
 						rule: 'required',
@@ -51,16 +58,17 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				}
 
-				// Type specific validation rules
+				console.log( field.field_type );
+
+				// // Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
 					rulesList[ field.field_type ]( rules );
 				}
 
-				if ( rules.length < 1 ) {
-					return;
+				if ( rules.length > 0 ) {
+					validation.addField( selector, rules );
 				}
-
-				validation.addField( selector, rules );
+				console.log( selector, rules );
 			}
 
 			validation.onSuccess( ( event ) => {
@@ -69,7 +77,16 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 		},
 		submit: async ( context, element ) => {
+			const form = element.ref.closest( 'form' );
 			const formData = {};
+
+			// Honeypot security check
+			const honeypotField = form.querySelector(
+				`input[name="formgent-honeypot-${ context.formId }"]`
+			);
+			if ( honeypotField.value !== '' ) {
+				return;
+			}
 
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
@@ -97,7 +114,6 @@ const { callbacks } = store( 'formgent/form', {
 					},
 				} );
 
-				const form = element.ref.closest( 'form' );
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;

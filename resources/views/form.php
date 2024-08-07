@@ -11,9 +11,12 @@ $form_data = array_map(
 
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 
+var_dump( $data );
+
 $context = [
     'formId'         => $form->ID,
     'blocksSettings' => $data,
+    'dialCode'       => '',
     'data'           => $form_data,
 ];
 
@@ -29,6 +32,12 @@ $context = [
     >
         <div class="formgent-notices"></div>
         <?php formgent_render( $fields )?>
+        <!-- Honeypot field -->
+        <input
+            type="hidden"
+            name="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
+            id="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
+        >
         <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
     </form>
 </div>
