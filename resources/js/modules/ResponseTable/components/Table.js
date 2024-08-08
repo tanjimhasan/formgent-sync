@@ -263,7 +263,9 @@ export default function Table() {
 		return await fetchData(
 			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
 				response_ids:
-					source === 'drawer' ? [ tableDrawer.id ] : selectedRowKeys,
+					source === 'drawer' && tableDrawer?.id
+						? [ tableDrawer.id ]
+						: selectedRowKeys,
 			} )
 		);
 	}
@@ -285,9 +287,9 @@ export default function Table() {
 	}
 
 	// Handle Export CSV
-	async function handleExportCSV( e ) {
+	async function handleExportCSV( e, source ) {
 		e.stopPropagation();
-		const exportedData = await handleCreateExportData();
+		const exportedData = await handleCreateExportData( source );
 		if ( exportedData ) {
 			setCSVExportData( PrepareExportData( exportedData ) );
 		}
@@ -798,7 +800,9 @@ export default function Table() {
 					handleDownload={ ( key ) =>
 						handleDownload( key, 'drawer' )
 					}
-					downloadItems={ downloadItems }
+					handleExportCSV={ ( e ) => handleExportCSV( e, 'drawer' ) }
+					csvExportData={ csvExportData }
+					csvLinkRef={ csvLinkRef }
 					dateFormatOptions={ dateFormatOptions }
 				/>
 			) }

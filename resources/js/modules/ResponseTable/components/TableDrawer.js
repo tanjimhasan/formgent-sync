@@ -4,6 +4,7 @@ import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
+import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
 import { TableDrawerStyle, TableTabStyle } from './style';
 
@@ -13,14 +14,17 @@ import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
 import checkIcon from '@icon/check-square.svg';
 import closeIcon from '@icon/close.svg';
+import csvIcon from '@icon/csv.svg';
 import downloadIcon from '@icon/download.svg';
 import editIcon from '@icon/edit.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import mailIcon from '@icon/mail.svg';
+import pdfIcon from '@icon/pdf.svg';
 import plusIcon from '@icon/plus.svg';
 import starIcon from '@icon/star.svg';
 import targetIcon from '@icon/target.svg';
 import trashIcon from '@icon/trash.svg';
+import xlsIcon from '@icon/xls.svg';
 
 export default function TableDrawer( props ) {
 	const {
@@ -33,7 +37,9 @@ export default function TableDrawer( props ) {
 		handleStarred,
 		handleRead,
 		handleDownload,
-		downloadItems,
+		handleExportCSV,
+		csvExportData,
+		csvLinkRef,
 		dateFormatOptions,
 	} = props;
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
@@ -50,6 +56,49 @@ export default function TableDrawer( props ) {
 		{
 			key: 'submission',
 			label: 'Submission Info',
+		},
+	];
+
+	// Download Items
+	const downloadItems = [
+		{
+			key: 'csv',
+			label: (
+				<>
+					<span
+						className="dropdown-header-content"
+						onClick={ ( e ) => handleExportCSV( e ) }
+					>
+						<ReactSVG width="16" height="16" src={ csvIcon } />
+						Download as CSV
+					</span>
+					<CSVLink
+						data={ csvExportData }
+						filename={ 'formgent-response-list.csv' }
+						className="csv-downloader"
+						style={ { display: 'none' } }
+						ref={ csvLinkRef }
+					/>
+				</>
+			),
+		},
+		{
+			key: 'excel',
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="16" height="16" src={ xlsIcon } />
+					Download as Excel
+				</span>
+			),
+		},
+		{
+			key: 'pdf',
+			label: (
+				<span className="dropdown-header-content">
+					<ReactSVG width="16" height="16" src={ pdfIcon } />
+					Download as PDF
+				</span>
+			),
 		},
 	];
 
