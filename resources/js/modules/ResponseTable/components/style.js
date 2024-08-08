@@ -421,6 +421,7 @@ const TableTabStyle = Styled.div`
     }
     .ant-tabs-nav-list {
         border-radius: 8px;
+        border: 1px solid var(--formgent-primary-light-button-bg);
         overflow: hidden;
     }
     .ant-tabs-tab {
@@ -431,8 +432,7 @@ const TableTabStyle = Styled.div`
         font-weight: 600;
         height: 36px;
         padding: 0 16px;
-        border-radius: 8px;
-        border: 1px solid var(--formgent-primary-light-button-bg);
+        margin: 0 !important;
         text-decoration: none;
         transition: all ease .3s;
         .ant-tabs-tab-btn {
@@ -550,52 +550,16 @@ const TableDrawerStyle = Styled.div`
     .response-table__drawer__content {
         padding: 20px;
     }
+    .response-table__drawer__tab {
+        padding-bottom: 30px;
+    }
     .response-table__drawer__tab__content {
-        padding: 30px 0 0;
+        padding: 24px 0 0;
     }
     .response-table__drawer__tab {
         .response-table__drawer__tab__nav {
             display: flex;
             gap: 0;
-        }
-        .ant-tabs-nav {
-            margin: 0;
-            &:before {
-                display: none;
-            }
-        }
-        .ant-tabs-ink-bar {
-            display: none;
-        }
-        .ant-tabs-nav-list {
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        .ant-tabs-tab {
-            padding: 0;
-            margin: 0;
-            .ant-tabs-tab-btn {
-                font-size: 14px;
-                font-weight: 600;
-                padding: 15px 20px;
-                margin: 0;
-                background-color: var(--formgent-color-bg-light);
-                color: var(--formgent-color-dark);
-                border: none;
-                border-radius: 0;
-                box-shadow: none;
-                outline: none;
-                cursor: pointer;
-                transition: all ease .3s;
-            }
-            
-            &.ant-tabs-tab-active,
-            &:hover {
-                .ant-tabs-tab-btn {
-                    color: var(--formgent-color-white);
-                    background-color: var(--formgent-color-dark);
-                }
-            }
         }
     }
     .response-table__drawer__tab__wrapper {
@@ -603,11 +567,12 @@ const TableDrawerStyle = Styled.div`
         gap: 10px;
         flex-direction: column;
         align-items: flex-start;
+        border-bottom: 1px solid var(--formgent-color-border);
     }
 
     .response-table__drawer__tab__item {
         display: flex;
-        gap: 10px;
+        gap: 12px;
         padding: 20px 0;
         &.response-table__drawer__tab__item--tag {
             .response-table__drawer__tab__item__title {
@@ -621,24 +586,26 @@ const TableDrawerStyle = Styled.div`
             height: 40px;
             width: 40px;
             min-width: 40px;
-            border-radius: 8px;
-            background-color: var(--formgent-color-bg-light);
+            border-radius: 10px;
+            color: var(--formgent-color-white);
+            background-color: var(--formgent-color-gray);
         }
         .response-table__drawer__tab__item__content {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-direction: column;
         }
         .response-table__drawer__tab__item__title {
             display: flex;
             align-items: center;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--formgent-color-dark);
             margin: 0;
         }
         .response-table__drawer__tab__item__desc {
             font-size: 14px;
+            font-weight: 400;
             color: var(--formgent-color-light-gray);
             margin: 0;
         }
@@ -659,18 +626,20 @@ const TableDrawerStyle = Styled.div`
             gap: 8px;
             flex-wrap: wrap;
             .response-table__drawer__tab__item__btn {
-                font-size: 12px;
-                padding: 5px 10px;
+                font-size: 14px;
+                font-weight: 500;
+                padding: 0 8px;
                 margin: 0;
-                background: var(--formgent-color-bg-light);
-                border: 1px solid var(--formgent-color-bg-light);
+                height: 28px;
+                color: var(--formgent-color-gray);
+                background: var(--formgent-color-border);
+                border: none;
                 border-radius: 8px;
                 cursor: pointer;
                 transition: all ease .3s;
                 &:hover {
                     color: var(--formgent-color-white);
                     background: var(--formgent-color-light-gray);
-                    border-color: var(--formgent-color-light-gray);
                 }
             }
         }
@@ -708,15 +677,16 @@ const TableDrawerStyle = Styled.div`
 
     .response-table__drawer__tab__submission {
         display: flex;
-        gap: 20px;
+        gap: 16px;
         flex-direction: column;
+        margin: 20px 0 0;
         .response-table__drawer__tab__submission__header {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         .response-table__drawer__tab__submission__title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--formgent-color-dark);
             margin: 0;
@@ -725,9 +695,11 @@ const TableDrawerStyle = Styled.div`
             display: flex;
             gap: 6px;
             align-items: center;
-            font-size: 12px;
-            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0 16px;
             margin: 0;
+            height: 36px;
             color: var(--formgent-color-white);
             background: var(--formgent-color-gray);
             border: none;
@@ -737,10 +709,18 @@ const TableDrawerStyle = Styled.div`
             &:hover {
                 background: var(--formgent-color-dark);
             }
+            &.cancel {
+                color: var(--formgent-color-dark);
+                background: var(--formgent-color-border);
+                &:hover {
+                    color: var(--formgent-color-danger);
+                    background: var(--formgent-color-danger-light);
+                }
+            }
         }
         .response-table__drawer__tab__submission__content {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             flex-direction: column;
             .response-table__drawer__tab__submission__content__single {
                 display: flex;
@@ -761,10 +741,12 @@ const TableDrawerStyle = Styled.div`
                 }
                 
                 .response-table__drawer__tab__submission__content__published-date {
+                    display: flex;
+                    gap: 6px;
                     font-size: 12px;
                 }
                 .response-table__drawer__tab__submission__content__text {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin: 0;
                 }
             }
@@ -775,16 +757,26 @@ const TableDrawerStyle = Styled.div`
         .response-table__drawer__tab__submission__note {
             .response-table__drawer__tab__submission__input {
                 width: 100%;
-                height: 200px;
-                padding: 15px;
-                border-radius: 10px;
+                height: 112px;
+                padding: 12px 16px;
+                border-radius: 12px;
+                border: none;
+                resize: none;
+                box-shadow: none;
+                background: var(--formgent-color-border);
             }
             .response-table__drawer__tab__submission__save {
-                font-size: 12px;
-                padding: 5px 10px;
-                margin: 10px 0 0;
+                display: flex;
+                gap: 6px;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                font-weight: 600;
+                padding: 0 20px;
+                margin: 16px 0 0;
+                height: 40px;
                 color: var(--formgent-color-white);
-                background: var(--formgent-color-gray);
+                background: var(--formgent-color-primary);
                 border: none;
                 border-radius: 8px;
                 cursor: pointer;
@@ -792,30 +784,36 @@ const TableDrawerStyle = Styled.div`
                 &:hover {
                     background: var(--formgent-color-dark);
                 }
+                &[disabled] {
+                    opacity: .5;
+                    cursor: not-allowed;
+                    pointer-events: none;
+                }
             }
         }
     }
 
     .response-table__drawer__tab__info {
         display: flex;
-        gap: 15px;
+        gap: 22px;
         flex-direction: column;
         .response-table__drawer__tab__info__single {
             display: flex;
             gap: 10px;
             .response-table__drawer__tab__info__title {
                 font-size: 14px;
-                font-weight: 600;
-                color: var(--formgent-color-dark);
+                font-weight: 400;
+                color: var(--formgent-color-text);
                 margin: 0;
-                width: 200px;
-                min-width: 200px;
+                width: 175px;
+                min-width: 175px;
             }
             .response-table__drawer__tab__info__value {
                 display: flex;
                 gap: 5px;
                 font-size: 14px;
-                color: var(--formgent-color-light-gray);
+                font-weight: 500;
+                color: var(--formgent-color-gray);
                 margin: 0;
             }
         }
@@ -823,14 +821,18 @@ const TableDrawerStyle = Styled.div`
         .response-table__drawer__tab__info__tag {
             display: flex;
             gap: 6px;
+            align-items: center;
+            justify-content: center;
             margin: 0;
-            padding: 3px 5px;
-            border-radius: 6px;
-            color: var(--formgent-color-dark);
+            padding: 0 12px;
+            height: 26px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--formgent-color-text);
             background-color: var(--formgent-color-bg-light);
             &.completed {
-                color: var(--formgent-color-primary);
-                background-color: var(--formgent-primary-light-button-bg);
+                background-color: var(--formgent-color-bg-badge-success);
             }
         }
     }

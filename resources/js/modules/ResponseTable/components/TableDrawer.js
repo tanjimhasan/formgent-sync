@@ -5,20 +5,21 @@ import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
-import { TableDrawerStyle } from './style';
+import { TableDrawerStyle, TableTabStyle } from './style';
 
 // Icon
+import alignRightIcon from '@icon/align-right.svg';
 import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
+import checkIcon from '@icon/check-square.svg';
 import closeIcon from '@icon/close.svg';
 import downloadIcon from '@icon/download.svg';
 import editIcon from '@icon/edit.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import mailIcon from '@icon/mail.svg';
 import plusIcon from '@icon/plus.svg';
-import printIcon from '@icon/print.svg';
 import starIcon from '@icon/star.svg';
-import transformIcon from '@icon/transform.svg';
+import targetIcon from '@icon/target.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableDrawer( props ) {
@@ -301,20 +302,22 @@ export default function TableDrawer( props ) {
 			</div>
 			<div className="response-table__drawer__content">
 				<div className="response-table__drawer__tab">
-					<AntTabs
-						activeKey={ activeDrawerTab }
-						onChange={ handleDrawerTabChange }
-						items={ drawerTabItems }
-					/>
+					<TableTabStyle>
+						<AntTabs
+							activeKey={ activeDrawerTab }
+							onChange={ handleDrawerTabChange }
+							items={ drawerTabItems }
+						/>
+					</TableTabStyle>
 					{ activeDrawerTab === 'answers' && (
 						<div className="response-table__drawer__tab__content">
 							<div className="response-table__drawer__tab__wrapper">
 								<div className="response-table__drawer__tab__item">
 									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
-											width="14"
-											height="14"
-											src={ transformIcon }
+											width="20"
+											height="20"
+											src={ alignRightIcon }
 										/>
 									</div>
 									<div className="response-table__drawer__tab__item__content">
@@ -333,9 +336,9 @@ export default function TableDrawer( props ) {
 								<div className="response-table__drawer__tab__item">
 									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
-											width="14"
-											height="14"
-											src={ printIcon }
+											width="20"
+											height="20"
+											src={ checkIcon }
 										/>
 									</div>
 									<div className="response-table__drawer__tab__item__content">
@@ -344,10 +347,10 @@ export default function TableDrawer( props ) {
 										</h5>
 										<div className="response-table__drawer__tab__item__btns">
 											<button className="response-table__drawer__tab__item__btn">
-												Option 1
+												Option One
 											</button>
 											<button className="response-table__drawer__tab__item__btn">
-												Option 2
+												Option Two
 											</button>
 										</div>
 									</div>
@@ -355,9 +358,9 @@ export default function TableDrawer( props ) {
 								<div className="response-table__drawer__tab__item">
 									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
-											width="14"
-											height="14"
-											src={ printIcon }
+											width="20"
+											height="20"
+											src={ targetIcon }
 										/>
 									</div>
 									<div className="response-table__drawer__tab__item__content">
@@ -377,22 +380,41 @@ export default function TableDrawer( props ) {
 									<h4 className="response-table__drawer__tab__submission__title">
 										Submission Note
 									</h4>
-									<button
-										className="response-table__drawer__tab__submission__add"
-										onClick={ () => {
-											setEnableSubmissionInput(
-												'create'
-											);
-											setCurrentNote( '' );
-										} }
-									>
-										<ReactSVG
-											width="14"
-											height="14"
-											src={ plusIcon }
-										/>
-										Add Note
-									</button>
+									{ ! enableSubmissionInput ? (
+										<button
+											className="response-table__drawer__tab__submission__add"
+											onClick={ () => {
+												setEnableSubmissionInput(
+													'create'
+												);
+												setCurrentNote( '' );
+											} }
+										>
+											<ReactSVG
+												width="16"
+												height="16"
+												src={ plusIcon }
+											/>
+											Add Note
+										</button>
+									) : (
+										<button
+											className="response-table__drawer__tab__submission__add cancel"
+											onClick={ () => {
+												setEnableSubmissionInput(
+													false
+												);
+												setCurrentNote( '' );
+											} }
+										>
+											<ReactSVG
+												width="16"
+												height="16"
+												src={ closeIcon }
+											/>
+											Cancel
+										</button>
+									) }
 								</div>
 								{ enableSubmissionInput ? (
 									<form className="response-table__drawer__tab__submission__note">
@@ -409,6 +431,7 @@ export default function TableDrawer( props ) {
 											onClick={ ( e ) =>
 												handleNoteFormSubmit( e )
 											}
+											disabled={ ! currentNote }
 										>
 											Save note
 										</button>
