@@ -3,9 +3,20 @@ import {
 	Button,
 	__experimentalInputControl as InputControl,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useViewportMatch } from '@wordpress/compose';
+
 import ReactSVG from 'react-inlinesvg';
 import ellipsisH from '@icon/ellipsis-h.svg';
+
+function dropdownProps() {
+	const isMobile = useViewportMatch( 'medium', '<' );
+	return ! isMobile
+		? {
+				placement: 'left-start',
+				offset: 248,
+		  }
+		: {};
+}
 
 export default function DefaultValue( {
 	attr_key,
@@ -28,13 +39,10 @@ export default function DefaultValue( {
 		},
 	];
 
-	function handleAddValue( e ) {
-		const dataValue = e.target.dataset.value;
+	function handleAddValue( item ) {
 		const currentValue = attributes[ attr_key ] || '';
-		//if ( ! currentValue.includes( dataValue ) ) {
-		const newValue = `${ currentValue }${ dataValue }`;
+		const newValue = `${ currentValue }${ item.value }`;
 		setAttributes( { [ attr_key ]: newValue } );
-		//}
 	}
 
 	return (
@@ -43,6 +51,7 @@ export default function DefaultValue( {
 				<InputControl
 					label={ control.label }
 					value={ attributes[ attr_key ] }
+					size="__unstable-large"
 					onChange={ function ( value ) {
 						// Update the attribute value in the block's attributes
 						setAttributes( { [ attr_key ]: value } );
@@ -51,25 +60,19 @@ export default function DefaultValue( {
 				<Dropdown
 					className="formgent-control-default-value-list"
 					contentClassName="formgent-control-default-value-list-content"
-					popoverProps={ { placement: 'bottom-end' } }
+					popoverProps={ dropdownProps() }
 					renderToggle={ ( { isOpen, onToggle } ) => (
-						<Button
-							ghost
-							onClick={ onToggle }
-							aria-expanded={ isOpen }
-						>
+						<Button onClick={ onToggle } aria-expanded={ isOpen }>
 							<ReactSVG src={ ellipsisH } />
 						</Button>
 					) }
 					renderContent={ () => (
 						<div>
-							{ defaultValues.map( ( item ) => {
+							{ defaultValues.map( ( item, index ) => {
 								return (
 									<span
-										data-value={ item.value }
-										onClick={ ( e ) => {
-											handleAddValue( e );
-										} }
+										key={ index }
+										onClick={ () => handleAddValue( item ) }
 									>
 										{ item.label }
 									</span>
