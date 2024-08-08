@@ -6,9 +6,10 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { registerBlock } from '../utils';
+import { registerBlock } from '@formgent/modules';
 import Edit from './Edit';
 import metadata from './block.json';
+import './style.scss';
 
 const exampleAttributes = {
 	content: 'Sample content for preview',
@@ -69,15 +70,61 @@ const controls = {
 					left: '10px',
 				},
 			},
-			repeater: {
-				type: 'repeater',
-				label: __( 'Options', 'formgent' ),
-				fields: [
+			toggle_group: {
+				type: 'toggle_group',
+				label: __( 'Toggle Group', 'formgent' ),
+				options: [
 					{
-						title: 'Option 1',
-						content: 'Option 1 content',
+						label: 'Left',
+						value: 'left',
+					},
+					{
+						label: 'Right',
+						value: 'right',
+					},
+					{
+						label: 'Center',
+						value: 'center',
+					},
+					{
+						label: 'Justify',
+						value: 'justify',
 					},
 				],
+			},
+			repeater: {
+				type: 'repeater',
+				label: __( 'Repeater fields', 'formgent' ),
+				label_key: 'full_name',
+				add_button_text: 'Add Option',
+				fields: {
+					full_name: {
+						type: 'text',
+						label: __( 'Text', 'formgent' ),
+					},
+					enable_notification: {
+						type: 'switch',
+						label: __( 'Switch', 'formgent' ),
+					},
+					re_entry: {
+						type: 'checkbox',
+						label: __( 'Checkbox', 'formgent' ),
+					},
+					select_option: {
+						type: 'select',
+						label: __( 'Select', 'formgent' ),
+						options: [
+							{
+								label: __( 'Cookie', 'formgent' ),
+								value: 'cookie',
+							},
+							{
+								label: __( 'Expect', 'formgent' ),
+								value: 'expect',
+							},
+						],
+					},
+				},
 			},
 		},
 	},

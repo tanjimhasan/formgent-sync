@@ -21,11 +21,11 @@
 		},
 		"placeholder": {
 			"type": "string",
-			"default": "Email Placeholder"
+			"default": "Type Your Email"
 		},
 		"label": {
 			"type": "string",
-			"default": "Email Label"
+			"default": "Email"
 		},
 		"label_alignment": {
 			"type": "string",
@@ -33,7 +33,7 @@
 		},
 		"sub_label": {
 			"type": "string",
-			"default": "Email Sub Label"
+			"default": "Enter Your Email Here"
 		},
 		"required": {
 			"type": "boolean",
@@ -42,5 +42,9 @@
 	},
 	"supports": {
 		"interactivity": true
-	}
+	},
+	"editorScript": "file:index.js",
+	"style": "file:style-index.css",
+	"editorStyle": "file:index.css",
+	"render": "file:render.php"
 }
