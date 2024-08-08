@@ -37,6 +37,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 		dateType,
 		dateFrom,
 		dateTo,
+		query,
 	} = action;
 	switch ( type ) {
 		case 'FORM_FETCH_LOADING':
@@ -247,6 +248,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					...state.dateFrame,
 					to: dateTo,
 				},
+			};
+		case 'UPDATE_FORM_SEARCH_QUERY':
+			return {
+				...state,
+				s: query,
 			};
 		default:
 			return state;

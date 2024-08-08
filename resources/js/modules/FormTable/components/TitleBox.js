@@ -31,7 +31,7 @@ export default function TItleBox( props ) {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { isTitleUpdating } = FormReducer;
+	const { isTitleUpdating } = false;
 
 	const { Link } = CommonReducer.routerComponents;
 

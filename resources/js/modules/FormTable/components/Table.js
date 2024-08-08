@@ -16,6 +16,7 @@ import { __ } from '@wordpress/i18n';
 import handleTextSelect from '@formgent/helper/handleTextSelect';
 import FormTableStatus from './FormTableStatus';
 import Filter from './Filter';
+import { useDebounce } from '@formgent/hooks/useDebounce';
 
 export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -32,12 +33,15 @@ export default function Table( props ) {
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
 	const [ formDateType, setFormDateType ] = useState( 'all' );
 
+	const debouncedSearchQuery = useDebounce( searchQuery, 300 );
+
 	const {
 		updateCurrentPage,
 		updateFormSortBy,
 		updateFormDateType,
 		updateFormDateFrom,
 		updateFormDateTo,
+		updateFormSearchQuery,
 	} = useDispatch( 'formgent' );
 	const { forms, pagination, isLoading, form_edit_url } = props;
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -51,15 +55,15 @@ export default function Table( props ) {
 		setSelectedRowKeys( newSelectedRowKeys );
 	}
 
-	useEffect( () => {
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			defaultSorting,
-			formDateType
-		);
-	}, [ defaultSorting, pagination.current_page ] );
+	// useEffect( () => {
+	// 	resolveSelect( 'formgent' ).getForms(
+	// 		pagination.current_page,
+	// 		pagination.per_page,
+	// 		Date.now(),
+	// 		defaultSorting,
+	// 		formDateType
+	// 	);
+	// }, [ defaultSorting, pagination.current_page ] );
 
 	useEffect( () => {
 		let sortedForms = [ ...forms ];
@@ -83,7 +87,7 @@ export default function Table( props ) {
 			return matchesFormType && matchesSearchQuery;
 		} );
 		setFilteredForms( filteredForms );
-	}, [ forms, formType, searchQuery ] );
+	}, [ forms, formType, debouncedSearchQuery ] );
 
 	const handleFormTypeChange = ( type ) => {
 		setFormType( type );
@@ -91,6 +95,17 @@ export default function Table( props ) {
 
 	const handleSearchQueryChange = ( query ) => {
 		setSearchQuery( query );
+		updateFormSearchQuery( query );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			null,
+			null,
+			query
+		);
 	};
 
 	const handleFormSorting = ( key ) => {

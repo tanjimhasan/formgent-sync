@@ -12,7 +12,12 @@ function FormTable( props ) {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
+	const {
+		forms = [],
+		pagination,
+		isLoading,
+		form_edit_url,
+	} = FormReducer || {};
 
 	return (
 		<div className="formgent-page-inner">
@@ -24,7 +29,9 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ forms.length > 0 ? (
+			{ isLoading ? (
+				<AntSkeleton active />
+			) : forms.length > 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table
 						forms={ forms }
