@@ -1,18 +1,21 @@
+/**
+ * wordpress dependencies
+ */
+import { RichText } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="formgent-editor-block-list__single">
-			<label
+			<RichText
 				className={ `formgent-editor-block-list__single__label formgent-label-align-${ attributes.label_alignment }` }
-			>
-				{ attributes.label }
-				{ attributes.required ? (
-					<span className="formgent-editor-block-list__single__label__required">
-						*
-					</span>
-				) : null }
-			</label>
+				tagName="label"
+				value={ attributes.label }
+				onChange={ ( content ) => setAttributes( { label: content } ) }
+				placeholder={ __( 'Type your question' ) }
+			/>
 			<div className="formgent-editor-block-list__single__wrapper">
 				<textarea
 					className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--textarea"
@@ -23,9 +26,15 @@ export default function Edit( { attributes, setAttributes } ) {
 					rows="4"
 					cols="50"
 				/>
-				<span className="formgent-editor-block-list__single__sub-label">
-					{ attributes.sub_label }
-				</span>
+				<RichText
+					className="formgent-editor-block-list__single__sub-label"
+					tagName="span"
+					value={ attributes.sub_label }
+					onChange={ ( content ) =>
+						setAttributes( { sub_label: content } )
+					}
+					placeholder={ __( 'Type sub label here (optional)' ) }
+				/>
 			</div>
 		</div>
 	);
