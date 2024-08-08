@@ -145,7 +145,6 @@ export default function Table() {
 		const selectedData = selectFunctions[ key ]
 			? selectFunctions[ key ]()
 			: responses;
-		console.log( 'selectedData : ', selectedData );
 		setFilteredData( selectedData );
 	}
 
@@ -187,15 +186,6 @@ export default function Table() {
 			( item ) => item.id === record
 		);
 
-		console.log(
-			' record: ',
-			record,
-			nav,
-			drawerResponse,
-			responses,
-			filteredData
-		);
-
 		switch ( nav ) {
 			case 'prev':
 				drawerResponse = drawerResponse;
@@ -207,8 +197,6 @@ export default function Table() {
 				drawerResponse = drawerResponse + 1;
 		}
 
-		console.log( 'record drawerResponse', drawerResponse );
-
 		resolveSelect( 'formgent' ).getSingleResponse(
 			drawerResponse,
 			searchItem,
@@ -218,22 +206,19 @@ export default function Table() {
 			Date.now()
 		);
 
-		handleResponseNotes( record );
+		handleResponseNotes( responses[ drawerResponse - 1 ]?.id );
 	}
 
-	// handleTableDrawer
+	// handleResponseNotes
 	async function handleResponseNotes( responseID ) {
 		const getResponseNotes = await fetchData(
 			`admin/responses/notes?response_id=${ responseID }`
 		);
 		setResponseNotes( getResponseNotes.notes );
-
-		console.log( 'Response Notes', responseID, getResponseNotes );
 	}
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus, source ) {
-		console.log( 'handleStarred : ', id, isStarredStatus, source );
 		const reverseStarredStatus = isStarredStatus ? 0 : 1;
 		const updateStarredStatus = await patchData(
 			`admin/responses/${ id }/starred/`,
@@ -245,7 +230,6 @@ export default function Table() {
 				[ id ]: reverseStarredStatus,
 			} ) );
 			if ( source === 'drawer' ) {
-				console.log( 'source star : ', source );
 				handleTableDrawer( id );
 			}
 			handleTableChange();
@@ -254,7 +238,6 @@ export default function Table() {
 
 	// handleRead
 	async function handleRead( id, isReadStatus, source ) {
-		console.log( 'handleRead : ', id, isReadStatus );
 		const reverseReadStatus = isReadStatus ? 0 : 1;
 		const updateReadStatus = await patchData(
 			`admin/responses/${ id }/read/`,
@@ -262,7 +245,6 @@ export default function Table() {
 		);
 		if ( updateReadStatus ) {
 			if ( source === 'drawer' ) {
-				console.log( 'source star : ', source );
 				handleTableDrawer( id );
 			}
 			handleTableChange();
@@ -569,26 +551,15 @@ export default function Table() {
 		);
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
-
-		console.log( 'Table Changed', {
-			responses,
-			page,
-			searchItem,
-			isLoading,
-			defaultColumns,
-			customColumns,
-		} );
 	}
 
 	function handleSearch( value ) {
-		console.log( 'Search Item Changed', value );
 		setSearchItem( value );
 	}
 
 	// Handle Delete
 	async function handleDelete( ids, source ) {
 		const deleteItems = source === 'drawer' ? ids : selectedRowKeys;
-		console.log( 'Delete Items: ', ids, typeof ids, source, deleteItems );
 		const deleteResponse = await deleteData(
 			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
 				ids: deleteItems,
@@ -728,7 +699,6 @@ export default function Table() {
 	] );
 
 	useEffect( () => {
-		console.log( 'selected_fields : ', selected_fields );
 		setVisibleColumns( selected_fields );
 	}, [ selected_fields ] );
 
@@ -741,23 +711,15 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		// console.log( ' Changes: ', searchItem );
 		handleTableChange();
 	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
-		console.log(
-			'single_response  Changes: ',
-			single_response,
-			SingleFormReducer,
-			filteredData
-		);
 		setTableDrawer( ( single_response && single_response[ 0 ] ) || null );
 	}, [ single_response ] );
 
 	useEffect( () => {
 		setFilteredData( responses );
-		console.log( ' responses changes: ', responses );
 	}, [ responses ] );
 
 	useEffect( () => {

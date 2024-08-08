@@ -1,5 +1,7 @@
 import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
 import deleteData from '@formgent/helper/deleteData';
+import patchData from '@formgent/helper/patchData';
+import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
@@ -36,6 +38,7 @@ export default function TableDrawer( props ) {
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
+	const [ currentNote, setCurrentNote ] = useState( '' );
 
 	// Drawer Tab Items
 	const drawerTabItems = [
@@ -103,41 +106,60 @@ export default function TableDrawer( props ) {
 	];
 
 	// Note Action Functions
+	async function handleNoteCreate() {
+		const createNote = await postData( 'admin/responses/notes', {
+			response_id: Number( response.id ),
+			note: currentNote,
+		} );
 
-	function handleNoteEdit( id ) {
-		console.log( 'handleNoteEdit ! ', id );
+		if ( createNote ) {
+			handleTableDrawer( response.id );
+		}
 	}
 
-	async function handleNoteDelete( id ) {
-		const responseDeleteResponse = await deleteData(
-			`admin/responses/notes/${ id }`,
+	async function handleNoteEdit( id, value ) {
+		const updateNote = await patchData(
+			`admin/responses/notes/${ Number( id ) }`,
 			{
-				response_id: response.id,
+				response_id: Number( response.id ),
+				note: currentNote,
 			}
 		);
 
-		console.log( 'handleNoteDelete ! ', id, responseDeleteResponse );
+		if ( updateNote ) {
+			handleTableDrawer( response.id );
+		}
+	}
+
+	async function handleNoteDelete( id ) {
+		const deleteNote = await deleteData(
+			`admin/responses/notes/${ Number( id ) }`,
+			{
+				response_id: Number( response.id ),
+			}
+		);
+
+		if ( deleteNote ) {
+			handleTableDrawer( response.id );
+		}
 	}
 
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
 			star: () => {
-				console.log( ' Star Response ', response );
 				handleStarred(
 					response.id,
 					response.is_starred === '1' ? true : false
 				);
 			},
 			'read-unread': () => {
-				console.log( ' Star Response ', response );
 				handleRead(
 					response.id,
 					response.is_read === '1' ? true : false
 				);
 			},
 			delete: () => {
-				console.log( ' Delete Response ', response );
 				handleDelete( [ response.id ] );
 			},
 		};
@@ -147,14 +169,13 @@ export default function TableDrawer( props ) {
 	}
 
 	// handleSelectItems
-	function handleSelectItemsNote( { key }, id ) {
+	function handleSelectItemsNote( { key }, id, value ) {
 		const selectFunctionsNote = {
 			edit: () => {
-				console.log( ' Response Note Edit ', id );
 				setEnableSubmissionInput( id );
+				setCurrentNote( value );
 			},
 			delete: () => {
-				console.log( ' Response Note Delete ', id, response.id );
 				handleNoteDelete( id );
 			},
 		};
@@ -168,20 +189,17 @@ export default function TableDrawer( props ) {
 		setActiveDrawerTab( key );
 	}
 
-	function handleNoteFormSubmit( e ) {
+	async function handleNoteFormSubmit( e ) {
 		e.preventDefault();
 		const status = enableSubmissionInput === 'create' ? 'create' : 'edit';
-		console.log( 'Note Form Submitted', status );
 
 		if ( status === 'create' ) {
 			// Handle the creation of a new note
-			// Your logic for creating a new note goes here
-			console.log( 'Creating a new note' );
+			handleNoteCreate();
 			setEnableSubmissionInput( false );
 		} else {
 			// Handle the update of an existing note
-			// Your logic for updating an existing note goes here
-			console.log( 'Updating note with ID:', enableSubmissionInput );
+			handleNoteEdit( enableSubmissionInput, currentNote );
 			setEnableSubmissionInput( false );
 		}
 	}
@@ -365,6 +383,7 @@ export default function TableDrawer( props ) {
 											setEnableSubmissionInput(
 												'create'
 											);
+											setCurrentNote( '' );
 										} }
 									>
 										<ReactSVG
@@ -380,6 +399,10 @@ export default function TableDrawer( props ) {
 										<textarea
 											placeholder="You can create your note here..."
 											className="response-table__drawer__tab__submission__input"
+											onChange={ ( e ) =>
+												setCurrentNote( e.target.value )
+											}
+											value={ currentNote }
 										/>
 										<button
 											className="response-table__drawer__tab__submission__save"
@@ -392,66 +415,70 @@ export default function TableDrawer( props ) {
 									</form>
 								) : (
 									<div className="response-table__drawer__tab__submission__content">
-										{ responseNotes?.map(
-											( note, index ) => {
-												return (
-													<div
-														key={ index }
-														className="response-table__drawer__tab__submission__content__single"
-													>
-														<div className="response-table__drawer__tab__submission__content__wrapper">
-															<span className="response-table__drawer__tab__submission__content__published-date">
-																{ formatDate(
-																	'en-US',
-																	note.created_at,
-																	dateFormatOptions
-																) }
-															</span>
-															<p className="response-table__drawer__tab__submission__content__text">
-																{ note.note }
-															</p>
-														</div>
-														<AntDropdown
-															menu={ {
-																items: selectItemsNote,
-																onClick: (
-																	e
-																) =>
-																	handleSelectItemsNote(
-																		e,
-																		note.id
-																	),
-															} }
-															trigger={ [
-																'click',
-															] }
-															placement="bottomLeft"
-															overlayStyle={ {
-																minWidth:
-																	'240px',
-															} }
+										{ responseNotes &&
+											responseNotes.map(
+												( note, index ) => {
+													return (
+														<div
+															key={ index }
+															className="response-table__drawer__tab__submission__content__single"
 														>
-															<button
-																className="response-table__drawer__tab__submission__content__btn"
-																onClick={ (
-																	e
-																) =>
-																	e.preventDefault()
-																}
-															>
-																<ReactSVG
-																	width="14"
-																	height="14"
-																	src={
-																		ellipsisVIcon
+															<div className="response-table__drawer__tab__submission__content__wrapper">
+																<span className="response-table__drawer__tab__submission__content__published-date">
+																	{ formatDate(
+																		'en-US',
+																		note.created_at,
+																		dateFormatOptions
+																	) }
+																</span>
+																<p className="response-table__drawer__tab__submission__content__text">
+																	{
+																		note.note
 																	}
-																/>
-															</button>
-														</AntDropdown>
-													</div>
-												);
-											}
-										) }
+																</p>
+															</div>
+															<AntDropdown
+																menu={ {
+																	items: selectItemsNote,
+																	onClick: (
+																		e
+																	) =>
+																		handleSelectItemsNote(
+																			e,
+																			note.id,
+																			note.note
+																		),
+																} }
+																trigger={ [
+																	'click',
+																] }
+																placement="bottomLeft"
+																overlayStyle={ {
+																	minWidth:
+																		'240px',
+																} }
+															>
+																<button
+																	className="response-table__drawer__tab__submission__content__btn"
+																	onClick={ (
+																		e
+																	) =>
+																		e.preventDefault()
+																	}
+																>
+																	<ReactSVG
+																		width="14"
+																		height="14"
+																		src={
+																			ellipsisVIcon
+																		}
+																	/>
+																</button>
+															</AntDropdown>
+														</div>
+													);
+												}
+											) }
 									</div>
 								) }
 							</div>

@@ -40,16 +40,6 @@ export const SingleFormResolvers = {
 		orderType = 'asc',
 		timestamp = 0
 	) {
-		console.log(
-			'getSingleFormResponse',
-			currentPage,
-			perPage,
-			searchItem,
-			formID,
-			readStatus,
-			orderType,
-			timestamp
-		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchResponse(
@@ -80,15 +70,6 @@ export const SingleFormResolvers = {
 		orderType,
 		timestamp = 0
 	) {
-		console.log(
-			'getSingleResponse',
-			currentPage,
-			searchItem,
-			formID,
-			readStatus,
-			orderType,
-			timestamp
-		);
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchSingleResponse(
@@ -99,8 +80,6 @@ export const SingleFormResolvers = {
 				readStatus,
 				orderType
 			);
-
-			console.log( 'fetchSingleResponse response : ', data );
 
 			yield SingleFormActions.storeResponse( {
 				single_response: data.responses,
