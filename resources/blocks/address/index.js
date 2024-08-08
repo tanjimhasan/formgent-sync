@@ -128,6 +128,10 @@ const controls = {
 				type: 'text',
 				label: __( 'Zip Code Field Name', 'formgent' ),
 			},
+			default_value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
 		},
 	},
 };
