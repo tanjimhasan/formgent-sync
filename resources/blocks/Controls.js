@@ -15,6 +15,7 @@ import { Fragment, useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
+import DefaultValue from './controls/DefaultValue';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -164,6 +165,7 @@ const controlGenerators = {
 			</Fragment>
 		);
 	},
+	default_value: DefaultValue,
 };
 
 export default function Controls( {
