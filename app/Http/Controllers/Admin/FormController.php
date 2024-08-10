@@ -30,8 +30,9 @@ class FormController extends Controller {
                 'page'       => 'numeric',
                 's'          => 'string|max:255',
                 'sort_by'    => 'string|accepted:last_modified,date_created,alphabetical,last_submission,unread,draft,publish',
-                'date_type'  => 'string|accepted:today,yesterday,last_week,last_month,date_frame',
-                'date_frame' => 'array'
+                'date_type'  => 'string|accepted:all,today,yesterday,last_week,last_month,date_frame',
+                'date_frame' => 'array',
+                'type'       => 'string|accepted:all,general,conversational'
             ]
         );
 
@@ -60,8 +61,13 @@ class FormController extends Controller {
             $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
         }
 
+        if ( $wp_rest_request->has_param( 'type' ) ) {
+            $dto->set_type( $wp_rest_request->get_param( 'type' ) );
+        }
+
         $data                      = $this->form_repository->get( $dto );
         $response                  = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
+        $response['types']         = $data['types'];
         $response['forms']         = $data['forms'];
         $response['form_edit_url'] = add_query_arg( ['action' => 'edit'], admin_url( 'post.php' ) );
 
@@ -143,6 +149,41 @@ class FormController extends Controller {
         return Response::send(
             [
                 'message' => esc_html__( 'The form title has been updated successfully.', 'formgent' )
+            ]
+        );
+    }
+
+    public function update_bulk_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'ids'    => 'required|array',
+                'status' => 'required|string|accepted:publish,draft'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $ids = $wp_rest_request->get_param( 'ids' );
+    
+        if ( ! formgent_is_one_level_array( $ids ) ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Sorry, some thing was wrong','formgent' )
+                ]
+            );
+        }
+
+        $this->form_repository->update_bulk_status( $ids, $wp_rest_request->get_param( 'status' ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The form status has been updated successfully.', 'formgent' )
             ]
         );
     }
@@ -416,5 +457,60 @@ class FormController extends Controller {
         Answer::query( "answer" )->where( 'answer.form_id', $form_id )->where( 'answer.field_id', $field_id )->delete();
 
         return Response::send( $response );
+    }
+
+    public function get_settings( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+        
+        return Response::send(
+            [
+                'settings' => $this->form_repository->get_settings( intval( $wp_rest_request->get_param( 'id' ) ) ),
+            ]  
+        );
+    }
+
+    public function update_settings( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'       => 'required|numeric',
+                'settings' => 'required|array'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form_id = intval( $wp_rest_request->get_param( 'id' ) );
+
+        $this->form_repository->save_settings(
+            $form_id,
+            array_merge( 
+                $this->form_repository->get_settings( $form_id ), 
+                $wp_rest_request->get_param( 'settings' ) 
+            )
+        );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Settings have been saved successfully.', 'formgent' )
+            ]
+        );
     }
 }

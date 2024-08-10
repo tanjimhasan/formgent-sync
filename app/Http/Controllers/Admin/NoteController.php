@@ -68,7 +68,7 @@ class NoteController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( "The note has been created successfully." )
+                'message' => esc_html__( "The note has been created successfully.", 'formgent' )
             ], 201 
         );
     }
@@ -98,7 +98,7 @@ class NoteController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( "The note has been updated successfully." )
+                'message' => esc_html__( "The note has been updated successfully.", 'formgent' )
             ] 
         );
     }
@@ -123,7 +123,7 @@ class NoteController extends Controller {
 
         return Response::send(
             [
-                'message' => esc_html__( "The note has been deleted successfully." )
+                'message' => esc_html__( "The note has been deleted successfully.", 'formgent' )
             ] 
         );
     }

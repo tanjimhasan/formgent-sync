@@ -21,7 +21,7 @@
 		},
 		"label": {
 			"type": "string",
-			"default": "Label"
+			"default": "Number"
 		},
 		"label_alignment": {
 			"type": "string",
@@ -29,17 +29,22 @@
 		},
 		"sub_label": {
 			"type": "string",
-			"default": "Sub Label"
+			"default": "Enter Number Here"
 		},
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"default_value": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
 		"interactivity": true
 	},
-	"editorScript": "formgent/blocks-editor",
-	"editorStyle": "formgent/blocks-editor",
-	"style": "formgent/blocks-frontend"
+	"editorScript": "file:index.js",
+	"style": "file:style-index.css",
+	"editorStyle": "file:index.css",
+	"render": "file:render.php"
 }

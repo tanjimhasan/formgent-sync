@@ -38,9 +38,17 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"default_value": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
 		"interactivity": true
-	}
+	},
+	"editorScript": "file:index.js",
+	"style": "file:style-index.css",
+	"editorStyle": "file:index.css",
+	"render": "file:render.php"
 }

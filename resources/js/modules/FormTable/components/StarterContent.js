@@ -15,21 +15,18 @@ export default function StarterContent() {
 			icon: plusIcon,
 			title: 'Start from scratch',
 			coming_soon: false,
-			css_class: '',
 		},
 		{
 			type: 'template',
 			icon: templateIcon,
 			title: 'Use a template',
 			coming_soon: false,
-			css_class: 'formgent-starter-card--template',
 		},
 		{
 			type: 'ai',
 			icon: aiIcon,
 			title: 'Create with AI',
 			coming_soon: true,
-			css_class: 'formgent-starter-card--ai',
 		},
 	];
 
@@ -53,7 +50,7 @@ export default function StarterContent() {
 				{ starterCardItem.map( ( item, index ) => {
 					return (
 						<div
-							className={ `formgent-starter-card ${ item.css_class }` }
+							className={ `formgent-starter-card formgent-starter-card--${ item.type }` }
 							key={ index }
 							onClick={ () => handleCardClick( item.type ) }
 						>
@@ -64,7 +61,7 @@ export default function StarterContent() {
 								{ item.title }
 							</h2>
 							{ item.coming_soon && (
-								<span className="formgent-badge formgent-badge--warning">
+								<span className="formgent-starter-card__badge">
 									Coming soon
 								</span>
 							) }

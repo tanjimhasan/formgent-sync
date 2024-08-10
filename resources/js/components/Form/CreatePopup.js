@@ -97,6 +97,7 @@ function CreatePopup( props ) {
 							title={ __( 'Create a New Form', 'formgent' ) }
 							step={ step }
 						/>
+
 						{ actionData.map( ( item, index ) => {
 							if ( step === item.step ) {
 								return (

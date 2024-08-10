@@ -10,6 +10,7 @@ use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
 use FormGent\App\Models\Response;
 use FormGent\App\Models\Post;
+use FormGent\App\Models\PostMeta;
 use FormGent\App\Models\User;
 use FormGent\WpMVC\Database\Query\Builder;
 use FormGent\WpMVC\Database\Query\JoinClause;
@@ -18,22 +19,26 @@ class FormRepository {
     const DEMOMEDIAOPTIONKEY = 'formgent_demo_medias';
 
     public function get( FormReadDTO $dto ) {
-        $posts_query = Post::query( 'post' )->with(
-            "meta", function( Builder $query ) {
-                $query->select( 'meta_key', 'meta_value', 'post_id' )->where_in( 'meta_key', ['formgent_type'] );
-            } 
-        )
-        ->left_join( User::get_table_name() . " as user", "user.ID", "post.post_author" )
-        ->where( 'post.post_type', formgent_post_type() )->where_in( 'post.post_status', ['publish', 'draft'] );
+        $posts_query = Post::query( 'post' )->left_join( User::get_table_name() . " as user", "user.ID", "post.post_author" )->left_join(
+            PostMeta::get_table_name() . " as form_type_post_meta", function( JoinClause $join ) {
+                $join->on_column( "post.ID", "form_type_post_meta.post_id" )->on( "form_type_post_meta.meta_key", "formgent_type" );
+            }
+        )->where( 'post.post_type', formgent_post_type() )->where_in( 'post.post_status', ['publish', 'draft'] );
 
         $this->forms_date_query( $posts_query, $dto );
         $this->forms_search_query( $posts_query, $dto );
+
+        $type_count_query = clone $posts_query;
+
+        if ( ! empty( $dto->get_type() ) && 'all' !== $dto->get_type() ) {
+            $posts_query->where( "form_type_post_meta.meta_value", $dto->get_type() );
+        }
 
         $count_query = clone $posts_query;
 
         do_action( 'formgent_forms_count_query', $count_query, $dto );
 
-        $select_columns   = ['post.ID as id', 'post.post_title as title', 'post.post_status as status', 'post.post_date as created_at', 'post.post_modified as updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
+        $select_columns   = ['post.ID as id', 'post.post_title as title', 'post.post_status as status', 'form_type_post_meta.meta_value as type', 'post.post_date as created_at', 'post.post_modified as updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
         $group_by_columns = ['post.ID', 'post.post_title', 'post.post_status', 'user.display_name' ];
 
         $posts_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'post.ID', 'response.form_id' )->group_by( $group_by_columns );
@@ -42,7 +47,10 @@ class FormRepository {
 
         do_action( 'formgent_forms_query', $posts_query, $dto );
 
+        $types = $type_count_query->select( "meta_value as type", 'COUNT(DISTINCT post.ID) as total' )->group_by( ["form_type_post_meta.meta_key" ] )->get();
+
         return [
+            'types' => $types,
             'total' => $count_query->count(),
             'forms' => $posts_query->pagination( $dto->get_per_page(), $dto->get_page() )
         ];
@@ -63,7 +71,7 @@ class FormRepository {
     }
 
     private function forms_date_query( Builder $query, FormReadDTO $dto ) {
-        if ( empty( $dto->get_date_type() ) ) {
+        if ( empty( $dto->get_date_type() ) || 'all' === $dto->get_date_type() ) {
             return $query;
         }
 
@@ -290,6 +298,16 @@ class FormRepository {
         );
     }
 
+    public function update_bulk_status( array $ids, string $post_status ) {
+        $ids = map_deep( $ids, "intval" );
+
+        return Post::query()->where( 'post_type', formgent_post_type() )->where_in( 'ID', $ids )->update(
+            [
+                'post_status' => $post_status
+            ]
+        );
+    }
+
     public function get_by_id( int $id, $columns = ['*'] ) {
         return Post::query()->select( $columns )->where( 'ID', $id )->where( 'post_type', formgent_post_type() )->first();
     }
@@ -324,5 +342,27 @@ class FormRepository {
         // $this->after_delete_form();
 
         return $forms;
+    }
+
+    public function get_settings( int $form_id ) {
+        $settings = get_post_meta( $form_id, 'formgent-settings', true );
+        return is_array( $settings ) ? $settings : [];
+    }
+
+    public function save_settings( int $form_id, array $settings ) {
+        return update_post_meta( $form_id, 'formgent-settings', map_deep( $settings, 'sanitize_text_field' ) );
+    }
+
+    public function get_setting_by_key( int $form_id, string $key, $default = null ) {
+        $settings = $this->get_settings( $form_id );
+        return isset( $settings[$key] ) ? $settings[$key] : $default;
+    }
+
+    public function update_settings( int $form_id, string $key, $value ) {
+        $key            = sanitize_text_field( $key );
+        $settings       = $this->get_settings( $form_id );
+        $settings[$key] = $value;
+
+        return $this->save_settings( $form_id, $settings );
     }
 }

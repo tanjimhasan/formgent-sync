@@ -114,7 +114,7 @@ const EditorContentStyle = Styled.div`
         padding: 15px 30px;
         border-radius: 10px;
         border: 2px solid transparent;
-        &:hover, 
+        &:hover,
         &.formgent-active{
             border-color: var(--formgent-color-dark);
         }
@@ -126,7 +126,7 @@ const EditorContentStyle = Styled.div`
         background-color: var(--formgent-color-white);
         border: 2px solid var(--formgent-color-dark);
     }
-    
+
     .formgent-dropable-field__actions{
         border-radius: 6px;
         overflow: hidden;

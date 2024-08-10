@@ -28,34 +28,39 @@
 			"default": "first_last"
 		},
 		"checkbox": {
-			"type": "string",
-			"default": "0"
+			"type": "boolean",
+			"default": true
 		},
 		"switch": {
 			"type": "boolean",
 			"default": true
 		},
 		"margin": {
-			"type": "string",
-			"default": "10px"
+			"type": "object",
+			"default": {}
 		},
 		"padding": {
-			"type": "string",
-			"default": "10px"
-		},
-		"repeater": {
-			"type": "string",
-			"default": "[]"
+			"type": "object",
+			"default": {}
 		},
 		"toggle_group": {
 			"type": "string",
 			"default": "left"
+		},
+		"repeater": {
+			"type": "array",
+			"default": []
+		},
+		"default_value": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
 		"interactivity": true
 	},
-	"editorScript": "formgent/blocks-editor",
-	"editorStyle": "formgent/blocks-editor",
-	"style": "formgent/blocks-frontend"
+	"editorScript": "file:index.js",
+	"style": "file:style-index.css",
+	"editorStyle": "file:index.css",
+	"render": "file:render.php"
 }

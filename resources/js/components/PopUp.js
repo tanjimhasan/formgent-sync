@@ -37,9 +37,9 @@ export default function PopUp( props ) {
 						{ hasCancelButton && (
 							<AntButton
 								type="light"
-								// className={ `formgent-btn formgent-btn-${
-								// 	cancelBtnType ? cancelBtnType : 'light'
-								// } formgent-btn-md formgent-modal-action__cancel` }
+								className={ `formgent-btn formgent-btn-${
+									cancelBtnType ? cancelBtnType : 'light'
+								} formgent-btn-md formgent-modal-action__cancel` }
 								onClick={ ( e ) => {
 									e.preventDefault();
 									onFooterCancel

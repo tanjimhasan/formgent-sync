@@ -172,11 +172,15 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
     $array_key = $by_id ? 'id' : 'name';
 
     foreach ( $parsed_blocks as $parsed_block ) {
-        if ( empty( $parsed_block['blockName'] ) ) {
+        if ( empty( $blocks[$parsed_block['blockName']] ) ) {
             continue;
         }
 
         $default_attributes = [];
+
+        if ( empty( $registered_blocks[$parsed_block['blockName']] ) ) {
+            continue;
+        }
 
         foreach ( $registered_blocks[$parsed_block['blockName']]->get_attributes() as $key => $attr ) {
             if ( isset( $attr['default'] ) ) {
