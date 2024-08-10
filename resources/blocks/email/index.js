@@ -56,6 +56,10 @@ const controls = {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
 			},
+			default_value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
 		},
 	},
 };

@@ -38,6 +38,10 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"default_value": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

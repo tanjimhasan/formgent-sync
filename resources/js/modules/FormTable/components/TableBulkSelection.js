@@ -67,6 +67,7 @@ export default function TableBulkSelection( props ) {
 
 	async function handleBulkStatusUpdate( newStatus ) {
 		dispatch( bulkStatusUpdateRequest() );
+		console.log( selectedRowKeys );
 		try {
 			const bulkStatusUpdateResponse = await patchData(
 				addQueryArgs( `admin/forms/status`, {

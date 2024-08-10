@@ -50,6 +50,10 @@
 		"repeater": {
 			"type": "array",
 			"default": []
+		},
+		"default_value": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
