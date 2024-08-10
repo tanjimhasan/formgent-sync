@@ -31,6 +31,12 @@ $context = [
     >
         <div class="formgent-notices"></div>
         <?php formgent_render( $fields )?>
+        <!-- Honeypot field -->
+        <input
+            type="hidden"
+            name="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
+            id="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
+        >
         <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
     </form>
 </div>

@@ -1,14 +1,30 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
-<div class="formgent-form-field">
-    <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
-    <input
-        type="number"
-        name="<?php echo esc_attr( $attributes['name'] ); ?>"
-        id="<?php echo esc_attr( $attributes['name'] ); ?>"
-        class="formgent-form-field__element"
-        data-wp-interactive="formgent/form"
-        data-wp-on--input="actions.updateNumber"
-        data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+<div className="formgent-editor-block-list__single">
+    <label
+        for="<?php echo esc_html( $attributes['name'] ); ?>"
+        className= "formgent-editor-block-list__single__label formgent-label-align-<?php echo esc_html( $attributes['label_alignment'] ); ?>"
     >
+        <?php if ( esc_html( $attributes['required'] ) ) : ?>
+            <span class="formgent-editor-block-list__single__label__required">
+                *
+            </span>
+        <?php endif; ?>
+        <?php echo esc_attr( $attributes['label'] ); ?>
+    </label>
+    <div className="formgent-editor-block-list__single__wrapper">
+        <input
+            className="formgent-editor-block-list__single__input"
+            type="number"
+            name="<?php echo esc_attr( $attributes['name'] ); ?>"
+            id="<?php echo esc_attr( $attributes['name'] ); ?>"
+            placeholder="<?php //echo esc_attr( $attributes['placeholder'] ); ?>"
+            data-wp-interactive="formgent/form"
+            data-wp-on--input="actions.updateNumber"
+            data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+        />
+        <span className="formgent-editor-block-list__single__sub-label">
+            <?php echo esc_attr( $attributes['sub_label'] ); ?>
+        </span>
+    </div>
 </div>
