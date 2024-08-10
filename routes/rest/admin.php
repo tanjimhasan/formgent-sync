@@ -2,6 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Http\Controllers\Admin\SummaryController;
 use FormGent\App\Http\Controllers\Admin\NoteController;
 use FormGent\App\Http\Controllers\Admin\SettingsController;
 use FormGent\App\Http\Controllers\Admin\ResponseController;
@@ -13,12 +14,24 @@ Route::group(
     'admin', function() {
         Route::group(
             'forms', function() {
+                Route::group(
+                    '{id}', function() {
+                        Route::get( 'settings', [FormController::class, 'get_settings'] );
+                        Route::post( 'settings', [FormController::class, 'update_settings'] );
+                        Route::patch( 'status', [FormController::class, 'update_status'] );
+                        Route::patch( 'title', [FormController::class, 'update_title'] );
+                        Route::post( 'duplicate', [FormController::class, 'duplicate'] );
+                        
+                        Route::group(
+                            'summary', function() {
+                                Route::get( 'field', [SummaryController::class, 'field'] );
+                                Route::get( '/', [SummaryController::class, 'index'] );
+                            }
+                        );
+                    }
+                );
+
                 Route::post( 'status', [FormController::class, 'update_bulk_status'] );
-                Route::get( '{id}/settings', [FormController::class, 'get_settings'] );
-                Route::post( '{id}/settings', [FormController::class, 'update_settings'] );
-                Route::patch( '{id}/status', [FormController::class, 'update_status'] );
-                Route::patch( '{id}/title', [FormController::class, 'update_title'] );
-                Route::post( '{id}/duplicate', [FormController::class, 'duplicate'] );
                 Route::get( 'select', [FormController::class, 'select'] );
                 Route::delete( '{id}/field', [FormController::class, 'delete_field'] );
                 Route::post( 'media', [FormController::class, 'insert_media'] );

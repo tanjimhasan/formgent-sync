@@ -1,6 +1,6 @@
 <?php
 
-namespace FormGent\App\Form\Fields\Summary;
+namespace FormGent\App\Form\Summary;
 
 defined( 'ABSPATH' ) || exit;
 
