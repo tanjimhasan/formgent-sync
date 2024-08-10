@@ -1,10 +1,10 @@
 <?php
 
-namespace FormGent\App\Fields\GDPR;
+namespace FormGent\App\Form\Fields\GDPR;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Fields\Field;
+use FormGent\App\Form\Fields\Field;
 
 class GDPR extends Field {
     use MethodResolver;

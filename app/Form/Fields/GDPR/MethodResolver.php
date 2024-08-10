@@ -1,15 +1,15 @@
 <?php
 
-namespace FormGent\App\Fields\Text;
+namespace FormGent\App\Form\Fields\GDPR;
 
 defined( 'ABSPATH' ) || exit;
 
 trait MethodResolver {
     public static function get_key(): string {
-        return 'text';
+        return 'gdpr';
     }
 
     protected function get_validation_rules(): array {
-        return ['string', 'max:250'];
+        return ['string', 'accepted:0,1'];
     }
 }

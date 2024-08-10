@@ -1,10 +1,10 @@
 <?php
 
-namespace FormGent\App\Fields\TextArea;
+namespace FormGent\App\Form\Fields\TextArea;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Fields\Field;
+use FormGent\App\Form\Fields\Field;
 
 class TextArea extends Field {
     use MethodResolver;

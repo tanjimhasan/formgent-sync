@@ -4,12 +4,12 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\WpMVC\App;
 use FormGent\DI\Container;
-use FormGent\App\Fields\Field;
-use FormGent\App\Fields\Name\Name;
-use FormGent\App\Fields\Email\Email;
-use FormGent\App\Fields\Number\Number;
-use FormGent\App\Fields\Text\Text;
-use FormGent\App\Fields\TextArea\TextArea;
+use FormGent\App\Form\Fields\Field;
+use FormGent\App\Form\Fields\Name\Name;
+use FormGent\App\Form\Fields\Email\Email;
+use FormGent\App\Form\Fields\Number\Number;
+use FormGent\App\Form\Fields\Text\Text;
+use FormGent\App\Form\Fields\TextArea\TextArea;
 use FormGent\App\Utils\DateTime;
 
 function formgent():App {

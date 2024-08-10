@@ -1,15 +1,15 @@
 <?php
 
-namespace FormGent\App\Fields\Website;
+namespace FormGent\App\Form\Fields\Text;
 
 defined( 'ABSPATH' ) || exit;
 
 trait MethodResolver {
     public static function get_key(): string {
-        return 'website';
+        return 'text';
     }
 
     protected function get_validation_rules(): array {
-        return ['string', 'url', 'max:250'];
+        return ['string', 'max:250'];
     }
 }

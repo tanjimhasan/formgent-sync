@@ -1,10 +1,10 @@
 <?php
 
-namespace FormGent\App\Fields\Number;
+namespace FormGent\App\Form\Fields\Number;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Fields\Field;
+use FormGent\App\Form\Fields\Field;
 
 class Number extends Field {
     use MethodResolver;

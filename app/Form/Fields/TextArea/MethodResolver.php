@@ -1,6 +1,6 @@
 <?php
 
-namespace FormGent\App\Fields\TextArea;
+namespace FormGent\App\Form\Fields\TextArea;
 
 defined( 'ABSPATH' ) || exit;
 
