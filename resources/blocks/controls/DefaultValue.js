@@ -30,12 +30,32 @@ export default function DefaultValue( {
 			value: '{ip}',
 		},
 		{
-			label: 'Value two',
-			value: '{value_two}',
+			label: __( 'Site URL', 'formgent' ),
+			value: '{site_url}',
 		},
 		{
-			label: 'Value three',
-			value: '{value_three}',
+			label: __( 'Site Title', 'formgent' ),
+			value: '{site_title}',
+		},
+		{
+			label: __( 'User ID', 'formgent' ),
+			value: '{user.ID}',
+		},
+		{
+			label: __( 'User First Name', 'formgent' ),
+			value: '{user.first_name}',
+		},
+		{
+			label: __( 'User First Name', 'formgent' ),
+			value: '{user.last_name}',
+		},
+		{
+			label: __( 'User Email', 'formgent' ),
+			value: '{user.user_email}',
+		},
+		{
+			label: __( 'User Username', 'formgent' ),
+			value: '{user.user_login}',
 		},
 	];
 
