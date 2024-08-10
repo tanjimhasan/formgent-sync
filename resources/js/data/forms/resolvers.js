@@ -7,8 +7,7 @@ export const FormResolvers = {
 		sortBy = 'date_created',
 		dateType = 'all',
 		dateFrom = null,
-		dateTo = null,
-		query = ''
+		dateTo = null
 	) {
 		yield FormActions.isFormFetchLoading( true );
 		try {
@@ -19,8 +18,7 @@ export const FormResolvers = {
 				sortBy,
 				dateType,
 				dateFrom,
-				dateTo,
-				query
+				dateTo
 			);
 			yield FormActions.storsForm( {
 				forms: data.forms,

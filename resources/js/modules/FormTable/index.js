@@ -12,12 +12,8 @@ function FormTable( props ) {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const {
-		forms = [],
-		pagination,
-		isLoading,
-		form_edit_url,
-	} = FormReducer || {};
+	const { forms, pagination, isLoading, form_edit_url, isFormDeleting } =
+		FormReducer;
 
 	return (
 		<div className="formgent-page-inner">
@@ -29,17 +25,18 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			{ isLoading ? (
-				<AntSkeleton active />
-			) : forms.length > 0 ? (
+			{ forms.length > 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table
 						forms={ forms }
 						pagination={ pagination }
 						isLoading={ isLoading }
 						form_edit_url={ form_edit_url }
+						isFormDeleting={ isFormDeleting }
 					/>
 				</Suspense>
+			) : isLoading ? (
+				<AntSkeleton active />
 			) : (
 				<StarterContent />
 			) }

@@ -644,8 +644,19 @@ a.formgent-btn-disabled {
 	}
 	&.formgent-form-delete-alert {
 		z-index: 99999999999;
+		.components-modal__header-heading {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
 		.formgent-popup-title-icon {
 			background: var(--formgent-color-danger-100);
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 			svg,
 			path {
 				fill: var(--formgent-color-danger);
@@ -656,6 +667,11 @@ a.formgent-btn-disabled {
 		}
 		.helpgent-alert-content > p {
 			margin-top: 0;
+		}
+		.formgent-form-delete-alert-action {
+			.formgent-modal-action__cancel {
+				border: 1px solid #d2d6db;
+			}
 		}
 	}
 }

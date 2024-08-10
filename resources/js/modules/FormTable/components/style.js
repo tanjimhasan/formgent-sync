@@ -253,6 +253,7 @@ const TableStyle = Styled.div`
                 td{
                     border-top: 1px solid #BEE3FF;
                     border-bottom: 1px solid #BEE3FF;
+                    background: #EFF8FF !important;
                 }
                 td:first-child{
                     border-left: 1px solid #BEE3FF;
@@ -537,6 +538,9 @@ const FilterStyle = Styled.div`
         display: flex;
         align-items: center;
         gap: 12px;
+        .formgent-form-filter__search{
+            min-width: 260px;
+        }
     }
     .formgent-form-filter__by-time{
 

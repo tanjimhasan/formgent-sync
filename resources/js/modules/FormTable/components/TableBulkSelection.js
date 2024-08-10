@@ -6,14 +6,25 @@ import { TablkSelectionStyle } from './style';
 import ReactSVG from 'react-inlinesvg';
 import trashIcon from '@icon/trash.svg';
 import toggleIcon from '@icon/toggle.svg';
+import trashAlt from '@icon/trash-alt.svg';
 import deleteData from '@formgent/helper/deleteData';
 import patchData from '@formgent/helper/patchData';
 import checkClickedOutside from '@formgent/helper/checkClickedOutside';
 import { __ } from '@wordpress/i18n';
+import PopUp from '@formgent/components/PopUp';
+import FormDeleteAlert from './FormDeleteAlert';
 
 export default function TableBulkSelection( props ) {
-	const { data, selectedRowKeys, setSelectedRowKeys } = props;
+	const {
+		data,
+		selectedRowKeys,
+		setSelectedRowKeys,
+		isFormDeleting,
+		selectedForms,
+		setSelectedForms,
+	} = props;
 	const [ isMoreBulkActionOpen, setMoreBulkActionOpen ] = useState( false );
+	const [ isDeleteModalOpen, setDeleteModalOpen ] = useState( false );
 	const moreBulkActionRef = useRef( null );
 
 	const {
@@ -28,12 +39,12 @@ export default function TableBulkSelection( props ) {
 	function handleBulkSelection( event ) {
 		if ( event.target.checked ) {
 			setSelectedRowKeys( data.map( ( item ) => item.id ) );
+			setSelectedForms( data.map( ( item ) => item.title ) );
 		} else {
 			setSelectedRowKeys( [] );
+			setSelectedForms( [] );
 		}
 	}
-
-	console.log( selectedRowKeys );
 
 	function handleClearSelection() {
 		setSelectedRowKeys( [] );
@@ -56,7 +67,6 @@ export default function TableBulkSelection( props ) {
 
 	async function handleBulkStatusUpdate( newStatus ) {
 		dispatch( bulkStatusUpdateRequest() );
-		console.log( selectedRowKeys );
 		try {
 			const bulkStatusUpdateResponse = await patchData(
 				addQueryArgs( `admin/forms/status`, {
@@ -72,7 +82,7 @@ export default function TableBulkSelection( props ) {
 			);
 			setSelectedRowKeys( [] );
 		} catch ( error ) {
-			console.error( 'Error posting data:', error ); // Log the error for debugging
+			console.error( 'Error posting data:', error );
 			dispatch( bulkStatusUpdateError( error ) );
 		}
 	}
@@ -89,6 +99,14 @@ export default function TableBulkSelection( props ) {
 			moreBulkActionRef
 		);
 	}, [ isMoreBulkActionOpen ] );
+
+	function handleDeleteModalAlert() {
+		setDeleteModalOpen( ! isDeleteModalOpen );
+	}
+
+	function handleCancelDeleteAlert() {
+		setDeleteModalOpen( false );
+	}
 
 	return (
 		<TablkSelectionStyle className="formgent-bulk-selection">
@@ -139,7 +157,7 @@ export default function TableBulkSelection( props ) {
 			<AntButton
 				size="small"
 				className="formgent-btn-bulk-delete"
-				onClick={ handleBulkDelete }
+				onClick={ handleDeleteModalAlert }
 			>
 				<ReactSVG src={ trashIcon } />
 				Delete
@@ -150,6 +168,35 @@ export default function TableBulkSelection( props ) {
 			<a className="formgent-clear-bulk" onClick={ handleClearSelection }>
 				Clear Selection
 			</a>
+
+			{ isDeleteModalOpen && (
+				<PopUp
+					title={
+						<>
+							<span className="formgent-popup-title-icon">
+								<ReactSVG src={ trashAlt } />
+							</span>
+							{ __( 'Delete Form', 'formgent' ) }
+						</>
+					}
+					onCancel={ handleCancelDeleteAlert }
+					onSubmit={ handleBulkDelete }
+					hasCancelButton
+					hasSubmitButton
+					isActiveSubmit
+					submitText={
+						isFormDeleting
+							? __( 'Deleting', 'formgent' )
+							: __( 'Delete', 'formgent' )
+					}
+					className="formgent-form-delete-alert"
+				>
+					<FormDeleteAlert
+						// error={ formDeletionError }
+						formTitle={ selectedForms }
+					/>
+				</PopUp>
+			) }
 		</TablkSelectionStyle>
 	);
 }

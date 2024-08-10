@@ -77,6 +77,11 @@ export default function TItleBox( props ) {
 							tokens={ { colorBorder: '#ededed' } }
 							value={ editableForm.title }
 							onChange={ handleUpdateEditableForm }
+							onKeyUp={ ( e ) => {
+								if ( e.key === 'Enter' ) {
+									handleUpdateFormTitle();
+								}
+							} }
 						/>
 					</div>
 					<div className="formgent-titleBox__actions">

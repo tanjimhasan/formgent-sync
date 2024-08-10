@@ -159,8 +159,6 @@ const DroppedField = ( {
 		checkClickedOutside( domStatus, setDomStatus, contentRef );
 	}, [ domStatus ] );
 
-	console.log( fields.length );
-
 	return field.type === 'spacer' ? (
 		<div
 			className="formgent-dropable-field"
