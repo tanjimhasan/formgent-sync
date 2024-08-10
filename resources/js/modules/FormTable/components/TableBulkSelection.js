@@ -1,4 +1,4 @@
-import { dispatch, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { addQueryArgs } from '@wordpress/url';
 import { AntCheckbox, AntButton } from '@formgent/components';
 import { useState, useEffect, useRef } from '@wordpress/element';
@@ -8,7 +8,6 @@ import trashIcon from '@icon/trash.svg';
 import toggleIcon from '@icon/toggle.svg';
 import trashAlt from '@icon/trash-alt.svg';
 import deleteData from '@formgent/helper/deleteData';
-import patchData from '@formgent/helper/patchData';
 import checkClickedOutside from '@formgent/helper/checkClickedOutside';
 import { __ } from '@wordpress/i18n';
 import PopUp from '@formgent/components/PopUp';
@@ -22,6 +21,7 @@ export default function TableBulkSelection( props ) {
 		isFormDeleting,
 		selectedForms,
 		setSelectedForms,
+		handleBulkStatusUpdate,
 	} = props;
 	const [ isMoreBulkActionOpen, setMoreBulkActionOpen ] = useState( false );
 	const [ isDeleteModalOpen, setDeleteModalOpen ] = useState( false );
@@ -31,9 +31,6 @@ export default function TableBulkSelection( props ) {
 		bulkDeleteFormRequest,
 		bulkDeleteFormSuccess,
 		bulkDeleteFormError,
-		bulkStatusUpdateRequest,
-		bulkStatusUpdateSuccess,
-		bulkStatusUpdateError,
 	} = useDispatch( 'formgent' );
 
 	function handleBulkSelection( event ) {
@@ -62,29 +59,6 @@ export default function TableBulkSelection( props ) {
 			setSelectedRowKeys( [] );
 		} catch ( error ) {
 			bulkDeleteFormError( error );
-		}
-	}
-
-	async function handleBulkStatusUpdate( newStatus ) {
-		dispatch( bulkStatusUpdateRequest() );
-		console.log( selectedRowKeys );
-		try {
-			const bulkStatusUpdateResponse = await patchData(
-				addQueryArgs( `admin/forms/status`, {
-					ids: selectedRowKeys,
-					status: newStatus,
-				} )
-			);
-			dispatch(
-				bulkStatusUpdateSuccess( {
-					ids: selectedRowKeys,
-					payload: { status: newStatus },
-				} )
-			);
-			setSelectedRowKeys( [] );
-		} catch ( error ) {
-			console.error( 'Error posting data:', error );
-			dispatch( bulkStatusUpdateError( error ) );
 		}
 	}
 

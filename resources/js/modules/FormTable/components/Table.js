@@ -16,6 +16,8 @@ import { __ } from '@wordpress/i18n';
 import handleTextSelect from '@formgent/helper/handleTextSelect';
 import FormTableStatus from './FormTableStatus';
 import Filter from './Filter';
+import postData from '@formgent/helper/postData';
+import { Empty } from 'antd';
 
 export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -39,7 +41,12 @@ export default function Table( props ) {
 		updateFormDateType,
 		updateFormDateFrom,
 		updateFormDateTo,
+		bulkStatusUpdateRequest,
+		bulkStatusUpdateSuccess,
+		bulkStatusUpdateError,
+		updateFormSearchQuery,
 	} = useDispatch( 'formgent' );
+
 	const { forms, pagination, isLoading, form_edit_url, isFormDeleting } =
 		props;
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -58,16 +65,6 @@ export default function Table( props ) {
 
 		setSelectedForms( selectedFormsNames );
 	}
-
-	// useEffect( () => {
-	// 	resolveSelect( 'formgent' ).getForms(
-	// 		pagination.current_page,
-	// 		pagination.per_page,
-	// 		Date.now(),
-	// 		defaultSorting,
-	// 		formDateType
-	// 	);
-	// }, [ defaultSorting, pagination.current_page ] );
 
 	useEffect( () => {
 		let sortedForms = [ ...forms ];
@@ -99,6 +96,17 @@ export default function Table( props ) {
 
 	const handleSearchQueryChange = ( query ) => {
 		setSearchQuery( query );
+		updateFormSearchQuery( query );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			null,
+			null,
+			query
+		);
 	};
 
 	const handleFormSorting = ( key ) => {
@@ -330,6 +338,28 @@ export default function Table( props ) {
 		);
 	}
 
+	async function handleBulkStatusUpdate( newStatus ) {
+		//todo: ui not being updated
+		const dataSubmit = {
+			ids: selectedRowKeys,
+			status: newStatus,
+		};
+		bulkStatusUpdateRequest( true );
+		try {
+			const bulkStatusUpdateResponse = await postData(
+				'admin/forms/status',
+				dataSubmit
+			);
+			bulkStatusUpdateSuccess( {
+				ids: selectedRowKeys,
+				payload: { status: newStatus },
+			} );
+			setSelectedRowKeys( [] );
+		} catch ( error ) {
+			bulkStatusUpdateError( error );
+		}
+	}
+
 	return (
 		<>
 			<Filter
@@ -349,6 +379,7 @@ export default function Table( props ) {
 							isFormDeleting={ isFormDeleting }
 							selectedForms={ selectedForms }
 							setSelectedForms={ setSelectedForms }
+							handleBulkStatusUpdate={ handleBulkStatusUpdate }
 						/>
 					) }
 					<AntTable
@@ -372,6 +403,9 @@ export default function Table( props ) {
 							position: [ 'bottomCenter' ],
 							showTotal: ( total, range ) =>
 								`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`,
+						} }
+						locale={ {
+							emptyText: <Empty description="No Data"></Empty>,
 						} }
 						onChange={ handleFormTableChange }
 					/>

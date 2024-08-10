@@ -132,7 +132,8 @@ export const FormActions = {
 		sortBy,
 		dateType,
 		dateFrom,
-		dateTo
+		dateTo,
+		query
 	) => {
 		return {
 			type: 'FETCH_FROM',
@@ -144,6 +145,7 @@ export const FormActions = {
 				dateType,
 				dateFrom,
 				dateTo,
+				query,
 			},
 		};
 	},
@@ -223,6 +225,12 @@ export const FormActions = {
 		return {
 			type: 'UPDATE_FORM_DATE_TO',
 			dateTo,
+		};
+	},
+	updateFormSearchQuery: ( query ) => {
+		return {
+			type: 'UPDATE_FORM_SEARCH_QUERY',
+			query,
 		};
 	},
 };
