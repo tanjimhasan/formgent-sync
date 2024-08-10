@@ -4,7 +4,7 @@ import {
 	__experimentalInputControl as InputControl,
 } from '@wordpress/components';
 import { useViewportMatch } from '@wordpress/compose';
-
+import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import ellipsisH from '@icon/ellipsis-h.svg';
 
@@ -26,8 +26,8 @@ export default function DefaultValue( {
 } ) {
 	const defaultValues = [
 		{
-			label: 'Date Format',
-			value: '{date_format}',
+			label: __( 'IP Address', 'formgent' ),
+			value: '{ip}',
 		},
 		{
 			label: 'Value two',
