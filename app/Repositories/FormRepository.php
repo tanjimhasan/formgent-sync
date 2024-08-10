@@ -335,12 +335,6 @@ class FormRepository {
             wp_delete_post( $id, true );
         }
 
-        // $this->delete_metas( $ids );
-        // $this->delete_responses( $ids );
-        // $this->delete_answers( $ids );
-        // $this->delete_tags( $ids );
-        // $this->after_delete_form();
-
         return $forms;
     }
 
