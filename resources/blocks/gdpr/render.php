@@ -1,9 +1,5 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
-<pre>
-    <?php print_r( $attributes ); ?>
-</pre>
-
 <div className="formgent-editor-block-list__single">
     <!-- <label
         className= "formgent-editor-block-list__single__label formgent-label-align-<?php echo esc_html( $attributes['label_alignment'] ); ?>"
