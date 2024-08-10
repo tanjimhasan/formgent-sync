@@ -2,7 +2,16 @@
 
 wp_enqueue_script( 'wp-api-fetch' );
 
-$data      = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
+$data = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
+$data = array_map(
+    function( $item ) {
+        unset( $item['label'] );
+        unset( $item['sub_label'] );
+        unset( $item['description'] );
+        return $item;
+    }, $data 
+);
+
 $form_data = array_map(
     function( $item ) {
         return isset( $item['value'] ) ? $item['value'] : '';
@@ -18,7 +27,6 @@ $context = [
 ];
 
 ?>
-<h1>FormGent Form</h1>
 <div class="formgent-form">
     <form
         id="formgent-<?php formgent_render( $unique_id ) ?>"

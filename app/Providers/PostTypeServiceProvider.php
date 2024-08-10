@@ -123,7 +123,11 @@ class PostTypeServiceProvider implements Provider {
         
         $blocks = formgent_config( 'blocks' );
         unset( $blocks['formgent/form'] );
+        $blocks = array_keys( $blocks );
 
-        return apply_filters( 'formgent_allowed_blocks',  array_keys( $blocks ) );
+        $blocks[] = 'core/heading';
+        $blocks[] = 'core/paragraph';
+
+        return apply_filters( 'formgent_allowed_blocks',  $blocks );
     }
 }

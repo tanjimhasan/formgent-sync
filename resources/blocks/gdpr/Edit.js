@@ -1,9 +1,15 @@
+/**
+ * wordpress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+import { RichText } from '@wordpress/block-editor';
+
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="block-editor-block-list__single">
-			<label
+			{ /* <label
 				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
 				{ attributes.label }
@@ -12,7 +18,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						*
 					</span>
 				) : null }
-			</label>
+			</label> */ }
 			<div className="block-editor-block-list__single__wrapper">
 				<input
 					className="block-editor-block-list__single__input block-editor-block-list__single__input--checkbox"
@@ -22,9 +28,15 @@ export default function Edit( { attributes, setAttributes } ) {
 					checked={ attributes.checked }
 					onChange={ () => {} }
 				/>
-				<span className="block-editor-block-list__single__sub-label">
-					{ attributes.sub_label }
-				</span>
+				<RichText
+					className="block-editor-block-list__single__sub-label"
+					tagName="span"
+					value={ attributes.description }
+					onChange={ ( description ) =>
+						setAttributes( { description } )
+					}
+					placeholder={ __( 'Enter description' ) }
+				/>
 			</div>
 		</div>
 	);
