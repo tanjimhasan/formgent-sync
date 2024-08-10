@@ -865,7 +865,8 @@ a.formgent-btn-disabled {
 	}
 }
 
-.ant-table-pagination {
+.ant-table-pagination,
+.ant-pagination {
 	gap: 4px;
 	.ant-pagination-total-text {
 		font-size: 12px;
@@ -897,6 +898,26 @@ a.formgent-btn-disabled {
 				color: #fff;
 			}
 		}
+	}
+}
+
+.formgent-forms-pagination-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40px;
+	.ant-pagination {
+		flex: auto;
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		justify-content: center;
+		li {
+			margin: 0;
+		}
+	}
+	.formgent-forms-pagination-total-count {
+		margin-right: auto;
 	}
 }
 
@@ -1022,6 +1043,24 @@ a.formgent-btn-disabled {
 		transition: 0.3s ease;
 		&:hover {
 			background: var(--formgent-color-bg-light);
+		}
+	}
+}
+
+.ant-switch {
+	min-width: 36px;
+	height: 20px;
+	background: var(--formgent-color-bg-deep);
+	.ant-switch-handle {
+		width: 14px;
+		height: 14px;
+		top: 3px;
+		inset-inline-start: 3px;
+	}
+	&.ant-switch-checked {
+		background: var(--formgent-color-primary);
+		.ant-switch-handle {
+			inset-inline-start: calc(100% - 18px);
 		}
 	}
 }

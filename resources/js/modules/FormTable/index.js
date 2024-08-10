@@ -6,14 +6,22 @@ import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
 import { AntSkeleton } from '@formgent/components';
 import StarterContent from './components/StarterContent';
+import Filter from './components/Filter';
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
 
-	const { forms, pagination, isLoading, form_edit_url, isFormDeleting } =
-		FormReducer;
+	const {
+		forms,
+		pagination,
+		isLoading,
+		form_edit_url,
+		isFormDeleting,
+		sortBy,
+		dateType,
+	} = FormReducer;
 
 	return (
 		<div className="formgent-page-inner">
@@ -25,6 +33,7 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
+			<Filter pagination={ pagination } />
 			{ forms.length > 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table
@@ -33,6 +42,8 @@ function FormTable( props ) {
 						isLoading={ isLoading }
 						form_edit_url={ form_edit_url }
 						isFormDeleting={ isFormDeleting }
+						sortBy={ sortBy }
+						dateType={ dateType }
 					/>
 				</Suspense>
 			) : isLoading ? (

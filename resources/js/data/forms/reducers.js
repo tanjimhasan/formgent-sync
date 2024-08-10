@@ -22,6 +22,7 @@ const DEFAULT_STATE = {
 	sortBy: 'date_created',
 	dateType: 'all',
 	query: '',
+	formType: 'all',
 	dateFrame: {
 		from: null,
 		to: null,
@@ -40,6 +41,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 		dateFrom,
 		dateTo,
 		query,
+		formType,
 	} = action;
 	switch ( type ) {
 		case 'FORM_FETCH_LOADING':
@@ -255,6 +257,12 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				s: query,
+				isFilterActive: true,
+			};
+		case 'UPDATE_FORMS_TYPE':
+			return {
+				...state,
+				type: formType,
 			};
 		default:
 			return state;

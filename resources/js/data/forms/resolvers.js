@@ -8,7 +8,8 @@ export const FormResolvers = {
 		dateType = 'all',
 		dateFrom = null,
 		dateTo = null,
-		query = ''
+		query = '',
+		formType = 'all'
 	) {
 		yield FormActions.isFormFetchLoading( true );
 		try {
@@ -20,7 +21,8 @@ export const FormResolvers = {
 				dateType,
 				dateFrom,
 				dateTo,
-				query
+				query,
+				formType
 			);
 			yield FormActions.storsForm( {
 				forms: data.forms,

@@ -15,9 +15,8 @@ import { Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import handleTextSelect from '@formgent/helper/handleTextSelect';
 import FormTableStatus from './FormTableStatus';
-import Filter from './Filter';
 import postData from '@formgent/helper/postData';
-import { Empty } from 'antd';
+import { Empty, Pagination } from 'antd';
 
 export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -30,25 +29,23 @@ export default function Table( props ) {
 	const [ inputPosition, setInputPosition ] = useState( null );
 	const [ copyingTimeoutId, setCopyingTimeoutId ] = useState( null );
 	const [ copiedTimeoutId, setCopiedTimeoutId ] = useState( null );
-	const [ formType, setFormType ] = useState( 'all' );
-	const [ searchQuery, setSearchQuery ] = useState( '' );
-	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
-	const [ formDateType, setFormDateType ] = useState( 'all' );
 
 	const {
 		updateCurrentPage,
-		updateFormSortBy,
-		updateFormDateType,
-		updateFormDateFrom,
-		updateFormDateTo,
 		bulkStatusUpdateRequest,
 		bulkStatusUpdateSuccess,
 		bulkStatusUpdateError,
-		updateFormSearchQuery,
 	} = useDispatch( 'formgent' );
 
-	const { forms, pagination, isLoading, form_edit_url, isFormDeleting } =
-		props;
+	const {
+		forms,
+		pagination,
+		isLoading,
+		form_edit_url,
+		isFormDeleting,
+		sortBy,
+		dateType,
+	} = props;
 	const [ filteredForms, setFilteredForms ] = useState( forms );
 
 	const rowSelection = {
@@ -68,84 +65,24 @@ export default function Table( props ) {
 
 	useEffect( () => {
 		let sortedForms = [ ...forms ];
-		if ( defaultSorting === 'date_created' ) {
+		if ( sortBy === 'date_created' ) {
 			sortedForms.sort(
 				( a, b ) => new Date( b.created_at ) - new Date( a.created_at )
 			);
-		} else if ( defaultSorting === 'title' ) {
+		} else if ( sortBy === 'title' ) {
 			sortedForms.sort( ( a, b ) => a.title.localeCompare( b.title ) );
 		}
 		setFilteredForms( sortedForms );
-	}, [ forms, defaultSorting ] );
+	}, [ forms, sortBy ] );
 
 	useEffect( () => {
 		const filteredForms = forms.filter( ( form ) => {
 			const matchesFormType =
-				formType === 'all' || form.type === formType;
-			const matchesSearchQuery = form.title
-				?.toLowerCase()
-				.includes( searchQuery?.toLowerCase() );
-			return matchesFormType && matchesSearchQuery;
+				dateType === 'all' || form.type === dateType;
+			return matchesFormType;
 		} );
 		setFilteredForms( filteredForms );
-	}, [ forms, formType, searchQuery ] );
-
-	const handleFormTypeChange = ( type ) => {
-		setFormType( type );
-	};
-
-	const handleSearchQueryChange = ( query ) => {
-		setSearchQuery( query );
-		updateFormSearchQuery( query );
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			defaultSorting,
-			formDateType,
-			null,
-			null,
-			query
-		);
-	};
-
-	const handleFormSorting = ( key ) => {
-		setDefaultSorting( key );
-		updateFormSortBy( key );
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			key
-		);
-	};
-
-	const handleFormDateType = ( value ) => {
-		updateFormDateType( value );
-		setFormDateType( value );
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			defaultSorting,
-			value
-		);
-	};
-
-	function handleFormDateRange( dateStrings ) {
-		const [ dateFrom, dateTo ] = dateStrings;
-		updateFormDateFrom( `${ dateFrom } 00:00:01` );
-		updateFormDateTo( `${ dateTo } 23:59:59` );
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			defaultSorting,
-			formDateType,
-			`${ dateFrom } 00:00:01`,
-			`${ dateTo } 23:59:59`
-		);
-	}
+	}, [ forms, dateType ] );
 
 	const dateFormatOptions = {
 		year: 'numeric',
@@ -257,15 +194,13 @@ export default function Table( props ) {
 			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
-					<a
-					//to={ `responses` }
-					>
+					<a href={ `#/forms/${ record.id }/results/responses` }>
 						{ record.total_unread_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
 								{ record.total_unread_responses }
 							</div>
 						) : (
-							''
+							'0'
 						) }
 					</a>
 				</div>
@@ -330,16 +265,10 @@ export default function Table( props ) {
 
 	function handleFormTableChange( pagination ) {
 		updateCurrentPage( pagination?.current );
-		resolveSelect( 'formgent' ).getForms(
-			pagination?.current,
-			pagination?.pageSize,
-			Date.now(),
-			defaultSorting
-		);
 	}
 
+	//update bulk task status
 	async function handleBulkStatusUpdate( newStatus ) {
-		//todo: ui not being updated
 		const dataSubmit = {
 			ids: selectedRowKeys,
 			status: newStatus,
@@ -358,17 +287,42 @@ export default function Table( props ) {
 		} catch ( error ) {
 			bulkStatusUpdateError( error );
 		}
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			sortBy
+		);
 	}
+
+	//custom table pagination
+	const [ showTotalText, setShowTotalText ] = useState( '' );
+	const computeShowTotalText = ( total, range ) => {
+		return `${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`;
+	};
+	useEffect( () => {
+		const range = [
+			( pagination?.current_page - 1 ) * 1 + 1,
+			Math.min( pagination?.current_page * 1, pagination?.total_items ),
+		];
+		const totalText = computeShowTotalText(
+			pagination?.total_items,
+			range
+		);
+		setShowTotalText( totalText );
+	}, [ pagination ] );
+	const handleTableChange = ( page, pageSize ) => {
+		updateCurrentPage( page );
+		const range = [
+			( page - 1 ) * pageSize + 1,
+			Math.min( page * pageSize, pagination.total_items ),
+		];
+		const totalText = computeShowTotalText( pagination.total_items, range );
+		setShowTotalText( totalText );
+	};
 
 	return (
 		<>
-			<Filter
-				onFormTypeChange={ handleFormTypeChange }
-				onSearchQueryChange={ handleSearchQueryChange }
-				onSortingChange={ handleFormSorting }
-				onFormDateTypeChange={ handleFormDateType }
-				onFormDateRangeChange={ handleFormDateRange }
-			/>
 			<TableStyle>
 				<AntSpin spinning={ isLoading }>
 					{ selectedRowKeys.length !== 0 && (
@@ -400,15 +354,24 @@ export default function Table( props ) {
 							current: pagination?.current_page,
 							pageSize: 10,
 							total: pagination?.total_items,
-							position: [ 'bottomCenter' ],
-							showTotal: ( total, range ) =>
-								`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } forms`,
+							position: [ 'none' ],
 						} }
 						locale={ {
 							emptyText: <Empty description="No Data"></Empty>,
 						} }
 						onChange={ handleFormTableChange }
 					/>
+					<div className="formgent-forms-pagination-wrapper">
+						<span className="formgent-forms-pagination-total-count">
+							{ showTotalText }
+						</span>
+						<Pagination
+							current={ pagination?.current_page }
+							pageSize={ 10 }
+							total={ pagination?.total_items }
+							onChange={ handleTableChange } // This updates the current page
+						/>
+					</div>
 				</AntSpin>
 			</TableStyle>
 		</>

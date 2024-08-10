@@ -1,4 +1,5 @@
 import { useState } from '@wordpress/element';
+import { useDispatch, resolveSelect } from '@wordpress/data';
 import { AntSelect } from '@formgent/components';
 import { FilterStyle } from './style';
 import { Input, Dropdown, DatePicker } from 'antd';
@@ -6,7 +7,6 @@ import ReactSVG from 'react-inlinesvg';
 import sliderIcon from '@icon/sliders.svg';
 import filterLines from '@icon/filter-lines.svg';
 import searchIcon from '@icon/search.svg';
-import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
@@ -15,23 +15,27 @@ dayjs.extend( customParseFormat );
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
-export default function Filter( {
-	onFormTypeChange,
-	onSearchQueryChange,
-	onSortingChange,
-	onFormDateTypeChange,
-	onFormDateRangeChange,
-} ) {
+export default function Filter( { pagination } ) {
 	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
-	const [ selectedFormSort, setSelectedFormSort ] =
-		useState( 'date_created' );
+	const [ formType, setFormType ] = useState( 'all' );
+	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
+	const [ formDateType, setFormDateType ] = useState( 'all' );
+
+	const {
+		updateFormSortBy,
+		updateFormDateType,
+		updateFormDateFrom,
+		updateFormDateTo,
+		updateFormSearchQuery,
+		updateFormsType,
+	} = useDispatch( 'formgent' );
 
 	//handle filtered items by time
 	const handleFilteredItems = ( e ) => {
 		e.target.value === 'date_frame'
 			? setToggleTimepicker( true )
 			: setToggleTimepicker( false );
-		onFormDateTypeChange( e.target.value );
+		handleFormDateType( e.target.value );
 	};
 
 	const formTypes = [
@@ -45,19 +49,9 @@ export default function Filter( {
 		},
 	];
 
-	const handleFormTypes = ( value ) => {
-		onFormTypeChange( value );
-	};
-
-	//handle input search query
-	const handleSearchQuery = ( e ) => {
-		const query = e.target.value;
-		onSearchQueryChange( query );
-	};
-
 	function handleCheckedIcon( key ) {
 		const checkedIcon =
-			selectedFormSort === key ? <ReactSVG src={ checkThin } /> : null;
+			defaultSorting === key ? <ReactSVG src={ checkThin } /> : null;
 		return checkedIcon;
 	}
 
@@ -135,14 +129,74 @@ export default function Filter( {
 		},
 	];
 
-	const handleFormSorting = ( { key } ) => {
-		onSortingChange( key );
-		setSelectedFormSort( key );
+	const handleFormTypes = ( type ) => {
+		setFormType( type );
+		updateFormsType( type );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			null,
+			null,
+			'',
+			type
+		);
 	};
 
-	const handleDateRange = ( dates, dateStrings ) => {
-		onFormDateRangeChange( dateStrings );
+	const handleSearchQuery = ( e ) => {
+		const query = e.target.value;
+		updateFormSearchQuery( query );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			null,
+			null,
+			query
+		);
 	};
+
+	const handleFormSorting = ( { key } ) => {
+		setDefaultSorting( key );
+		updateFormSortBy( key );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			key
+		);
+	};
+
+	const handleFormDateType = ( value ) => {
+		updateFormDateType( value );
+		setFormDateType( value );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			value
+		);
+	};
+
+	function handleDateRange( dates, dateStrings ) {
+		const [ dateFrom, dateTo ] = dateStrings;
+		updateFormDateFrom( `${ dateFrom } 00:00:01` );
+		updateFormDateTo( `${ dateTo } 23:59:59` );
+		resolveSelect( 'formgent' ).getForms(
+			pagination.current_page,
+			pagination.per_page,
+			Date.now(),
+			defaultSorting,
+			formDateType,
+			`${ dateFrom } 00:00:01`,
+			`${ dateTo } 23:59:59`
+		);
+	}
 
 	return (
 		<FilterStyle className="formgent-form-filter">
@@ -248,8 +302,3 @@ export default function Filter( {
 		</FilterStyle>
 	);
 }
-
-// Define prop types
-Filter.propTypes = {
-	onFormTypeChange: PropTypes.func.isRequired,
-};

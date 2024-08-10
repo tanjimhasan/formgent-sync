@@ -136,7 +136,7 @@ export default function TItleBox( props ) {
 							</li>
 							<li>
 								<a
-									href="#"
+									href={ `#/forms/${ id }/results/responses` }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 								>
 									{ __( 'All Responses', 'formgent' ) }

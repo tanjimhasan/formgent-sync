@@ -369,6 +369,16 @@ const TableStyle = Styled.div`
             display: block;
         }
     }
+    .formgent-form-status{
+        .formgent-toggle{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+    }
+    .formgent-head-status{
+        width: 185px;
+    }
 `;
 const HeaderStyle = Styled.div`
     .formgent-header-top__content{

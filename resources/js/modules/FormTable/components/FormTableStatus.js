@@ -4,6 +4,7 @@ import { ToggleControl } from '@wordpress/components';
 import patchData from '@formgent/helper/patchData';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect } from 'react';
+import { Switch } from 'antd';
 
 export default function FormTableStatus( props ) {
 	const { form } = props;
@@ -53,14 +54,14 @@ export default function FormTableStatus( props ) {
 
 	return (
 		<div className="formgent-toggle">
-			<ToggleControl
-				checked={ currentStatus === 'publish' }
-				label={ __( statusText, 'formgent' ) }
+			<Switch
+				defaultChecked={ currentStatus === 'publish' }
 				onChange={ ( isChecked ) => {
 					handleUpdateCurrentStatus( isChecked );
 				} }
-				disabled={ isStatusUpdating }
+				loading={ isStatusUpdating }
 			/>
+			<span>{ statusText }</span>
 		</div>
 	);
 }
