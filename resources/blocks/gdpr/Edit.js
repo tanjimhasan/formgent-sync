@@ -1,8 +1,8 @@
 /**
  * wordpress dependencies
  */
-import { __ } from '@wordpress/i18n';
 import { RichText } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 import './editor.scss';
 
@@ -14,14 +14,14 @@ export default function Edit( { attributes, setAttributes } ) {
 			>
 				{ attributes.label }
 				{ attributes.required ? (
-					<span className="block-editor-block-list__single__label__required">
+					<span className="formgent-editor-block-list__single__label__required">
 						*
 					</span>
 				) : null }
 			</label> */ }
 			<div className="block-editor-block-list__single__wrapper">
 				<input
-					className="block-editor-block-list__single__input block-editor-block-list__single__input--checkbox"
+					className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
 					type="checkbox"
 					id={ attributes.id }
 					name={ attributes.name }
