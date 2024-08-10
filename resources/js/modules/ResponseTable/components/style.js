@@ -251,17 +251,19 @@ const TableActionStyle = Styled.div`
             display: flex;
             align-items: center;
             gap: 6px;
-            height: 35px;
-            padding: 0 15px;
-            border: none;
+            height: 36px;
+            padding: 0 12px;
             border-radius: 10px;
-            font-size: 12px;
-            color: var(--formgent-color-dark);
-            background: var(--formgent-color-bg-light);
+            font-size: 14px;
+            font-weight: 500;
+            background: transparent;
+            color: var(--formgent-color-text) !important;
+            border: 1px solid var(--formgent-color-bg-light);
             cursor: pointer;
             transition: background ease .3s;
             &:hover {
-                background: var(--formgent-color-bg-deep);
+                background: var(--formgent-color-bg-page) !important;
+                border-color: var(--formgent-color-bg-page) !important;
             }
         }
         .formgent-table-header__selection__clear {
@@ -304,6 +306,14 @@ const TableActionStyle = Styled.div`
             font-size: 14px;
             font-weight: 500;
             color: var(--formgent-color-dark);
+            ::placeholder {
+                color: var(--formgent-color-extra-light);
+                opacity: 1;
+            }
+
+            ::-ms-input-placeholder { 
+                color: var(--formgent-color-extra-light);
+            }
         }
         .ant-input-prefix {
             margin-inline-end: 8px;
@@ -319,7 +329,7 @@ const TableActionStyle = Styled.div`
         height: 36px;
         width: 36px;
         background: transparent;
-        color: var(--formgent-font-color) !important;
+        color: var(--formgent-color-text) !important;
         border: 1px solid var(--formgent-color-bg-light) !important;
         border-radius: 8px;
         &:hover {
@@ -357,7 +367,9 @@ const TableActionStyle = Styled.div`
             height: 36px;
             padding: 0 14px;
             border-radius: 8px;
-            color: var(--formgent-font-color);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--formgent-color-text);
             background: var(--formgent-color-bg-white);
             border: 1px solid var(--formgent-color-border-light);
             box-sizing: border-box;
@@ -404,7 +416,7 @@ const TableActionStyle = Styled.div`
         padding: 0 15px;
         font-size: 14px;
         font-weight: 600;
-        color: var(--formgent-font-color);
+        color: var(--formgent-color-text);
         span {
             padding: 0;
         }
@@ -459,7 +471,7 @@ const TableDrawerStyle = Styled.div`
     position: absolute;
     top: 0;
     right: -15px;
-    z-index: 1;
+    z-index: 9;
     background: #fff;
     overflow-y: auto;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);

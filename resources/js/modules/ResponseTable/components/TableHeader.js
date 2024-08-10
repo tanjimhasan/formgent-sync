@@ -125,8 +125,8 @@ export default function TableHeader( props ) {
 							onClick={ ( e ) => e.preventDefault() }
 							icon={
 								<ReactSVG
-									width="14"
-									height="14"
+									width="16"
+									height="16"
 									src={ downloadIcon }
 								/>
 							}
@@ -136,8 +136,8 @@ export default function TableHeader( props ) {
 						onClick={ handlePrint }
 						icon={
 							<ReactSVG
-								width="14"
-								height="14"
+								width="16"
+								height="16"
 								src={ printIcon }
 							/>
 						}
@@ -146,8 +146,8 @@ export default function TableHeader( props ) {
 						onClick={ handleDelete }
 						icon={
 							<ReactSVG
-								width="14"
-								height="14"
+								width="16"
+								height="16"
 								src={ trashIcon }
 							/>
 						}
