@@ -24,8 +24,6 @@ export default function FormHeader( props ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 
-	console.log( 'CommonReducer', CommonReducer );
-
 	const { useParams, NavLink, useNavigate } = CommonReducer.routerComponents;
 	const { id } = useParams();
 	const navigate = useNavigate && useNavigate();
@@ -34,8 +32,6 @@ export default function FormHeader( props ) {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 	const { isUpdatingForm, responses } = SingleFormReducer;
-
-	console.log( 'SingleFormReducer', SingleFormReducer );
 
 	const handleBackButtonClick = () => {
 		navigate( -1 );

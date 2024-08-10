@@ -1,5 +1,5 @@
 import ResponseTableModule from '@formgent/modules/ResponseTable';
 
-export default function Response() {
+export default function ResponseTable() {
 	return <ResponseTableModule />;
 }

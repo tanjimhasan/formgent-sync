@@ -19,7 +19,7 @@ import { getPlugins } from '@wordpress/plugins';
 import AddForm from './pages/AddForm/index.js';
 import Editor from './pages/Editor/index.js';
 import FormTable from './pages/FormTable/index.js';
-import Response from './pages/Response/index.js';
+import ResponseTable from './pages/ResponseTable/index.js';
 import Settings from './pages/Settings/index.js';
 
 export default function App() {
@@ -77,7 +77,7 @@ export default function App() {
 		},
 		{
 			path: '/forms/:id/response/*',
-			element: <Response />,
+			element: <ResponseTable />,
 		},
 		{
 			path: '/forms/form-new/:type',

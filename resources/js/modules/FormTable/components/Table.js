@@ -17,7 +17,6 @@ export default function Table() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
-	console.log( 'FormReducer Form', FormReducer );
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();

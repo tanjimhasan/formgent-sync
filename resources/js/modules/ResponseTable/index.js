@@ -1,7 +1,8 @@
 import { AntSkeleton } from '@formgent/components';
-import FormHeader from '@formgent/components/FormHeader';
 import { lazy, Suspense } from '@wordpress/element';
 import { ResultStyle, ResultWrapStyle } from './style';
+
+const FormHeader = lazy( () => import( '@formgent/components/FormHeader' ) );
 const Table = lazy( () => import( './components/Table' ) );
 
 function ResponseTable() {
