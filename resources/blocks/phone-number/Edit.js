@@ -31,7 +31,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<div className="formgent-editor-block-list__single__dialer">
 					<span className="formgent-editor-block-list__single__dialer__flag">
 						<img
-							src="https://helpgent.local/wp-content/plugins/formgent/assets/images/flags/bd.png"
+							src={ `${ formgent_blocks.assetUrl }/images/flags/bd.png` }
 							alt="Formgent Flag"
 						/>
 						<ReactSVG src={ angleDown } />
