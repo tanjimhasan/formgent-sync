@@ -265,6 +265,9 @@ const TableActionStyle = Styled.div`
             }
         }
         .formgent-table-header__selection__clear {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 16px;
             height: 16px;
             padding: 0;

@@ -83,14 +83,14 @@ export default function Table() {
 	const { id } = useParams();
 
 	// Download Items
-	const downloadItems = [
+	const downloadItems = ( source ) => [
 		{
-			key: 'csv',
+			key: `csv|${ source }`,
 			label: (
 				<>
 					<span
 						className="dropdown-header-content"
-						onClick={ ( e ) => handleExportCSV( e ) }
+						onClick={ ( e ) => handleExportCSV( e, source ) }
 					>
 						<ReactSVG width="16" height="16" src={ csvIcon } />
 						Download as CSV
@@ -106,7 +106,7 @@ export default function Table() {
 			),
 		},
 		{
-			key: 'excel',
+			key: `excel|${ source }`,
 			label: (
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ xlsIcon } />
@@ -115,7 +115,7 @@ export default function Table() {
 			),
 		},
 		{
-			key: 'pdf',
+			key: `pdf|${ source }`,
 			label: (
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ pdfIcon } />
@@ -271,12 +271,19 @@ export default function Table() {
 	}
 
 	// Handle Download
-	async function handleDownload( { key }, source ) {
+	async function handleDownload( { key } ) {
+		const [ fileType, source ] = key.split( '|' ); // fileType: pdf, excel, source: header, drawer
+
+		if ( fileType === 'csv' ) {
+			return;
+		}
+
 		const exportedData = await handleCreateExportData( source );
+
 		if ( exportedData ) {
-			if ( key === 'pdf' ) {
+			if ( fileType === 'pdf' ) {
 				return exportToPDF( exportedData, 'formgent-response' );
-			} else if ( key === 'excel' ) {
+			} else if ( fileType === 'excel' ) {
 				return exportToSpreadsheet( exportedData, 'formgent-response' );
 			} else {
 				return;
@@ -754,7 +761,7 @@ export default function Table() {
 					setResponseFields={ setResponseFields }
 					setFieldColumnHide={ setFieldColumnHide }
 					handleDelete={ handleDelete }
-					downloadItems={ downloadItems }
+					downloadItems={ downloadItems() }
 					handleDownload={ handleDownload }
 				/>
 
@@ -797,12 +804,8 @@ export default function Table() {
 					handleRead={ ( id, isReadStatus ) =>
 						handleRead( id, isReadStatus, 'drawer' )
 					}
-					handleDownload={ ( key ) =>
-						handleDownload( key, 'drawer' )
-					}
-					handleExportCSV={ ( e ) => handleExportCSV( e, 'drawer' ) }
-					csvExportData={ csvExportData }
-					csvLinkRef={ csvLinkRef }
+					handleDownload={ handleDownload }
+					downloadItems={ downloadItems( 'drawer' ) }
 					dateFormatOptions={ dateFormatOptions }
 				/>
 			) }
