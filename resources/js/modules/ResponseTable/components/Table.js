@@ -504,8 +504,8 @@ export default function Table() {
 			},
 		},
 		{
-			key: 'created_by',
-			dataIndex: 'created_by',
+			key: 'username',
+			dataIndex: 'username',
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
@@ -518,7 +518,7 @@ export default function Table() {
 						menu={ {
 							items: sortItems,
 							onClick: ( item ) =>
-								handleSortby( item, 'created_by' ),
+								handleSortby( item, 'username' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
@@ -534,6 +534,9 @@ export default function Table() {
 					</AntDropdown>
 				</div>
 			),
+			render: ( text, record ) => {
+				return <div>{ record.username }</div>;
+			},
 		},
 	];
 
@@ -729,6 +732,7 @@ export default function Table() {
 
 	useEffect( () => {
 		setFilteredData( responses );
+		console.log( 'response', responses );
 	}, [ responses ] );
 
 	useEffect( () => {
