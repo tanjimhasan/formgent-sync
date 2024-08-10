@@ -49,10 +49,17 @@ class FormRepository {
 
         $types = $type_count_query->select( "meta_value as type", 'COUNT(DISTINCT post.ID) as total' )->group_by( ["form_type_post_meta.meta_key" ] )->get();
 
+        $forms = array_map(
+            function( $form ) {
+                $form->preview_url = get_post_permalink( $form->id );
+                return $form;
+            }, $posts_query->pagination( $dto->get_per_page(), $dto->get_page() )
+        );
+
         return [
             'types' => $types,
             'total' => $count_query->count(),
-            'forms' => $posts_query->pagination( $dto->get_per_page(), $dto->get_page() )
+            'forms' => $forms
         ];
     }
 
