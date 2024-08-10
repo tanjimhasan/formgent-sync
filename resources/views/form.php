@@ -12,8 +12,6 @@ $data = array_map(
     }, $data 
 );
 
-
-
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 
 $context = [
