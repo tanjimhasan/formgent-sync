@@ -58,6 +58,7 @@ export default function Table() {
 	// Reference
 	const isInitialRender = useRef( true );
 	const csvLinkRef = useRef();
+	const debounceTimeout = useRef( null );
 
 	// Retrieve from the store
 	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
@@ -566,7 +567,15 @@ export default function Table() {
 	}
 
 	function handleSearch( value ) {
-		setSearchItem( value );
+		// Clear the previous debounce timeout if it exists
+		if ( debounceTimeout.current ) {
+			clearTimeout( debounceTimeout.current );
+		}
+
+		// Set a new timeout
+		debounceTimeout.current = setTimeout( () => {
+			setSearchItem( value );
+		}, 300 );
 	}
 
 	// Handle Delete
@@ -625,7 +634,7 @@ export default function Table() {
 				title: () => (
 					<div className="formgent-column-action">
 						<span className="formgent-column-action__title">
-							{ field.icon ? (
+							{ field?.icon ? (
 								<span className="formgent-column-action__icon">
 									<ReactSVG
 										width="16"
