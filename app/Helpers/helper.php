@@ -196,3 +196,5 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
 
     return $settings;
 }
+
+require_once __DIR__ . '/form.php';

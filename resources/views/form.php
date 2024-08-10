@@ -12,18 +12,12 @@ $data = array_map(
     }, $data 
 );
 
-$form_data = array_map(
-    function( $item ) {
-        return isset( $item['value'] ) ? $item['value'] : '';
-    }, $data
-);
-
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 
 $context = [
     'formId'         => $form->ID,
     'blocksSettings' => $data,
-    'data'           => $form_data,
+    'data'           => formgent_form_default_values( $data ),
 ];
 
 ?>

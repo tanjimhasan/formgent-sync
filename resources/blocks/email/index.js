@@ -48,15 +48,11 @@ const controls = {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
 			},
-			value: {
-				type: 'text',
-				label: __( 'Default Value', 'formgent' ),
-			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
 			},
-			default_value: {
+			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
 			},
