@@ -178,7 +178,7 @@ export default function TableHeader( props ) {
 				{ /* <AntButton
 					onClick={ handleFilter }
 					icon={
-						<ReactSVG width="14" height="14" src={ filterIcon } />
+						<ReactSVG width="16" height="16" src={ filterIcon } />
 					}
 				>
 					Filters

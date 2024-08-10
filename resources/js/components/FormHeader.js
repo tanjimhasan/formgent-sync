@@ -6,14 +6,36 @@ import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
 
+// Icon
+import chartIcon from '@icon/line-chart.svg';
+import pieIcon from '@icon/pie-chart.svg';
+import rowIcon from '@icon/row-3.svg';
+
 export default function FormHeader( props ) {
-	const { id, useNavigate, navItems } = props;
-	const navigate = useNavigate && useNavigate();
-	const { publishFormRequest, publishFormSuccess, publishFormError } =
-		useDispatch( 'formgent' );
+	const { resultHeader } = props;
 
 	const [ isEditing, setIsEditing ] = useState( false );
 	const [ title, setTitle ] = useState( 'Form Name' );
+
+	const { publishFormRequest, publishFormSuccess, publishFormError } =
+		useDispatch( 'formgent' );
+
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+
+	console.log( 'CommonReducer', CommonReducer );
+
+	const { useParams, NavLink, useNavigate } = CommonReducer.routerComponents;
+	const { id } = useParams();
+	const navigate = useNavigate && useNavigate();
+
+	const { SingleFormReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getSingleFormState();
+	}, [] );
+	const { isUpdatingForm, responses } = SingleFormReducer;
+
+	console.log( 'SingleFormReducer', SingleFormReducer );
 
 	const handleBackButtonClick = () => {
 		navigate( -1 );
@@ -35,20 +57,6 @@ export default function FormHeader( props ) {
 		setIsEditing( false );
 		// Perform save action here (e.g., API call)
 	};
-
-	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getCommonState();
-	}, [] );
-
-	const { SingleFormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getSingleFormState();
-	}, [] );
-
-	const { isUpdatingForm } = SingleFormReducer;
-
-	const { NavLink } = CommonReducer.routerComponents;
-
-	const forms = `/forms/${ id }`;
 
 	const formPreview = () => {
 		console.log( 'Form Preview clicked' );
@@ -77,6 +85,8 @@ export default function FormHeader( props ) {
 			publishFormError( error );
 		}
 	}
+
+	const forms = `/forms/${ id }`;
 
 	return (
 		<FormHeaderStyle className="formgent-editor-header">
@@ -133,11 +143,39 @@ export default function FormHeader( props ) {
 
 			{ /* Editor Header Nav */ }
 			<nav className="formgent-editor-header__nav">
-				{ navItems || (
+				{ resultHeader ? (
+					<>
+						<NavLink
+							to={ `${ forms }/response` }
+							className="formgent-results-header__nav__link"
+						>
+							<ReactSVG src={ rowIcon } width="18" height="18" />
+							Responses { responses && `(${ responses.length })` }
+						</NavLink>
+						<NavLink
+							to={ `${ forms }/summary` }
+							className="formgent-results-header__nav__link"
+						>
+							<ReactSVG src={ pieIcon } width="18" height="18" />
+							Summary
+						</NavLink>
+						<NavLink
+							to={ `${ forms }/analytics` }
+							className="formgent-results-header__nav__link"
+						>
+							<ReactSVG
+								src={ chartIcon }
+								width="18"
+								height="18"
+							/>
+							Analytics
+						</NavLink>
+					</>
+				) : (
 					<>
 						{ /* <NavLink to={ `${ forms }/edit` }>Editor</NavLink> */ }
 						<NavLink to={ `${ forms }/settings` }>Settings</NavLink>
-						<NavLink to={ `${ forms }/results` }>Results</NavLink>
+						<NavLink to={ `${ forms }/response` }>Response</NavLink>
 					</>
 				) }
 			</nav>

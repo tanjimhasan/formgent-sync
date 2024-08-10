@@ -17,6 +17,7 @@ export default function Table() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 	const { forms, pagination, isLoading, form_edit_url } = FormReducer;
+	console.log( 'FormReducer Form', FormReducer );
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -56,7 +57,7 @@ export default function Table() {
 			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
-					<Link to={ `forms/${ record.id }/results/responses` }>
+					<Link to={ `forms/${ record.id }/response` }>
 						{ record.total_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
 								{ record.total_responses }
