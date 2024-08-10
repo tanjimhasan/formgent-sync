@@ -496,6 +496,22 @@ a.formgent-btn-disabled {
 	&.formgent-form-title-modal {
 		.components-modal__header {
 			padding: 0;
+			.components-button {
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				padding: 0;
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				inset-inline-end: 30px;
+				background-color: var(--formgent-color-bg-gray);
+				border: 0 none;
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
 		}
 	}
 	&.formgent-attachment-importing {

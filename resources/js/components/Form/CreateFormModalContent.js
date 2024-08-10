@@ -8,8 +8,6 @@ import AntButton from '@formgent/components/Button';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
 
 export default function CreateFormModalContent( { type } ) {
-	const [ serverErrors, setServerErrors ] = useState( {} );
-
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
@@ -95,7 +93,7 @@ export default function CreateFormModalContent( { type } ) {
 							},
 						] }
 					>
-						<AntInput size="large" />
+						<AntInput size="large" defaultValue="My form" />
 					</Form.Item>
 					<Form.Item>
 						<AntButton
