@@ -10,10 +10,10 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div
-				className={ `formgent-editor-block-list__single__label-container label-align-${ attributes.label_alignment }` }
+				className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
 			>
 				<RichText
-					className={ `formgent-editor-block-list__single__label formgent-label-align-${ attributes.label_alignment }` }
+					className="formgent-editor-block-list__single__label"
 					tagName="label"
 					value={ attributes.label }
 					onChange={ ( content ) =>

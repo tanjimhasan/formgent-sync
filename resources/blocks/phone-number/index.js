@@ -16,7 +16,7 @@ const exampleAttributes = {};
 const controls = {
 	basic_info: {
 		type: 'panel',
-		label: __( 'Basic info', 'formgent' ),
+		label: __( 'General', 'formgent' ),
 		children: {
 			required: {
 				type: 'switch',
