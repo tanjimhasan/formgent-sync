@@ -100,6 +100,19 @@ export default function Table() {
 	const { useParams } = CommonReducer.routerComponents;
 	const { id } = useParams();
 
+	// Fetch Responses
+	function fetchResponse( page ) {
+		return resolveSelect( 'formgent' ).getSingleFormResponse(
+			page?.current || pagination.current_page,
+			10,
+			searchItem,
+			parseInt( id ),
+			readStatus,
+			orderType,
+			Date.now()
+		);
+	}
+
 	// Download Items
 	const downloadItems = ( source ) => [
 		{
@@ -204,8 +217,6 @@ export default function Table() {
 			( item ) => item.id === record
 		);
 
-		console.log( 'handleTableDrawer : ', record, nav, drawerResponse );
-
 		switch ( nav ) {
 			case 'prev':
 				drawerResponse = drawerResponse;
@@ -291,12 +302,17 @@ export default function Table() {
 
 	// Handle Create Export Data
 	async function handleCreateExportData( source ) {
+		const downloadItemsID =
+			source === 'drawer' && tableDrawer?.id
+				? [ tableDrawer.id ]
+				: selectedRowKeys;
+		const responseIds = responses.map( ( response ) => response.id );
+
 		return await fetchData(
 			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
-				response_ids:
-					source === 'drawer' && tableDrawer?.id
-						? [ tableDrawer.id ]
-						: selectedRowKeys,
+				response_ids: downloadItemsID.length
+					? downloadItemsID
+					: responseIds,
 			} )
 		);
 	}
@@ -571,18 +587,6 @@ export default function Table() {
 		},
 	];
 
-	function fetchResponse( page ) {
-		return resolveSelect( 'formgent' ).getSingleFormResponse(
-			page?.current || pagination.current_page,
-			10,
-			searchItem,
-			parseInt( id ),
-			readStatus,
-			orderType,
-			Date.now()
-		);
-	}
-
 	// Table Operations
 	const rowSelection = {
 		selectedRowKeys,
@@ -772,11 +776,6 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		handleTableChange();
-		console.log( 'Changed chk' );
-	}, [ searchItem, orderType ] );
-
-	useEffect( () => {
 		setTableDrawer( ( single_response && single_response[ 0 ] ) || null );
 	}, [ single_response ] );
 
@@ -789,6 +788,11 @@ export default function Table() {
 
 		console.log( 'response', responses );
 	}, [ responses ] );
+
+	useEffect( () => {
+		fetchResponse();
+		console.log( 'fetchResponse chk' );
+	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
 		// handleTableChange();
