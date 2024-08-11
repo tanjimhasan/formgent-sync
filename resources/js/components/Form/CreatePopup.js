@@ -8,6 +8,8 @@ import Pencil from '@icon/pencil-plus.svg';
 import { __ } from '@wordpress/i18n';
 import CreatePopupAction from './CreatePopupAction.js';
 import CreatePopupHeader from './CreatePopupHeader.js';
+import CreatePopupFormType from './CreatePopupFormType.js';
+import formgentLogo from '@icon/formgent-logo.svg';
 
 function CreatePopup( props ) {
 	const [ step, setStep ] = useState( '1' );
@@ -17,26 +19,28 @@ function CreatePopup( props ) {
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
-	const { updateFormState } = useDispatch( 'formgent' );
+	const { updateFormState, updateCreatePopupStage } =
+		useDispatch( 'formgent' );
 	const {
 		isImportingAttachment,
 		isCreatePopupOpen,
 		createFormStage,
 		addBackBtn,
 	} = FormReducer;
+
 	const actionData = [
-		{
-			type: 'general',
-			icon: Pencil,
-			label: 'Traditional Form',
-			text: 'Multiple questions on single page',
-			step: '1',
-		},
 		{
 			type: 'scratch',
 			icon: Pencil,
-			label: 'Start From Scratch',
-			text: 'Start with a blank form',
+			label: __( 'Start from Scratch', 'formgent' ),
+			text: __( 'Start with a blank form', 'formgent' ),
+			step: '1',
+		},
+		{
+			type: 'general',
+			icon: Pencil,
+			label: __( 'Classic Form', 'formgent' ),
+			text: __( 'Show multiple questions on single page', 'formgent' ),
 			url: `forms/form-new/${ SingleFormReducer?.selectedFormType }`,
 			step: '2',
 		},
@@ -51,10 +55,8 @@ function CreatePopup( props ) {
 	}
 
 	function handleFormBack() {
-		updateFormState( {
-			createFormStage: 'initial',
-			addBackBtn: false,
-		} );
+		setStep( '1' );
+		updateCreatePopupStage( 'initial' );
 	}
 
 	return (
@@ -73,19 +75,10 @@ function CreatePopup( props ) {
 					isDismissible={ ! isImportingAttachment }
 					headerActions={
 						<span className="formgent-create-modal-logo">
-							FormGent
+							<ReactSVG src={ formgentLogo } />
 						</span>
 					}
 				>
-					{ createFormStage === 'scratch' && addBackBtn && (
-						<span
-							className="formgent-btn-back"
-							onClick={ handleFormBack }
-						>
-							<ReactSVG src={ arrowLeft } />{ ' ' }
-							{ __( 'Back', 'formgent' ) }
-						</span>
-					) }
 					<CreatePopupStyle
 						className={ `formgent-create-form-modal ${
 							createFormStage === 'prepared-elements'
@@ -97,7 +90,7 @@ function CreatePopup( props ) {
 							title={ __( 'Create a New Form', 'formgent' ) }
 							step={ step }
 						/>
-
+						<CreatePopupFormType />
 						{ actionData.map( ( item, index ) => {
 							if ( step === item.step ) {
 								return (
@@ -109,6 +102,16 @@ function CreatePopup( props ) {
 								);
 							}
 						} ) }
+
+						{ createFormStage === 'scratch' && (
+							<span
+								className="formgent-btn-back"
+								onClick={ handleFormBack }
+							>
+								<ReactSVG src={ arrowLeft } />{ ' ' }
+								{ __( 'Back', 'formgent' ) }
+							</span>
+						) }
 					</CreatePopupStyle>
 				</Modal>
 			</Fragment>

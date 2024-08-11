@@ -19,6 +19,13 @@ export const FormActions = {
 		};
 	},
 
+	updateCreatePopupStage: ( stage ) => {
+		return {
+			type: 'UPDATE_CREATE_POPUP_STAGE',
+			stage,
+		};
+	},
+
 	updateTitleRequest: () => {
 		return {
 			type: 'UPDATE_TITLE_REQUEST',

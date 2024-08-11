@@ -189,10 +189,28 @@ const EditorContentStyle = Styled.div`
 
 const CreateFormStyle = Styled.div`
     text-align: center;
-    padding: 50px 0;
+    padding: 60px 80px;
+    .formgent-create-modal-title{
+        font-size: 26px;
+        font-weight: 600;
+        margin: 0 0 16px 0;
+    }
+    .formgent-create-modal-subtitle{
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0 0 24px;
+        color: var(--formgent-color-gray-600);
+    }
     .formgent-create-modal__content{
-       max-width: 340px;
-       margin: 0 auto;
+        .ant-form-item-required{
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--formgent-color-dark);
+        }
+        .ant-form-item-explain-error{
+            text-align: left;
+            padding: 10px 0 20px;
+        }
     }
 `;
 

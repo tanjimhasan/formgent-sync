@@ -54,6 +54,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				isCreatePopupOpen: action.status,
 			};
+		case 'UPDATE_CREATE_POPUP_STAGE':
+			return {
+				...state,
+				createFormStage: action.stage,
+			};
 		case 'UPDATE_TITLE_REQUEST':
 			return {
 				...state,
