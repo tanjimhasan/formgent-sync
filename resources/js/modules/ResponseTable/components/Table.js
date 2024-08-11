@@ -44,7 +44,7 @@ export default function Table() {
 	const [ responseNotes, setResponseNotes ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
-	const [ starredItems, setStarredItems ] = useState( {} );
+	// const [ starredItems, setStarredItems ] = useState( {} );
 	const [ readStatus, setReadStatus ] = useState( 0 );
 	const [ orderType, setOrderType ] = useState( 'asc' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
@@ -61,16 +61,25 @@ export default function Table() {
 	const debounceTimeout = useRef( null );
 
 	// Retrieve from the store
-	const { updateCurrentResponsePage } = useDispatch( 'formgent' );
+	const {
+		updateCurrentResponsePage,
+		starredChangeRequest,
+		starredChangeSuccess,
+		starredChangeError,
+	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
+	console.log( 'SingleFormReducer Table : ', SingleFormReducer );
+
 	const {
 		responses,
 		pagination,
 		isLoading,
+		starredItems,
+		isStarredChanging,
 		fields,
 		selected_fields,
 		single_response,
@@ -187,6 +196,8 @@ export default function Table() {
 			( item ) => item.id === record
 		);
 
+		console.log( 'handleTableDrawer : ', record, nav, drawerResponse );
+
 		switch ( nav ) {
 			case 'prev':
 				drawerResponse = drawerResponse;
@@ -220,20 +231,25 @@ export default function Table() {
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus, source ) {
-		const reverseStarredStatus = isStarredStatus ? 0 : 1;
+		console.log( 'handleStarred : ', id, isStarredStatus, source );
+
+		if ( isStarredChanging ) return;
+
+		starredChangeRequest();
+		const reverseStarredStatus = isStarredStatus === '1' ? 0 : 1;
+
 		const updateStarredStatus = await patchData(
 			`admin/responses/${ id }/starred/`,
 			{ is_starred: reverseStarredStatus }
 		);
 		if ( updateStarredStatus ) {
-			setStarredItems( ( prevStarredItems ) => ( {
-				...prevStarredItems,
-				[ id ]: reverseStarredStatus,
-			} ) );
+			starredChangeSuccess( id, reverseStarredStatus );
+
 			if ( source === 'drawer' ) {
 				handleTableDrawer( id );
 			}
-			handleTableChange();
+		} else {
+			starredChangeError();
 		}
 	}
 
@@ -427,7 +443,7 @@ export default function Table() {
 				const isStarred =
 					starredItems[ record.id ] !== undefined
 						? starredItems[ record.id ]
-						: record.is_starred === '1';
+						: '0';
 				return (
 					<div className="formgent-form-table-item-wrap">
 						{ record.id }
@@ -435,7 +451,7 @@ export default function Table() {
 							width="16"
 							height="16"
 							src={ starIcon }
-							className={ isStarred ? 'starred' : '' }
+							className={ isStarred === '1' ? 'starred' : '' }
 							onClick={ () =>
 								handleStarred( record.id, isStarred )
 							}
@@ -505,8 +521,8 @@ export default function Table() {
 			},
 		},
 		{
-			key: 'username',
-			dataIndex: 'username',
+			key: 'user_email',
+			dataIndex: 'user_email',
 			title: () => (
 				<div className="formgent-column-action">
 					<span className="formgent-column-action__title">
@@ -519,7 +535,7 @@ export default function Table() {
 						menu={ {
 							items: sortItems,
 							onClick: ( item ) =>
-								handleSortby( item, 'username' ),
+								handleSortby( item, 'user_email' ),
 						} }
 						trigger={ [ 'click' ] }
 						placement="bottomRight"
@@ -536,7 +552,7 @@ export default function Table() {
 				</div>
 			),
 			render: ( text, record ) => {
-				return <div>{ record.username }</div>;
+				return <div>{ record.user_email }</div>;
 			},
 		},
 	];
@@ -733,6 +749,7 @@ export default function Table() {
 
 	useEffect( () => {
 		handleTableChange();
+		console.log( 'Changed chk' );
 	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
@@ -741,11 +758,15 @@ export default function Table() {
 
 	useEffect( () => {
 		setFilteredData( responses );
+		responses?.forEach( ( response ) => {
+			starredChangeSuccess( response.id, response.is_starred );
+		} );
+
 		console.log( 'response', responses );
 	}, [ responses ] );
 
 	useEffect( () => {
-		handleTableChange();
+		// handleTableChange();
 		setCustomColumns( defaultColumns );
 	}, [] );
 

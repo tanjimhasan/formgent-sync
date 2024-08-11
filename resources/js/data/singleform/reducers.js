@@ -5,6 +5,8 @@ const DEFAULT_STATE = {
 	isCreatingForm: false,
 	isLoading: false,
 	isUpdatingForm: false,
+	isStarredChanging: false,
+	starredItems: {},
 	pagination: {
 		current_page: '1',
 		total_pages: '1',
@@ -146,13 +148,11 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				...data,
 			};
-
 		case 'FIELDS_STORE':
 			return {
 				...state,
 				...data,
 			};
-
 		case 'UPDATE_CURRENT_RESPONSE_PAGE':
 			return {
 				...state,
@@ -215,6 +215,27 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 						fields: fieldList,
 					},
 				},
+			};
+		case 'STARRED_CHANGE_REQUEST':
+			return {
+				...state,
+				isStarredChanging: true,
+			};
+		case 'STARRED_CHANGE_SUCCESS':
+			console.log( 'STARRED_CHANGE_SUCCESS', action );
+			return {
+				...state,
+				starredItems: {
+					...state.starredItems,
+					[ action.id ]: String( action.status ),
+				},
+				isStarredChanging: false,
+			};
+		case 'STARRED_CHANGE_ERROR':
+			return {
+				...state,
+				error: error,
+				isStarredChanging: false,
 			};
 		default:
 			return state;

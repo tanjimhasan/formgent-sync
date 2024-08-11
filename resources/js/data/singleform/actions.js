@@ -265,4 +265,26 @@ export const SingleFormActions = {
 			data: { spacer, index },
 		};
 	},
+
+	starredChangeRequest: () => {
+		return {
+			type: 'STARRED_CHANGE_REQUEST',
+		};
+	},
+
+	starredChangeSuccess: ( id, status ) => {
+		console.log( 'starredChangeSuccess', id, status );
+		return {
+			type: 'STARRED_CHANGE_SUCCESS',
+			id,
+			status,
+		};
+	},
+
+	starredChangeError: ( error ) => {
+		return {
+			type: 'STARRED_CHANGE_ERROR',
+			error,
+		};
+	},
 };
