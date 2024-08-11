@@ -82,8 +82,6 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	console.log( 'SingleFormReducer Table : ', SingleFormReducer );
-
 	const {
 		responses,
 		pagination,
@@ -796,13 +794,10 @@ export default function Table() {
 			starredChangeSuccess( response.id, response.is_starred );
 			readStatusChangeSuccess( response.id, response.is_read );
 		} );
-
-		console.log( 'response', responses );
 	}, [ responses ] );
 
 	useEffect( () => {
 		fetchResponse();
-		console.log( 'fetchResponse chk' );
 	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
