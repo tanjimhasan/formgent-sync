@@ -54,7 +54,6 @@ export default function Table() {
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 
 	// Reference
-	const isInitialRender = useRef( true );
 	const csvLinkRef = useRef();
 	const debounceTimeout = useRef( null );
 
@@ -784,13 +783,7 @@ export default function Table() {
 	}, [ selected_fields ] );
 
 	useEffect( () => {
-		if ( isInitialRender.current ) {
-			console.log( 'Initial render' );
-			isInitialRender.current = false;
-		} else {
-			console.log( 'Not initial render' );
-			handleColumn();
-		}
+		handleColumn();
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
