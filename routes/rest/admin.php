@@ -24,8 +24,8 @@ Route::group(
                         
                         Route::group(
                             'summary', function() {
-                                Route::get( 'field', [SummaryController::class, 'field'] );
                                 Route::get( '/', [SummaryController::class, 'index'] );
+                                Route::get( 'field', [SummaryController::class, 'field'] );
                             }
                         );
                     }

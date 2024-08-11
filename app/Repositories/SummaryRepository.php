@@ -37,7 +37,7 @@ class SummaryRepository {
         /**
          * @var \FormGent\App\Form\Fields\Field $field_handler
          */
-        $field_handler = formgent_singleton( $field_handlers[ $field_type ] );
+        $field_handler = formgent_singleton( $field_handlers[ $field_type ]['class'] );
 
         return $field_handler->get_summary( $form, $field, $page, $per_page );
     }

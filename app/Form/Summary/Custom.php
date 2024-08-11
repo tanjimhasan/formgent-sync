@@ -16,7 +16,7 @@ trait Custom {
     }
 
     protected function get_answers( stdClass $form, array $field ) {
-        return $this->query( $form->id, $field['id'], $field['field_type'] )->select( 'value' )->get();
+        return $this->query( $form->ID, $field['id'], $field['field_type'] )->select( 'value' )->get();
     }
 
     protected function get_field_summary( stdClass $form, array $field ) {

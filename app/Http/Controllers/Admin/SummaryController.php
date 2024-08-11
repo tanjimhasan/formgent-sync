@@ -24,7 +24,7 @@ class SummaryController extends Controller {
         $validator->validate(
             [
                 'id'         => 'required|numeric',
-                'field_id'   => 'required|uuid',
+                'field_id'   => 'required|string',
                 'field_type' => 'required|string'
             ]
         );
