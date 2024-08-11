@@ -102,7 +102,7 @@ export default function Table() {
 
 	// Fetch Responses
 	function fetchResponse( page ) {
-		return resolveSelect( 'formgent' ).getSingleFormResponse(
+		return resolveSelect( 'formgent' ).getResponseForm(
 			page?.current || pagination.current_page,
 			10,
 			searchItem,
@@ -768,6 +768,7 @@ export default function Table() {
 	}, [ selected_fields ] );
 
 	useEffect( () => {
+		console.log( 'Changed visibleColumns', visibleColumns );
 		if ( isInitialRender.current ) {
 			isInitialRender.current = false;
 		} else {
@@ -795,7 +796,6 @@ export default function Table() {
 	}, [ searchItem, readStatus, orderType ] );
 
 	useEffect( () => {
-		// handleTableChange();
 		setCustomColumns( defaultColumns );
 	}, [] );
 

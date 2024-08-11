@@ -31,7 +31,7 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSingleFormResponse(
+	*getResponseForm(
 		currentPage = '1',
 		perPage = '10',
 		searchItem = '',
