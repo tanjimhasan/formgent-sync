@@ -44,7 +44,6 @@ export default function Table() {
 	const [ responseNotes, setResponseNotes ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
-	// const [ starredItems, setStarredItems ] = useState( {} );
 	const [ readStatus, setReadStatus ] = useState( 0 );
 	const [ orderType, setOrderType ] = useState( 'asc' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
@@ -66,6 +65,9 @@ export default function Table() {
 		starredChangeRequest,
 		starredChangeSuccess,
 		starredChangeError,
+		readStatusChangeRequest,
+		readStatusChangeSuccess,
+		readStatusChangeError,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -80,6 +82,8 @@ export default function Table() {
 		isLoading,
 		starredItems,
 		isStarredChanging,
+		readStatusItems,
+		isReadStatusChanging,
 		fields,
 		selected_fields,
 		single_response,
@@ -231,8 +235,6 @@ export default function Table() {
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus, source ) {
-		console.log( 'handleStarred : ', id, isStarredStatus, source );
-
 		if ( isStarredChanging ) return;
 
 		starredChangeRequest();
@@ -255,16 +257,24 @@ export default function Table() {
 
 	// handleRead
 	async function handleRead( id, isReadStatus, source ) {
-		const reverseReadStatus = isReadStatus ? 0 : 1;
+		if ( isReadStatusChanging ) return;
+
+		readStatusChangeRequest();
+
+		const reverseReadStatus = isReadStatus === '1' ? 0 : 1;
+
 		const updateReadStatus = await patchData(
 			`admin/responses/${ id }/read/`,
 			{ is_read: reverseReadStatus }
 		);
 		if ( updateReadStatus ) {
+			readStatusChangeSuccess( id, reverseReadStatus );
+
 			if ( source === 'drawer' ) {
 				handleTableDrawer( id );
 			}
-			handleTableChange();
+		} else {
+			readStatusChangeError();
 		}
 	}
 
@@ -574,7 +584,7 @@ export default function Table() {
 			10,
 			searchItem,
 			parseInt( id ),
-			readStatus,
+			0,
 			orderType,
 			Date.now()
 		);
@@ -732,6 +742,7 @@ export default function Table() {
 		responses,
 		visibleColumns,
 		starredItems,
+		readStatusItems,
 		filteredData,
 	] );
 
@@ -750,7 +761,7 @@ export default function Table() {
 	useEffect( () => {
 		handleTableChange();
 		console.log( 'Changed chk' );
-	}, [ searchItem, readStatus, orderType ] );
+	}, [ searchItem, orderType ] );
 
 	useEffect( () => {
 		setTableDrawer( ( single_response && single_response[ 0 ] ) || null );
@@ -760,6 +771,7 @@ export default function Table() {
 		setFilteredData( responses );
 		responses?.forEach( ( response ) => {
 			starredChangeSuccess( response.id, response.is_starred );
+			readStatusChangeSuccess( response.id, response.is_read );
 		} );
 
 		console.log( 'response', responses );

@@ -155,10 +155,7 @@ export default function TableDrawer( props ) {
 				);
 			},
 			'read-unread': () => {
-				handleRead(
-					response.id,
-					response.is_read === '1' ? true : false
-				);
+				handleRead( response.id, response.is_read === '1' ? '1' : '0' );
 			},
 			delete: () => {
 				handleDelete( [ response.id ] );

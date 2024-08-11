@@ -6,7 +6,9 @@ const DEFAULT_STATE = {
 	isLoading: false,
 	isUpdatingForm: false,
 	isStarredChanging: false,
+	isReadStatusChanging: false,
 	starredItems: {},
+	readStatusItems: {},
 	pagination: {
 		current_page: '1',
 		total_pages: '1',
@@ -222,7 +224,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isStarredChanging: true,
 			};
 		case 'STARRED_CHANGE_SUCCESS':
-			console.log( 'STARRED_CHANGE_SUCCESS', action );
 			return {
 				...state,
 				starredItems: {
@@ -236,6 +237,26 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				error: error,
 				isStarredChanging: false,
+			};
+		case 'READ_STATUS_CHANGE_REQUEST':
+			return {
+				...state,
+				isReadStatusChanging: true,
+			};
+		case 'READ_STATUS_CHANGE_SUCCESS':
+			return {
+				...state,
+				readStatusItems: {
+					...state.readStatusItems,
+					[ action.id ]: String( action.status ),
+				},
+				isReadStatusChanging: false,
+			};
+		case 'READ_STATUS_CHANGE_ERROR':
+			return {
+				...state,
+				error: error,
+				isReadStatusChanging: false,
 			};
 		default:
 			return state;

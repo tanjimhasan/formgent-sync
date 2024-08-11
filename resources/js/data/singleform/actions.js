@@ -273,7 +273,6 @@ export const SingleFormActions = {
 	},
 
 	starredChangeSuccess: ( id, status ) => {
-		console.log( 'starredChangeSuccess', id, status );
 		return {
 			type: 'STARRED_CHANGE_SUCCESS',
 			id,
@@ -284,6 +283,27 @@ export const SingleFormActions = {
 	starredChangeError: ( error ) => {
 		return {
 			type: 'STARRED_CHANGE_ERROR',
+			error,
+		};
+	},
+
+	readStatusChangeRequest: () => {
+		return {
+			type: 'READ_STATUS_CHANGE_REQUEST',
+		};
+	},
+
+	readStatusChangeSuccess: ( id, status ) => {
+		return {
+			type: 'READ_STATUS_CHANGE_SUCCESS',
+			id,
+			status,
+		};
+	},
+
+	readStatusChangeError: ( error ) => {
+		return {
+			type: 'READ_STATUS_CHANGE_ERROR',
 			error,
 		};
 	},
