@@ -30,7 +30,9 @@
 		&__label {
 			display: flex;
 			gap: 6px;
-			font-size: 16px;
+			font-size: 14px;
+			color: var(--formgent-color-dark);
+			line-height: 16px;
 			&__required {
 				color: #f04;
 			}
@@ -53,7 +55,7 @@
 		}
 		&__sub-label {
 			font-size: 12px;
-			color: #666;
+			color: #747c89;
 		}
 	}
 }

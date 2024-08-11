@@ -16,6 +16,11 @@ export default function Edit( { attributes, setAttributes } ) {
 				onChange={ ( content ) => setAttributes( { label: content } ) }
 				placeholder={ __( 'Type your question' ) }
 			/>
+			{ attributes.required ? (
+				<span className="formgent-editor-block-list__single__label__required">
+					*
+				</span>
+			) : null }
 			<div className="formgent-editor-block-list__single__wrapper">
 				<input
 					className="formgent-editor-block-list__single__input"
