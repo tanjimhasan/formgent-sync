@@ -58,6 +58,12 @@
 	}
 }
 
+.formgent-editor-block-list__single__wrapper {
+	&.formgent-editor-block-list__single__phone {
+		flex-direction: row;
+	}
+}
+
 input.formgent-editor-block-list__single__input,
 textarea.formgent-editor-block-list__single__input {
 	height: 40px;

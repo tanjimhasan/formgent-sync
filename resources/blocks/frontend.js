@@ -3,6 +3,7 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
+import TomSelect from 'tom-select';
 
 const { callbacks } = store( 'formgent/form', {
 	actions: {
@@ -15,6 +16,22 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
+		},
+		updateDialCode: () => {
+			const element = getElement();
+			const context = getContext();
+			console.log(
+				element.ref.name,
+				element.ref.value,
+				context.data[ element.ref.name ].replace(
+					/\(\+\d+\)/,
+					element.ref.value
+				)
+			);
+			let parts = context.data[ element.ref.name ].split( ')' );
+			parts[ 0 ] = `(${ element.ref.value }`;
+			console.log( parts.join( ')' ) );
+			context.data[ element.ref.name ] = parts.join( ')' );
 		},
 	},
 	callbacks: {
@@ -72,6 +89,45 @@ const { callbacks } = store( 'formgent/form', {
 				event.preventDefault();
 				callbacks.submit( context, element );
 			} );
+		},
+		tomSelectInit: async () => {
+			const context = getContext();
+			const element = getElement();
+			try {
+			} catch ( error ) {}
+			const countryObject = await wp.apiFetch( {
+				path: '/formgent/countries',
+				method: 'GET',
+			} );
+			const flagUrl = countryObject.flag_url;
+			const countries = Object.entries( countryObject.countries ).map(
+				( [ key, value ] ) => {
+					return {
+						id: key,
+						img: `${ flagUrl }/${ key }.png`,
+						...value,
+					};
+				}
+			);
+			var control = new TomSelect( `#${ element.attributes.id }`, {
+				valueField: 'dial_code',
+				options: countries,
+				render: {
+					option: function ( data, escape ) {
+						return `
+							<div class="formgent-phone-dialer-option">
+								<img src="${ escape( data.img ) }" />
+								<span>${ escape( data.name ) }</span>
+							<div/>
+						`;
+					},
+					item: function ( data, escape ) {
+						return `<img src="${ escape( data.img ) }" />`;
+					},
+				},
+				create: false,
+			} );
+			control.setValue( '+880' );
 		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
