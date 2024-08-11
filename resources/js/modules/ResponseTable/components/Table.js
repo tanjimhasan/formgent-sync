@@ -71,6 +71,9 @@ export default function Table() {
 		responseDeleteRequest,
 		responseDeleteSuccess,
 		responseDeleteError,
+		responseColumnUpdateRequest,
+		responseColumnUpdateSuccess,
+		responseColumnUpdateError,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -88,6 +91,7 @@ export default function Table() {
 		readStatusItems,
 		isReadStatusChanging,
 		isResponseDeleting,
+		isResponseColumnUpdating,
 		fields,
 		selected_fields,
 		single_response,
@@ -729,16 +733,21 @@ export default function Table() {
 	// Handle Show/Hide Column
 	async function handleColumn() {
 		if ( ! fieldColumnHide ) {
+			if ( isResponseColumnUpdating ) return;
+
 			const updateColumn = await postData( 'admin/responses/fields', {
 				form_id: id,
 				field_ids: visibleColumns,
 			} );
 
 			if ( updateColumn ) {
+				responseColumnUpdateSuccess( visibleColumns );
 				resolveSelect( 'formgent' ).getSingleFormFields(
 					parseInt( id ),
 					visibleColumns
 				);
+			} else {
+				responseColumnUpdateError();
 			}
 		} else {
 			setHiddenColumns( [ ...hiddenColumns, fieldColumnHide ] );
@@ -770,8 +779,10 @@ export default function Table() {
 	useEffect( () => {
 		console.log( 'Changed visibleColumns', visibleColumns );
 		if ( isInitialRender.current ) {
+			console.log( 'Initial render' );
 			isInitialRender.current = false;
 		} else {
+			console.log( 'Not initial render' );
 			handleColumn();
 		}
 	}, [ visibleColumns ] );

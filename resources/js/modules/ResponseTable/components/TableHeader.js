@@ -55,6 +55,7 @@ export default function TableHeader( props ) {
 
 	// Handle column checkbox change
 	function handleColumnCheckbox( e, id ) {
+		console.log( 'handleColumnCheckbox', e.target.checked, id );
 		setVisibleColumns( ( prevState ) => {
 			if ( e.target.checked ) {
 				setFieldColumnHide( false );

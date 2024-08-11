@@ -327,4 +327,23 @@ export const SingleFormActions = {
 			error,
 		};
 	},
+
+	responseColumnUpdateRequest: () => {
+		return {
+			type: 'RESPONSE_COLUMN_UPDATE_REQUEST',
+		};
+	},
+
+	responseColumnUpdateSuccess: () => {
+		return {
+			type: 'RESPONSE_COLUMN_UPDATE_SUCCESS',
+		};
+	},
+
+	responseColumnUpdateError: ( error ) => {
+		return {
+			type: 'RESPONSE_COLUMN_UPDATE_ERROR',
+			error,
+		};
+	},
 };

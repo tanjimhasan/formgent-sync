@@ -7,6 +7,8 @@ const DEFAULT_STATE = {
 	isUpdatingForm: false,
 	isStarredChanging: false,
 	isReadStatusChanging: false,
+	isResponseDeleting: false,
+	isResponseColumnUpdating: false,
 	starredItems: {},
 	readStatusItems: {},
 	pagination: {
@@ -276,6 +278,23 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				error: error,
 				isResponseDeleting: false,
+			};
+		case 'RESPONSE_COLUMN_UPDATE_REQUEST':
+			return {
+				...state,
+				isResponseColumnUpdating: true,
+			};
+		case 'RESPONSE_COLUMN_UPDATE_SUCCESS':
+			console.log( 'RESPONSE_COLUMN_UPDATE_SUCCESS', action );
+			return {
+				...state,
+				isResponseColumnUpdating: false,
+			};
+		case 'RESPONSE_COLUMN_UPDATE_ERROR':
+			return {
+				...state,
+				error: error,
+				isResponseColumnUpdating: false,
 			};
 		default:
 			return state;
