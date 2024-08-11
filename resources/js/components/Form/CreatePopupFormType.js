@@ -21,7 +21,6 @@ export default function CreatePopupFormType() {
 	const [ selectedType, setSelectedType ] = useState( 'form' );
 
 	const handleFormTypeChange = ( { target: { value } } ) => {
-		console.log( 'Selected form type:', value );
 		setSelectedType( value );
 	};
 
