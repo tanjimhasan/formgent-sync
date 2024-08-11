@@ -41,7 +41,6 @@ export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ tableDrawer, setTableDrawer ] = useState( false );
-	const [ responseNotes, setResponseNotes ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ readStatus, setReadStatus ] = useState( 0 );
@@ -74,6 +73,10 @@ export default function Table() {
 		responseColumnUpdateRequest,
 		responseColumnUpdateSuccess,
 		responseColumnUpdateError,
+		responseNotesGet,
+		responseNotesAdd,
+		responseNotesUpdate,
+		responseNotesDelete,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -92,6 +95,7 @@ export default function Table() {
 		isReadStatusChanging,
 		isResponseDeleting,
 		isResponseColumnUpdating,
+		notes,
 		fields,
 		selected_fields,
 		single_response,
@@ -249,7 +253,10 @@ export default function Table() {
 		const getResponseNotes = await fetchData(
 			`admin/responses/notes?response_id=${ responseID }`
 		);
-		setResponseNotes( getResponseNotes.notes );
+
+		if ( getResponseNotes ) {
+			responseNotesGet( getResponseNotes.notes );
+		}
 	}
 
 	// handleStarred
@@ -724,7 +731,7 @@ export default function Table() {
 							return <div>{ answer.value }</div>;
 						}
 					}
-					return <div>No data</div>;
+					return <div>No data Found</div>;
 				},
 			};
 		} );
@@ -777,7 +784,6 @@ export default function Table() {
 	}, [ selected_fields ] );
 
 	useEffect( () => {
-		console.log( 'Changed visibleColumns', visibleColumns );
 		if ( isInitialRender.current ) {
 			console.log( 'Initial render' );
 			isInitialRender.current = false;
@@ -868,7 +874,10 @@ export default function Table() {
 				<TableDrawer
 					response={ tableDrawer }
 					handleTableDrawer={ handleTableDrawer }
-					responseNotes={ responseNotes }
+					notes={ notes }
+					responseNotesAdd={ responseNotesAdd }
+					responseNotesUpdate={ responseNotesUpdate }
+					responseNotesDelete={ responseNotesDelete }
 					setTableDrawer={ setTableDrawer }
 					pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }

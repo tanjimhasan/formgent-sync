@@ -346,4 +346,33 @@ export const SingleFormActions = {
 			error,
 		};
 	},
+
+	responseNotesGet: ( notes ) => {
+		return {
+			type: 'RESPONSE_NOTES_GET',
+			notes,
+		};
+	},
+
+	responseNotesAdd: ( note ) => {
+		return {
+			type: 'RESPONSE_NOTES_ADD',
+			note,
+		};
+	},
+
+	responseNotesUpdate: ( id, note ) => {
+		return {
+			type: 'RESPONSE_NOTES_UPDATE',
+			id,
+			note,
+		};
+	},
+
+	responseNotesDelete: ( id ) => {
+		return {
+			type: 'RESPONSE_NOTES_DELETE',
+			id,
+		};
+	},
 };

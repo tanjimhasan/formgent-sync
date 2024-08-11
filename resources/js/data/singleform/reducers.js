@@ -285,7 +285,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isResponseColumnUpdating: true,
 			};
 		case 'RESPONSE_COLUMN_UPDATE_SUCCESS':
-			console.log( 'RESPONSE_COLUMN_UPDATE_SUCCESS', action );
 			return {
 				...state,
 				isResponseColumnUpdating: false,
@@ -295,6 +294,25 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				error: error,
 				isResponseColumnUpdating: false,
+			};
+
+		case 'RESPONSE_NOTES_GET':
+			return {
+				...state,
+				notes: action.notes,
+			};
+		case 'RESPONSE_NOTES_ADD':
+			return {
+				...state,
+				notes: [ ...state.notes, action.note ],
+			};
+		case 'RESPONSE_NOTES_UPDATE':
+			return {
+				...state,
+			};
+		case 'RESPONSE_NOTES_DELETE':
+			return {
+				...state,
 			};
 		default:
 			return state;
