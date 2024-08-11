@@ -66,7 +66,7 @@ export const SingleFormResolvers = {
 		currentPage = '1',
 		searchItem,
 		formID,
-		readStatus,
+		readStatus = 0,
 		orderType,
 		timestamp = 0
 	) {

@@ -258,6 +258,25 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				error: error,
 				isReadStatusChanging: false,
 			};
+		case 'RESPONSE_DELETE_REQUEST':
+			return {
+				...state,
+				isResponseDeleting: true,
+			};
+		case 'RESPONSE_DELETE_SUCCESS':
+			return {
+				...state,
+				responses: state.responses.filter(
+					( response ) => ! action.ids.includes( response.id )
+				),
+				isResponseDeleting: false,
+			};
+		case 'RESPONSE_DELETE_ERROR':
+			return {
+				...state,
+				error: error,
+				isResponseDeleting: false,
+			};
 		default:
 			return state;
 	}

@@ -307,4 +307,24 @@ export const SingleFormActions = {
 			error,
 		};
 	},
+
+	responseDeleteRequest: () => {
+		return {
+			type: 'RESPONSE_DELETE_REQUEST',
+		};
+	},
+
+	responseDeleteSuccess: ( ids ) => {
+		return {
+			type: 'RESPONSE_DELETE_SUCCESS',
+			ids,
+		};
+	},
+
+	responseDeleteError: ( error ) => {
+		return {
+			type: 'RESPONSE_DELETE_ERROR',
+			error,
+		};
+	},
 };

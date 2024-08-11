@@ -68,6 +68,9 @@ export default function Table() {
 		readStatusChangeRequest,
 		readStatusChangeSuccess,
 		readStatusChangeError,
+		responseDeleteRequest,
+		responseDeleteSuccess,
+		responseDeleteError,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -84,6 +87,7 @@ export default function Table() {
 		isStarredChanging,
 		readStatusItems,
 		isReadStatusChanging,
+		isResponseDeleting,
 		fields,
 		selected_fields,
 		single_response,
@@ -567,6 +571,18 @@ export default function Table() {
 		},
 	];
 
+	function fetchResponse( page ) {
+		return resolveSelect( 'formgent' ).getSingleFormResponse(
+			page?.current || pagination.current_page,
+			10,
+			searchItem,
+			parseInt( id ),
+			readStatus,
+			orderType,
+			Date.now()
+		);
+	}
+
 	// Table Operations
 	const rowSelection = {
 		selectedRowKeys,
@@ -578,18 +594,10 @@ export default function Table() {
 	}
 
 	function handleTableChange( page ) {
-		updateCurrentResponsePage( page?.current );
-		resolveSelect( 'formgent' ).getSingleFormResponse(
-			page?.current || pagination.current_page,
-			10,
-			searchItem,
-			parseInt( id ),
-			0,
-			orderType,
-			Date.now()
-		);
 		setHiddenColumns( [] );
 		setFrozenColumns( [] );
+		updateCurrentResponsePage( page?.current );
+		fetchResponse( page );
 	}
 
 	function handleSearch( value ) {
@@ -606,6 +614,9 @@ export default function Table() {
 
 	// Handle Delete
 	async function handleDelete( ids, source ) {
+		if ( isResponseDeleting ) return;
+		responseDeleteRequest();
+
 		const deleteItems = source === 'drawer' ? ids : selectedRowKeys;
 		const deleteResponse = await deleteData(
 			addQueryArgs( `admin/responses?form_id=${ parseInt( id ) }`, {
@@ -615,8 +626,10 @@ export default function Table() {
 
 		if ( deleteResponse ) {
 			setTableDrawer( null );
-			handleTableChange();
 			setSelectedRowKeys( [] );
+			responseDeleteSuccess( deleteItems );
+		} else {
+			responseDeleteError();
 		}
 	}
 
