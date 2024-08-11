@@ -20,14 +20,6 @@ const controls = {
 		type: 'panel',
 		label: __( 'Basic info', 'formgent' ),
 		children: {
-			label: {
-				type: 'text',
-				label: __( 'Label', 'formgent' ),
-			},
-			sub_label: {
-				type: 'text',
-				label: __( 'Sub Label', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),

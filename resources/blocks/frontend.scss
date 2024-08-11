@@ -27,7 +27,7 @@
 				margin: 0;
 			}
 		}
-		&__label {
+		&__label-container {
 			display: flex;
 			gap: 6px;
 			font-size: 14px;
@@ -64,7 +64,7 @@ input.formgent-editor-block-list__single__input,
 textarea.formgent-editor-block-list__single__input {
 	height: 40px;
 	padding: 0 12px;
-	border: 1px solid var(--formgent-color-border-light);
+	border: 1px solid #d2d6db;
 	border-radius: 8px;
 	font-size: 14px;
 	background: transparent;

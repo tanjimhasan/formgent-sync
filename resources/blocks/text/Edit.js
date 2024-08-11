@@ -9,18 +9,24 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div className="formgent-editor-block-list__single">
-			<RichText
-				className={ `formgent-editor-block-list__single__label formgent-label-align-${ attributes.label_alignment }` }
-				tagName="label"
-				value={ attributes.label }
-				onChange={ ( content ) => setAttributes( { label: content } ) }
-				placeholder={ __( 'Type your question' ) }
-			/>
-			{ attributes.required ? (
-				<span className="formgent-editor-block-list__single__label__required">
-					*
-				</span>
-			) : null }
+			<div
+				className={ `formgent-editor-block-list__single__label-container label-align-${ attributes.label_alignment }` }
+			>
+				<RichText
+					className={ `formgent-editor-block-list__single__label formgent-label-align-${ attributes.label_alignment }` }
+					tagName="label"
+					value={ attributes.label }
+					onChange={ ( content ) =>
+						setAttributes( { label: content } )
+					}
+					placeholder={ __( 'Type your question' ) }
+				/>
+				{ attributes.required ? (
+					<span className="formgent-editor-block-list__single__label__required">
+						*
+					</span>
+				) : null }
+			</div>
 			<div className="formgent-editor-block-list__single__wrapper">
 				<input
 					className="formgent-editor-block-list__single__input"
