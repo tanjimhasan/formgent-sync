@@ -20,14 +20,11 @@ const { callbacks } = store( 'formgent/form', {
 		updateGdpr: () => {
 			const element = getElement();
 			const context = getContext();
-			if (
+			context.data[ element.ref.name ] =
 				context.data[ element.ref.name ] === '' ||
 				context.data[ element.ref.name ] === 0
-			) {
-				context.data[ element.ref.name ] = 1;
-			} else {
-				context.data[ element.ref.name ] = 0;
-			}
+					? 1
+					: 0;
 		},
 		updatePhoneNumber: () => {
 			const element = getElement();
@@ -37,7 +34,8 @@ const { callbacks } = store( 'formgent/form', {
 		updateDialCode: () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ 'phone-number' ].dialCode = element.ref.value;
+			const name = element.ref.name.replace( '-dial-code', '' );
+			context.data[ name ].dialCode = element.ref.value;
 		},
 	},
 	callbacks: {
@@ -163,10 +161,6 @@ const { callbacks } = store( 'formgent/form', {
 					continue;
 				}
 				const value = context.data[ name ];
-				console.log(
-					context.blocksSettings[ name ].field_type,
-					context.data[ name ]
-				);
 				switch ( context.blocksSettings[ name ].field_type ) {
 					case 'number':
 						formData[ name ] = parseInt( value, 10 );
@@ -177,7 +171,6 @@ const { callbacks } = store( 'formgent/form', {
 						] = `(${ value.dialCode })${ value.number }`;
 						break;
 					case 'gdpr':
-						console.log( 'ck', typeof value.toString() );
 						formData[ name ] = value.toString();
 						break;
 					default:
