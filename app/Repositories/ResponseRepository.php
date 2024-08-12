@@ -108,18 +108,16 @@ class ResponseRepository {
 
         $responses = $responses_query->pagination( 1, $dto->get_page(), 1, 1 );
 
-        // if ( ! empty( $responses[0] ) ) {            
-        //     $data = formgent_get_form_field_settings( parse_blocks( get_post( $dto->get_form_id() )->post_content ) );
+        if ( ! empty( $responses[0] ) ) {            
+            $data = formgent_get_form_field_settings( parse_blocks( get_post( $dto->get_form_id() )->post_content ) );
 
-        //     $responses[0]->answers = array_map(
-        //         function( $answer ) {
-        //             error_log( print_r( $answer, true ) );
-        //             return $answer;
-        //         }, $responses[0]->answers
-        //     );
-            
-        //     error_log( print_r( $data, true ) );
-        // }
+            $responses[0]->answers = array_map(
+                function( $answer ) use( $data ) {
+                    $answer->label = isset( $data[$answer->field_name]['label'] ) ? $data[$answer->field_name]['label'] : esc_html__( "Unknown", "formgent" );
+                    return $answer;
+                }, $responses[0]->answers
+            );
+        }
 
         return [
             'total'     => $count_query->count( 'DISTINCT response.id' ),
