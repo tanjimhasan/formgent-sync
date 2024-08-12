@@ -173,6 +173,9 @@ class ResponseController extends Controller {
 
         return Response::send(
             [
+                'form'            => [
+                    'title' => $form->post_title
+                ],
                 'selected_fields' => is_array( $selected_fields ) ? $selected_fields : [],
                 'fields'          => $fields
             ]
