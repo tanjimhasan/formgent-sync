@@ -70,7 +70,6 @@ export const SingleFormResolvers = {
 		orderType,
 		timestamp = 0
 	) {
-		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchSingleResponse(
 				'formgent/admin/responses/single',
@@ -85,10 +84,8 @@ export const SingleFormResolvers = {
 				single_response: data.responses,
 				single_response_pagination: data.pagination,
 			} );
-			yield SingleFormActions.isSingleFormFetchLoading( false );
 		} catch ( error ) {
 			yield SingleFormActions.fetchSingleFormError( error );
-			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
 	*getSingleFormFields( formID ) {

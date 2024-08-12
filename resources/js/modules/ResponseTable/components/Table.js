@@ -916,6 +916,7 @@ export default function Table() {
 				<TableDrawer
 					response={ tableDrawer }
 					handleTableDrawer={ handleTableDrawer }
+					setSelectedRowKeys={ setSelectedRowKeys }
 					notes={ notes }
 					addResponseNotes={ addResponseNotes }
 					updateResponseNotes={ updateResponseNotes }

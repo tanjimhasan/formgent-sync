@@ -25,6 +25,7 @@ export default function TableDrawer( props ) {
 	const {
 		response,
 		handleTableDrawer,
+		setSelectedRowKeys,
 		notes,
 		addResponseNotes,
 		updateResponseNotes,
@@ -296,6 +297,7 @@ export default function TableDrawer( props ) {
 						className="response-table__drawer__close"
 						onClick={ () => {
 							setTableDrawer( false );
+							setSelectedRowKeys( [] );
 						} }
 					>
 						<ReactSVG width="14" height="14" src={ closeIcon } />
