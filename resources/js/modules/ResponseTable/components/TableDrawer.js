@@ -121,7 +121,7 @@ export default function TableDrawer( props ) {
 		}
 	}
 
-	async function handleNoteEdit( id, value ) {
+	async function handleNoteEdit( id ) {
 		const updateNote = await patchData(
 			`admin/responses/notes/${ Number( id ) }`,
 			{
@@ -202,7 +202,7 @@ export default function TableDrawer( props ) {
 			setEnableSubmissionInput( false );
 		} else {
 			// Handle the update of an existing note
-			handleNoteEdit( enableSubmissionInput, currentNote );
+			handleNoteEdit( enableSubmissionInput );
 			setEnableSubmissionInput( false );
 		}
 	}
@@ -509,7 +509,7 @@ export default function TableDrawer( props ) {
 										Username
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.user_name || 'Default User' }
+										{ response.username || 'Default User' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
