@@ -999,7 +999,7 @@ a.formgent-btn-disabled {
 	}
 }
 .formgent-form-filter__by-time__options {
-	width: 290px;
+	width: 350px;
 	.formgent-form-filter-select-timeframe {
 		background: var(--formgent-color-bg-light);
 		margin-top: 15px;
@@ -1104,6 +1104,17 @@ a.formgent-btn-disabled {
 		background: var(--formgent-color-primary);
 		.ant-switch-handle {
 			inset-inline-start: calc(100% - 18px);
+		}
+		&:hover {
+			background: var(--formgent-color-primary);
+		}
+	}
+}
+
+.formgent-form-filter-select-dates {
+	.ant-picker-input {
+		input {
+			text-align: center;
 		}
 	}
 }

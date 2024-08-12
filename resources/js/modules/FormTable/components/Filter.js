@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { useDispatch, resolveSelect } from '@wordpress/data';
 import { AntSelect } from '@formgent/components';
 import { FilterStyle } from './style';
@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
 import chevronDown from '@icon/chevron-down.svg';
+import { useDebounce } from '@formgent/hooks/useDebounce';
 dayjs.extend( customParseFormat );
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -20,6 +21,8 @@ export default function Filter( { pagination } ) {
 	const [ formType, setFormType ] = useState( 'all' );
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
 	const [ formDateType, setFormDateType ] = useState( 'all' );
+	const [ searchInput, setSearchInput ] = useState( '' );
+	const debouncedSearchText = useDebounce( searchInput, 250 );
 
 	const {
 		updateFormSortBy,
@@ -147,7 +150,10 @@ export default function Filter( { pagination } ) {
 
 	const handleSearchQuery = ( e ) => {
 		const query = e.target.value;
-		updateFormSearchQuery( query );
+		setSearchInput( query );
+	};
+	useEffect( () => {
+		updateFormSearchQuery( debouncedSearchText );
 		resolveSelect( 'formgent' ).getForms(
 			pagination.current_page,
 			pagination.per_page,
@@ -156,9 +162,9 @@ export default function Filter( { pagination } ) {
 			formDateType,
 			null,
 			null,
-			query
+			debouncedSearchText
 		);
-	};
+	}, [ debouncedSearchText ] );
 
 	const handleFormSorting = ( { key } ) => {
 		setDefaultSorting( key );

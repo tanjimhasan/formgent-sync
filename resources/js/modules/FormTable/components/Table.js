@@ -49,9 +49,6 @@ export default function Table( props ) {
 
 	const [ filteredForms, setFilteredForms ] = useState( forms );
 
-	console.log( 'f', forms );
-	console.log( 'ff', filteredForms );
-
 	const rowSelection = {
 		selectedRowKeys,
 		onChange: handleRowSelection,
