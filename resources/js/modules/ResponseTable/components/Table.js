@@ -23,6 +23,7 @@ import { TableStyle } from './style';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
 import calendarIcon from '@icon/calendar.svg';
+import checkIcon from '@icon/check.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import csvIcon from '@icon/csv.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
@@ -194,8 +195,18 @@ export default function Table() {
 				setOrderType( 'desc' );
 			},
 			freeze: () => {
+				// setFrozenColumns( ( prevFrozenColumns ) => {
+				// 	return [ ...prevFrozenColumns, dropdownId ];
+				// } );
+
 				setFrozenColumns( ( prevFrozenColumns ) => {
-					return [ ...prevFrozenColumns, dropdownId ];
+					if ( prevFrozenColumns.includes( dropdownId ) ) {
+						return prevFrozenColumns.filter(
+							( id ) => id !== dropdownId
+						);
+					} else {
+						return [ dropdownId ];
+					}
 				} );
 			},
 			hide: () => {
@@ -411,12 +422,21 @@ export default function Table() {
 	];
 
 	// Sort Items Data
-	const sortItems = [
+	const sortItems = ( dropdownId ) => [
 		{
 			label: (
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsUpIcon } />
 					Ascending
+					{ orderType === 'asc' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'ascending',
@@ -426,6 +446,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsDownIcon } />
 					Descending
+					{ orderType !== 'asc' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'descending',
@@ -435,6 +464,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ pinIcon } />
 					Freeze Column
+					{ frozenColumns.includes( dropdownId ) && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'freeze',
@@ -459,7 +497,7 @@ export default function Table() {
 				<div className="formgent-column-action formgent-column-action__id">
 					<AntDropdown
 						menu={ {
-							items: selectItems,
+							items: sortItems( 'id' ),
 							onClick: handleSelectItems,
 						} }
 						trigger={ [ 'click' ] }
@@ -514,7 +552,7 @@ export default function Table() {
 					</span>
 					<AntDropdown
 						menu={ {
-							items: sortItems,
+							items: sortItems( 'created_at' ),
 							onClick: ( item ) =>
 								handleSortby( item, 'created_at' ),
 						} }
@@ -570,7 +608,7 @@ export default function Table() {
 					</span>
 					<AntDropdown
 						menu={ {
-							items: sortItems,
+							items: sortItems( 'user_email' ),
 							onClick: ( item ) =>
 								handleSortby( item, 'user_email' ),
 						} }
@@ -697,7 +735,7 @@ export default function Table() {
 						</span>
 						<AntDropdown
 							menu={ {
-								items: sortItems,
+								items: sortItems( fieldId ),
 								onClick: ( item ) =>
 									handleSortby( item, fieldId ),
 							} }
@@ -765,7 +803,19 @@ export default function Table() {
 		);
 		const allColumns = [ ...defaultColumns, ...generatedColumns ];
 
-		setCustomColumns( allColumns );
+		setCustomColumns(
+			allColumns.map( ( col ) => {
+				return {
+					...col,
+					fixed: frozenColumns.includes( col.dataIndex )
+						? 'left'
+						: null,
+					hidden: hiddenColumns.includes( col.key ),
+				};
+			} )
+		);
+
+		// setCustomColumns( allColumns );
 	}, [
 		selected_fields,
 		responses,
@@ -773,6 +823,8 @@ export default function Table() {
 		starredItems,
 		readStatusItems,
 		filteredData,
+		frozenColumns,
+		hiddenColumns,
 	] );
 
 	useEffect( () => {

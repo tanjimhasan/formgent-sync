@@ -726,12 +726,26 @@ a.formgent-btn-disabled {
 }
 .ant-dropdown-menu-title-content {
 	.dropdown-header-content {
+		position: relative;
 		display: flex;
 		gap: 12px;
 		align-items: center;
 		font-size: 14px;
 		font-weight: 500;
 		color: var(--formgent-color-text);
+		.active-icon {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 20px;
+			height: 20px;
+			border-radius: 100%;
+			background: var(--formgent-color-primary);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 }
 .ant-dropdown-menu-item-group-title {
