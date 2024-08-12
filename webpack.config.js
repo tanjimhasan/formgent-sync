@@ -27,6 +27,7 @@ const resolve = {
 		'@formgent': path.resolve( __dirname, 'resources/js' ),
 		'@icon': path.resolve( __dirname, 'resources/svg/icons' ),
 		'@assets': path.resolve( __dirname, 'assets' ),
+		'@image': path.resolve( __dirname, 'resources/images' ),
 	},
 };
 
