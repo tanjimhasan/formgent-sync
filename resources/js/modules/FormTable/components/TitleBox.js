@@ -1,5 +1,6 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
+import { Button } from '@wordpress/components';
 import { AntInput } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
 import ReactSVG from 'react-inlinesvg';
@@ -25,10 +26,6 @@ export default function TItleBox( props ) {
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
-	}, [] );
-
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
 	}, [] );
 
 	const { isTitleUpdating } = false;
@@ -109,9 +106,13 @@ export default function TItleBox( props ) {
 						<ReactSVG src={ formIcon } />
 					</div>
 					<div className="formgent-titleBox-text">
-						<a href={ `${ form_edit_url }&post=${ id }` }>
+						<Link
+							onClick={ () => {
+								window.location.href = `${ form_edit_url }&post=${ id }`;
+							} }
+						>
 							<span className="formgent-title">{ title }</span>
-						</a>
+						</Link>
 						<ul className="formgent-titleBox-meta">
 							<li className="formgent-titleBox-meta__id">
 								{ __( 'ID', 'formgent' ) } #{ id }
@@ -127,29 +128,31 @@ export default function TItleBox( props ) {
 						</ul>
 						<ul className="formgent-form-action">
 							<li className="formgent-form-action__items">
-								<a
-									href={ `${ form_edit_url }&post=${ id }` }
+								<Link
+									onClick={ () => {
+										window.location.href = `${ form_edit_url }&post=${ id }`;
+									} }
 									className="formgent-btn formgent-btn-xxs formgent-btn-light-gray"
 								>
 									{ __( 'Edit', 'formgent' ) }
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href={ `#/forms/${ id }/results/responses` }
+								<Link
+									to={ `/forms/${ id }/results/responses` }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 								>
 									{ __( 'All Responses', 'formgent' ) }
-								</a>
+								</Link>
 							</li>
 							<li>
-								<a
-									href="#"
+								<Link
+									//to={`/forms/${ id }/results/responses`}
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 									target="_blank"
 								>
 									{ __( 'Preview', 'formgent' ) }
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</div>

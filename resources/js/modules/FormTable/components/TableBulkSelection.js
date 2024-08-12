@@ -97,7 +97,8 @@ export default function TableBulkSelection( props ) {
 					className="formgent-btn-bulk-status"
 					onClick={ handleMoreBulkAction }
 				>
-					<ReactSVG src={ toggleIcon } /> Status
+					<ReactSVG src={ toggleIcon } />{ ' ' }
+					{ __( 'Status', 'formgent' ) }
 				</AntButton>
 				{ isMoreBulkActionOpen && (
 					<ul
@@ -135,13 +136,14 @@ export default function TableBulkSelection( props ) {
 				onClick={ handleDeleteModalAlert }
 			>
 				<ReactSVG src={ trashIcon } />
-				Delete
+				{ __( 'Delete', 'formgent' ) }
 			</AntButton>
 			<span className="formgent-bulk-selection__text">
-				<strong>{ selectedRowKeys.length }</strong> Forms Selected
+				<strong>{ selectedRowKeys.length }</strong>{ ' ' }
+				{ __( 'Forms Selected', 'formgent' ) }
 			</span>
 			<a className="formgent-clear-bulk" onClick={ handleClearSelection }>
-				Clear Selection
+				{ __( 'Clear Selection', 'formgent' ) }
 			</a>
 
 			{ isDeleteModalOpen && (

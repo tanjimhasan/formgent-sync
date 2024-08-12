@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useDispatch, resolveSelect } from '@wordpress/data';
 import { AntSelect } from '@formgent/components';
 import { FilterStyle } from './style';
@@ -12,17 +12,20 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
 import chevronDown from '@icon/chevron-down.svg';
 import { useDebounce } from '@formgent/hooks/useDebounce';
+import { __ } from '@wordpress/i18n';
 dayjs.extend( customParseFormat );
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
-export default function Filter( { pagination } ) {
+export default function Filter( props ) {
+	const { pagination, isLoading } = props;
 	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
 	const [ formType, setFormType ] = useState( 'all' );
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
 	const [ formDateType, setFormDateType ] = useState( 'all' );
 	const [ searchInput, setSearchInput ] = useState( '' );
 	const debouncedSearchText = useDebounce( searchInput, 250 );
+	const isFirstRender = useRef( true );
 
 	const {
 		updateFormSortBy,
@@ -44,11 +47,11 @@ export default function Filter( { pagination } ) {
 	const formTypes = [
 		{
 			value: 'all',
-			label: 'All Forms',
+			label: __( 'All Forms', 'formgent' ),
 		},
 		{
 			value: 'general',
-			label: 'General',
+			label: __( 'General', 'formgent' ),
 		},
 	];
 
@@ -63,7 +66,8 @@ export default function Filter( { pagination } ) {
 			key: 'date_created',
 			label: (
 				<span>
-					Date Created { handleCheckedIcon( 'date_created' ) }
+					{ __( 'Date Created', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'date_created' ) }
 				</span>
 			),
 		},
@@ -71,7 +75,8 @@ export default function Filter( { pagination } ) {
 			key: 'last_modified',
 			label: (
 				<span>
-					Last Modified { handleCheckedIcon( 'last_modified' ) }
+					{ __( 'Last Modified', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'last_modified' ) }
 				</span>
 			),
 		},
@@ -79,7 +84,8 @@ export default function Filter( { pagination } ) {
 			key: 'alphabetical',
 			label: (
 				<span>
-					Alphabetical { handleCheckedIcon( 'alphabetical' ) }
+					{ __( 'Alphabetical', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'alphabetical' ) }
 				</span>
 			),
 		},
@@ -87,48 +93,64 @@ export default function Filter( { pagination } ) {
 			key: 'last_submission',
 			label: (
 				<span>
-					Last Submission { handleCheckedIcon( 'last_submission' ) }
+					{ __( 'Last Submission', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'last_submission' ) }
 				</span>
 			),
 		},
 		{
 			key: 'unread',
-			label: <span>Unread { handleCheckedIcon( 'unread' ) }</span>,
+			label: (
+				<span>
+					{ __( 'Unread', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'unread' ) }
+				</span>
+			),
 		},
 		{
 			key: 'publish',
-			label: <span>Active { handleCheckedIcon( 'publish' ) }</span>,
+			label: (
+				<span>
+					{ __( 'Active', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'publish' ) }
+				</span>
+			),
 		},
 		{
 			key: 'draft',
-			label: <span>Inactive { handleCheckedIcon( 'draft' ) }</span>,
+			label: (
+				<span>
+					{ __( 'Inactive', 'formgent' ) }{ ' ' }
+					{ handleCheckedIcon( 'draft' ) }
+				</span>
+			),
 		},
 	];
 
 	const formDateSorting = [
 		{
 			key: 'all',
-			label: <span>All</span>,
+			label: <span>{ __( 'All', 'formgent' ) }</span>,
 		},
 		{
 			key: 'today',
-			label: <span>Today</span>,
+			label: <span>{ __( 'Today', 'formgent' ) }</span>,
 		},
 		{
 			key: 'yesterday',
-			label: <span>Yesterday</span>,
+			label: <span>{ __( 'Yesterday', 'formgent' ) }</span>,
 		},
 		{
 			key: 'last_week',
-			label: <span>Last Week</span>,
+			label: <span>{ __( 'Last Week', 'formgent' ) }</span>,
 		},
 		{
 			key: 'last_month',
-			label: <span>Last Month</span>,
+			label: <span>{ __( 'Last Month', 'formgent' ) }</span>,
 		},
 		{
 			key: 'date_frame',
-			label: <span>Custom</span>,
+			label: <span>{ __( 'Custom', 'formgent' ) }</span>,
 		},
 	];
 
@@ -153,6 +175,11 @@ export default function Filter( { pagination } ) {
 		setSearchInput( query );
 	};
 	useEffect( () => {
+		if ( isFirstRender.current ) {
+			isFirstRender.current = false;
+			return;
+		}
+
 		updateFormSearchQuery( debouncedSearchText );
 		resolveSelect( 'formgent' ).getForms(
 			pagination.current_page,
@@ -260,7 +287,12 @@ export default function Filter( { pagination } ) {
 								{ toggleTimepicker && (
 									<div className="formgent-form-filter-by-date-range">
 										<div className="formgent-form-filter-select-timeframe">
-											<span>Select a Timeframe</span>
+											<span>
+												{ __(
+													'Select a Timeframe',
+													'formgent'
+												) }
+											</span>
 											<div className="formgent-form-filter-select-dates">
 												<RangePicker
 													defaultValue={ [
@@ -284,7 +316,8 @@ export default function Filter( { pagination } ) {
 						) }
 					>
 						<span className="formgent-form-filter__by-time__trigger">
-							<ReactSVG src={ sliderIcon } /> Filter
+							<ReactSVG src={ sliderIcon } />{ ' ' }
+							{ __( 'Filter', 'formgent' ) }
 						</span>
 					</Dropdown>
 				</div>

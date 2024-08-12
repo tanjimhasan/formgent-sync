@@ -1,4 +1,4 @@
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
 import patchData from '@formgent/helper/patchData';
 import { __ } from '@wordpress/i18n';
@@ -6,15 +6,11 @@ import { useState, useEffect } from 'react';
 import { Switch } from 'antd';
 
 export default function FormTableStatus( props ) {
-	const { form } = props;
+	const { form, isStatusUpdating } = props;
 	const { id, status } = form;
 	const [ currentStatus, setCurrentStatus ] = useState( status );
 	const { updateStatusRequest, updateStatusSuccess, updateStatusError } =
 		useDispatch( 'formgent' );
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
-	}, [] );
-	const { isStatusUpdating } = FormReducer;
 
 	async function handleUpdateFormStatus( newStatus ) {
 		setCurrentStatus( newStatus ? 'publish' : 'draft' );
@@ -36,10 +32,14 @@ export default function FormTableStatus( props ) {
 		}
 	}
 
+	useEffect( () => {
+		setCurrentStatus( status );
+	}, [ status ] );
+
 	return (
 		<div className="formgent-toggle">
 			<Switch
-				defaultChecked={ currentStatus === 'publish' }
+				checked={ currentStatus === 'publish' }
 				onChange={ ( isChecked ) => {
 					handleUpdateFormStatus( isChecked );
 				} }

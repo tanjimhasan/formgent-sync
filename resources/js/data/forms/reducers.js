@@ -268,6 +268,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				type: formType,
+				isLoading: true,
 			};
 		default:
 			return state;

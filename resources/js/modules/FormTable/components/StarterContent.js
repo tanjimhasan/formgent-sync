@@ -5,6 +5,7 @@ import aiIcon from '@icon/ai-icon.svg';
 import templateIcon from '@icon/template-icon.svg';
 import plusIcon from '@icon/plus.svg';
 import { StarterContentStyle } from './style';
+import { __, sprintf } from '@wordpress/i18n';
 
 export default function StarterContent() {
 	const { updateCreatePopUp } = useDispatch( 'formgent' );
@@ -13,19 +14,19 @@ export default function StarterContent() {
 		{
 			type: 'default',
 			icon: plusIcon,
-			title: 'Start from scratch',
+			title: __( 'Start from scratch', 'formgent' ),
 			coming_soon: false,
 		},
 		{
 			type: 'template',
 			icon: templateIcon,
-			title: 'Use a template',
+			title: __( 'Use a template', 'formgent' ),
 			coming_soon: false,
 		},
 		{
 			type: 'ai',
 			icon: aiIcon,
-			title: 'Create with AI',
+			title: __( 'Create with AI', 'formgent' ),
 			coming_soon: true,
 		},
 	];
@@ -40,11 +41,18 @@ export default function StarterContent() {
 		<StarterContentStyle className="formgent-starter-content">
 			<div className="formgent-starter-content__info">
 				<img src={ emptyGif } alt="" />
-				<h2>You don't have any form</h2>
-				<p>
-					Create a new form from scratch or use a <br /> template to
-					get started.
-				</p>
+				<h2>{ __( "You don't have any form", 'formgent' ) }</h2>
+				<p
+					dangerouslySetInnerHTML={ {
+						__html: sprintf(
+							__(
+								'Create a new form from scratch or use a %s template to get started.',
+								'formgent'
+							),
+							`<br />`
+						),
+					} }
+				></p>
 			</div>
 			<div className="formgent-starter-cards">
 				{ starterCardItem.map( ( item, index ) => {
@@ -62,7 +70,7 @@ export default function StarterContent() {
 							</h2>
 							{ item.coming_soon && (
 								<span className="formgent-starter-card__badge">
-									Coming soon
+									{ __( 'Coming soon', 'formgent' ) }
 								</span>
 							) }
 						</div>

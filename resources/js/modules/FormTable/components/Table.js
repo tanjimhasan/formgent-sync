@@ -45,6 +45,7 @@ export default function Table( props ) {
 		isFormDeleting,
 		sortBy,
 		dateType,
+		isStatusUpdating,
 	} = props;
 
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -239,6 +240,7 @@ export default function Table( props ) {
 					<FormTableStatus
 						form={ record }
 						setEditableForm={ setEditableForm }
+						isStatusUpdating={ isStatusUpdating }
 					/>
 				</div>
 			),
@@ -257,6 +259,7 @@ export default function Table( props ) {
 							form={ record }
 							editableForm={ editableForm }
 							setEditableForm={ setEditableForm }
+							isFormDeleting={ isFormDeleting }
 						/>
 					</div>
 				);
@@ -288,12 +291,6 @@ export default function Table( props ) {
 		} catch ( error ) {
 			bulkStatusUpdateError( error );
 		}
-		resolveSelect( 'formgent' ).getForms(
-			pagination.current_page,
-			pagination.per_page,
-			Date.now(),
-			sortBy
-		);
 	}
 
 	//custom table pagination
@@ -358,7 +355,11 @@ export default function Table( props ) {
 							position: [ 'none' ],
 						} }
 						locale={ {
-							emptyText: <Empty description="No Data"></Empty>,
+							emptyText: (
+								<Empty
+									description={ __( 'No Data', 'formgent' ) }
+								></Empty>
+							),
 						} }
 						onChange={ handleFormTableChange }
 					/>
