@@ -54,7 +54,7 @@ class CreateDB implements Migration {
             `response_id` BIGINT UNSIGNED NOT NULL,
             `form_id` BIGINT UNSIGNED NOT NULL,
             `parent_id` BIGINT UNSIGNED NULL,
-            `field_id` VARCHAR(50) NOT NULL,
+            `field_name` VARCHAR(50) NOT NULL,
             `field_type` VARCHAR(50) NOT NULL,
             `value` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -65,8 +65,12 @@ class CreateDB implements Migration {
             ON DELETE CASCADE,
             CONSTRAINT fk_{$db_prefix}answers_response_id
             FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
+            ON DELETE CASCADE,
+            CONSTRAINT fk_{$db_prefix}answers_parent_id
+            FOREIGN KEY (parent_id) REFERENCES {$db_prefix}answers(id)
             ON DELETE CASCADE
         ) {$charset_collate};
+
 
         -- -----------------------------------------------------
         -- Table notes
