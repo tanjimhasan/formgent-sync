@@ -69,13 +69,12 @@ export default function Table() {
 		responseDeleteRequest,
 		responseDeleteSuccess,
 		responseDeleteError,
-		responseColumnUpdateRequest,
 		responseColumnUpdateSuccess,
 		responseColumnUpdateError,
-		responseNotesGet,
-		responseNotesAdd,
-		responseNotesUpdate,
-		responseNotesDelete,
+		getResponseNotes,
+		addResponseNotes,
+		updateResponseNotes,
+		deleteResponseNotes,
 	} = useDispatch( 'formgent' );
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
@@ -247,12 +246,12 @@ export default function Table() {
 
 	// handleResponseNotes
 	async function handleResponseNotes( responseID ) {
-		const getResponseNotes = await fetchData(
+		const fetchResponseNotes = await fetchData(
 			`admin/responses/notes?response_id=${ responseID }`
 		);
 
-		if ( getResponseNotes ) {
-			responseNotesGet( getResponseNotes.notes );
+		if ( fetchResponseNotes ) {
+			getResponseNotes( fetchResponseNotes.notes );
 		}
 	}
 
@@ -863,9 +862,9 @@ export default function Table() {
 					response={ tableDrawer }
 					handleTableDrawer={ handleTableDrawer }
 					notes={ notes }
-					responseNotesAdd={ responseNotesAdd }
-					responseNotesUpdate={ responseNotesUpdate }
-					responseNotesDelete={ responseNotesDelete }
+					addResponseNotes={ addResponseNotes }
+					updateResponseNotes={ updateResponseNotes }
+					deleteResponseNotes={ deleteResponseNotes }
 					setTableDrawer={ setTableDrawer }
 					pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }

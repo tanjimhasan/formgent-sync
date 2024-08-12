@@ -347,31 +347,31 @@ export const SingleFormActions = {
 		};
 	},
 
-	responseNotesGet: ( notes ) => {
+	getResponseNotes: ( notes ) => {
 		return {
-			type: 'RESPONSE_NOTES_GET',
+			type: 'GET_RESPONSE_NOTES',
 			notes,
 		};
 	},
 
-	responseNotesAdd: ( note ) => {
+	addResponseNotes: ( note ) => {
 		return {
-			type: 'RESPONSE_NOTES_ADD',
+			type: 'ADD_RESPONSE_NOTES',
 			note,
 		};
 	},
 
-	responseNotesUpdate: ( id, note ) => {
+	updateResponseNotes: ( id, note ) => {
 		return {
-			type: 'RESPONSE_NOTES_UPDATE',
+			type: 'UPDATE_RESPONSE_NOTES',
 			id,
 			note,
 		};
 	},
 
-	responseNotesDelete: ( id ) => {
+	deleteResponseNotes: ( id ) => {
 		return {
-			type: 'RESPONSE_NOTES_DELETE',
+			type: 'DELETE_RESPONSE_NOTES',
 			id,
 		};
 	},

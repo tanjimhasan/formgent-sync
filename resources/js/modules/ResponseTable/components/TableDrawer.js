@@ -19,7 +19,6 @@ import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import mailIcon from '@icon/mail.svg';
 import plusIcon from '@icon/plus.svg';
 import starIcon from '@icon/star.svg';
-import targetIcon from '@icon/target.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableDrawer( props ) {
@@ -27,9 +26,9 @@ export default function TableDrawer( props ) {
 		response,
 		handleTableDrawer,
 		notes,
-		responseNotesAdd,
-		responseNotesUpdate,
-		responseNotesDelete,
+		addResponseNotes,
+		updateResponseNotes,
+		deleteResponseNotes,
 		setTableDrawer,
 		pagination,
 		handleDelete,
@@ -117,7 +116,7 @@ export default function TableDrawer( props ) {
 		} );
 
 		if ( createNote ) {
-			responseNotesAdd( createNote );
+			addResponseNotes( createNote );
 			handleTableDrawer( response.id );
 		}
 	}
@@ -145,7 +144,7 @@ export default function TableDrawer( props ) {
 		);
 
 		if ( deleteNote ) {
-			responseNotesDelete( id );
+			deleteResponseNotes( id );
 			handleTableDrawer( response.id );
 		}
 	}
@@ -177,7 +176,7 @@ export default function TableDrawer( props ) {
 			edit: () => {
 				setEnableSubmissionInput( id );
 				setCurrentNote( value );
-				responseNotesUpdate( id, value );
+				updateResponseNotes( id, value );
 			},
 			delete: () => {
 				handleNoteDelete( id );
@@ -315,27 +314,30 @@ export default function TableDrawer( props ) {
 					{ activeDrawerTab === 'answers' && (
 						<div className="response-table__drawer__tab__content">
 							<div className="response-table__drawer__tab__wrapper">
-								<div className="response-table__drawer__tab__item">
-									<div className="response-table__drawer__tab__item__icon">
-										<ReactSVG
-											width="20"
-											height="20"
-											src={ alignRightIcon }
-										/>
-									</div>
-									<div className="response-table__drawer__tab__item__content">
-										<h5 className="response-table__drawer__tab__item__title">
-											Show question title here
-										</h5>
-										<p className="response-table__drawer__tab__item__desc">
-											Lorem ipsum dolor sit amet
-											consectetur. Suspendisse morbi
-											mattis gravida aliquet nunc suscipit
-											aliquam. Turpis sed id elementum
-											auctor.
-										</p>
-									</div>
-								</div>
+								{ response.answers.map( ( answer, index ) => {
+									return (
+										<div
+											key={ index }
+											className="response-table__drawer__tab__item"
+										>
+											<div className="response-table__drawer__tab__item__icon">
+												<ReactSVG
+													width="20"
+													height="20"
+													src={ alignRightIcon }
+												/>
+											</div>
+											<div className="response-table__drawer__tab__item__content">
+												<h5 className="response-table__drawer__tab__item__title">
+													{ answer.field_id }
+												</h5>
+												<p className="response-table__drawer__tab__item__desc">
+													{ answer.value }
+												</p>
+											</div>
+										</div>
+									);
+								} ) }
 								<div className="response-table__drawer__tab__item">
 									<div className="response-table__drawer__tab__item__icon">
 										<ReactSVG
@@ -354,25 +356,6 @@ export default function TableDrawer( props ) {
 											</button>
 											<button className="response-table__drawer__tab__item__btn">
 												Option Two
-											</button>
-										</div>
-									</div>
-								</div>
-								<div className="response-table__drawer__tab__item">
-									<div className="response-table__drawer__tab__item__icon">
-										<ReactSVG
-											width="20"
-											height="20"
-											src={ targetIcon }
-										/>
-									</div>
-									<div className="response-table__drawer__tab__item__content">
-										<h5 className="response-table__drawer__tab__item__title">
-											Select your answers
-										</h5>
-										<div className="response-table__drawer__tab__item__btns">
-											<button className="response-table__drawer__tab__item__btn">
-												Yes
 											</button>
 										</div>
 									</div>

@@ -296,21 +296,21 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isResponseColumnUpdating: false,
 			};
 
-		case 'RESPONSE_NOTES_GET':
+		case 'GET_RESPONSE_NOTES':
 			return {
 				...state,
 				notes: action.notes,
 			};
-		case 'RESPONSE_NOTES_ADD':
+		case 'ADD_RESPONSE_NOTES':
 			return {
 				...state,
 				notes: [ ...state.notes, action.note ],
 			};
-		case 'RESPONSE_NOTES_UPDATE':
+		case 'UPDATE_RESPONSE_NOTES':
 			return {
 				...state,
 			};
-		case 'RESPONSE_NOTES_DELETE':
+		case 'DELETE_RESPONSE_NOTES':
 			return {
 				...state,
 			};
