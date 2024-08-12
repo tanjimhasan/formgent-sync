@@ -1,6 +1,7 @@
 :root {
 	--formgent-color-primary: #6551f2;
 	--formgent-color-primary-2: #2188ff;
+	--formgent-color-primary-100: #dee3ff;
 	--formgent-color-secondary: #fc495d;
 	--formgent-color-dark: #000000;
 	--formgent-color-bg-white: #ffffff;
@@ -39,12 +40,19 @@
 	--formgent-color-bg-badge-success: rgba(37, 128, 8, 0.2);
 	--formgent-color-bg-badge-gray: #b1b1b1;
 	--formgent-footer-text-font-size: "medium";
-	--formgent-color-border-light: #e6e6e6;
+	--formgent-color-border: #e6e6e6;
+	--formgent-color-border-light: #d2d6db;
 	--formgent-transition: 0.3s ease;
 	--formgent-color-facebook: #2d75ed;
 	--formgent-color-twitter: #000000;
 	--formgent-color-youtube: #f3081a;
 	--formgent-color-instagram: #bf3ad4;
+	--formgent-color-gray-50: #f9fafb;
+	--formgent-color-gray-100: #f3f4f6;
+	--formgent-color-gray-200: #e5e7eb;
+	--formgent-color-gray-300: #d2d6db;
+	--formgent-color-gray-500: #747c89;
+	--formgent-color-gray-600: #4d5761;
 }
 
 /* Spacing */
@@ -356,6 +364,26 @@ a.formgent-btn-disabled {
 		}
 		.components-modal__header-heading {
 			font-family: inherit;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+		}
+		.formgent-popup-title-icon {
+			width: 48px;
+			height: 48px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			background: var(--formgent-color-gray-100);
+			svg {
+				width: 24px;
+				height: 24px;
+			}
+			svg,
+			path {
+				fill: var(--formgent-color-dark);
+			}
 		}
 	}
 	.components-modal__content {
@@ -469,6 +497,22 @@ a.formgent-btn-disabled {
 	&.formgent-form-title-modal {
 		.components-modal__header {
 			padding: 0;
+			.components-button {
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				padding: 0;
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				inset-inline-end: 30px;
+				background-color: var(--formgent-color-bg-gray);
+				border: 0 none;
+				svg {
+					width: 18px;
+					height: 18px;
+				}
+			}
 		}
 	}
 	&.formgent-attachment-importing {
@@ -488,13 +532,17 @@ a.formgent-btn-disabled {
 			font-size: 14px;
 			font-weight: 500;
 			text-decoration: none;
-			padding-inline-end: 20px;
+			padding: 10px 20px;
 			color: var(--formgent-color-gray);
 			display: inline-flex;
 			align-items: center;
 			gap: 8px;
 			cursor: pointer;
 			transition: var(--formgent-transition);
+			align-self: self-start;
+			margin-top: 24px;
+			background: #e5e7eb;
+			border-radius: 8px;
 			svg {
 				path {
 					fill: var(--formgent-color-gray);
@@ -515,18 +563,20 @@ a.formgent-btn-disabled {
 			min-height: 100%;
 			border-radius: 0px;
 			min-width: calc(100%);
-			background-color: var(--formgent-color-bg-gray);
+			background-color: #f3f4f6;
 		}
 		.components-modal__header {
-			padding: 0 20px;
+			padding: 5px 20px 5px 10px;
 			.formgent-create-modal-logo {
 				order: -1;
+				display: flex;
+				align-items: center;
 			}
 			.components-button {
 				position: static;
 				padding: 0;
-				width: 48px;
-				height: 48px;
+				width: 36px;
+				height: 36px;
 				border-radius: 50%;
 				inset-inline-end: 30px;
 				background-color: var(--formgent-color-bg-gray);
@@ -705,5 +755,38 @@ a.formgent-btn-disabled {
 	}
 	.ant-col {
 		margin: 7.5px 0;
+	}
+}
+
+.formgent-control-default-value-wrapper {
+	.formgent-control-default-value {
+		position: relative;
+		.components-input-control__input {
+			padding: 0 35px 0 8px !important;
+		}
+		.components-dropdown {
+			position: absolute;
+			right: 0;
+			top: 20px;
+			svg {
+				width: 16px;
+				height: 16px;
+			}
+		}
+	}
+}
+.formgent-control-default-value-list-content {
+	.components-popover__content {
+		width: 200px;
+		padding: 0;
+	}
+	span {
+		display: block;
+		padding: 5px 8px;
+		cursor: pointer;
+		transition: 0.3s ease;
+		&:hover {
+			background: var(--formgent-color-bg-light);
+		}
 	}
 }

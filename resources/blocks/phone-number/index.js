@@ -56,13 +56,13 @@ const controls = {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
 			},
-			value: {
-				type: 'text',
-				label: __( 'Phone Number', 'formgent' ),
-			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
+			},
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
 			},
 		},
 	},

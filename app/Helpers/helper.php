@@ -172,7 +172,7 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
     $array_key = $by_id ? 'id' : 'name';
 
     foreach ( $parsed_blocks as $parsed_block ) {
-        if ( empty( $parsed_block['blockName'] ) ) {
+        if ( empty( $blocks[$parsed_block['blockName']] ) ) {
             continue;
         }
 
@@ -196,3 +196,5 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
 
     return $settings;
 }
+
+require_once __DIR__ . '/form.php';

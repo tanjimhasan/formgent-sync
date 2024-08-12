@@ -1,8 +1,6 @@
 import FormHeader from '@formgent/components/FormHeader';
-import { Modal } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useState, useEffect } from '@wordpress/element';
-import CreateFormModalContent from './components/CreateFormModalContent';
 import MainContent from './components/MainContent';
 
 function Editor( props ) {
@@ -39,15 +37,6 @@ function Editor( props ) {
 				setUiState={ setUiState }
 			/>
 			{ singleForm && <MainContent id={ id } /> }
-			{ ! singleForm?.title && props.isAddForm && (
-				<Modal
-					overlayClassName="formgent-modal formgent-form-title-modal"
-					size="medium"
-					isDismissible={ false }
-				>
-					<CreateFormModalContent />
-				</Modal>
-			) }
 		</div>
 	);
 }
