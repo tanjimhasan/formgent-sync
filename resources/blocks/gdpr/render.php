@@ -12,10 +12,12 @@
             type="checkbox"
             id="<?php echo esc_html( $attributes['id'] ); ?>"
             name="<?php echo esc_html( $attributes['name'] ); ?>"
-            checked="<?php echo esc_html( $attributes['checked'] ); ?>"
+            data-wp-interactive="formgent/form"
+            data-wp-on--click="actions.updateGdpr"
+            data-wp-bind--checked="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
         />
-        <span className="formgent-editor-block-list__single__sub-label">
+        <label className="formgent-editor-block-list__single__sub-label" for="<?php echo esc_html( $attributes['id'] ); ?>">
             <?php echo esc_html( $attributes['description'] ); ?>
-        </span>
+        </label>
     </div>
 </div>

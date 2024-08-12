@@ -17,21 +17,27 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
 		},
+		updateGdpr: () => {
+			const element = getElement();
+			const context = getContext();
+			if (
+				context.data[ element.ref.name ] === '' ||
+				context.data[ element.ref.name ] === 0
+			) {
+				context.data[ element.ref.name ] = 1;
+			} else {
+				context.data[ element.ref.name ] = 0;
+			}
+		},
+		updatePhoneNumber: () => {
+			const element = getElement();
+			const context = getContext();
+			context.data[ element.ref.name ].number = element.ref.value;
+		},
 		updateDialCode: () => {
 			const element = getElement();
 			const context = getContext();
-			console.log(
-				element.ref.name,
-				element.ref.value,
-				context.data[ element.ref.name ].replace(
-					/\(\+\d+\)/,
-					element.ref.value
-				)
-			);
-			let parts = context.data[ element.ref.name ].split( ')' );
-			parts[ 0 ] = `(${ element.ref.value }`;
-			console.log( parts.join( ')' ) );
-			context.data[ element.ref.name ] = parts.join( ')' );
+			context.data[ 'phone-number' ].dialCode = element.ref.value;
 		},
 	},
 	callbacks: {
@@ -69,9 +75,12 @@ const { callbacks } = store( 'formgent/form', {
 
 				// // General validation rules
 				if ( field.required || field.field_type === 'gdpr' ) {
+					if ( field.field_type === 'gdpr' ) {
+						field.label = 'GDPR';
+					}
 					rules.push( {
 						rule: 'required',
-						errorMessage: `${ field.label } is required`,
+						errorMessage: `${ field.label || 'Field' } is required`,
 					} );
 				}
 
@@ -90,25 +99,33 @@ const { callbacks } = store( 'formgent/form', {
 				callbacks.submit( context, element );
 			} );
 		},
-		tomSelectInit: async () => {
+		phoneNumberInit: async () => {
 			const context = getContext();
 			const element = getElement();
+			let phoneNumberParts = context.data[ 'phone-number' ].split( ')' );
+			context.data[ 'phone-number' ] = {
+				dialCode: `${ phoneNumberParts[ 0 ] })`,
+				number: phoneNumberParts[ 1 ].trim(),
+			};
+			const flagUrl = countryObject.flag_url;
 			try {
-			} catch ( error ) {}
+				const countries = Object.entries( countryObject.countries ).map(
+					( [ key, value ] ) => {
+						return {
+							id: key,
+							img: `${ flagUrl }/${ key }.png`,
+							...value,
+						};
+					}
+				);
+			} catch ( error ) {
+				console.log( error );
+			}
 			const countryObject = await wp.apiFetch( {
 				path: '/formgent/countries',
 				method: 'GET',
 			} );
-			const flagUrl = countryObject.flag_url;
-			const countries = Object.entries( countryObject.countries ).map(
-				( [ key, value ] ) => {
-					return {
-						id: key,
-						img: `${ flagUrl }/${ key }.png`,
-						...value,
-					};
-				}
-			);
+
 			var control = new TomSelect( `#${ element.attributes.id }`, {
 				valueField: 'dial_code',
 				options: countries,
@@ -146,17 +163,22 @@ const { callbacks } = store( 'formgent/form', {
 					continue;
 				}
 				const value = context.data[ name ];
-
 				switch ( context.blocksSettings[ name ].field_type ) {
 					case 'number':
 						formData[ name ] = parseInt( value, 10 );
 						break;
+					case 'phone-number':
+						formData[
+							name
+						] = `(${ value.dialCode })${ value.number }`;
+						break;
+					case 'gdpr':
+						formData[ name ] = value.toString();
 					default:
 						formData[ name ] = value;
 						break;
 				}
 			}
-
 			try {
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
