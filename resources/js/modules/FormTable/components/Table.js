@@ -357,7 +357,10 @@ export default function Table( props ) {
 						locale={ {
 							emptyText: (
 								<Empty
-									description={ __( 'No Data', 'formgent' ) }
+									description={ __(
+										'No Data Found',
+										'formgent'
+									) }
 								></Empty>
 							),
 						} }

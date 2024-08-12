@@ -155,6 +155,8 @@ export default function Filter( props ) {
 	];
 
 	const handleFormTypes = ( type ) => {
+		if ( isLoading ) return;
+
 		setFormType( type );
 		updateFormsType( type );
 		resolveSelect( 'formgent' ).getForms(
@@ -194,6 +196,8 @@ export default function Filter( props ) {
 	}, [ debouncedSearchText ] );
 
 	const handleFormSorting = ( { key } ) => {
+		if ( isLoading ) return;
+
 		setDefaultSorting( key );
 		updateFormSortBy( key );
 		resolveSelect( 'formgent' ).getForms(
@@ -205,6 +209,8 @@ export default function Filter( props ) {
 	};
 
 	const handleFormDateType = ( value ) => {
+		if ( isLoading ) return;
+
 		updateFormDateType( value );
 		setFormDateType( value );
 		resolveSelect( 'formgent' ).getForms(
@@ -217,6 +223,8 @@ export default function Filter( props ) {
 	};
 
 	function handleDateRange( dates, dateStrings ) {
+		if ( isLoading ) return;
+
 		const [ dateFrom, dateTo ] = dateStrings;
 		updateFormDateFrom( `${ dateFrom } 00:00:01` );
 		updateFormDateTo( `${ dateTo } 23:59:59` );

@@ -1,10 +1,10 @@
 import { useDispatch, useSelect } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
+import { CreateFormStyle } from './style.js';
 import { Form } from 'antd';
 import AntInput from '@formgent/components/Input';
 import AntButton from '@formgent/components/Button';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
-import { CreateFormStyle } from '../../modules/Editor/components/style';
-import { __ } from '@wordpress/i18n';
 
 export default function CreateFormModalContent( { type } ) {
 	const { CommonReducer } = useSelect( ( select ) => {
@@ -17,10 +17,6 @@ export default function CreateFormModalContent( { type } ) {
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState( id );
-	}, [] );
-
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
 	}, [] );
 
 	const {
@@ -108,7 +104,11 @@ export default function CreateFormModalContent( { type } ) {
 							},
 						] }
 					>
-						<AntInput size="large" defaultValue="My form" />
+						<AntInput
+							size="large"
+							value="My form"
+							defaultValue="My form"
+						/>
 					</Form.Item>
 					<Form.Item>
 						<AntButton type="primary" htmlType="submit" block>
