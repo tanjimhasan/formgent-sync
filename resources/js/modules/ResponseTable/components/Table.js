@@ -784,7 +784,10 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		setTableDrawer( ( single_response && single_response[ 0 ] ) || null );
+		if ( single_response ) {
+			setTableDrawer( single_response[ 0 ] || null );
+			rowSelection.onChange( [ single_response[ 0 ]?.id ] );
+		}
 	}, [ single_response ] );
 
 	useEffect( () => {
