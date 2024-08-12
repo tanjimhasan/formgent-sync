@@ -1,7 +1,7 @@
 import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { CreateFormStyle } from '../../modules/Editor/components/style';
+import { CreateFormStyle } from './style.js';
 import AntInput from '@formgent/components/Input';
 import { Form } from 'antd';
 import AntButton from '@formgent/components/Button';
