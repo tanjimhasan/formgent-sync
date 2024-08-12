@@ -53,7 +53,7 @@ class SummaryRepository {
             throw new Exception( esc_html__( 'Form not found.', 'helpgent' ), 404 );
         }
 
-        $fields    = array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) );
+        $fields       = array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) );
         $final_fields = [];
         
         $totals = Answer::query()->where( 'form_id', $form_id )->select( 'field_id, COUNT(field_id) as total' )->group_by( 'field_id' )->get();

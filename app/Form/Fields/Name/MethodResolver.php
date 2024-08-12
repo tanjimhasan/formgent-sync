@@ -8,8 +8,12 @@ use FormGent\App\DTO\AnswerDTO;
 use stdClass;
 use WP_REST_Request;
 use FormGent\WpMVC\RequestValidator\Validator;
+use FormGent\App\Form\Summary\Pagination;
 
 trait MethodResolver {
+
+    use Pagination;
+    
     protected $has_value = true;
 
     public static function get_key(): string {
