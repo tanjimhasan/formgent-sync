@@ -71,58 +71,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				activeField: action?.field,
 			};
-		case 'UPDATE_ACTIVE_CUSTOMIZER_TAB':
-			return {
-				...state,
-				activeCustomizerTab: action?.activeTab,
-			};
-		case 'ADD_FIELD_AFTER':
-			fieldList = structuredClone(
-				state?.forms[ state.selectedFormId ]?.content?.fields
-			);
-			fieldList.splice( action.index + 1, 0, action.field );
-			return {
-				...state,
-				forms: {
-					...state.forms,
-					[ state.selectedFormId ]: {
-						...state.forms[ state.selectedFormId ],
-						content: {
-							...state.forms[ state.selectedFormId ].content,
-							fields: fieldList,
-						},
-					},
-				},
-			};
-		case 'DUPLICATE_FORM_FIELD':
-			fieldList = structuredClone( state?.singleForm?.content?.fields );
-			fieldList.splice( action.index + 1, 0, action.field );
-
-			return {
-				...state,
-				singleForm: {
-					...state.singleForm,
-					content: {
-						...state.singleForm.content,
-						fields: fieldList,
-					},
-				},
-			};
-		case 'DELETE_FORM_FIELD':
-			fieldList = structuredClone( state?.singleForm?.content?.fields );
-			return {
-				...state,
-				singleForm: {
-					...state.singleForm,
-					content: {
-						...state.singleForm.content,
-						fields: fieldList.filter(
-							( item ) => item.id !== action.id
-						),
-					},
-				},
-			};
-
 		case 'UPDATE_SINGLE_FORM_TYPE':
 			return {
 				...state,

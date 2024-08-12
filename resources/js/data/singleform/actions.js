@@ -67,37 +67,6 @@ export const SingleFormActions = {
 		};
 	},
 
-	updateActiveCustomizerTab: ( activeTab ) => {
-		return {
-			type: 'UPDATE_ACTIVE_CUSTOMIZER_TAB',
-			activeTab,
-		};
-	},
-
-	duplicateFormField: ( field, index ) => {
-		return {
-			type: 'DUPLICATE_FORM_FIELD',
-			field,
-			index,
-		};
-	},
-
-	addFieldAfter: ( field, index, formId ) => {
-		return {
-			type: 'ADD_FIELD_AFTER',
-			field,
-			index,
-			formId,
-		};
-	},
-
-	deleteFormField: ( id ) => {
-		return {
-			type: 'DELETE_FORM_FIELD',
-			id,
-		};
-	},
-
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api

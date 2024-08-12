@@ -1,4 +1,3 @@
-import SubmitButton from '@formgent/components/fieldList/SubmitButton/field.js';
 import { SingleFormActions } from './actions';
 export const SingleFormResolvers = {
 	*getSingleForm( id, timeStamp ) {
@@ -12,7 +11,7 @@ export const SingleFormResolvers = {
 				singleForm = {
 					...data?.form,
 					content: JSON.parse( data?.form.content ),
-					submit_button: SubmitButton,
+					// submit_button: SubmitButton,
 				};
 				yield SingleFormActions.storeSingleForm( singleForm, id );
 			} else {
