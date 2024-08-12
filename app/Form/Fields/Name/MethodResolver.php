@@ -8,11 +8,11 @@ use FormGent\App\DTO\AnswerDTO;
 use stdClass;
 use WP_REST_Request;
 use FormGent\WpMVC\RequestValidator\Validator;
-use FormGent\App\Form\Summary\Pagination;
+use FormGent\App\Form\Summary\HasChild;
 
 trait MethodResolver {
 
-    use Pagination;
+    use HasChild;
     
     protected $has_value = true;
 

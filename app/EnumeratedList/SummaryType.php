@@ -9,5 +9,6 @@ class SummaryType {
     const MULTISELECT = 'multi_select';
     const CHART       = 'chart';
     const HASONE      = 'has_one';
+    const HASCHILD    = 'has_child';
     const CUSTOM      = 'custom';
 }
