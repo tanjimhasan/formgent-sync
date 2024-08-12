@@ -1,4 +1,4 @@
-import { AntButton, AntDropdown, AntTabs } from '@formgent/components';
+import { AntDropdown, AntTabs } from '@formgent/components';
 import deleteData from '@formgent/helper/deleteData';
 import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
@@ -259,16 +259,16 @@ export default function TableDrawer( props ) {
 						overlayStyle={ { width: 210 } }
 						placement="bottomRight"
 					>
-						<AntButton
+						<button
+							className="response-table__drawer__header__action__btn"
 							onClick={ ( e ) => e.preventDefault() }
-							icon={
-								<ReactSVG
-									width="14"
-									height="14"
-									src={ downloadIcon }
-								/>
-							}
-						/>
+						>
+							<ReactSVG
+								width="14"
+								height="14"
+								src={ downloadIcon }
+							/>
+						</button>
 					</AntDropdown>
 
 					<div className="response-table__drawer__header__dropdown">

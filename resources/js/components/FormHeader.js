@@ -7,8 +7,6 @@ import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
 
 // Icon
-import chartIcon from '@icon/line-chart.svg';
-import pieIcon from '@icon/pie-chart.svg';
 import rowIcon from '@icon/row-3.svg';
 
 export default function FormHeader( props ) {
@@ -148,7 +146,7 @@ export default function FormHeader( props ) {
 							<ReactSVG src={ rowIcon } width="18" height="18" />
 							Responses { responses && `(${ responses.length })` }
 						</NavLink>
-						<NavLink
+						{ /* <NavLink
 							to={ `${ forms }/summary` }
 							className="formgent-results-header__nav__link"
 						>
@@ -165,7 +163,7 @@ export default function FormHeader( props ) {
 								height="18"
 							/>
 							Analytics
-						</NavLink>
+						</NavLink> */ }
 					</>
 				) : (
 					<>

@@ -436,7 +436,7 @@ const TableTabStyle = Styled.div`
     }
     .ant-tabs-nav-list {
         border-radius: 8px;
-        border: 1px solid var(--formgent-primary-light-button-bg);
+        border: 1px solid var(--formgent-color-border);
         overflow: hidden;
     }
     .ant-tabs-tab {
@@ -446,21 +446,21 @@ const TableTabStyle = Styled.div`
         font-size: 14px;
         font-weight: 600;
         height: 36px;
-        padding: 0 16px;
+        padding: 0 36px;
         margin: 0 !important;
         text-decoration: none;
         transition: all ease .3s;
         .ant-tabs-tab-btn {
-            color: var(--formgent-font-color);
+            color: var(--formgent-color-text);
         }
         ~ .ant-tabs-ink-bar {
             display: none;
         }
         &:hover,
         &.ant-tabs-tab-active {
-            background-color: var(--formgent-primary-light-button-bg);
+            background-color: var(--formgent-color-dark);
             .ant-tabs-tab-btn {
-                color: var(--formgent-color-primary);
+                color: var(--formgent-color-white);
             }
         }
     }
@@ -470,7 +470,7 @@ const TableDrawerStyle = Styled.div`
     height: 100%;
     position: absolute;
     top: 0;
-    right: -15px;
+    right: -12px;
     z-index: 9;
     background: #fff;
     overflow-y: auto;
@@ -494,11 +494,11 @@ const TableDrawerStyle = Styled.div`
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                height: 40px;
-                width: 40px;
+                height: 36px;
+                width: 36px;
                 font-size: 14px;
                 font-weight: 600;
-                padding: 0 10px;
+                padding: 0;
                 margin: 0;
                 background-color: transparent;
                 color: var(--formgent-color-dark);
@@ -529,10 +529,11 @@ const TableDrawerStyle = Styled.div`
         gap: 10px;
         align-items: center;
         .response-table__drawer__header__action__btn {
-            height: 40px;
+            height: 36px;
+            width: 36px;
             font-size: 14px;
             font-weight: 600;
-            padding: 0 10px;
+            padding: 0;
             margin: 0;
             background-color: transparent;
             color: var(--formgent-color-dark);
@@ -549,8 +550,9 @@ const TableDrawerStyle = Styled.div`
             }
         }
         .response-table__drawer__close {
-            height: 40px;
-            padding: 0 10px;
+            height: 36px;
+            width: 36px;
+            padding: 0;
             background: var(--formgent-color-bg-general);
             border: none;
             border-radius: 8px;
