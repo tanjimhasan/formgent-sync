@@ -72,7 +72,7 @@ const controls = {
 					},
 				},
 			},
-			default_value: {
+			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
 			},

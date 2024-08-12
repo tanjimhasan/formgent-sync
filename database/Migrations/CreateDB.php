@@ -39,7 +39,10 @@ class CreateDB implements Migration {
             `created_by` BIGINT UNSIGNED NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`)
+            PRIMARY KEY (`id`),
+            CONSTRAINT fk_{$db_prefix}responses_form_id
+            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
+            ON DELETE CASCADE
         ) {$charset_collate};
 
         -- -----------------------------------------------------
@@ -56,7 +59,13 @@ class CreateDB implements Migration {
             `value` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`)
+            PRIMARY KEY (`id`),
+            CONSTRAINT fk_{$db_prefix}answers_form_id
+            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
+            ON DELETE CASCADE,
+            CONSTRAINT fk_{$db_prefix}answers_response_id
+            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
+            ON DELETE CASCADE
         ) {$charset_collate};
 
         -- -----------------------------------------------------
@@ -69,9 +78,11 @@ class CreateDB implements Migration {
             `note` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`)
-        ) {$charset_collate};
-        ";
+            PRIMARY KEY (`id`),
+            CONSTRAINT fk_{$db_prefix}notes_response_id
+            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
+            ON DELETE CASCADE
+        ) {$charset_collate};";
 
         dbDelta( $sql );
 

@@ -1,22 +1,20 @@
 import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { CreateFormStyle } from './style';
+import { CreateFormStyle } from '../../modules/Editor/components/style';
 import AntInput from '@formgent/components/Input';
 import { Form } from 'antd';
 import AntButton from '@formgent/components/Button';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
 
-export default function CreateFormModalContent() {
-	const [ serverErrors, setServerErrors ] = useState( {} );
-
+export default function CreateFormModalContent( { type } ) {
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 	const { useNavigate, useParams } = CommonReducer.routerComponents;
 	// const { selectedTemplate } = moduleState;
 	const navigate = useNavigate();
-	const { id, type } = useParams();
+	const { id } = useParams();
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState( id );
@@ -34,7 +32,7 @@ export default function CreateFormModalContent() {
 		updateCreatePopUp,
 	} = useDispatch( 'formgent' );
 
-	function hadnleFormSubmission( formData ) {
+	function handleFormSubmission( formData ) {
 		if ( SingleFormReducer?.isCreatingForm ) return;
 
 		const newform = {
@@ -61,7 +59,7 @@ export default function CreateFormModalContent() {
 			</h2>
 			<p>
 				{ __(
-					'Please enter a name for your ffffor. You can edit it later.',
+					'Please enter a name for your form. You can edit it later.',
 					'formgent'
 				) }
 			</p>
@@ -69,7 +67,7 @@ export default function CreateFormModalContent() {
 				<Form
 					name="formgent-create-form"
 					layout="vertical"
-					onFinish={ hadnleFormSubmission }
+					onFinish={ handleFormSubmission }
 				>
 					<Form.Item
 						label="Form name"
@@ -85,7 +83,7 @@ export default function CreateFormModalContent() {
 							{
 								whitespace: true,
 								message: __(
-									'Only spaces not allowed',
+									'Only spaces are not allowed',
 									'formgent'
 								),
 							},
@@ -95,7 +93,7 @@ export default function CreateFormModalContent() {
 							},
 						] }
 					>
-						<AntInput size="large" />
+						<AntInput size="large" defaultValue="My form" />
 					</Form.Item>
 					<Form.Item>
 						<AntButton
