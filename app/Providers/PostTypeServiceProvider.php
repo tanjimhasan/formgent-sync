@@ -127,6 +127,8 @@ class PostTypeServiceProvider implements Provider {
 
         $blocks[] = 'core/heading';
         $blocks[] = 'core/paragraph';
+        $blocks[] = 'core/columns';
+        $blocks[] = 'core/column';
 
         return apply_filters( 'formgent_allowed_blocks',  $blocks );
     }
