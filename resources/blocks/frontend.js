@@ -107,8 +107,13 @@ const { callbacks } = store( 'formgent/form', {
 				dialCode: `${ phoneNumberParts[ 0 ] })`,
 				number: phoneNumberParts[ 1 ].trim(),
 			};
-			const flagUrl = countryObject.flag_url;
+
 			try {
+				const countryObject = await wp.apiFetch( {
+					path: '/formgent/countries',
+					method: 'GET',
+				} );
+				const flagUrl = countryObject.flag_url;
 				const countries = Object.entries( countryObject.countries ).map(
 					( [ key, value ] ) => {
 						return {
@@ -118,33 +123,28 @@ const { callbacks } = store( 'formgent/form', {
 						};
 					}
 				);
+				const control = new TomSelect( `#${ element.attributes.id }`, {
+					valueField: 'dial_code',
+					options: countries,
+					render: {
+						option: function ( data, escape ) {
+							return `
+								<div class="formgent-phone-dialer-option">
+									<img src="${ escape( data.img ) }" />
+									<span>${ escape( data.name ) }</span>
+								<div/>
+							`;
+						},
+						item: function ( data, escape ) {
+							return `<img src="${ escape( data.img ) }" />`;
+						},
+					},
+					create: false,
+				} );
+				control.setValue( '+880' );
 			} catch ( error ) {
 				console.log( error );
 			}
-			const countryObject = await wp.apiFetch( {
-				path: '/formgent/countries',
-				method: 'GET',
-			} );
-
-			var control = new TomSelect( `#${ element.attributes.id }`, {
-				valueField: 'dial_code',
-				options: countries,
-				render: {
-					option: function ( data, escape ) {
-						return `
-							<div class="formgent-phone-dialer-option">
-								<img src="${ escape( data.img ) }" />
-								<span>${ escape( data.name ) }</span>
-							<div/>
-						`;
-					},
-					item: function ( data, escape ) {
-						return `<img src="${ escape( data.img ) }" />`;
-					},
-				},
-				create: false,
-			} );
-			control.setValue( '+880' );
 		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
@@ -163,6 +163,10 @@ const { callbacks } = store( 'formgent/form', {
 					continue;
 				}
 				const value = context.data[ name ];
+				console.log(
+					context.blocksSettings[ name ].field_type,
+					context.data[ name ]
+				);
 				switch ( context.blocksSettings[ name ].field_type ) {
 					case 'number':
 						formData[ name ] = parseInt( value, 10 );
@@ -173,7 +177,9 @@ const { callbacks } = store( 'formgent/form', {
 						] = `(${ value.dialCode })${ value.number }`;
 						break;
 					case 'gdpr':
+						console.log( 'ck', typeof value.toString() );
 						formData[ name ] = value.toString();
+						break;
 					default:
 						formData[ name ] = value;
 						break;

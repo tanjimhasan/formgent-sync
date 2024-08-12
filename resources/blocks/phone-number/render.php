@@ -5,9 +5,6 @@
 // $countries = formgent_config( 'countries' );
 // $flag_url  = formgent_url( 'assets/images/flags' );
 ?>
-<pre>
-<?php print_r( $attributes ); ?>
-</pre>
 
 <div class="formgent-form-field">
     <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
