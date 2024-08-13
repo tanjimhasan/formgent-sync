@@ -41,7 +41,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			( response ) => {
 				setOptions( [
 					{
-						label: __( '-- Select a form --', 'formgent' ),
+						label: __( '-- Select a Form --', 'formgent' ),
 						value: 0,
 					},
 					...response.forms.map( ( form ) => {
