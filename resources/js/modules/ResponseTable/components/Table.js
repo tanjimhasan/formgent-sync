@@ -20,6 +20,7 @@ import TableHeader from './TableHeader';
 import { TableStyle } from './style';
 
 // Icon
+import alignLeftIcon from '@icon/align-left.svg';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
 import calendarIcon from '@icon/calendar.svg';
@@ -35,6 +36,7 @@ import mailIcon from '@icon/mail.svg';
 import pdfIcon from '@icon/pdf.svg';
 import pinIcon from '@icon/pin.svg';
 import starIcon from '@icon/star.svg';
+import textIcon from '@icon/text.svg';
 import userIcon from '@icon/user.svg';
 import xlsIcon from '@icon/xls.svg';
 
@@ -241,6 +243,19 @@ export default function Table() {
 		};
 
 		sortFunctions[ key ]();
+	}
+
+	function handleColumnIcon( type ) {
+		const columnIcon = {
+			email: alignLeftIcon,
+			text: textIcon,
+			textarea: alignLeftIcon,
+			number: alignLeftIcon,
+			'phone-number': alignLeftIcon,
+			website: alignLeftIcon,
+		};
+
+		return columnIcon[ type ] || alignLeftIcon;
 	}
 
 	// handleTableDrawer
@@ -755,15 +770,13 @@ export default function Table() {
 				title: () => (
 					<div className="formgent-column-action">
 						<span className="formgent-column-action__title">
-							{ field?.icon ? (
-								<span className="formgent-column-action__icon">
-									<ReactSVG
-										width="16"
-										height="16"
-										src={ field.icon }
-									/>
-								</span>
-							) : null }
+							<span className="formgent-column-action__icon">
+								<ReactSVG
+									width="16"
+									height="16"
+									src={ handleColumnIcon( field.type ) }
+								/>
+							</span>
 							{ title.replace( /<\/?[^>]+(>|$)/g, '' ) }
 						</span>
 						<AntDropdown
