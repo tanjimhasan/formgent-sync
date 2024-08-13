@@ -1,5 +1,5 @@
 import { useState, useEffect } from '@wordpress/element';
-import { useDispatch, resolveSelect } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { AntTable, AntSpin } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';

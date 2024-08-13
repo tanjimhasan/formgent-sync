@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from '@wordpress/element';
+import { lazy, Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import Header from './components/Header';
 const Table = lazy( () => import( './components/Table' ) );

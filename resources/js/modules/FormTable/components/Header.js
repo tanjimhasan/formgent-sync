@@ -2,7 +2,6 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { AntButton } from '@formgent/components';
 import { __ } from '@wordpress/i18n';
 import { HeaderStyle } from './style';
-import handleCreateForm from '@formgent/helper/handleCreateForm';
 import ReactSVG from 'react-inlinesvg';
 import plusIcon from '@icon/plus.svg';
 export default function Header() {
