@@ -100,7 +100,11 @@ const { callbacks } = store( 'formgent/form', {
 		phoneNumberInit: async () => {
 			const context = getContext();
 			const element = getElement();
+			const dialCodeSelector = element.ref.querySelector(
+				`input[name="${ name }"]`
+			);
 			let phoneNumberParts = context.data[ 'phone-number' ].split( ')' );
+			console.log( phoneNumberParts );
 			context.data[ 'phone-number' ] = {
 				dialCode: `${ phoneNumberParts[ 0 ] })`,
 				number: phoneNumberParts[ 1 ].trim(),

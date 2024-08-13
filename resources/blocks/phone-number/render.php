@@ -8,11 +8,14 @@
 
 <div class="formgent-form-field">
     <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
-    <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__phone">
+    <div 
+        class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__phone"
+        data-wp-init="callbacks.phoneNumberInit"
+    >
         <select 
             name="<?php echo esc_attr( $attributes['name'] ); ?>-dial-code"
             id="<?php echo esc_attr( $attributes['name'] ); ?>-dial-code"
-            data-wp-init="callbacks.phoneNumberInit"
+            
             data-wp-on--change="actions.updateDialCode"
         >
         </select>
