@@ -29,7 +29,7 @@ trait HasChild {
             ->select( 
                 [ 
                     'parent_id as id', 
-                    "GROUP_CONCAT( CONCAT( field_type, ':', value ) ) as value" 
+                    "GROUP_CONCAT( CONCAT( field_type, '__FGP__', value ) SEPARATOR '__FGS__' ) as value" 
                 ] 
             )
             ->where_in( 'parent_id', $ids )
@@ -44,10 +44,10 @@ trait HasChild {
         return array_map(
             function( $item ) {
                 $child_data = [];
-                $child_rows = explode( ',', $item->value );
+                $child_rows = explode( '__FGS__', $item->value );
 
                 foreach ( $child_rows as $child_row_item ) {
-                      $key_value = explode( ':', $child_row_item );
+                      $key_value = explode( '__FGP__', $child_row_item );
                       $filed_key = $key_value[0];
 
                       $child_data[ $filed_key ] = $key_value[1];
