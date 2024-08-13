@@ -93,28 +93,28 @@ class ResponseController extends Controller {
 
         $this->answer_repository->creates( $response_id, ...$validate_data['field_dtos'] );
 
-        if ( ! empty( $validate_data['parent_field_ids'] ) ) {
+        // if ( ! empty( $validate_data['parent_field_ids'] ) ) {
 
-            $parent_fields = Answer::query()->select( 'id', 'field_id' )->where( 'response_id', $response_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
+        //     $parent_fields = Answer::query()->select( 'id', 'field_id' )->where( 'response_id', $response_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
 
-            $parent_ids = [];
+        //     $parent_ids = [];
 
-            foreach ( $parent_fields as $parent ) {
-                $parent_ids[$parent->field_id] = $parent->id;
-            }
+        //     foreach ( $parent_fields as $parent ) {
+        //         $parent_ids[$parent->field_id] = $parent->id;
+        //     }
 
-            $this->answer_repository->creates_from_array(
-                array_map(
-                    function( array $children ) use( $response_id, $parent_ids ) {
-                        /**
-                         * @var AnswerDTO $children['dto']
-                         * @var AnswerDTO $children['parent_dto']
-                         */
-                        return $children['dto']->set_response_id( $response_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
-                    }, $validate_data['children_dtos']
-                )
-            );
-        }
+        //     $this->answer_repository->creates_from_array(
+        //         array_map(
+        //             function( array $children ) use( $response_id, $parent_ids ) {
+        //                 /**
+        //                  * @var AnswerDTO $children['dto']
+        //                  * @var AnswerDTO $children['parent_dto']
+        //                  */
+        //                 return $children['dto']->set_response_id( $response_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
+        //             }, $validate_data['children_dtos']
+        //         )
+        //     );
+        // }
 
         do_action( "formgent_after_create_form_response", $response_id, $form, $wp_rest_request );
 
@@ -177,19 +177,19 @@ class ResponseController extends Controller {
                 $dto = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
 
                 if ( $field_handler->has_children ) {
-                    $parent_field_ids[] = $dto->get_field_id();
-                    foreach ( $field_handler->get_children_dtos( $field, $wp_rest_request, $form ) as $children_dto ) {
-                        $children_dtos[] = [
-                            'dto'        => $children_dto,
-                            'parent_dto' => $dto
-                        ];
-                    }
+                    // $parent_field_ids[] = $dto->get_field_id();
+                    // foreach ( $field_handler->get_children_dtos( $field, $wp_rest_request, $form ) as $children_dto ) {
+                    //     $children_dtos[] = [
+                    //         'dto'        => $children_dto,
+                    //         'parent_dto' => $dto
+                    //     ];
+                    // }
                 }
 
                 $field_dtos[] = $dto;
 
             } catch ( RequestValidatorException $exception ) {
-                $errors[$field['id']] = $exception->get_messages();
+                $errors[$field['name']] = $exception->get_messages();
             }
         }
 
