@@ -6,7 +6,20 @@ import { applyFilters } from '@wordpress/hooks';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
-export default function Table() {
+import TitleBox from './TitleBox';
+
+import handleTextSelect from '@formgent/helper/handleTextSelect';
+import postData from '@formgent/helper/postData';
+import checkIcon from '@icon/check.svg';
+import copyIcon from '@icon/copy.svg';
+import spinnerIcon from '@icon/spinner.svg';
+import { Tooltip } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import { Empty, Pagination } from 'antd';
+import ReactSVG from 'react-inlinesvg';
+import FormTableStatus from './FormTableStatus';
+
+export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ selectedForms, setSelectedForms ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );
@@ -24,6 +37,7 @@ export default function Table() {
 		bulkStatusUpdateSuccess,
 		bulkStatusUpdateError,
 	} = useDispatch( 'formgent' );
+
 	const {
 		forms,
 		pagination,
@@ -188,9 +202,7 @@ export default function Table() {
 			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
-					<Link
-					//to={ `responses` }
-					>
+					<Link to={ `forms/${ record.id }/response` }>
 						{ record.total_unread_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
 								{ record.total_responses }

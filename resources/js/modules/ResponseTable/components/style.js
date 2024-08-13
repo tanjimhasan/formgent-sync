@@ -93,19 +93,19 @@ const TableStyle = Styled.div`
                     position: relative;
                     padding-right: 0;
                     transition: var(--formgent-transition);
-                } 
-                &:last-child{ 
+                }
+                &:last-child{
                     padding-right: 21px;
                 }
             }
             &.ant-table-row-selected{
                 border: 1px solid #BEE3FF;
-            } 
+            }
         }
         .ant-table-row.ant-table-row-selected >.ant-table-cell {
             background: var(--formgent-color-info-deep);
         }
-    } 
+    }
 
     .formgent-column-action {
         display: flex;
@@ -123,12 +123,51 @@ const TableStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             text-transform: capitalize;
-            
         }
+        
+        .formgent-column-action__icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+            width: 24px;
+            min-width: 24px;
+            border-radius: 6px;
+            color: var(--formgent-color-white);
+            background-color: var(--formgent-color-extra-light);
+        }
+    }
 
-        &.formgent-column-action__id {
-            justify-content: flex-end;
-        } 
+    .formgent-form-date {
+        &:hover {
+            .response-table__drawer__open {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+
+    .response-table__drawer__open {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 5px 10px;
+        height: 30px;
+        margin: 0;
+        color: var(--formgent-color-white);
+        background: var(--formgent-color-gray);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all ease .3s;
     }
 `;
 
@@ -327,10 +366,13 @@ const TableActionStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             font-weight: 600;
-            color: var(--formgent-color-dark);  
-            padding: 15px; 
+            height: 40px;
+            padding: 0 15px;
+            color: var(--formgent-color-dark);
+            padding: 15px;
             margin: 0 0 8px;
-            background: var(--formgent-color-bg-light);
+            color: var(--formgent-color-dark);  
+            background: var(--formgent-color-bg-general);
         }
         .formgent-table-header__dropdown__toggle {
             display: flex;
