@@ -179,7 +179,7 @@ export default function Table( props ) {
 									  isCopied &&
 									  copiedShortcode === record.id
 									? __( 'Copied!', 'formgent' )
-									: `[formgent-form id="${ record.id }"]`
+									: `[formgent id="${ record.id }"]`
 							}
 							data-shortcode_id={ record.id }
 							onClick={ ( e ) => {
