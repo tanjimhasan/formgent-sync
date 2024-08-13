@@ -9,6 +9,7 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
+	const phoneNumberParts = attributes.value.split( ')' );
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div
@@ -48,7 +49,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							type="text"
 							name={ attributes.name }
 							placeholder={ attributes.placeholder }
-							value={ attributes.value }
+							value={ phoneNumberParts[ 1 ] }
 							onChange={ () => {} }
 						/>
 					</div>

@@ -100,12 +100,10 @@ const { callbacks } = store( 'formgent/form', {
 		phoneNumberInit: async () => {
 			const context = getContext();
 			const element = getElement();
-			const dialCodeSelector = element.ref.querySelector(
-				`input[name="${ name }"]`
-			);
-			let phoneNumberParts = context.data[ 'phone-number' ].split( ')' );
-			console.log( phoneNumberParts );
-			context.data[ 'phone-number' ] = {
+
+			let phoneNumberParts =
+				context.data[ element.ref.name ].split( ')' );
+			context.data[ element.ref.name ] = {
 				dialCode: `${ phoneNumberParts[ 0 ] })`,
 				number: phoneNumberParts[ 1 ].trim(),
 			};
@@ -125,24 +123,27 @@ const { callbacks } = store( 'formgent/form', {
 						};
 					}
 				);
-				const control = new TomSelect( `#${ element.attributes.id }`, {
-					valueField: 'dial_code',
-					options: countries,
-					render: {
-						option: function ( data, escape ) {
-							return `
+				const control = new TomSelect(
+					`#${ element.attributes.id }-dial-code`,
+					{
+						valueField: 'dial_code',
+						options: countries,
+						render: {
+							option: function ( data, escape ) {
+								return `
 								<div class="formgent-phone-dialer-option">
 									<img src="${ escape( data.img ) }" />
 									<span>${ escape( data.name ) }</span>
 								<div/>
 							`;
+							},
+							item: function ( data, escape ) {
+								return `<img src="${ escape( data.img ) }" />`;
+							},
 						},
-						item: function ( data, escape ) {
-							return `<img src="${ escape( data.img ) }" />`;
-						},
-					},
-					create: false,
-				} );
+						create: false,
+					}
+				);
 				control.setValue( '+880' );
 			} catch ( error ) {
 				console.log( error );
