@@ -481,7 +481,7 @@ const TableTabStyle = Styled.div`
 `;
 const TableDrawerStyle = Styled.div`
     width: 500px;
-    height: 100%;
+    height: calc(100vh - 100px);
     position: absolute;
     top: 0;
     right: -12px;

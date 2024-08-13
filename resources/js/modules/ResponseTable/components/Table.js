@@ -887,6 +887,10 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
+		fetchResponse();
+	}, [ searchItem, readStatus, orderType ] );
+
+	useEffect( () => {
 		if ( single_response ) {
 			setTableDrawer( single_response[ 0 ] || null );
 			rowSelection.onChange( [ single_response[ 0 ]?.id ] );
@@ -902,8 +906,8 @@ export default function Table() {
 	}, [ responses ] );
 
 	useEffect( () => {
-		fetchResponse();
-	}, [ searchItem, readStatus, orderType ] );
+		setTableDrawer( null );
+	}, [ id ] );
 
 	useEffect( () => {
 		setCustomColumns( defaultColumns );
@@ -943,6 +947,7 @@ export default function Table() {
 				<AntTable
 					componentTokens={ {
 						Table: {
+							fontFamily: 'Inter',
 							headerColor: '#6e6e6e',
 							headerBg: '#d5d5d5',
 							headerSplitColor: '#ffffff',
