@@ -567,6 +567,27 @@ const FilterStyle = Styled.div`
             border-color: transparent;
         }
     }
+    .formgent-form-filter__by-time__clear{
+        background-color: var(--formgent-color-gray-200);
+        font-size: 10px;
+        font-weight: 600;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: 0.3s ease;
+        svg path{
+            transition: 0.3s ease;
+        }
+        &:hover{
+            background-color: var(--formgent-color-danger);
+            svg path{
+                fill: #fff;
+            }
+        }
+    }
     .formgent-form-filter__sorting__trigger{
         padding: 11px 12px;
         svg{

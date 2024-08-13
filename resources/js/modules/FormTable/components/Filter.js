@@ -10,6 +10,7 @@ import searchIcon from '@icon/search.svg';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
+import times from '@icon/times.svg';
 import chevronDown from '@icon/chevron-down.svg';
 import { useDebounce } from '@formgent/hooks/useDebounce';
 import { __, sprintf } from '@wordpress/i18n';
@@ -44,7 +45,10 @@ export default function Filter( props ) {
 		handleFormDateType( e.target.value );
 	};
 
-	console.log( forms );
+	const handleClearDateFilter = () => {
+		setToggleTimepicker( false );
+		handleFormDateType( 'all' );
+	};
 
 	const formTypes = [
 		{
@@ -53,7 +57,10 @@ export default function Filter( props ) {
 		},
 		{
 			value: 'general',
-			label: sprintf( __( 'General (%s)', 'formgent' ), forms.filter ),
+			label: sprintf(
+				__( 'General (%s)', 'formgent' ),
+				forms.filter( ( item ) => item.type === 'general' ).length
+			),
 		},
 	];
 
@@ -283,6 +290,10 @@ export default function Filter( props ) {
 														handleFilteredItems
 													}
 													value={ item.key }
+													checked={
+														formDateType ===
+														item.key
+													}
 												/>
 												<label
 													htmlFor={ `formgent-select-option-${ item.key }` }
@@ -328,6 +339,14 @@ export default function Filter( props ) {
 						<span className="formgent-form-filter__by-time__trigger">
 							<ReactSVG src={ sliderIcon } />{ ' ' }
 							{ __( 'Filter', 'formgent' ) }
+							{ formDateType !== 'all' && (
+								<span
+									className="formgent-form-filter__by-time__clear"
+									onClick={ handleClearDateFilter }
+								>
+									<ReactSVG src={ times } />
+								</span>
+							) }
 						</span>
 					</Dropdown>
 				</div>

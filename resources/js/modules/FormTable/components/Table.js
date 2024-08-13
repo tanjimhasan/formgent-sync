@@ -134,6 +134,7 @@ export default function Table( props ) {
 					setEditableForm={ setEditableForm }
 				/>
 			),
+			width: 330,
 		},
 		{
 			title: 'Shortcode',
@@ -190,6 +191,7 @@ export default function Table( props ) {
 					</label>
 				</Tooltip>
 			),
+			width: 200,
 		},
 		{
 			title: 'Responses',
@@ -365,6 +367,9 @@ export default function Table( props ) {
 							),
 						} }
 						onChange={ handleFormTableChange }
+						scroll={ {
+							x: 1300,
+						} }
 					/>
 					<div className="formgent-forms-pagination-wrapper">
 						<span className="formgent-forms-pagination-total-count">
