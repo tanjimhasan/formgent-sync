@@ -704,7 +704,7 @@ export default function Table() {
 									/>
 								</span>
 							) : null }
-							{ title }
+							{ title.replace( /<\/?[^>]+(>|$)/g, '' ) }
 						</span>
 						<AntDropdown
 							menu={ {

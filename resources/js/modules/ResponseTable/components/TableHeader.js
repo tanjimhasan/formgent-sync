@@ -221,7 +221,10 @@ export default function TableHeader( props ) {
 												)
 											}
 										>
-											{ field.label }
+											{ field.label.replace(
+												/<\/?[^>]+(>|$)/g,
+												''
+											) }
 										</AntCheckbox>
 									);
 								} ) }

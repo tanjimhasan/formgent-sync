@@ -8,10 +8,10 @@ import ReactSVG from 'react-inlinesvg';
 import { TableDrawerStyle, TableTabStyle } from './style';
 
 // Icon
+import alignLeftIcon from '@icon/align-left.svg';
 import alignRightIcon from '@icon/align-right.svg';
 import arrowLeftIcon from '@icon/arrow-left.svg';
 import arrowRightIcon from '@icon/arrow-right.svg';
-import checkIcon from '@icon/check-square.svg';
 import closeIcon from '@icon/close.svg';
 import downloadIcon from '@icon/download.svg';
 import editIcon from '@icon/edit.svg';
@@ -188,6 +188,19 @@ export default function TableDrawer( props ) {
 		return selectFunctionsNote[ key ] ? selectFunctionsNote[ key ]() : null;
 	}
 
+	function handleAnswerIcon( type ) {
+		const answerIcon = {
+			email: alignLeftIcon,
+			text: alignLeftIcon,
+			textarea: alignLeftIcon,
+			number: alignLeftIcon,
+			'phone-number': alignLeftIcon,
+			website: alignLeftIcon,
+		};
+
+		return answerIcon[ type ] || alignRightIcon;
+	}
+
 	// Handle Drawer Tab Change
 	function handleDrawerTabChange( key ) {
 		setActiveDrawerTab( key );
@@ -326,7 +339,9 @@ export default function TableDrawer( props ) {
 												<ReactSVG
 													width="20"
 													height="20"
-													src={ alignRightIcon }
+													src={ handleAnswerIcon(
+														answer.field_type
+													) }
 												/>
 											</div>
 											<div className="response-table__drawer__tab__item__content">
@@ -340,28 +355,6 @@ export default function TableDrawer( props ) {
 										</div>
 									);
 								} ) }
-								<div className="response-table__drawer__tab__item">
-									<div className="response-table__drawer__tab__item__icon">
-										<ReactSVG
-											width="20"
-											height="20"
-											src={ checkIcon }
-										/>
-									</div>
-									<div className="response-table__drawer__tab__item__content">
-										<h5 className="response-table__drawer__tab__item__title">
-											Select multiple answers
-										</h5>
-										<div className="response-table__drawer__tab__item__btns">
-											<button className="response-table__drawer__tab__item__btn">
-												Option One
-											</button>
-											<button className="response-table__drawer__tab__item__btn">
-												Option Two
-											</button>
-										</div>
-									</div>
-								</div>
 							</div>
 							<div className="response-table__drawer__tab__submission">
 								<div className="response-table__drawer__tab__submission__header">
