@@ -163,35 +163,45 @@ function formgent_post_type() {
     return formgent_app_config( 'post_type' );
 }
 
-function formgent_get_form_field_settings( array $parsed_blocks ):array {
+function formgent_get_form_field_settings( array $parsed_blocks ): array {
     $blocks            = formgent_config( 'blocks' );
     $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
-    $settings = [];
-
+    $settings  = [];
     $array_key = 'name';
 
     foreach ( $parsed_blocks as $parsed_block ) {
-        if ( empty( $blocks[$parsed_block['blockName']] ) ) {
+        $block_name = $parsed_block['blockName'];
+
+        if ( ! isset( $blocks[$block_name] ) ) {
+            // Handle inner blocks if any
+            if ( ! empty( $parsed_block['innerBlocks'] ) ) {
+                $settings = array_merge( $settings, formgent_get_form_field_settings( $parsed_block['innerBlocks'] ) );
+            }
             continue;
         }
 
+        // Initialize attributes with default values
         $default_attributes = [];
 
-        if ( empty( $registered_blocks[$parsed_block['blockName']] ) ) {
-            continue;
-        }
-
-        foreach ( $registered_blocks[$parsed_block['blockName']]->get_attributes() as $key => $attr ) {
-            if ( isset( $attr['default'] ) ) {
-                $default_attributes[$key] = $attr['default'];
+        if ( ! empty( $registered_blocks[$block_name] ) ) {
+            foreach ( $registered_blocks[$block_name]->get_attributes() as $key => $attr ) {
+                if ( isset( $attr['default'] ) ) {
+                    $default_attributes[$key] = $attr['default'];
+                }
             }
         }
 
         $attributes               = array_merge( $default_attributes, $parsed_block['attrs'] );
-        $attributes['field_type'] = $blocks[$parsed_block['blockName']]['field_type'];
+        $attributes['field_type'] = $blocks[$block_name]['field_type'];
+        $setting_key              = $attributes[$array_key];
 
-        $settings[$attributes[$array_key]] = $attributes;
+        $settings[$setting_key] = $attributes;
+
+        // Handle inner blocks recursively
+        if ( ! empty( $parsed_block['innerBlocks'] ) ) {
+            $settings[$setting_key]['children'] = formgent_get_form_field_settings( $parsed_block['innerBlocks'] );
+        }
     }
 
     return $settings;

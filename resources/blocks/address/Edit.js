@@ -8,6 +8,8 @@ const ALLOWED_BLOCKS = [
 	'formgent/text',
 	'formgent/number',
 	'formgent/country',
+	'core/columns',
+	'core/column',
 ];
 
 const TEMPLATE = [
