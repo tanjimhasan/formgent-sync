@@ -478,7 +478,7 @@ export default function Table() {
 						pageSize: 2,
 						total: pagination?.total_items,
 						showTotal: ( total, range ) =>
-							`${ range[ 0 ] }-${ range[ 1 ] } of ${ total } items`,
+							`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } items`,
 					} }
 					onChange={ handleTableChange }
 				/>

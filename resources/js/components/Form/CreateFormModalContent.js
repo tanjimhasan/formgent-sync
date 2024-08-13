@@ -1,9 +1,8 @@
-import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { CreateFormStyle } from './style.js';
-import AntInput from '@formgent/components/Input';
 import { Form } from 'antd';
+import AntInput from '@formgent/components/Input';
 import AntButton from '@formgent/components/Button';
 import handleCreateForm from '@formgent/helper/handleCreateForm';
 
@@ -18,10 +17,6 @@ export default function CreateFormModalContent( { type } ) {
 
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState( id );
-	}, [] );
-
-	const { FormReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getForms();
 	}, [] );
 
 	const {
@@ -52,12 +47,28 @@ export default function CreateFormModalContent( { type } ) {
 		);
 	}
 
+	const customTokens = {
+		colorBgContainer: '#ffffff',
+		colorBorder: '#cccccc',
+		borderRadius: 8,
+		lineWidth: 1,
+	};
+
+	const customComponentTokens = {
+		Input: {
+			paddingBlock: 8,
+			paddingBlockLG: 10,
+			paddingInlineLG: 18,
+			activeBorderColor: '#ff0000',
+		},
+	};
+
 	return (
 		<CreateFormStyle className="formgent-create-modal">
 			<h2 className="formgent-create-modal-title">
 				{ __( "Let's get started", 'formgent' ) }
 			</h2>
-			<p>
+			<p className="formgent-create-modal-subtitle">
 				{ __(
 					'Please enter a name for your form. You can edit it later.',
 					'formgent'
@@ -77,7 +88,7 @@ export default function CreateFormModalContent( { type } ) {
 								min: 5,
 								message: __(
 									'The title field must be at least 5 characters.',
-									'helpgent'
+									'formgent'
 								),
 							},
 							{
@@ -93,15 +104,14 @@ export default function CreateFormModalContent( { type } ) {
 							},
 						] }
 					>
-						<AntInput size="large" defaultValue="My form" />
+						<AntInput
+							size="large"
+							value="My form"
+							defaultValue="My form"
+						/>
 					</Form.Item>
 					<Form.Item>
-						<AntButton
-							type="dark"
-							size="large"
-							htmlType="submit"
-							block
-						>
+						<AntButton type="primary" htmlType="submit" block>
 							{ SingleFormReducer?.isCreatingForm
 								? __( 'Creating', 'formgent' )
 								: __( 'Create Form', 'formgent' ) }
