@@ -3,9 +3,6 @@ import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	Button,
-	Icon,
-	TextareaControl,
 	__experimentalInputControl as InputControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -138,7 +135,12 @@ const controlGenerators = {
 		);
 	},
 	repeater: Repeater,
-	toggle_group: function ( { attr_key, control, setAttributes } ) {
+	toggle_group: function ( {
+		attr_key,
+		control,
+		attributes,
+		setAttributes,
+	} ) {
 		const toggleOptions = control.options;
 		return (
 			<Fragment>
@@ -147,6 +149,7 @@ const controlGenerators = {
 				</label>
 				<ToggleGroupControl
 					isBlock
+					value={ attributes[ attr_key ] }
 					onChange={ function ( value ) {
 						// Update the attribute value in the block's attributes
 						setAttributes( { [ attr_key ]: value } );
