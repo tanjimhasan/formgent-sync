@@ -67,12 +67,13 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Select your new form', 'formgent' ) }>
+				<PanelBody title={ __( 'General', 'formgent' ) }>
 					<SelectControl
 						label={ __( 'SELECT A FORM', 'formgent' ) }
 						value={ formId }
 						options={ options }
 						onChange={ onChangeForm }
+						size="__unstable-large"
 					/>
 				</PanelBody>
 			</InspectorControls>
