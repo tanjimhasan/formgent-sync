@@ -30,7 +30,7 @@ class Form extends Widget_Base {
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __( 'Forms', 'formgent' ),
+                'label' => __( 'General', 'formgent' ),
                 'tab'   => Controls_Manager::TAB_CONTENT,
             ]
         );
