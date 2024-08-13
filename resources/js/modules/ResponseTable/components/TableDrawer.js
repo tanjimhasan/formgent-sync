@@ -16,9 +16,13 @@ import closeIcon from '@icon/close.svg';
 import downloadIcon from '@icon/download.svg';
 import editIcon from '@icon/edit.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
+import hashIcon from '@icon/hash.svg';
+import linkIcon from '@icon/link.svg';
 import mailIcon from '@icon/mail.svg';
+import phoneIcon from '@icon/phone.svg';
 import plusIcon from '@icon/plus.svg';
 import starIcon from '@icon/star.svg';
+import textIcon from '@icon/text.svg';
 import trashIcon from '@icon/trash.svg';
 
 export default function TableDrawer( props ) {
@@ -190,12 +194,12 @@ export default function TableDrawer( props ) {
 
 	function handleAnswerIcon( type ) {
 		const answerIcon = {
-			email: alignLeftIcon,
-			text: alignLeftIcon,
+			email: mailIcon,
+			text: textIcon,
 			textarea: alignLeftIcon,
-			number: alignLeftIcon,
-			'phone-number': alignLeftIcon,
-			website: alignLeftIcon,
+			number: hashIcon,
+			'phone-number': phoneIcon,
+			website: linkIcon,
 		};
 
 		return answerIcon[ type ] || alignRightIcon;

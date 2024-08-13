@@ -11,7 +11,7 @@ const TableStyle = Styled.div`
                 th,
                 td{
                     min-width: 215px;
-                    border-color: var(--formgent-color-border) !important;
+                    border-color: var(--formgent-color-gray-200) !important;
                     &:first-child{
                         min-width: unset;
                         text-align: start;
@@ -72,14 +72,14 @@ const TableStyle = Styled.div`
                 padding: 8px 12px !important;
                 min-height: 40px;
                 text-align: start;
-                color: var(--formgent-color-light-gray);
-                background-color: var(--formgent-color-bg-sec);
+                color: var(--formgent-color-gray-800);
+                background-color: var(--formgent-color-gray-100);
                 &:before {
                     height: 100% !important;
                     background-color: var(--formgent-color-extra-light) !important;
                 }
                 a {
-                    color: var(--formgent-color-light-gray);
+                    color: var(--formgent-color-gray-800);
                 }
             }
         }
@@ -89,6 +89,7 @@ const TableStyle = Styled.div`
             background-color: var(--formgent-color-white);
             td{
                 padding: 8px 12px !important;
+                color: var(--formgent-color-gray-600);
                 &:first-child{
                     position: relative;
                     padding-right: 0;
@@ -134,7 +135,7 @@ const TableStyle = Styled.div`
             min-width: 24px;
             border-radius: 6px;
             color: var(--formgent-color-white);
-            background-color: var(--formgent-color-extra-light);
+            background-color: var(--formgent-color-gray-400);
         }
     }
 
@@ -161,7 +162,7 @@ const TableStyle = Styled.div`
         height: 30px;
         margin: 0;
         color: var(--formgent-color-white);
-        background: var(--formgent-color-gray);
+        background: var(--formgent-color-gray-800);
         border: none;
         border-radius: 8px;
         cursor: pointer;
@@ -274,8 +275,8 @@ const TableActionStyle = Styled.div`
             cursor: pointer;
             transition: background ease .3s;
             &:hover {
-                background: var(--formgent-color-bg-page) !important;
-                border-color: var(--formgent-color-bg-page) !important;
+                background: var(--formgent-color-gray-200) !important;
+                border-color: var(--formgent-color-gray-200) !important;
             }
         }
         .formgent-table-header__selection__clear {
@@ -308,10 +309,10 @@ const TableActionStyle = Styled.div`
         outline: none;
         border-radius: 8px;
         background: transparent;
-        border: 1px solid var(--formgent-color-bg-gray);
+        border: 1px solid var(--formgent-color-gray-200);
         transition: none;
         &.ant-input-affix-wrapper-focused {
-            border: 2px solid var(--formgent-color-dark);
+            border: 2px solid var(--formgent-color-gray-800);
         }
         .ant-input {
             outline: none;
@@ -346,8 +347,8 @@ const TableActionStyle = Styled.div`
         border: 1px solid var(--formgent-color-bg-light) !important;
         border-radius: 8px;
         &:hover {
-            background: var(--formgent-color-bg-page)!important;
-            border-color: var(--formgent-color-bg-page)!important;
+            background: var(--formgent-color-gray-200)!important;
+            border-color: var(--formgent-color-gray-200)!important;
         }
         &.formgent-table-header__delete {
             color: var(--formgent-color-danger) !important;
@@ -370,8 +371,8 @@ const TableActionStyle = Styled.div`
             height: 40px;
             padding: 0 15px;
             margin: 0 0 8px;
-            color: var(--formgent-color-dark);  
-            background: var(--formgent-color-bg-general);
+            color: var(--formgent-color-gray-700);  
+            background: var(--formgent-color-gray-100);
         }
         .formgent-table-header__dropdown__toggle {
             display: flex;
@@ -393,7 +394,8 @@ const TableActionStyle = Styled.div`
                 gap: 6px;
             }
             &:hover {
-                background: var(--formgent-color-bg-page);
+                background: var(--formgent-color-gray-200);
+                border-color: var(--formgent-color-gray-200);
             }
         }
         .formgent-table-header__dropdown__content {
@@ -430,7 +432,7 @@ const TableActionStyle = Styled.div`
         padding: 0 15px;
         font-size: 14px;
         font-weight: 600;
-        color: var(--formgent-color-text);
+        color: var(--formgent-color-gray-600);
         span {
             padding: 0;
         }
@@ -618,8 +620,8 @@ const TableDrawerStyle = Styled.div`
             width: 40px;
             min-width: 40px;
             border-radius: 10px;
-            color: var(--formgent-color-white);
-            background-color: var(--formgent-color-gray);
+            color: var(--formgent-color-gray-700);
+            background-color: var(--formgent-color-gray-200);
         }
         .response-table__drawer__tab__item__content {
             display: flex;

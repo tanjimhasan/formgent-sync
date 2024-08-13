@@ -31,9 +31,12 @@ import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
 import hideIcon from '@icon/eye-off.svg';
 import gridIcon from '@icon/grid.svg';
+import hashIcon from '@icon/hash.svg';
+import linkIcon from '@icon/link.svg';
 import mailOpenIcon from '@icon/mail-open.svg';
 import mailIcon from '@icon/mail.svg';
 import pdfIcon from '@icon/pdf.svg';
+import phoneIcon from '@icon/phone.svg';
 import pinIcon from '@icon/pin.svg';
 import starIcon from '@icon/star.svg';
 import textIcon from '@icon/text.svg';
@@ -247,12 +250,12 @@ export default function Table() {
 
 	function handleColumnIcon( type ) {
 		const columnIcon = {
-			email: alignLeftIcon,
+			email: mailIcon,
 			text: textIcon,
 			textarea: alignLeftIcon,
-			number: alignLeftIcon,
-			'phone-number': alignLeftIcon,
-			website: alignLeftIcon,
+			number: hashIcon,
+			'phone-number': phoneIcon,
+			website: linkIcon,
 		};
 
 		return columnIcon[ type ] || alignLeftIcon;
