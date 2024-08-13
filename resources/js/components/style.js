@@ -5,7 +5,7 @@ const DropdownStyle = Styled.div`
 `;
 
 const SelectStyle = Styled.div`
-    width: 175px;
+    width: 196px;
     .ant-select-selection-item {
         margin: 0 5px !important;
         height: 32px;

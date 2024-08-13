@@ -2,6 +2,7 @@ const DEFAULT_STATE = {
 	forms: [],
 	addBackBtn: false,
 	isCreatePopupOpen: false,
+	createPopupStep: '1',
 	selectedTemplate: null,
 	templateElements: null,
 	createFormStage: 'initial',
@@ -58,6 +59,11 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				createFormStage: action.stage,
+			};
+		case 'UPDATE_CREATE_POPUP_STEP':
+			return {
+				...state,
+				createPopupStep: action.step,
 			};
 		case 'UPDATE_TITLE_REQUEST':
 			return {
@@ -249,6 +255,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					...state.dateFrame,
 					from: dateFrom,
 				},
+				isFilterActive: true,
 			};
 		case 'UPDATE_FORM_DATE_TO':
 			return {
@@ -257,6 +264,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 					...state.dateFrame,
 					to: dateTo,
 				},
+				isFilterActive: true,
 			};
 		case 'UPDATE_FORM_SEARCH_QUERY':
 			return {
@@ -269,6 +277,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				type: formType,
 				isLoading: true,
+				isFilterActive: true,
 			};
 		default:
 			return state;

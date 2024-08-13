@@ -6,7 +6,8 @@ import handleCreateForm from '@formgent/helper/handleCreateForm';
 import ReactSVG from 'react-inlinesvg';
 import plusIcon from '@icon/plus.svg';
 export default function Header() {
-	const { updateCreatePopUp } = useDispatch( 'formgent' );
+	const { updateCreatePopUp, updateCreatePopupStep } =
+		useDispatch( 'formgent' );
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -28,6 +29,7 @@ export default function Header() {
 						className="formgent-page-header-btn"
 						onClick={ ( e ) => {
 							updateCreatePopUp( true );
+							updateCreatePopupStep( '1' );
 						} }
 					>
 						<ReactSVG src={ plusIcon } />{ ' ' }

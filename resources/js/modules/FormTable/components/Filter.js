@@ -12,13 +12,13 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
 import chevronDown from '@icon/chevron-down.svg';
 import { useDebounce } from '@formgent/hooks/useDebounce';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 dayjs.extend( customParseFormat );
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
 export default function Filter( props ) {
-	const { pagination, isLoading } = props;
+	const { forms, pagination, isLoading, isFilterActive } = props;
 	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
 	const [ formType, setFormType ] = useState( 'all' );
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
@@ -44,14 +44,16 @@ export default function Filter( props ) {
 		handleFormDateType( e.target.value );
 	};
 
+	console.log( forms );
+
 	const formTypes = [
 		{
 			value: 'all',
-			label: __( 'All Forms', 'formgent' ),
+			label: sprintf( __( 'All Forms (%s)', 'formgent' ), forms.length ),
 		},
 		{
 			value: 'general',
-			label: __( 'General', 'formgent' ),
+			label: sprintf( __( 'General (%s)', 'formgent' ), forms.filter ),
 		},
 	];
 
@@ -255,7 +257,7 @@ export default function Filter( props ) {
 			<div className="formgent-form-filter__right">
 				<div className="formgent-form-filter__search">
 					<Input
-						placeholder="Search"
+						placeholder="Search form"
 						prefix={ <ReactSVG src={ searchIcon } /> }
 						onChange={ handleSearchQuery }
 					/>

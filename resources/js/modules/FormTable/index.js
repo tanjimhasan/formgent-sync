@@ -22,6 +22,7 @@ function FormTable( props ) {
 		isStatusUpdating,
 		sortBy,
 		dateType,
+		isFilterActive,
 	} = FormReducer;
 
 	return (
@@ -34,8 +35,15 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			<Filter pagination={ pagination } isLoading={ isLoading } />
-			{ forms.length > 0 ? (
+			<Filter
+				forms={ forms }
+				pagination={ pagination }
+				isLoading={ isLoading }
+				isFilterActive={ isFilterActive }
+			/>
+			{ isLoading ? (
+				<AntSkeleton active />
+			) : forms.length !== 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table
 						forms={ forms }
@@ -48,8 +56,19 @@ function FormTable( props ) {
 						isStatusUpdating={ isStatusUpdating }
 					/>
 				</Suspense>
-			) : isLoading ? (
-				<AntSkeleton active />
+			) : forms.length === 0 && isFilterActive ? (
+				<Suspense fallback={ <AntSkeleton active /> }>
+					<Table
+						forms={ [] }
+						pagination={ pagination }
+						isLoading={ isLoading }
+						form_edit_url={ form_edit_url }
+						isFormDeleting={ isFormDeleting }
+						sortBy={ sortBy }
+						dateType={ dateType }
+						isStatusUpdating={ isStatusUpdating }
+					/>
+				</Suspense>
 			) : (
 				<StarterContent />
 			) }

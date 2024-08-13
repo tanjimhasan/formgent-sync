@@ -523,7 +523,7 @@ const FilterStyle = Styled.div`
     .formgent-form-filter__left{
         .ant-select{
             width: 100%;
-            height: 38px;
+            height: 40px;
             &.ant-select-focused .ant-select-selector{
                 box-shadow: 0 0 0 2px #2C3239 !important;
                 border-color: transparent !important;
@@ -552,14 +552,11 @@ const FilterStyle = Styled.div`
             min-width: 260px;
         }
     }
-    .formgent-form-filter__by-time{
-
-    }
     .formgent-form-filter__by-time__trigger,
     .formgent-form-filter__sorting__trigger{
         background: #fff;
         border: 1px solid var(--formgent-color-border-light);
-        padding: 12px;
+        padding: 10px 12px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -571,6 +568,7 @@ const FilterStyle = Styled.div`
         }
     }
     .formgent-form-filter__sorting__trigger{
+        padding: 11px 12px;
         svg{
             width: 16px;
             height: 16px;
