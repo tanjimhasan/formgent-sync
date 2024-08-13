@@ -1,9 +1,7 @@
-import { useState, useEffect } from '@wordpress/element';
-import { useDispatch, resolveSelect } from '@wordpress/data';
 import { AntSpin, AntTable } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
-import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
