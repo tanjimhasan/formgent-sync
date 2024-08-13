@@ -309,6 +309,7 @@ const TableActionStyle = Styled.div`
         border-radius: 8px;
         background: transparent;
         border: 1px solid var(--formgent-color-bg-gray);
+        transition: none;
         &.ant-input-affix-wrapper-focused {
             border: 2px solid var(--formgent-color-dark);
         }
@@ -368,8 +369,6 @@ const TableActionStyle = Styled.div`
             font-weight: 600;
             height: 40px;
             padding: 0 15px;
-            color: var(--formgent-color-dark);
-            padding: 15px;
             margin: 0 0 8px;
             color: var(--formgent-color-dark);  
             background: var(--formgent-color-bg-general);
@@ -411,6 +410,7 @@ const TableActionStyle = Styled.div`
             z-index: 1;
             opacity: 0;
             visibility: hidden;
+            overflow: hidden;
             transform: translateY(10px);
             transition: all ease .3s;
         }

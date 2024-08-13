@@ -907,6 +907,7 @@ export default function Table() {
 
 	useEffect( () => {
 		setTableDrawer( null );
+		setSelectedRowKeys( [] );
 	}, [ id ] );
 
 	useEffect( () => {
