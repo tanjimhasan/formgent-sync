@@ -41,6 +41,7 @@ import xlsIcon from '@icon/xls.svg';
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
+	const [ selectedKey, setSelectedKey ] = useState( 'all' );
 	const [ tableDrawer, setTableDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
@@ -165,24 +166,38 @@ export default function Table() {
 
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
+		setSelectedKey( key );
+
 		const selectFunctions = {
-			all: () => responses,
+			all: () => {
+				setReadStatus( 0 );
+				fetchResponse();
+			},
 			read: () => {
 				setReadStatus( 1 );
 			},
 			unread: () => {
-				setReadStatus( 0 );
+				if ( readStatus === 0 ) {
+					fetchResponse();
+				} else {
+					setReadStatus( 0 );
+				}
 			},
 			starred: () =>
-				responses?.filter( ( item ) => item.is_starred === '1' ),
+				responses?.filter(
+					( item ) => starredItems[ item.id ] === '1'
+				),
 			unstarred: () =>
-				responses?.filter( ( item ) => item.is_starred === '0' ),
+				responses?.filter(
+					( item ) => starredItems[ item.id ] === '0'
+				),
 		};
 
 		// Get the sorted data based on the key
 		const selectedData = selectFunctions[ key ]
 			? selectFunctions[ key ]()
 			: responses;
+
 		setFilteredData( selectedData );
 	}
 
@@ -376,6 +391,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ gridIcon } />
 					All
+					{ selectedKey === 'all' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'all',
@@ -385,6 +409,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ mailOpenIcon } />
 					Read
+					{ selectedKey === 'read' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'read',
@@ -394,6 +427,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ mailIcon } />
 					Unread
+					{ selectedKey === 'unread' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'unread',
@@ -408,6 +450,15 @@ export default function Table() {
 						fill="currentColor"
 					/>
 					Starred
+					{ selectedKey === 'starred' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'starred',
@@ -417,6 +468,15 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ starIcon } />
 					Unstarred
+					{ selectedKey === 'unstarred' && (
+						<span className="active-icon">
+							<ReactSVG
+								width="10"
+								height="10"
+								src={ checkIcon }
+							/>
+						</span>
+					) }
 				</span>
 			),
 			key: 'unstarred',
@@ -493,7 +553,7 @@ export default function Table() {
 				<div className="formgent-column-action formgent-column-action__id">
 					<AntDropdown
 						menu={ {
-							items: sortItems( 'id' ),
+							items: selectItems,
 							onClick: handleSelectItems,
 						} }
 						trigger={ [ 'click' ] }
