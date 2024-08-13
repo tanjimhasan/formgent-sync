@@ -54,14 +54,14 @@ export default function TableHeader( props ) {
 	}
 
 	// Handle column checkbox change
-	function handleColumnCheckbox( e, id ) {
+	function handleColumnCheckbox( e, name ) {
 		setVisibleColumns( ( prevState ) => {
 			if ( e.target.checked ) {
 				setFieldColumnHide( false );
-				return [ ...prevState, id ];
+				return [ ...prevState, name ];
 			} else {
-				setFieldColumnHide( id );
-				return prevState.filter( ( item ) => item !== id );
+				setFieldColumnHide( name );
+				return prevState.filter( ( item ) => item !== name );
 			}
 		} );
 	}
@@ -212,12 +212,12 @@ export default function TableHeader( props ) {
 										<AntCheckbox
 											key={ index }
 											checked={ visibleColumns.includes(
-												field.id
+												field.name
 											) }
 											onChange={ ( e ) =>
 												handleColumnCheckbox(
 													e,
-													field.id
+													field.name
 												)
 											}
 										>

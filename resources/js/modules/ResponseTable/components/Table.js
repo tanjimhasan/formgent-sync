@@ -82,6 +82,8 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
+	// console.log('SingleFormReducer', SingleFormReducer);
+
 	const {
 		responses,
 		pagination,
@@ -463,16 +465,10 @@ export default function Table() {
 			label: (
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ pinIcon } />
-					Freeze Column
-					{ frozenColumns.includes( dropdownId ) && (
-						<span className="active-icon">
-							<ReactSVG
-								width="10"
-								height="10"
-								src={ checkIcon }
-							/>
-						</span>
-					) }
+					{ frozenColumns.includes( dropdownId )
+						? 'Unfreeze'
+						: 'Freeze' }{ ' ' }
+					Column
 				</span>
 			),
 			key: 'freeze',
@@ -684,41 +680,18 @@ export default function Table() {
 
 	// Use effect to update
 	useEffect( () => {
-		const newColumns = customColumns.map( ( col ) => {
-			return {
-				...col,
-				hidden: hiddenColumns.includes( col.key ),
-			};
-		} );
-
-		setCustomColumns( newColumns );
-	}, [ hiddenColumns ] );
-
-	useEffect( () => {
-		const newColumns = customColumns.map( ( col ) => {
-			return {
-				...col,
-				fixed: frozenColumns.includes( col.dataIndex ) ? 'left' : null,
-			};
-		} );
-
-		setCustomColumns( newColumns );
-	}, [ frozenColumns ] );
-
-	useEffect( () => {
 		setResponseFields( fields );
-		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}, [ fields ] );
 
 	// Generate Column
-	const generateCustomColumns = ( selectedFields, responses, fields ) => {
-		return ( selectedFields || [] ).map( ( fieldId ) => {
-			const field = fields?.find( ( f ) => f.id === fieldId );
-			const title = field ? field.label : `Field ${ fieldId }`;
+	const generateCustomColumns = () => {
+		return ( selected_fields || [] ).map( ( fieldName ) => {
+			const field = fields?.find( ( field ) => field.name === fieldName );
+			const title = field ? field.label : `Field ${ fieldName }`;
 
 			return {
-				key: fieldId,
-				dataIndex: fieldId,
+				key: fieldName,
+				dataIndex: fieldName,
 				title: () => (
 					<div className="formgent-column-action">
 						<span className="formgent-column-action__title">
@@ -735,9 +708,9 @@ export default function Table() {
 						</span>
 						<AntDropdown
 							menu={ {
-								items: sortItems( fieldId ),
+								items: sortItems( fieldName ),
 								onClick: ( item ) =>
-									handleSortby( item, fieldId ),
+									handleSortby( item, fieldName ),
 							} }
 							trigger={ [ 'click' ] }
 							placement="bottomRight"
@@ -759,7 +732,7 @@ export default function Table() {
 					);
 					if ( response ) {
 						const answer = response.answers?.find(
-							( a ) => a.field_id === fieldId
+							( a ) => a.field_name === fieldName
 						);
 						if ( answer ) {
 							return <div>{ answer.value }</div>;
@@ -778,14 +751,20 @@ export default function Table() {
 
 			const updateColumn = await postData( 'admin/responses/fields', {
 				form_id: id,
-				field_ids: visibleColumns,
+				field_names: visibleColumns,
 			} );
 
 			if ( updateColumn ) {
+				// Remove all visibleColumns from hiddenColumns
+				const updatedHiddenColumns = hiddenColumns.filter(
+					( column ) => ! visibleColumns.includes( column )
+				);
+				setHiddenColumns( updatedHiddenColumns );
+
 				responseColumnUpdateSuccess( visibleColumns );
 				resolveSelect( 'formgent' ).getSingleFormFields(
 					parseInt( id ),
-					visibleColumns
+					Date.now()
 				);
 			} else {
 				responseColumnUpdateError();
@@ -796,11 +775,7 @@ export default function Table() {
 	}
 
 	useEffect( () => {
-		const generatedColumns = generateCustomColumns(
-			selected_fields,
-			responses,
-			fields
-		);
+		const generatedColumns = generateCustomColumns();
 		const allColumns = [ ...defaultColumns, ...generatedColumns ];
 
 		setCustomColumns(
@@ -814,21 +789,24 @@ export default function Table() {
 				};
 			} )
 		);
-
-		// setCustomColumns( allColumns );
 	}, [
 		selected_fields,
 		responses,
 		visibleColumns,
+		hiddenColumns,
+		frozenColumns,
 		starredItems,
 		readStatusItems,
 		filteredData,
-		frozenColumns,
-		hiddenColumns,
 	] );
 
 	useEffect( () => {
-		setVisibleColumns( selected_fields );
+		if (
+			JSON.stringify( visibleColumns ) !==
+			JSON.stringify( selected_fields )
+		) {
+			setVisibleColumns( selected_fields );
+		}
 	}, [ selected_fields ] );
 
 	useEffect( () => {
@@ -856,6 +834,8 @@ export default function Table() {
 
 	useEffect( () => {
 		setCustomColumns( defaultColumns );
+
+		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}, [] );
 
 	// Export CSV Data

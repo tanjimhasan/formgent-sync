@@ -331,7 +331,7 @@ export default function TableDrawer( props ) {
 											</div>
 											<div className="response-table__drawer__tab__item__content">
 												<h5 className="response-table__drawer__tab__item__title">
-													{ answer.field_id }
+													{ answer.field_name }
 												</h5>
 												<p className="response-table__drawer__tab__item__desc">
 													{ answer.value }

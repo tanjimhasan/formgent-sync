@@ -446,7 +446,7 @@ const TableTabStyle = Styled.div`
         font-size: 14px;
         font-weight: 600;
         height: 36px;
-        padding: 0 36px;
+        padding: 0 16px;
         margin: 0 !important;
         text-decoration: none;
         transition: all ease .3s;
@@ -458,9 +458,9 @@ const TableTabStyle = Styled.div`
         }
         &:hover,
         &.ant-tabs-tab-active {
-            background-color: var(--formgent-color-dark);
+            background-color: var(--formgent-primary-light-button-bg);
             .ant-tabs-tab-btn {
-                color: var(--formgent-color-white);
+                color: var(--formgent-color-primary);
             }
         }
     }
@@ -658,6 +658,31 @@ const TableDrawerStyle = Styled.div`
                     color: var(--formgent-color-white);
                     background: var(--formgent-color-light-gray);
                 }
+            }
+        }
+    }
+    .ant-tabs-tab {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 600;
+        height: 36px;
+        padding: 0 36px;
+        margin: 0 !important;
+        text-decoration: none;
+        transition: all ease .3s;
+        .ant-tabs-tab-btn {
+            color: var(--formgent-color-text);
+        }
+        ~ .ant-tabs-ink-bar {
+            display: none;
+        }
+        &:hover,
+        &.ant-tabs-tab-active {
+            background-color: var(--formgent-color-dark);
+            .ant-tabs-tab-btn {
+                color: var(--formgent-color-white);
             }
         }
     }

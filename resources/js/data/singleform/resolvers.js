@@ -87,7 +87,7 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.fetchSingleFormError( error );
 		}
 	},
-	*getSingleFormFields( formID ) {
+	*getSingleFormFields( formID, timestamp = 0 ) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
 		try {
 			const data = yield SingleFormActions.fetchFields(
@@ -96,6 +96,7 @@ export const SingleFormResolvers = {
 			);
 
 			yield SingleFormActions.storeResponse( {
+				form_title: data.form.title,
 				fields: data.fields,
 				selected_fields: data.selected_fields,
 			} );

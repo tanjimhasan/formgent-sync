@@ -1,7 +1,7 @@
 import patchData from '@formgent/helper/patchData';
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { FormHeaderStyle } from './style';
@@ -13,7 +13,7 @@ export default function FormHeader( props ) {
 	const { resultHeader } = props;
 
 	const [ isEditing, setIsEditing ] = useState( false );
-	const [ title, setTitle ] = useState( 'Form Name' );
+	const [ title, setTitle ] = useState( '' );
 
 	const { publishFormRequest, publishFormSuccess, publishFormError } =
 		useDispatch( 'formgent' );
@@ -29,7 +29,7 @@ export default function FormHeader( props ) {
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
-	const { isUpdatingForm, responses } = SingleFormReducer;
+	const { form_title, isUpdatingForm, responses } = SingleFormReducer;
 
 	const handleBackButtonClick = () => {
 		navigate( -1 );
@@ -55,6 +55,7 @@ export default function FormHeader( props ) {
 	const formPreview = () => {
 		console.log( 'Form Preview clicked' );
 	};
+
 	function formPublish() {
 		if ( isUpdatingForm ) return;
 		publishFormRequest();
@@ -79,6 +80,10 @@ export default function FormHeader( props ) {
 			publishFormError( error );
 		}
 	}
+
+	useEffect( () => {
+		setTitle( form_title );
+	}, [ form_title ] );
 
 	const forms = `/forms/${ id }`;
 
