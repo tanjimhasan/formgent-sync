@@ -93,14 +93,20 @@ const TableStyle = Styled.div`
                     position: relative;
                     padding-right: 0;
                     transition: var(--formgent-transition);
-                }               
+                } 
+                &:last-child{ 
+                    padding-right: 21px;
+                }
             }
+            &.ant-table-row-selected{
+                border: 1px solid #BEE3FF;
+            } 
         }
         .ant-table-row.ant-table-row-selected >.ant-table-cell {
             background: var(--formgent-color-info-deep);
         }
-    }
-    
+    } 
+
     .formgent-column-action {
         display: flex;
         gap: 10px;
@@ -117,51 +123,12 @@ const TableStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             text-transform: capitalize;
+            
         }
-        
-        .formgent-column-action__icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 24px;
-            width: 24px;
-            min-width: 24px;
-            border-radius: 6px;
-            color: var(--formgent-color-white);
-            background-color: var(--formgent-color-extra-light);
-        }
-    }
 
-    .formgent-form-date {
-        &:hover {
-            .response-table__drawer__open {
-                opacity: 1;
-                visibility: visible;
-            }
-        }
-    }
-
-    .response-table__drawer__open {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 5px 10px;
-        height: 30px;
-        margin: 0;
-        color: var(--formgent-color-white);
-        background: var(--formgent-color-gray);
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        opacity: 0;
-        visibility: hidden;
-        transition: all ease .3s;
+        &.formgent-column-action__id {
+            justify-content: flex-end;
+        } 
     }
 `;
 
@@ -181,20 +148,22 @@ const TableSelectionStyle = Styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        padding: 8px 15px;
+        padding: 9px 15px;
         border-radius: 12px;
         background-color: #efd9c1;
+        margin-top: 30px;
     }
     .formgent-btn-bulk-delete{
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         padding: 5px 16px;
-        font-weight:; 500;
+        font-size: 14px;
+        font-weight: 500;
         margin: 0 12px;
-        color: var(--formgent-color-dark);
+        color: var(--formgent-color-gray-600);
         &:hover{
-            
             background-color: var(--formgent-color-primary);
             span{
                 color: var(--formgent-color-white);
@@ -206,7 +175,11 @@ const TableSelectionStyle = Styled.div`
             }
         }
         svg{
-            margin-right: 5px;
+            width: 16px;
+            height: 16px;
+            path{
+                stroke: var(--formgent-color-gray-500);
+            }
         }
     }
     .formgent-clear-bulk{
@@ -228,7 +201,7 @@ const TableActionStyle = Styled.div`
     flex: 1;
     display: flex;
     gap: 10px;
-    &:last-child { 
+    &:last-child {
         justify-content: end;
     }
     .formgent-table-header__selection {
@@ -354,11 +327,10 @@ const TableActionStyle = Styled.div`
             align-items: center;
             font-size: 14px;
             font-weight: 600;
-            height: 40px;
-            padding: 0 15px;
-            margin: 0 0 8px;
             color: var(--formgent-color-dark);  
-            background: var(--formgent-color-bg-general);
+            padding: 15px; 
+            margin: 0 0 8px;
+            background: var(--formgent-color-bg-light);
         }
         .formgent-table-header__dropdown__toggle {
             display: flex;
@@ -424,7 +396,7 @@ const TableActionStyle = Styled.div`
             border-radius: 4px;
         }
     }
-    
+
 `;
 
 const TableTabStyle = Styled.div`

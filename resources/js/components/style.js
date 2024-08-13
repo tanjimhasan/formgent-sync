@@ -1,11 +1,7 @@
 import Styled from 'styled-components';
 
 const DropdownStyle = Styled.div`
-    .ant-dropdown{
-        .ant-dropdown-menu{
 
-        }
-    }
 `;
 
 const SelectStyle = Styled.div`
@@ -17,7 +13,7 @@ const SelectStyle = Styled.div`
     }
     .ant-select-multiple .ant-select-selection-overflow {
         flex-wrap: unset;
-        overflow-x: auto;   
+        overflow-x: auto;
     }
 `;
 
@@ -63,6 +59,7 @@ const ModalAlertStyle = Styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 12px;
         padding: 20px 30px;
         background-color: var(--formgent-color-bg-light);
         .formgent-btn{
@@ -142,7 +139,12 @@ const ModalAlertStyle = Styled.div`
             }
         }
     }
-    .formgent-modal-action{}
+    .formgent-modal-action{
+        .formgent-modal-cancel-btn{
+            border: 1px solid var(--formgent-color-gray-300);
+            color: var(--formgent-color-gray-600);
+        }
+    }
 
     .formgent-session-expired__content{
         margin-top: -84px;
@@ -251,7 +253,7 @@ const FormHeaderStyle = Styled.div`
                 }
             }
         }
-        
+
         .formgent-editor-header__info__logo {
             width: 70px;
             height: 60px;
@@ -407,7 +409,7 @@ const MenuStyle = Styled.div`
 `;
 
 const SubmissionFormStyle = Styled.div`
-    
+
 `;
 
 export {
