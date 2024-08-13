@@ -8,7 +8,7 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div className="block-editor-block-list__single">
+		<div className="formgent-editor-block-list__single formgent-editor-block-list__single--gdpr">
 			{ /* <label
 				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
 			>
@@ -19,7 +19,9 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 				) : null }
 			</label> */ }
-			<div className="block-editor-block-list__single__wrapper">
+			<div
+				className={ `formgent-editor-block-list__single__wrapper formgent-label-align-${ attributes.label_alignment }` }
+			>
 				<input
 					className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
 					type="checkbox"
@@ -28,15 +30,22 @@ export default function Edit( { attributes, setAttributes } ) {
 					checked={ attributes.checked }
 					onChange={ () => {} }
 				/>
-				<RichText
-					className="block-editor-block-list__single__sub-label"
-					tagName="span"
-					value={ attributes.description }
-					onChange={ ( description ) =>
-						setAttributes( { description } )
-					}
-					placeholder={ __( 'Enter description' ) }
-				/>
+				<div className="formgent-editor-block-list__single__label-container">
+					<RichText
+						className="block-editor-block-list__single__sub-label"
+						tagName="span"
+						value={ attributes.description }
+						onChange={ ( description ) =>
+							setAttributes( { description } )
+						}
+						placeholder={ __( 'Enter description' ) }
+					/>
+					{ attributes.required ? (
+						<span className="formgent-editor-block-list__single__label__required">
+							*
+						</span>
+					) : null }
+				</div>
 			</div>
 		</div>
 	);

@@ -137,7 +137,8 @@ export function registerBlock(
 	controls,
 	Edit,
 	icon = 'smiley',
-	exampleAttributes = {}
+	exampleAttributes = {},
+	props = {}
 ) {
 	if ( 'formgent_form' === typenow ) {
 		registerBlockType( metadata.name, {
@@ -156,6 +157,7 @@ export function registerBlock(
 					/>
 				);
 			},
+			...props,
 		} );
 	}
 }

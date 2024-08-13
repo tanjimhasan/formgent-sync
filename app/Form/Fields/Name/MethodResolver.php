@@ -56,7 +56,7 @@ trait MethodResolver {
 
     public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
         $dto = new AnswerDTO();
-        return $dto->set_form_id( $form->ID )->set_field_type( $field['type'] )->set_field_id( $field['id'] );
+        return $dto->set_form_id( $form->ID )->set_field_type( $field['type'] )->set_field_name( $field['name'] );
     }
 
     public function get_children_dtos( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): array {
