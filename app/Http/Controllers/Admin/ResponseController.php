@@ -167,7 +167,8 @@ class ResponseController extends Controller {
 
             $fields[] = [
                 'name'  => $field['name'],
-                'label' => $field['label']
+                'label' => $field['label'],
+                'type'  => $field['field_type']
             ];
         }
 
