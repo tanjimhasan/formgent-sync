@@ -44,7 +44,6 @@ export default function TableDrawer( props ) {
 		downloadItems,
 		dateFormatOptions,
 	} = props;
-	console.log( 'Drawer', { pagination, single_response_pagination } );
 
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
