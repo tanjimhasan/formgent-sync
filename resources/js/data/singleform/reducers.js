@@ -100,6 +100,17 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'RESPONSE_STORE':
 			return {
 				...state,
+				forms: {
+					...state.forms,
+					[ data.id ]: {
+						responses: data.responses,
+					},
+				},
+				pagination: data.pagination,
+			};
+		case 'RESPONSE_SINGLE_STORE':
+			return {
+				...state,
 				...data,
 			};
 		case 'FIELDS_STORE':
@@ -218,9 +229,16 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'RESPONSE_DELETE_SUCCESS':
 			return {
 				...state,
-				responses: state.responses.filter(
-					( response ) => ! action.ids.includes( response.id )
-				),
+				forms: {
+					...state.forms,
+					[ action.formID ]: {
+						responses: state.forms[
+							action.formID
+						].responses.filter(
+							( response ) => ! action.ids.includes( response.id )
+						),
+					},
+				},
 				isResponseDeleting: false,
 			};
 		case 'RESPONSE_DELETE_ERROR':

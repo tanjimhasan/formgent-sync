@@ -171,6 +171,23 @@ const TitleBoxStyle = Styled.div`
 const TableStyle = Styled.div`
     .ant-table{
         background-color: transparent;
+        &.ant-table-empty{
+            .ant-table-container::before{
+                content: none;
+            }
+            .ant-table-cell{
+                border-radius: inherit !important;
+            }
+            thead tr th:first-child{
+                border-radius: 12px 0 0 12px !important;
+            }
+            thead tr th:last-child{
+                border-radius: 0 12px 12px 0 !important;
+            }
+            .ant-table-expanded-row-fixed{
+                width: 100% !important;
+            }
+        }
         table{
             border-spacing: 0 10px;
             tr {
@@ -523,7 +540,7 @@ const FilterStyle = Styled.div`
     .formgent-form-filter__left{
         .ant-select{
             width: 100%;
-            height: 38px;
+            height: 40px;
             &.ant-select-focused .ant-select-selector{
                 box-shadow: 0 0 0 2px #2C3239 !important;
                 border-color: transparent !important;
@@ -552,14 +569,11 @@ const FilterStyle = Styled.div`
             min-width: 260px;
         }
     }
-    .formgent-form-filter__by-time{
-
-    }
     .formgent-form-filter__by-time__trigger,
     .formgent-form-filter__sorting__trigger{
         background: #fff;
         border: 1px solid var(--formgent-color-border-light);
-        padding: 12px;
+        padding: 10px 12px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -570,7 +584,29 @@ const FilterStyle = Styled.div`
             border-color: transparent;
         }
     }
+    .formgent-form-filter__by-time__clear{
+        background-color: var(--formgent-color-gray-200);
+        font-size: 10px;
+        font-weight: 600;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: 0.3s ease;
+        svg path{
+            transition: 0.3s ease;
+        }
+        &:hover{
+            background-color: var(--formgent-color-danger);
+            svg path{
+                fill: #fff;
+            }
+        }
+    }
     .formgent-form-filter__sorting__trigger{
+        padding: 11px 12px;
         svg{
             width: 16px;
             height: 16px;
@@ -580,9 +616,14 @@ const FilterStyle = Styled.div`
         .ant-input-affix-wrapper{
             border: 1px solid var(--formgent-color-border-light);
             border-radius: 10px;
+            padding: 4px 11px;
+            background: #fff;
             &.ant-input-affix-wrapper-focused{
                 box-shadow: 0 0 0 2px #2C3239;
                 border-color: transparent;
+            }
+            .ant-input-prefix{
+                margin-right: 8px;
             }
             .ant-input{
                 border: 0 none;

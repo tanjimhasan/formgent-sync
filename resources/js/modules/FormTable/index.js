@@ -1,12 +1,12 @@
-import { lazy, Suspense, useState } from '@wordpress/element';
+import { lazy, Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { AntSkeleton } from '@formgent/components';
 import Header from './components/Header';
-const Table = lazy( () => import( './components/Table' ) );
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
-import { AntSkeleton } from '@formgent/components';
 import StarterContent from './components/StarterContent';
 import Filter from './components/Filter';
+const Table = lazy( () => import( './components/Table' ) );
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
@@ -20,8 +20,10 @@ function FormTable( props ) {
 		form_edit_url,
 		isFormDeleting,
 		isStatusUpdating,
+		singleStatusUpdated,
 		sortBy,
 		dateType,
+		isFilterActive,
 	} = FormReducer;
 
 	return (
@@ -34,8 +36,15 @@ function FormTable( props ) {
 					</>
 				) }
 			</FormTableHead.Slot>
-			<Filter pagination={ pagination } isLoading={ isLoading } />
-			{ forms.length > 0 ? (
+			<Filter
+				forms={ forms }
+				pagination={ pagination }
+				isLoading={ isLoading }
+				isFilterActive={ isFilterActive }
+			/>
+			{ isLoading ? (
+				<AntSkeleton active />
+			) : forms.length !== 0 ? (
 				<Suspense fallback={ <AntSkeleton active /> }>
 					<Table
 						forms={ forms }
@@ -46,10 +55,23 @@ function FormTable( props ) {
 						sortBy={ sortBy }
 						dateType={ dateType }
 						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
 					/>
 				</Suspense>
-			) : isLoading ? (
-				<AntSkeleton active />
+			) : forms.length === 0 && isFilterActive ? (
+				<Suspense fallback={ <AntSkeleton active /> }>
+					<Table
+						forms={ [] }
+						pagination={ pagination }
+						isLoading={ isLoading }
+						form_edit_url={ form_edit_url }
+						isFormDeleting={ isFormDeleting }
+						sortBy={ sortBy }
+						dateType={ dateType }
+						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
+					/>
+				</Suspense>
 			) : (
 				<StarterContent />
 			) }

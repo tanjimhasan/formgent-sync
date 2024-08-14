@@ -1,21 +1,19 @@
-import { AntSpin, AntTable } from '@formgent/components';
-import { formatDate } from '@formgent/helper/utils';
+import { useState, useEffect } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import { AntTable, AntSpin, AntPagination } from '@formgent/components';
+import { formatDate } from '@formgent/helper/utils';
 import { TableStyle } from './style';
 import TableAction from './TableAction';
 import TableBulkSelection from './TableBulkSelection';
 import TitleBox from './TitleBox';
-
-import handleTextSelect from '@formgent/helper/handleTextSelect';
-import postData from '@formgent/helper/postData';
 import checkIcon from '@icon/check.svg';
 import copyIcon from '@icon/copy.svg';
 import spinnerIcon from '@icon/spinner.svg';
 import { Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { Empty, Pagination } from 'antd';
+import handleTextSelect from '@formgent/helper/handleTextSelect';
+import postData from '@formgent/helper/postData';
 import ReactSVG from 'react-inlinesvg';
 import FormTableStatus from './FormTableStatus';
 
@@ -47,6 +45,7 @@ export default function Table( props ) {
 		sortBy,
 		dateType,
 		isStatusUpdating,
+		singleStatusUpdated,
 	} = props;
 
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -140,6 +139,7 @@ export default function Table( props ) {
 					setEditableForm={ setEditableForm }
 				/>
 			),
+			width: 330,
 		},
 		{
 			title: 'Shortcode',
@@ -196,6 +196,7 @@ export default function Table( props ) {
 					</label>
 				</Tooltip>
 			),
+			width: 200,
 		},
 		{
 			title: 'Responses',
@@ -247,6 +248,7 @@ export default function Table( props ) {
 						form={ record }
 						setEditableForm={ setEditableForm }
 						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
 					/>
 				</div>
 			),
@@ -360,23 +362,16 @@ export default function Table( props ) {
 							total: pagination?.total_items,
 							position: [ 'none' ],
 						} }
-						locale={ {
-							emptyText: (
-								<Empty
-									description={ __(
-										'No Data Found',
-										'formgent'
-									) }
-								></Empty>
-							),
-						} }
 						onChange={ handleFormTableChange }
+						scroll={ {
+							x: 1300,
+						} }
 					/>
 					<div className="formgent-forms-pagination-wrapper">
 						<span className="formgent-forms-pagination-total-count">
 							{ showTotalText }
 						</span>
-						<Pagination
+						<AntPagination
 							current={ pagination?.current_page }
 							pageSize={ 10 }
 							total={ pagination?.total_items }

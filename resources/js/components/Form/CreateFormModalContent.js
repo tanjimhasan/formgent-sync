@@ -1,3 +1,4 @@
+import { useEffect } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { CreateFormStyle } from './style.js';
@@ -47,21 +48,16 @@ export default function CreateFormModalContent( { type } ) {
 		);
 	}
 
-	const customTokens = {
-		colorBgContainer: '#ffffff',
-		colorBorder: '#cccccc',
-		borderRadius: 8,
-		lineWidth: 1,
-	};
-
-	const customComponentTokens = {
-		Input: {
-			paddingBlock: 8,
-			paddingBlockLG: 10,
-			paddingInlineLG: 18,
-			activeBorderColor: '#ff0000',
-		},
-	};
+	useEffect( () => {
+		const titleInput = document.getElementById(
+			'formgent-create-form-title'
+		);
+		titleInput && titleInput.select();
+		titleInput &&
+			titleInput.focus( {
+				cursor: 'all',
+			} );
+	}, [] );
 
 	return (
 		<CreateFormStyle className="formgent-create-modal">
@@ -81,7 +77,7 @@ export default function CreateFormModalContent( { type } ) {
 					onFinish={ handleFormSubmission }
 				>
 					<Form.Item
-						label="Form name"
+						label={ __( 'Form name', 'formgent' ) }
 						name="title"
 						rules={ [
 							{
@@ -100,14 +96,18 @@ export default function CreateFormModalContent( { type } ) {
 							},
 							{
 								required: true,
-								message: 'The title field is required',
+								message: __(
+									'The title field is required',
+									'formgent'
+								),
 							},
 						] }
+						initialValue={ __( 'My form', 'formgent' ) }
 					>
 						<AntInput
 							size="large"
-							value="My form"
-							defaultValue="My form"
+							value={ __( 'My form', 'formgent' ) }
+							id="formgent-create-form-title"
 						/>
 					</Form.Item>
 					<Form.Item>

@@ -123,7 +123,7 @@ export const SingleFormActions = {
 	/**
 	 * Action creator to handle successful form fetch
 	 * @param {String} path - path for requesting api
-	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
+	 * @returns {Object} Action object with type 'FETCH_SINGLE_RESPONSE' and fetched data
 	 */
 	fetchSingleResponse: (
 		path,
@@ -149,11 +149,23 @@ export const SingleFormActions = {
 	/**
 	 * Action creator to handle store form data
 	 * @param {Object} data - The fetched form data
-	 * @returns {Object} Action object with type 'FORM_FETCH' and fetched data
+	 * @returns {Object} Action object with type 'RESPONSE_STORE' and fetched data
 	 */
 	storeResponse: ( data ) => {
 		return {
 			type: 'RESPONSE_STORE',
+			data,
+		};
+	},
+
+	/**
+	 * Action creator to handle store form data
+	 * @param {Object} data - The fetched form data
+	 * @returns {Object} Action object with type 'RESPONSE_SINGLE_STORE' and fetched data
+	 */
+	storeSingleResponse: ( data ) => {
+		return {
+			type: 'RESPONSE_SINGLE_STORE',
 			data,
 		};
 	},
@@ -283,9 +295,10 @@ export const SingleFormActions = {
 		};
 	},
 
-	responseDeleteSuccess: ( ids ) => {
+	responseDeleteSuccess: ( formID, ids ) => {
 		return {
 			type: 'RESPONSE_DELETE_SUCCESS',
+			formID,
 			ids,
 		};
 	},

@@ -3,6 +3,7 @@
  */
 import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
+import TomSelect from 'tom-select';
 
 const { callbacks } = store( 'formgent/form', {
 	actions: {
@@ -15,6 +16,26 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
+		},
+		updateGdpr: () => {
+			const element = getElement();
+			const context = getContext();
+			context.data[ element.ref.name ] =
+				context.data[ element.ref.name ] === '' ||
+				context.data[ element.ref.name ] === 0
+					? 1
+					: 0;
+		},
+		updatePhoneNumber: () => {
+			const element = getElement();
+			const context = getContext();
+			context.data[ element.ref.name ].number = element.ref.value;
+		},
+		updateDialCode: () => {
+			const element = getElement();
+			const context = getContext();
+			const name = element.ref.name.replace( '-dial-code', '' );
+			context.data[ name ].dialCode = element.ref.value;
 		},
 	},
 	callbacks: {
@@ -52,9 +73,12 @@ const { callbacks } = store( 'formgent/form', {
 
 				// // General validation rules
 				if ( field.required || field.field_type === 'gdpr' ) {
+					if ( field.field_type === 'gdpr' ) {
+						field.label = 'GDPR';
+					}
 					rules.push( {
 						rule: 'required',
-						errorMessage: `${ field.label } is required`,
+						errorMessage: `${ field.label || 'Field' } is required`,
 					} );
 				}
 
@@ -73,6 +97,59 @@ const { callbacks } = store( 'formgent/form', {
 				callbacks.submit( context, element );
 			} );
 		},
+		phoneNumberInit: async () => {
+			const context = getContext();
+			const element = getElement();
+			const name = element.ref.getAttribute( 'data-wp-key' );
+			console.log( context.data[ name ] );
+			// let phoneNumberParts =
+			// 	context.data[ element.ref.name ].split( ')' );
+			// context.data[ element.ref.name ] = {
+			// 	dialCode: `${ phoneNumberParts[ 0 ] })`,
+			// 	number: phoneNumberParts[ 1 ].trim(),
+			// };
+
+			// try {
+			// 	const countryObject = await wp.apiFetch( {
+			// 		path: '/formgent/countries',
+			// 		method: 'GET',
+			// 	} );
+			// 	const flagUrl = countryObject.flag_url;
+			// 	const countries = Object.entries( countryObject.countries ).map(
+			// 		( [ key, value ] ) => {
+			// 			return {
+			// 				id: key,
+			// 				img: `${ flagUrl }/${ key }.png`,
+			// 				...value,
+			// 			};
+			// 		}
+			// 	);
+			// 	const control = new TomSelect(
+			// 		`#${ element.attributes.id }-dial-code`,
+			// 		{
+			// 			valueField: 'dial_code',
+			// 			options: countries,
+			// 			render: {
+			// 				option: function ( data, escape ) {
+			// 					return `
+			// 					<div class="formgent-phone-dialer-option">
+			// 						<img src="${ escape( data.img ) }" />
+			// 						<span>${ escape( data.name ) }</span>
+			// 					<div/>
+			// 				`;
+			// 				},
+			// 				item: function ( data, escape ) {
+			// 					return `<img src="${ escape( data.img ) }" />`;
+			// 				},
+			// 			},
+			// 			create: false,
+			// 		}
+			// 	);
+			// 	control.setValue( '+880' );
+			// } catch ( error ) {
+			// 	console.log( error );
+			// }
+		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
 			const formData = {};
@@ -90,17 +167,23 @@ const { callbacks } = store( 'formgent/form', {
 					continue;
 				}
 				const value = context.data[ name ];
-
 				switch ( context.blocksSettings[ name ].field_type ) {
 					case 'number':
 						formData[ name ] = parseInt( value, 10 );
+						break;
+					case 'phone-number':
+						formData[
+							name
+						] = `(${ value.dialCode })${ value.number }`;
+						break;
+					case 'gdpr':
+						formData[ name ] = value.toString();
 						break;
 					default:
 						formData[ name ] = value;
 						break;
 				}
 			}
-
 			try {
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',

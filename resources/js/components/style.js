@@ -5,7 +5,7 @@ const DropdownStyle = Styled.div`
 `;
 
 const SelectStyle = Styled.div`
-    width: 175px;
+    width: 196px;
     .ant-select-selection-item {
         margin: 0 5px !important;
         height: 32px;
@@ -39,8 +39,12 @@ const InputStyle = Styled.div`
     }
 `;
 
+const DatePickerStyle = Styled.div`
+
+`;
+
 const TagStyle = Styled.div`
-    
+
 `;
 
 const ButtonStyle = Styled.div`
@@ -205,12 +209,11 @@ const FormHeaderStyle = Styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
-    margin-bottom: 12px;
+    border-bottom: 12px solid var(--formgent-color-bg-sec);
     background-color: var(--formgent-color-white);
     position: sticky;
     top: 32px;
     z-index: 9999;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
     .formgent-editor-header__info {
         flex: 1;
         display: flex;
@@ -423,5 +426,6 @@ export {
 	ModalAlertStyle,
 	SelectStyle,
 	SubmissionFormStyle,
+	DatePickerStyle,
 	TagStyle,
 };
