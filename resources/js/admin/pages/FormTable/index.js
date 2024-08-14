@@ -1,4 +1,4 @@
-import { registerPlugin } from '@wordpress/plugins';
+// import { registerPlugin } from '@wordpress/plugins';
 // import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import { FormTableModule } from '@formgent/modules';
 
