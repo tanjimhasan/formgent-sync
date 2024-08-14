@@ -162,6 +162,11 @@ const TableStyle = Styled.div`
                     opacity: .5;
                 }
             }
+            .ant-pagination-item {
+                &:hover {
+                    background: var(--formgent-color-gray-200) !important;
+                }
+            }
         }
     }
 
@@ -539,8 +544,9 @@ const TableTabStyle = Styled.div`
     }
 `;
 const TableDrawerStyle = Styled.div`
-    width: 500px;
-    height: calc(100vh - 100px);
+    width: 600px;
+    height: 100%;
+    // min-height: 100vh;
     position: absolute;
     top: 0;
     right: -12px;
