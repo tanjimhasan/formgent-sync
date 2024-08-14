@@ -64,7 +64,7 @@ export default function DefaultValue( {
 		const newValue = `${ currentValue }${ item.value }`;
 		setAttributes( { [ attr_key ]: newValue } );
 	}
-
+	console.log( typeof attributes[ attr_key ] === 'string' );
 	return (
 		<div className="formgent-control-default-value-wrapper">
 			<div className="formgent-control-default-value">
@@ -73,6 +73,7 @@ export default function DefaultValue( {
 					value={ attributes[ attr_key ] }
 					size="__unstable-large"
 					onChange={ function ( value ) {
+						console.log( 'chk', value );
 						// Update the attribute value in the block's attributes
 						setAttributes( { [ attr_key ]: value } );
 					} }
