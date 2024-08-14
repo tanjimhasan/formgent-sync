@@ -192,7 +192,12 @@ function formgent_get_form_field_settings( array $parsed_blocks ): array {
             }
         }
 
-        $attributes               = array_merge( $default_attributes, $parsed_block['attrs'] );
+        $attributes = array_merge( $default_attributes, $parsed_block['attrs'] );
+
+        unset( $attributes['label'] );
+        unset( $attributes['sub_label'] );
+        unset( $attributes['description'] );
+
         $attributes['field_type'] = $blocks[$block_name]['field_type'];
         $setting_key              = $attributes[$array_key];
 
