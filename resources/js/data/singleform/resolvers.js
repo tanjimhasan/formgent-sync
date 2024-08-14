@@ -52,6 +52,7 @@ export const SingleFormResolvers = {
 			);
 
 			yield SingleFormActions.storeResponse( {
+				id: formID,
 				responses: data.responses,
 				pagination: data.pagination,
 			} );
@@ -79,7 +80,7 @@ export const SingleFormResolvers = {
 				orderType
 			);
 
-			yield SingleFormActions.storeResponse( {
+			yield SingleFormActions.storeSingleResponse( {
 				single_response: data.responses,
 				single_response_pagination: data.pagination,
 			} );

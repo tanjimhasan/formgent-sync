@@ -57,6 +57,7 @@ export default function Table() {
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
 	const [ visibleColumns, setVisibleColumns ] = useState( [] );
 	const [ fieldColumnHide, setFieldColumnHide ] = useState( [] );
+	const [ responses, setResponses ] = useState( {} );
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 
@@ -91,7 +92,7 @@ export default function Table() {
 	// console.log('SingleFormReducer', SingleFormReducer);
 
 	const {
-		responses,
+		forms,
 		pagination,
 		isLoading,
 		starredItems,
@@ -750,7 +751,7 @@ export default function Table() {
 		if ( deleteResponse ) {
 			setTableDrawer( null );
 			setSelectedRowKeys( [] );
-			responseDeleteSuccess( deleteItems );
+			responseDeleteSuccess( id, deleteItems );
 		} else {
 			responseDeleteError();
 		}
@@ -901,16 +902,21 @@ export default function Table() {
 	}, [ single_response ] );
 
 	useEffect( () => {
-		setFilteredData( responses );
-		responses?.forEach( ( response ) => {
+		const formResponses = forms && forms[ id ]?.responses;
+		setFilteredData( formResponses );
+		setResponses( formResponses );
+
+		formResponses?.forEach( ( response ) => {
 			starredChangeSuccess( response.id, response.is_starred );
 			readStatusChangeSuccess( response.id, response.is_read );
 		} );
-	}, [ responses ] );
+	}, [ forms ] );
 
 	useEffect( () => {
 		setTableDrawer( null );
 		setSelectedRowKeys( [] );
+
+		fetchResponse();
 	}, [ id ] );
 
 	useEffect( () => {
