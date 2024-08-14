@@ -12,20 +12,20 @@ import CreatePopupFormType from './CreatePopupFormType.js';
 import formgentLogo from '@icon/formgent-logo.svg';
 
 function CreatePopup( props ) {
-	const [ step, setStep ] = useState( '1' );
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
-	const { updateFormState, updateCreatePopupStage } =
+	const { updateFormState, updateCreatePopupStage, updateCreatePopupStep } =
 		useDispatch( 'formgent' );
 	const {
 		isImportingAttachment,
 		isCreatePopupOpen,
 		createFormStage,
 		addBackBtn,
+		createPopupStep,
 	} = FormReducer;
 
 	const actionData = [
@@ -55,7 +55,7 @@ function CreatePopup( props ) {
 	}
 
 	function handleFormBack() {
-		setStep( '1' );
+		updateCreatePopupStep( '1' );
 		updateCreatePopupStage( 'initial' );
 	}
 
@@ -88,15 +88,15 @@ function CreatePopup( props ) {
 					>
 						<CreatePopupHeader
 							title={ __( 'Create a New Form', 'formgent' ) }
-							step={ step }
+							step={ createPopupStep }
 						/>
 						<CreatePopupFormType />
 						{ actionData.map( ( item, index ) => {
-							if ( step === item.step ) {
+							if ( createPopupStep === item.step ) {
 								return (
 									<CreatePopupAction
 										item={ item }
-										setStep={ setStep }
+										setStep={ updateCreatePopupStep }
 										key={ index }
 									/>
 								);

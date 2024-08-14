@@ -46,7 +46,7 @@ export default function DefaultValue( {
 			value: '{user.first_name}',
 		},
 		{
-			label: __( 'User First Name', 'formgent' ),
+			label: __( 'User Last Name', 'formgent' ),
 			value: '{user.last_name}',
 		},
 		{
