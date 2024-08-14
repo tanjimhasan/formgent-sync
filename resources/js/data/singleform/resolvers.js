@@ -96,7 +96,7 @@ export const SingleFormResolvers = {
 				formID
 			);
 
-			yield SingleFormActions.storeResponse( {
+			yield SingleFormActions.storeFields( {
 				form_title: data.form.title,
 				fields: data.fields,
 				selected_fields: data.selected_fields,

@@ -36,6 +36,7 @@ export default function TableDrawer( props ) {
 		deleteResponseNotes,
 		setTableDrawer,
 		pagination,
+		single_response_pagination,
 		handleDelete,
 		handleStarred,
 		handleRead,
@@ -43,6 +44,8 @@ export default function TableDrawer( props ) {
 		downloadItems,
 		dateFormatOptions,
 	} = props;
+	console.log( 'Drawer', { pagination, single_response_pagination } );
+
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
@@ -232,7 +235,9 @@ export default function TableDrawer( props ) {
 					<div className="response-table__drawer__header__response__btns">
 						<button
 							className={ `response-table__drawer__header__response__btn ${
-								pagination.current_page <= 1 ? 'disabled' : ''
+								single_response_pagination.current_page <= 1
+									? 'disabled'
+									: ''
 							}` }
 							onClick={ () => {
 								handleTableDrawer( response.id, 'prev' );
@@ -246,8 +251,8 @@ export default function TableDrawer( props ) {
 						</button>
 						<button
 							className={ `response-table__drawer__header__response__btn ${
-								pagination.current_page ===
-								pagination.total_pages
+								single_response_pagination.current_page ===
+								single_response_pagination.total_pages
 									? 'disabled'
 									: ''
 							}` }
@@ -263,8 +268,8 @@ export default function TableDrawer( props ) {
 						</button>
 					</div>
 					<span className="">
-						{ pagination.current_page } of{ ' ' }
-						{ pagination.total_pages } Responses
+						{ single_response_pagination.current_page } of{ ' ' }
+						{ single_response_pagination.total_pages } Responses
 					</span>
 				</div>
 				<div className="response-table__drawer__header__action">

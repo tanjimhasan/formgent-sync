@@ -57,7 +57,7 @@ export default function Table() {
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
 	const [ visibleColumns, setVisibleColumns ] = useState( [] );
 	const [ fieldColumnHide, setFieldColumnHide ] = useState( [] );
-	const [ responses, setResponses ] = useState( {} );
+	const [ responses, setResponses ] = useState( [] );
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 
@@ -804,9 +804,9 @@ export default function Table() {
 					</div>
 				),
 				render: ( text, record ) => {
-					const response = responses.find(
-						( r ) => r.id === record.id
-					);
+					const response =
+						responses &&
+						responses?.find( ( r ) => r.id === record.id );
 					if ( response ) {
 						const answer = response.answers?.find(
 							( a ) => a.field_name === fieldName
@@ -917,6 +917,11 @@ export default function Table() {
 		setSelectedRowKeys( [] );
 
 		fetchResponse();
+		handleColumn();
+		resolveSelect( 'formgent' ).getSingleFormFields(
+			parseInt( id ),
+			Date.now()
+		);
 	}, [ id ] );
 
 	useEffect( () => {
@@ -988,7 +993,8 @@ export default function Table() {
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }
 					setTableDrawer={ setTableDrawer }
-					pagination={ single_response_pagination }
+					pagination={ pagination }
+					single_response_pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
 					handleStarred={ ( id, isStarredStatus ) =>
 						handleStarred( id, isStarredStatus, 'drawer' )

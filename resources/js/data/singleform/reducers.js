@@ -104,6 +104,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 						responses: data.responses,
 					},
 				},
+				pagination: data.pagination,
 			};
 		case 'RESPONSE_SINGLE_STORE':
 			return {
