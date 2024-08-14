@@ -19,7 +19,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </span>
             <span class="formgent-editor-block-list__single__sub-label">
-                <?php echo esc_html( $attributes['description'] ); ?>
+                <?php formgent_render( $attributes['description'] ); ?>
             </span>
             <?php if ( esc_html( $attributes['required'] ) ) : ?>
                 <span class="formgent-editor-block-list__single__label__required">
