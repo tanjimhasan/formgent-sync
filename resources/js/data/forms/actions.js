@@ -26,6 +26,13 @@ export const FormActions = {
 		};
 	},
 
+	updateCreatePopupStep: ( step ) => {
+		return {
+			type: 'UPDATE_CREATE_POPUP_STEP',
+			step,
+		};
+	},
+
 	updateTitleRequest: () => {
 		return {
 			type: 'UPDATE_TITLE_REQUEST',

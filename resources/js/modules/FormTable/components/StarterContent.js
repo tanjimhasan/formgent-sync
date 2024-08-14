@@ -8,7 +8,8 @@ import { StarterContentStyle } from './style';
 import { __, sprintf } from '@wordpress/i18n';
 
 export default function StarterContent() {
-	const { updateCreatePopUp } = useDispatch( 'formgent' );
+	const { updateCreatePopUp, updateCreatePopupStep } =
+		useDispatch( 'formgent' );
 
 	const starterCardItem = [
 		{
@@ -34,6 +35,7 @@ export default function StarterContent() {
 	const handleCardClick = ( type ) => {
 		if ( type === 'default' ) {
 			updateCreatePopUp( true );
+			updateCreatePopupStep( '2' );
 		}
 	};
 
