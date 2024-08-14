@@ -12,24 +12,24 @@ use FormGent\App\Fields\PhoneNumber\PhoneNumber;
 use FormGent\App\Fields\Website\Website;
 
 return [
-    'formgent/form'         => [],
-    'formgent/name'         => [
-        'types'      => ['general', 'conversational'],
-        'field_type' => Name::get_key(),
-    ],
-    'formgent/email'        => [
+    'formgent/form'     => [],
+    // 'formgent/name'         => [
+    //     'types'      => ['general', 'conversational'],
+    //     'field_type' => Name::get_key(),
+    // ],
+    'formgent/email'    => [
         'types'      => ['general', 'conversational'],
         'field_type' => Email::get_key(),
     ],
-    'formgent/text'         => [
+    'formgent/text'     => [
         'types'      => ['general', 'conversational'],
         'field_type' => Text::get_key(),
     ],
-    'formgent/textarea'     => [
+    'formgent/textarea' => [
         'types'      => ['general', 'conversational'],
         'field_type' => TextArea::get_key(),
     ],
-    'formgent/number'       => [
+    'formgent/number'   => [
         'types'      => ['general', 'conversational'],
         'field_type' => Number::get_key()
     ],
@@ -37,10 +37,10 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    'formgent/phone-number' => [
-        'types'      => ['general', 'conversational'],
-        'field_type' => PhoneNumber::get_key(),
-    ],
+    // 'formgent/phone-number' => [
+    //     'types'      => ['general', 'conversational'],
+    //     'field_type' => PhoneNumber::get_key(),
+    // ],
     // 'formgent/dropdown'      => [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
@@ -57,11 +57,11 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    'formgent/gdpr'         => [
+    'formgent/gdpr'     => [
         'types'      => ['general', 'conversational'],
         'field_type' => GDPR::get_key()
     ],
-    'formgent/website'      => [
+    'formgent/website'  => [
         'types'      => ['general', 'conversational'],
         'field_type' => Website::get_key(),
     ]
