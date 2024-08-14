@@ -904,6 +904,7 @@ a.formgent-btn-disabled {
 		gap: 12px;
 		align-items: center;
 		justify-content: center;
+		margin-left: -80px;
 		li {
 			margin: 0;
 		}
@@ -1064,5 +1065,13 @@ a.formgent-btn-disabled {
 		input {
 			text-align: center;
 		}
+	}
+	.ant-picker-range {
+		padding: 10px 11px;
+	}
+}
+.ant-picker-date-range-wrapper {
+	.ant-picker-cell {
+		padding: 6px 0;
 	}
 }

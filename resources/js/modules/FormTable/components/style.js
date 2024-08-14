@@ -171,6 +171,23 @@ const TitleBoxStyle = Styled.div`
 const TableStyle = Styled.div`
     .ant-table{
         background-color: transparent;
+        &.ant-table-empty{
+            .ant-table-container::before{
+                content: none;
+            }
+            .ant-table-cell{
+                border-radius: inherit !important;
+            }
+            thead tr th:first-child{
+                border-radius: 12px 0 0 12px !important;
+            }
+            thead tr th:last-child{
+                border-radius: 0 12px 12px 0 !important;
+            }
+            .ant-table-expanded-row-fixed{
+                width: 100% !important;
+            }
+        }
         table{
             border-spacing: 0 10px;
             tr {
@@ -599,6 +616,8 @@ const FilterStyle = Styled.div`
         .ant-input-affix-wrapper{
             border: 1px solid var(--formgent-color-border-light);
             border-radius: 10px;
+            padding: 4px 11px;
+            background: #fff;
             &.ant-input-affix-wrapper-focused{
                 box-shadow: 0 0 0 2px #2C3239;
                 border-color: transparent;

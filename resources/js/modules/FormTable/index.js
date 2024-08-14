@@ -20,6 +20,7 @@ function FormTable( props ) {
 		form_edit_url,
 		isFormDeleting,
 		isStatusUpdating,
+		singleStatusUpdated,
 		sortBy,
 		dateType,
 		isFilterActive,
@@ -54,6 +55,7 @@ function FormTable( props ) {
 						sortBy={ sortBy }
 						dateType={ dateType }
 						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
 					/>
 				</Suspense>
 			) : forms.length === 0 && isFilterActive ? (
@@ -67,6 +69,7 @@ function FormTable( props ) {
 						sortBy={ sortBy }
 						dateType={ dateType }
 						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
 					/>
 				</Suspense>
 			) : (

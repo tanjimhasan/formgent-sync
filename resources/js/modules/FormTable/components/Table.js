@@ -1,7 +1,7 @@
 import { useState, useEffect } from '@wordpress/element';
 import { useDispatch } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
-import { AntTable, AntSpin } from '@formgent/components';
+import { AntTable, AntSpin, AntPagination } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
 import TitleBox from './TitleBox';
 import { TableStyle } from './style';
@@ -16,7 +16,6 @@ import { __ } from '@wordpress/i18n';
 import handleTextSelect from '@formgent/helper/handleTextSelect';
 import FormTableStatus from './FormTableStatus';
 import postData from '@formgent/helper/postData';
-import { Empty, Pagination } from 'antd';
 
 export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -46,6 +45,7 @@ export default function Table( props ) {
 		sortBy,
 		dateType,
 		isStatusUpdating,
+		singleStatusUpdated,
 	} = props;
 
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -243,6 +243,7 @@ export default function Table( props ) {
 						form={ record }
 						setEditableForm={ setEditableForm }
 						isStatusUpdating={ isStatusUpdating }
+						singleStatusUpdated={ singleStatusUpdated }
 					/>
 				</div>
 			),
@@ -356,16 +357,6 @@ export default function Table( props ) {
 							total: pagination?.total_items,
 							position: [ 'none' ],
 						} }
-						locale={ {
-							emptyText: (
-								<Empty
-									description={ __(
-										'No Data Found',
-										'formgent'
-									) }
-								></Empty>
-							),
-						} }
 						onChange={ handleFormTableChange }
 						scroll={ {
 							x: 1300,
@@ -375,7 +366,7 @@ export default function Table( props ) {
 						<span className="formgent-forms-pagination-total-count">
 							{ showTotalText }
 						</span>
-						<Pagination
+						<AntPagination
 							current={ pagination?.current_page }
 							pageSize={ 10 }
 							total={ pagination?.total_items }

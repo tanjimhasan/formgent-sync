@@ -1,25 +1,33 @@
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { useDispatch, resolveSelect } from '@wordpress/data';
-import { AntSelect } from '@formgent/components';
+import {
+	AntSelect,
+	AntDropdown,
+	AntInput,
+	AntRangePicker,
+} from '@formgent/components';
 import { FilterStyle } from './style';
-import { Input, Dropdown, DatePicker } from 'antd';
+import { useDebounce } from '@formgent/hooks/useDebounce';
+import { __, sprintf } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import sliderIcon from '@icon/sliders.svg';
 import filterLines from '@icon/filter-lines.svg';
 import searchIcon from '@icon/search.svg';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import checkThin from '@icon/check-thin.svg';
 import times from '@icon/times.svg';
 import chevronDown from '@icon/chevron-down.svg';
-import { useDebounce } from '@formgent/hooks/useDebounce';
-import { __, sprintf } from '@wordpress/i18n';
+
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import weekday from 'dayjs/plugin/weekday';
+import localeData from 'dayjs/plugin/localeData';
 dayjs.extend( customParseFormat );
-const { RangePicker } = DatePicker;
+dayjs.extend( weekday );
+dayjs.extend( localeData );
 const dateFormat = 'YYYY-MM-DD';
 
 export default function Filter( props ) {
-	const { forms, pagination, isLoading, isFilterActive } = props;
+	const { forms, pagination, isLoading } = props;
 	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
 	const [ formType, setFormType ] = useState( 'all' );
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
@@ -27,6 +35,16 @@ export default function Filter( props ) {
 	const [ searchInput, setSearchInput ] = useState( '' );
 	const debouncedSearchText = useDebounce( searchInput, 250 );
 	const isFirstRender = useRef( true );
+
+	//Datepicker default dates
+	const today = new Date();
+	const nextMonthFirstDay = new Date(
+		today.getFullYear(),
+		today.getMonth() + 1,
+		2
+	);
+	const dateToday = today.toISOString().split( 'T' )[ 0 ];
+	const dateNextMonth = nextMonthFirstDay.toISOString().split( 'T' )[ 0 ];
 
 	const {
 		updateFormSortBy,
@@ -263,14 +281,14 @@ export default function Filter( props ) {
 			</div>
 			<div className="formgent-form-filter__right">
 				<div className="formgent-form-filter__search">
-					<Input
+					<AntInput
 						placeholder="Search form"
 						prefix={ <ReactSVG src={ searchIcon } /> }
 						onChange={ handleSearchQuery }
 					/>
 				</div>
 				<div className="formgent-form-filter__by-time">
-					<Dropdown
+					<AntDropdown
 						trigger={ [ 'click' ] }
 						overlayClassName="formgent-form-filter__by-time__options"
 						dropdownRender={ () => (
@@ -315,14 +333,14 @@ export default function Filter( props ) {
 												) }
 											</span>
 											<div className="formgent-form-filter-select-dates">
-												<RangePicker
+												<AntRangePicker
 													defaultValue={ [
 														dayjs(
-															'2024-08-01',
+															dateToday,
 															dateFormat
 														),
 														dayjs(
-															'2015-09-01',
+															dateNextMonth,
 															dateFormat
 														),
 													] }
@@ -348,10 +366,10 @@ export default function Filter( props ) {
 								</span>
 							) }
 						</span>
-					</Dropdown>
+					</AntDropdown>
 				</div>
 				<div className="formgent-form-filter__sorting">
-					<Dropdown
+					<AntDropdown
 						menu={ {
 							items: sortItems,
 							selectable: true,
@@ -364,7 +382,7 @@ export default function Filter( props ) {
 						<span className="formgent-form-filter__sorting__trigger">
 							<ReactSVG src={ filterLines } />
 						</span>
-					</Dropdown>
+					</AntDropdown>
 				</div>
 			</div>
 		</FilterStyle>

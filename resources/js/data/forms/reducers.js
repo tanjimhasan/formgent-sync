@@ -17,6 +17,7 @@ const DEFAULT_STATE = {
 	isBulkStatusUpdating: false,
 	isTitleUpdating: false,
 	isStatusUpdating: false,
+	singleStatusUpdated: false,
 	isFilterActive: false,
 	error: null,
 	responseTableData: {},
@@ -95,6 +96,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				isStatusUpdating: true,
+				singleStatusUpdated: true,
 			};
 		case 'UPDATE_STATUS_SUCCESS':
 			const updatedStatusFormList = state.forms.map( ( item ) => {
@@ -169,6 +171,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				isBulkStatusUpdating: true,
+				singleStatusUpdated: false,
 			};
 		case 'BULK_STATUS_UPDATE_SUCCESS':
 			const bulkStatusUpdatedForms = state.forms.map( ( item ) => {
@@ -184,6 +187,7 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				isBulkStatusUpdating: false,
 				forms: bulkStatusUpdatedForms,
+				singleStatusUpdated: false,
 			};
 
 		case 'BULK_STATUS_UPDATE_ERROR':
