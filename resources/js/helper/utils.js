@@ -1,4 +1,4 @@
-function formatDate( formatType, date, options ) {
+function formatDate( formatType, date, options, isTimeActive = true ) {
 	const dataObject = new Date( date );
 	const formattedDate = dataObject.toLocaleDateString( formatType, options );
 	const formattedTime = dataObject.toLocaleTimeString( formatType, {
@@ -9,7 +9,11 @@ function formatDate( formatType, date, options ) {
 	return (
 		<>
 			<span className="formgent-form-date__day">{ formattedDate }</span>
-			<span className="formgent-form-date__time">{ formattedTime }</span>
+			{ isTimeActive && (
+				<span className="formgent-form-date__time">
+					{ formattedTime }
+				</span>
+			) }
 		</>
 	);
 }
