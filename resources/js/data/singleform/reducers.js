@@ -9,6 +9,7 @@ const DEFAULT_STATE = {
 	isReadStatusChanging: false,
 	isResponseDeleting: false,
 	isResponseColumnUpdating: false,
+	isAnalyticsSummaryFetching: false,
 	starredItems: {},
 	readStatusItems: {},
 	pagination: {
@@ -25,6 +26,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, currentPage, error } = action;
 
 	let fieldList = {};
+	console.log( type );
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
 			return {
@@ -261,6 +263,47 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'DELETE_RESPONSE_NOTES':
 			return {
 				...state,
+			};
+		case 'FETCH_ANALYTICS_SUMMARY_REQUEST':
+			return {
+				...state,
+				isAnalyticsSummaryFetching: true,
+			};
+		case 'FETCH_ANALYTICS_SUMMARY_SUCCESS':
+			// console.log({
+			// 	...state,
+			// 	forms: {
+			// 		[action.payload.formId]: {
+			// 			...state.forms[action.payload.formId],
+			// 			analytics: {
+			// 				...state.forms[action.payload.formId],
+			// 				summary: {
+			// 					...action.payload.data
+			// 				}
+			// 			}
+			// 		}
+			// 	}
+			// });
+			return {
+				...state,
+				forms: {
+					[ action.payload.formId ]: {
+						...state.forms[ action.payload.formId ],
+						analytics: {
+							...state.forms[ action.payload.formId ],
+							summary: {
+								...action.payload.data,
+							},
+						},
+					},
+				},
+			};
+			break;
+		case 'FETCH_ANALYTICS_SUMMARY_ERROR':
+			return {
+				...state,
+				error: error,
+				isAnalyticsSummaryFetching: false,
 			};
 		default:
 			return state;

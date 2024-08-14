@@ -344,4 +344,32 @@ export const SingleFormActions = {
 			id,
 		};
 	},
+
+	fetchAnalyticsSummary: ( path ) => {
+		return {
+			type: 'FETCH_ANALYTICS_SUMMARY',
+			path,
+		};
+	},
+	fetchAnalyticsSummaryRequest: () => {
+		return {
+			type: 'FETCH_ANALYTICS_SUMMARY_REQUEST',
+		};
+	},
+	fetchAnalyticsSummarySuccess: ( data, formId ) => {
+		console.log( data );
+		return {
+			type: 'FETCH_ANALYTICS_SUMMARY_SUCCESS',
+			payload: {
+				data,
+				formId,
+			},
+		};
+	},
+	fetchAnalyticsSummaryError: ( error ) => {
+		return {
+			type: 'FETCH_ANALYTICS_SUMMARY_ERROR',
+			error,
+		};
+	},
 };

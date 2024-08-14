@@ -18,6 +18,7 @@ import { getPlugins } from '@wordpress/plugins';
 import AddForm from './pages/AddForm/index.js';
 import FormTable from './pages/FormTable/index.js';
 import ResponseTable from './pages/ResponseTable/index.js';
+import Analytics from './pages/Analytics/index.js';
 import Settings from './pages/Settings/index.js';
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
 	}, [] );
 
 	useEffect( () => {
+		console.log( 'heello' );
 		if ( ! setRouterState ) {
 			return;
 		}
@@ -72,6 +74,10 @@ export default function App() {
 		{
 			path: '/forms/:id/response/*',
 			element: <ResponseTable />,
+		},
+		{
+			path: '/forms/:id/analytics/*',
+			element: <Analytics />,
 		},
 		{
 			path: '/forms/form-new/:type',

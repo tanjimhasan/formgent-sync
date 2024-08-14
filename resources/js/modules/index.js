@@ -5,15 +5,23 @@ import { registerBlock } from './../../blocks/utils';
 const SettingsModule = lazy( () => import( './Settings' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
 const ResponseTableModule = lazy( () => import( './ResponseTable' ) );
+const AnalyticsModule = lazy( () => import( './Analytics' ) );
 
 registerModule( 'modules', {
 	SettingsModule,
 	FormTableModule,
 	ResponseTableModule,
+	AnalyticsModule,
 	registerBlock,
 } );
 
 /**
  * Exporting for code editor intellisense support.
  */
-export { FormTableModule, registerBlock, ResponseTableModule, SettingsModule };
+export {
+	FormTableModule,
+	registerBlock,
+	ResponseTableModule,
+	AnalyticsModule,
+	SettingsModule,
+};

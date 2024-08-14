@@ -1,25 +1,24 @@
 import { useSelect } from '@wordpress/data';
-import { Form } from 'antd';
-import SubmissionForm from '@formgent/components/SubmissionForm';
-import { FormSubmissionStyle } from './style';
+import { AnalyticsStyle } from './style';
 
 function Analytics( props ) {
-	const { formId } = props;
-
-	const { SingleFormReducer } = useSelect(
+	const { CommonReducer } = useSelect( ( select ) => {
+		return select( 'formgent' ).getCommonState();
+	}, [] );
+	console.log( CommonReducer );
+	const { useParams } = CommonReducer?.routerComponents;
+	const { id: formId } = useParams();
+	const { summary } = useSelect(
 		( select ) => {
-			return select( 'frontend/formgent' ).getSingleForm( formId );
+			return select( 'formgent' ).getAnalyticsSummary( formId );
 		},
 		[ formId ]
 	);
-	const { singleForm } = SingleFormReducer;
-	return (
-		<FormSubmissionStyle>
-			<SubmissionForm />
-		</FormSubmissionStyle>
-	);
+
+	console.log( summary );
+	return <AnalyticsStyle></AnalyticsStyle>;
 }
 
-export default function FormSubmissionModule( props ) {
-	return <FormSubmission { ...props } />;
+export default function AnalyticsModule( props ) {
+	return <Analytics { ...props } />;
 }
