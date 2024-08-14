@@ -30,6 +30,8 @@ const TableStyle = Styled.div`
                         display: flex;
                         gap: 12px;
                         align-items: center;
+                        font-size: 14px;
+                        font-weight: 500;
                         .starred {
                             path {
                                 fill: var(--formgent-color-warning);
@@ -60,7 +62,7 @@ const TableStyle = Styled.div`
         }
     }
     .ant-checkbox-indeterminate .ant-checkbox-inner::after {
-        background-color: var(--formgent-color-info) !important;
+        background-color: transparent !important;
     }
     .ant-table-thead{
         tr{
@@ -76,7 +78,7 @@ const TableStyle = Styled.div`
                 background-color: var(--formgent-color-gray-100);
                 &:before {
                     height: 100% !important;
-                    background-color: var(--formgent-color-extra-light) !important;
+                    background-color: var(--formgent-color-gray-400) !important;
                 }
                 a {
                     color: var(--formgent-color-gray-800);
@@ -105,6 +107,61 @@ const TableStyle = Styled.div`
         }
         .ant-table-row.ant-table-row-selected >.ant-table-cell {
             background: var(--formgent-color-info-deep);
+        }
+    }
+
+    
+    .formgent-result-table {
+        .ant-table-selection-col {
+            width: auto;
+        }
+        .ant-spin-container {
+            min-height: 500px;
+            display: flex;
+            gap: 30px;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .ant-table-pagination {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0 !important;
+            justify-content: center;
+            max-width: max-content;
+            margin: 0 !important;
+            border-radius: 8px !important;
+            border: 1px solid var(--formgent-color-gray-300) !important;
+            box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05) !important;
+            overflow: hidden;
+            .ant-pagination-prev,
+            .ant-pagination-next,
+            .ant-pagination-item {
+                height: 40px;
+                width: 40px;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                color: var(--formgent-color-gray-600) !important;
+                border-right: 1px solid var(--formgent-color-gray-300) !important;
+                .ant-pagination-item-link {
+                    color: var(--formgent-color-gray-600) !important;
+                }
+                &:last-child {
+                    border-right: none !important;
+                }
+                &.ant-pagination-item-active {
+                    border: none;
+                    color: var(--formgent-color-gray-900) !important;  
+                    background: var(--formgent-color-gray-200) !important;  
+                    a {
+                        color: var(--formgent-color-gray-900) !important;  
+                    }
+                }
+                &.ant-pagination-disabled {
+                    opacity: .5;
+                }
+            }
         }
     }
 
@@ -321,12 +378,12 @@ const TableActionStyle = Styled.div`
             font-weight: 500;
             color: var(--formgent-color-dark);
             ::placeholder {
-                color: var(--formgent-color-extra-light);
+                color: var(--formgent-color-gray-400);
                 opacity: 1;
             }
 
             ::-ms-input-placeholder { 
-                color: var(--formgent-color-extra-light);
+                color: var(--formgent-color-gray-400);
             }
         }
         .ant-input-prefix {

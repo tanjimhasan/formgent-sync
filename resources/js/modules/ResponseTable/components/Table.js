@@ -967,8 +967,6 @@ export default function Table() {
 						current: pagination?.current_page,
 						pageSize: 10,
 						total: pagination?.total_items,
-						showTotal: ( total, range ) =>
-							`${ range[ 0 ] } - ${ range[ 1 ] } of ${ total } items`,
 					} }
 					className="formgent-result-table"
 					onChange={ handleTableChange }
