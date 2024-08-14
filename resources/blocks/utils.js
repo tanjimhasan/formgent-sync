@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import Controls from './Controls';
+import Controls from './controls';
 import { useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { select, dispatch } from '@wordpress/data';
@@ -137,7 +137,8 @@ export function registerBlock(
 	controls,
 	Edit,
 	icon = 'smiley',
-	exampleAttributes = {}
+	exampleAttributes = {},
+	props = {}
 ) {
 	if ( 'formgent_form' === typenow ) {
 		registerBlockType( metadata.name, {
@@ -156,6 +157,7 @@ export function registerBlock(
 					/>
 				);
 			},
+			...props,
 		} );
 	}
 }

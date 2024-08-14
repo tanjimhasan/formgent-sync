@@ -163,13 +163,13 @@ function formgent_post_type() {
     return formgent_app_config( 'post_type' );
 }
 
-function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false ):array {
+function formgent_get_form_field_settings( array $parsed_blocks ):array {
     $blocks            = formgent_config( 'blocks' );
     $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
     $settings = [];
 
-    $array_key = $by_id ? 'id' : 'name';
+    $array_key = 'name';
 
     foreach ( $parsed_blocks as $parsed_block ) {
         if ( empty( $blocks[$parsed_block['blockName']] ) ) {
@@ -196,3 +196,5 @@ function formgent_get_form_field_settings( array $parsed_blocks, $by_id = false 
 
     return $settings;
 }
+
+require_once __DIR__ . '/form.php';

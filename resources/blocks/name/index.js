@@ -18,7 +18,7 @@ const exampleAttributes = {
 const controls = {
 	basic_info: {
 		type: 'panel',
-		label: __( 'Basic info', 'formgent' ),
+		label: __( 'General', 'formgent' ),
 		children: {
 			label: {
 				type: 'text',
@@ -125,6 +125,10 @@ const controls = {
 						],
 					},
 				},
+			},
+			default_value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
 			},
 		},
 	},
