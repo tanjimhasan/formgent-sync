@@ -18,6 +18,12 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
             data-wp-on--change="actions.updateDialCode"
         >
         </select>
+        <span 
+            class="formgent-phone-initialization"
+            data-wp-init="callbacks.phoneNumberInit"
+            data-wp-key="<?php echo esc_attr( $attributes['name'] ); ?>"
+        >
+        </span>
         <div className="formgent-editor-block-list__single__dialer__content">
             <span data-wp-interactive="formgent/form" data-wp-text="context.data.<?php echo esc_attr( $attributes['name'] ); ?>.dialCode"></span>
             <input
@@ -25,12 +31,11 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
                 name="<?php echo esc_attr( $attributes['name'] ); ?>"
                 id="<?php echo esc_attr( $attributes['name'] ); ?>-<?php formgent_render( $unique_id ) ?>"
                 class="formgent-form-field__element"
-                data-wp-init="callbacks.phoneNumberInit"
+                
                 data-wp-interactive="formgent/form"
                 data-wp-on--input="actions.updatePhoneNumber"
                 data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>.number"
             >
         </div>
-       
     </div>
 </div>

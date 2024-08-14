@@ -16,11 +16,8 @@
 			"default": "phone-number"
 		},
 		"value": {
-			"type": "object",
-			"default": {
-				"value_one": "(+880)",
-				"value_two": "00000000"
-			}
+			"type": "string",
+			"default": "(+880)000000"
 		},
 		"placeholder": {
 			"type": "string",
