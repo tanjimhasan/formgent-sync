@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c449d62b8af27ed06495c07dd87a256c",
+    "content-hash": "fa80efc1854555a3ea72878922f2fe48",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -447,16 +447,16 @@
         },
         {
             "name": "wpmvc/framework",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wpmvc/framework.git",
-                "reference": "566d3a6c1ee1f4875dbfc35ceb73d9fce83160d9"
+                "reference": "a16fe29f1a1d9242c232d8fbdf31f9a88d4fbb1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wpmvc/framework/zipball/566d3a6c1ee1f4875dbfc35ceb73d9fce83160d9",
-                "reference": "566d3a6c1ee1f4875dbfc35ceb73d9fce83160d9",
+                "url": "https://api.github.com/repos/wpmvc/framework/zipball/a16fe29f1a1d9242c232d8fbdf31f9a88d4fbb1b",
+                "reference": "a16fe29f1a1d9242c232d8fbdf31f9a88d4fbb1b",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +464,7 @@
                 "php-di/php-di": "6.4.0",
                 "wpmvc/database": "^1.0.0",
                 "wpmvc/request-validator": "^1.0.0",
-                "wpmvc/routing": "^1.0.0"
+                "wpmvc/routing": "^1.0.1"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "1.8.2",
@@ -492,9 +492,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wpmvc/framework/issues",
-                "source": "https://github.com/wpmvc/framework/tree/1.0.0"
+                "source": "https://github.com/wpmvc/framework/tree/1.0.1"
             },
-            "time": "2024-02-20T13:39:33+00:00"
+            "time": "2024-06-08T10:45:41+00:00"
         },
         {
             "name": "wpmvc/request-validator",
@@ -1464,12 +1464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "7f159e1195d70981ad774ad961679b8451f86213"
+                "reference": "ae25a9145a900764158d439653d5630191155ca0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/7f159e1195d70981ad774ad961679b8451f86213",
-                "reference": "7f159e1195d70981ad774ad961679b8451f86213",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/ae25a9145a900764158d439653d5630191155ca0",
+                "reference": "ae25a9145a900764158d439653d5630191155ca0",
                 "shasum": ""
             },
             "require": {
@@ -1519,7 +1519,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-05T09:37:16+00:00"
+            "time": "2024-08-13T14:03:51+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2361,12 +2361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-cli/wp-cli.git",
-                "reference": "d5142f0ef48c3bc1fee1e9c2df9dbefd4b5cc21a"
+                "reference": "a177d5aa6ca228b90eb553b710b96b8fabc14a81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/d5142f0ef48c3bc1fee1e9c2df9dbefd4b5cc21a",
-                "reference": "d5142f0ef48c3bc1fee1e9c2df9dbefd4b5cc21a",
+                "url": "https://api.github.com/repos/wp-cli/wp-cli/zipball/a177d5aa6ca228b90eb553b710b96b8fabc14a81",
+                "reference": "a177d5aa6ca228b90eb553b710b96b8fabc14a81",
                 "shasum": ""
             },
             "require": {
@@ -2397,7 +2397,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.11.x-dev"
+                    "dev-main": "2.12.x-dev"
                 }
             },
             "autoload": {
@@ -2424,7 +2424,7 @@
                 "issues": "https://github.com/wp-cli/wp-cli/issues",
                 "source": "https://github.com/wp-cli/wp-cli"
             },
-            "time": "2024-08-06T13:40:39+00:00"
+            "time": "2024-08-08T04:37:09+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -2527,6 +2527,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "whichbrowser/parser": 20,
         "wp-cli/i18n-command": 20
     },
     "prefer-stable": false,
