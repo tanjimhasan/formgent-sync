@@ -1,12 +1,12 @@
 import { lazy, Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { AntSkeleton } from '@formgent/components';
 import Header from './components/Header';
-const Table = lazy( () => import( './components/Table' ) );
 import FormTableHead from '@formgent/admin/Slots/FormTableHead';
 import CreatePopup from '@formgent/components/Form/CreatePopup';
-import { AntSkeleton } from '@formgent/components';
 import StarterContent from './components/StarterContent';
 import Filter from './components/Filter';
+const Table = lazy( () => import( './components/Table' ) );
 
 function FormTable( props ) {
 	const { FormReducer } = useSelect( ( select ) => {
