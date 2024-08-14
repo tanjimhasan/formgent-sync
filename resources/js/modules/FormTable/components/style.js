@@ -622,6 +622,9 @@ const FilterStyle = Styled.div`
                 box-shadow: 0 0 0 2px #2C3239;
                 border-color: transparent;
             }
+            .ant-input-prefix{
+                margin-right: 8px;
+            }
             .ant-input{
                 border: 0 none;
                 outline: 0;

@@ -12,7 +12,7 @@ import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
 	const { form, form_edit_url, editableForm, setEditableForm } = props;
-	const { id, title, created_at } = form;
+	const { id, title, created_at, preview_url } = form;
 
 	const { updateTitleRequest, updateTitleSuccess, updateTitleError } =
 		useDispatch( 'formgent' );
@@ -145,13 +145,13 @@ export default function TItleBox( props ) {
 								</Link>
 							</li>
 							<li>
-								<Link
-									//to={`/forms/${ id }/results/responses`}
+								<a
+									href={ preview_url }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 									target="_blank"
 								>
 									{ __( 'Preview', 'formgent' ) }
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>
