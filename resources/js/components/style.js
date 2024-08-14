@@ -205,7 +205,7 @@ const FormHeaderStyle = Styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
-    border-bottom: 12px solid #f0f0f1;
+    border-bottom: 12px solid var(--formgent-color-bg-sec);
     background-color: var(--formgent-color-white);
     position: sticky;
     top: 32px;
