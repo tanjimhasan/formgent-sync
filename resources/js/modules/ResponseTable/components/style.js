@@ -10,15 +10,18 @@ const TableStyle = Styled.div`
             tr{
                 th,
                 td{
+                    width: auto;
                     min-width: 215px;
                     border-color: var(--formgent-color-gray-200) !important;
                     &:first-child{
+                        width: 40px;
                         min-width: unset;
                         text-align: start;
                         border-right: none !important;
                         padding-inline-end: 12px !important;
                     }
                     &:nth-child(2){
+                        width: 57px;
                         min-width: unset;
                         padding-inline-start: 0 !important;
                     }
@@ -545,11 +548,10 @@ const TableTabStyle = Styled.div`
 `;
 const TableDrawerStyle = Styled.div`
     width: 600px;
-    height: 100%;
-    // min-height: 100vh;
-    position: absolute;
-    top: 0;
-    right: -12px;
+    height: calc(100vh - 98px);
+    position: fixed;
+    top: 98px;
+    right: 0;
     z-index: 9;
     background: #fff;
     overflow-y: auto;
