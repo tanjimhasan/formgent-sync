@@ -11,6 +11,7 @@ const ALLOWED_BLOCKS = [
 	'core/columns',
 	'core/column',
 	'core/group',
+	'core/spacer',
 ];
 
 const TEMPLATE = [
@@ -65,6 +66,12 @@ const TEMPLATE = [
 				},
 			],
 		],
+	],
+	[
+		'core/spacer',
+		{
+			height: '40px',
+		},
 	],
 	[
 		'core/group',
