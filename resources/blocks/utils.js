@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import Controls from './controls';
+import Controls from './Controls';
 import { useEffect } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { select, dispatch } from '@wordpress/data';

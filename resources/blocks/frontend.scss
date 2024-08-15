@@ -285,3 +285,19 @@ input.formgent-editor-block-list__single__dialer__input {
 .post-type-formgent_form .wp-block-post-title {
 	display: none;
 }
+.formgent-form {
+	.formgent-notices {
+		margin-bottom: 30px;
+	}
+}
+.formgent-notices {
+	font-size: 15px;
+	font-weight: 500;
+	padding: 8px 15px;
+	border-radius: 6px;
+	color: var(--formgent-color-success);
+	background-color: #d2f9e1;
+	&:empty {
+		display: none;
+	}
+}

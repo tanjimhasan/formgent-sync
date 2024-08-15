@@ -226,6 +226,9 @@ const TableStyle = Styled.div`
                 &:before{
                     content: none !important;
                 }
+                &.formgent-form-checkbox{
+                    min-width: 350px;
+                }
             }
         }
     }
