@@ -18,19 +18,34 @@ use WP_REST_Request;
 use FormGent\App\DTO\AnswerDTO;
 
 class ResponseController extends Controller {
-    public ResponseRepository $repository;
+    private ResponseRepository $repository;
 
-    public AnswerRepository $answer_repository;
+    private AnswerRepository $answer_repository;
 
-    public FormRepository $form_repository;
+    private FormRepository $form_repository;
 
+    /**
+     * Constructor for initializing repositories.
+     *
+     * @param ResponseRepository $repository
+     * @param AnswerRepository $answer_repository
+     * @param FormRepository $form_repository
+     */
     public function __construct( ResponseRepository $repository, AnswerRepository $answer_repository, FormRepository $form_repository ) {
         $this->repository        = $repository;
         $this->answer_repository = $answer_repository;
         $this->form_repository   = $form_repository;
     }
 
-    public function store( Validator $validator, WP_REST_Request $wp_rest_request ) {
+    /**
+     * Handles the storage of form responses.
+     *
+     * @param Validator $validator
+     * @param WP_REST_Request $request
+     * @return array
+     */
+    public function store( Validator $validator, WP_REST_Request $request ) {
+        // Validate the request parameters.
         $validator->validate(
             [
                 'id'        => 'required|integer',
@@ -38,123 +53,75 @@ class ResponseController extends Controller {
             ]
         );
 
+        // Check if validation failed.
         if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
+            return Response::send( ['messages' => $validator->errors], 422 );
         }
 
-        $id = $wp_rest_request->get_param( 'id' );
-
+        // Retrieve the form by its ID.
+        $id   = $request->get_param( 'id' );
         $form = $this->form_repository->get_by_id_publish( $id, ['ID', 'post_content'] );
 
+        // Return 404 if the form is not found.
         if ( ! $form ) {
-            return Response::send(
-                [
-                    'message' => esc_html__( "From not found", 'formgent' )
-                ], 404
-            );
+            return Response::send( ['message' => esc_html__( 'Form not found', 'formgent' )], 404 );
         }
 
+        // Set additional form properties.
         $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
         $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
 
-        /**
-         * Validating field data and creating field dto for insert.
-         */
-        $validate_data = $this->validate( $form ,$validator, $wp_rest_request );
-
+        // Validate form data and create DTOs.
+        $validate_data = $this->validate_form_data( $form, $validator, $request );
         if ( ! empty( $validate_data['errors'] ) ) {
-            return Response::send(
-                [
-                    'messages' => $validate_data['errors']
-                ], 422
-            );
+            return Response::send( ['messages' => $validate_data['errors']], 422 );
         }
 
-        $response_dto = new ResponseDTO;
-        $response_dto->set_form_id( $form->ID )->set_created_by( wp_get_current_user()->ID )->set_ip( formgent_get_user_ip_address() );
+        // Create and populate the response DTO.
+        $response_dto = $this->create_response_dto( $form );
+        $this->store_browser_info( $response_dto, $request );
 
-        /**
-         * Storing the current user browser and device information, if information is present.
-         */
-        $which_browser = new \FormGent\WhichBrowser\Parser( $wp_rest_request->get_header( 'user-agent' ) );
-        $browser       = $which_browser->browser;
+        // Trigger the before response creation hook.
+        do_action( "formgent_before_create_form_response", $response_dto, $form, $request );
 
-        if ( $browser ) {
-            $version = $browser->version;
-
-            if ( $version instanceof \FormGent\WhichBrowser\Model\Version ) {
-                $response_dto->set_browser( $version->value );
-            }
-
-            $response_dto->set_browser( $browser->name )->set_device( $which_browser->os->name );
-        }
-
-        do_action( "formgent_before_create_form_response", $response_dto, $form, $wp_rest_request );
-
+        // Store the response and associated answers.
         $response_id = $this->repository->create( $response_dto );
-
         $this->answer_repository->creates( $response_id, $validate_data['field_dtos'] );
 
+        // Handle child fields if present.
         if ( ! empty( $validate_data['parent_field_names'] ) ) {
-
-            $parent_fields = Answer::query()->select( 'id', 'field_name' )->where( 'response_id', $response_id )->where_in( 'field_name', $validate_data['parent_field_names'] )->get();
-
-            $parent_names = [];
-
-            foreach ( $parent_fields as $parent ) {
-                $parent_names[$parent->field_name] = $parent->id;
-            }
-
-            $children_items = [];
-    
-            foreach ( $validate_data['children_dtos'] as $key => $dtos ) {
-                foreach ( $dtos as $dto ) {
-                    /**
-                     * @var AnswerDTO $dto
-                     */
-                    $children_items[] = $dto->set_parent_id( $parent_names[$key] )->set_response_id( $response_id )->to_array();
-                }
-            }
-
-            $this->answer_repository->creates_from_array( $children_items );
+            $this->handle_child_fields( $response_id, $validate_data );
         }
 
-        do_action( "formgent_after_create_form_response", $response_id, $form, $wp_rest_request );
+        // Trigger the after response creation hook.
+        do_action( "formgent_after_create_form_response", $response_id, $form, $request );
 
-        return Response::send(
-            [
-                'message' => esc_html__( "The form was submitted successfully!", 'formgent' )
-            ], 201
-        );
+        // Return a success response.
+        return Response::send( ['message' => esc_html__( 'The form was submitted successfully!', 'formgent' )], 201 );
     }
 
     /**
+     * Validates form data and creates DTOs for fields.
+     *
      * @param stdClass $form
      * @param Validator $validator
-     * @param WP_REST_Request $wp_rest_request
+     * @param WP_REST_Request $request
      * @return array
      */
-    private function validate( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $form_data = $wp_rest_request->get_param( 'form_data' );
-
-        $wp_rest_request->set_body_params( $form_data );
+    private function validate_form_data( stdClass $form, Validator $validator, WP_REST_Request $request ): array {
+        $form_data = $request->get_param( 'form_data' );
+        $request->set_body_params( $form_data );
 
         $registered_fields = formgent_config( "fields" );
+        $fields            = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
-        $fields             = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
         $errors             = [];
         $field_dtos         = [];
         $children_dtos      = [];
         $parent_field_names = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
-            /**
-             * Skip if field not found in db fields list
-             */
+            // Skip if the field is not found in the form's field settings.
             if ( empty( $fields[$field_name] ) ) {
                 unset( $form_data[$field_name] );
                 continue;
@@ -162,31 +129,28 @@ class ResponseController extends Controller {
 
             $field = $fields[$field_name];
 
-            /**
-             * Ignore this field if field is not allowed form submission
-             */
+            // Skip if the field type is not allowed in the response.
             if ( empty( $registered_fields[$field['field_type']]['allowed_in_response'] ) ) {
                 continue;
             }
 
             try {
-                /**
-                 * Get this field dedicated handler class
-                 */
+                // Get the field handler for this field type.
                 $field_handler = formgent_field_handler( $field['field_type'] );
 
+                // Skip if the form type is not supported by the field handler.
                 if ( ! in_array( $form->form_type, $field_handler::get_supported_form_types(), true ) ) {
                     continue;
                 }
 
-                $field_handler->validate( $field, $wp_rest_request, $validator );
+                // Validate the field and create its DTO.
+                $field_handler->validate( $field, $request, $validator );
+                $dto = $field_handler->get_field_dto( $field, $request, $form );
 
-                $dto = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
-
+                // Handle child fields if present.
                 if ( $field_handler->has_children ) {
-                    $children                   = $this->get_children_dtos( $form, $validator, $wp_rest_request, $field );
-                    $validator->wp_rest_request = $wp_rest_request;
-
+                    $children                      = $this->get_children_dtos( $form, $validator, $request, $field );
+                    $validator->wp_rest_request    = $request;
                     $children_dtos[$field['name']] = $children['field_dtos'];
 
                     if ( ! empty( $children['errors'] ) ) {
@@ -199,6 +163,7 @@ class ResponseController extends Controller {
                 $field_dtos[$field['name']] = $dto;
 
             } catch ( RequestValidatorException $exception ) {
+                // Merge any validation errors from the field handler.
                 $errors = array_merge( $errors, $exception->get_messages() );
             }
         }
@@ -206,9 +171,85 @@ class ResponseController extends Controller {
         return compact( 'field_dtos', 'children_dtos', 'parent_field_names', 'errors' );
     }
 
-    public function get_children_dtos( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request, array $parent_field ) {
+    /**
+     * Creates and populates a ResponseDTO.
+     *
+     * @param stdClass $form
+     * @return ResponseDTO
+     */
+    private function create_response_dto( stdClass $form ): ResponseDTO {
+        return ( new ResponseDTO() )
+            ->set_form_id( $form->ID )
+            ->set_created_by( wp_get_current_user()->ID )
+            ->set_ip( formgent_get_user_ip_address() );
+    }
+
+    /**
+     * Stores browser information in the ResponseDTO.
+     *
+     * @param ResponseDTO $response_dto
+     * @param WP_REST_Request $request
+     */
+    private function store_browser_info( ResponseDTO $response_dto, WP_REST_Request $request ): void {
+        $which_browser = new \FormGent\WhichBrowser\Parser( $request->get_header( 'user-agent' ) );
+        $browser       = $which_browser->browser;
+
+        if ( $browser ) {
+            $response_dto->set_browser( $browser->name );
+            $response_dto->set_browser_version( $browser->version instanceof \FormGent\WhichBrowser\Model\Version ? $browser->version->value : null );
+            $response_dto->set_device( $which_browser->os->name );
+        }
+    }
+
+    /**
+     * Handles child fields and stores them in the database.
+     *
+     * @param int $response_id
+     * @param array $validate_data
+     */
+    private function handle_child_fields( int $response_id, array $validate_data ): void {
+        $parent_fields = Answer::query()
+            ->select( 'id', 'field_name' )
+            ->where( 'response_id', $response_id )
+            ->where_in( 'field_name', $validate_data['parent_field_names'] )
+            ->get();
+
+        // Extract parent field IDs indexed by field names.
+        $parent_names = wp_list_pluck( $parent_fields, 'id', 'field_name' );
+
+        $children_items = [];
+
+        foreach ( $validate_data['children_dtos'] as $key => $dtos ) {
+            foreach ( $dtos as $dto ) {
+                /**
+                 * @var AnswerDTO $dto
+                 * 
+                 * Prepare the AnswerDTO for storing in the database.
+                 * 
+                 * - Set the parent ID of the answer (from the previously retrieved parent field IDs).
+                 * - Set the response ID to associate this answer with the current form response.
+                 * - Convert the DTO to an array for insertion into the database.
+                 */
+                $children_items[] = $dto->set_parent_id( $parent_names[$key] )->set_response_id( $response_id )->to_array();
+            }
+        }
+
+        // Store child answers in the database.
+        $this->answer_repository->creates_from_array( $children_items );
+    }
+
+    /**
+     * Retrieves and validates child field DTOs.
+     *
+     * @param stdClass $form
+     * @param Validator $validator
+     * @param WP_REST_Request $request
+     * @param array $parent_field
+     * @return array
+     */
+    public function get_children_dtos( stdClass $form, Validator $validator, WP_REST_Request $request, array $parent_field ): array {
         $children_request = new WP_REST_Request( 'POST', '/' );
-        $form_data        = $wp_rest_request->get_param( $parent_field['name'] );
+        $form_data        = $request->get_param( $parent_field['name'] );
 
         if ( is_array( $form_data ) ) {
             $children_request->set_body_params( $form_data );
@@ -222,9 +263,7 @@ class ResponseController extends Controller {
         $errors     = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
-            /**
-             * Skip if field not found in db fields list
-             */
+            // Skip if the field is not found in the parent field's children.
             if ( empty( $fields[$field_name] ) ) {
                 unset( $form_data[$field_name] );
                 continue;
@@ -232,30 +271,28 @@ class ResponseController extends Controller {
 
             $field = $fields[$field_name];
 
-            /**
-             * Ignore this field if field is not allowed form submission
-             */
+            // Skip if the field type is not allowed in the response.
             if ( empty( $registered_fields[$field['field_type']]['allowed_in_response'] ) ) {
                 continue;
             }
 
             try {
-                /**
-                 * Get this field dedicated handler class
-                 */
+                // Get the field handler for this field type.
                 $field_handler = formgent_field_handler( $field['field_type'] );
 
+                // Skip if the form type is not supported by the field handler.
                 if ( ! in_array( $form->form_type, $field_handler::get_supported_form_types(), true ) ) {
                     continue;
                 }
 
+                // Validate the field and create its DTO.
                 $field_handler->validate( $field, $children_request, $validator );
-
                 $dto = $field_handler->get_field_dto( $field, $children_request, $form );
 
                 $field_dtos[$field['name']] = $dto;
 
             } catch ( RequestValidatorException $exception ) {
+                // Merge any validation errors from the field handler.
                 $errors = array_merge( $errors, $exception->get_messages() );
             }
         }
@@ -263,4 +300,3 @@ class ResponseController extends Controller {
         return compact( 'field_dtos', 'errors' );
     }
 }
-
