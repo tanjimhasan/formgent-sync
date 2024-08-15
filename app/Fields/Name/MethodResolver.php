@@ -54,25 +54,4 @@ trait MethodResolver {
         $dto = new AnswerDTO();
         return $dto->set_form_id( $form->ID )->set_field_type( $field['type'] )->set_field_name( $field['name'] );
     }
-
-    public function get_children_dtos( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): array {
-        if ( ! $this->has_value ) { 
-            return [];
-        }
-
-        $dtos = [];
-
-        $names = $wp_rest_request->get_param( $field['name'] );
-
-        foreach ( $field['fields'] as $children ) {
-            if ( isset( $names[$children['type']] ) ) {
-                $dto = new AnswerDTO;
-                $dto->set_form_id( $form->ID )->set_field_type( $children['type'] )->set_field_id( $children['id'] )->set_value( $names[$children['type']] );
-
-                $dtos[] = $dto;
-            }
-        }
-
-        return $dtos;
-    }
 }

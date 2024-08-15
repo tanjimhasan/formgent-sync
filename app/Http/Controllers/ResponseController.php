@@ -84,37 +84,44 @@ class ResponseController extends Controller {
         $browser       = $which_browser->browser;
 
         if ( $browser ) {
-            $response_dto->set_browser( $browser->name )->set_browser_version( $browser->version->value )->set_device( $which_browser->os->name );
+            $version = $browser->version;
+
+            if ( $version instanceof \FormGent\WhichBrowser\Model\Version ) {
+                $response_dto->set_browser( $version->value );
+            }
+
+            $response_dto->set_browser( $browser->name )->set_device( $which_browser->os->name );
         }
 
         do_action( "formgent_before_create_form_response", $response_dto, $form, $wp_rest_request );
 
         $response_id = $this->repository->create( $response_dto );
 
-        $this->answer_repository->creates( $response_id, ...$validate_data['field_dtos'] );
+        $this->answer_repository->creates( $response_id, $validate_data['field_dtos'] );
 
-        // if ( ! empty( $validate_data['parent_field_ids'] ) ) {
+        if ( ! empty( $validate_data['parent_field_names'] ) ) {
 
-        //     $parent_fields = Answer::query()->select( 'id', 'field_id' )->where( 'response_id', $response_id )->where_in( 'field_id', $validate_data['parent_field_ids'] )->get();
+            $parent_fields = Answer::query()->select( 'id', 'field_name' )->where( 'response_id', $response_id )->where_in( 'field_name', $validate_data['parent_field_names'] )->get();
 
-        //     $parent_ids = [];
+            $parent_names = [];
 
-        //     foreach ( $parent_fields as $parent ) {
-        //         $parent_ids[$parent->field_id] = $parent->id;
-        //     }
+            foreach ( $parent_fields as $parent ) {
+                $parent_names[$parent->field_name] = $parent->id;
+            }
 
-        //     $this->answer_repository->creates_from_array(
-        //         array_map(
-        //             function( array $children ) use( $response_id, $parent_ids ) {
-        //                 /**
-        //                  * @var AnswerDTO $children['dto']
-        //                  * @var AnswerDTO $children['parent_dto']
-        //                  */
-        //                 return $children['dto']->set_response_id( $response_id )->set_parent_id( $parent_ids[$children['parent_dto']->get_field_id()] )->to_array();
-        //             }, $validate_data['children_dtos']
-        //         )
-        //     );
-        // }
+            $children_items = [];
+    
+            foreach ( $validate_data['children_dtos'] as $key => $dtos ) {
+                foreach ( $dtos as $dto ) {
+                    /**
+                     * @var AnswerDTO $dto
+                     */
+                    $children_items[] = $dto->set_parent_id( $parent_names[$key] )->set_response_id( $response_id )->to_array();
+                }
+            }
+
+            $this->answer_repository->creates_from_array( $children_items );
+        }
 
         do_action( "formgent_after_create_form_response", $response_id, $form, $wp_rest_request );
 
@@ -138,11 +145,11 @@ class ResponseController extends Controller {
 
         $registered_fields = formgent_config( "fields" );
 
-        $fields           = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
-        $errors           = [];
-        $field_dtos       = [];
-        $children_dtos    = [];
-        $parent_field_ids = [];
+        $fields             = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
+        $errors             = [];
+        $field_dtos         = [];
+        $children_dtos      = [];
+        $parent_field_names = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
             /**
@@ -177,23 +184,83 @@ class ResponseController extends Controller {
                 $dto = $field_handler->get_field_dto( $field, $wp_rest_request, $form );
 
                 if ( $field_handler->has_children ) {
-                    // $parent_field_ids[] = $dto->get_field_id();
-                    // foreach ( $field_handler->get_children_dtos( $field, $wp_rest_request, $form ) as $children_dto ) {
-                    //     $children_dtos[] = [
-                    //         'dto'        => $children_dto,
-                    //         'parent_dto' => $dto
-                    //     ];
-                    // }
+                    $children                   = $this->get_children_dtos( $form, $validator, $wp_rest_request, $field );
+                    $validator->wp_rest_request = $wp_rest_request;
+
+                    $children_dtos[$field['name']] = $children['field_dtos'];
+
+                    if ( ! empty( $children['errors'] ) ) {
+                        $errors[$field['name']] = $children['errors'];
+                    }
+
+                    $parent_field_names[] = $dto->get_field_name();
                 }
 
-                $field_dtos[] = $dto;
+                $field_dtos[$field['name']] = $dto;
 
             } catch ( RequestValidatorException $exception ) {
-                $errors[$field['name']] = $exception->get_messages();
+                $errors = array_merge( $errors, $exception->get_messages() );
             }
         }
 
-        return compact( 'field_dtos', 'children_dtos', 'parent_field_ids', 'errors' );
+        return compact( 'field_dtos', 'children_dtos', 'parent_field_names', 'errors' );
+    }
+
+    public function get_children_dtos( stdClass $form, Validator $validator, WP_REST_Request $wp_rest_request, array $parent_field ) {
+        $children_request = new WP_REST_Request( 'POST', '/' );
+        $form_data        = $wp_rest_request->get_param( $parent_field['name'] );
+
+        if ( is_array( $form_data ) ) {
+            $children_request->set_body_params( $form_data );
+        }
+
+        $validator->wp_rest_request = $children_request;
+        $registered_fields          = formgent_config( "fields" );
+        $fields                     = $parent_field['children'];
+
+        $field_dtos = [];
+        $errors     = [];
+
+        foreach ( $form_data as $field_name => $field_data ) {
+            /**
+             * Skip if field not found in db fields list
+             */
+            if ( empty( $fields[$field_name] ) ) {
+                unset( $form_data[$field_name] );
+                continue;
+            }
+
+            $field = $fields[$field_name];
+
+            /**
+             * Ignore this field if field is not allowed form submission
+             */
+            if ( empty( $registered_fields[$field['field_type']]['allowed_in_response'] ) ) {
+                continue;
+            }
+
+            try {
+                /**
+                 * Get this field dedicated handler class
+                 */
+                $field_handler = formgent_field_handler( $field['field_type'] );
+
+                if ( ! in_array( $form->form_type, $field_handler::get_supported_form_types(), true ) ) {
+                    continue;
+                }
+
+                $field_handler->validate( $field, $children_request, $validator );
+
+                $dto = $field_handler->get_field_dto( $field, $children_request, $form );
+
+                $field_dtos[$field['name']] = $dto;
+
+            } catch ( RequestValidatorException $exception ) {
+                $errors = array_merge( $errors, $exception->get_messages() );
+            }
+        }
+
+        return compact( 'field_dtos', 'errors' );
     }
 }
 
