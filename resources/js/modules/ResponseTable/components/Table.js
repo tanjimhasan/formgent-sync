@@ -89,8 +89,6 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	// console.log('SingleFormReducer', SingleFormReducer);
-
 	const {
 		forms,
 		pagination,

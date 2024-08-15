@@ -1,5 +1,6 @@
 const DEFAULT_STATE = {
 	forms: null,
+	analyticsSummary: null,
 	selectedFormType: '',
 	selectedFormId: null,
 	isCreatingForm: false,
@@ -26,7 +27,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, currentPage, error } = action;
 
 	let fieldList = {};
-	console.log( type );
+
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
 			return {
@@ -149,13 +150,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 						},
 					},
 				},
-				// singleForm: {
-				// 	...state.singleForm,
-				// 	content: {
-				// 		...state.singleForm.content,
-				// 		fields: data,
-				// 	},
-				// },
 			};
 		case 'UPDATE_FIELD_LABEL':
 			fieldList = structuredClone( state?.singleForm?.content?.fields );
@@ -288,35 +282,12 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isAnalyticsSummaryFetching: true,
 			};
 		case 'FETCH_ANALYTICS_SUMMARY_SUCCESS':
-			// console.log({
-			// 	...state,
-			// 	forms: {
-			// 		[action.payload.formId]: {
-			// 			...state.forms[action.payload.formId],
-			// 			analytics: {
-			// 				...state.forms[action.payload.formId],
-			// 				summary: {
-			// 					...action.payload.data
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// });
 			return {
 				...state,
-				forms: {
-					[ action.payload.formId ]: {
-						...state.forms[ action.payload.formId ],
-						analytics: {
-							...state.forms[ action.payload.formId ],
-							summary: {
-								...action.payload.data,
-							},
-						},
-					},
+				analyticsSummary: {
+					[ action.payload.formId ]: action.payload.data,
 				},
 			};
-			break;
 		case 'FETCH_ANALYTICS_SUMMARY_ERROR':
 			return {
 				...state,

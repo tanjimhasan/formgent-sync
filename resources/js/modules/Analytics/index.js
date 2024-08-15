@@ -5,17 +5,16 @@ function Analytics( props ) {
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
-	console.log( CommonReducer );
+
 	const { useParams } = CommonReducer?.routerComponents;
 	const { id: formId } = useParams();
-	const { summary } = useSelect(
+	const { analyticsSummary } = useSelect(
 		( select ) => {
 			return select( 'formgent' ).getAnalyticsSummary( formId );
 		},
 		[ formId ]
 	);
 
-	console.log( summary );
 	return <AnalyticsStyle></AnalyticsStyle>;
 }
 

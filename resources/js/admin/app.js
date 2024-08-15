@@ -44,7 +44,6 @@ export default function App() {
 	}, [] );
 
 	useEffect( () => {
-		console.log( 'heello' );
 		if ( ! setRouterState ) {
 			return;
 		}
