@@ -1,7 +1,7 @@
 import { Button, Icon } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { nanoid } from 'nanoid';
-import Controls from '../controls';
+import Controls from '../Controls';
 
 export default function Repeater( {
 	attr_key,

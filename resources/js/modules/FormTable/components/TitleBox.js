@@ -121,7 +121,8 @@ export default function TItleBox( props ) {
 								{ formatDate(
 									'en-US',
 									created_at,
-									dateFormatOptions
+									dateFormatOptions,
+									false
 								) }
 							</li>
 						</ul>
@@ -138,7 +139,7 @@ export default function TItleBox( props ) {
 							</li>
 							<li>
 								<Link
-									to={ `/forms/${ id }/results/responses` }
+									to={ `/forms/${ id }/response` }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 								>
 									{ __( 'All Responses', 'formgent' ) }

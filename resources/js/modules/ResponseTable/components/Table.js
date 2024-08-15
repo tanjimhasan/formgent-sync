@@ -57,6 +57,7 @@ export default function Table() {
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
 	const [ visibleColumns, setVisibleColumns ] = useState( [] );
 	const [ fieldColumnHide, setFieldColumnHide ] = useState( [] );
+	const [ responses, setResponses ] = useState( [] );
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 
@@ -91,7 +92,7 @@ export default function Table() {
 	// console.log('SingleFormReducer', SingleFormReducer);
 
 	const {
-		responses,
+		forms,
 		pagination,
 		isLoading,
 		starredItems,
@@ -263,31 +264,80 @@ export default function Table() {
 
 	// handleTableDrawer
 	async function handleTableDrawer( record, nav ) {
-		let drawerResponse = responses.findIndex(
-			( item ) => item.id === record
-		);
+		// Calculate the initial drawerResponse index based on the current page and record position
+		let drawerResponse =
+			responses.findIndex( ( item ) => item.id === record ) + 1;
+		let totalDrawerResponse =
+			( pagination.current_page - 1 ) * 10 + drawerResponse;
 
+		// Adjust drawerResponse based on the navigation direction
 		switch ( nav ) {
 			case 'prev':
-				drawerResponse = drawerResponse;
+				totalDrawerResponse -= 1;
 				break;
 			case 'next':
-				drawerResponse = drawerResponse + 2;
+				totalDrawerResponse += 1;
 				break;
 			default:
-				drawerResponse = drawerResponse + 1;
+				break;
 		}
 
-		resolveSelect( 'formgent' ).getSingleResponse(
-			drawerResponse,
-			searchItem,
-			parseInt( id ),
-			readStatus,
-			orderType,
-			Date.now()
-		);
+		// Calculate the new page and local drawerResponse index
+		const newPage = Math.ceil( totalDrawerResponse / 10 );
+		const localDrawerResponse = totalDrawerResponse % 10 || 10;
 
-		handleResponseNotes( responses[ drawerResponse - 1 ]?.id );
+		// Determine updateDrawerResponse based on the newPage value
+		const updateDrawerResponse =
+			newPage === 1
+				? localDrawerResponse
+				: ( newPage - 1 ) * 10 + localDrawerResponse;
+
+		if ( newPage === pagination.current_page ) {
+			// If the drawerResponse is still within the current page
+			await resolveSelect( 'formgent' ).getSingleResponse(
+				updateDrawerResponse,
+				searchItem,
+				parseInt( id ),
+				readStatus,
+				orderType,
+				Date.now()
+			);
+			handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+		} else {
+			// Update the page and fetch the data for the new page
+			updateCurrentResponsePage( newPage );
+
+			// Fetch the new page data
+			await resolveSelect( 'formgent' ).getResponseForm(
+				newPage,
+				10,
+				searchItem,
+				parseInt( id ),
+				readStatus,
+				orderType,
+				Date.now()
+			);
+
+			// Wait for the new data to be fully loaded
+			await new Promise( ( resolve ) => setTimeout( resolve, 100 ) ); // Small delay to ensure data is ready
+
+			// After fetching the new data, get the specific response on the new page
+			await resolveSelect( 'formgent' ).getSingleResponse(
+				updateDrawerResponse,
+				searchItem,
+				parseInt( id ),
+				readStatus,
+				orderType,
+				Date.now()
+			);
+
+			// Ensure that responses are updated before triggering handleResponseNotes
+			if ( responses[ localDrawerResponse - 1 ]?.id ) {
+				handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+			} else {
+				console.warn( 'Response ID is undefined' );
+			}
+		}
 	}
 
 	// handleResponseNotes
@@ -750,7 +800,8 @@ export default function Table() {
 		if ( deleteResponse ) {
 			setTableDrawer( null );
 			setSelectedRowKeys( [] );
-			responseDeleteSuccess( deleteItems );
+			responseDeleteSuccess( id, deleteItems );
+			handleTableChange();
 		} else {
 			responseDeleteError();
 		}
@@ -803,9 +854,9 @@ export default function Table() {
 					</div>
 				),
 				render: ( text, record ) => {
-					const response = responses.find(
-						( r ) => r.id === record.id
-					);
+					const response =
+						responses &&
+						responses?.find( ( r ) => r.id === record.id );
 					if ( response ) {
 						const answer = response.answers?.find(
 							( a ) => a.field_name === fieldName
@@ -901,16 +952,26 @@ export default function Table() {
 	}, [ single_response ] );
 
 	useEffect( () => {
-		setFilteredData( responses );
-		responses?.forEach( ( response ) => {
+		const formResponses = forms && forms[ id ]?.responses;
+		setFilteredData( formResponses );
+		setResponses( formResponses );
+
+		formResponses?.forEach( ( response ) => {
 			starredChangeSuccess( response.id, response.is_starred );
 			readStatusChangeSuccess( response.id, response.is_read );
 		} );
-	}, [ responses ] );
+	}, [ forms ] );
 
 	useEffect( () => {
 		setTableDrawer( null );
 		setSelectedRowKeys( [] );
+
+		fetchResponse();
+		handleColumn();
+		resolveSelect( 'formgent' ).getSingleFormFields(
+			parseInt( id ),
+			Date.now()
+		);
 	}, [ id ] );
 
 	useEffect( () => {
@@ -982,7 +1043,8 @@ export default function Table() {
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }
 					setTableDrawer={ setTableDrawer }
-					pagination={ single_response_pagination }
+					pagination={ pagination }
+					single_response_pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
 					handleStarred={ ( id, isStarredStatus ) =>
 						handleStarred( id, isStarredStatus, 'drawer' )
