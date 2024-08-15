@@ -36,7 +36,7 @@
 		line-height: 16px;
 		&.formgent-label-align-left {
 			order: -1;
-			min-width: 100px;
+			//min-width: 100px;
 			& + .formgent-editor-block-list__single__wrapper {
 				.formgent-editor-block-list__single__input {
 					width: 100%;
@@ -46,7 +46,7 @@
 		}
 		&.formgent-label-align-right {
 			order: 1;
-			min-width: 100px;
+			//min-width: 100px;
 			text-align: right;
 			~ .formgent-editor-block-list__single__wrapper {
 				justify-content: flex-end;
@@ -92,7 +92,7 @@
 		opacity: 0;
 	}
 	.formgent-editor-block-list__checkbox {
-		width: 22px;
+		width: 20px;
 		height: 20px;
 		border: 1px solid #d1d1d7;
 		border-radius: 5px;
@@ -102,6 +102,7 @@
 		box-sizing: border-box;
 		margin-right: 6px;
 		transition: 0.3s ease;
+		flex: none;
 		svg {
 			width: 14px;
 			height: 14px;
