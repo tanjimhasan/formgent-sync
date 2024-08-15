@@ -10,6 +10,7 @@ const ALLOWED_BLOCKS = [
 	'formgent/country',
 	'core/columns',
 	'core/column',
+	'core/group',
 ];
 
 const TEMPLATE = [
@@ -39,74 +40,56 @@ const TEMPLATE = [
 		},
 	],
 	[
-		'core/columns',
-		{},
+		'core/group',
+		{
+			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
+			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+		},
 		[
 			[
-				'core/column',
-				{},
-				[
-					[
-						'formgent/text',
-						{
-							label: 'City',
-							label_alignment: 'top',
-							name: 'city',
-							metadata: { name: 'City' },
-						},
-					],
-				],
+				'formgent/text',
+				{
+					label: 'City',
+					label_alignment: 'top',
+					name: 'city',
+					metadata: { name: 'City' },
+				},
 			],
 			[
-				'core/column',
-				{},
-				[
-					[
-						'formgent/text',
-						{
-							label: 'State / Province',
-							label_alignment: 'top',
-							name: 'state',
-							metadata: { name: 'State / Province' },
-						},
-					],
-				],
+				'formgent/text',
+				{
+					label: 'State / Province',
+					label_alignment: 'top',
+					name: 'state',
+					metadata: { name: 'State / Province' },
+				},
 			],
 		],
 	],
 	[
-		'core/columns',
-		{},
+		'core/group',
+		{
+			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
+			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+		},
 		[
 			[
-				'core/column',
-				{},
-				[
-					[
-						'formgent/text',
-						{
-							label: 'Postal code / Zip Code',
-							label_alignment: 'top',
-							name: 'zip_code',
-							metadata: { name: 'Postal code / Zip Code' },
-						},
-					],
-				],
+				'formgent/text',
+				{
+					label: 'Postal code / Zip Code',
+					label_alignment: 'top',
+					name: 'zip_code',
+					metadata: { name: 'Postal code / Zip Code' },
+				},
 			],
 			[
-				'core/column',
-				{},
-				[
-					[
-						'formgent/text',
-						{
-							label: 'Country',
-							label_alignment: 'top',
-							name: 'country',
-							metadata: { name: 'Country' },
-						},
-					],
-				],
+				'formgent/text',
+				{
+					label: 'Country',
+					label_alignment: 'top',
+					name: 'country',
+					metadata: { name: 'Country' },
+				},
 			],
 		],
 	],
