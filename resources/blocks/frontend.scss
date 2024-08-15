@@ -36,11 +36,17 @@
 		line-height: 16px;
 		&.formgent-label-align-left {
 			order: -1;
-			min-width: 80px;
+			min-width: 100px;
+			& + .formgent-editor-block-list__single__wrapper {
+				.formgent-editor-block-list__single__input {
+					width: 100%;
+					box-sizing: border-box;
+				}
+			}
 		}
 		&.formgent-label-align-right {
 			order: 1;
-			min-width: 80px;
+			min-width: 100px;
 			text-align: right;
 			~ .formgent-editor-block-list__single__wrapper {
 				justify-content: flex-end;
@@ -48,6 +54,12 @@
 			}
 			label {
 				width: 100%;
+			}
+			& + .formgent-editor-block-list__single__wrapper {
+				.formgent-editor-block-list__single__input {
+					width: 100%;
+					box-sizing: border-box;
+				}
 			}
 		}
 		&.formgent-label-align-top {
