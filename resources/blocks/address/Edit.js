@@ -32,12 +32,24 @@ const TEMPLATE = [
 		},
 	],
 	[
+		'core/spacer',
+		{
+			height: '20px',
+		},
+	],
+	[
 		'formgent/text',
 		{
 			label: 'Address line 2',
 			label_alignment: 'top',
 			name: 'address_line_two',
 			metadata: { name: 'Address line 2' },
+		},
+	],
+	[
+		'core/spacer',
+		{
+			height: '20px',
 		},
 	],
 	[
@@ -70,7 +82,7 @@ const TEMPLATE = [
 	[
 		'core/spacer',
 		{
-			height: '40px',
+			height: '20px',
 		},
 	],
 	[
@@ -99,6 +111,12 @@ const TEMPLATE = [
 				},
 			],
 		],
+	],
+	[
+		'core/spacer',
+		{
+			height: '30px',
+		},
 	],
 ];
 

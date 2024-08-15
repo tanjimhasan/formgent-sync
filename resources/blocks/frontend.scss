@@ -77,13 +77,17 @@
 		font-size: 14px;
 		color: var(--formgent-color-danger) !important;
 	}
+	&.formgent-editor-block-align-right,
+	&.formgent-editor-block-align-left {
+		flex-wrap: nowrap;
+	}
 }
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
 }
-.formgent-editor-block-list__single--csr {
-	margin-bottom: 30px;
-}
+// .formgent-editor-block-list__single--csr {
+// 	margin-bottom: 30px;
+// }
 .formgent-editor-block-list__single__wrapper--gdpr {
 	position: relative;
 	.formgent-editor-block-list__single__input--checkbox {
@@ -209,6 +213,8 @@ textarea.formgent-editor-block-list__single__input {
 	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 	color: #4d5761;
 	font-family: "Inter", sans-serif;
+	box-sizing: border-box;
+	width: 100%;
 	&.formgent-editor-block-list__single__input--checkbox {
 		width: 15px;
 		height: 15px;
