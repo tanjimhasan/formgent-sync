@@ -111,11 +111,12 @@ export const SingleFormResolvers = {
 
 	*getAnalyticsSummary( formId, timestamp = 0 ) {
 		try {
-			const data = yield SingleFormActions.fetchAnalyticsSummary(
-				`formgent/admin/analytics/forms/${ formId }/summary`
-			);
+			const analyticsSummaryResponse =
+				yield SingleFormActions.fetchAnalyticsSummary(
+					`formgent/admin/analytics/forms/${ formId }/summary`
+				);
 			yield SingleFormActions.fetchAnalyticsSummarySuccess(
-				data,
+				analyticsSummaryResponse.data,
 				formId
 			);
 		} catch ( error ) {

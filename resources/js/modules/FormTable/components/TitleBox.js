@@ -121,7 +121,8 @@ export default function TItleBox( props ) {
 								{ formatDate(
 									'en-US',
 									created_at,
-									dateFormatOptions
+									dateFormatOptions,
+									false
 								) }
 							</li>
 						</ul>

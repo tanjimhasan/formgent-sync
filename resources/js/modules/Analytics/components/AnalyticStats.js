@@ -5,32 +5,61 @@ import clipboardCheckIcon from '@icon/clipboard-check.svg';
 import presentationIcon from '@icon/presentation.svg';
 import clockIcon from '@icon/clock.svg';
 
-export default function AnalyticStats() {
+export default function AnalyticStats( props ) {
+	const {
+		totalView,
+		totalStarted,
+		totalFinished,
+		completionRate,
+		timeToComplete,
+	} = props;
+
 	const statsData = [
 		{
-			icon: 'icon',
+			icon: eyeIcon,
 			label: 'Views',
-			total: '24',
+			total: totalView,
 		},
 		{
-			icon: 'icon',
+			icon: clipboardIcon,
 			label: 'Started',
-			total: '16',
+			total: totalStarted,
 		},
 		{
-			icon: 'icon',
+			icon: clipboardCheckIcon,
 			label: 'Finished',
-			total: '12',
+			total: totalFinished,
 		},
 		{
-			icon: 'icon',
+			icon: presentationIcon,
 			label: 'Completion rate',
-			total: '80%',
+			total: completionRate,
 		},
 		{
-			icon: 'icon',
+			icon: clockIcon,
 			label: 'Time to complete',
-			total: '00:20',
+			total: timeToComplete,
 		},
 	];
+
+	return (
+		<div className="formgent-analytics-stats">
+			<div className="formgent-analytics-stats__list">
+				{ statsData.map( ( stat, index ) => (
+					<div
+						className="formgent-analytics-stats__item"
+						key={ index }
+					>
+						<div className="formgent-analytics-stats__icon">
+							<ReactSVG src={ stat.icon } />
+						</div>
+						<div className="formgent-analytics-stats__content">
+							<span>{ stat.label }</span>
+							<strong>{ stat.total }</strong>
+						</div>
+					</div>
+				) ) }
+			</div>
+		</div>
+	);
 }

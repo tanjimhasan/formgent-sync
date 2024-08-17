@@ -2,6 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\Address\Address;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\Text\Text;
@@ -53,10 +54,10 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    // 'formgent/address'       => [
-    //     'types'      => ['general', 'conversational'],
-    //     'field_type' => ''
-    // ],
+    'formgent/address'      => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => ''
+    ],
     'formgent/gdpr'         => [
         'types'      => ['general', 'conversational'],
         'field_type' => GDPR::get_key()

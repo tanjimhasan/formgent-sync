@@ -17,8 +17,8 @@ export const SingleFormSelectors = {
 		return SingleFormReducer;
 	},
 	getAnalyticsSummary( state, id ) {
-		return state?.SingleFormReducer?.forms
-			? state?.SingleFormReducer?.forms[ id ]?.analytics?.summary
+		return state?.SingleFormReducer?.analyticsSummary
+			? state?.SingleFormReducer?.analyticsSummary[ id ]
 			: {};
 	},
 };
