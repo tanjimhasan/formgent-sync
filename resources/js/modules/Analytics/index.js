@@ -1,22 +1,32 @@
-import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
+import { resolveSelect, useSelect, useDispatch } from '@wordpress/data';
 import { AnalyticsStyle } from './style';
 
 function Analytics( props ) {
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
-	console.log( CommonReducer );
+
 	const { useParams } = CommonReducer?.routerComponents;
 	const { id: formId } = useParams();
-	const { summary } = useSelect(
+
+	const analyticsSummary = useSelect(
 		( select ) => {
 			return select( 'formgent' ).getAnalyticsSummary( formId );
 		},
 		[ formId ]
 	);
 
-	console.log( summary );
-	return <AnalyticsStyle></AnalyticsStyle>;
+	// useEffect(() => {
+	// 	resolveSelect( 'formgent' ).getAnalyticsSummary(
+	// 		parseInt( formId ),
+	// 		Date.now()
+	// 	);
+	// }, [ formId ])
+
+	console.log( 'AnalyticsSummary', analyticsSummary );
+
+	return <AnalyticsStyle>sdfjklds</AnalyticsStyle>;
 }
 
 export default function AnalyticsModule( props ) {

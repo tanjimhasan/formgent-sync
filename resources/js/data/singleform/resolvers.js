@@ -110,16 +110,14 @@ export const SingleFormResolvers = {
 	},
 
 	*getAnalyticsSummary( formId, timestamp = 0 ) {
-		console.log( 'yes' );
 		try {
 			const data = yield SingleFormActions.fetchAnalyticsSummary(
 				`formgent/admin/analytics/forms/${ formId }/summary`
 			);
-
-			yield SingleFormActions.fetchAnalyticsSummarySuccess( {
+			yield SingleFormActions.fetchAnalyticsSummarySuccess(
 				data,
-				formId,
-			} );
+				formId
+			);
 		} catch ( error ) {
 			yield SingleFormActions.fetchAnalyticsSummaryError( error );
 		}

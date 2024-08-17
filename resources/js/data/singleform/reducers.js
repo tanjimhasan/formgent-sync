@@ -26,7 +26,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, currentPage, error } = action;
 
 	let fieldList = {};
-	console.log( type );
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
 			return {
@@ -288,35 +287,23 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isAnalyticsSummaryFetching: true,
 			};
 		case 'FETCH_ANALYTICS_SUMMARY_SUCCESS':
-			// console.log({
-			// 	...state,
-			// 	forms: {
-			// 		[action.payload.formId]: {
-			// 			...state.forms[action.payload.formId],
-			// 			analytics: {
-			// 				...state.forms[action.payload.formId],
-			// 				summary: {
-			// 					...action.payload.data
-			// 				}
-			// 			}
-			// 		}
-			// 	}
-			// });
 			return {
 				...state,
 				forms: {
+					...state.forms,
 					[ action.payload.formId ]: {
-						...state.forms[ action.payload.formId ],
+						...state.forms[ action?.payload?.formId ],
 						analytics: {
-							...state.forms[ action.payload.formId ],
+							...state.forms[ action?.payload?.formId ]
+								?.analytics,
 							summary: {
-								...action.payload.data,
+								...action?.payload?.data,
 							},
 						},
 					},
 				},
 			};
-			break;
+
 		case 'FETCH_ANALYTICS_SUMMARY_ERROR':
 			return {
 				...state,

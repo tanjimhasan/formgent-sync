@@ -370,7 +370,6 @@ export const SingleFormActions = {
 		};
 	},
 	fetchAnalyticsSummarySuccess: ( data, formId ) => {
-		console.log( data );
 		return {
 			type: 'FETCH_ANALYTICS_SUMMARY_SUCCESS',
 			payload: {
