@@ -15,13 +15,13 @@ const ALLOWED_BLOCKS = [
 ];
 
 const TEMPLATE = [
-	[
-		'core/paragraph',
-		{
-			content: '<strong>Address</strong>',
-			className: 'has-medium-font-size',
-		},
-	],
+	// [
+	// 	'core/paragraph',
+	// 	{
+	// 		content: '<strong>Address</strong>',
+	// 		className: 'has-medium-font-size',
+	// 	},
+	// ],
 	[
 		'formgent/text',
 		{
@@ -40,66 +40,66 @@ const TEMPLATE = [
 			metadata: { name: 'Address line 2' },
 		},
 	],
-	[
-		'core/group',
-		{
-			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
-			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
-		},
-		[
-			[
-				'formgent/text',
-				{
-					label: 'City',
-					label_alignment: 'top',
-					name: 'city',
-					metadata: { name: 'City' },
-				},
-			],
-			[
-				'formgent/text',
-				{
-					label: 'State / Province',
-					label_alignment: 'top',
-					name: 'state',
-					metadata: { name: 'State / Province' },
-				},
-			],
-		],
-	],
-	[
-		'core/spacer',
-		{
-			height: '40px',
-		},
-	],
-	[
-		'core/group',
-		{
-			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
-			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
-		},
-		[
-			[
-				'formgent/text',
-				{
-					label: 'Postal code / Zip Code',
-					label_alignment: 'top',
-					name: 'zip_code',
-					metadata: { name: 'Postal code / Zip Code' },
-				},
-			],
-			[
-				'formgent/text',
-				{
-					label: 'Country',
-					label_alignment: 'top',
-					name: 'country',
-					metadata: { name: 'Country' },
-				},
-			],
-		],
-	],
+	// [
+	// 	'core/group',
+	// 	{
+	// 		layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
+	// 		style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+	// 	},
+	// 	[
+	// 		[
+	// 			'formgent/text',
+	// 			{
+	// 				label: 'City',
+	// 				label_alignment: 'top',
+	// 				name: 'city',
+	// 				metadata: { name: 'City' },
+	// 			},
+	// 		],
+	// 		[
+	// 			'formgent/text',
+	// 			{
+	// 				label: 'State / Province',
+	// 				label_alignment: 'top',
+	// 				name: 'state',
+	// 				metadata: { name: 'State / Province' },
+	// 			},
+	// 		],
+	// 	],
+	// ],
+	// [
+	// 	'core/spacer',
+	// 	{
+	// 		height: '40px',
+	// 	},
+	// ],
+	// [
+	// 	'core/group',
+	// 	{
+	// 		layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
+	// 		style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+	// 	},
+	// 	[
+	// 		[
+	// 			'formgent/text',
+	// 			{
+	// 				label: 'Postal code / Zip Code',
+	// 				label_alignment: 'top',
+	// 				name: 'zip_code',
+	// 				metadata: { name: 'Postal code / Zip Code' },
+	// 			},
+	// 		],
+	// 		[
+	// 			'formgent/text',
+	// 			{
+	// 				label: 'Country',
+	// 				label_alignment: 'top',
+	// 				name: 'country',
+	// 				metadata: { name: 'Country' },
+	// 			},
+	// 		],
+	// 	],
+	// ],
 ];
 
 export default function Edit() {
