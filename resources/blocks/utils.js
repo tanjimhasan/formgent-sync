@@ -11,21 +11,15 @@ import { addFilter } from '@wordpress/hooks';
 import { registerBlockType } from '@wordpress/blocks';
 
 function generateUniqueKey( baseKey, blocks ) {
-	// Extract the numeric suffixes from existing keys
 	const suffixes = blocks
 		.map( ( block ) => {
 			const name = block.attributes.name;
-			// Match names with the format "baseKey-n" where n is a number
 			const match = name.match( new RegExp( `^${ baseKey }-(\\d+)$` ) );
 			return match ? parseInt( match[ 1 ], 10 ) : 0;
 		} )
-		.filter( ( num ) => num >= 0 ); // Filter out non-numeric suffixes
-
-	// Find the highest suffix and increment it
+		.filter( ( num ) => num >= 0 );
 	const maxSuffix = Math.max( ...suffixes, -1 );
 	const newSuffix = maxSuffix + 1;
-
-	// Return the new unique key
 	return newSuffix === 0 ? baseKey : `${ baseKey }-${ newSuffix }`;
 }
 
@@ -60,55 +54,81 @@ addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
 	return props;
 } );
 
-function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
-	const blockProps = useBlockProps();
+function updateBlockAttributesRecursively( block, setAttributes ) {
+	const blockEditorStore = select( 'core/block-editor' );
+	const blocks = blockEditorStore.getBlocks();
+	const blockName = block.attributes.name;
+	const currentId = block?.attributes?.id;
+	const isNewBlock = ! currentId || currentId.length === 0;
+	console.log( block.innerBlocks );
+	if ( isNewBlock ) {
+		const filteredBlocks = blocks.filter(
+			( b ) => b.name === blockName && b.clientId !== block.clientId
+		);
 
-	useEffect( () => {
-		const blockEditorStore = select( 'core/block-editor' );
-		const blocks = blockEditorStore.getBlocks();
-		const blockName = metaData.name;
-		const currentId = attributes.id;
-		const isNewBlock = ! currentId || currentId.length === 0;
+		const uniqueKey = generateUniqueKey( blockName, filteredBlocks );
+		setAttributes( {
+			...block.attributes,
+			id: nanoid( 12 ),
+			name: uniqueKey,
+		} );
+	} else {
+		const duplicateBlocks = blocks.filter(
+			( b ) => b.attributes.id === currentId
+		);
 
-		if ( isNewBlock ) {
-			// All blocks of the same type, excluding the current block
+		if ( duplicateBlocks[ 1 ] ) {
 			const filteredBlocks = blocks.filter(
-				( block ) =>
-					block.name === blockName &&
-					! blockProps.id.includes( block.clientId )
+				( b ) =>
+					b.name === blockName &&
+					b.clientId !== duplicateBlocks[ 1 ].clientId
 			);
+			const uniqueKey = generateUniqueKey( blockName, filteredBlocks );
+			dispatch( 'core/block-editor' ).updateBlockAttributes(
+				duplicateBlocks[ 1 ].clientId,
+				{
+					id: nanoid( 12 ),
+					name: uniqueKey,
+				}
+			);
+		}
+	}
 
-			setAttributes( {
-				id: nanoid( 12 ),
-				name: generateUniqueKey(
-					blockName.substring( 'formgent/'.length ),
-					filteredBlocks
-				),
-			} );
-		} else {
-			const duplicateBlocks = blocks.filter( ( block ) => {
-				return block.attributes.id === currentId;
-			} );
-
-			if ( duplicateBlocks[ 1 ] ) {
-				// All blocks of the same type, excluding the duplicate block
-				const filteredBlocks = blocks.filter(
-					( block ) =>
-						block.name === blockName &&
-						block.clientId !== duplicateBlocks[ 1 ].clientId
-				);
-
+	// Process inner blocks while preserving their original names
+	if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+		block.innerBlocks.forEach( ( innerBlock ) => {
+			const originalInnerBlockName =
+				innerBlock.attributes.name || 'inner-block';
+			const uniqueInnerKey = generateUniqueKey(
+				originalInnerBlockName,
+				blocks
+			);
+			// Only update the name if it's a new block
+			if (
+				! innerBlock.attributes.id ||
+				innerBlock.attributes.id.length === 0
+			) {
 				dispatch( 'core/block-editor' ).updateBlockAttributes(
-					duplicateBlocks[ 1 ].clientId,
+					innerBlock.clientId,
 					{
 						id: nanoid( 12 ),
-						name: generateUniqueKey(
-							blockName.substring( 'formgent/'.length ),
-							filteredBlocks
-						),
+						name: uniqueInnerKey,
 					}
 				);
 			}
+		} );
+	}
+}
+
+function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
+	const blockEditorStore = select( 'core/block-editor' );
+	const blockProps = useBlockProps();
+
+	useEffect( () => {
+		const selectedBlock = blockEditorStore.getSelectedBlock();
+
+		if ( selectedBlock ) {
+			updateBlockAttributesRecursively( selectedBlock, setAttributes );
 		}
 	}, [] );
 
