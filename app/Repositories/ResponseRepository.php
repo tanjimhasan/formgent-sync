@@ -90,7 +90,7 @@ class ResponseRepository {
 
         $responses_query->with(
             'answers', function( Builder $query ){
-                $query->select( 'id', 'response_id', 'field_name', 'field_type', 'value', 'created_at', 'updated_at' );
+                $query->select( 'id', 'response_id', 'field_name', 'field_type', 'value', 'created_at', 'updated_at' )->where_is_null( 'parent_id' );
             }
         )->with(
             'answers.children', function( Builder $query ){
@@ -113,7 +113,23 @@ class ResponseRepository {
 
             $responses[0]->answers = array_map(
                 function( $answer ) use( $data ) {
-                    $answer->label = isset( $data[$answer->field_name]['label'] ) ? $data[$answer->field_name]['label'] : esc_html__( "Unknown", "formgent" );
+                    // Set label for the current answer
+                    if ( isset( $data[$answer->field_name]['label'] ) ) {
+                        $answer->label = $data[$answer->field_name]['label'];
+                    }
+
+                    if ( ! empty( $answer->children ) && ! empty( $data[$answer->field_name]['children'] ) ) {
+                        $children_data    = $data[$answer->field_name]['children'];
+                        $answer->children = array_map(
+                            function( $answer ) use( $children_data ) {
+                                if ( isset( $children_data[$answer->field_name]['label'] ) ) {
+                                    $answer->label = $children_data[$answer->field_name]['label'];
+                                }
+                                return $answer;
+                            }, $answer->children
+                        );
+                    }
+
                     return $answer;
                 }, $responses[0]->answers
             );
