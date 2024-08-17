@@ -173,7 +173,7 @@ class ResponseDTO extends DTO {
      *
      * @return self
      */
-    public function set_created_by( int $created_by ) {
+    public function set_created_by( ?int $created_by ) {
         $this->created_by = $created_by;
 
         return $this;
@@ -195,7 +195,7 @@ class ResponseDTO extends DTO {
      *
      * @return self
      */
-    public function set_device( string $device ) {
+    public function set_device( ?string $device ) {
         $this->device = $device;
 
         return $this;
@@ -217,7 +217,7 @@ class ResponseDTO extends DTO {
      *
      * @return self
      */
-    public function set_browser( string $browser ) {
+    public function set_browser( ?string $browser ) {
         $this->browser = $browser;
 
         return $this;
@@ -239,7 +239,7 @@ class ResponseDTO extends DTO {
      *
      * @return self
      */
-    public function set_browser_version( string $browser_version ) {
+    public function set_browser_version( ?string $browser_version ) {
         $this->browser_version = $browser_version;
 
         return $this;

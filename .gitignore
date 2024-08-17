@@ -16,6 +16,6 @@ phpcs-report.xml
 /assets/**/*.hot-update.*
 /assets/**/*.js.map
 /assets/css/*.js
-.DS_Store
+**/.DS_Store
 /languages
 /__build

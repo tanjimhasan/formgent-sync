@@ -3,18 +3,16 @@ import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	Button,
-	Icon,
-	TextareaControl,
 	__experimentalInputControl as InputControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
-import { Fragment, useMemo, useState } from '@wordpress/element';
+import { useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
+import DefaultValue from './controls/DefaultValue';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -78,19 +76,16 @@ const controlGenerators = {
 	},
 	select: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
-			<Fragment>
-				<label className="formgent-control-label">
-					{ control.label }
-				</label>
-				<SelectControl
-					value={ attributes[ attr_key ] }
-					options={ control.options }
-					onChange={ function ( value ) {
-						// Update the attribute value in the block's attributes
-						setAttributes( { [ attr_key ]: value } );
-					} }
-				/>
-			</Fragment>
+			<SelectControl
+				label={ control.label }
+				value={ attributes[ attr_key ] }
+				options={ control.options }
+				onChange={ function ( value ) {
+					// Update the attribute value in the block's attributes
+					setAttributes( { [ attr_key ]: value } );
+				} }
+				size="__unstable-large"
+			/>
 		);
 	},
 	checkbox: function ( { attr_key, control, attributes, setAttributes } ) {
@@ -120,50 +115,50 @@ const controlGenerators = {
 	dimension: function ( { attr_key, control, setAttributes } ) {
 		const [ values, setValues ] = useState( control.values );
 		return (
-			<Fragment>
-				<label className="formgent-control-label">
-					{ control.label }
-				</label>
-				<BoxControl
-					values={ values }
-					onChange={ function ( value ) {
-						// Update dimension values
-						setValues( value );
-						// Update the attribute value in the block's attributes
-						setAttributes( { [ attr_key ]: value } );
-					} }
-				/>
-			</Fragment>
+			<BoxControl
+				label={ control.label }
+				values={ values }
+				onChange={ function ( value ) {
+					// Update dimension values
+					setValues( value );
+					// Update the attribute value in the block's attributes
+					setAttributes( { [ attr_key ]: value } );
+				} }
+			/>
 		);
 	},
 	repeater: Repeater,
-	toggle_group: function ( { attr_key, control, setAttributes } ) {
+	toggle_group: function ( {
+		attr_key,
+		control,
+		attributes,
+		setAttributes,
+	} ) {
 		const toggleOptions = control.options;
 		return (
-			<Fragment>
-				<label className="formgent-control-label">
-					{ control.label }
-				</label>
-				<ToggleGroupControl
-					isBlock
-					onChange={ function ( value ) {
-						// Update the attribute value in the block's attributes
-						setAttributes( { [ attr_key ]: value } );
-					} }
-				>
-					{ toggleOptions.map( ( option, index ) => {
-						return (
-							<ToggleGroupControlOption
-								key={ index }
-								value={ option.value }
-								label={ option.label }
-							/>
-						);
-					} ) }
-				</ToggleGroupControl>
-			</Fragment>
+			<ToggleGroupControl
+				label={ control.label }
+				isBlock
+				value={ attributes[ attr_key ] }
+				onChange={ function ( value ) {
+					// Update the attribute value in the block's attributes
+					setAttributes( { [ attr_key ]: value } );
+				} }
+				size="__unstable-large"
+			>
+				{ toggleOptions.map( ( option, index ) => {
+					return (
+						<ToggleGroupControlOption
+							key={ index }
+							value={ option.value }
+							label={ option.label }
+						/>
+					);
+				} ) }
+			</ToggleGroupControl>
 		);
 	},
+	default_value: DefaultValue,
 };
 
 export default function Controls( {
