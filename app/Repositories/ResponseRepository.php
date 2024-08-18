@@ -203,4 +203,29 @@ class ResponseRepository {
     public function deletes( int $form_id, array $ids ) {
         return Response::query( 'response' )->where( 'form_id', $form_id )->where_in( 'id', $ids )->delete();
     }
+
+    public function mark_as_completed( int $id ) {
+        return Response::query()->where( 'id', $id )->update(
+            [
+                'is_completed' => 1
+            ]
+        );
+    }
+
+    public function create_and_get_token( ResponseDTO $response_dto ) {
+        $response_id = $this->create( $response_dto );
+
+        /**
+         * Generating and storing token to identify the subsequent response on this response.
+         */
+        $token = 'response_token-' . formgent_generate_token();
+
+        /**
+         * @var ResponseTokenRepository $response_token_repository
+         */
+        $response_token_repository = formgent_singleton( ResponseTokenRepository::class );
+        $response_token_repository->create( $response_dto->get_form_id(), $response_id, $token );
+
+        return $token;
+    }
 }

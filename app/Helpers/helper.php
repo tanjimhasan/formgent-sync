@@ -5,12 +5,9 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\WpMVC\App;
 use FormGent\DI\Container;
 use FormGent\App\Fields\Field;
-use FormGent\App\Fields\Name\Name;
-use FormGent\App\Fields\Email\Email;
-use FormGent\App\Fields\Number\Number;
-use FormGent\App\Fields\Text\Text;
-use FormGent\App\Fields\TextArea\TextArea;
 use FormGent\App\Utils\DateTime;
+use FormGent\App\Repositories\ResponseRepository;
+use FormGent\App\Repositories\ResponseTokenRepository;
 
 function formgent():App {
     return App::$instance;
@@ -211,6 +208,24 @@ function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_la
     }
 
     return $settings;
+}
+
+function formgent_get_response_by_token( string $token, int $form_id ) {
+    /**
+     * @var ResponseTokenRepository $response_token_repository
+     */
+    $response_token_repository = formgent_singleton( ResponseTokenRepository::class );
+    $token_data                = $response_token_repository->get_by_token( $form_id, $token );
+
+    if ( ! $token_data ) {
+        return false;
+    }
+
+    /**
+     * @var ResponseRepository $response_repository
+     */
+    $response_repository = formgent_singleton( ResponseRepository::class );
+    return $response_repository->get_by_id( $token_data->response_id );
 }
 
 require_once __DIR__ . '/form.php';

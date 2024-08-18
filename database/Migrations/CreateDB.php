@@ -46,7 +46,7 @@ class CreateDB implements Migration {
         ) {$charset_collate};
 
         -- -----------------------------------------------------
-        -- Table fields
+        -- Table answers
         -- -----------------------------------------------------
 
         CREATE TABLE {$db_prefix}answers (
@@ -71,7 +71,6 @@ class CreateDB implements Migration {
             ON DELETE CASCADE
         ) {$charset_collate};
 
-
         -- -----------------------------------------------------
         -- Table notes
         -- -----------------------------------------------------
@@ -86,7 +85,28 @@ class CreateDB implements Migration {
             CONSTRAINT fk_{$db_prefix}notes_response_id
             FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
             ON DELETE CASCADE
-        ) {$charset_collate};";
+        ) {$charset_collate};
+
+        -- -----------------------------------------------------
+        -- Table response_token
+        -- -----------------------------------------------------
+
+        CREATE TABLE {$db_prefix}response_token (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            `form_id` BIGINT UNSIGNED NOT NULL,
+            `response_id` BIGINT UNSIGNED NOT NULL,
+            `token` VARCHAR(255) NOT NULL,
+            `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `expired_at` TIMESTAMP NULL,
+            PRIMARY KEY (`id`),
+            CONSTRAINT fk_{$db_prefix}response_token_form_id
+            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
+            ON DELETE CASCADE,
+            CONSTRAINT fk_{$db_prefix}response_token_response_id
+            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
+            ON DELETE CASCADE
+        ) {$charset_collate};
+        ";
 
         dbDelta( $sql );
 
