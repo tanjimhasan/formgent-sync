@@ -163,12 +163,11 @@ function formgent_post_type() {
     return formgent_app_config( 'post_type' );
 }
 
-function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_label = false ): array {
+function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_label = false, string $array_key = 'name' ): array {
     $blocks            = formgent_config( 'blocks' );
     $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
-    $settings  = [];
-    $array_key = 'name';
+    $settings = [];
 
     foreach ( $parsed_blocks as $parsed_block ) {
         $block_name = $parsed_block['blockName'];
