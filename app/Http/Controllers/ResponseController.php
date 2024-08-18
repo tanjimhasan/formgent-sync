@@ -73,7 +73,7 @@ class ResponseController extends Controller {
         if ( ! $response ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "Response not found.", "formgent-pro" )
+                    'message' => esc_html__( "Response not found.", "formgent" )
                 ], 404
             );
         }
@@ -81,7 +81,7 @@ class ResponseController extends Controller {
         if ( '1' === $response->is_completed ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "Response already completed", "formgent-pro" )
+                    'message' => esc_html__( "Response already completed", "formgent" )
                 ], 404
             );
         }
@@ -91,7 +91,7 @@ class ResponseController extends Controller {
         if ( $form_id != $response->form_id ) {
             return Response::send(
                 [
-                    'message' => esc_html__( "Oops, something went wrong. Please try again.", "formgent-pro" )
+                    'message' => esc_html__( "Oops, something went wrong. Please try again.", "formgent" )
                 ], 404
             );
         }
@@ -314,7 +314,7 @@ class ResponseController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found', 'formgent-pro' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
