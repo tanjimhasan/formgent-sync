@@ -163,7 +163,7 @@ function formgent_post_type() {
     return formgent_app_config( 'post_type' );
 }
 
-function formgent_get_form_field_settings( array $parsed_blocks ): array {
+function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_label = false ): array {
     $blocks            = formgent_config( 'blocks' );
     $registered_blocks = WP_Block_Type_Registry::get_instance()->get_all_registered();
 
@@ -176,7 +176,7 @@ function formgent_get_form_field_settings( array $parsed_blocks ): array {
         if ( ! isset( $blocks[$block_name] ) ) {
             // Handle inner blocks if any
             if ( ! empty( $parsed_block['innerBlocks'] ) ) {
-                $settings = array_merge( $settings, formgent_get_form_field_settings( $parsed_block['innerBlocks'] ) );
+                $settings = array_merge( $settings, formgent_get_form_field_settings( $parsed_block['innerBlocks'], $remove_label ) );
             }
             continue;
         }
@@ -194,9 +194,11 @@ function formgent_get_form_field_settings( array $parsed_blocks ): array {
 
         $attributes = array_merge( $default_attributes, $parsed_block['attrs'] );
 
-        unset( $attributes['label'] );
-        unset( $attributes['sub_label'] );
-        unset( $attributes['description'] );
+        if ( $remove_label ) {
+            unset( $attributes['label'] );
+            unset( $attributes['sub_label'] );
+            unset( $attributes['description'] );
+        }
 
         $attributes['field_type'] = $blocks[$block_name]['field_type'];
         $setting_key              = $attributes[$array_key];
@@ -205,7 +207,7 @@ function formgent_get_form_field_settings( array $parsed_blocks ): array {
 
         // Handle inner blocks recursively
         if ( ! empty( $parsed_block['innerBlocks'] ) ) {
-            $settings[$setting_key]['children'] = formgent_get_form_field_settings( $parsed_block['innerBlocks'] );
+            $settings[$setting_key]['children'] = formgent_get_form_field_settings( $parsed_block['innerBlocks'], $remove_label );
         }
     }
 

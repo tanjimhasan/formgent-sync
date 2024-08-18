@@ -2,6 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\Address\Address;
 use FormGent\App\Fields\GDPR\GDPR;
 use FormGent\App\Fields\PhoneNumber\PhoneNumber;
 use FormGent\App\Fields\Website\Website;
@@ -13,6 +14,11 @@ use FormGent\App\Fields\Number\Number;
 
 return apply_filters(
     'formgent_fields', [
+        Address::get_key()     => [
+            'class'                     => Address::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => false
+        ],
         Text::get_key()        => [
             'class'                     => Text::class,
             'allowed_in_response'       => true,

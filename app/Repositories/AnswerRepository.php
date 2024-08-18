@@ -28,7 +28,7 @@ class AnswerRepository {
     /**
      * Create multiple items
      */
-    public function creates( int $response_id, AnswerDTO ...$items ) {
+    public function creates( int $response_id, array $items ) {
         return Answer::query()->insert(
             array_map(
                 function( AnswerDTO $field ) use( $response_id ) {

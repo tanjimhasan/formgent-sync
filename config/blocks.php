@@ -56,7 +56,7 @@ return [
     // ],
     'formgent/address'      => [
         'types'      => ['general', 'conversational'],
-        'field_type' => ''
+        'field_type' => Address::get_key()
     ],
     'formgent/gdpr'         => [
         'types'      => ['general', 'conversational'],

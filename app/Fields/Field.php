@@ -54,10 +54,6 @@ abstract class Field {
         $dto = new AnswerDTO();
         return $dto->set_form_id( $form->ID )->set_field_type( $field['field_type'] )->set_field_name( $field['name'] )->set_value( $wp_rest_request->get_param( $field['name'] ) );
     }
- 
-    public function get_children_dtos( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): array {
-        return [];
-    }
 
     protected static function throw_validator_errors( Validator $validator ) {
         if ( $validator->is_fail() ) {
