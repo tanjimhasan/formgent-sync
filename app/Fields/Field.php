@@ -31,7 +31,7 @@ abstract class Field {
         return [];
     }
 
-    public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {
+    public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator, stdClass $form ) {
         $rules = $this->get_validation_rules();
 
         if ( isset( $field["required"] ) && '1' ===  $field["required"] ) {

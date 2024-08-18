@@ -166,7 +166,7 @@ class ResponseController extends Controller {
                 }
 
                 // Validate the field and create its DTO.
-                $field_handler->validate( $field, $request, $validator );
+                $field_handler->validate( $field, $request, $validator, $form );
                 $dto = $field_handler->get_field_dto( $field, $request, $form );
 
                 // Handle child fields if present.
@@ -278,7 +278,7 @@ class ResponseController extends Controller {
                 }
 
                 // Validate the field and create its DTO.
-                $field_handler->validate( $field, $children_request, $validator );
+                $field_handler->validate( $field, $children_request, $validator, $form );
                 $dto = $field_handler->get_field_dto( $field, $children_request, $form );
 
                 $field_dtos[$field['name']] = $dto;
