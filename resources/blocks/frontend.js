@@ -185,12 +185,21 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
+				const responseToken = await wp.apiFetch( {
+					path: 'formgent/responses/generate-token',
+					method: 'POST',
+					data: {
+						form_id: context.formId,
+					},
+				} );
+
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
 					method: 'POST',
 					data: {
 						id: context.formId,
 						form_data: formData,
+						response_token: responseToken.response_token,
 					},
 				} );
 
