@@ -21,4 +21,14 @@ export const SingleFormSelectors = {
 			? state?.SingleFormReducer?.analyticsSummary[ id ]
 			: {};
 	},
+	getAnalyticsSubmission( state ) {
+		return state?.SingleFormReducer?.analyticsSubmission
+			? state?.SingleFormReducer?.analyticsSubmission
+			: {};
+	},
+	getQuestionDropOff( state ) {
+		return state?.SingleFormReducer?.questionDropOff
+			? state?.SingleFormReducer?.questionDropOff
+			: {};
+	},
 };

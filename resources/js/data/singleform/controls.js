@@ -23,4 +23,14 @@ export const SingleFormControls = {
 			path: action.path,
 		} );
 	},
+	FETCH_ANALYTICS_SUBMISSION( action ) {
+		return apiFetch( {
+			path: action.path,
+		} );
+	},
+	FETCH_QUESTION_DROP_OFF( action ) {
+		return apiFetch( {
+			path: action.path,
+		} );
+	},
 };

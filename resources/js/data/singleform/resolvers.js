@@ -123,4 +123,32 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.fetchAnalyticsSummaryError( error );
 		}
 	},
+	*getAnalyticsSubmission( formId, dateFrom, dateTo, timestamp = 0 ) {
+		try {
+			const analyticsSubmissionResponse =
+				yield SingleFormActions.fetchAnalyticsSubmission(
+					`formgent-pro/admin/analytics/forms/${ formId }/completed-submission-counts?from_date=${ dateFrom }&to_date=${ dateTo }`
+				);
+			yield SingleFormActions.fetchAnalyticsSubmissionSuccess(
+				analyticsSubmissionResponse,
+				formId
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchAnalyticsSubmissionError( error );
+		}
+	},
+	*getQuestionDropOff( formId, timestamp = 0 ) {
+		try {
+			const analyticsQuestionDropOff =
+				yield SingleFormActions.fetchQuestionDropOff(
+					`formgent-pro/admin/analytics/forms/${ formId }/fields/drop-off-summary`
+				);
+			yield SingleFormActions.fetchQuestionDropOffSuccess(
+				analyticsQuestionDropOff,
+				formId
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchQuestionDropOffError( error );
+		}
+	},
 };

@@ -133,6 +133,36 @@ const AnalyticsStyle = Styled.div`
             background: var(--formgent-color-primary);
         }
     }
+    .formgent-analytics-chart{
+        width: 100%;
+        margin-top: 56px;
+    }
+    .formgent-analytics-chart__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        h2{
+            margin: 0;
+        }
+    }
+    .recharts-responsive-container{
+        width: 100%;
+        min-height: 250px;
+    }
+    .formgent-analytics-chart__datepicker{
+        .ant-picker{
+            padding-top: 9px;
+            padding-bottom: 9px;
+        }
+    }
+    .formgent-analytics-chart__not-found{
+        font-size: 16px;
+        text-align: center;
+        background: #f6f6f6;
+        padding: 35px 0;
+        border-radius: 10px;
+    }
 `;
 
 export { AnalyticsStyle };
