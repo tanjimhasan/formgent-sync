@@ -2,9 +2,9 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "formgent/multiple-choice",
-	"title": "Multi Choice",
+	"title": "Multiple Choice",
 	"category": "formgent",
-	"description": "FormGent Multi Choice field.",
+	"description": "FormGent Multiple Choice field.",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
