@@ -4,24 +4,12 @@ namespace FormGent\App\Fields\Name;
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\DTO\AnswerDTO;
-use stdClass;
-use WP_REST_Request;
-use FormGent\WpMVC\RequestValidator\Validator;
+use FormGent\App\Fields\ParentMethodResolver;
 
 trait MethodResolver {
+    use ParentMethodResolver;
+
     public static function get_key(): string {
         return 'name';
-    }
-
-    protected function get_validation_rules(): array {
-        return [];
-    }
-
-    public function validate( array $field, WP_REST_Request $wp_rest_request, Validator $validator ) {}
-
-    public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
-        $dto = new AnswerDTO();
-        return $dto->set_form_id( $form->ID )->set_field_type( $field['field_type'] )->set_field_name( $field['name'] );
     }
 }

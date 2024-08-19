@@ -4,6 +4,7 @@ import { AnalyticsStyle } from './style';
 import AnalyticStats from './components/AnalyticStats';
 import AnalyticsProCta from './components/AnalyticsProCta';
 import { registerIsProActive } from '@formgent/helper/registerApplyFilter';
+import { applyFilters } from '@wordpress/hooks';
 const FormHeader = lazy( () => import( '@formgent/components/FormHeader' ) );
 
 function Analytics( props ) {
@@ -28,6 +29,8 @@ function Analytics( props ) {
 		average_completion_time,
 	} = analyticsSummary;
 
+	//const FilteredAnalyticsComponent = applyFilters('formgent_response_analytics', null);
+
 	return (
 		<>
 			<FormHeader resultHeader />
@@ -41,6 +44,7 @@ function Analytics( props ) {
 					/>
 				</div>
 				{ ! isProActive && <AnalyticsProCta /> }
+				{ /* { FilteredAnalyticsComponent && <FilteredAnalyticsComponent /> } */ }
 			</AnalyticsStyle>
 		</>
 	);
