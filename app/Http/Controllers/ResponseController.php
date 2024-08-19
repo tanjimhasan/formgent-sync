@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Models\Answer;
 use FormGent\App\DTO\ResponseDTO;
+use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\ResponseRepository;
@@ -320,7 +321,7 @@ class ResponseController extends Controller {
         }
         
         $response_dto = new ResponseDTO;
-        $response_dto->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
+        $response_dto->set_status( ResponseStatus::DRAFT )->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
         $this->store_browser_info( $response_dto, $wp_rest_request );
 
         return Response::send(

@@ -29,6 +29,7 @@ class CreateDB implements Migration {
         $sql = "CREATE TABLE {$db_prefix}responses (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
+            `status` VARCHAR(50) NOT NULL DEFAULT 'publish' COMMENT 'value: draft, publish',
             `is_read` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `is_completed` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `completed_at` DATETIME DEFAULT NULL,

@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\DTO\ResponseReadDTO;
 use FormGent\App\DTO\ResponseSingleDTO;
+use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Models\Response;
 use FormGent\App\Models\User;
 use FormGent\App\Models\Post;
@@ -142,7 +143,7 @@ class ResponseRepository {
     }
 
     private function response_query( ResponseReadDTO $dto, array $table_names ) {
-        $responses_query = Response::query( 'response' )->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )->where( 'response.is_completed', 1 )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' );
+        $responses_query = Response::query( 'response' )->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )->where( 'response.status', ResponseStatus::PUBLISH )->where( 'response.is_completed', 1 )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' );
         if ( $dto->get_form_id() ) {
             $responses_query->where( 'post.ID', $dto->get_form_id() );
         }
@@ -218,6 +219,7 @@ class ResponseRepository {
             [
                 'is_completed' => 1,
                 'completed_at' => formgent_now(),
+                'status'       => ResponseStatus::PUBLISH,
             ]
         );
     }
