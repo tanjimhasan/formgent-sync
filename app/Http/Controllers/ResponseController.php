@@ -324,6 +324,10 @@ class ResponseController extends Controller {
         $response_dto->set_status( ResponseStatus::DRAFT )->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
         $this->store_browser_info( $response_dto, $wp_rest_request );
 
+        if ( is_user_logged_in() ) {
+            $response_dto->set_created_by( wp_get_current_user()->ID );
+        }
+
         return Response::send(
             [
                 'response_token' => $this->repository->create_and_get_token( $response_dto )
