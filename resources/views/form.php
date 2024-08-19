@@ -2,7 +2,7 @@
 
 wp_enqueue_script( 'wp-api-fetch' );
 
-$data      = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
+$data      = formgent_get_form_field_settings( parse_blocks( $form->post_content ), true );
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 $context   = [
     'formId'         => $form->ID,

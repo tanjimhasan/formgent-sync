@@ -48,8 +48,9 @@ class ResponseController extends Controller {
         // Validate the request parameters.
         $validator->validate(
             [
-                'id'        => 'required|integer',
-                'form_data' => 'required|array'
+                'id'             => 'required|integer',
+                'form_data'      => 'required|array',
+                'response_token' => 'required|string',
             ]
         );
 
@@ -67,6 +68,34 @@ class ResponseController extends Controller {
             return Response::send( ['message' => esc_html__( 'Form not found', 'formgent' )], 404 );
         }
 
+        $response = formgent_get_response_by_token( $request->get_param( 'response_token' ), $form->ID );
+
+        if ( ! $response ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( "Response not found.", "formgent" )
+                ], 404
+            );
+        }
+
+        if ( '1' === $response->is_completed ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( "Response already completed", "formgent" )
+                ], 404
+            );
+        }
+
+        $form_id = intval( $request->get_param( 'id' ) );
+
+        if ( $form_id != $response->form_id ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( "Oops, something went wrong. Please try again.", "formgent" )
+                ], 404
+            );
+        }
+
         // Set additional form properties.
         $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
         $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
@@ -77,24 +106,17 @@ class ResponseController extends Controller {
             return Response::send( ['messages' => $validate_data['errors']], 422 );
         }
 
-        // Create and populate the response DTO.
-        $response_dto = $this->create_response_dto( $form );
-        $this->store_browser_info( $response_dto, $request );
-
-        // Trigger the before response creation hook.
-        do_action( "formgent_before_create_form_response", $response_dto, $form, $request );
-
-        // Store the response and associated answers.
-        $response_id = $this->repository->create( $response_dto );
-        $this->answer_repository->creates( $response_id, $validate_data['field_dtos'] );
+        $this->answer_repository->creates( $response->id, $validate_data['field_dtos'] );
 
         // Handle child fields if present.
         if ( ! empty( $validate_data['parent_field_names'] ) ) {
-            $this->handle_child_fields( $response_id, $validate_data );
+            $this->handle_child_fields( $response->id, $validate_data );
         }
 
+        $this->repository->mark_as_completed( $response->id );
+
         // Trigger the after response creation hook.
-        do_action( "formgent_after_create_form_response", $response_id, $form, $request );
+        do_action( "formgent_after_create_form_response", $response->id, $form, $request );
 
         // Return a success response.
         return Response::send( ['message' => esc_html__( 'The form was submitted successfully!', 'formgent' )], 201 );
@@ -144,7 +166,7 @@ class ResponseController extends Controller {
                 }
 
                 // Validate the field and create its DTO.
-                $field_handler->validate( $field, $request, $validator );
+                $field_handler->validate( $field, $request, $validator, $form );
                 $dto = $field_handler->get_field_dto( $field, $request, $form );
 
                 // Handle child fields if present.
@@ -169,36 +191,6 @@ class ResponseController extends Controller {
         }
 
         return compact( 'field_dtos', 'children_dtos', 'parent_field_names', 'errors' );
-    }
-
-    /**
-     * Creates and populates a ResponseDTO.
-     *
-     * @param stdClass $form
-     * @return ResponseDTO
-     */
-    private function create_response_dto( stdClass $form ): ResponseDTO {
-        return ( new ResponseDTO() )
-            ->set_form_id( $form->ID )
-            ->set_created_by( wp_get_current_user()->ID )
-            ->set_ip( formgent_get_user_ip_address() );
-    }
-
-    /**
-     * Stores browser information in the ResponseDTO.
-     *
-     * @param ResponseDTO $response_dto
-     * @param WP_REST_Request $request
-     */
-    private function store_browser_info( ResponseDTO $response_dto, WP_REST_Request $request ): void {
-        $which_browser = new \FormGent\WhichBrowser\Parser( $request->get_header( 'user-agent' ) );
-        $browser       = $which_browser->browser;
-
-        if ( $browser ) {
-            $response_dto->set_browser( $browser->name );
-            $response_dto->set_browser_version( $browser->version instanceof \FormGent\WhichBrowser\Model\Version ? $browser->version->value : null );
-            $response_dto->set_device( $which_browser->os->name );
-        }
     }
 
     /**
@@ -286,7 +278,7 @@ class ResponseController extends Controller {
                 }
 
                 // Validate the field and create its DTO.
-                $field_handler->validate( $field, $children_request, $validator );
+                $field_handler->validate( $field, $children_request, $validator, $form );
                 $dto = $field_handler->get_field_dto( $field, $children_request, $form );
 
                 $field_dtos[$field['name']] = $dto;
@@ -298,5 +290,60 @@ class ResponseController extends Controller {
         }
 
         return compact( 'field_dtos', 'errors' );
+    }
+
+    public function generate_token( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'form_id' => 'required|integer'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $form_id = $wp_rest_request->get_param( 'form_id' );
+
+        $form = $this->form_repository->get_by_id_publish( $form_id );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Form not found', 'formgent' )
+                ], 404
+            );
+        }
+        
+        $response_dto = new ResponseDTO;
+        $response_dto->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
+        $this->store_browser_info( $response_dto, $wp_rest_request );
+
+        return Response::send(
+            [
+                'response_token' => $this->repository->create_and_get_token( $response_dto )
+            ]
+        );
+    }
+
+    /**
+     * Stores browser information in the ResponseDTO.
+     *
+     * @param ResponseDTO $response_dto
+     * @param WP_REST_Request $request
+     */
+    private function store_browser_info( ResponseDTO $response_dto, WP_REST_Request $request ): void {
+        $which_browser = new \FormGent\WhichBrowser\Parser( $request->get_header( 'user-agent' ) );
+        $browser       = $which_browser->browser;
+
+        if ( $browser ) {
+            $response_dto->set_browser( $browser->name );
+            $response_dto->set_browser_version( $browser->version instanceof \FormGent\WhichBrowser\Model\Version ? $browser->version->value : null );
+            $response_dto->set_device( $which_browser->os->name );
+        }
     }
 }
