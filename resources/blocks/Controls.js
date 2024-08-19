@@ -8,7 +8,7 @@ import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
-import { useMemo, useState } from '@wordpress/element';
+import { useMemo, useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
@@ -59,6 +59,13 @@ const controlGenerators = {
 				metaData,
 			} );
 		}, [ attributes ] );
+
+		useEffect( () => {
+			setAttributes( {
+				...attributes,
+				isInvalid: props.isInvalid,
+			} );
+		}, [ props.isInvalid ] );
 
 		return (
 			<StyledInput
