@@ -8,6 +8,7 @@ use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\Text\Text;
 use FormGent\App\Fields\TextArea\TextArea;
+use FormGent\App\Fields\InputMasking\InputMasking;
 use FormGent\App\Fields\Number\Number;
 use FormGent\App\Fields\GDPR\GDPR;
 use FormGent\App\Fields\PhoneNumber\PhoneNumber;
@@ -68,5 +69,9 @@ return [
     'formgent/website'         => [
         'types'      => ['general', 'conversational'],
         'field_type' => Website::get_key(),
+    ],
+    'formgent/input-masking'   => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => InputMasking::get_key(),
     ]
 ];

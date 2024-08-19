@@ -6,6 +6,7 @@ use FormGent\App\Fields\Address\Address;
 use FormGent\App\Fields\Dropdown\Dropdown;
 use FormGent\App\Fields\GDPR\GDPR;
 use FormGent\App\Fields\PhoneNumber\PhoneNumber;
+use FormGent\App\Fields\InputMasking\InputMasking;
 use FormGent\App\Fields\Website\Website;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
@@ -74,6 +75,11 @@ return apply_filters(
         ],
         Dropdown::get_key()       => [
             'class'                     => Dropdown::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => false
+        ],
+        InputMasking::get_key()   => [
+            'class'                     => InputMasking::class,
             'allowed_in_response'       => true,
             'allowed_in_response_table' => false
         ],
