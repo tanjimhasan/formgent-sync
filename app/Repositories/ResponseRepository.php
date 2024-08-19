@@ -216,7 +216,8 @@ class ResponseRepository {
     public function mark_as_completed( int $id ) {
         return Response::query()->where( 'id', $id )->update(
             [
-                'is_completed' => 1
+                'is_completed' => 1,
+                'completed_at' => formgent_now(),
             ]
         );
     }
