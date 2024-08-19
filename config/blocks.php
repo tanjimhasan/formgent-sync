@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Address\Address;
+use FormGent\App\Fields\Dropdown\Dropdown;
 use FormGent\App\Fields\Name\Name;
 use FormGent\App\Fields\Email\Email;
 use FormGent\App\Fields\Text\Text;
@@ -44,10 +45,10 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => PhoneNumber::get_key(),
     ],
-    // 'formgent/dropdown'      => [
-    //     'types'      => ['general', 'conversational'],
-    //     'field_type' => ''
-    // ],
+    'formgent/dropdown'        => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => Dropdown::get_key()
+    ],
     'formgent/single-choice'   => [
         'types'      => ['general', 'conversational'],
         'field_type' => SingleChoice::get_key()

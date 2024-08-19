@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Address\Address;
+use FormGent\App\Fields\Dropdown\Dropdown;
 use FormGent\App\Fields\GDPR\GDPR;
 use FormGent\App\Fields\PhoneNumber\PhoneNumber;
 use FormGent\App\Fields\Website\Website;
@@ -68,6 +69,11 @@ return apply_filters(
         ],
         MultipleChoice::get_key() => [
             'class'                     => MultipleChoice::class,
+            'allowed_in_response'       => true,
+            'allowed_in_response_table' => false
+        ],
+        Dropdown::get_key()       => [
+            'class'                     => Dropdown::class,
             'allowed_in_response'       => true,
             'allowed_in_response_table' => false
         ],
