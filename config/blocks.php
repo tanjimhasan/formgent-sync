@@ -11,26 +11,27 @@ use FormGent\App\Fields\Number\Number;
 use FormGent\App\Fields\GDPR\GDPR;
 use FormGent\App\Fields\PhoneNumber\PhoneNumber;
 use FormGent\App\Fields\Website\Website;
+use FormGent\App\Fields\SingleChoice\SingleChoice;
 
 return [
-    'formgent/form'         => [],
-    'formgent/name'         => [
+    'formgent/form'          => [],
+    'formgent/name'          => [
         'types'      => ['general', 'conversational'],
         'field_type' => Name::get_key(),
     ],
-    'formgent/email'        => [
+    'formgent/email'         => [
         'types'      => ['general', 'conversational'],
         'field_type' => Email::get_key(),
     ],
-    'formgent/text'         => [
+    'formgent/text'          => [
         'types'      => ['general', 'conversational'],
         'field_type' => Text::get_key(),
     ],
-    'formgent/textarea'     => [
+    'formgent/textarea'      => [
         'types'      => ['general', 'conversational'],
         'field_type' => TextArea::get_key(),
     ],
-    'formgent/number'       => [
+    'formgent/number'        => [
         'types'      => ['general', 'conversational'],
         'field_type' => Number::get_key()
     ],
@@ -38,7 +39,7 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    'formgent/phone-number' => [
+    'formgent/phone-number'  => [
         'types'      => ['general', 'conversational'],
         'field_type' => PhoneNumber::get_key(),
     ],
@@ -46,23 +47,23 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    // 'formgent/single-choice' => [
-    //     'types'      => ['general', 'conversational'],
-    //     'field_type' => ''
-    // ],
+    'formgent/single-choice' => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => SingleChoice::get_key()
+    ],
     // 'formgent/multi-choice'  => [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    'formgent/address'      => [
+    'formgent/address'       => [
         'types'      => ['general', 'conversational'],
         'field_type' => Address::get_key()
     ],
-    'formgent/gdpr'         => [
+    'formgent/gdpr'          => [
         'types'      => ['general', 'conversational'],
         'field_type' => GDPR::get_key()
     ],
-    'formgent/website'      => [
+    'formgent/website'       => [
         'types'      => ['general', 'conversational'],
         'field_type' => Website::get_key(),
     ]
