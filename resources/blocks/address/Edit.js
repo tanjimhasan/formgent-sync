@@ -56,7 +56,7 @@ const TEMPLATE = [
 		'core/group',
 		{
 			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
-			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+			style: { spacing: { blockGap: 'var:preset|spacing|10' } },
 		},
 		[
 			[
@@ -89,7 +89,7 @@ const TEMPLATE = [
 		'core/group',
 		{
 			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
-			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+			style: { spacing: { blockGap: 'var:preset|spacing|10' } },
 		},
 		[
 			[
