@@ -25,16 +25,6 @@ const dateFormat = 'YYYY-MM-DD';
 export default function CompletedSubmissionsChart( props ) {
 	const { data, handleChartDatepicker } = props;
 
-	//Datepicker default dates
-	const today = new Date();
-	const nextMonthFirstDay = new Date(
-		today.getFullYear(),
-		today.getMonth() + 1,
-		2
-	);
-	const dateToday = today.toISOString().split( 'T' )[ 0 ];
-	const dateNextMonth = nextMonthFirstDay.toISOString().split( 'T' )[ 0 ];
-
 	const rangePresets = [
 		{
 			label: 'Today',
@@ -88,6 +78,7 @@ export default function CompletedSubmissionsChart( props ) {
 				<h2>{ __( 'Completed submission by day', 'formgent' ) }</h2>
 				<div className="formgent-analytics-chart__datepicker">
 					<AntRangePicker
+						popupClassName="formgent-analytics-chart-datepicker"
 						format={ dateFormat }
 						presets={ rangePresets }
 						onChange={ handleChartDatepicker }

@@ -3,7 +3,7 @@ import ReactSVG from 'react-inlinesvg';
 import layerIcon from '@icon/layer.svg';
 
 export default function QuestionDropOff( props ) {
-	const { questionDropOffData } = props;
+	const { questionDropOffData = [] } = props;
 
 	const formTableColumns = [
 		{
@@ -17,7 +17,7 @@ export default function QuestionDropOff( props ) {
 					<h2>{ record?.field_name }</h2>
 				</div>
 			),
-			width: 330,
+			width: '50%',
 		},
 		{
 			title: 'Views',
@@ -34,9 +34,24 @@ export default function QuestionDropOff( props ) {
 		{
 			title: 'Drop-off',
 			className: 'formgent-analytics-question-drop-off__drop-off',
-			render: ( text, record ) => (
-				<span>{ record?.drop_off_percentage }</span>
-			),
+			render: ( text, record ) => {
+				// Find the maximum drop-off percentage
+				const maxDropOffPercentage = Math.max(
+					...questionDropOffData.map(
+						( item ) => item.drop_off_percentage
+					)
+				);
+				const className =
+					record.drop_off_percentage === maxDropOffPercentage
+						? 'formgent-analytics-question-drop-off__negative'
+						: '';
+
+				return (
+					<span className={ className }>
+						{ `${ record.drop_off } (${ record.drop_off_percentage }%)` }
+					</span>
+				);
+			},
 		},
 	];
 
@@ -54,12 +69,16 @@ export default function QuestionDropOff( props ) {
 						},
 					} }
 					columns={ formTableColumns }
-					dataSource={ questionDropOffData }
+					dataSource={
+						Array.isArray( questionDropOffData )
+							? questionDropOffData
+							: []
+					}
 					rowKey={ ( record ) => record?.field_name }
+					pagination={ false }
 					scroll={ {
 						x: 1300,
 					} }
-					pagination={ false }
 				/>
 			</div>
 		</div>

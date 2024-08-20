@@ -8,6 +8,9 @@ const AnalyticsStyle = Styled.div`
         border-radius: 12px;
         padding: 32px;
     }
+    .formgent-analytics-container--pro{
+        border-radius: 12px 12px 0 0;
+    }
     .formgent-analytics-stats__list{
         display: flex;
         align-items: center;
@@ -59,6 +62,7 @@ const AnalyticsStyle = Styled.div`
         position: relative;
         height: calc(100vh - 260px);
         overflow: hidden;
+        border-radius: 0 0 12px 12px;
         &:before{
             position: absolute;
             content: '';
@@ -102,7 +106,7 @@ const AnalyticsStyle = Styled.div`
             width: 24px;
             height: 24px;
             path{
-                fill: var(--formgent-color-primary);
+                stroke: var(--formgent-color-primary);
             }
         }
     }
@@ -159,9 +163,107 @@ const AnalyticsStyle = Styled.div`
     .formgent-analytics-chart__not-found{
         font-size: 16px;
         text-align: center;
-        background: #f6f6f6;
+        background: var(--formgent-color-gray-50);
         padding: 35px 0;
         border-radius: 10px;
+    }
+    .formgent-analytics-question-drop-off{
+        margin-top: 56px;
+        h2{
+            color: var(--formgent-color-dark);
+            font-size: 19px;
+            font-weight: 600;
+            margin: 0 0 20px;
+        }
+    }
+    .formgent-analytics-question-drop-off__table{
+        .ant-table-thead {
+            tr{
+                th{
+                    font-size: 14px;
+                    font-weight: 500;
+                    padding: 15px 20px;
+                    text-align: start;
+                    color: var(--formgent-color-gray-500);
+                    background: var(--formgent-color-gray-50);
+                    border-top: 1px solid var(--formgent-color-gray-200);
+                    border-bottom: 1px solid var(--formgent-color-gray-200);
+                    &:before{
+                        content: none !important;
+                    }
+                    &:first-child{
+                        border-left: 1px solid var(--formgent-color-gray-200);
+                    }
+                    &:last-child{
+                        border-right: 1px solid var(--formgent-color-gray-200);
+                    }
+                }
+            }
+        }
+        .ant-table-tbody{
+            .ant-table-cell{
+                border-bottom: 1px solid var(--formgent-color-gray-200);
+                padding: 15px 20px;
+                &:first-child{
+                    border-left: 1px solid var(--formgent-color-gray-200);
+                }
+                &:last-child{
+                    border-right: 1px solid var(--formgent-color-gray-200);
+                }
+            }
+            .ant-table-row{
+                &:last-child{
+                    .ant-table-cell{
+                        &:first-child{
+                            border-radius: 0 0 0 10px;
+                        }
+                        &:last-child{
+                            border-radius: 0 0 10px 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .formgent-analytics-question-drop-off__title{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        span{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--formgent-color-primary-50);
+            svg{
+                width: 20px;
+                height: 20px;
+            }
+        }
+        h2{
+            color: var(--formgent-color-gray-800);
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+    .formgent-analytics-question-drop-off__question{
+        width: 50%;
+    }
+    .formgent-analytics-question-drop-off__negative{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 68px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background: #FBE5E5;
+        color: #A72E2E;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12px;
     }
 `;
 
