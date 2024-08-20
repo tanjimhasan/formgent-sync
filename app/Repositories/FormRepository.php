@@ -42,7 +42,11 @@ class FormRepository {
         $select_columns   = ['post.ID as id', 'post.post_title as title', 'post.post_status as status', 'form_type_post_meta.meta_value as type', 'post.post_date as created_at', 'post.post_modified as updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
         $group_by_columns = ['post.ID', 'post.post_title', 'post.post_status', 'user.display_name' ];
 
-        $posts_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'post.ID', 'response.form_id' )->where( 'response.status', ResponseStatus::PUBLISH )->group_by( $group_by_columns );
+        $posts_query->select( $select_columns )->left_join(
+            Response::get_table_name() . ' as response', function( JoinClause $join ) {
+                $join->on_column( 'post.ID', 'response.form_id' )->on( 'response.status', ResponseStatus::PUBLISH );
+            }
+        )->group_by( $group_by_columns );
 
         $this->forms_sort_query( $posts_query, $dto );
 
