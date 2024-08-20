@@ -29,7 +29,6 @@ import chevronDownIcon from '@icon/chevron-down.svg';
 import csvIcon from '@icon/csv.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
-import hideIcon from '@icon/eye-off.svg';
 import gridIcon from '@icon/grid.svg';
 import hashIcon from '@icon/hash.svg';
 import linkIcon from '@icon/link.svg';
@@ -601,15 +600,15 @@ export default function Table() {
 			),
 			key: 'freeze',
 		},
-		{
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="16" height="16" src={ hideIcon } />
-					Hide Column
-				</span>
-			),
-			key: 'hide',
-		},
+		// {
+		// 	label: (
+		// 		<span className="dropdown-header-content">
+		// 			<ReactSVG width="16" height="16" src={ hideIcon } />
+		// 			Hide Column
+		// 		</span>
+		// 	),
+		// 	key: 'hide',
+		// },
 	];
 
 	// Default Column Data
