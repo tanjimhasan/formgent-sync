@@ -5,18 +5,16 @@ import { utils, write } from 'xlsx';
 const PrepareExportData = ( data ) => {
 	const { form, responses } = data;
 
-	const formFields = form;
-
-	const fieldIds = [];
+	const fieldTypes = [];
 	const fieldColumns = [];
 
 	/**
 	 * generating response answer column name
 	 */
-	for ( const key in formFields ) {
-		const field = formFields[ key ];
-		fieldIds.push( field.id );
-		fieldColumns.push( `f_${ field.type }_${ field.name }_${ field.id }` );
+	for ( const key in form ) {
+		const field = form[ key ];
+		fieldTypes.push( field.field_type );
+		fieldColumns.push( field.field_type );
 	}
 
 	let headers = Object.keys( responses[ 0 ] ).filter(
@@ -39,10 +37,10 @@ const PrepareExportData = ( data ) => {
 		/**
 		 * Adding answer value in export data
 		 */
-		fieldIds.forEach( ( fieldId ) => {
+		fieldTypes.forEach( ( fieldType ) => {
 			let setValue = false;
 			response.answers.forEach( ( answer ) => {
-				if ( answer.field_id === fieldId ) {
+				if ( answer.field_type === fieldType ) {
 					item.push( answer.value );
 					setValue = true;
 				}
@@ -92,18 +90,16 @@ const exportToSpreadsheet = ( data, fileName ) => {
 const exportToPDF = ( data, fileName ) => {
 	const { form, responses } = data;
 
-	const formFields = form;
-
-	const fieldIds = [];
+	const fieldTypes = [];
 	const fieldColumns = [];
 
 	/**
 	 * generating response answer column name
 	 */
-	for ( const key in formFields ) {
-		const field = formFields[ key ];
-		fieldIds.push( field.id );
-		fieldColumns.push( `f_${ field.type }_${ field.name }_${ field.id }` );
+	for ( const key in form ) {
+		const field = form[ key ];
+		fieldTypes.push( field.field_type );
+		fieldColumns.push( field.field_type );
 	}
 
 	let headers = Object.keys( responses[ 0 ] ).filter(
@@ -130,10 +126,10 @@ const exportToPDF = ( data, fileName ) => {
 		/**
 		 * Adding answer value in export data
 		 */
-		fieldIds.forEach( ( fieldId, index ) => {
+		fieldTypes.forEach( ( fieldType, index ) => {
 			let setValue = false;
 			response.answers.forEach( ( answer ) => {
-				if ( answer.field_id === fieldId ) {
+				if ( answer.field_type === fieldType ) {
 					item.push( [ fieldColumns[ index ], answer.value ] );
 					setValue = true;
 				}
