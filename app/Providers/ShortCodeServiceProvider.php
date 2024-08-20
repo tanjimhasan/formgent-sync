@@ -34,8 +34,9 @@ class ShortCodeServiceProvider implements Provider {
 
         return View::get(
             'form', [
-                'form'   => $form,
-                'fields' => do_blocks( $form->post_content )
+                'form'      => $form,
+                'fields'    => do_blocks( $form->post_content ),
+                'css_class' => 'formgent-shortcode'
             ]
         );
     }

@@ -183,6 +183,7 @@ const CreatePopupStyle = Styled.div`
 const CreateFormStyle = Styled.div`
     text-align: center;
     padding: 60px 80px;
+    background: var(--formgent-color-gray-100);
     .formgent-create-modal-title{
         font-size: 26px;
         font-weight: 600;
@@ -194,15 +195,28 @@ const CreateFormStyle = Styled.div`
         margin: 0 0 24px;
         color: var(--formgent-color-gray-600);
     }
-    .formgent-create-modal__content{
-        .ant-form-item-required{
+    .formgent-create-modal__content {
+        .ant-form-item-required {
             font-size: 15px;
             font-weight: 600;
             color: var(--formgent-color-dark);
         }
-        .ant-form-item-explain-error{
+        .ant-form-item-explain-error {
             text-align: left;
             padding: 10px 0 20px;
+        }
+        .ant-input {
+            border-radius: 10px;
+            background: #FFF;
+            box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.10), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+            padding: 10px 17px !important;
+        }
+        .ant-btn{
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0px 4px 4px 0px rgba(36, 20, 116, 0.10);
+            padding: 23px 15px !important;
         }
     }
 `;

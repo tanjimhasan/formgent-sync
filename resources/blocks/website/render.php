@@ -5,7 +5,7 @@
         for="<?php echo esc_html( $attributes['name'] ); ?>"
         class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_html( $attributes['label_alignment'] ); ?>"
     >
-        <?php echo esc_attr( $attributes['label'] ); ?>
+        <?php formgent_render( $attributes['label'] ); ?>
         <?php if ( esc_html( $attributes['required'] ) ) : ?>
             <span class="formgent-editor-block-list__single__label__required">
                 *
@@ -24,7 +24,7 @@
             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
         />
         <span class="formgent-editor-block-list__single__sub-label">
-            <?php echo esc_attr( $attributes['sub_label'] ); ?>
+            <?php formgent_render( $attributes['sub_label'] ); ?>
         </span>
     </div>
 </div>

@@ -4,11 +4,6 @@
 	display: none;
 }
 
-.formgent-control-label {
-	display: block;
-	margin-bottom: 6px;
-}
-
 .formgent-repeater-control {
 	margin-bottom: 30px;
 }
@@ -100,11 +95,11 @@ button.formgent-repeater-field-expand {
 .formgent-control-default-value-list-content {
 	.components-popover__content {
 		width: 200px;
-		padding: 0;
+		padding: 10px;
 	}
 	span {
 		display: block;
-		padding: 5px 8px;
+		padding: 12px;
 		cursor: pointer;
 		transition: 0.3s ease;
 		&:hover {

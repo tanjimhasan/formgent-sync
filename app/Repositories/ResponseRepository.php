@@ -7,6 +7,7 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\DTO\ResponseReadDTO;
 use FormGent\App\DTO\ResponseSingleDTO;
+use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Models\Response;
 use FormGent\App\Models\User;
 use FormGent\App\Models\Post;
@@ -65,11 +66,16 @@ class ResponseRepository {
             return $query;
         }
 
+        global $wpdb;
+        $search = "%{$search}%";
+
         if ( empty( $table_names ) ) {
-            return $query->where( "post.post_title", 'like',  "%{$search}%" );
+            $search_query = $wpdb->prepare( "(post.post_title like %s or user.user_email like %s)", $search, $search );
+        } else {
+            $search_query = $wpdb->prepare( "(post.post_title like %s or user.user_email like %s or answer.value like %s)", $search, $search, $search );
         }
-    
-        return $query->where( "post.post_title", 'like',  "%{$search}%" )->or_where( 'answer.value', 'like', "%{$search}%" );
+
+        return $query->where_raw( $search_query );
     }
 
     public function create( ResponseDTO $dto ) {
@@ -90,7 +96,7 @@ class ResponseRepository {
 
         $responses_query->with(
             'answers', function( Builder $query ){
-                $query->select( 'id', 'response_id', 'field_name', 'field_type', 'value', 'created_at', 'updated_at' );
+                $query->select( 'id', 'response_id', 'field_name', 'field_type', 'value', 'created_at', 'updated_at' )->where_is_null( 'parent_id' );
             }
         )->with(
             'answers.children', function( Builder $query ){
@@ -113,7 +119,23 @@ class ResponseRepository {
 
             $responses[0]->answers = array_map(
                 function( $answer ) use( $data ) {
-                    $answer->label = isset( $data[$answer->field_name]['label'] ) ? $data[$answer->field_name]['label'] : esc_html__( "Unknown", "formgent" );
+                    // Set label for the current answer
+                    if ( isset( $data[$answer->field_name]['label'] ) ) {
+                        $answer->label = $data[$answer->field_name]['label'];
+                    }
+
+                    if ( ! empty( $answer->children ) && ! empty( $data[$answer->field_name]['children'] ) ) {
+                        $children_data    = $data[$answer->field_name]['children'];
+                        $answer->children = array_map(
+                            function( $answer ) use( $children_data ) {
+                                if ( isset( $children_data[$answer->field_name]['label'] ) ) {
+                                    $answer->label = $children_data[$answer->field_name]['label'];
+                                }
+                                return $answer;
+                            }, $answer->children
+                        );
+                    }
+
                     return $answer;
                 }, $responses[0]->answers
             );
@@ -126,7 +148,7 @@ class ResponseRepository {
     }
 
     private function response_query( ResponseReadDTO $dto, array $table_names ) {
-        $responses_query = Response::query( 'response' )->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )->where( 'response.is_completed', 1 )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' );
+        $responses_query = Response::query( 'response' )->join( Post::get_table_name() . ' as post', 'post.ID', 'response.form_id' )->where( 'response.status', ResponseStatus::PUBLISH )->where( 'response.is_completed', 1 )->left_join( User::get_table_name() . ' as user', 'response.created_by', 'user.ID' );
         if ( $dto->get_form_id() ) {
             $responses_query->where( 'post.ID', $dto->get_form_id() );
         }
@@ -186,5 +208,31 @@ class ResponseRepository {
 
     public function deletes( int $form_id, array $ids ) {
         return Response::query( 'response' )->where( 'form_id', $form_id )->where_in( 'id', $ids )->delete();
+    }
+
+    public function mark_as_completed( int $id ) {
+        return Response::query()->where( 'id', $id )->update(
+            [
+                'is_completed' => 1,
+                'status'       => ResponseStatus::PUBLISH,
+            ]
+        );
+    }
+
+    public function create_and_get_token( ResponseDTO $response_dto ) {
+        $response_id = $this->create( $response_dto );
+
+        /**
+         * Generating and storing token to identify the subsequent response on this response.
+         */
+        $token = 'response_token-' . formgent_generate_token();
+
+        /**
+         * @var ResponseTokenRepository $response_token_repository
+         */
+        $response_token_repository = formgent_singleton( ResponseTokenRepository::class );
+        $response_token_repository->create( $response_dto->get_form_id(), $response_id, $token );
+
+        return $token;
     }
 }

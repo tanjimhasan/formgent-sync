@@ -1,6 +1,5 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
-import { Button } from '@wordpress/components';
 import { AntInput } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
 import ReactSVG from 'react-inlinesvg';
@@ -13,7 +12,7 @@ import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
 	const { form, form_edit_url, editableForm, setEditableForm } = props;
-	const { id, title, created_at } = form;
+	const { id, title, created_at, preview_url } = form;
 
 	const { updateTitleRequest, updateTitleSuccess, updateTitleError } =
 		useDispatch( 'formgent' );
@@ -122,7 +121,8 @@ export default function TItleBox( props ) {
 								{ formatDate(
 									'en-US',
 									created_at,
-									dateFormatOptions
+									dateFormatOptions,
+									false
 								) }
 							</li>
 						</ul>
@@ -139,20 +139,20 @@ export default function TItleBox( props ) {
 							</li>
 							<li>
 								<Link
-									to={ `/forms/${ id }/results/responses` }
+									to={ `/forms/${ id }/response` }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 								>
 									{ __( 'All Responses', 'formgent' ) }
 								</Link>
 							</li>
 							<li>
-								<Link
-									//to={`/forms/${ id }/results/responses`}
+								<a
+									href={ preview_url }
 									className={ `formgent-btn formgent-btn-xxs formgent-btn-light-gray` }
 									target="_blank"
 								>
 									{ __( 'Preview', 'formgent' ) }
-								</Link>
+								</a>
 							</li>
 						</ul>
 					</div>

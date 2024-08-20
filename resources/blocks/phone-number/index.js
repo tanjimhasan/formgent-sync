@@ -6,7 +6,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { registerBlock } from '../utils';
+import { registerBlock } from '@formgent/modules';
 import Edit from './Edit';
 import metadata from './block.json';
 import './style.scss';

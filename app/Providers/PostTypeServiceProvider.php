@@ -120,13 +120,17 @@ class PostTypeServiceProvider implements Provider {
         if ( empty( $editor_context->post->post_type ) || formgent_post_type() !== $editor_context->post->post_type ) {
             return $allowed_block_types;
         }
-        
+
         $blocks = formgent_config( 'blocks' );
         unset( $blocks['formgent/form'] );
         $blocks = array_keys( $blocks );
 
         $blocks[] = 'core/heading';
         $blocks[] = 'core/paragraph';
+        $blocks[] = 'core/columns';
+        $blocks[] = 'core/column';
+        $blocks[] = 'core/group';
+        $blocks[] = 'core/spacer';
 
         return apply_filters( 'formgent_allowed_blocks',  $blocks );
     }
