@@ -35,7 +35,7 @@ class SummaryRepository {
         }
 
         /**
-         * @var \FormGent\App\Form\Fields\Field $field_handler
+         * @var \FormGent\App\Fields\Field $field_handler
          */
         $field_handler = formgent_singleton( $field_handlers[ $field_type ]['class'] );
 
