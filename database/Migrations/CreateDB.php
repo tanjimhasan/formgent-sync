@@ -15,17 +15,15 @@ class CreateDB implements Migration {
         global $wpdb;
 
         $charset_collate = $wpdb->get_charset_collate();
+        $db_prefix       = "{$wpdb->prefix}formgent_";
 
         if ( ! function_exists( 'dbDelta' ) ) {
             require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         }
 
-        $db_prefix = "{$wpdb->prefix}formgent_";
-
         // -- -----------------------------------------------------
         // -- Table responses
         // -- -----------------------------------------------------
-
         $sql = "CREATE TABLE {$db_prefix}responses (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
@@ -41,16 +39,12 @@ class CreateDB implements Migration {
             `created_by` BIGINT UNSIGNED NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`),
-            CONSTRAINT fk_{$db_prefix}responses_form_id
-            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
-            ON DELETE CASCADE
+            PRIMARY KEY (`id`)
         ) {$charset_collate};
 
         -- -----------------------------------------------------
         -- Table answers
         -- -----------------------------------------------------
-
         CREATE TABLE {$db_prefix}answers (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `response_id` BIGINT UNSIGNED NOT NULL,
@@ -61,38 +55,24 @@ class CreateDB implements Migration {
             `value` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`),
-            CONSTRAINT fk_{$db_prefix}answers_form_id
-            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
-            ON DELETE CASCADE,
-            CONSTRAINT fk_{$db_prefix}answers_response_id
-            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
-            ON DELETE CASCADE,
-            CONSTRAINT fk_{$db_prefix}answers_parent_id
-            FOREIGN KEY (parent_id) REFERENCES {$db_prefix}answers(id)
-            ON DELETE CASCADE
+            PRIMARY KEY (`id`)
         ) {$charset_collate};
 
         -- -----------------------------------------------------
         -- Table notes
         -- -----------------------------------------------------
-
         CREATE TABLE {$db_prefix}notes (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `response_id` BIGINT UNSIGNED NOT NULL,
             `note` LONGTEXT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (`id`),
-            CONSTRAINT fk_{$db_prefix}notes_response_id
-            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
-            ON DELETE CASCADE
+            PRIMARY KEY (`id`)
         ) {$charset_collate};
 
         -- -----------------------------------------------------
         -- Table response_token
         -- -----------------------------------------------------
-
         CREATE TABLE {$db_prefix}response_token (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
@@ -100,18 +80,77 @@ class CreateDB implements Migration {
             `token` VARCHAR(255) NOT NULL,
             `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
             `expired_at` TIMESTAMP NULL,
-            PRIMARY KEY (`id`),
-            CONSTRAINT fk_{$db_prefix}response_token_form_id
-            FOREIGN KEY (form_id) REFERENCES {$wpdb->prefix}posts(ID)
-            ON DELETE CASCADE,
-            CONSTRAINT fk_{$db_prefix}response_token_response_id
-            FOREIGN KEY (response_id) REFERENCES {$db_prefix}responses(id)
-            ON DELETE CASCADE
+            PRIMARY KEY (`id`)
         ) {$charset_collate};
         ";
 
         dbDelta( $sql );
 
+        // Add constraints if they do not exist
+        $this->add_constraints( $db_prefix );
+
         return true;
+    }
+
+    private function add_constraints( $db_prefix ) {
+        global $wpdb;
+
+        // Define constraints
+        $tables = [
+            'responses'      => [
+                'form_id' => "{$wpdb->prefix}posts(ID)"
+            ],
+            'answers'        => [
+                'form_id'     => "{$wpdb->prefix}posts(ID)",
+                'response_id' => "{$db_prefix}responses(id)",
+                'parent_id'   => "{$db_prefix}answers(id)"
+            ],
+            'notes'          => [
+                'response_id' => "{$db_prefix}responses(id)"
+            ],
+            'response_token' => [
+                'form_id'     => "{$wpdb->prefix}posts(ID)",
+                'response_id' => "{$db_prefix}responses(id)"
+            ]
+        ];
+
+        foreach ( $tables as $table => $constraints ) {
+            $this->add_constraints_to_table( $table, $constraints, $db_prefix );
+        }
+    }
+
+    private function add_constraints_to_table( $table, $constraints, $db_prefix ) {
+        global $wpdb;
+
+        // Check if the table exists
+        $table_name = $db_prefix . $table;
+        //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $columns = $wpdb->get_col( "DESCRIBE {$table_name}", 0 );
+
+        // Add foreign key constraints if columns exist
+        foreach ( $constraints as $column => $reference ) {
+            if ( in_array( $column, $columns ) ) {
+                // Check if the constraint already exists
+                $constraint_name = "fk_{$db_prefix}{$table}_{$column}";
+                $result          = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT CONSTRAINT_NAME 
+                    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+                    WHERE TABLE_SCHEMA = %s 
+                    AND TABLE_NAME = %s 
+                    AND CONSTRAINT_NAME = %s",
+                        DB_NAME, // Use DB_NAME constant directly
+                        $table_name,
+                        $constraint_name
+                    ) 
+                );
+
+                if ( empty( $result ) ) {
+                    // Add foreign key constraint
+                    //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                    $wpdb->query( "ALTER TABLE {$table_name} ADD CONSTRAINT {$constraint_name} FOREIGN KEY ({$column}) REFERENCES {$reference} ON DELETE CASCADE" );
+                }
+            }
+        }
     }
 }

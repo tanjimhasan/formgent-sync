@@ -66,11 +66,16 @@ class ResponseRepository {
             return $query;
         }
 
+        global $wpdb;
+        $search = "%{$search}%";
+
         if ( empty( $table_names ) ) {
-            return $query->where( "post.post_title", 'like',  "%{$search}%" );
+            $search_query = $wpdb->prepare( "(post.post_title like %s or user.user_email like %s)", $search, $search );
+        } else {
+            $search_query = $wpdb->prepare( "(post.post_title like %s or user.user_email like %s or answer.value like %s)", $search, $search, $search );
         }
-    
-        return $query->where( "post.post_title", 'like',  "%{$search}%" )->or_where( 'answer.value', 'like', "%{$search}%" );
+
+        return $query->where_raw( $search_query );
     }
 
     public function create( ResponseDTO $dto ) {
