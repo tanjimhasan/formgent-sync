@@ -927,6 +927,7 @@ export default function Table() {
 	] );
 
 	useEffect( () => {
+		fetchResponse();
 		if (
 			JSON.stringify( visibleColumns ) !==
 			JSON.stringify( selected_fields )
