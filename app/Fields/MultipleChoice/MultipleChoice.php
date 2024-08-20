@@ -1,13 +1,11 @@
 <?php
 
-namespace FormGent\App\Fields\Name;
+namespace FormGent\App\Fields\MultipleChoice;
 
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Fields\Field;
 
-class Name extends Field {
-    public $has_children = true;
-
+class MultipleChoice extends Field {
     use MethodResolver;
 }

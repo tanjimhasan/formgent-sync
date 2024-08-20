@@ -6,26 +6,20 @@ import { __ } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { registerBlock } from '../utils';
+import { registerBlock } from '@formgent/modules';
 import Edit from './Edit';
 import metadata from './block.json';
 import './style.scss';
 
-const exampleAttributes = {};
+const exampleAttributes = {
+	content: 'Sample content for preview',
+};
 
 const controls = {
 	basic_info: {
 		type: 'panel',
 		label: __( 'General', 'formgent' ),
 		children: {
-			label: {
-				type: 'text',
-				label: __( 'Label', 'formgent' ),
-			},
-			sub_label: {
-				type: 'text',
-				label: __( 'Sub Label', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
@@ -52,25 +46,13 @@ const controls = {
 					},
 				],
 			},
+			placeholder: {
+				type: 'text',
+				label: __( 'Field Placeholder', 'formgent' ),
+			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
-			},
-			options: {
-				type: 'repeater',
-				label: __( 'Multi Choice Items', 'formgent' ),
-				label_key: 'title',
-				add_button_text: 'Add Items',
-				fields: {
-					title: {
-						type: 'text',
-						label: __( 'Title', 'formgent' ),
-					},
-					value: {
-						type: 'text',
-						label: __( 'Value', 'formgent' ),
-					},
-				},
 			},
 			value: {
 				type: 'default_value',

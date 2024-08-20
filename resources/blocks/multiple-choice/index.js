@@ -58,9 +58,9 @@ const controls = {
 			},
 			options: {
 				type: 'repeater',
-				label: __( 'Dropdown Items', 'formgent' ),
+				label: __( 'Multi Choice Items', 'formgent' ),
 				label_key: 'title',
-				add_button_text: 'Add Item',
+				add_button_text: 'Add Items',
 				fields: {
 					title: {
 						type: 'text',

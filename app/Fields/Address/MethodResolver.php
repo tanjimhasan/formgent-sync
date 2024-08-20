@@ -4,12 +4,12 @@ namespace FormGent\App\Fields\Address;
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\Fields\ParentMethodResolver;
+
 trait MethodResolver {
+    use ParentMethodResolver;
+
     public static function get_key(): string {
         return 'address';
-    }
-
-    protected function get_validation_rules(): array {
-        return ['string', 'email', 'max:250'];
     }
 }
