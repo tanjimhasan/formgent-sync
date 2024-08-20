@@ -1113,3 +1113,17 @@ a.formgent-btn-disabled {
 		padding: 6px 0;
 	}
 }
+.single-response-drawer {
+	.ant-drawer-mask {
+		display: none;
+	}
+	.ant-drawer-content-wrapper {
+		top: 98px;
+		right: 0;
+		background: #fff;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+		.ant-drawer-body {
+			padding: 0;
+		}
+	}
+}

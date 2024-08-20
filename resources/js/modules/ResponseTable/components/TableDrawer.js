@@ -34,8 +34,7 @@ export default function TableDrawer( props ) {
 		addResponseNotes,
 		updateResponseNotes,
 		deleteResponseNotes,
-		setTableDrawer,
-		pagination,
+		handleDrawerClose,
 		single_response_pagination,
 		handleDelete,
 		handleStarred,
@@ -234,7 +233,7 @@ export default function TableDrawer( props ) {
 					<div className="response-table__drawer__header__response__btns">
 						<button
 							className={ `response-table__drawer__header__response__btn ${
-								single_response_pagination.current_page <= 1
+								single_response_pagination?.current_page <= 1
 									? 'disabled'
 									: ''
 							}` }
@@ -250,8 +249,8 @@ export default function TableDrawer( props ) {
 						</button>
 						<button
 							className={ `response-table__drawer__header__response__btn ${
-								single_response_pagination.current_page ===
-								single_response_pagination.total_pages
+								single_response_pagination?.current_page ===
+								single_response_pagination?.total_pages
 									? 'disabled'
 									: ''
 							}` }
@@ -267,8 +266,8 @@ export default function TableDrawer( props ) {
 						</button>
 					</div>
 					<span className="">
-						{ single_response_pagination.current_page } of{ ' ' }
-						{ single_response_pagination.total_pages } Responses
+						{ single_response_pagination?.current_page } of{ ' ' }
+						{ single_response_pagination?.total_pages } Responses
 					</span>
 				</div>
 				<div className="response-table__drawer__header__action">
@@ -317,8 +316,7 @@ export default function TableDrawer( props ) {
 					<button
 						className="response-table__drawer__close"
 						onClick={ () => {
-							setTableDrawer( false );
-							setSelectedRowKeys( [] );
+							handleDrawerClose();
 						} }
 					>
 						<ReactSVG width="14" height="14" src={ closeIcon } />
@@ -337,7 +335,7 @@ export default function TableDrawer( props ) {
 					{ activeDrawerTab === 'answers' && (
 						<div className="response-table__drawer__tab__content">
 							<div className="response-table__drawer__tab__wrapper">
-								{ response.answers.map( ( answer, index ) => {
+								{ response?.answers.map( ( answer, index ) => {
 									return (
 										<div
 											key={ index }

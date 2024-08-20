@@ -4,7 +4,12 @@ import {
 	exportToSpreadsheet,
 } from '@formgent/admin/export/response';
 
-import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
+import {
+	AntDrawer,
+	AntDropdown,
+	AntSpin,
+	AntTable,
+} from '@formgent/components';
 import deleteData from '@formgent/helper/deleteData';
 import fetchData from '@formgent/helper/fetchData';
 import patchData from '@formgent/helper/patchData';
@@ -46,7 +51,8 @@ export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ selectedKey, setSelectedKey ] = useState( 'all' );
-	const [ tableDrawer, setTableDrawer ] = useState( false );
+	const [ singleResponse, setSingleResponse ] = useState( null );
+	const [ openDrawer, setOpenDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ readStatus, setReadStatus ] = useState( 0 );
@@ -262,7 +268,13 @@ export default function Table() {
 	}
 
 	// handleTableDrawer
+	function handleDrawerClose() {
+		setOpenDrawer( null );
+		setSelectedRowKeys( [] );
+	}
+
 	async function handleTableDrawer( record, nav ) {
+		setOpenDrawer( true );
 		// Calculate the initial drawerResponse index based on the current page and record position
 		let drawerResponse =
 			responses.findIndex( ( item ) => item.id === record ) + 1;
@@ -405,8 +417,8 @@ export default function Table() {
 	// Handle Create Export Data
 	async function handleCreateExportData( source ) {
 		const downloadItemsID =
-			source === 'drawer' && tableDrawer?.id
-				? [ tableDrawer.id ]
+			source === 'drawer' && singleResponse?.id
+				? [ singleResponse.id ]
 				: selectedRowKeys;
 		const responseIds = responses.map( ( response ) => response.id );
 
@@ -797,7 +809,8 @@ export default function Table() {
 		);
 
 		if ( deleteResponse ) {
-			setTableDrawer( null );
+			setSingleResponse( null );
+			setOpenDrawer( false );
 			setSelectedRowKeys( [] );
 			responseDeleteSuccess( id, deleteItems );
 			handleTableChange();
@@ -946,7 +959,7 @@ export default function Table() {
 
 	useEffect( () => {
 		if ( single_response ) {
-			setTableDrawer( single_response[ 0 ] || null );
+			setSingleResponse( single_response[ 0 ] || null );
 			rowSelection.onChange( [ single_response[ 0 ]?.id ] );
 		}
 	}, [ single_response ] );
@@ -963,7 +976,7 @@ export default function Table() {
 	}, [ forms ] );
 
 	useEffect( () => {
-		setTableDrawer( null );
+		setSingleResponse( null );
 		setSelectedRowKeys( [] );
 
 		fetchResponse();
@@ -1033,16 +1046,24 @@ export default function Table() {
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>
-			{ tableDrawer && (
+
+			<AntDrawer
+				onClose={ handleDrawerClose }
+				open={ openDrawer }
+				width={ 600 }
+				rootClassName="single-response-drawer"
+				headerStyle={ { display: 'none' } }
+			>
 				<TableDrawer
-					response={ tableDrawer }
+					response={ singleResponse }
 					handleTableDrawer={ handleTableDrawer }
 					setSelectedRowKeys={ setSelectedRowKeys }
 					notes={ notes }
 					addResponseNotes={ addResponseNotes }
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }
-					setTableDrawer={ setTableDrawer }
+					setSingleResponse={ setSingleResponse }
+					handleDrawerClose={ handleDrawerClose }
 					pagination={ pagination }
 					single_response_pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
@@ -1056,7 +1077,7 @@ export default function Table() {
 					downloadItems={ downloadItems( 'drawer' ) }
 					dateFormatOptions={ dateFormatOptions }
 				/>
-			) }
+			</AntDrawer>
 		</TableStyle>
 	);
 }

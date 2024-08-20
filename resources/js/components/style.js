@@ -4,6 +4,10 @@ const DropdownStyle = Styled.div`
 
 `;
 
+const DrawerStyle = Styled.div`
+
+`;
+
 const SelectStyle = Styled.div`
     width: 196px;
     .ant-select-selection-item {
@@ -209,7 +213,6 @@ const FormHeaderStyle = Styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 15px 0 0;
-    border-bottom: 12px solid var(--formgent-color-bg-sec);
     background-color: var(--formgent-color-white);
     position: sticky;
     top: 32px;
@@ -418,6 +421,8 @@ const SubmissionFormStyle = Styled.div`
 export {
 	AlertContentStyle,
 	ButtonStyle,
+	DatePickerStyle,
+	DrawerStyle,
 	DropdownStyle,
 	EmptyStyle,
 	FormHeaderStyle,
@@ -426,6 +431,5 @@ export {
 	ModalAlertStyle,
 	SelectStyle,
 	SubmissionFormStyle,
-	DatePickerStyle,
 	TagStyle,
 };

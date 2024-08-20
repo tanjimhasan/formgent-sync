@@ -547,15 +547,7 @@ const TableTabStyle = Styled.div`
     }
 `;
 const TableDrawerStyle = Styled.div`
-    width: 600px;
-    height: calc(100vh - 98px);
-    position: fixed;
-    top: 98px;
-    right: 0;
-    z-index: 9;
-    background: #fff;
-    overflow-y: auto;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    
     .response-table__drawer__header {
         display: flex;
         justify-content: space-between;
@@ -651,27 +643,27 @@ const TableDrawerStyle = Styled.div`
     .response-table__drawer__tab {
         padding-bottom: 30px;
     }
-    .response-table__drawer__tab__content {
-        padding: 24px 0 0;
-    }
     .response-table__drawer__tab {
         .response-table__drawer__tab__nav {
             display: flex;
             gap: 0;
         }
     }
+    .response-table__drawer__tab__content {
+        padding: 24px 0 20px;
+    }
     .response-table__drawer__tab__wrapper {
         display: flex;
-        gap: 10px;
+        gap: 32px;
         flex-direction: column;
         align-items: flex-start;
+        padding: 0 0 20px;
         border-bottom: 1px solid var(--formgent-color-border);
     }
 
     .response-table__drawer__tab__item {
         display: flex;
         gap: 12px;
-        padding: 20px 0;
         &.response-table__drawer__tab__item--tag {
             .response-table__drawer__tab__item__title {
                 height: 40px;
@@ -800,7 +792,7 @@ const TableDrawerStyle = Styled.div`
 
     .response-table__drawer__tab__submission {
         display: flex;
-        gap: 16px;
+        gap: 20px;
         flex-direction: column;
         margin: 20px 0 0;
         .response-table__drawer__tab__submission__header {
@@ -952,7 +944,7 @@ const TableDrawerStyle = Styled.div`
             border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
-            color: var(--formgent-color-text);
+            color: var(--formgent-color-dark);
             background-color: var(--formgent-color-bg-light);
             &.completed {
                 background-color: var(--formgent-color-bg-badge-success);

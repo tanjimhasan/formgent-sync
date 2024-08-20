@@ -5,6 +5,7 @@ const ResultWrapStyle = Styled.div`
     gap: 10px;
     flex-direction: column;
     padding: 0 12px;
+    border-top: 12px solid transparent;
 `;
 
 const ResultStyle = Styled.div`
