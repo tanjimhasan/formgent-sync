@@ -100,8 +100,8 @@ function Analytics( props ) {
 						</>
 					) }
 				</div>
-				{ /* { ! isProActive && <AnalyticsProCta /> }
-				{ <FilteredAnalyticsComponent /> } */ }
+				{ /* { ! isProActive && <AnalyticsProCta /> } */ }
+				{ /* { <FilteredAnalyticsComponent /> } */ }
 
 				<AnalyticsChart.Slot fillProps={ { testProps: 10 } }>
 					{ ( fills ) => <>{ fills }</> }
