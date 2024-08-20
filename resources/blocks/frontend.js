@@ -7,10 +7,21 @@ import TomSelect from 'tom-select';
 
 const { callbacks } = store( 'formgent/form', {
 	actions: {
-		updateInput: () => {
+		updateInput: async () => {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ] = element.ref.value;
+			try {
+				const responseToken = await wp.apiFetch( {
+					path: `formgent/analytics/forms/${ context.formId }/update-view-count`,
+					method: 'POST',
+					data: {
+						form_id: context.formId,
+					},
+				} );
+			} catch ( error ) {
+				console.error( 'Error:', error );
+			}
 		},
 		updateNumber: () => {
 			const element = getElement();
