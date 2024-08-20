@@ -436,11 +436,12 @@ export default function TableDrawer( props ) {
 													>
 														<div className="response-table__drawer__tab__submission__content__wrapper">
 															<span className="response-table__drawer__tab__submission__content__published-date">
-																{ formatDate(
-																	'en-US',
-																	note.created_at,
-																	dateFormatOptions
-																) }
+																{ note.created_at &&
+																	formatDate(
+																		'en-US',
+																		note.created_at,
+																		dateFormatOptions
+																	) }
 															</span>
 															<p className="response-table__drawer__tab__submission__content__text">
 																{ note.note }
@@ -512,7 +513,7 @@ export default function TableDrawer( props ) {
 										Username
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.username || 'Default User' }
+										{ response.username || '' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
@@ -520,8 +521,7 @@ export default function TableDrawer( props ) {
 										User Email
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.user_email ||
-											'Default Mail' }
+										{ response.user_email || '' }
 									</span>
 								</div>
 								<div className="response-table__drawer__tab__info__single">
@@ -547,13 +547,9 @@ export default function TableDrawer( props ) {
 										Browser
 									</span>
 									<span className="response-table__drawer__tab__info__value">
+										<span>{ response.browser || '' }</span>
 										<span>
-											{ response.browser ||
-												'Default Browser' }
-										</span>
-										<span>
-											{ response.browser_version ||
-												'Default Version' }
+											{ response.browser_version || '' }
 										</span>
 									</span>
 								</div>
@@ -562,7 +558,7 @@ export default function TableDrawer( props ) {
 										Operating System
 									</span>
 									<span className="response-table__drawer__tab__info__value">
-										{ response.device || 'Default Device' }
+										{ response.device || '' }
 									</span>
 								</div>
 							</div>
