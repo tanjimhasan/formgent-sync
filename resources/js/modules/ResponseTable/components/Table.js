@@ -223,18 +223,8 @@ export default function Table() {
 				setOrderType( 'desc' );
 			},
 			freeze: () => {
-				// setFrozenColumns( ( prevFrozenColumns ) => {
-				// 	return [ ...prevFrozenColumns, dropdownId ];
-				// } );
-
 				setFrozenColumns( ( prevFrozenColumns ) => {
-					if ( prevFrozenColumns.includes( dropdownId ) ) {
-						return prevFrozenColumns.filter(
-							( id ) => id !== dropdownId
-						);
-					} else {
-						return [ dropdownId ];
-					}
+					return [ ...prevFrozenColumns, dropdownId ];
 				} );
 			},
 			hide: () => {
@@ -919,10 +909,16 @@ export default function Table() {
 
 		setCustomColumns(
 			allColumns.map( ( col ) => {
+				const isDefaultColumn = defaultColumns.some(
+					( defaultCol ) => defaultCol.dataIndex === col.dataIndex
+				);
+
 				return {
 					...col,
 					fixed: frozenColumns.includes( col.dataIndex )
-						? 'left'
+						? isDefaultColumn
+							? 'left'
+							: 'right'
 						: null,
 					hidden: hiddenColumns.includes( col.key ),
 				};
