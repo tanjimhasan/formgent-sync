@@ -25,9 +25,7 @@ class SummaryController extends Controller {
     public function index( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'id'         => 'required|numeric',
-                'field_id'   => 'required|string',
-                'field_type' => 'required|string'
+                'field_name' => 'required|string',
             ]
         );
 
@@ -43,8 +41,7 @@ class SummaryController extends Controller {
             return Response::send(
                 $this->summary_repository->get( 
                     intval( $wp_rest_request->get_param( 'id' ) ), 
-                    $wp_rest_request->get_param( 'field_id' ),
-                    $wp_rest_request->get_param( 'field_type' ) ,
+                    $wp_rest_request->get_param( 'field_name' ),
                     intval( $wp_rest_request->get_param( 'page' ) ),
                     intval( $wp_rest_request->get_param( 'per_page' ) )
                 )
@@ -58,27 +55,11 @@ class SummaryController extends Controller {
         }
     }
 
-    public function field( Validator $validator, WP_REST_Request $wp_rest_request ) {
-        $validator->validate(
-            [
-                'id' => 'required|numeric'
-            ]
-        );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
-
-        $form_id = intval( $wp_rest_request->get_param( 'id' ) );
-
+    public function field( WP_REST_Request $wp_rest_request ) {
         try {
             return Response::send(
                 [
-                    'fields' => $this->summary_repository->get_fields( $form_id ),
+                    'fields' => $this->summary_repository->get_fields( intval( $wp_rest_request->get_param( 'id' ) ) ),
                 ]
             );
         } catch ( Exception $e ) {

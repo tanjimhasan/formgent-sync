@@ -16,7 +16,7 @@ trait Chart {
     }
 
     protected function get_answers( stdClass $form, array $field ) {
-        return $this->query( $form->ID, $field['id'], $field['field_type'] )->select( 'value', "COUNT(value) AS total" )->group_by( 'value' )->get();
+        return $this->query( $form->ID, $field['name'], $field['field_type'] )->select( 'value', "COUNT(value) AS total" )->group_by( 'value' )->get();
     }
 
     protected function get_field_summary( stdClass $form, array $field ) {

@@ -16,7 +16,7 @@ trait MultiSelect {
     }
 
     protected function get_answers( stdClass $form, array $field ) {
-        $query   = $this->query( $form->id, $field['id'], $field['field_type'] );
+        $query   = $this->query( $form->id, $field['name'], $field['field_type'] );
         $answers = [];
 
         $options = $field['options'];

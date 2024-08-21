@@ -8,7 +8,7 @@ use Exception;
 use FormGent\App\Models\Answer;
 
 class SummaryRepository {
-    public function get( int $form_id, string $field_id, string $field_type, int $page = 0, int $per_page = 0 ) {
+    public function get( int $form_id, string $field_name, int $page = 0, int $per_page = 0 ) {
         /**
          * @var FormRepository $form_repository
          */
@@ -19,14 +19,14 @@ class SummaryRepository {
             throw new Exception( esc_html__( 'Form not found.', 'helpgent' ), 404 );
         }
         
-        $fields    = array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) );
-        $field_key = array_search( $field_id, array_column( $fields, 'id' ) );
+        $fields = formgent_get_form_field_settings( parse_blocks( $form->post_content ) );
 
-        if ( ! is_int( $field_key ) ) {
+        if ( ! isset( $fields[ $field_name ] ) ) {
             throw new Exception( __( 'Field not found', 'helpgent' ), 404 );
         }
 
-        $field = $fields[ $field_key ];
+        $field      = $fields[ $field_name ];
+        $field_type = $field[ 'field_type' ];
 
         $field_handlers = formgent_config( 'fields' );
         
@@ -53,17 +53,21 @@ class SummaryRepository {
             throw new Exception( esc_html__( 'Form not found.', 'helpgent' ), 404 );
         }
 
-        $fields       = array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) );
         $final_fields = [];
-        
-        $totals = Answer::query()->where( 'form_id', $form_id )->select( 'field_id, COUNT(field_id) as total' )->group_by( 'field_id' )->get();
 
-        foreach ( $fields as $field ) {
+        $totals = Answer::query()
+            ->where( 'form_id', $form_id )
+            ->where_is_null( 'parent_id' )
+            ->select( 'field_name, COUNT(field_name) as total' )
+            ->group_by( 'field_name' )
+            ->get();
+
+        foreach ( array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) ) as $field ) {
             $field_type = $field['field_type'];
 
-            $field_id = $field['id'];
+            $field_name = $field['name'];
 
-            $total_key = array_search( $field_id, array_column( $totals, 'field_id' ) );
+            $total_key = array_search( $field_name, array_column( $totals, 'field_name' ) );
 
             if ( is_int( $total_key ) ) {
                 $total = intval( $totals[ $total_key ]->total );
@@ -72,8 +76,8 @@ class SummaryRepository {
             }
 
             $final_field = [
-                'id'             => $field_id,
-                'label'          => $field['label'],
+                'field_name'     => $field_name,
+                'label'          => isset( $field['label'] ) ? $field['label'] : '',
                 'field_type'     => $field_type,
                 'total_response' => $total
             ];

@@ -17,7 +17,7 @@ trait HasChild {
     }
 
     protected function get_answers( stdClass $form, array $field, int $page, int $per_page ) {
-        $parents = $this->query( $form->ID, $field['id'], $field['field_type'] )->select( 'id' )->pagination( $per_page, $page );
+        $parents = $this->query( $form->ID, $field['name'], $field['field_type'] )->select( 'id' )->pagination( $per_page, $page );
 
         if ( empty( $parents ) ) {
             return [];
@@ -28,8 +28,8 @@ trait HasChild {
         $children = Answer::query()
             ->select( 
                 [ 
-                    'parent_id as id', 
-                    "GROUP_CONCAT( CONCAT( field_type, '__FGP__', value ) SEPARATOR '__FGS__' ) as value" 
+                    'parent_id',
+                    "GROUP_CONCAT( CONCAT( field_name, '__FGP__', value ) SEPARATOR '__FGS__' ) as value" 
                 ] 
             )
             ->where_in( 'parent_id', $ids )
