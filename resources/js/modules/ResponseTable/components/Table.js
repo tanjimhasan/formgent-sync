@@ -223,8 +223,18 @@ export default function Table() {
 				setOrderType( 'desc' );
 			},
 			freeze: () => {
+				// setFrozenColumns( ( prevFrozenColumns ) => {
+				// 	return [ ...prevFrozenColumns, dropdownId ];
+				// } );
+
 				setFrozenColumns( ( prevFrozenColumns ) => {
-					return [ ...prevFrozenColumns, dropdownId ];
+					if ( prevFrozenColumns.includes( dropdownId ) ) {
+						return prevFrozenColumns.filter(
+							( id ) => id !== dropdownId
+						);
+					} else {
+						return [ dropdownId ];
+					}
 				} );
 			},
 			hide: () => {
@@ -830,7 +840,7 @@ export default function Table() {
 								<ReactSVG
 									width="16"
 									height="16"
-									src={ handleColumnIcon( field.type ) }
+									src={ handleColumnIcon( field?.type ) }
 								/>
 							</span>
 							{ title.replace( /<\/?[^>]+(>|$)/g, '' ) }

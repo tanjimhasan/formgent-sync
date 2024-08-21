@@ -149,6 +149,7 @@ const TableStyle = Styled.div`
                 border-right: 1px solid var(--formgent-color-gray-300) !important;
                 .ant-pagination-item-link {
                     color: var(--formgent-color-gray-600) !important;
+                    border-radius: 0 !important;
                 }
                 &:last-child {
                     border-right: none !important;
