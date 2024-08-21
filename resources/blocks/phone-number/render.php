@@ -1,14 +1,15 @@
-<?php defined( 'ABSPATH' ) || exit; ?>
-
 <?php
 
-$unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
+defined( 'ABSPATH' ) || exit; 
+
+$allowed_html = wp_kses_allowed_html( 'post' );
+$unique_id    = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 // $countries = formgent_config( 'countries' );
 // $flag_url  = formgent_url( 'assets/images/flags' );
 ?>
 
 <div class="formgent-form-field">
-    <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
+    <label for="<?php echo esc_attr( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php formgent_render( wp_kses( $attributes['label'], $allowed_html ) ) ?></label>
     <div 
         class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__phone"
     >

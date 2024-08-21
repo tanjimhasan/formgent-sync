@@ -1,12 +1,17 @@
-<?php defined( 'ABSPATH' ) || exit; ?>
+<?php
 
+defined( 'ABSPATH' ) || exit; 
+
+$allowed_html = wp_kses_allowed_html( 'post' );
+
+?>
 <div class="formgent-editor-block-list__single formgent-editor-block-list__single--csr formgent-editor-block-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>">
     <label
-        for="<?php echo esc_html( $attributes['name'] ); ?>"
-        class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_html( $attributes['label_alignment'] ); ?>"
+        for="<?php echo esc_attr( $attributes['name'] ); ?>"
+        class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
     >
-        <?php formgent_render( $attributes['label'] ); ?>
-        <?php if ( esc_html( $attributes['required'] ) ) : ?>
+        <?php formgent_render( wp_kses( $attributes['label'], $allowed_html ) ); ?>
+        <?php if ( $attributes['required'] ) : ?>
             <span class="formgent-editor-block-list__single__label__required">
                 *
             </span>
@@ -25,7 +30,7 @@
         />
         <?php if ( ! empty( $attributes['sub_label'] ) ) : ?>
             <span class="formgent-editor-block-list__single__sub-label">
-                <?php formgent_render( $attributes['sub_label'] ); ?>
+                <?php formgent_render( wp_kses( $attributes['sub_label'], $allowed_html ) ); ?>
             </span>
         <?php endif; ?>
     </div>
