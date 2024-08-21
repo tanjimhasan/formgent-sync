@@ -5,16 +5,16 @@ import { utils, write } from 'xlsx';
 const PrepareExportData = ( data ) => {
 	const { form, responses } = data;
 
-	const fieldTypes = [];
+	const fieldNames = [];
 	const fieldColumns = [];
 
 	/**
 	 * generating response answer column name
 	 */
 	for ( const key in form ) {
-		const field = form[ key ];
-		fieldTypes.push( field.field_type );
-		fieldColumns.push( field.field_type );
+		// const field = form[ key ];
+		fieldNames.push( key );
+		fieldColumns.push( key );
 	}
 
 	let headers = Object.keys( responses[ 0 ] ).filter(
@@ -37,10 +37,10 @@ const PrepareExportData = ( data ) => {
 		/**
 		 * Adding answer value in export data
 		 */
-		fieldTypes.forEach( ( fieldType ) => {
+		fieldNames.forEach( ( fieldName ) => {
 			let setValue = false;
 			response.answers.forEach( ( answer ) => {
-				if ( answer.field_type === fieldType ) {
+				if ( answer.field_name === fieldName ) {
 					item.push( answer.value );
 					setValue = true;
 				}
@@ -90,16 +90,16 @@ const exportToSpreadsheet = ( data, fileName ) => {
 const exportToPDF = ( data, fileName ) => {
 	const { form, responses } = data;
 
-	const fieldTypes = [];
+	const fieldNames = [];
 	const fieldColumns = [];
 
 	/**
 	 * generating response answer column name
 	 */
 	for ( const key in form ) {
-		const field = form[ key ];
-		fieldTypes.push( field.field_type );
-		fieldColumns.push( field.field_type );
+		// const field = form[ key ];
+		fieldNames.push( key );
+		fieldColumns.push( key );
 	}
 
 	let headers = Object.keys( responses[ 0 ] ).filter(
@@ -126,10 +126,10 @@ const exportToPDF = ( data, fileName ) => {
 		/**
 		 * Adding answer value in export data
 		 */
-		fieldTypes.forEach( ( fieldType, index ) => {
+		fieldNames.forEach( ( fieldName, index ) => {
 			let setValue = false;
 			response.answers.forEach( ( answer ) => {
-				if ( answer.field_type === fieldType ) {
+				if ( answer.field_name === fieldName ) {
 					item.push( [ fieldColumns[ index ], answer.value ] );
 					setValue = true;
 				}
