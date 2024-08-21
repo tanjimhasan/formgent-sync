@@ -329,6 +329,26 @@ export const SingleFormActions = {
 		};
 	},
 
+	responseSingleChangeRequest: () => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_REQUEST',
+		};
+	},
+
+	responseSingleChangeSuccess: ( id ) => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_SUCCESS',
+			id,
+		};
+	},
+
+	responseSingleChangeError: ( error ) => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_ERROR',
+			error,
+		};
+	},
+
 	getResponseNotes: ( notes ) => {
 		return {
 			type: 'GET_RESPONSE_NOTES',

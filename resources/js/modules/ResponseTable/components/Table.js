@@ -84,6 +84,9 @@ export default function Table() {
 		responseDeleteError,
 		responseColumnUpdateSuccess,
 		responseColumnUpdateError,
+		responseSingleChangeRequest,
+		responseSingleChangeSuccess,
+		responseSingleChangeError,
 		getResponseNotes,
 		addResponseNotes,
 		updateResponseNotes,
@@ -106,6 +109,7 @@ export default function Table() {
 		isReadStatusChanging,
 		isResponseDeleting,
 		isResponseColumnUpdating,
+		isResponseSingleChanging,
 		notes,
 		fields,
 		selected_fields,
@@ -274,6 +278,10 @@ export default function Table() {
 	}
 
 	async function handleTableDrawer( record, nav ) {
+		if ( isResponseSingleChanging ) return;
+
+		responseSingleChangeRequest();
+
 		setOpenDrawer( true );
 		// Calculate the initial drawerResponse index based on the current page and record position
 		let drawerResponse =
@@ -314,13 +322,14 @@ export default function Table() {
 				Date.now()
 			);
 			handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+			responseSingleChangeSuccess( updateDrawerResponse );
 		} else {
 			// Update the page and fetch the data for the new page
 			updateCurrentResponsePage( newPage );
 
 			// Fetch the new page data
 			await resolveSelect( 'formgent' ).getResponseForm(
-				newPage,
+				newPage || 1,
 				10,
 				searchItem,
 				parseInt( id ),
@@ -342,17 +351,22 @@ export default function Table() {
 				Date.now()
 			);
 
+			responseSingleChangeSuccess( updateDrawerResponse );
+
 			// Ensure that responses are updated before triggering handleResponseNotes
 			if ( responses[ localDrawerResponse - 1 ]?.id ) {
 				handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
 			} else {
 				console.warn( 'Response ID is undefined' );
+				responseSingleChangeError();
 			}
 		}
 	}
 
 	// handleResponseNotes
 	async function handleResponseNotes( responseID ) {
+		if ( ! responseID ) return;
+
 		const fetchResponseNotes = await fetchData(
 			`admin/responses/notes?response_id=${ responseID }`
 		);
