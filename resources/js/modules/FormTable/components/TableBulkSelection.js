@@ -3,13 +3,13 @@ import { addQueryArgs } from '@wordpress/url';
 import { AntCheckbox, AntButton } from '@formgent/components';
 import { useState, useEffect, useRef } from '@wordpress/element';
 import { TablkSelectionStyle } from './style';
+import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import trashIcon from '@icon/trash.svg';
 import toggleIcon from '@icon/toggle.svg';
 import trashAlt from '@icon/trash-alt.svg';
 import deleteData from '@formgent/helper/deleteData';
 import checkClickedOutside from '@formgent/helper/checkClickedOutside';
-import { __ } from '@wordpress/i18n';
 import PopUp from '@formgent/components/PopUp';
 import FormDeleteAlert from './FormDeleteAlert';
 
