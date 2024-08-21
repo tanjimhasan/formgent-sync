@@ -27,8 +27,7 @@ class AnalyticsController extends Controller {
     public function increment_or_decrement_form_view_count( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'count' => 'required|numeric',
-                'type'  => 'string|accepted:+,-',
+                'type' => 'string|accepted:+,-',
             ]
         );
 
@@ -55,7 +54,7 @@ class AnalyticsController extends Controller {
                 [
                     'new_count' => $this->analytic_repository->update_form_view_count(
                         absint( $wp_rest_request->get_param( 'id' ) ), 
-                        absint( $wp_rest_request->get_param( 'count' ) ),
+                        1,
                         $wp_rest_request->get_param( 'type' ) ?? '+'
                     )
                 ]
