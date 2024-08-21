@@ -59,12 +59,12 @@ const controls = {
 			options: {
 				type: 'repeater',
 				label: __( 'Multi Choice Items', 'formgent' ),
-				label_key: 'title',
+				label_key: 'label',
 				add_button_text: 'Add Items',
 				fields: {
-					title: {
+					label: {
 						type: 'text',
-						label: __( 'Title', 'formgent' ),
+						label: __( 'Label', 'formgent' ),
 					},
 					value: {
 						type: 'text',
