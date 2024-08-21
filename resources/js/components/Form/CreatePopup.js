@@ -1,11 +1,11 @@
-import { Fragment, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { Modal } from '@wordpress/components';
-import ReactSVG from 'react-inlinesvg';
 import { CreatePopupStyle } from './style.js';
+import { __ } from '@wordpress/i18n';
+import ReactSVG from 'react-inlinesvg';
 import arrowLeft from '@icon/arrow-small-left.svg';
 import Pencil from '@icon/pencil-plus.svg';
-import { __ } from '@wordpress/i18n';
 import CreatePopupAction from './CreatePopupAction.js';
 import CreatePopupHeader from './CreatePopupHeader.js';
 import CreatePopupFormType from './CreatePopupFormType.js';
@@ -24,7 +24,6 @@ function CreatePopup( props ) {
 		isImportingAttachment,
 		isCreatePopupOpen,
 		createFormStage,
-		addBackBtn,
 		createPopupStep,
 	} = FormReducer;
 

@@ -35,7 +35,6 @@ export default function TableDrawer( props ) {
 		updateResponseNotes,
 		deleteResponseNotes,
 		setTableDrawer,
-		pagination,
 		single_response_pagination,
 		handleDelete,
 		handleStarred,

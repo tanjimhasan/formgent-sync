@@ -1,4 +1,4 @@
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { AntButton } from '@formgent/components';
 import { __ } from '@wordpress/i18n';
 import { HeaderStyle } from './style';
@@ -7,14 +7,6 @@ import plusIcon from '@icon/plus.svg';
 export default function Header() {
 	const { updateCreatePopUp, updateCreatePopupStep } =
 		useDispatch( 'formgent' );
-
-	const { CommonReducer } = useSelect( ( select ) => {
-		return select( 'formgent' ).getCommonState();
-	}, [] );
-
-	const { useNavigate } = CommonReducer.routerComponents;
-
-	const navigate = useNavigate();
 
 	return (
 		<HeaderStyle>

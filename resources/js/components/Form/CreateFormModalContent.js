@@ -12,7 +12,6 @@ export default function CreateFormModalContent( { type } ) {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
 	const { useNavigate, useParams } = CommonReducer.routerComponents;
-	// const { selectedTemplate } = moduleState;
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -31,12 +30,12 @@ export default function CreateFormModalContent( { type } ) {
 	function handleFormSubmission( formData ) {
 		if ( SingleFormReducer?.isCreatingForm ) return;
 
-		const newform = {
+		const newForm = {
 			status: 'draft',
 			type: type,
 		};
-		Object.assign( formData, newform );
 
+		Object.assign( formData, newForm );
 		createFormRequest();
 		handleCreateForm(
 			formData,
