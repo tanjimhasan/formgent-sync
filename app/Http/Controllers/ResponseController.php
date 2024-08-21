@@ -228,7 +228,9 @@ class ResponseController extends Controller {
         }
 
         // Store child answers in the database.
-        $this->answer_repository->creates_from_array( $children_items );
+        if ( ! empty( $children_items ) ) {
+            $this->answer_repository->creates_from_array( $children_items );
+        }
     }
 
     /**
