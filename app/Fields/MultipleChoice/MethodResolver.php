@@ -6,13 +6,13 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\App\DTO\AnswerDTO;
-use FormGent\App\Summary\MultiSelect;
+use FormGent\App\Summary\Select;
 use stdClass;
 use WP_REST_Request;
 
 trait MethodResolver {
 
-    use MultiSelect;
+    use Select;
 
     public static function get_key(): string {
         return 'multiple-choice';

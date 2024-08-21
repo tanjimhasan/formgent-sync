@@ -7,12 +7,12 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\EnumeratedList\SummaryType;
 use stdClass;
 
-trait MultiSelect {
+trait Select {
 
     use Summary;
 
     public static function summary_type(): string {
-        return SummaryType::MULTISELECT;
+        return SummaryType::SELECT;
     }
 
     protected function get_answers( stdClass $form, array $field ) {
