@@ -1,6 +1,6 @@
-<?php defined( 'ABSPATH' ) || exit; ?>
-
 <?php
+
+defined( 'ABSPATH' ) || exit; 
 
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 // $countries = formgent_config( 'countries' );
@@ -8,7 +8,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
 ?>
 
 <div class="formgent-form-field">
-    <label for="<?php echo esc_html( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php echo esc_html( $attributes['label'] ); ?></label>
+    <label for="<?php echo esc_attr( $attributes['name'] ); ?>" class="formgent-form-field__label"><?php formgent_render( wp_kses_post( $attributes['label'] ) ) ?></label>
     <div 
         class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__phone"
     >
