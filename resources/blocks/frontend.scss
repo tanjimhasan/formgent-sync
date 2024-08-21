@@ -36,11 +36,17 @@
 		line-height: 16px;
 		&.formgent-label-align-left {
 			order: -1;
-			min-width: 80px;
+			//min-width: 100px;
+			& + .formgent-editor-block-list__single__wrapper {
+				.formgent-editor-block-list__single__input {
+					width: 100%;
+					box-sizing: border-box;
+				}
+			}
 		}
 		&.formgent-label-align-right {
 			order: 1;
-			min-width: 80px;
+			//min-width: 100px;
 			text-align: right;
 			~ .formgent-editor-block-list__single__wrapper {
 				justify-content: flex-end;
@@ -48,6 +54,12 @@
 			}
 			label {
 				width: 100%;
+			}
+			& + .formgent-editor-block-list__single__wrapper {
+				.formgent-editor-block-list__single__input {
+					width: 100%;
+					box-sizing: border-box;
+				}
 			}
 		}
 		&.formgent-label-align-top {
@@ -65,13 +77,17 @@
 		font-size: 14px;
 		color: var(--formgent-color-danger) !important;
 	}
+	&.formgent-editor-block-align-right,
+	&.formgent-editor-block-align-left {
+		flex-wrap: nowrap;
+	}
 }
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
 }
-.formgent-editor-block-list__single--csr {
-	margin-bottom: 30px;
-}
+// .formgent-editor-block-list__single--csr {
+// 	margin-bottom: 30px;
+// }
 .formgent-editor-block-list__single__wrapper--gdpr {
 	position: relative;
 	.formgent-editor-block-list__single__input--checkbox {
@@ -80,7 +96,7 @@
 		opacity: 0;
 	}
 	.formgent-editor-block-list__checkbox {
-		width: 22px;
+		width: 20px;
 		height: 20px;
 		border: 1px solid #d1d1d7;
 		border-radius: 5px;
@@ -90,6 +106,7 @@
 		box-sizing: border-box;
 		margin-right: 6px;
 		transition: 0.3s ease;
+		flex: none;
 		svg {
 			width: 14px;
 			height: 14px;
@@ -196,6 +213,8 @@ textarea.formgent-editor-block-list__single__input {
 	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 	color: #4d5761;
 	font-family: "Inter", sans-serif;
+	box-sizing: border-box;
+	width: 100%;
 	&.formgent-editor-block-list__single__input--checkbox {
 		width: 15px;
 		height: 15px;

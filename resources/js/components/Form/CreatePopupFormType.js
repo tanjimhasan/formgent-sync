@@ -3,8 +3,6 @@ import { Radio } from 'antd';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import fileIcon from '@icon/file-edit.svg';
-import quizIcon from '@icon/quiz.svg';
-import paymentIcon from '@icon/payment.svg';
 
 export default function CreatePopupFormType() {
 	const formTypes = [

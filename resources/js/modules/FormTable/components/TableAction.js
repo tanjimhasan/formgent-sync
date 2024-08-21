@@ -15,7 +15,7 @@ import FormDeleteAlert from './FormDeleteAlert';
 export default function TableAction( props ) {
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
-	const { form, editableForm, setEditableForm, isFormDeleting } = props;
+	const { form, setEditableForm, isFormDeleting } = props;
 
 	const { deleteFormRequest, deleteFormSuccess, deleteFormError } =
 		useDispatch( 'formgent' );

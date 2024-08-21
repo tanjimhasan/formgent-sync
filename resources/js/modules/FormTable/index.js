@@ -29,12 +29,7 @@ function FormTable( props ) {
 	return (
 		<div className="formgent-page-inner">
 			<FormTableHead.Slot fillProps={ { testProps: 10 } }>
-				{ ( fills ) => (
-					<>
-						{ /* { fills } */ }
-						<Header />
-					</>
-				) }
+				{ ( fills ) => <Header key="header" /> }
 			</FormTableHead.Slot>
 			<Filter
 				forms={ forms }
