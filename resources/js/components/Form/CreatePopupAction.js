@@ -1,9 +1,9 @@
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { Modal } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import PropTypes from 'prop-types';
 import ReactSVG from 'react-inlinesvg';
-import { __ } from '@wordpress/i18n';
-import { Modal } from '@wordpress/components';
 import CreateFormModalContent from './CreateFormModalContent';
 
 export default function CreatePopupAction( props ) {
@@ -14,7 +14,7 @@ export default function CreatePopupAction( props ) {
 	const { updateSingleFormType, updateCreatePopupStage } =
 		useDispatch( 'formgent' );
 
-	const { Link, useParams, useNavigate } = CommonReducer.routerComponents;
+	const { Link, useParams } = CommonReducer.routerComponents;
 
 	const { item, setStep } = props;
 
