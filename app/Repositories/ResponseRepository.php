@@ -171,7 +171,7 @@ class ResponseRepository {
     }
 
     private function get_field_names( int $form_id ) {
-        $table_names = get_post_meta( $form_id, 'response_table_names', true );
+        $table_names = get_post_meta( $form_id, '_response_table_names', true );
 
         if ( ! is_array( $table_names ) ) {
             $table_names = [];

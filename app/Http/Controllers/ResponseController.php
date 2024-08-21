@@ -98,8 +98,8 @@ class ResponseController extends Controller {
         }
 
         // Set additional form properties.
-        $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
-        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
+        $form->form_type            = get_post_meta( $form->ID, '_formgent_type', true );
+        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, '_formgent_save_incomplete_data', true );
 
         // Validate form data and create DTOs.
         $validate_data = $this->validate_form_data( $form, $validator, $request );
