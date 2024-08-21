@@ -5,18 +5,46 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
 
-// try {
-// 	const updateFromViews = await wp.apiFetch( {
-// 		path: `formgent/analytics/forms/${ context.formId }/update-view-count`,
-// 		method: 'POST',
-// 		data: {
-// 			form_id: context.formId,
-// 			type: '+',
-// 		},
-// 	} );
-// } catch ( error ) {
-// 	console.error( 'Error:', error );
-// }
+let formStarted = false;
+
+// Generate form token on form start
+async function generateFormToken( context ) {
+	if ( ! formStarted ) {
+		try {
+			const responseTokens = await wp.apiFetch( {
+				path: 'formgent/responses/generate-token',
+				method: 'POST',
+				data: {
+					form_id: context.formId,
+				},
+			} );
+		} catch ( error ) {
+			console.log( error );
+		}
+	}
+}
+
+// Drop-off counts
+async function updateFieldCounter(
+	context,
+	element,
+	counterName,
+	counterType
+) {
+	try {
+		const responseCounts = await wp.apiFetch( {
+			path: `formgent-pro/analytics/forms/${ context.formId }/fields/update-count`,
+			method: 'POST',
+			data: JSON.stringify( {
+				counter_name: 'views',
+				counter_type: '+',
+				field_name: 'email',
+			} ),
+		} );
+	} catch ( error ) {
+		console.log( error );
+	}
+}
 
 const { callbacks } = store( 'formgent/form', {
 	actions: {
@@ -24,11 +52,16 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ] = element.ref.value;
+			generateFormToken( context );
+			formStarted = true;
+			updateFieldCounter( context, element, 'both', '+' );
 		},
 		updateNumber: () => {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updateGdpr: () => {
 			const element = getElement();
@@ -38,23 +71,43 @@ const { callbacks } = store( 'formgent/form', {
 				context.data[ element.ref.name ] === 0
 					? 1
 					: 0;
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updatePhoneNumber: () => {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ].number = element.ref.value;
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updateDialCode: () => {
 			const element = getElement();
 			const context = getContext();
 			const name = element.ref.name.replace( '-dial-code', '' );
 			context.data[ name ].dialCode = element.ref.value;
+			generateFormToken( context );
+			formStarted = true;
 		},
 	},
 	callbacks: {
-		init: () => {
+		init: async () => {
 			const context = getContext();
 			const element = getElement();
+
+			/* Update form views */
+			try {
+				const updateFromViews = await wp.apiFetch( {
+					path: `formgent/analytics/forms/${ context.formId }/update-view-count`,
+					method: 'POST',
+					data: {
+						form_id: context.formId,
+						type: '+',
+					},
+				} );
+			} catch ( error ) {
+				console.log( error );
+			}
 
 			const validation = new JustValidate(
 				`#${ element.attributes.id }`,

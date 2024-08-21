@@ -13,6 +13,21 @@ export default function AnalyticStats( props ) {
 	completionRate =
 		completionRate % 1 === 0 ? completionRate : completionRate.toFixed( 2 );
 
+	function formatTime( seconds ) {
+		const hours = Math.floor( seconds / 3600 );
+		const minutes = Math.floor( ( seconds % 3600 ) / 60 );
+		const remainingSeconds = seconds % 60;
+
+		// Pad the hours, minutes, and seconds with a leading zero if they are less than 10
+		const formattedHours = String( hours ).padStart( 2, '0' );
+		const formattedMinutes = String( minutes ).padStart( 2, '0' );
+		const formattedSeconds = String( remainingSeconds ).padStart( 2, '0' );
+
+		return `${ formattedHours }:${ formattedMinutes }:${ formattedSeconds }`;
+	}
+
+	const formatTimeToComplete = formatTime( timeToComplete );
+
 	const statsData = [
 		{
 			icon: eyeIcon,
@@ -32,12 +47,12 @@ export default function AnalyticStats( props ) {
 		{
 			icon: presentationIcon,
 			label: __( 'Completion rate', 'formgent' ),
-			total: completionRate + '%',
+			total: isNaN( completionRate ) ? '0' : completionRate + '%',
 		},
 		{
 			icon: clockIcon,
 			label: __( 'Time to complete', 'formgent' ),
-			total: timeToComplete,
+			total: formatTimeToComplete,
 		},
 	];
 

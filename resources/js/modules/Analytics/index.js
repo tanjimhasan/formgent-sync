@@ -1,16 +1,16 @@
-import { useEffect, lazy } from '@wordpress/element';
-import { resolveSelect, useSelect, useDispatch } from '@wordpress/data';
+import { lazy } from '@wordpress/element';
+import { resolveSelect, useSelect } from '@wordpress/data';
 import { AnalyticsStyle } from './style';
+import { registerIsProActive } from '@formgent/helper/registerApplyFilter';
 import AnalyticStats from './components/AnalyticStats';
 import AnalyticsProCta from './components/AnalyticsProCta';
-import { registerIsProActive } from '@formgent/helper/registerApplyFilter';
-import { applyFilters } from '@wordpress/hooks';
-const FormHeader = lazy( () => import( '@formgent/components/FormHeader' ) );
-import CompletedSubmissionsChart from './components/CompletedSubmissionsChart';
-import QuestionDropOff from './components/QuestionDropOff';
 import AnalyticsChart from '@formgent/admin/Slots/AnalyticsChart';
+import QuestionsDropOff from '@formgent/admin/Slots/QuestionsDropOff';
+import ReactSVG from 'react-inlinesvg';
+import layerIcon from '@icon/layer.svg';
+const FormHeader = lazy( () => import( '@formgent/components/FormHeader' ) );
 
-function Analytics( props ) {
+function Analytics() {
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
@@ -50,11 +50,6 @@ function Analytics( props ) {
 		average_completion_time,
 	} = analyticsSummary;
 
-	const FilteredAnalyticsComponent = applyFilters(
-		'formgent_response_analytics',
-		<h1>d</h1>
-	);
-
 	const handleChartDatepicker = ( dates, dateStrings ) => {
 		if ( isAnalyticsSummaryFetching ) return;
 		const [ dateFrom, dateTo ] = dateStrings;
@@ -90,22 +85,28 @@ function Analytics( props ) {
 					/>
 					{ isProActive && (
 						<>
-							<CompletedSubmissionsChart
-								data={ analyticSubmissionData }
-								handleChartDatepicker={ handleChartDatepicker }
-							/>
-							<QuestionDropOff
-								questionDropOffData={ questionDropOffData }
-							/>
+							<AnalyticsChart.Slot
+								fillProps={ {
+									data: analyticSubmissionData,
+									handleChartDatepicker:
+										handleChartDatepicker,
+								} }
+							>
+								{ ( fills ) => <>{ fills }</> }
+							</AnalyticsChart.Slot>
+
+							<QuestionsDropOff.Slot
+								fillProps={ {
+									questionDropOffData: questionDropOffData,
+									layerIcon: <ReactSVG src={ layerIcon } />,
+								} }
+							>
+								{ ( fills ) => <>{ fills }</> }
+							</QuestionsDropOff.Slot>
 						</>
 					) }
 				</div>
-				{ /* { ! isProActive && <AnalyticsProCta /> } */ }
-				{ /* { <FilteredAnalyticsComponent /> } */ }
-
-				<AnalyticsChart.Slot fillProps={ { testProps: 10 } }>
-					{ ( fills ) => <>{ fills }</> }
-				</AnalyticsChart.Slot>
+				{ ! isProActive && <AnalyticsProCta /> }
 			</AnalyticsStyle>
 		</>
 	);

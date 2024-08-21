@@ -2,6 +2,7 @@ import { registerModule } from '@formgent/modules/helpers';
 import { lazy } from '@wordpress/element';
 import { registerBlock } from './../../blocks/utils';
 import AnalyticsChart from '@formgent/admin/Slots/AnalyticsChart';
+import QuestionsDropOff from '@formgent/admin/Slots/QuestionsDropOff';
 
 const SettingsModule = lazy( () => import( './Settings' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
@@ -15,6 +16,7 @@ registerModule( 'modules', {
 	AnalyticsModule,
 	registerBlock,
 	AnalyticsChart,
+	QuestionsDropOff,
 } );
 
 /**
@@ -27,4 +29,5 @@ export {
 	AnalyticsModule,
 	SettingsModule,
 	AnalyticsChart,
+	QuestionsDropOff,
 };
