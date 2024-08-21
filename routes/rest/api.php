@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use FormGent\App\Http\Controllers\Admin\AnalyticsController;
+use FormGent\App\Http\Controllers\AnalyticsController;
 use FormGent\App\Http\Controllers\ResponseController;
 use FormGent\App\Http\Controllers\UserController;
 // use FormGent\App\Http\Controllers\FormController;
