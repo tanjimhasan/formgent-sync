@@ -826,61 +826,69 @@ export default function Table() {
 
 	// Generate Column
 	const generateCustomColumns = () => {
-		return ( selected_fields || [] ).map( ( fieldName ) => {
-			const field = fields?.find( ( field ) => field.name === fieldName );
-			const title = field ? field.label : `Field ${ fieldName }`;
+		return ( selected_fields || [] )
+			.filter( ( fieldName ) =>
+				fields.some( ( field ) => field.name === fieldName )
+			)
+			.map( ( fieldName ) => {
+				const field = fields?.find(
+					( field ) => field.name === fieldName
+				);
 
-			return {
-				key: fieldName,
-				dataIndex: fieldName,
-				title: () => (
-					<div className="formgent-column-action">
-						<span className="formgent-column-action__title">
-							<span className="formgent-column-action__icon">
-								<ReactSVG
-									width="16"
-									height="16"
-									src={ handleColumnIcon( field?.type ) }
-								/>
+				return {
+					key: fieldName,
+					dataIndex: fieldName,
+					title: () => (
+						<div className="formgent-column-action">
+							<span className="formgent-column-action__title">
+								<span className="formgent-column-action__icon">
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ handleColumnIcon( field?.type ) }
+									/>
+								</span>
+								{ field?.label.replace(
+									/<\/?[^>]+(>|$)/g,
+									''
+								) }
 							</span>
-							{ title.replace( /<\/?[^>]+(>|$)/g, '' ) }
-						</span>
-						<AntDropdown
-							menu={ {
-								items: sortItems( fieldName ),
-								onClick: ( item ) =>
-									handleSortby( item, fieldName ),
-							} }
-							trigger={ [ 'click' ] }
-							placement="bottomRight"
-							overlayStyle={ { minWidth: '240px' } }
-						>
-							<a onClick={ ( e ) => e.preventDefault() }>
-								<ReactSVG
-									width="16"
-									height="16"
-									src={ ellipsisVIcon }
-								/>
-							</a>
-						</AntDropdown>
-					</div>
-				),
-				render: ( text, record ) => {
-					const response =
-						responses &&
-						responses?.find( ( r ) => r.id === record.id );
-					if ( response ) {
-						const answer = response.answers?.find(
-							( a ) => a.field_name === fieldName
-						);
-						if ( answer ) {
-							return <div>{ answer.value }</div>;
+							<AntDropdown
+								menu={ {
+									items: sortItems( fieldName ),
+									onClick: ( item ) =>
+										handleSortby( item, fieldName ),
+								} }
+								trigger={ [ 'click' ] }
+								placement="bottomRight"
+								overlayStyle={ { minWidth: '240px' } }
+							>
+								<a onClick={ ( e ) => e.preventDefault() }>
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ ellipsisVIcon }
+									/>
+								</a>
+							</AntDropdown>
+						</div>
+					),
+					render: ( text, record ) => {
+						const response =
+							responses &&
+							responses?.find( ( r ) => r.id === record.id );
+						if ( response ) {
+							const answer = response.answers?.find(
+								( a ) => a.field_name === fieldName
+							);
+							if ( answer ) {
+								return <div>{ answer.value }</div>;
+							}
 						}
-					}
-					return <div>No data Found</div>;
-				},
-			};
-		} );
+						return <div>No data Found</div>;
+					},
+				};
+			} );
 	};
 
 	// Handle Show/Hide Column
