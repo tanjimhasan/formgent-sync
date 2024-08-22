@@ -68,7 +68,7 @@ class SummaryRepository {
             ->group_by( 'field_name' )
             ->get();
 
-        foreach ( array_values( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) ) as $field ) {
+        foreach ( formgent_get_form_field_settings( parse_blocks( $form->post_content ) ) as $field ) {
             $field_type = $field['field_type'];
 
             $field_name = $field['name'];
