@@ -703,6 +703,12 @@ const TableDrawerStyle = Styled.div`
             color: var(--formgent-color-light-gray);
             margin: 0;
         }
+        .response-table__drawer__tab__item__desc__key {
+            font-weight: 500;
+        }
+        .response-table__drawer__tab__item__desc__value {
+            color: var(--formgent-color-light-gray);
+        }
         .response-table__drawer__tab__item__add {
             display: flex;
             align-items: center;

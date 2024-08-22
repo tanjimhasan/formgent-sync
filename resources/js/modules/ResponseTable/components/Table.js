@@ -1085,14 +1085,11 @@ export default function Table() {
 				<TableDrawer
 					response={ singleResponse }
 					handleTableDrawer={ handleTableDrawer }
-					setSelectedRowKeys={ setSelectedRowKeys }
 					notes={ notes }
 					addResponseNotes={ addResponseNotes }
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }
-					setSingleResponse={ setSingleResponse }
 					handleDrawerClose={ handleDrawerClose }
-					pagination={ pagination }
 					single_response_pagination={ single_response_pagination }
 					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
 					handleStarred={ ( id, isStarredStatus ) =>

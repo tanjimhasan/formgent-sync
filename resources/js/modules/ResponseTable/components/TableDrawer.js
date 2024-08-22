@@ -29,13 +29,11 @@ export default function TableDrawer( props ) {
 	const {
 		response,
 		handleTableDrawer,
-		setSelectedRowKeys,
 		notes,
 		addResponseNotes,
 		updateResponseNotes,
 		deleteResponseNotes,
 		handleDrawerClose,
-		setTableDrawer,
 		single_response_pagination,
 		handleDelete,
 		handleStarred,
@@ -44,6 +42,8 @@ export default function TableDrawer( props ) {
 		downloadItems,
 		dateFormatOptions,
 	} = props;
+
+	console.log( 'single drawer response', response );
 
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
@@ -356,36 +356,36 @@ export default function TableDrawer( props ) {
 													{ answer.label ||
 														answer.field_name }
 												</h5>
-												<p className="response-table__drawer__tab__item__desc">
-													{ answer.children.length
-														? answer.children.map(
-																(
-																	child,
-																	index
-																) => {
-																	return (
-																		<span
-																			key={
-																				index
-																			}
-																			className="response-table__drawer__tab__item__desc__child"
-																		>
-																			{ answer.field_type ===
-																				'address' &&
-																			index +
-																				1 !==
-																				answer
-																					.children
-																					.length
-																				? child.value +
-																				  ','
-																				: child.value }
-																		</span>
-																	);
-																}
-														  )
-														: answer.value }
-												</p>
+												{ answer.children.length ? (
+													answer.children.map(
+														( child, index ) => {
+															return (
+																<div
+																	key={
+																		index
+																	}
+																	className="response-table__drawer__tab__item__desc__child"
+																>
+																	<span className="response-table__drawer__tab__item__desc__key">
+																		{
+																			child.label
+																		}
+																	</span>{ ' ' }
+																	:{ ' ' }
+																	<span className="response-table__drawer__tab__item__desc__value">
+																		{
+																			child.value
+																		}
+																	</span>
+																</div>
+															);
+														}
+													)
+												) : (
+													<p className="response-table__drawer__tab__item__desc">
+														{ answer.value }
+													</p>
+												) }
 											</div>
 										</div>
 									);
