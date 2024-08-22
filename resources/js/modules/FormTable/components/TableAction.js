@@ -127,11 +127,11 @@ export default function TableAction( props ) {
 				message: formDuplicateResponse.message,
 			} );
 
-			// resolveSelect( 'formgent' ).getForms(
-			// 	pagination.current_page,
-			// 	pagination.per_page,
-			// 	Date.now()
-			// );
+			resolveSelect( 'formgent' ).getForms(
+				pagination.current_page,
+				pagination.per_page,
+				Date.now()
+			);
 		} catch ( error ) {
 			duplicateFormError( error );
 			console.log( error );

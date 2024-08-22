@@ -99,10 +99,10 @@ export const FormActions = {
 		};
 	},
 
-	duplicateFormSuccess: ( id ) => {
+	duplicateFormSuccess: ( data ) => {
 		return {
 			type: 'DUPLICATE_FORM_SUCCESS',
-			id,
+			data,
 		};
 	},
 
