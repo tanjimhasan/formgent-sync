@@ -53,6 +53,12 @@ class SummaryRepository {
             throw new Exception( esc_html__( 'Form not found.', 'helpgent' ), 404 );
         }
 
+        /**
+         * @var ResponseRepository $response_repository
+         */
+        $response_repository = formgent_singleton( ResponseRepository::class );
+        $response_count      = $response_repository->get_count_by_form_id( $form_id );
+
         $final_fields = [];
 
         $totals = Answer::query()
@@ -77,10 +83,21 @@ class SummaryRepository {
 
             $final_field = [
                 'field_name'     => $field_name,
-                'label'          => isset( $field['label'] ) ? $field['label'] : '',
+                'label'          => isset( $field['label'] ) ? $field['label'] : $field_name,
                 'field_type'     => $field_type,
-                'total_response' => $total
+                'total_response' => $response_count,
+                'total_answer'   => $total,
             ];
+
+            if ( ! empty( $field['children'] ) ) {
+                $children = [];
+                
+                foreach ( array_keys( $field['children'] ) as $child_key ) {
+                    $children[ $child_key ] = ! empty( $field['children'][ $child_key ]['label'] ) ? $field['children'][ $child_key ]['label'] : $child_key;
+                }
+
+                $final_field['children'] = $children;
+            }
 
             $final_fields[] = $final_field;
         }
