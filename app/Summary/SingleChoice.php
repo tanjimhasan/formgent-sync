@@ -7,12 +7,12 @@ defined( 'ABSPATH' ) || exit;
 use FormGent\App\EnumeratedList\SummaryType;
 use stdClass;
 
-trait Select {
+trait SingleChoice {
 
     use Summary;
 
     public static function summary_type(): string {
-        return SummaryType::SELECT;
+        return SummaryType::SINGLECHOICE;
     }
 
     protected function get_answers( stdClass $form, array $field ) {
@@ -25,7 +25,7 @@ trait Select {
             $option_query = clone $query;
             $answers[]    = [
                 'label' => $option['label'],
-                'total' => $option_query->where_raw( 'JSON_CONTAINS(value, \'"' . $option['id'] . '"\')' )->count()
+                'total' => $option_query->where( 'value', $option['value'] )->count(),
             ];
         }
 
