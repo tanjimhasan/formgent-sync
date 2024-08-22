@@ -1,4 +1,4 @@
-import patchData from '@formgent/helper/patchData';
+//import patchData from '@formgent/helper/patchData';
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
 import chartIcon from '@icon/line-chart.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
@@ -13,11 +13,10 @@ import rowIcon from '@icon/row-3.svg';
 export default function FormHeader( props ) {
 	const { resultHeader } = props;
 
-	const [ isEditing, setIsEditing ] = useState( false );
+	//const [ isEditing, setIsEditing ] = useState( false );
 	const [ title, setTitle ] = useState( '' );
 
-	const { publishFormRequest, publishFormSuccess, publishFormError } =
-		useDispatch( 'formgent' );
+	//const { publishFormRequest, publishFormSuccess, publishFormError } = useDispatch( 'formgent' );
 
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
@@ -39,51 +38,51 @@ export default function FormHeader( props ) {
 		navigate( -1 );
 	};
 
-	const handleEditClick = () => {
-		setIsEditing( true );
-	};
-	const handleInputChange = ( e ) => {
-		setTitle( e.target.value );
-	};
+	// const handleEditClick = () => {
+	// 	setIsEditing( true );
+	// };
+	// const handleInputChange = ( e ) => {
+	// 	setTitle( e.target.value );
+	// };
 
-	const handleBlur = () => {
-		setIsEditing( false );
-		// Perform save action here (e.g., API call) when blurred
-	};
+	// const handleBlur = () => {
+	// 	setIsEditing( false );
+	// 	// Perform save action here (e.g., API call) when blurred
+	// };
 
-	const handleSaveClick = () => {
-		setIsEditing( false );
-		// Perform save action here (e.g., API call)
-	};
+	// const handleSaveClick = () => {
+	// 	setIsEditing( false );
+	// 	// Perform save action here (e.g., API call)
+	// };
 
-	const formPreview = () => {
-		console.log( 'Form Preview clicked' );
-	};
+	// const formPreview = () => {
+	// 	console.log( 'Form Preview clicked' );
+	// };
 
-	function formPublish() {
-		if ( isUpdatingForm ) return;
-		publishFormRequest();
-		try {
-			const updatedForm = { ...SingleFormReducer.singleForm };
-			const formStringyContent = JSON.stringify( {
-				...updatedForm.content,
-			} );
-			Object.assign(
-				updatedForm,
-				{ font_family: 'Inter' },
-				{ status: 'publish' },
-				{ content: formStringyContent }
-			);
-			const updatingStatusResponse = patchData(
-				`admin/forms/${ id }`,
-				updatedForm
-			);
-			publishFormSuccess( 'publish' );
-		} catch ( error ) {
-			console.log( error );
-			publishFormError( error );
-		}
-	}
+	// function formPublish() {
+	// 	if ( isUpdatingForm ) return;
+	// 	publishFormRequest();
+	// 	try {
+	// 		const updatedForm = { ...SingleFormReducer.singleForm };
+	// 		const formStringyContent = JSON.stringify( {
+	// 			...updatedForm.content,
+	// 		} );
+	// 		Object.assign(
+	// 			updatedForm,
+	// 			{ font_family: 'Inter' },
+	// 			{ status: 'publish' },
+	// 			{ content: formStringyContent }
+	// 		);
+	// 		const updatingStatusResponse = patchData(
+	// 			`admin/forms/${ id }`,
+	// 			updatedForm
+	// 		);
+	// 		publishFormSuccess( 'publish' );
+	// 	} catch ( error ) {
+	// 		console.log( error );
+	// 		publishFormError( error );
+	// 	}
+	// }
 
 	useEffect( () => {
 		setTitle( form_title );

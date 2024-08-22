@@ -1,13 +1,11 @@
 <?php
 
 namespace FormGent\App\Http\Controllers;
-use Exception;
 
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\FormRepository;
-use FormGent\App\Repositories\FormMetaRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use WP_REST_Request;
@@ -15,11 +13,8 @@ use WP_REST_Request;
 class FormController extends Controller {
     public FormRepository $form_repository;
 
-    public FormMetaRepository $form_meta_repository;
-
-    public function __construct( FormRepository $form_repository, FormMetaRepository $form_meta_repository ) {
-        $this->form_repository      = $form_repository;
-        $this->form_meta_repository = $form_meta_repository;
+    public function __construct( FormRepository $form_repository ) {
+        $this->form_repository = $form_repository;
     }
 
     public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {

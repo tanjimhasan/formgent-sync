@@ -2,12 +2,12 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
 import { AntInput } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
+import { __ } from '@wordpress/i18n';
+import { TitleBoxStyle } from './style';
 import ReactSVG from 'react-inlinesvg';
 import times from '@icon/times.svg';
 import check from '@icon/check.svg';
 import formIcon from '@icon/form.svg';
-import { __ } from '@wordpress/i18n';
-import { TitleBoxStyle } from './style';
 import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
