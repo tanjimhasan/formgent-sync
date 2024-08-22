@@ -695,6 +695,9 @@ const TableDrawerStyle = Styled.div`
             margin: 0;
         }
         .response-table__drawer__tab__item__desc {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
             font-size: 14px;
             font-weight: 400;
             color: var(--formgent-color-light-gray);

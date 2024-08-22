@@ -357,7 +357,34 @@ export default function TableDrawer( props ) {
 														answer.field_name }
 												</h5>
 												<p className="response-table__drawer__tab__item__desc">
-													{ answer.value }
+													{ answer.children.length
+														? answer.children.map(
+																(
+																	child,
+																	index
+																) => {
+																	return (
+																		<span
+																			key={
+																				index
+																			}
+																			className="response-table__drawer__tab__item__desc__child"
+																		>
+																			{ answer.field_type ===
+																				'address' &&
+																			index +
+																				1 !==
+																				answer
+																					.children
+																					.length
+																				? child.value +
+																				  ','
+																				: child.value }
+																		</span>
+																	);
+																}
+														  )
+														: answer.value }
 												</p>
 											</div>
 										</div>
