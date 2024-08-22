@@ -19,6 +19,8 @@ const DEFAULT_STATE = {
 	activeCustomizerTab: 'element',
 	activeField: '',
 	error: null,
+	summary: null,
+	isFetchingSummary: false,
 };
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
@@ -279,6 +281,24 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'DELETE_RESPONSE_NOTES':
 			return {
 				...state,
+			};
+		case 'FETCH_SUMMARY_REQUEST':
+			return {
+				...state,
+				isFetchingSummary: true,
+			};
+		case 'FETCH_SUMMARY_SUCCESS':
+			return {
+				...state,
+				summary: {
+					[ action.payload.formId ]: action.payload.data,
+				},
+			};
+		case 'FETCH_SUMMARY_ERROR':
+			return {
+				...state,
+				error: error,
+				isFetchingSummary: false,
 			};
 		default:
 			return state;

@@ -18,4 +18,9 @@ export const SingleFormControls = {
 			path: `${ action.payload.path }?form_id=${ action.payload.formID }`,
 		} );
 	},
+	FETCH_SUMMARY( action ) {
+		return apiFetch( {
+			path: action.path,
+		} );
+	},
 };

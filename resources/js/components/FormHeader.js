@@ -4,6 +4,7 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
+import pieIcon from '@icon/pie-chart.svg';
 import { FormHeaderStyle } from './style';
 
 // Icon
@@ -150,13 +151,14 @@ export default function FormHeader( props ) {
 							<ReactSVG src={ rowIcon } width="18" height="18" />
 							Responses { responses && `(${ responses.length })` }
 						</NavLink>
-						{ /* <NavLink
+						<NavLink
 							to={ `${ forms }/summary` }
 							className="formgent-results-header__nav__link"
 						>
 							<ReactSVG src={ pieIcon } width="18" height="18" />
 							Summary
 						</NavLink>
+						{ /*
 						<NavLink
 							to={ `${ forms }/analytics` }
 							className="formgent-results-header__nav__link"

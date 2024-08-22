@@ -357,4 +357,31 @@ export const SingleFormActions = {
 			id,
 		};
 	},
+	fetchSummary: ( path ) => {
+		return {
+			type: 'FETCH_SUMMARY',
+			path,
+		};
+	},
+	fetchSummaryRequest: () => {
+		return {
+			type: 'FETCH_SUMMARY_REQUEST',
+		};
+	},
+	fetchSummarySuccess: ( data, formId, fieldName ) => {
+		return {
+			type: 'FETCH_SUMMARY_SUCCESS',
+			payload: {
+				data,
+				formId,
+				fieldName,
+			},
+		};
+	},
+	fetchSummaryError: ( error ) => {
+		return {
+			type: 'FETCH_SUMMARY_ERROR',
+			error,
+		};
+	},
 };

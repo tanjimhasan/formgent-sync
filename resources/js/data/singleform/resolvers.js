@@ -108,4 +108,19 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
+	*getSummary( formId, fieldName, timestamp = 0 ) {
+		try {
+			const analyticsSummaryResponse =
+				yield SingleFormActions.fetchSummary(
+					`formgent/admin/forms/${ formId }/summary?field_name=${ fieldName }&per_page=10&page=1`
+				);
+			yield SingleFormActions.fetchSummarySuccess(
+				analyticsSummaryResponse.data,
+				formId,
+				fieldName
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchSummaryError( error );
+		}
+	},
 };

@@ -16,4 +16,9 @@ export const SingleFormSelectors = {
 	getSingleFormFields( SingleFormReducer ) {
 		return SingleFormReducer;
 	},
+	getSummary( state, id ) {
+		return state?.SingleFormReducer?.summary
+			? state?.SingleFormReducer?.summary
+			: {};
+	},
 };
