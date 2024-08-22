@@ -5,13 +5,13 @@ namespace FormGent\App\Fields\SingleChoice;
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\WpMVC\RequestValidator\Validator;
-use FormGent\App\Summary\Select;
+use FormGent\App\Summary\Chart;
 use stdClass;
 use WP_REST_Request;
 
 trait MethodResolver {
     
-    use Select;
+    use Chart;
 
     public static function get_key(): string {
         return 'single-choice';
