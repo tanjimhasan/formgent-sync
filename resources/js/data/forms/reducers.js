@@ -170,11 +170,14 @@ export const FormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'DUPLICATE_FORM_SUCCESS':
 			return {
 				...state,
+				forms: [ ...state.forms ],
 				pagination: {
 					...state.pagination,
 					total_items: state.pagination.total_items + 1,
 				},
+				isFormDuplicating: false,
 			};
+
 		case 'DUPLICATE_FORM_ERROR':
 			return {
 				...state,
