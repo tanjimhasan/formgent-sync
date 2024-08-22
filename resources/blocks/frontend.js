@@ -6,8 +6,8 @@ import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
 
 let formStarted = false;
+let fieldInteractionState = {};
 
-// Generate form token on form start
 async function generateFormToken( context ) {
 	if ( ! formStarted ) {
 		try {
@@ -24,7 +24,7 @@ async function generateFormToken( context ) {
 	}
 }
 
-// Drop-off counts
+// Field View & Drop-off counts
 async function updateFieldCounter(
 	context,
 	element,
@@ -35,11 +35,11 @@ async function updateFieldCounter(
 		const responseCounts = await wp.apiFetch( {
 			path: `formgent-pro/analytics/forms/${ context.formId }/fields/update-count`,
 			method: 'POST',
-			data: JSON.stringify( {
-				counter_name: 'views',
-				counter_type: '+',
-				field_name: 'email',
-			} ),
+			data: {
+				counter_name: counterName, // views, drop_off, both
+				counter_type: counterType, // +, -
+				field_name: element.ref.name,
+			},
 		} );
 	} catch ( error ) {
 		console.log( error );
@@ -51,21 +51,141 @@ const { callbacks } = store( 'formgent/form', {
 		updateInput: async () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ element.ref.name ] = element.ref.value;
+			const fieldName = element.ref.name;
+
+			if ( ! fieldInteractionState[ fieldName ] ) {
+				fieldInteractionState[ fieldName ] = {
+					interacted: false,
+				};
+			}
+
+			// Handle first field interaction
+			if ( ! fieldInteractionState[ fieldName ].interacted ) {
+				await updateFieldCounter( context, element, 'both', '+' );
+				fieldInteractionState[ fieldName ].interacted = true;
+
+				for ( const field in fieldInteractionState ) {
+					if (
+						field !== fieldName &&
+						fieldInteractionState[ field ].interacted
+					) {
+						let previousElement = document.querySelector(
+							`input[name="${ field }"]`
+						);
+
+						if ( ! previousElement ) {
+							previousElement = document.querySelector(
+								`textarea[name="${ field }"]`
+							);
+						}
+
+						if ( previousElement ) {
+							await updateFieldCounter(
+								context,
+								{ ref: previousElement },
+								'drop_off',
+								'-'
+							);
+						}
+					}
+				}
+			}
+
+			// Update field data
+			context.data[ fieldName ] = element.ref.value;
 			generateFormToken( context );
 			formStarted = true;
-			updateFieldCounter( context, element, 'both', '+' );
 		},
-		updateNumber: () => {
+		updateNumber: async () => {
 			const element = getElement();
 			const context = getContext();
+			const fieldName = element.ref.name;
+
+			if ( ! fieldInteractionState[ fieldName ] ) {
+				fieldInteractionState[ fieldName ] = {
+					interacted: false,
+				};
+			}
+			// Handle first field interaction
+			if ( ! fieldInteractionState[ fieldName ].interacted ) {
+				await updateFieldCounter( context, element, 'both', '+' );
+				fieldInteractionState[ fieldName ].interacted = true;
+
+				for ( const field in fieldInteractionState ) {
+					if (
+						field !== fieldName &&
+						fieldInteractionState[ field ].interacted
+					) {
+						let previousElement = document.querySelector(
+							`input[name="${ field }"]`
+						);
+
+						if ( ! previousElement ) {
+							previousElement = document.querySelector(
+								`textarea[name="${ field }"]`
+							);
+						}
+
+						if ( previousElement ) {
+							await updateFieldCounter(
+								context,
+								{ ref: previousElement },
+								'drop_off',
+								'-'
+							);
+						}
+					}
+				}
+			}
+
+			//update field data
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
 			generateFormToken( context );
 			formStarted = true;
 		},
-		updateGdpr: () => {
+		updateGdpr: async () => {
 			const element = getElement();
 			const context = getContext();
+			const fieldName = element.ref.name;
+
+			if ( ! fieldInteractionState[ fieldName ] ) {
+				fieldInteractionState[ fieldName ] = {
+					interacted: false,
+				};
+			}
+			// Handle first field interaction
+			if ( ! fieldInteractionState[ fieldName ].interacted ) {
+				await updateFieldCounter( context, element, 'both', '+' );
+				fieldInteractionState[ fieldName ].interacted = true;
+
+				for ( const field in fieldInteractionState ) {
+					if (
+						field !== fieldName &&
+						fieldInteractionState[ field ].interacted
+					) {
+						let previousElement = document.querySelector(
+							`input[name="${ field }"]`
+						);
+
+						if ( ! previousElement ) {
+							previousElement = document.querySelector(
+								`textarea[name="${ field }"]`
+							);
+						}
+
+						if ( previousElement ) {
+							await updateFieldCounter(
+								context,
+								{ ref: previousElement },
+								'drop_off',
+								'-'
+							);
+						}
+					}
+				}
+			}
+
+			//update field data
 			context.data[ element.ref.name ] =
 				context.data[ element.ref.name ] === '' ||
 				context.data[ element.ref.name ] === 0
@@ -219,6 +339,7 @@ const { callbacks } = store( 'formgent/form', {
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
 			const formData = {};
+			const fieldName = element.ref.name;
 
 			// Honeypot security check
 			const honeypotField = form.querySelector(
@@ -251,6 +372,41 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
+				// Remove drop-off from last interacted field
+				if ( ! fieldInteractionState[ fieldName ] ) {
+					fieldInteractionState[ fieldName ] = {
+						interacted: false,
+					};
+				}
+				if ( ! fieldInteractionState[ fieldName ].interacted ) {
+					for ( const field in fieldInteractionState ) {
+						if (
+							field !== fieldName &&
+							fieldInteractionState[ field ].interacted
+						) {
+							let previousElement = document.querySelector(
+								`input[name="${ field }"]`
+							);
+
+							if ( ! previousElement ) {
+								previousElement = document.querySelector(
+									`textarea[name="${ field }"]`
+								);
+							}
+
+							if ( previousElement ) {
+								await updateFieldCounter(
+									context,
+									{ ref: previousElement },
+									'drop_off',
+									'-'
+								);
+							}
+						}
+					}
+				}
+
+				// Generate form token
 				const responseToken = await wp.apiFetch( {
 					path: 'formgent/responses/generate-token',
 					method: 'POST',
@@ -259,6 +415,7 @@ const { callbacks } = store( 'formgent/form', {
 					},
 				} );
 
+				// Submit form response
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
 					method: 'POST',

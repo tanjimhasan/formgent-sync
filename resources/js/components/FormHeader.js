@@ -30,8 +30,6 @@ export default function FormHeader( props ) {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	console.log( SingleFormReducer );
-
 	const { form_title, isUpdatingForm, responses } = SingleFormReducer;
 
 	const handleBackButtonClick = () => {
@@ -87,8 +85,6 @@ export default function FormHeader( props ) {
 	useEffect( () => {
 		setTitle( form_title );
 	}, [ form_title ] );
-
-	console.log( form_title );
 
 	const forms = `/forms/${ id }`;
 
