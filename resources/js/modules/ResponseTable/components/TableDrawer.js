@@ -43,8 +43,6 @@ export default function TableDrawer( props ) {
 		dateFormatOptions,
 	} = props;
 
-	console.log( 'single drawer response', response );
-
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
