@@ -40,14 +40,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								<input
 									className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
 									type="checkbox"
-									id={ option.value }
+									id={ `formgent-editor-block-list__single__input--checkbox-${ option.value }` }
 									name={ attributes.name }
 									value={ option.value }
 									onChange={ () => {} }
 									onClick={ ( e ) => handleClick( e ) }
 								/>
 								<label
-									htmlFor={ option.value }
+									htmlFor={ `formgent-editor-block-list__single__input--checkbox-${ option.value }` }
 									className="formgent-editor-block-list__single__box__choice__text"
 								>
 									{ option.label }
