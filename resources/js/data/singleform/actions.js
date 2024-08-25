@@ -384,4 +384,29 @@ export const SingleFormActions = {
 			error,
 		};
 	},
+	fetchSummaryFields: ( path ) => {
+		return {
+			type: 'FETCH_SUMMARY_FIELDS',
+			path,
+		};
+	},
+	fetchSummaryFieldsRequest: () => {
+		return {
+			type: 'FETCH_SUMMARY_FIELDS_REQUEST',
+		};
+	},
+	fetchSummaryFieldsSuccess: ( fields ) => {
+		return {
+			type: 'FETCH_SUMMARY_FIELDS_SUCCESS',
+			payload: {
+				fields,
+			},
+		};
+	},
+	fetchSummaryFieldsError: ( error ) => {
+		return {
+			type: 'FETCH_SUMMARY_FIELDS_ERROR',
+			error,
+		};
+	},
 };

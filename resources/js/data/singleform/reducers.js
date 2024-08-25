@@ -20,6 +20,7 @@ const DEFAULT_STATE = {
 	activeField: '',
 	error: null,
 	summary: null,
+	summaryFields: null,
 	isFetchingSummary: false,
 };
 
@@ -295,6 +296,22 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				},
 			};
 		case 'FETCH_SUMMARY_ERROR':
+			return {
+				...state,
+				error: error,
+				isFetchingSummary: false,
+			};
+		case 'FETCH_SUMMARY_FIELDS_REQUEST':
+			return {
+				...state,
+				isFetchingSummary: true,
+			};
+		case 'FETCH_SUMMARY_FIELDS_SUCCESS':
+			return {
+				...state,
+				summaryFields: action.payload.fields,
+			};
+		case 'FETCH_SUMMARY_FIELDS_ERROR':
 			return {
 				...state,
 				error: error,

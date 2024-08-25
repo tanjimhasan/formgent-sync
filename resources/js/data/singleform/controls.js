@@ -23,4 +23,9 @@ export const SingleFormControls = {
 			path: action.path,
 		} );
 	},
+	FETCH_SUMMARY_FIELDS( action ) {
+		return apiFetch( {
+			path: action.path,
+		} );
+	},
 };
