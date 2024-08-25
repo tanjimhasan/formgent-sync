@@ -161,54 +161,56 @@ const { callbacks } = store( 'formgent/form', {
 			if ( honeypotField.value !== '' ) {
 				return;
 			}
-
+			// console.log(context.data);
 			for ( const name in context.data ) {
-				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
-					continue;
-				}
 				const value = context.data[ name ];
-				switch ( context.blocksSettings[ name ].field_type ) {
-					case 'number':
-						formData[ name ] = parseInt( value, 10 );
-						break;
-					case 'phone-number':
-						formData[
-							name
-						] = `(${ value.dialCode })${ value.number }`;
-						break;
-					case 'gdpr':
-						formData[ name ] = value.toString();
-						break;
-					default:
-						formData[ name ] = value;
-						break;
-				}
+				formData[ name ] = value;
 			}
+			console.log( formData );
+			// for ( const name in context.data ) {
+			// 	if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
+			// 		continue;
+			// 	}
+			// 	const value = context.data[ name ];
+			// 	switch ( context.blocksSettings[ name ].field_type ) {
+			// 		case 'number':
+			// 			formData[ name ] = parseInt( value, 10 );
+			// 			break;
+			// 		case 'phone-number':
+			// 			formData[
+			// 				name
+			// 			] = `(${ value.dialCode })${ value.number }`;
+			// 			break;
+			// 		case 'gdpr':
+			// 			formData[ name ] = value.toString();
+			// 			break;
+			// 		default:
+			// 			formData[ name ] = value;
+			// 			break;
+			// 	}
+			// }
 			try {
-				const responseToken = await wp.apiFetch( {
-					path: 'formgent/responses/generate-token',
-					method: 'POST',
-					data: {
-						form_id: context.formId,
-					},
-				} );
-
-				const response = await wp.apiFetch( {
-					path: '/formgent/responses',
-					method: 'POST',
-					data: {
-						id: context.formId,
-						form_data: formData,
-						response_token: responseToken.response_token,
-					},
-				} );
-
-				form.querySelector(
-					'.formgent-notices'
-				).innerHTML = `<span>${ response.message }</span>`;
-
-				form.reset();
-				context.data = {};
+				// const responseToken = await wp.apiFetch( {
+				// 	path: 'formgent/responses/generate-token',
+				// 	method: 'POST',
+				// 	data: {
+				// 		form_id: context.formId,
+				// 	},
+				// } );
+				// const response = await wp.apiFetch( {
+				// 	path: '/formgent/responses',
+				// 	method: 'POST',
+				// 	data: {
+				// 		id: context.formId,
+				// 		form_data: formData,
+				// 		response_token: responseToken.response_token,
+				// 	},
+				// } );
+				// form.querySelector(
+				// 	'.formgent-notices'
+				// ).innerHTML = `<span>${ response.message }</span>`;
+				// form.reset();
+				// context.data = {};
 			} catch ( error ) {
 				console.error( 'Error:', error );
 			}
