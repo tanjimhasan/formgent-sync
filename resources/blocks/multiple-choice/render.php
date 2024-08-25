@@ -22,6 +22,7 @@
                             type="checkbox"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
                             id="<?php echo esc_attr( $option['id'] ); ?>"
+                            <?php echo $attributes['value'] === $option['value'] ? "checked" : null; ?>
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
                             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"

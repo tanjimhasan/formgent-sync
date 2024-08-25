@@ -23,7 +23,10 @@
         >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
-                    <option value="<?php echo esc_attr( $option['value'] ); ?>">
+                    <option 
+                        value="<?php echo esc_attr( $option['value'] ); ?>"
+                        <?php echo $attributes['value'] === $option['value'] ? "selected" : null; ?>
+                    >
                         <?php echo esc_html( $option['label'] ); ?>
                     </option>
                 <?php endforeach; ?>
