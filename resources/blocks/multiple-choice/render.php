@@ -35,6 +35,26 @@
                         </label>
                     </div>
                 <?php endforeach; ?>
+            <?php else : ?>
+                <!-- Default checkbox when options are empty -->
+                <div class="formgent-editor-block-list__single__box__choice">
+                    <input
+                        class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
+                        type="checkbox"
+                        name="<?php echo esc_attr( $attributes['name'] ); ?>"
+                        id="<?php echo esc_attr( $attributes['name'] . '_default' ); ?>"
+                        checked="checked"
+                        data-wp-interactive="formgent/form"
+                        data-wp-on--change="actions.updateInput"
+                        data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+                    />
+                    <label for="<?php echo esc_attr( $attributes['name'] . '_default' ); ?>" class="formgent-editor-block-list__single__label">
+                        <span class="formgent-editor-block-list__single__checkbox">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#fff" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </span>
+                        <?php echo esc_html__( 'Default Option', 'text-domain' ); ?>
+                    </label>
+                </div>
             <?php endif; ?>
         </div>
 
