@@ -28,6 +28,7 @@
 			align-items: center;
 		}
 		.formgent-editor-block-list__single__box__choice {
+			position: relative;
 			display: flex;
 			align-items: center;
 			max-width: 180px;
@@ -40,6 +41,17 @@
 			transition: background ease 0.3s;
 			&:hover {
 				background-color: #f9fafb;
+			}
+			.formgent-editor-block-list__single__input {
+				display: none;
+			}
+			.formgent-editor-block-list__single__label {
+				display: flex;
+				align-items: center;
+				width: 100%;
+				height: 40px;
+				padding-left: 46px;
+				cursor: pointer;
 			}
 		}
 	}
@@ -226,6 +238,90 @@
 	&.formgent-editor-block-list__single__phone {
 		flex-direction: row;
 	}
+	&.formgent-editor-block-list__single__wrapper--single-choice {
+		.formgent-editor-block-list__single__input--radio {
+			~ label {
+				position: relative;
+				padding-left: 30px;
+				font-size: 15px;
+				font-weight: 500;
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 16px 0 46px;
+				cursor: pointer;
+				&:before {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: 16px;
+					transform: translateY(-50%);
+					width: 18px;
+					height: 18px;
+					border: 2px solid #d2d6db;
+					border-radius: 50%;
+					box-sizing: border-box;
+				}
+				&:after {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: 20px;
+					transform: translateY(-50%);
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+					background-color: var(--formgent-color-primary);
+					opacity: 0;
+				}
+			}
+			&:checked {
+				+ label::before {
+					border-color: var(--formgent-color-primary);
+				}
+				+ label::after {
+					opacity: 1;
+				}
+			}
+		}
+	}
+	&.formgent-editor-block-list__single__wrapper--multi-choice {
+		position: relative;
+		.formgent-editor-block-list__single__checkbox {
+			position: absolute;
+			left: 16px;
+			top: 50%;
+			transform: translateY(-50%);
+			width: 20px;
+			height: 20px;
+			border: 1px solid #d1d1d7;
+			border-radius: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+			transition: 0.3s ease;
+			svg {
+				width: 14px;
+				height: 14px;
+				visibility: hidden;
+				opacity: 0;
+				transition: 0.3s ease;
+			}
+		}
+		.formgent-editor-block-list__single__input--checkbox:checked + label {
+			.formgent-editor-block-list__single__checkbox {
+				background-color: var(--formgent-color-primary);
+				border-color: var(--formgent-color-primary);
+				svg {
+					visibility: visible;
+					opacity: 1;
+					fill: var(--formgent-color-primary);
+					stroke: #fff;
+				}
+			}
+		}
+	}
 }
 
 input.formgent-editor-block-list__single__input,
@@ -245,68 +341,9 @@ textarea.formgent-editor-block-list__single__input {
 	box-sizing: border-box;
 	&.formgent-editor-block-list__single__input--radio,
 	&.formgent-editor-block-list__single__input--checkbox {
-		display: none;
-		~ label {
-			position: relative;
-			padding-left: 30px;
-			font-size: 15px;
-			font-weight: 500;
-			width: 100%;
-			height: 40px;
-			line-height: 40px;
-			padding: 0 16px 0 46px;
-			cursor: pointer;
-			&::before {
-				content: "";
-				position: absolute;
-				top: 50%;
-				left: 16px;
-				transform: translateY(-50%);
-				width: 18px;
-				height: 18px;
-				border: 2px solid #d2d6db;
-				border-radius: 50%;
-				box-sizing: border-box;
-			}
-			&::after {
-				content: "";
-				position: absolute;
-				top: 50%;
-				left: 20px;
-				transform: translateY(-50%);
-				width: 10px;
-				height: 10px;
-				border-radius: 50%;
-				background-color: var(--formgent-color-primary);
-				opacity: 0;
-			}
-		}
-		&:checked {
-			+ label::before {
-				border-color: var(--formgent-color-primary);
-			}
-			+ label::after {
-				opacity: 1;
-			}
-		}
-	}
-	&.formgent-editor-block-list__single__input--checkbox {
-		~ label {
-			&:before {
-				border-radius: 4px;
-				border-width: 1px;
-			}
-			&:after {
-				width: 16px;
-				height: 16px;
-				left: 18px;
-				background-color: transparent;
-				background-image: url("../svg/icons/check-thin.svg");
-				background-repeat: no-repeat;
-				background-size: 14px;
-				background-position: center left;
-			}
-		}
+		width: 15px;
+		height: 15px;
+		border-radius: 4px;
 	}
 	&.formgent-editor-block-list__single__input--textarea {
 		padding: 10px;

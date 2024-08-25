@@ -29,7 +29,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					</span>
 				) : null }
 			</div>
-			<div className="formgent-editor-block-list__single__wrapper">
+			<div className="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--single-choice">
 				<div className="formgent-editor-block-list__single__box">
 					{ attributes.options.length > 0 ? (
 						attributes.options.map( ( option, index ) => (
@@ -43,12 +43,15 @@ export default function Edit( { attributes, setAttributes } ) {
 									id={ option.id }
 									name={ attributes.name }
 									value={ option.value }
+									checked={
+										attributes.value === option.value
+									}
 									onChange={ () => {} }
 									onClick={ ( e ) => handleClick( e ) }
 								/>
 								<label
 									htmlFor={ option.id }
-									className="formgent-editor-block-list__single__box__choice__text"
+									className="formgent-editor-block-list__single__label"
 								>
 									{ option.label }
 								</label>

@@ -12,7 +12,7 @@
             </span>
         <?php endif; ?>
     </label>
-    <div class="formgent-editor-block-list__single__wrapper">
+    <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--single-choice">
         <div class="formgent-editor-block-list__single__box">
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
@@ -27,7 +27,7 @@
                             data-wp-on--change="actions.updateInput"
                             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
                         />
-                        <label for="<?php echo esc_attr( $option['id'] ); ?>">
+                        <label for="<?php echo esc_attr( $option['id'] ); ?>" class="formgent-editor-block-list__single__label">
                             <?php echo esc_html( $option['label'] ); ?>
                         </label>
                     </div>
