@@ -30,13 +30,9 @@
 		.formgent-editor-block-list__single__box__choice {
 			display: flex;
 			align-items: center;
-			width: 100%;
-			height: 40px;
 			max-width: 180px;
-			padding: 0 16px;
 			border: 1px solid #d2d6db;
 			border-radius: 8px;
-			font-size: 14px;
 			background: transparent;
 			box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 			color: #4d5761;
@@ -254,15 +250,20 @@ textarea.formgent-editor-block-list__single__input {
 			padding-left: 30px;
 			font-size: 15px;
 			font-weight: 500;
+			width: 100%;
+			height: 40px;
+			line-height: 40px;
+			padding: 0 16px 0 46px;
+			cursor: pointer;
 			&::before {
 				content: "";
 				position: absolute;
 				top: 50%;
-				left: 0;
+				left: 16px;
 				transform: translateY(-50%);
 				width: 18px;
 				height: 18px;
-				border: 1px solid #d2d6db;
+				border: 2px solid #d2d6db;
 				border-radius: 50%;
 				box-sizing: border-box;
 			}
@@ -270,7 +271,7 @@ textarea.formgent-editor-block-list__single__input {
 				content: "";
 				position: absolute;
 				top: 50%;
-				left: 5px;
+				left: 20px;
 				transform: translateY(-50%);
 				width: 10px;
 				height: 10px;
@@ -279,8 +280,13 @@ textarea.formgent-editor-block-list__single__input {
 				opacity: 0;
 			}
 		}
-		&:checked + label::after {
-			opacity: 1;
+		&:checked {
+			+ label::before {
+				border-color: var(--formgent-color-primary);
+			}
+			+ label::after {
+				opacity: 1;
+			}
 		}
 	}
 	&.formgent-editor-block-list__single__input--checkbox {
