@@ -1,3 +1,4 @@
+import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
 import './editor.scss';
@@ -9,27 +10,35 @@ export default function Edit( { attributes, setAttributes } ) {
 	}
 
 	return (
-		<div className="block-editor-block-list__single">
-			<label
-				className={ `block-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
+		<div className="formgent-editor-block-list__single">
+			<div
+				className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
 			>
-				{ attributes.label }
+				<RichText
+					className="formgent-editor-block-list__single__label"
+					tagName="label"
+					value={ attributes.label }
+					onChange={ ( content ) =>
+						setAttributes( { label: content } )
+					}
+					placeholder={ __( 'Select your choice' ) }
+				/>
 				{ attributes.required ? (
-					<span className="block-editor-block-list__single__label__required">
+					<span className="formgent-editor-block-list__single__label__required">
 						*
 					</span>
 				) : null }
-			</label>
-			<div className="block-editor-block-list__single__wrapper">
-				<div className="block-editor-block-list__single__box">
+			</div>
+			<div className="formgent-editor-block-list__single__wrapper">
+				<div className="formgent-editor-block-list__single__box">
 					{ attributes.options.length > 0 ? (
 						attributes.options.map( ( option, index ) => (
 							<div
 								key={ index }
-								className="block-editor-block-list__single__box__wrapper"
+								className="formgent-editor-block-list__single__box__choice"
 							>
 								<input
-									className="block-editor-block-list__single__input block-editor-block-list__single__input--radio"
+									className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
 									type="radio"
 									id={ option.value }
 									name={ attributes.name }
@@ -37,15 +46,18 @@ export default function Edit( { attributes, setAttributes } ) {
 									onChange={ () => {} }
 									onClick={ ( e ) => handleClick( e ) }
 								/>
-								<label htmlFor={ option.value }>
+								<label
+									htmlFor={ option.value }
+									className="formgent-editor-block-list__single__box__choice__text"
+								>
 									{ option.label }
 								</label>
 							</div>
 						) )
 					) : (
-						<div className="block-editor-block-list__single__box__wrapper">
+						<div className="formgent-editor-block-list__single__box__choice">
 							<input
-								className="block-editor-block-list__single__input block-editor-block-list__single__input--radio"
+								className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
 								type="radio"
 								id="formgent-default-radio"
 								name={ attributes.name }
@@ -56,13 +68,16 @@ export default function Edit( { attributes, setAttributes } ) {
 								onChange={ () => {} }
 								onClick={ ( e ) => handleClick( e ) }
 							/>
-							<label htmlFor="formgent-default-radio">
+							<label
+								htmlFor="formgent-default-radio"
+								className="formgent-editor-block-list__single__choice__text"
+							>
 								{ __( 'Choose Default', 'formgent' ) }
 							</label>
 						</div>
 					) }
 				</div>
-				<span className="block-editor-block-list__single__sub-label">
+				<span className="formgent-editor-block-list__single__sub-label">
 					{ attributes.sub_label }
 				</span>
 			</div>
