@@ -1,9 +1,5 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
-<pre>
-    <?php print_r( $attributes ); ?>
-</pre>
-
 <div class="formgent-editor-block-list__single formgent-editor-block-list__single--csr formgent-editor-block-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>">
     <label
         for="<?php echo esc_attr( $attributes['name'] ); ?>"
@@ -26,7 +22,7 @@
                             type="radio"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
                             id="<?php echo esc_attr( $option['value'] ); ?>"
-                            value="yes"
+                            checked=<?php echo $option['value'] === $option['id'] ? 'checked' : ''; ?>
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
                             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
