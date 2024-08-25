@@ -11,6 +11,12 @@
 		flex: 1;
 		flex-direction: column;
 	}
+	.formgent-editor-block-list__single__bottom {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
 	.formgent-editor-block-list__single__box {
 		display: flex;
 		gap: 10px;
@@ -69,6 +75,11 @@
 			flex: 0 0 100%;
 		}
 	}
+	.formgent-editor-block-list__single__desc {
+		font-size: 14px;
+		color: #747c89;
+	}
+	.formgent-editor-block-list__single__count,
 	.formgent-editor-block-list__single__sub-label {
 		font-size: 12px;
 		color: #747c89;
@@ -203,6 +214,7 @@
 }
 
 input.formgent-editor-block-list__single__input,
+select.formgent-editor-block-list__single__input,
 textarea.formgent-editor-block-list__single__input {
 	height: 40px;
 	padding: 0 16px;
@@ -226,6 +238,13 @@ textarea.formgent-editor-block-list__single__input {
 		height: 160px;
 		resize: none;
 		padding: 9px 16px;
+	}
+	&.formgent-editor-block-list__single__input--select {
+		appearance: none;
+		background-image: url("../svg/icons/chevron-down.svg");
+		background-repeat: no-repeat;
+		background-size: 16px;
+		background-position: center right 16px;
 	}
 }
 
