@@ -40,14 +40,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								<input
 									className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
 									type="radio"
-									id={ option.value }
+									id={ option.id }
 									name={ attributes.name }
 									value={ option.value }
 									onChange={ () => {} }
 									onClick={ ( e ) => handleClick( e ) }
 								/>
 								<label
-									htmlFor={ option.value }
+									htmlFor={ option.id }
 									className="formgent-editor-block-list__single__box__choice__text"
 								>
 									{ option.label }

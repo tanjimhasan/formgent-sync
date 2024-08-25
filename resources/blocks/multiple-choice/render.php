@@ -21,12 +21,12 @@
                             class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
                             type="checkbox"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
-                            id="formgent-editor-block-list__single__input--checkbox-<?php echo esc_attr( $option['value'] ); ?>"
+                            id="<?php echo esc_attr( $option['id'] ); ?>"
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
                             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
                         />
-                        <label for="formgent-editor-block-list__single__input--checkbox-<?php echo esc_attr( $option['value'] ); ?>">
+                        <label for="<?php echo esc_attr( $option['id'] ); ?>">
                             <?php echo esc_attr( $option['label'] ); ?>
                         </label>
                     </div>

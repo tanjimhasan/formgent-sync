@@ -21,14 +21,13 @@
                             class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
                             type="radio"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
-                            id="<?php echo esc_attr( $option['value'] ); ?>"
-                            checked=<?php echo $option['value'] === $option['id'] ? 'checked' : ''; ?>
+                            id="<?php echo esc_attr( $option['id'] ); ?>"
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
                             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
                         />
-                        <label for="<?php echo esc_attr( $option['value'] ); ?>">
-                            <?php echo esc_attr( $option['label'] ); ?>
+                        <label for="<?php echo esc_attr( $option['id'] ); ?>">
+                            <?php echo esc_html( $option['label'] ); ?>
                         </label>
                     </div>
                 <?php endforeach; ?>
