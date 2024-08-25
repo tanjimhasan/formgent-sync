@@ -243,7 +243,8 @@ textarea.formgent-editor-block-list__single__input {
 	color: #4d5761;
 	font-family: "Inter", sans-serif;
 	box-sizing: border-box;
-	&.formgent-editor-block-list__single__input--radio {
+	&.formgent-editor-block-list__single__input--radio,
+	&.formgent-editor-block-list__single__input--checkbox {
 		display: none;
 		~ label {
 			position: relative;
@@ -290,9 +291,22 @@ textarea.formgent-editor-block-list__single__input {
 		}
 	}
 	&.formgent-editor-block-list__single__input--checkbox {
-		width: 15px;
-		height: 15px;
-		border-radius: 4px;
+		~ label {
+			&:before {
+				border-radius: 4px;
+				border-width: 1px;
+			}
+			&:after {
+				width: 16px;
+				height: 16px;
+				left: 18px;
+				background-color: transparent;
+				background-image: url("../svg/icons/check-thin.svg");
+				background-repeat: no-repeat;
+				background-size: 14px;
+				background-position: center left;
+			}
+		}
 	}
 	&.formgent-editor-block-list__single__input--textarea {
 		padding: 10px;
