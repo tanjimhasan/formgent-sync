@@ -59,7 +59,6 @@ export default function Edit( { attributes, setAttributes } ) {
 							<input
 								className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
 								type="checkbox"
-								checked
 								id="formgent-default-checkbox"
 								name={ attributes.name }
 								value={
