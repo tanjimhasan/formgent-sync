@@ -108,26 +108,16 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSummary( formId, fieldNames, timestamp = 0 ) {
+	*getSummary( formId, fieldName, timestamp = 0 ) {
 		try {
-			// Initialize an array to store all summaries
-			const summaries = {};
-
-			// Process each field sequentially to avoid race conditions
-			for ( const fieldName of fieldNames ) {
-				const responseSummary = yield SingleFormActions.fetchSummary(
-					`formgent/admin/forms/${ formId }/summary?field_name=${ fieldName }&per_page=10&page=1`
-				);
-				summaries[ fieldName ] = responseSummary;
-				// Dispatch a success action for each field's summary
-				yield SingleFormActions.fetchSummarySuccess(
-					responseSummary,
-					formId,
-					fieldName
-				);
-			}
-
-			return summaries;
+			const responseSummary = yield SingleFormActions.fetchSummary(
+				`formgent/admin/forms/${ formId }/summary?field_name=${ fieldName }&per_page=10&page=1`
+			);
+			yield SingleFormActions.fetchSummarySuccess(
+				responseSummary,
+				formId,
+				fieldName
+			);
 		} catch ( error ) {
 			yield SingleFormActions.fetchSummaryError( error );
 		}

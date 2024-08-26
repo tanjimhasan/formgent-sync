@@ -368,13 +368,14 @@ export const SingleFormActions = {
 			type: 'FETCH_SUMMARY_REQUEST',
 		};
 	},
-	fetchSummarySuccess: ( data, formId, fieldName ) => {
+	fetchSummarySuccess: ( data, formId, fieldName, perPage ) => {
 		return {
 			type: 'FETCH_SUMMARY_SUCCESS',
 			payload: {
 				data,
 				formId,
 				fieldName,
+				perPage,
 			},
 		};
 	},

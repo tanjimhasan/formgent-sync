@@ -66,7 +66,48 @@ const SummaryStyle = Styled.div`
         }
     }
     .formgent-summary-item__content{
-        padding: 20px 24px;
+        padding: 0 24px;
+        max-height: 220px;
+        overflow-y: auto;
+        margin: 20px 8px 20px 0;
+
+        //scrollbar style
+        scrollbar-width: auto;
+        -ms-overflow-style: none;
+        scrollbar-behavior: smooth;
+        &::-webkit-scrollbar {
+            width: 6px;
+            height: 43px;
+        }
+        &::-webkit-scrollbar-track {
+            background: var(--formgent-color-gray-200);
+            border-radius: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--formgent-color-gray-400);
+            border-radius: 4px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: var(--formgent-color-gray-500);
+        }
+    }
+    .formgent-summary-item__content__single{
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--formgent-color-gray-600);
+        padding: 20px 0;
+        &:not(:last-child){
+            border-bottom: 1px solid var(--formgent-color-gray-100);
+        }
+        &:first-child{
+            padding-top: 0;
+        }
+        &:last-child{
+            padding-bottom: 0;
+        }
+    }
+    .formgent-summary-item__content__not-found{
+        padding: 20px 0;
     }
 `;
 

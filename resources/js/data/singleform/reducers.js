@@ -289,11 +289,18 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isFetchingSummary: true,
 			};
 		case 'FETCH_SUMMARY_SUCCESS':
+			const updatedSummary = {
+				...state.summary,
+				[ action.payload.formId ]: {
+					...state.summary?.[ action.payload.formId ],
+					[ action.payload.fieldName ]: action.payload.data,
+				},
+			};
+
 			return {
 				...state,
-				summary: {
-					[ action.payload.formId ]: action.payload.data,
-				},
+				summary: updatedSummary,
+				isFetchingSummary: false,
 			};
 		case 'FETCH_SUMMARY_ERROR':
 			return {
