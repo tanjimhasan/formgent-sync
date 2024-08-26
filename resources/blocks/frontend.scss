@@ -36,8 +36,7 @@
 			display: flex;
 			align-items: center;
 			max-width: 180px;
-			border: 1px solid #d2d6db;
-			border-radius: 8px;
+			border: none;
 			background: transparent;
 			box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 			color: #4d5761;
@@ -57,6 +56,8 @@
 				padding-left: 46px;
 				font-size: 15px;
 				font-weight: 500;
+				border: 1px solid #d2d6db;
+				border-radius: 8px;
 				cursor: pointer;
 			}
 		}
@@ -284,11 +285,14 @@
 				}
 			}
 			&:checked {
-				+ label::before {
+				+ label {
 					border-color: var(--formgent-color-primary);
-				}
-				+ label::after {
-					opacity: 1;
+					&:before {
+						border-color: var(--formgent-color-primary);
+					}
+					&:after {
+						opacity: 1;
+					}
 				}
 			}
 		}
@@ -318,6 +322,7 @@
 			}
 		}
 		.formgent-editor-block-list__single__input--checkbox:checked + label {
+			border-color: var(--formgent-color-primary);
 			.formgent-editor-block-list__single__checkbox {
 				background-color: var(--formgent-color-primary);
 				border-color: var(--formgent-color-primary);
