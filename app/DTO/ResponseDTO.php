@@ -4,14 +4,20 @@ namespace FormGent\App\DTO;
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\App\EnumeratedList\ResponseStatus;
+
 class ResponseDTO extends DTO {
     private int $id;
 
     private int $form_id;
 
+    private string $status = ResponseStatus::PUBLISH;
+    
     private int $is_read = 0;
 
     private int $is_completed = 1;
+
+    private ?string $completed_at = null;
 
     private string $ip;
 
@@ -41,6 +47,28 @@ class ResponseDTO extends DTO {
      */
     public function set_id( int $id ) {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of string
+     *
+     * @return string
+     */
+    public function get_status() {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     *
+     * @param string $status 
+     *
+     * @return self
+     */
+    public function set_status( string $status ) {
+        $this->status = $status;
 
         return $this;
     }
@@ -107,6 +135,28 @@ class ResponseDTO extends DTO {
      */
     public function set_is_completed( int $is_completed ) {
         $this->is_completed = $is_completed;
+
+        return $this;
+    }
+
+        /**
+     * Get the value of completed_at
+     *
+     * @return ?string
+     */
+    public function get_completed_at():?string {
+        return $this->completed_at;
+    }
+
+    /**
+     * Set the value of completed_at
+     *
+     * @param ?string $completed_at 
+     *
+     * @return self
+     */
+    public function set_completed_at( ?string $completed_at ):self {
+        $this->completed_at = $completed_at;
 
         return $this;
     }

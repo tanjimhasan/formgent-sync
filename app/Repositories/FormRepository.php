@@ -8,6 +8,7 @@ use WP_Error;
 use Exception;
 use FormGent\App\DTO\FormDTO;
 use FormGent\App\DTO\FormReadDTO;
+use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Models\Response;
 use FormGent\App\Models\Post;
 use FormGent\App\Models\PostMeta;
@@ -21,7 +22,7 @@ class FormRepository {
     public function get( FormReadDTO $dto ) {
         $posts_query = Post::query( 'post' )->left_join( User::get_table_name() . " as user", "user.ID", "post.post_author" )->left_join(
             PostMeta::get_table_name() . " as form_type_post_meta", function( JoinClause $join ) {
-                $join->on_column( "post.ID", "form_type_post_meta.post_id" )->on( "form_type_post_meta.meta_key", "formgent_type" );
+                $join->on_column( "post.ID", "form_type_post_meta.post_id" )->on( "form_type_post_meta.meta_key", "_formgent_type" );
             }
         )->where( 'post.post_type', formgent_post_type() )->where_in( 'post.post_status', ['publish', 'draft'] );
 
@@ -41,7 +42,11 @@ class FormRepository {
         $select_columns   = ['post.ID as id', 'post.post_title as title', 'post.post_status as status', 'form_type_post_meta.meta_value as type', 'post.post_date as created_at', 'post.post_modified as updated_at', 'user.display_name as username', 'COUNT(DISTINCT response.id) as total_responses', 'COUNT(DISTINCT CASE WHEN response.is_read = 0 THEN response.id ELSE NULL END) AS total_unread_responses'];
         $group_by_columns = ['post.ID', 'post.post_title', 'post.post_status', 'user.display_name' ];
 
-        $posts_query->select( $select_columns )->left_join( Response::get_table_name() . ' as response', 'post.ID', 'response.form_id' )->group_by( $group_by_columns );
+        $posts_query->select( $select_columns )->left_join(
+            Response::get_table_name() . ' as response', function( JoinClause $join ) {
+                $join->on_column( 'post.ID', 'response.form_id' )->on( 'response.status', ResponseStatus::PUBLISH );
+            }
+        )->group_by( $group_by_columns );
 
         $this->forms_sort_query( $posts_query, $dto );
 
@@ -182,8 +187,8 @@ class FormRepository {
             throw new Exception( $post_id->get_error_message(), $post_id->get_error_code() );
         }
 
-        add_post_meta( $post_id, 'formgent_type', $dto->get_type() );
-        add_post_meta( $post_id, 'formgent_save_incomplete_data', $dto->is_save_incomplete_data() );
+        add_post_meta( $post_id, '_formgent_type', $dto->get_type() );
+        add_post_meta( $post_id, '_formgent_save_incomplete_data', $dto->is_save_incomplete_data() );
 
         return $post_id;
     }
@@ -346,12 +351,12 @@ class FormRepository {
     }
 
     public function get_settings( int $form_id ) {
-        $settings = get_post_meta( $form_id, 'formgent-settings', true );
+        $settings = get_post_meta( $form_id, '_formgent_settings', true );
         return is_array( $settings ) ? $settings : [];
     }
 
     public function save_settings( int $form_id, array $settings ) {
-        return update_post_meta( $form_id, 'formgent-settings', map_deep( $settings, 'sanitize_text_field' ) );
+        return update_post_meta( $form_id, '_formgent_settings', map_deep( $settings, 'sanitize_text_field' ) );
     }
 
     public function get_setting_by_key( int $form_id, string $key, $default = null ) {

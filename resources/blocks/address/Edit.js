@@ -32,12 +32,24 @@ const TEMPLATE = [
 		},
 	],
 	[
+		'core/spacer',
+		{
+			height: '20px',
+		},
+	],
+	[
 		'formgent/text',
 		{
 			label: 'Address line 2',
 			label_alignment: 'top',
 			name: 'address_line_two',
 			metadata: { name: 'Address line 2' },
+		},
+	],
+	[
+		'core/spacer',
+		{
+			height: '20px',
 		},
 	],
 	[
@@ -70,14 +82,14 @@ const TEMPLATE = [
 	[
 		'core/spacer',
 		{
-			height: '40px',
+			height: '20px',
 		},
 	],
 	[
 		'core/group',
 		{
 			layout: { type: 'grid', minimumColumnWidth: null, columnCount: 2 },
-			style: { spacing: { blockGap: 'var:preset|spacing|20' } },
+			style: { spacing: { blockGap: 'var:preset|spacing|10' } },
 		},
 		[
 			[
@@ -99,6 +111,12 @@ const TEMPLATE = [
 				},
 			],
 		],
+	],
+	[
+		'core/spacer',
+		{
+			height: '30px',
+		},
 	],
 ];
 

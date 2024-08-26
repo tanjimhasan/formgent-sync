@@ -6,6 +6,8 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Models\Answer;
 use FormGent\App\DTO\ResponseDTO;
+use FormGent\App\DTO\AnswerDTO;
+use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\ResponseRepository;
@@ -15,7 +17,6 @@ use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use stdClass;
 use WP_REST_Request;
-use FormGent\App\DTO\AnswerDTO;
 
 class ResponseController extends Controller {
     private ResponseRepository $repository;
@@ -97,8 +98,8 @@ class ResponseController extends Controller {
         }
 
         // Set additional form properties.
-        $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
-        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
+        $form->form_type            = get_post_meta( $form->ID, '_formgent_type', true );
+        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, '_formgent_save_incomplete_data', true );
 
         // Validate form data and create DTOs.
         $validate_data = $this->validate_form_data( $form, $validator, $request );
@@ -227,7 +228,9 @@ class ResponseController extends Controller {
         }
 
         // Store child answers in the database.
-        $this->answer_repository->creates_from_array( $children_items );
+        if ( ! empty( $children_items ) ) {
+            $this->answer_repository->creates_from_array( $children_items );
+        }
     }
 
     /**
@@ -320,8 +323,12 @@ class ResponseController extends Controller {
         }
         
         $response_dto = new ResponseDTO;
-        $response_dto->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
+        $response_dto->set_status( ResponseStatus::DRAFT )->set_is_completed( 0 )->set_form_id( $form_id )->set_ip( formgent_get_user_ip_address() );
         $this->store_browser_info( $response_dto, $wp_rest_request );
+
+        if ( is_user_logged_in() ) {
+            $response_dto->set_created_by( wp_get_current_user()->ID );
+        }
 
         return Response::send(
             [

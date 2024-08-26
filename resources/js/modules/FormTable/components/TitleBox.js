@@ -2,12 +2,12 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { doAction } from '@wordpress/hooks';
 import { AntInput } from '@formgent/components';
 import { formatDate } from '@formgent/helper/utils';
+import { __ } from '@wordpress/i18n';
+import { TitleBoxStyle } from './style';
 import ReactSVG from 'react-inlinesvg';
 import times from '@icon/times.svg';
 import check from '@icon/check.svg';
 import formIcon from '@icon/form.svg';
-import { __ } from '@wordpress/i18n';
-import { TitleBoxStyle } from './style';
 import patchData from '@formgent/helper/patchData';
 
 export default function TItleBox( props ) {
@@ -105,13 +105,9 @@ export default function TItleBox( props ) {
 						<ReactSVG src={ formIcon } />
 					</div>
 					<div className="formgent-titleBox-text">
-						<Link
-							onClick={ () => {
-								window.location.href = `${ form_edit_url }&post=${ id }`;
-							} }
-						>
+						<a href={ `${ form_edit_url }&post=${ id }` }>
 							<span className="formgent-title">{ title }</span>
-						</Link>
+						</a>
 						<ul className="formgent-titleBox-meta">
 							<li className="formgent-titleBox-meta__id">
 								{ __( 'ID', 'formgent' ) } #{ id }
@@ -128,14 +124,12 @@ export default function TItleBox( props ) {
 						</ul>
 						<ul className="formgent-form-action">
 							<li className="formgent-form-action__items">
-								<Link
-									onClick={ () => {
-										window.location.href = `${ form_edit_url }&post=${ id }`;
-									} }
+								<a
+									href={ `${ form_edit_url }&post=${ id }` }
 									className="formgent-btn formgent-btn-xxs formgent-btn-light-gray"
 								>
 									{ __( 'Edit', 'formgent' ) }
-								</Link>
+								</a>
 							</li>
 							<li>
 								<Link

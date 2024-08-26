@@ -22,6 +22,8 @@ abstract class Field {
     }
 
     abstract public static function get_key(): string;
+    
+    abstract public function get_summary( stdClass $form, array $field, int $page = 0, int $per_page = 0 );
 
     public static function get_supported_form_types(): array {
         return [FormType::GENERAL, FormType::CONVERSATIONAL];
@@ -51,8 +53,7 @@ abstract class Field {
     }
 
     public function get_field_dto( array $field, WP_REST_Request $wp_rest_request, stdClass $form ): AnswerDTO {
-        $dto = new AnswerDTO();
-        return $dto->set_form_id( $form->ID )->set_field_type( $field['field_type'] )->set_field_name( $field['name'] )->set_value( $wp_rest_request->get_param( $field['name'] ) );
+        return ( new AnswerDTO() )->set_form_id( $form->ID )->set_field_type( $field['field_type'] )->set_field_name( $field['name'] )->set_value( $wp_rest_request->get_param( $field['name'] ) );
     }
 
     protected static function throw_validator_errors( Validator $validator ) {
