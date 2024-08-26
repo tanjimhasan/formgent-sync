@@ -73,7 +73,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							/>
 							<label
 								htmlFor="formgent-default-radio"
-								className="formgent-editor-block-list__single__choice__text"
+								className="formgent-editor-block-list__single__label"
 							>
 								{ __( 'Choose Default', 'formgent' ) }
 							</label>

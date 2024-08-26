@@ -5,7 +5,7 @@
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
-	margin-bottom: 20px;
+	margin-bottom: 20px !important;
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -134,6 +134,11 @@
 // }
 .formgent-editor-block-list__single__wrapper--gdpr {
 	position: relative;
+	.formgent-editor-block-list__single__sub-label {
+		font-size: 14px;
+		line-height: 22px;
+		color: #4d5761;
+	}
 	.formgent-editor-block-list__single__input--checkbox {
 		position: absolute;
 		visibility: hidden;
@@ -457,8 +462,9 @@ input.formgent-editor-block-list__single__dialer__input {
 }
 
 // Editor Block Style
-.block-editor-block-list__block {
+.block-editor-block-list__block,
+.wp-block-formgent-address {
 	.formgent-editor-block-list__single {
-		margin-bottom: 0;
+		margin-bottom: 0 !important;
 	}
 }
