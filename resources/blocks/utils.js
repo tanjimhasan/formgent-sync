@@ -90,7 +90,6 @@ addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
 				),
 			];
 		}
-		console.log( allBlocksToCheck, attributes[ attr_key ] );
 	} else {
 		let leafBlock = [];
 		let siblingBlocks = [];
@@ -129,7 +128,6 @@ function mergeSiblingsBlocks( blocks ) {
 			! block.name.includes( 'formgent/' ) ||
 			block.innerBlocks.length !== 0
 		) {
-			// console.log("recursive");
 			// Recursively merge inner blocks
 			const innerMergedBlocks = mergeSiblingsBlocks( block.innerBlocks );
 			innerMergedBlocks.forEach( ( innerBlock ) => {
@@ -155,14 +153,11 @@ function mergeSiblingsBlocks( blocks ) {
 			}
 			//mergedBlocks.push(block);
 		}
-
-		// console.log('block',block, mergedBlocks);
 	} );
 	return mergedBlocks;
 }
 
 const mergeInnerBlocks = ( block, blockParentIds ) => {
-	// console.log(blockParentIds, block);
 	let mergeBlocks = [];
 	const blockEditorStore = select( 'core/block-editor' );
 
@@ -181,7 +176,6 @@ const mergeInnerBlocks = ( block, blockParentIds ) => {
 			blockEditorStore
 		);
 	}
-	// console.log('merged',mergeBlocks);
 	return mergeBlocks.filter( ( block ) => block.name !== 'core/group' );
 };
 
@@ -191,9 +185,7 @@ function mergeParentBlocks( blockParentIds, mergeBlocks, blockEditorStore ) {
 		const parent = blockEditorStore.getBlocksByClientId(
 			blockParentIds[ i ]
 		);
-		// console.log('parent', parent);
 		if ( ! parent[ 0 ].name.includes( 'formgent/' ) ) {
-			// console.log('pushed');
 			const innerBlocksClientIds = parent[ 0 ].innerBlocks.map(
 				( block ) => block.clientId
 			);
@@ -207,7 +199,6 @@ function mergeParentBlocks( blockParentIds, mergeBlocks, blockEditorStore ) {
 				( block ) => block.clientId === parent[ 0 ].clientId
 			);
 			if ( ! isAlreadyMerged ) {
-				// console.log('pushed');
 				mergedParentBlocks = mergedParentBlocks.concat( parent );
 			}
 		}
@@ -352,82 +343,44 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				} );
 			}
 		} else {
-			console.log( maturedParent );
+			const selectedBlock = blockEditorStore.getSelectedBlock();
 			//If Blocks are duplicated
 			// If Parent blocks having child (Address, Name Block)
 			if ( ! maturedParent.includes( null ) ) {
-				let leafBlock = [];
-				let siblingBlocks = [];
-				let allBlocksToCheck = [];
-				if ( ! maturedParent[ 0 ].name.includes( 'formgent/' ) ) {
-					blocks.forEach( ( block ) => {
-						if ( block.innerBlocks.length === 0 ) {
-							leafBlock.push( block );
-						} else {
-							siblingBlocks.push( block );
-						}
-					} );
-					console.log(
-						mergeSiblingsBlocks(
-							mergeInnerBlocks( maturedParent[ 0 ], parentIds )
-						),
-						mergeSiblingsBlocks( siblingBlocks )
-					);
-					// allBlocksToCheck = [...leafBlock, ...mergeSiblingsBlocks(mergeInnerBlocks(maturedParent[ 0 ], parentIds)), ...mergeSiblingsBlocks(siblingBlocks)]
-					allBlocksToCheck = [
-						...new Map( [
-							...leafBlock.map( ( block ) => [
-								block.clientId,
-								block,
-							] ),
-							...mergeSiblingsBlocks(
-								mergeInnerBlocks(
-									maturedParent[ 0 ],
-									parentIds
-								)
-							).map( ( block ) => [ block.clientId, block ] ),
-							...mergeSiblingsBlocks( siblingBlocks ).map(
-								( block ) => [ block.clientId, block ]
-							),
-						] ).values(),
-					];
-				} else {
-					allBlocksToCheck = [
-						...mergeSiblingsBlocks(
-							mergeInnerBlocks( maturedParent[ 0 ], parentIds )
-						),
-					];
-				}
+				if ( selectedBlock.name.includes( 'formgent/' ) ) {
+					const duplicatedChildBlocks =
+						maturedParent[ 0 ].innerBlocks.filter(
+							( childBlock ) =>
+								childBlock.attributes.id === currentId
+						);
+					if ( duplicatedChildBlocks[ 1 ] ) {
+						//skip current duplicated block
+						const filteredChildBlocks = getFilteredBlocks(
+							blocks,
+							duplicatedChildBlocks[ 1 ].clientId
+						);
 
-				//Filter duplicated blocks
-				const duplicatedChildBlocks =
-					maturedParent[ 0 ].innerBlocks.filter(
+						updateBlockAttributtes(
+							duplicatedChildBlocks[ 1 ].clientId,
+							attributes.name.replace( /-\d+$/, '' ),
+							filteredChildBlocks
+						);
+					}
+				} else {
+					console.log( maturedParent );
+					const duplicatedChildBlocks = blocks.filter(
 						( childBlock ) => childBlock.attributes.id === currentId
 					);
-				console.log( duplicatedChildBlocks );
-				if ( duplicatedChildBlocks[ 1 ] ) {
-					console.log( 'uuu' );
-					// console.log(allBlocksToCheck);
-					//skip current duplicated block
-					const filteredChildBlocks = getFilteredBlocks(
-						allBlocksToCheck,
-						duplicatedChildBlocks[ 1 ].clientId
-					);
-
-					console.log( filteredChildBlocks );
-
-					updateBlockAttributtes(
-						duplicatedChildBlocks[ 1 ].clientId,
-						attributes.name.replace( /-\d+$/, '' ),
-						filteredChildBlocks
-					);
+					console.log( duplicatedChildBlocks );
 				}
+				//Filter duplicated blocks
 			} else {
 				//Hiving no child
 				//Filter duplicated blocks
 				const duplicateBlocks = blocks.filter(
 					( block ) => block.attributes.id === currentId
 				);
+				// console.log(selectedBlock);
 				if ( duplicateBlocks[ 1 ] ) {
 					//skip current duplicated block
 					const filteredBlocks = getFilteredBlocks(
