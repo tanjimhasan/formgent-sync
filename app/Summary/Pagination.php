@@ -16,7 +16,8 @@ trait Pagination {
     }
 
     protected function get_answers( stdClass $form, array $field, int $page, int $per_page ) {
-        return $this->query( $form->ID, $field['name'], $field['field_type'] )->select( 'id, value, created_at' )->pagination( $per_page, $page );
+
+        return $this->query( $form->ID, $field['name'], $field['field_type'] )->select( 'id, value, created_at' )->pagination( $per_page, $page, 100, 1 );
     }
 
     protected function get_field_summary( stdClass $form, array $field, int $page, int $per_page ) {

@@ -20,7 +20,7 @@ export const SingleFormControls = {
 	},
 	FETCH_SUMMARY( action ) {
 		return apiFetch( {
-			path: action.path,
+			path: `formgent/admin/forms/${ action.payload.formId }/summary?field_name=${ action.payload.fieldName }&per_page=${ action.payload.perPage }&page=1`,
 		} );
 	},
 	FETCH_SUMMARY_FIELDS( action ) {

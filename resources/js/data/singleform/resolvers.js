@@ -108,10 +108,13 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSummary( formId, fieldName, timestamp = 0 ) {
+	*getSummary( formId, fieldName, perPage = '10', timestamp = 0 ) {
 		try {
 			const responseSummary = yield SingleFormActions.fetchSummary(
-				`formgent/admin/forms/${ formId }/summary?field_name=${ fieldName }&per_page=10&page=1`
+				'formgent/admin/forms',
+				formId,
+				fieldName,
+				perPage
 			);
 			yield SingleFormActions.fetchSummarySuccess(
 				responseSummary,

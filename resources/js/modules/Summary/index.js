@@ -1,5 +1,5 @@
-import { lazy, useEffect } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { lazy } from '@wordpress/element';
+import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { SummaryStyle } from './style';
 import ReactSVG from 'react-inlinesvg';
 import envelope from '@icon/envelope.svg';
@@ -22,6 +22,7 @@ function Summary() {
 		return select( 'formgent' ).getForms();
 	}, [] );
 	const { isFetchingSummary, summary } = FormReducer;
+	const { updateSummaryPerPage } = useDispatch( 'formgent' );
 
 	const fieldIcons = {
 		email: envelope,
@@ -55,7 +56,15 @@ function Summary() {
 		[ availableFields, formId ]
 	);
 
-	function handleInfiniteScroll( e, fieldName ) {}
+	function handleInfiniteScroll( e, fieldName ) {
+		if (
+			e.target.scrollHeight - e.target.scrollTop ===
+			e.target.clientHeight
+		) {
+			updateSummaryPerPage( fieldName, 11 );
+			resolveSelect( 'formgent' ).getSummary( formId, fieldName, 11 );
+		}
+	}
 
 	return (
 		<>

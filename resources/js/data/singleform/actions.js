@@ -357,10 +357,15 @@ export const SingleFormActions = {
 			id,
 		};
 	},
-	fetchSummary: ( path ) => {
+	fetchSummary: ( path, formId, fieldName, perPage ) => {
 		return {
 			type: 'FETCH_SUMMARY',
-			path,
+			payload: {
+				path,
+				formId,
+				fieldName,
+				perPage,
+			},
 		};
 	},
 	fetchSummaryRequest: () => {
@@ -408,6 +413,13 @@ export const SingleFormActions = {
 		return {
 			type: 'FETCH_SUMMARY_FIELDS_ERROR',
 			error,
+		};
+	},
+	updateSummaryPerPage: ( fieldName, perPage ) => {
+		return {
+			type: 'UPDATE_SUMMARY_PER_PAGE',
+			fieldName,
+			perPage,
 		};
 	},
 };

@@ -25,7 +25,15 @@ const DEFAULT_STATE = {
 };
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
-	const { type, isLoading, data, currentPage, error } = action;
+	const {
+		type,
+		isLoading,
+		data,
+		currentPage,
+		error,
+		summaryPerPage,
+		fieldName,
+	} = action;
 
 	let fieldList = {};
 	switch ( type ) {
@@ -323,6 +331,12 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				...state,
 				error: error,
 				isFetchingSummary: false,
+			};
+		case 'UPDATE_SUMMARY_PER_PAGE':
+			return {
+				...state,
+				per_page: summaryPerPage,
+				field_name: fieldName,
 			};
 		default:
 			return state;
