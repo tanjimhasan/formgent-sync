@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Http\Controllers\Admin\SummaryController;
 use FormGent\App\Http\Controllers\Admin\NoteController;
+use FormGent\App\Http\Controllers\Admin\EmailNotificationController;
 use FormGent\App\Http\Controllers\Admin\SettingsController;
 use FormGent\App\Http\Controllers\Admin\ResponseController;
 use FormGent\App\Http\Controllers\Admin\FormController;
@@ -15,6 +16,11 @@ Route::group(
     'admin', function() {
         Route::group(
             'forms', function() {
+                Route::group(
+                    'email-notifications', function() {
+                        Route::resource( '/', EmailNotificationController::class );
+                    }
+                );
                 Route::group(
                     '{id}', function() {
                         Route::get( 'settings', [FormController::class, 'get_settings'] );
