@@ -30,7 +30,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<div className="formgent-editor-block-list__single__wrapper">
 				<input
 					className="formgent-editor-block-list__single__input"
-					type="email"
+					type="url"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }

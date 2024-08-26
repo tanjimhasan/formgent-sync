@@ -39,7 +39,7 @@ function generateUniqueKey( baseKey, blocks ) {
 	return `${ baseKey }-${ maxSuffix + 1 }`;
 }
 
-addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
+function editorBlockValidation( props ) {
 	const { attr_key, attributes, metaData } = props;
 	//Only validate if the attribute key is 'name'
 	if ( attr_key !== 'name' ) {
@@ -119,6 +119,11 @@ addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
 	}
 
 	return props;
+}
+
+addFilter( 'formgent-field-text-control', 'formgent', function ( props ) {
+	const { attr_key } = props;
+	return editorBlockValidation( props );
 } );
 
 function mergeSiblingsBlocks( blocks ) {
@@ -245,8 +250,7 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 	// The value you need when dragging ends
 	useEffect( () => {
 		if ( draggingEnded ) {
-			// Perform actions based on the end of dragging
-			const props = applyFilters( 'formgent-field-text-control', {
+			editorBlockValidation( {
 				isInvalid: false,
 				help: '',
 				attr_key: 'name',
@@ -367,11 +371,9 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 						);
 					}
 				} else {
-					console.log( maturedParent );
 					const duplicatedChildBlocks = blocks.filter(
 						( childBlock ) => childBlock.attributes.id === currentId
 					);
-					console.log( duplicatedChildBlocks );
 				}
 				//Filter duplicated blocks
 			} else {
@@ -380,7 +382,6 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				const duplicateBlocks = blocks.filter(
 					( block ) => block.attributes.id === currentId
 				);
-				// console.log(selectedBlock);
 				if ( duplicateBlocks[ 1 ] ) {
 					//skip current duplicated block
 					const filteredBlocks = getFilteredBlocks(
