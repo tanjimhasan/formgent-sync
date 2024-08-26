@@ -3,6 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Http\Middleware\EnsureIsUserAdmin;
+use FormGent\App\Providers\EmailNotificationServiceProvider;
 use FormGent\App\Providers\BlockServiceProvider;
 use FormGent\App\Providers\ElementorServiceProvider;
 use FormGent\App\Providers\FontFamilyServiceProvider;
@@ -29,7 +30,8 @@ return [
         ElementorServiceProvider::class,
         BlockServiceProvider::class,
         FontFamilyServiceProvider::class,
-        PostTypeServiceProvider::class
+        PostTypeServiceProvider::class,
+        EmailNotificationServiceProvider::class
     ],
 
     'admin_providers'         => [

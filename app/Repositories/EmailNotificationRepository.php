@@ -23,4 +23,8 @@ class EmailNotificationRepository {
     public function delete_by_id( int $id ) {
         return EmailNotification::query()->where( 'id', $id )->delete();
     }
+
+    public function get_by_form_id( int $form_id, string $status = 'publish' ) {
+        return EmailNotification::query()->where( 'form_id', $form_id )->where( 'status', $status )->get();
+    }
 }
