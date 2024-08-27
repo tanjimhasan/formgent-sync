@@ -10,7 +10,27 @@ const { callbacks } = store( 'formgent/form', {
 		updateInput: () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ element.ref.name ] = element.ref.value;
+			const { data } = context;
+			function updateFieldRecursively( data, fieldName, fieldValue ) {
+				for ( let k in data ) {
+					if ( data.hasOwnProperty( k ) ) {
+						if (
+							typeof data[ k ] === 'object' &&
+							data[ k ] !== null
+						) {
+							updateFieldRecursively(
+								data[ k ],
+								fieldName,
+								fieldValue
+							);
+						} else if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						}
+					}
+				}
+			}
+			updateFieldRecursively( data, element.ref.name, element.ref.value );
 		},
 		updateNumber: () => {
 			const element = getElement();
@@ -43,6 +63,26 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			const element = getElement();
 
+			const { blocksSettings, data } = JSON.parse(
+				JSON.stringify( context )
+			);
+
+			// Loop through blocksSettings and construct data object
+			Object.entries( blocksSettings ).forEach(
+				( [ blockKey, block ] ) => {
+					data[ blockKey ] = block.children
+						? Object.keys( block.children ).reduce(
+								( acc, childKey ) => {
+									acc[ childKey ] = '';
+									return acc;
+								},
+								{}
+						  )
+						: '';
+				}
+			);
+
+			context.data = { ...data };
 			const validation = new JustValidate(
 				`#${ element.attributes.id }`,
 				{ validateBeforeSubmitting: true }
@@ -101,7 +141,6 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			const element = getElement();
 			const name = element.ref.getAttribute( 'data-wp-key' );
-			console.log( context.data[ name ] );
 			// let phoneNumberParts =
 			// 	context.data[ element.ref.name ].split( ')' );
 			// context.data[ element.ref.name ] = {
@@ -152,7 +191,7 @@ const { callbacks } = store( 'formgent/form', {
 		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
-			const formData = {};
+			const formData = JSON.parse( JSON.stringify( context.data ) );
 
 			// Honeypot security check
 			const honeypotField = form.querySelector(
@@ -165,23 +204,6 @@ const { callbacks } = store( 'formgent/form', {
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
 					continue;
-				}
-				const value = context.data[ name ];
-				switch ( context.blocksSettings[ name ].field_type ) {
-					case 'number':
-						formData[ name ] = parseInt( value, 10 );
-						break;
-					case 'phone-number':
-						formData[
-							name
-						] = `(${ value.dialCode })${ value.number }`;
-						break;
-					case 'gdpr':
-						formData[ name ] = value.toString();
-						break;
-					default:
-						formData[ name ] = value;
-						break;
 				}
 			}
 			try {
