@@ -351,7 +351,10 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 			//If Blocks are duplicated
 			// If Parent blocks having child (Address, Name Block)
 			if ( ! maturedParent.includes( null ) ) {
-				if ( selectedBlock.name.includes( 'formgent/' ) ) {
+				if (
+					selectedBlock &&
+					selectedBlock.name.includes( 'formgent/' )
+				) {
 					const duplicatedChildBlocks =
 						maturedParent[ 0 ].innerBlocks.filter(
 							( childBlock ) =>
