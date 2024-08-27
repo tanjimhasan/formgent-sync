@@ -9,7 +9,6 @@ use FormGent\App\Http\Controllers\Admin\SettingsController;
 use FormGent\App\Http\Controllers\Admin\ResponseController;
 use FormGent\App\Http\Controllers\Admin\FormController;
 use FormGent\App\Http\Controllers\Admin\AnalyticsController;
-use FormGent\App\Http\Controllers\FontController;
 use FormGent\WpMVC\Routing\Route;
 
 Route::group(
@@ -63,8 +62,6 @@ Route::group(
                 Route::resource( '/', ResponseController::class );
             }
         );
-
-        Route::get( 'fonts', [FontController::class, 'index'] );
 
         Route::group(
             'analytics', function() {

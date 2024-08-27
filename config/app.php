@@ -6,7 +6,6 @@ use FormGent\App\Http\Middleware\EnsureIsUserAdmin;
 use FormGent\App\Providers\EmailNotificationServiceProvider;
 use FormGent\App\Providers\BlockServiceProvider;
 use FormGent\App\Providers\ElementorServiceProvider;
-use FormGent\App\Providers\FontFamilyServiceProvider;
 use FormGent\App\Providers\PostTypeServiceProvider;
 use FormGent\App\Providers\Admin\MenuServiceProvider;
 use FormGent\App\Providers\ShortCodeServiceProvider;
@@ -29,7 +28,6 @@ return [
         ShortCodeServiceProvider::class,
         ElementorServiceProvider::class,
         BlockServiceProvider::class,
-        FontFamilyServiceProvider::class,
         PostTypeServiceProvider::class,
         EmailNotificationServiceProvider::class
     ],
