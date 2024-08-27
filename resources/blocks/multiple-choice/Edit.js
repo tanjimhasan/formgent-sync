@@ -9,6 +9,15 @@ export default function Edit( { attributes, setAttributes } ) {
 		e.stopPropagation(); // Stops the event from propagating
 	}
 
+	function handleDelete( id ) {
+		const newOptions = attributes.options.filter(
+			( option ) => option.id !== id
+		);
+		if ( newOptions.length > 0 ) {
+			setAttributes( { options: newOptions } );
+		}
+	}
+
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div
@@ -35,7 +44,11 @@ export default function Edit( { attributes, setAttributes } ) {
 						attributes.options.map( ( option, index ) => (
 							<div
 								key={ index }
-								className="formgent-editor-block-list__single__box__choice"
+								className={ `formgent-editor-block-list__single__box__choice ${
+									attributes.options.length === 1
+										? 'disable'
+										: ''
+								}` }
 							>
 								<input
 									className="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--checkbox"
@@ -70,6 +83,28 @@ export default function Edit( { attributes, setAttributes } ) {
 									</span>
 									{ option.label }
 								</label>
+								<button
+									className="formgent-editor-block-list__single__box__choice__delete"
+									onClick={ () => {
+										handleDelete( option.id );
+									} }
+								>
+									<svg
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M17 7L7 17M7 7L17 17"
+											stroke="currentColor"
+											strokeWidth="2"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+										/>
+									</svg>
+								</button>
 							</div>
 						) )
 					) : (
