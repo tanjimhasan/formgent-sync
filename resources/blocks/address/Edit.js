@@ -15,13 +15,13 @@ const ALLOWED_BLOCKS = [
 ];
 
 const TEMPLATE = [
-	// [
-	// 	'core/paragraph',
-	// 	{
-	// 		content: '<strong>Address</strong>',
-	// 		className: 'has-medium-font-size',
-	// 	},
-	// ],
+	[
+		'core/paragraph',
+		{
+			content: '<strong>Address</strong>',
+			className: 'has-medium-font-size',
+		},
+	],
 	[
 		'formgent/text',
 		{

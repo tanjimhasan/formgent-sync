@@ -7,7 +7,6 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	// console.log(attributes);
 	return (
 		<div
 			className={ `formgent-editor-block-list__single formgent-editor-block-align-${ attributes.label_alignment }` }
