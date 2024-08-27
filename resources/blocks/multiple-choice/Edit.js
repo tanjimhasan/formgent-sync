@@ -1,5 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { nanoid } from 'nanoid';
 
 import './editor.scss';
 
@@ -9,7 +10,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		e.stopPropagation(); // Stops the event from propagating
 	}
 
-	function handleDelete( id ) {
+	function handleAddOption() {
+		const newField = { id: nanoid(), ...{} };
+		const newFields = [ ...attributes.options, newField ];
+		setAttributes( { options: newFields } );
+	}
+
+	function handleDeleteOption( id ) {
 		const newOptions = attributes.options.filter(
 			( option ) => option.id !== id
 		);
@@ -86,7 +93,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<button
 									className="formgent-editor-block-list__single__box__choice__delete"
 									onClick={ () => {
-										handleDelete( option.id );
+										handleDeleteOption( option.id );
 									} }
 								>
 									<svg
@@ -144,6 +151,31 @@ export default function Edit( { attributes, setAttributes } ) {
 							</label>
 						</div>
 					) }
+					<button
+						className="formgent-editor-block-list__single__box__add"
+						onClick={ () => {
+							handleAddOption();
+						} }
+					>
+						<span className="formgent-editor-block-list__single__box__add__icon">
+							<svg
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M12 5V19M5 12H19"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</span>
+						Add Option
+					</button>
 				</div>
 				<RichText
 					className="formgent-editor-block-list__single__sub-label"

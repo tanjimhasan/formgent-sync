@@ -101,6 +101,35 @@
 				}
 			}
 		}
+
+		.formgent-editor-block-list__single__box__add {
+			display: flex;
+			gap: 6px;
+			align-items: center;
+			justify-content: flex-start;
+			padding: 0;
+			margin: 8px 0 0;
+			border: none;
+			color: #007cba;
+			font-size: 14px;
+			font-weight: 500;
+			background: transparent;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			.formgent-editor-block-list__single__box__add__icon {
+				width: 20px;
+				height: 20px;
+				min-width: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #007cba;
+				border-radius: 100%;
+				svg path {
+					stroke: #fff;
+				}
+			}
+		}
 	}
 	.formgent-editor-block-list__single__input {
 		.formgent-editor-block-list__single__input--radio,
