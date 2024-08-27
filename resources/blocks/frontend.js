@@ -7,11 +7,12 @@ import TomSelect from 'tom-select';
 
 let formStarted = false;
 let fieldInteractionState = {};
+let generatedTokens = null;
 
 async function generateFormToken( context ) {
 	if ( ! formStarted ) {
 		try {
-			const responseTokens = await wp.apiFetch( {
+			generatedTokens = await wp.apiFetch( {
 				path: 'formgent/responses/generate-token',
 				method: 'POST',
 				data: {
@@ -59,7 +60,7 @@ const { callbacks } = store( 'formgent/form', {
 				};
 			}
 
-			// Handle first field interaction
+			// Handle initial field interaction
 			if ( ! fieldInteractionState[ fieldName ].interacted ) {
 				await updateFieldCounter( context, element, 'both', '+' );
 				fieldInteractionState[ fieldName ].interacted = true;
@@ -106,7 +107,7 @@ const { callbacks } = store( 'formgent/form', {
 					interacted: false,
 				};
 			}
-			// Handle first field interaction
+			// Handle initial field interaction
 			if ( ! fieldInteractionState[ fieldName ].interacted ) {
 				await updateFieldCounter( context, element, 'both', '+' );
 				fieldInteractionState[ fieldName ].interacted = true;
@@ -153,7 +154,7 @@ const { callbacks } = store( 'formgent/form', {
 					interacted: false,
 				};
 			}
-			// Handle first field interaction
+			// Handle initial field interaction
 			if ( ! fieldInteractionState[ fieldName ].interacted ) {
 				await updateFieldCounter( context, element, 'both', '+' );
 				fieldInteractionState[ fieldName ].interacted = true;
@@ -407,13 +408,16 @@ const { callbacks } = store( 'formgent/form', {
 				}
 
 				// Generate form token
-				const responseToken = await wp.apiFetch( {
-					path: 'formgent/responses/generate-token',
-					method: 'POST',
-					data: {
-						form_id: context.formId,
-					},
-				} );
+				let responseToken = null;
+				if ( ! formStarted ) {
+					responseToken = await wp.apiFetch( {
+						path: 'formgent/responses/generate-token',
+						method: 'POST',
+						data: {
+							form_id: context.formId,
+						},
+					} );
+				}
 
 				// Submit form response
 				const response = await wp.apiFetch( {
@@ -422,7 +426,8 @@ const { callbacks } = store( 'formgent/form', {
 					data: {
 						id: context.formId,
 						form_data: formData,
-						response_token: responseToken.response_token,
+						response_token:
+							responseToken || generatedTokens.response_token,
 					},
 				} );
 
