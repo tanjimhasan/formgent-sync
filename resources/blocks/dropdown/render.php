@@ -19,7 +19,6 @@
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
             data-wp-interactive="formgent/form"
             data-wp-on--change="actions.updateInput"
-            data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
         >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
@@ -30,6 +29,8 @@
                         <?php echo esc_html( $option['label'] ); ?>
                     </option>
                 <?php endforeach; ?>
+            <?php else : ?>
+                <option value="" selected disabled>Please select</option>
             <?php endif; ?>
         </select>
 
