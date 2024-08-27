@@ -18,6 +18,7 @@ Route::group(
             'forms', function() {
                 Route::group(
                     'email-notifications', function() {
+                        Route::patch( '{id}/status', [EmailNotificationController::class, 'update_status'] );
                         Route::resource( '/', EmailNotificationController::class );
                     }
                 );
