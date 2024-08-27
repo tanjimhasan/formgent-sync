@@ -6,6 +6,10 @@
 
 .formgent-repeater-control {
 	margin-bottom: 30px;
+	.formgent-control-label {
+		display: block;
+		margin-bottom: 8px;
+	}
 }
 
 .formgent-repeater-field {

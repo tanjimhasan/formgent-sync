@@ -7,10 +7,10 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import { registerBlock } from '@formgent/modules';
+import { onChangeChoiceOptions } from '../utils';
 import Edit from './Edit';
 import metadata from './block.json';
 import './style.scss';
-import { onChangeChoiceOptions } from '../utils';
 
 const exampleAttributes = {};
 
@@ -19,14 +19,6 @@ const controls = {
 		type: 'panel',
 		label: __( 'General', 'formgent' ),
 		children: {
-			label: {
-				type: 'text',
-				label: __( 'Label', 'formgent' ),
-			},
-			sub_label: {
-				type: 'text',
-				label: __( 'Sub Label', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
