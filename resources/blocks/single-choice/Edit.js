@@ -80,9 +80,15 @@ export default function Edit( { attributes, setAttributes } ) {
 						</div>
 					) }
 				</div>
-				<span className="formgent-editor-block-list__single__sub-label">
-					{ attributes.sub_label }
-				</span>
+				<RichText
+					className="formgent-editor-block-list__single__sub-label"
+					tagName="span"
+					value={ attributes.sub_label }
+					onChange={ ( content ) =>
+						setAttributes( { sub_label: content } )
+					}
+					placeholder={ __( 'Type sub label here (optional)' ) }
+				/>
 			</div>
 		</div>
 	);

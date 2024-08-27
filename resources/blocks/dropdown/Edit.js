@@ -67,42 +67,5 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 			</div>
 		</div>
-
-		// <div className="formgent-editor-block-list__single">
-		// 	<label
-		// 		className={ `formgent-editor-block-list__single__label label-align-${ attributes.label_alignment }` }
-		// 	>
-		// 		{ attributes.label }
-		// 		{ attributes.required ? (
-		// 			<span className="formgent-editor-block-list__single__label__required">
-		// 				*
-		// 			</span>
-		// 		) : null }
-		// 	</label>
-		// 	<div className="formgent-editor-block-list__single__wrapper">
-		// 		<select
-		// 			name={ attributes.name }
-		// 			className="formgent-editor-block-list__single__input"
-		// 			value={ attributes.value || 'formgent-default-option' }
-		// 			onChange={ () => {} }
-		// 			onMouseDown={ ( e ) => handleMouseDown( e ) }
-		// 		>
-		// 			{ attributes.options.length > 0 ? (
-		// 				attributes.options.map( ( option, index ) => (
-		// 					<option key={ index } value={ option.value }>
-		// 						{ option.label }
-		// 					</option>
-		// 				) )
-		// 			) : (
-		// 				<option value="formgent-default-option">
-		// 					{ __( 'Please Select', 'formgent' ) }
-		// 				</option>
-		// 			) }
-		// 		</select>
-		// 		<span className="formgent-editor-block-list__single__sub-label">
-		// 			{ attributes.sub_label }
-		// 		</span>
-		// 	</div>
-		// </div>
 	);
 }

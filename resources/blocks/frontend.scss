@@ -5,7 +5,6 @@
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
-	margin-bottom: 20px !important;
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -71,12 +70,12 @@
 	.formgent-editor-block-list__single__label-container {
 		display: flex;
 		gap: 6px;
+		width: 100px;
 		font-size: 14px;
 		color: var(--formgent-color-dark);
 		line-height: 16px;
 		&.formgent-label-align-left {
 			order: -1;
-			//min-width: 100px;
 			& + .formgent-editor-block-list__single__wrapper {
 				.formgent-editor-block-list__single__input {
 					width: 100%;
@@ -86,7 +85,6 @@
 		}
 		&.formgent-label-align-right {
 			order: 1;
-			//min-width: 100px;
 			text-align: right;
 			~ .formgent-editor-block-list__single__wrapper {
 				justify-content: flex-end;
@@ -130,11 +128,11 @@
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
 }
-// .formgent-editor-block-list__single--csr {
-// 	margin-bottom: 30px;
-// }
 .formgent-editor-block-list__single__wrapper--gdpr {
 	position: relative;
+	.formgent-editor-block-list__single__label-container {
+		width: 100%;
+	}
 	.formgent-editor-block-list__single__sub-label {
 		font-size: 14px;
 		line-height: 22px;
@@ -463,13 +461,5 @@ input.formgent-editor-block-list__single__dialer__input {
 	background-color: #d2f9e1;
 	&:empty {
 		display: none;
-	}
-}
-
-// Editor Block Style
-.block-editor-block-list__block,
-.wp-block-formgent-address {
-	.formgent-editor-block-list__single {
-		margin-bottom: 0 !important;
 	}
 }
