@@ -16,7 +16,10 @@ export default function Repeater( {
 		const newFields = attributes[ attr_key ].filter(
 			( item ) => item.id !== id
 		);
-		setAttributes( { [ attr_key ]: newFields } );
+
+		if ( newFields.length > 0 ) {
+			setAttributes( { [ attr_key ]: newFields } );
+		}
 	};
 
 	//handle add repeater field
