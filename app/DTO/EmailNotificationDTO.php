@@ -21,7 +21,7 @@ class EmailNotificationDTO extends DTO {
 
     private ?string $bcc = null;
 
-    private ?string $reply_to;
+    private ?string $reply_to = null;
 
     private string $status;
 
