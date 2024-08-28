@@ -24,7 +24,7 @@ export default function Repeater( {
 
 	//handle add repeater field
 	const handleAddField = () => {
-		const newField = { id: nanoid(), ...{} };
+		const newField = { id: nanoid(), label: 'New Option', value: nanoid() };
 		const newFields = [ ...attributes[ attr_key ], newField ];
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
