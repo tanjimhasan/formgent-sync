@@ -31,7 +31,10 @@ class EmailNotification extends CoreBackgroundProcess {
             $headers[] = 'Reply-To: ' . $email->reply_to;
         }
 
-        wp_mail( $email->send_to, $email->subject, $email->body, $headers );
+        $admin_email = get_option( 'admin_email' );
+        $send_to     = str_replace( '{admin_email}', $admin_email, $email->send_to );
+
+        wp_mail( $send_to, $email->subject, $email->body, $headers );
 
         return $item;
     }

@@ -130,6 +130,31 @@ class EmailNotificationController extends Controller {
         }
     }
 
+    public function update_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id'     => 'required|numeric',
+                'status' => 'required|string|accepted:publish,draft'
+            ]
+        );
+
+        if ( $validator->is_fail() ) {
+            return Response::send(
+                [
+                    'messages' => $validator->errors
+                ], 422
+            );
+        }
+
+        $this->repository->update_status( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'status' ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'The status has been updated successfully.', 'formgent' )
+            ]
+        );
+    }
+
     protected function get_validation_rules() {
         return [
             'form_id'  => 'required|integer',

@@ -27,4 +27,12 @@ class EmailNotificationRepository {
     public function get_by_form_id( int $form_id, string $status = 'publish' ) {
         return EmailNotification::query()->where( 'form_id', $form_id )->where( 'status', $status )->get();
     }
+
+    public function update_status( int $id, string $status ) {
+        return EmailNotification::query()->where( 'id', $id )->update(
+            [
+                'status' => $status
+            ] 
+        );
+    }
 }
