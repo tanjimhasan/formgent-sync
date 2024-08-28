@@ -1,5 +1,5 @@
 import { lazy } from '@wordpress/element';
-import { resolveSelect, useSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { AnalyticsStyle } from './style';
 import { registerIsProActive } from '@formgent/helper/registerApplyFilter';
 import AnalyticStats from './components/AnalyticStats';
@@ -11,62 +11,33 @@ import layerIcon from '@icon/layer.svg';
 const FormHeader = lazy( () => import( '@formgent/components/FormHeader' ) );
 
 function Analytics() {
+	const isProActive = registerIsProActive();
+
 	const { CommonReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getCommonState();
 	}, [] );
+	const { useParams } = CommonReducer?.routerComponents;
+	const { id: formId } = useParams();
 
+	// forms data
 	const { FormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getForms();
 	}, [] );
-
 	const { isAnalyticsSummaryFetching } = FormReducer;
 
-	const { useParams } = CommonReducer?.routerComponents;
-	const { id: formId } = useParams();
+	// analytics summary stats
 	const analyticsSummary = useSelect(
 		( select ) => {
 			return select( 'formgent' ).getAnalyticsSummary( formId );
 		},
 		[ formId ]
 	);
-
-	const analyticSubmissionData = useSelect(
-		( select ) => {
-			return select( 'formgent' ).getAnalyticsSubmission(
-				formId,
-				'2024-01-01',
-				'2024-12-31'
-			);
-		},
-		[ formId ]
-	);
-
-	const isProActive = registerIsProActive();
-
 	const {
 		total_views,
 		total_stared,
 		total_finished,
 		average_completion_time,
 	} = analyticsSummary;
-
-	const handleChartDatepicker = ( dates, dateStrings ) => {
-		if ( isAnalyticsSummaryFetching ) return;
-		const [ dateFrom, dateTo ] = dateStrings;
-		resolveSelect( 'formgent' ).getAnalyticsSubmission(
-			formId,
-			dateFrom !== '' ? dateFrom : '2024-01-01',
-			dateTo !== '' ? dateTo : '2024-12-31',
-			Date.now()
-		);
-	};
-
-	const questionDropOffData = useSelect(
-		( select ) => {
-			return select( 'formgent' ).getQuestionDropOff( formId );
-		},
-		[ formId ]
-	);
 
 	return (
 		<>
@@ -87,9 +58,8 @@ function Analytics() {
 						<>
 							<AnalyticsChart.Slot
 								fillProps={ {
-									data: analyticSubmissionData,
-									handleChartDatepicker:
-										handleChartDatepicker,
+									formId,
+									isAnalyticsSummaryFetching,
 								} }
 							>
 								{ ( fills ) => <>{ fills }</> }
@@ -97,8 +67,8 @@ function Analytics() {
 
 							<QuestionsDropOff.Slot
 								fillProps={ {
-									questionDropOffData: questionDropOffData,
 									layerIcon: <ReactSVG src={ layerIcon } />,
+									formId,
 								} }
 							>
 								{ ( fills ) => <>{ fills }</> }

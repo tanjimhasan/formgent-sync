@@ -43,7 +43,7 @@ async function updateFieldCounter(
 			},
 		} );
 	} catch ( error ) {
-		console.log( error );
+		console.log( 'Count error:', error );
 	}
 }
 

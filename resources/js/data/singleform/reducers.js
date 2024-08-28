@@ -296,38 +296,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				error: error,
 				isAnalyticsSummaryFetching: false,
 			};
-		case 'FETCH_ANALYTICS_SUBMISSION_REQUEST':
-			return {
-				...state,
-				isAnalyticsSummaryFetching: true,
-			};
-		case 'FETCH_ANALYTICS_SUBMISSION_SUCCESS':
-			return {
-				...state,
-				analyticsSubmission: action.payload.data,
-			};
-		case 'FETCH_ANALYTICS_SUBMISSION_ERROR':
-			return {
-				...state,
-				error: error,
-				isAnalyticsSummaryFetching: false,
-			};
-		case 'FETCH_QUESTION_DROP_OFF_REQUEST':
-			return {
-				...state,
-				isAnalyticsSummaryFetching: true,
-			};
-		case 'FETCH_QUESTION_DROP_OFF_SUCCESS':
-			return {
-				...state,
-				questionDropOff: action.payload.data,
-			};
-		case 'FETCH_QUESTION_DROP_OFF_ERROR':
-			return {
-				...state,
-				error: error,
-				isAnalyticsSummaryFetching: false,
-			};
 
 		default:
 			return state;
