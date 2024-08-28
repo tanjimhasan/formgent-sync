@@ -1,3 +1,4 @@
+import { convertToTitleCase } from '@formgent/helper/utils';
 import ReactSVG from 'react-inlinesvg';
 import envelope from '@icon/envelope.svg';
 import textIcon from '@icon/text.svg';
@@ -52,14 +53,31 @@ export default function FieldContent( props ) {
 										className="formgent-summary-item__content__single"
 										key={ item.id || item.parent_id }
 									>
-										{ typeof item.value !== 'object' ? (
+										{ typeof item.value === 'string' ? (
 											item.value
-										) : item.value.length > 0 ? (
-											item.value.forEach( ( key ) => {
-												<span className="formgent-summary-item__content__single__sub-item">
-													{ key }
-												</span>;
-											} )
+										) : typeof item.value === 'object' &&
+										  item.value !== null ? (
+											Object.keys( item.value ).map(
+												( key, idx ) => (
+													<div
+														key={ idx }
+														className="formgent-summary-item__content__single__sub-item"
+													>
+														<span>
+															{ convertToTitleCase(
+																key
+															) }
+														</span>
+														<strong>
+															{
+																item.value[
+																	key
+																]
+															}
+														</strong>
+													</div>
+												)
+											)
 										) : (
 											<div>Not found</div>
 										) }

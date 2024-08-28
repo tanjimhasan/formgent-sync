@@ -47,8 +47,6 @@ function Summary() {
 		}
 	}
 
-	console.log( summaries );
-
 	return (
 		<>
 			<FormHeader resultHeader />
