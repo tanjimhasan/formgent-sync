@@ -29,8 +29,6 @@
                         <?php echo esc_html( $option['label'] ); ?>
                     </option>
                 <?php endforeach; ?>
-            <?php else : ?>
-                <option value="" selected disabled>Please select</option>
             <?php endif; ?>
         </select>
 
