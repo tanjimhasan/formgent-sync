@@ -57,6 +57,23 @@ const { callbacks } = store( 'formgent/form', {
 			const name = element.ref.name.replace( '-dial-code', '' );
 			context.data[ name ].dialCode = element.ref.value;
 		},
+		updateMultiChoice: () => {
+			const element = getElement();
+			const context = getContext();
+
+			const choices = context.data[ element.ref.name ] || [];
+			const valueIndex = choices.indexOf( element.ref.value );
+
+			if ( valueIndex > -1 ) {
+				//If the item is found remove it
+				choices.splice( valueIndex, 1 );
+			} else {
+				//If the item is not found, add it to the array
+				choices.push( element.ref.value );
+			}
+
+			context.data[ element.ref.name ] = choices;
+		},
 	},
 	callbacks: {
 		init: () => {
@@ -135,6 +152,16 @@ const { callbacks } = store( 'formgent/form', {
 			validation.onSuccess( ( event ) => {
 				event.preventDefault();
 				callbacks.submit( context, element );
+			} );
+		},
+		dropdownInit: () => {
+			const element = getElement();
+			const context = getContext();
+
+			new TomSelect( `#${ element.ref.id }`, {
+				onChange: function ( value ) {
+					context.data[ element.ref.name ] = value;
+				},
 			} );
 		},
 		phoneNumberInit: async () => {

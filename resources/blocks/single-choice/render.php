@@ -23,10 +23,9 @@
                             type="radio"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
                             id="<?php echo esc_attr( $option['id'] ); ?>"
-                            <?php echo $attributes['value'] === $option['value'] ? "checked" : null; ?>
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
-                            data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+                            value="<?php echo esc_attr( $option['value'] ); ?>"
                         />
                         <label for="<?php echo esc_attr( $option['id'] ); ?>" class="formgent-editor-block-list__single__label">
                             <?php echo esc_html( $option['label'] ); ?>

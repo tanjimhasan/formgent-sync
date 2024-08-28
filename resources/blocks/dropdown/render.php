@@ -18,9 +18,10 @@
             name="<?php echo esc_attr( $attributes['name'] ); ?>"
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
             data-wp-interactive="formgent/form"
-            data-wp-on--change="actions.updateInput"
+            data-wp-init="callbacks.dropdownInit"
         >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
+                <option value="">Select option</option>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
                     <option 
                         value="<?php echo esc_attr( $option['value'] ); ?>"
