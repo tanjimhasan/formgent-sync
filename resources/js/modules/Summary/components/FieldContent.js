@@ -50,9 +50,19 @@ export default function FieldContent( props ) {
 								summaries[ fieldName ].map( ( item ) => (
 									<div
 										className="formgent-summary-item__content__single"
-										key={ item.id }
+										key={ item.id || item.parent_id }
 									>
-										{ item.value }
+										{ typeof item.value !== 'object' ? (
+											item.value
+										) : item.value.length > 0 ? (
+											item.value.forEach( ( key ) => {
+												<span className="formgent-summary-item__content__single__sub-item">
+													{ key }
+												</span>;
+											} )
+										) : (
+											<div>Not found</div>
+										) }
 									</div>
 								) )
 							) : (
