@@ -412,10 +412,10 @@ textarea.formgent-editor-block-list__single__input,
 	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 	color: #4d5761;
 	font-family: "Inter", sans-serif;
+	box-sizing: border-box;
 	&.formgent-danger {
 		border-color: var(--formgent-color-danger);
 	}
-	box-sizing: border-box;
 	&.formgent-editor-block-list__single__input--radio,
 	&.formgent-editor-block-list__single__input--checkbox {
 		width: 15px;
