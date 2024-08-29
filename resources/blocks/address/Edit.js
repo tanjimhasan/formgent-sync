@@ -7,7 +7,7 @@ const ALLOWED_BLOCKS = [
 	'core/heading',
 	'formgent/text',
 	'formgent/number',
-	'formgent/country',
+	'formgent/dropdown',
 	'core/columns',
 	'core/column',
 	'core/group',
@@ -102,7 +102,7 @@ const TEMPLATE = [
 				},
 			],
 			[
-				'formgent/text',
+				'formgent/dropdown',
 				{
 					label: 'Country',
 					label_alignment: 'top',
