@@ -25,28 +25,6 @@ async function generateFormToken( context ) {
 	}
 }
 
-// Field View & Drop-off counts
-async function updateFieldCounter(
-	context,
-	element,
-	counterName,
-	counterType
-) {
-	try {
-		const responseCounts = await wp.apiFetch( {
-			path: `formgent-pro/analytics/forms/${ context.formId }/fields/update-count`,
-			method: 'POST',
-			data: {
-				counter_name: counterName, // views, drop_off, both
-				counter_type: counterType, // +, -
-				field_name: element.ref.name,
-			},
-		} );
-	} catch ( error ) {
-		console.log( 'Count error:', error );
-	}
-}
-
 const { callbacks } = store( 'formgent/form', {
 	actions: {
 		updateInput: async () => {
