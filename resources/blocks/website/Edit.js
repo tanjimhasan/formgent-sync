@@ -8,7 +8,9 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div className="formgent-editor-block-list__single">
+		<div
+			className={ `formgent-editor-block-list__single formgent-editor-block-align-${ attributes.label_alignment }` }
+		>
 			<div
 				className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
 			>
@@ -30,7 +32,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<div className="formgent-editor-block-list__single__wrapper">
 				<input
 					className="formgent-editor-block-list__single__input"
-					type="email"
+					type="url"
 					name={ attributes.name }
 					placeholder={ attributes.placeholder }
 					value={ attributes.value }

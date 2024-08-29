@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 
 use FormGent\App\Models\Answer;
 use FormGent\App\DTO\ResponseDTO;
+use FormGent\App\DTO\AnswerDTO;
 use FormGent\App\EnumeratedList\ResponseStatus;
 use FormGent\App\Exceptions\RequestValidatorException;
 use FormGent\App\Http\Controllers\Controller;
@@ -16,7 +17,6 @@ use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use stdClass;
 use WP_REST_Request;
-use FormGent\App\DTO\AnswerDTO;
 
 class ResponseController extends Controller {
     private ResponseRepository $repository;
@@ -98,8 +98,8 @@ class ResponseController extends Controller {
         }
 
         // Set additional form properties.
-        $form->form_type            = get_post_meta( $form->ID, 'formgent_type', true );
-        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true );
+        $form->form_type            = get_post_meta( $form->ID, '_formgent_type', true );
+        $form->save_incomplete_data = (bool) get_post_meta( $form->ID, '_formgent_save_incomplete_data', true );
 
         // Validate form data and create DTOs.
         $validate_data = $this->validate_form_data( $form, $validator, $request );
@@ -107,17 +107,19 @@ class ResponseController extends Controller {
             return Response::send( ['messages' => $validate_data['errors']], 422 );
         }
 
-        $this->answer_repository->creates( $response->id, $validate_data['field_dtos'] );
-
-        // Handle child fields if present.
-        if ( ! empty( $validate_data['parent_field_names'] ) ) {
-            $this->handle_child_fields( $response->id, $validate_data );
+        if ( ! empty( $validate_data['field_dtos'] ) ) {
+            $this->answer_repository->creates( $response->id, $validate_data['field_dtos'] );
+            
+            // Handle child fields if present.
+            if ( ! empty( $validate_data['parent_field_names'] ) ) {
+                $this->handle_child_fields( $response->id, $validate_data );
+            }
+            
+            $this->repository->mark_as_completed( $response->id );
+            
+            // Trigger the after response creation hook.
+            do_action( "formgent_after_create_form_response", $response->id, $form, $request );
         }
-
-        $this->repository->mark_as_completed( $response->id );
-
-        // Trigger the after response creation hook.
-        do_action( "formgent_after_create_form_response", $response->id, $form, $request );
 
         // Return a success response.
         return Response::send( ['message' => esc_html__( 'The form was submitted successfully!', 'formgent' )], 201 );
@@ -228,7 +230,9 @@ class ResponseController extends Controller {
         }
 
         // Store child answers in the database.
-        $this->answer_repository->creates_from_array( $children_items );
+        if ( ! empty( $children_items ) ) {
+            $this->answer_repository->creates_from_array( $children_items );
+        }
     }
 
     /**

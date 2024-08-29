@@ -48,22 +48,10 @@ class FormController extends Controller {
         $dto->set_page( intval( $wp_rest_request->get_param( 'page' ) ) );
         $dto->set_per_page( intval( $wp_rest_request->get_param( 'per_page' ) ) );
         $dto->set_search( (string) $wp_rest_request->get_param( 's' ) );
-
-        if ( $wp_rest_request->has_param( 'sort_by' ) ) {
-            $dto->set_sort_by( $wp_rest_request->get_param( 'sort_by' ) );
-        }
-
-        if ( $wp_rest_request->has_param( 'date_type' ) ) {
-            $dto->set_date_type( $wp_rest_request->get_param( 'date_type' ) );
-        }
-
-        if ( $wp_rest_request->has_param( 'date_frame' ) ) {
-            $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
-        }
-
-        if ( $wp_rest_request->has_param( 'type' ) ) {
-            $dto->set_type( $wp_rest_request->get_param( 'type' ) );
-        }
+        $dto->set_sort_by( $wp_rest_request->get_param( 'sort_by' ) );
+        $dto->set_date_type( $wp_rest_request->get_param( 'date_type' ) );
+        $dto->set_date_frame( $wp_rest_request->get_param( 'date_frame' ) );
+        $dto->set_type( $wp_rest_request->get_param( 'type' ) );
 
         $data                      = $this->form_repository->get( $dto );
         $response                  = $this->pagination( $wp_rest_request, $data['total'], $dto->get_per_page(), false );
@@ -246,8 +234,8 @@ class FormController extends Controller {
         $dto->set_title( $form->post_title . ' - copy' );
         $dto->set_status( $form->post_status );
         $dto->set_content( $form->post_content );
-        $dto->set_type( get_post_meta( $form->ID, 'formgent_type', true ) );
-        $dto->set_save_incomplete_data( (bool) get_post_meta( $form->ID, 'formgent_save_incomplete_data', true ) );
+        $dto->set_type( get_post_meta( $form->ID, '_formgent_type', true ) );
+        $dto->set_save_incomplete_data( (bool) get_post_meta( $form->ID, '_formgent_save_incomplete_data', true ) );
 
         try {
             do_action( "formgent_before_duplicate_form", $dto, $wp_rest_request );

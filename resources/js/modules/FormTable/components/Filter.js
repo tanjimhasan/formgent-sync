@@ -29,7 +29,6 @@ const dateFormat = 'YYYY-MM-DD';
 export default function Filter( props ) {
 	const { forms, pagination, isLoading } = props;
 	const [ toggleTimepicker, setToggleTimepicker ] = useState( false );
-	const [ formType, setFormType ] = useState( 'all' );
 	const [ defaultSorting, setDefaultSorting ] = useState( 'date_created' );
 	const [ formDateType, setFormDateType ] = useState( 'all' );
 	const [ searchInput, setSearchInput ] = useState( '' );
@@ -183,8 +182,6 @@ export default function Filter( props ) {
 
 	const handleFormTypes = ( type ) => {
 		if ( isLoading ) return;
-
-		setFormType( type );
 		updateFormsType( type );
 		resolveSelect( 'formgent' ).getForms(
 			pagination.current_page,

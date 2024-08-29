@@ -86,6 +86,10 @@ class ResponseRepository {
         return Response::query( 'response' )->select( $columns )->where( 'response.id', $id )->first();
     }
 
+    public function get_count_by_form_id( int $form_id ) {
+        return Response::query( 'response' )->where( 'response.form_id', $form_id )->where( 'response.status', ResponseStatus::PUBLISH )->group_by( 'form_id' )->count();
+    }
+
     public function get_single( ResponseSingleDTO $dto ) {
         $table_names     =  $this->get_field_names( $dto->get_form_id() );
         $responses_query = $this->response_query( $dto, $table_names );
@@ -171,7 +175,7 @@ class ResponseRepository {
     }
 
     private function get_field_names( int $form_id ) {
-        $table_names = get_post_meta( $form_id, 'response_table_names', true );
+        $table_names = get_post_meta( $form_id, '_response_table_names', true );
 
         if ( ! is_array( $table_names ) ) {
             $table_names = [];
@@ -186,6 +190,15 @@ class ResponseRepository {
 
     public function update_read( int $response_id, int $is_read ) {
         return Response::query()->where( 'id', $response_id )->update( [ 'is_read' => $is_read ] );
+    }
+
+    public function update_completed( int $response_id, int $is_completed ) {
+        $data = [
+            'is_completed' => $is_completed,
+            'completed_at' => $is_completed ? formgent_now() : null,
+        ];
+
+        return Response::query()->where( 'id', $response_id )->update( $data );
     }
 
     public function get_export_data( int $form_id, array $response_ids ) {
@@ -214,6 +227,7 @@ class ResponseRepository {
         return Response::query()->where( 'id', $id )->update(
             [
                 'is_completed' => 1,
+                'completed_at' => formgent_now(),
                 'status'       => ResponseStatus::PUBLISH,
             ]
         );

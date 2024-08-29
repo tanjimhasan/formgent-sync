@@ -27,9 +27,10 @@ class CreateDB implements Migration {
         $sql = "CREATE TABLE {$db_prefix}responses (
             `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `form_id` BIGINT UNSIGNED NOT NULL,
-            `status` VARCHAR(50) NOT NULL DEFAULT 'publish' COMMENT 'value: draft, publish',
+            `status` ENUM('publish', 'draft') NOT NULL DEFAULT 'publish',
             `is_read` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `is_completed` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
+            `completed_at` TIMESTAMP DEFAULT NULL,
             `is_starred` TINYINT NOT NULL DEFAULT 0 COMMENT 'value: 0/1',
             `ip` VARCHAR(50) NULL,
             `device` VARCHAR(50) NULL,
@@ -81,6 +82,25 @@ class CreateDB implements Migration {
             `expired_at` TIMESTAMP NULL,
             PRIMARY KEY (`id`)
         ) {$charset_collate};
+
+        -- -----------------------------------------------------
+        -- Table email_notifications
+        -- -----------------------------------------------------
+        CREATE TABLE {$db_prefix}email_notifications (
+            `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            `form_id` BIGINT UNSIGNED NOT NULL,
+            `name` VARCHAR(255) NOT NULL,
+            `send_to` VARCHAR(255) NOT NULL,
+            `subject` VARCHAR(255) NOT NULL,
+            `body` LONGTEXT NULL,
+            `cc` VARCHAR(255) NULL,
+            `bcc` VARCHAR(255) NULL,
+            `reply_to` VARCHAR(255) NULL,
+            `status` ENUM('publish', 'draft') NOT NULL DEFAULT 'publish',
+            `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (`id`)
+        ) {$charset_collate};
         ";
 
         dbDelta( $sql );
@@ -96,21 +116,24 @@ class CreateDB implements Migration {
 
         // Define constraints
         $tables = [
-            'responses'      => [
+            'responses'           => [
                 'form_id' => "{$wpdb->prefix}posts(ID)"
             ],
-            'answers'        => [
+            'answers'             => [
                 'form_id'     => "{$wpdb->prefix}posts(ID)",
                 'response_id' => "{$db_prefix}responses(id)",
                 'parent_id'   => "{$db_prefix}answers(id)"
             ],
-            'notes'          => [
+            'notes'               => [
                 'response_id' => "{$db_prefix}responses(id)"
             ],
-            'response_token' => [
+            'response_token'      => [
                 'form_id'     => "{$wpdb->prefix}posts(ID)",
                 'response_id' => "{$db_prefix}responses(id)"
-            ]
+            ],
+            'email_notifications' => [
+                'form_id' => "{$wpdb->prefix}posts(ID)"
+            ],
         ];
 
         foreach ( $tables as $table => $constraints ) {

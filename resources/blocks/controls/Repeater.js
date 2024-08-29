@@ -16,12 +16,15 @@ export default function Repeater( {
 		const newFields = attributes[ attr_key ].filter(
 			( item ) => item.id !== id
 		);
-		setAttributes( { [ attr_key ]: newFields } );
+
+		if ( newFields.length > 0 ) {
+			setAttributes( { [ attr_key ]: newFields } );
+		}
 	};
 
 	//handle add repeater field
 	const handleAddField = () => {
-		const newField = { id: nanoid(), ...{} };
+		const newField = { id: nanoid(), label: 'New Option', value: nanoid() };
 		const newFields = [ ...attributes[ attr_key ], newField ];
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
@@ -34,14 +37,29 @@ export default function Repeater( {
 
 	//update repeater field value to block attributes
 	const handleChange = ( id, fieldKey, value ) => {
-		const newFields = attributes[ attr_key ].map( ( item ) => {
-			if ( item.id === id ) {
-				return { ...item, [ fieldKey ]: value };
-			}
-			return item;
-		} );
-		setAttributes( { [ attr_key ]: newFields } );
+		if ( typeof control.onChange === 'function' ) {
+			control.onChange(
+				id,
+				fieldKey,
+				value,
+				attr_key,
+				attributes,
+				setAttributes
+			);
+		} else {
+			const newFields = attributes[ attr_key ].map( ( item ) => {
+				if ( item.id === id ) {
+					return { ...item, [ fieldKey ]: value };
+				}
+				return item;
+			} );
+
+			setAttributes( { [ attr_key ]: newFields } );
+		}
 	};
+
+	const showActions =
+		typeof control.show_actions === 'undefined' || control.show_actions;
 
 	return (
 		<div className="formgent-repeater-control">
@@ -67,17 +85,21 @@ export default function Repeater( {
 								>
 									{ typeof field[ labelKey ] === 'undefined'
 										? control.fields[ control.label_key ]
-												.label
+												?.label
 										: field[ labelKey ] }
 								</div>
-								<Button
-									onClick={ () =>
-										handleRemoveField( field.id )
-									}
-									className="formgent-repeater-field-remove"
-								>
-									X
-								</Button>
+								{ showActions ? (
+									<Button
+										onClick={ () =>
+											handleRemoveField( field.id )
+										}
+										className="formgent-repeater-field-remove"
+									>
+										X
+									</Button>
+								) : (
+									''
+								) }
 							</div>
 							{ openIndex === index && (
 								<div className="formgent-repeater-field-control-content">
@@ -102,9 +124,13 @@ export default function Repeater( {
 					);
 				} ) }
 			<div className="formgent-repeater__add-item">
-				<Button variant="primary" onClick={ handleAddField }>
-					<Icon icon="plus" /> { control.add_button_text }
-				</Button>
+				{ showActions ? (
+					<Button variant="primary" onClick={ handleAddField }>
+						<Icon icon="plus" /> { control.add_button_text }
+					</Button>
+				) : (
+					''
+				) }
 			</div>
 		</div>
 	);
