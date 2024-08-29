@@ -54,43 +54,17 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			const fieldName = element.ref.name;
 
-			if ( ! fieldInteractionState[ fieldName ] ) {
-				fieldInteractionState[ fieldName ] = {
-					interacted: false,
-				};
-			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
 
-			// Handle initial field interaction
-			if ( ! fieldInteractionState[ fieldName ].interacted ) {
-				await updateFieldCounter( context, element, 'both', '+' );
-				fieldInteractionState[ fieldName ].interacted = true;
-
-				for ( const field in fieldInteractionState ) {
-					if (
-						field !== fieldName &&
-						fieldInteractionState[ field ].interacted
-					) {
-						let previousElement = document.querySelector(
-							`input[name="${ field }"]`
-						);
-
-						if ( ! previousElement ) {
-							previousElement = document.querySelector(
-								`textarea[name="${ field }"]`
-							);
-						}
-
-						if ( previousElement ) {
-							await updateFieldCounter(
-								context,
-								{ ref: previousElement },
-								'drop_off',
-								'-'
-							);
-						}
-					}
-				}
-			}
 			generateFormToken( context );
 			formStarted = true;
 
@@ -122,42 +96,16 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			const fieldName = element.ref.name;
 
-			if ( ! fieldInteractionState[ fieldName ] ) {
-				fieldInteractionState[ fieldName ] = {
-					interacted: false,
-				};
-			}
-			// Handle initial field interaction
-			if ( ! fieldInteractionState[ fieldName ].interacted ) {
-				await updateFieldCounter( context, element, 'both', '+' );
-				fieldInteractionState[ fieldName ].interacted = true;
-
-				for ( const field in fieldInteractionState ) {
-					if (
-						field !== fieldName &&
-						fieldInteractionState[ field ].interacted
-					) {
-						let previousElement = document.querySelector(
-							`input[name="${ field }"]`
-						);
-
-						if ( ! previousElement ) {
-							previousElement = document.querySelector(
-								`textarea[name="${ field }"]`
-							);
-						}
-
-						if ( previousElement ) {
-							await updateFieldCounter(
-								context,
-								{ ref: previousElement },
-								'drop_off',
-								'-'
-							);
-						}
-					}
-				}
-			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
 
 			//update field data
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
@@ -169,42 +117,16 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			const fieldName = element.ref.name;
 
-			if ( ! fieldInteractionState[ fieldName ] ) {
-				fieldInteractionState[ fieldName ] = {
-					interacted: false,
-				};
-			}
-			// Handle initial field interaction
-			if ( ! fieldInteractionState[ fieldName ].interacted ) {
-				await updateFieldCounter( context, element, 'both', '+' );
-				fieldInteractionState[ fieldName ].interacted = true;
-
-				for ( const field in fieldInteractionState ) {
-					if (
-						field !== fieldName &&
-						fieldInteractionState[ field ].interacted
-					) {
-						let previousElement = document.querySelector(
-							`input[name="${ field }"]`
-						);
-
-						if ( ! previousElement ) {
-							previousElement = document.querySelector(
-								`textarea[name="${ field }"]`
-							);
-						}
-
-						if ( previousElement ) {
-							await updateFieldCounter(
-								context,
-								{ ref: previousElement },
-								'drop_off',
-								'-'
-							);
-						}
-					}
-				}
-			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
 
 			//update field data
 			context.data[ element.ref.name ] =
@@ -421,39 +343,18 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
-				// Remove drop-off from last interacted field
-				if ( ! fieldInteractionState[ fieldName ] ) {
-					fieldInteractionState[ fieldName ] = {
-						interacted: false,
-					};
-				}
-				if ( ! fieldInteractionState[ fieldName ].interacted ) {
-					for ( const field in fieldInteractionState ) {
-						if (
-							field !== fieldName &&
-							fieldInteractionState[ field ].interacted
-						) {
-							let previousElement = document.querySelector(
-								`input[name="${ field }"]`
-							);
-
-							if ( ! previousElement ) {
-								previousElement = document.querySelector(
-									`textarea[name="${ field }"]`
-								);
-							}
-
-							if ( previousElement ) {
-								await updateFieldCounter(
-									context,
-									{ ref: previousElement },
-									'drop_off',
-									'-'
-								);
-							}
-						}
+				// Dispatch custom event for handleResetInteraction
+				const resetInteractionEvent = new CustomEvent(
+					'resetFieldInteraction',
+					{
+						detail: {
+							fieldName,
+							fieldInteractionState,
+							context,
+						},
 					}
-				}
+				);
+				document.dispatchEvent( resetInteractionEvent );
 
 				// Generate form token
 				let responseToken = null;
