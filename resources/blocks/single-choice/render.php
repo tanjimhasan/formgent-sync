@@ -23,33 +23,15 @@
                             type="radio"
                             name="<?php echo esc_attr( $attributes['name'] ); ?>"
                             id="<?php echo esc_attr( $option['id'] ); ?>"
-                            <?php echo $attributes['value'] === $option['value'] ? "checked" : null; ?>
                             data-wp-interactive="formgent/form"
                             data-wp-on--change="actions.updateInput"
-                            data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+                            value="<?php echo esc_attr( $option['value'] ); ?>"
                         />
                         <label for="<?php echo esc_attr( $option['id'] ); ?>" class="formgent-editor-block-list__single__label">
                             <?php echo esc_html( $option['label'] ); ?>
                         </label>
                     </div>
                 <?php endforeach; ?>
-            <?php else : ?>
-                <!-- Default radio button when options are empty -->
-                <div class="formgent-editor-block-list__single__box__choice">
-                    <input
-                        class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
-                        type="radio"
-                        name="<?php echo esc_attr( $attributes['name'] ); ?>"
-                        id="<?php echo esc_attr( $attributes['name'] . '_default' ); ?>"
-                        checked="checked"
-                        data-wp-interactive="formgent/form"
-                        data-wp-on--change="actions.updateInput"
-                        data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
-                    />
-                    <label for="<?php echo esc_attr( $attributes['name'] . '_default' ); ?>" class="formgent-editor-block-list__single__label">
-                        <?php echo esc_html__( 'Default Option', 'text-domain' ); ?>
-                    </label>
-                </div>
             <?php endif; ?>
         </div>
 

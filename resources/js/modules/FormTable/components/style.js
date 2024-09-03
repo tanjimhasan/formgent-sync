@@ -297,15 +297,15 @@ const TableStyle = Styled.div`
             position: absolute;
             right: 0;
             top: calc(100% + 4px);
-            width: 100px;
-            line-height: 30px;
-            padding: 0 10px;
+            width: 170px;
+            padding: 10px;
             background: var(--formgent-color-dark);
             border-radius: 6px;
             font-size: 12px;
             font-weight: 500;
             color: #fff;
             display: none;
+            text-align: left;
         }
         &:after{
             content: "";
