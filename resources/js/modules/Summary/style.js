@@ -43,7 +43,11 @@ const SummaryStyle = Styled.div`
         }
     }
     .formgent-summary-item--email,
-    .formgent-summary-item--text{
+    .formgent-summary-item--text,
+    .formgent-summary-item--dropdown,
+    .formgent-summary-item--single-choice,
+    .formgent-summary-item--input-masking,
+    .formgent-summary-item--address{
         .formgent-summary-item__icon{
             svg path{
                 stroke: none;
@@ -104,6 +108,25 @@ const SummaryStyle = Styled.div`
         }
         &:last-child{
             padding-bottom: 0;
+        }
+    }
+    .formgent-summary-item__content__single__sub-item{
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        &:not(:last-child){
+            margin-bottom: 8px;
+        }
+        span{
+            color: var(--formgent-color-gray-500);
+            font-size: 12px;
+            font-weight: 400;
+            min-width: 105px;
+        }
+        strong{
+            color: var(--formgent-color-gray-600);
+            font-size: 14px;
+            font-weight: 500;
         }
     }
     .formgent-summary-item__content__not-found{

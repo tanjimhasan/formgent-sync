@@ -24,7 +24,7 @@ class FormReadDTO extends DTO {
      *
      * @return int
      */
-    public function get_page() {
+    public function get_page(): int {
         return $this->page;
     }
 
@@ -35,7 +35,7 @@ class FormReadDTO extends DTO {
      *
      * @return self
      */
-    public function set_page( int $page ) {
+    public function set_page( int $page ): self {
         $this->page = $page;
 
         return $this;
@@ -46,7 +46,7 @@ class FormReadDTO extends DTO {
      *
      * @return int
      */
-    public function get_per_page() {
+    public function get_per_page(): int {
         return $this->per_page;
     }
 
@@ -57,7 +57,7 @@ class FormReadDTO extends DTO {
      *
      * @return self
      */
-    public function set_per_page( int $per_page ) {
+    public function set_per_page( int $per_page ): self {
         $this->per_page = $per_page;
 
         return $this;
@@ -66,20 +66,20 @@ class FormReadDTO extends DTO {
     /**
      * Get the value of search
      *
-     * @return string
+     * @return ?string
      */
-    public function get_search() {
+    public function get_search(): ?string {
         return $this->search;
     }
 
     /**
      * Set the value of search
      *
-     * @param string $search 
+     * @param ?string $search 
      *
      * @return self
      */
-    public function set_search( string $search ) {
+    public function set_search( ?string $search ): self {
         $this->search = $search;
 
         return $this;
@@ -88,20 +88,20 @@ class FormReadDTO extends DTO {
     /**
      * Get the value of sort_by
      *
-     * @return string
+     * @return ?string
      */
-    public function get_sort_by() {
+    public function get_sort_by(): ?string {
         return $this->sort_by;
     }
 
     /**
      * Set the value of sort_by
      *
-     * @param string $sort_by 
+     * @param ?string $sort_by 
      *
      * @return self
      */
-    public function set_sort_by( string $sort_by ) {
+    public function set_sort_by( ?string $sort_by ): self {
         $this->sort_by = $sort_by;
 
         return $this;
@@ -110,20 +110,20 @@ class FormReadDTO extends DTO {
     /**
      * Get the value of date_type
      *
-     * @return string
+     * @return ?string
      */
-    public function get_date_type() {
+    public function get_date_type(): ?string {
         return $this->date_type;
     }
 
     /**
      * Set the value of date_type
      *
-     * @param string $date_type 
+     * @param ?string $date_type 
      *
      * @return self
      */
-    public function set_date_type( string $date_type ) {
+    public function set_date_type( ?string $date_type ): self {
         $this->date_type = $date_type;
 
         return $this;
@@ -134,7 +134,7 @@ class FormReadDTO extends DTO {
      *
      * @return array
      */
-    public function get_date_frame() {
+    public function get_date_frame(): array {
         return $this->date_frame;
     }
 
@@ -145,7 +145,7 @@ class FormReadDTO extends DTO {
      *
      * @return self
      */
-    public function set_date_frame( array $date_frame ) {
+    public function set_date_frame( array $date_frame ): self {
         $this->date_frame = $date_frame;
 
         return $this;
@@ -154,20 +154,20 @@ class FormReadDTO extends DTO {
     /**
      * Get the value of type
      *
-     * @return string
+     * @return ?string
      */
-    public function get_type() {
+    public function get_type(): ?string {
         return $this->type;
     }
 
     /**
      * Set the value of type
      *
-     * @param string $type 
+     * @param ?string $type 
      *
      * @return self
      */
-    public function set_type( string $type ) {
+    public function set_type( ?string $type ): self {
         $this->type = $type;
 
         return $this;
