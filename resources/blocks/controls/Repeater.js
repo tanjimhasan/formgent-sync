@@ -57,7 +57,7 @@ export default function Repeater( {
 
 	const showActions =
 		typeof control.show_actions === 'undefined' || control.show_actions;
-
+	console.log( attributes );
 	return (
 		<div className="formgent-repeater-control">
 			<label className="formgent-control-label">{ control.label }</label>

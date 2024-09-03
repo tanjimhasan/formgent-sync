@@ -84,20 +84,22 @@ const { callbacks } = store( 'formgent/form', {
 				JSON.stringify( context )
 			);
 
+			console.log( blocksSettings );
+
 			// Loop through blocksSettings and construct data object
-			Object.entries( blocksSettings ).forEach(
-				( [ blockKey, block ] ) => {
-					data[ blockKey ] = block.children
-						? Object.keys( block.children ).reduce(
-								( acc, childKey ) => {
-									acc[ childKey ] = '';
-									return acc;
-								},
-								{}
-						  )
-						: '';
-				}
-			);
+			// blocksSettings && Object.entries( blocksSettings ).forEach(
+			// 	( [ blockKey, block ] ) => {
+			// 		data[ blockKey ] = block.children
+			// 			? Object.keys( block.children ).reduce(
+			// 					( acc, childKey ) => {
+			// 						acc[ childKey ] = '';
+			// 						return acc;
+			// 					},
+			// 					{}
+			// 			  )
+			// 			: '';
+			// 	}
+			// );
 
 			context.data = { ...data };
 			const validation = new JustValidate(
