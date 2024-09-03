@@ -6,6 +6,12 @@ import alignLeft from '@icon/align-left.svg';
 import hashIcon from '@icon/hash.svg';
 import linkIcon from '@icon/link.svg';
 import fileIcon from '@icon/file.svg';
+import checkSquare from '@icon/check-square.svg';
+import userIcon from '@icon/user.svg';
+import dropdownIcon from '@icon/chevron-down-circle.svg';
+import markerIcon from '@icon/marker-pin.svg';
+import radioIcon from '@icon/radios.svg';
+import inputIcon from '@icon/text-input-left.svg';
 
 export default function FieldContent( props ) {
 	const { summaryFields, summaries, handleOnScroll } = props;
@@ -17,6 +23,12 @@ export default function FieldContent( props ) {
 		number: hashIcon,
 		website: linkIcon,
 		gdpr: fileIcon,
+		address: markerIcon,
+		name: userIcon,
+		dropdown: dropdownIcon,
+		'single-choice': radioIcon,
+		'multiple-choice': checkSquare,
+		'input-masking': inputIcon,
 	};
 
 	return (
@@ -47,8 +59,8 @@ export default function FieldContent( props ) {
 								handleOnScroll( e, field.field_name );
 							} }
 						>
-							{ summaries[ fieldName ]?.length > 0 ? (
-								summaries[ fieldName ].map( ( item ) => (
+							{ generalFields[ fieldName ]?.length > 0 ? (
+								generalFields[ fieldName ].map( ( item ) => (
 									<div
 										className="formgent-summary-item__content__single"
 										key={ item.id || item.parent_id }

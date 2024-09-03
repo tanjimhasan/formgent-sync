@@ -43,7 +43,11 @@ const SummaryStyle = Styled.div`
         }
     }
     .formgent-summary-item--email,
-    .formgent-summary-item--text{
+    .formgent-summary-item--text,
+    .formgent-summary-item--dropdown,
+    .formgent-summary-item--single-choice,
+    .formgent-summary-item--input-masking,
+    .formgent-summary-item--address{
         .formgent-summary-item__icon{
             svg path{
                 stroke: none;
