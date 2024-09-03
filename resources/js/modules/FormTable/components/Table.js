@@ -46,6 +46,7 @@ export default function Table( props ) {
 		dateType,
 		isStatusUpdating,
 		singleStatusUpdated,
+		isFormDuplicating,
 	} = props;
 
 	const [ filteredForms, setFilteredForms ] = useState( forms );
@@ -147,7 +148,7 @@ export default function Table( props ) {
 			render: ( text, record ) => (
 				<Tooltip
 					text={
-						isCopied && copiedShortcode === record.id
+						isCopied && copiedShortcode === record?.id
 							? ''
 							: __( 'Click to copy', 'formgent' )
 					}
@@ -157,20 +158,20 @@ export default function Table( props ) {
 				>
 					<label
 						className={
-							isCopying && copiedShortcode === record.id
+							isCopying && copiedShortcode === record?.id
 								? 'formgent-form-shortcode__copying'
 								: ! isCopying &&
 								  isCopied &&
-								  copiedShortcode === record.id
+								  copiedShortcode === record?.id
 								? 'formgent-form-shortcode__copied'
 								: ''
 						}
 					>
-						{ isCopying && copiedShortcode === record.id ? (
+						{ isCopying && copiedShortcode === record?.id ? (
 							<ReactSVG src={ spinnerIcon } />
 						) : ! isCopying &&
 						  isCopied &&
-						  copiedShortcode === record.id ? (
+						  copiedShortcode === record?.id ? (
 							<ReactSVG src={ checkIcon } />
 						) : (
 							<ReactSVG src={ copyIcon } />
@@ -179,17 +180,17 @@ export default function Table( props ) {
 							type="text"
 							readOnly
 							value={
-								isCopying & ( copiedShortcode === record.id )
+								isCopying & ( copiedShortcode === record?.id )
 									? ''
 									: ! isCopying &&
 									  isCopied &&
-									  copiedShortcode === record.id
+									  copiedShortcode === record?.id
 									? __( 'Copied!', 'formgent' )
-									: `[formgent id="${ record.id }"]`
+									: `[formgent id="${ record?.id }"]`
 							}
-							data-shortcode_id={ record.id }
+							data-shortcode_id={ record?.id }
 							onClick={ ( e ) => {
-								setCopiedShortcode( record.id );
+								setCopiedShortcode( record?.id );
 								handleShortcodeCopy( e );
 							} }
 						/>
@@ -203,10 +204,10 @@ export default function Table( props ) {
 			className: 'formgent-head-response',
 			render: ( text, record ) => (
 				<div className="helpgent-form-responses">
-					<Link to={ `forms/${ record.id }/response` }>
-						{ record.total_unread_responses > 0 ? (
+					<Link to={ `forms/${ record?.id }/response` }>
+						{ record?.total_unread_responses > 0 ? (
 							<div className="helpgent-badge helpgent-badge-danger helpgent-badge-circle helpgent-badge-small">
-								{ record.total_responses }
+								{ record?.total_responses }
 							</div>
 						) : (
 							'0'
@@ -220,7 +221,7 @@ export default function Table( props ) {
 			className: 'formgent-head-created-by',
 			render: ( text, record ) => (
 				<div className="helpgent-form-username">
-					{ record.username }
+					{ record?.username }
 				</div>
 			),
 		},
@@ -229,9 +230,9 @@ export default function Table( props ) {
 			className: 'formgent-head-updated-at',
 			render: ( text, record ) => {
 				const date =
-					'string' === typeof record.updated_at
-						? record.updated_at
-						: record.created_at;
+					'string' === typeof record?.updated_at
+						? record?.updated_at
+						: record?.created_at;
 				return (
 					<div className="helpgent-form-date">
 						{ formatDate( 'en-US', date, dateFormatOptions ) }
@@ -258,9 +259,9 @@ export default function Table( props ) {
 			className: 'formgent-head-action',
 			render: ( text, record ) => {
 				const date =
-					'string' === typeof record.updated_at
-						? record.updated_at
-						: record.created_at;
+					'string' === typeof record?.updated_at
+						? record?.updated_at
+						: record?.created_at;
 				return (
 					<div className="formgent-form-action">
 						<TableAction
@@ -268,6 +269,8 @@ export default function Table( props ) {
 							editableForm={ editableForm }
 							setEditableForm={ setEditableForm }
 							isFormDeleting={ isFormDeleting }
+							isFormDuplicating={ isFormDuplicating }
+							pagination={ pagination }
 						/>
 					</div>
 				);

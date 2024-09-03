@@ -16,12 +16,15 @@ export default function Repeater( {
 		const newFields = attributes[ attr_key ].filter(
 			( item ) => item.id !== id
 		);
-		setAttributes( { [ attr_key ]: newFields } );
+
+		if ( newFields.length > 0 ) {
+			setAttributes( { [ attr_key ]: newFields } );
+		}
 	};
 
 	//handle add repeater field
 	const handleAddField = () => {
-		const newField = { id: nanoid(), ...{} };
+		const newField = { id: nanoid(), label: 'New Option', value: nanoid() };
 		const newFields = [ ...attributes[ attr_key ], newField ];
 		setAttributes( { [ attr_key ]: newFields } );
 		setOpenIndex( newFields.length - 1 );
