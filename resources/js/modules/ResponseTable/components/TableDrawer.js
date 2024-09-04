@@ -43,6 +43,8 @@ export default function TableDrawer( props ) {
 		dateFormatOptions,
 	} = props;
 
+	const [ activeDrawer, setActiveDrawer ] = useState( '' );
+	const [ activeNav, setActiveNav ] = useState( '' );
 	const [ activeDrawerTab, setActiveDrawerTab ] = useState( 'answers' );
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
@@ -232,12 +234,19 @@ export default function TableDrawer( props ) {
 					<div className="response-table__drawer__header__response__btns">
 						<button
 							className={ `response-table__drawer__header__response__btn ${
+								activeDrawer === response?.id &&
+								activeNav === 'prev'
+									? 'formgent-loading'
+									: ''
+							} ${
 								single_response_pagination?.current_page <= 1
 									? 'disabled'
 									: ''
 							}` }
 							onClick={ () => {
 								handleTableDrawer( response.id, 'prev' );
+								setActiveDrawer( response.id );
+								setActiveNav( 'prev' );
 							} }
 						>
 							<ReactSVG
@@ -248,6 +257,11 @@ export default function TableDrawer( props ) {
 						</button>
 						<button
 							className={ `response-table__drawer__header__response__btn ${
+								activeDrawer === response?.id &&
+								activeNav === 'next'
+									? 'formgent-loading'
+									: ''
+							} ${
 								single_response_pagination?.current_page ===
 								single_response_pagination?.total_pages
 									? 'disabled'
@@ -255,6 +269,8 @@ export default function TableDrawer( props ) {
 							}` }
 							onClick={ () => {
 								handleTableDrawer( response.id, 'next' );
+								setActiveDrawer( response.id );
+								setActiveNav( 'next' );
 							} }
 						>
 							<ReactSVG
@@ -266,7 +282,9 @@ export default function TableDrawer( props ) {
 					</div>
 					<span
 						className={
-							! single_response_pagination && 'formgent-loading'
+							! single_response_pagination
+								? 'formgent-loading'
+								: ''
 						}
 					>
 						{ single_response_pagination?.current_page } of{ ' ' }
@@ -337,11 +355,7 @@ export default function TableDrawer( props ) {
 					</TableTabStyle>
 					{ activeDrawerTab === 'answers' && (
 						<div className="response-table__drawer__tab__content">
-							<div
-								className={ `response-table__drawer__tab__wrapper ${
-									! response?.answers && 'formgent-loading'
-								}` }
-							>
+							<div className="response-table__drawer__tab__wrapper">
 								{ response?.answers.map( ( answer, index ) => {
 									return (
 										<div
@@ -459,11 +473,7 @@ export default function TableDrawer( props ) {
 										</button>
 									</form>
 								) : (
-									<div
-										className={ `response-table__drawer__tab__submission__content ${
-											! notes && 'formgent-loading'
-										}` }
-									>
+									<div className="response-table__drawer__tab__submission__content">
 										{ notes &&
 											notes.map( ( note, index ) => {
 												return (

@@ -293,6 +293,7 @@ export default function Table() {
 	}
 
 	async function handleTableDrawer( record, nav ) {
+		console.log( 'handleTableDrawer', record, nav );
 		if ( isResponseSingleChanging ) return;
 
 		responseSingleChangeRequest();
