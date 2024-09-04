@@ -56,7 +56,9 @@ export default function Table() {
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ readStatus, setReadStatus ] = useState( 0 );
-	const [ orderType, setOrderType ] = useState( 'asc' );
+	const [ orderFieldType, setOrderFieldType ] = useState( 'response' );
+	const [ orderType, setOrderType ] = useState( 'desc' );
+	const [ orderBy, setOrderBy ] = useState( 'created_at' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
@@ -131,7 +133,9 @@ export default function Table() {
 			searchItem,
 			parseInt( id ),
 			readStatus,
+			orderFieldType,
 			orderType,
+			orderBy,
 			Date.now()
 		);
 	}
@@ -218,6 +222,16 @@ export default function Table() {
 
 	// handleSortby
 	function handleSortby( item, dropdownId ) {
+		setOrderBy( dropdownId );
+		if (
+			dropdownId === 'id' ||
+			dropdownId === 'created_at' ||
+			dropdownId === 'user_email'
+		) {
+			setOrderFieldType( 'response' );
+		} else {
+			setOrderFieldType( 'answer' );
+		}
 		const { key } = item;
 		const sortFunctions = {
 			ascending: () => {
@@ -334,7 +348,9 @@ export default function Table() {
 				searchItem,
 				parseInt( id ),
 				readStatus,
+				orderFieldType,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 
@@ -583,7 +599,7 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsUpIcon } />
 					Ascending
-					{ orderType === 'asc' && (
+					{ orderType === 'asc' && orderBy === dropdownId && (
 						<span className="active-icon">
 							<ReactSVG
 								width="10"
@@ -601,7 +617,7 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsDownIcon } />
 					Descending
-					{ orderType !== 'asc' && (
+					{ orderType === 'desc' && orderBy === dropdownId && (
 						<span className="active-icon">
 							<ReactSVG
 								width="10"
@@ -983,7 +999,7 @@ export default function Table() {
 
 	useEffect( () => {
 		fetchResponse();
-	}, [ searchItem, readStatus, orderType ] );
+	}, [ searchItem, readStatus, orderFieldType, orderType, orderBy ] );
 
 	useEffect( () => {
 		if ( single_response ) {

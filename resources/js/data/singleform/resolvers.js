@@ -36,7 +36,9 @@ export const SingleFormResolvers = {
 		searchItem = '',
 		formID = '',
 		readStatus = 0,
-		orderType = 'asc',
+		orderFieldType = 'response',
+		orderType = 'desc',
+		orderBy = 'created_at',
 		timestamp = 0
 	) {
 		yield SingleFormActions.isSingleFormFetchLoading( true );
@@ -48,7 +50,9 @@ export const SingleFormResolvers = {
 				searchItem,
 				formID,
 				readStatus,
-				orderType
+				orderFieldType,
+				orderType,
+				orderBy
 			);
 
 			yield SingleFormActions.storeResponse( {
