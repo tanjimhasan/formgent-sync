@@ -58,7 +58,7 @@ class FormRepository {
             function( $form ) {
                 $form->preview_url = get_post_permalink( $form->id );
                 return $form;
-            }, $posts_query->pagination( $dto->get_per_page(), $dto->get_page() )
+            }, $posts_query->pagination( $dto->get_page(), $dto->get_per_page() )
         );
 
         return [

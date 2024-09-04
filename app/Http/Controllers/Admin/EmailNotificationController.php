@@ -44,7 +44,7 @@ class EmailNotificationController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
@@ -53,7 +53,7 @@ class EmailNotificationController extends Controller {
             $this->repository->create( $this->get_dto( $request ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was created successfully!' )
+                    'message' => esc_html__( 'Email notification was created successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
@@ -76,7 +76,7 @@ class EmailNotificationController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
@@ -90,7 +90,7 @@ class EmailNotificationController extends Controller {
             $this->repository->update( $this->get_dto( $request )->set_id( $request->get_param( 'id' ) ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was updated successfully!' )
+                    'message' => esc_html__( 'Email notification was updated successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
@@ -118,7 +118,7 @@ class EmailNotificationController extends Controller {
             $this->repository->delete_by_id( $request->get_param( 'id' ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was deleted successfully!' )
+                    'message' => esc_html__( 'Email notification was deleted successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
