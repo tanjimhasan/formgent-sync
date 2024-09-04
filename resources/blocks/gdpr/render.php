@@ -9,7 +9,6 @@
             name="<?php echo esc_attr( $attributes['name'] ); ?>"
             data-wp-interactive="formgent/form"
             data-wp-on--click="actions.updateGdpr"
-            data-wp-bind--checked="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
         />
         <label for="<?php echo esc_attr( $attributes['id'] ); ?>" class="formgent-editor-block-list__single__label-container">
             <span class="formgent-editor-block-list__checkbox">

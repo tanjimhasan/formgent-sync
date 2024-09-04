@@ -10,6 +10,8 @@ $context   = [
     'data'           => formgent_form_default_values( $data ),
 ];
 
+// var_dump($data);
+
 ?>
 <div class="formgent-form <?php formgent_render( isset( $css_class ) ? $css_class : '' )?>">
     <form

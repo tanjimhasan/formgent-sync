@@ -42,9 +42,9 @@ const { callbacks } = store( 'formgent/form', {
 			const context = getContext();
 			context.data[ element.ref.name ] =
 				context.data[ element.ref.name ] === '' ||
-				context.data[ element.ref.name ] === 0
-					? 1
-					: 0;
+				context.data[ element.ref.name ] === '0'
+					? '1'
+					: '0';
 		},
 		updatePhoneNumber: () => {
 			const element = getElement();
@@ -79,28 +79,25 @@ const { callbacks } = store( 'formgent/form', {
 		init: () => {
 			const context = getContext();
 			const element = getElement();
-
 			const { blocksSettings, data } = JSON.parse(
 				JSON.stringify( context )
 			);
 
-			console.log( blocksSettings );
-
 			// Loop through blocksSettings and construct data object
-			// blocksSettings && Object.entries( blocksSettings ).forEach(
-			// 	( [ blockKey, block ] ) => {
-			// 		data[ blockKey ] = block.children
-			// 			? Object.keys( block.children ).reduce(
-			// 					( acc, childKey ) => {
-			// 						acc[ childKey ] = '';
-			// 						return acc;
-			// 					},
-			// 					{}
-			// 			  )
-			// 			: '';
-			// 	}
-			// );
-
+			blocksSettings &&
+				Object.entries( blocksSettings ).forEach(
+					( [ blockKey, block ] ) => {
+						data[ blockKey ] = block.children
+							? Object.keys( block.children ).reduce(
+									( acc, childKey ) => {
+										acc[ childKey ] = '';
+										return acc;
+									},
+									{}
+							  )
+							: '';
+					}
+				);
 			context.data = { ...data };
 			const validation = new JustValidate(
 				`#${ element.attributes.id }`,
@@ -229,7 +226,6 @@ const { callbacks } = store( 'formgent/form', {
 			if ( honeypotField.value !== '' ) {
 				return;
 			}
-
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
 					continue;
