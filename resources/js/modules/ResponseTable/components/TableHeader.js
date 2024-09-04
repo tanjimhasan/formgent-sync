@@ -13,7 +13,6 @@ import chevronDownIcon from '@icon/chevron-down.svg';
 import closeIcon from '@icon/close.svg';
 import columnIcon from '@icon/column-3.svg';
 import downloadIcon from '@icon/download.svg';
-import printIcon from '@icon/print.svg';
 import refreshIcon from '@icon/refresh.svg';
 import searchIcon from '@icon/search.svg';
 import trashIcon from '@icon/trash.svg';
@@ -132,7 +131,7 @@ export default function TableHeader( props ) {
 							}
 						/>
 					</AntDropdown>
-					<AntButton
+					{ /* <AntButton
 						onClick={ handlePrint }
 						icon={
 							<ReactSVG
@@ -141,7 +140,7 @@ export default function TableHeader( props ) {
 								src={ printIcon }
 							/>
 						}
-					/>
+					/> */ }
 					<AntButton
 						onClick={ handleDelete }
 						icon={
