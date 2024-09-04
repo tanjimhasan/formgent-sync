@@ -135,7 +135,8 @@ export const SingleFormActions = {
 		searchItem,
 		formID,
 		readStatus,
-		orderType
+		orderType,
+		orderBy
 	) => {
 		return {
 			type: 'FETCH_SINGLE_RESPONSE',
@@ -146,6 +147,7 @@ export const SingleFormActions = {
 				formID,
 				readStatus,
 				orderType,
+				orderBy,
 			},
 		};
 	},

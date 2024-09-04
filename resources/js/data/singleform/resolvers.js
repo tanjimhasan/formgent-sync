@@ -52,7 +52,8 @@ export const SingleFormResolvers = {
 				readStatus,
 				orderFieldType,
 				orderType,
-				orderBy
+				orderBy,
+				timestamp
 			);
 
 			yield SingleFormActions.storeResponse( {
@@ -72,6 +73,7 @@ export const SingleFormResolvers = {
 		formID,
 		readStatus = 0,
 		orderType,
+		orderBy,
 		timestamp = 0
 	) {
 		try {
@@ -81,7 +83,8 @@ export const SingleFormResolvers = {
 				searchItem,
 				formID,
 				readStatus,
-				orderType
+				orderType,
+				orderBy
 			);
 
 			yield SingleFormActions.storeSingleResponse( {

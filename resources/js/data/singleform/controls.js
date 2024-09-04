@@ -10,7 +10,7 @@ export const SingleFormControls = {
 	},
 	FETCH_SINGLE_RESPONSE( action ) {
 		return apiFetch( {
-			path: `${ action.payload.path }?s=${ action.payload.searchItem }&is_read=${ action.payload.readStatus }&form_id=${ action.payload.formID }&order=${ action.payload.orderType }&order_by=id&page=${ action.payload.currentPage }`,
+			path: `${ action.payload.path }?s=${ action.payload.searchItem }&is_read=${ action.payload.readStatus }&form_id=${ action.payload.formID }&order=${ action.payload.orderType }&order_by=${ action.payload.orderBy }&page=${ action.payload.currentPage }`,
 		} );
 	},
 	FETCH_FIELDS( action ) {

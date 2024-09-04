@@ -67,6 +67,7 @@ export default function Table() {
 	const [ responses, setResponses ] = useState( [] );
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
+	const [ starredChanging, setStarredChanging ] = useState( '' );
 
 	// Reference
 	const csvLinkRef = useRef();
@@ -333,6 +334,7 @@ export default function Table() {
 				parseInt( id ),
 				readStatus,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 			handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
@@ -364,6 +366,7 @@ export default function Table() {
 				parseInt( id ),
 				readStatus,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 
@@ -394,6 +397,7 @@ export default function Table() {
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus, source ) {
+		setStarredChanging( id );
 		if ( isStarredChanging ) return;
 
 		starredChangeRequest();
@@ -405,12 +409,13 @@ export default function Table() {
 		);
 		if ( updateStarredStatus ) {
 			starredChangeSuccess( id, reverseStarredStatus );
-
+			setStarredChanging( '' );
 			if ( source === 'drawer' ) {
 				handleTableDrawer( id );
 			}
 		} else {
 			starredChangeError();
+			setStarredChanging( '' );
 		}
 	}
 
@@ -685,7 +690,13 @@ export default function Table() {
 						? starredItems[ record.id ]
 						: '0';
 				return (
-					<div className="formgent-form-table-item-wrap">
+					<div
+						className={ `formgent-form-table-item-wrap ${ starredChanging } ${
+							starredChanging === record.id
+								? 'formgent-loading'
+								: ''
+						}` }
+					>
 						{ record.id }
 						<ReactSVG
 							width="16"
@@ -981,6 +992,7 @@ export default function Table() {
 		starredItems,
 		readStatusItems,
 		filteredData,
+		starredChanging,
 		isStarredChanging,
 	] );
 
