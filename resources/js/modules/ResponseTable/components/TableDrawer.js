@@ -264,7 +264,11 @@ export default function TableDrawer( props ) {
 							/>
 						</button>
 					</div>
-					<span className="">
+					<span
+						className={
+							! single_response_pagination && 'formgent-loading'
+						}
+					>
 						{ single_response_pagination?.current_page } of{ ' ' }
 						{ single_response_pagination?.total_pages } Responses
 					</span>
@@ -333,7 +337,11 @@ export default function TableDrawer( props ) {
 					</TableTabStyle>
 					{ activeDrawerTab === 'answers' && (
 						<div className="response-table__drawer__tab__content">
-							<div className="response-table__drawer__tab__wrapper">
+							<div
+								className={ `response-table__drawer__tab__wrapper ${
+									! response?.answers && 'formgent-loading'
+								}` }
+							>
 								{ response?.answers.map( ( answer, index ) => {
 									return (
 										<div
@@ -451,7 +459,11 @@ export default function TableDrawer( props ) {
 										</button>
 									</form>
 								) : (
-									<div className="response-table__drawer__tab__submission__content">
+									<div
+										className={ `response-table__drawer__tab__submission__content ${
+											! notes && 'formgent-loading'
+										}` }
+									>
 										{ notes &&
 											notes.map( ( note, index ) => {
 												return (
