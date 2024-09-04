@@ -152,10 +152,6 @@ function formgent_generate_token() {
     return $token;
 }
 
-function formgent_font_family_dir( string $file = '' ) {
-    return WP_CONTENT_DIR . '/formgent-font-family/' . ltrim( $file, '/' );
-}
-
 function formgent_post_type() {
     return formgent_app_config( 'post_type' );
 }

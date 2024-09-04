@@ -107,17 +107,19 @@ class ResponseController extends Controller {
             return Response::send( ['messages' => $validate_data['errors']], 422 );
         }
 
-        $this->answer_repository->creates( $response->id, $validate_data['field_dtos'] );
-
-        // Handle child fields if present.
-        if ( ! empty( $validate_data['parent_field_names'] ) ) {
-            $this->handle_child_fields( $response->id, $validate_data );
+        if ( ! empty( $validate_data['field_dtos'] ) ) {
+            $this->answer_repository->creates( $response->id, $validate_data['field_dtos'] );
+            
+            // Handle child fields if present.
+            if ( ! empty( $validate_data['parent_field_names'] ) ) {
+                $this->handle_child_fields( $response->id, $validate_data );
+            }
+            
+            $this->repository->mark_as_completed( $response->id );
+            
+            // Trigger the after response creation hook.
+            do_action( "formgent_after_create_form_response", $response->id, $form, $request );
         }
-
-        $this->repository->mark_as_completed( $response->id );
-
-        // Trigger the after response creation hook.
-        do_action( "formgent_after_create_form_response", $response->id, $form, $request );
 
         // Return a success response.
         return Response::send( ['message' => esc_html__( 'The form was submitted successfully!', 'formgent' )], 201 );
