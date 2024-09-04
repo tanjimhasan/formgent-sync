@@ -981,6 +981,7 @@ export default function Table() {
 		starredItems,
 		readStatusItems,
 		filteredData,
+		isStarredChanging,
 	] );
 
 	useEffect( () => {
