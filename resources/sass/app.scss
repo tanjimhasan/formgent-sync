@@ -1130,6 +1130,7 @@ a.formgent-btn-disabled {
 
 .formgent-loading {
 	position: relative;
+	pointer-events: none;
 	&:before {
 		content: "";
 		position: absolute;

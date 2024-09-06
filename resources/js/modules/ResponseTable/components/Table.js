@@ -69,6 +69,7 @@ export default function Table() {
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 	const [ starredChanging, setStarredChanging ] = useState( '' );
 	const [ drawerLoading, setDrawerLoading ] = useState( false );
+	const [ downloadLoading, setDownloadLoading ] = useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
@@ -149,7 +150,9 @@ export default function Table() {
 			label: (
 				<>
 					<span
-						className="dropdown-header-content"
+						className={ `dropdown-header-content ${
+							downloadLoading === 'csv' ? 'formgent-loading' : ''
+						}` }
 						onClick={ ( e ) => handleExportCSV( e, source ) }
 					>
 						<ReactSVG width="16" height="16" src={ csvIcon } />
@@ -168,7 +171,11 @@ export default function Table() {
 		{
 			key: `excel|${ source }`,
 			label: (
-				<span className="dropdown-header-content">
+				<span
+					className={ `dropdown-header-content ${
+						downloadLoading === 'excel' ? 'formgent-loading' : ''
+					}` }
+				>
 					<ReactSVG width="16" height="16" src={ xlsIcon } />
 					Download as Excel
 				</span>
@@ -177,7 +184,11 @@ export default function Table() {
 		{
 			key: `pdf|${ source }`,
 			label: (
-				<span className="dropdown-header-content">
+				<span
+					className={ `dropdown-header-content ${
+						downloadLoading === 'pdf' ? 'formgent-loading' : ''
+					}` }
+				>
 					<ReactSVG width="16" height="16" src={ pdfIcon } />
 					Download as PDF
 				</span>
@@ -470,6 +481,7 @@ export default function Table() {
 
 	// Handle Download
 	async function handleDownload( { key } ) {
+		setDownloadLoading( key );
 		const [ fileType, source ] = key.split( '|' ); // fileType: pdf, excel, source: header, drawer
 
 		if ( fileType === 'csv' ) {
@@ -479,6 +491,7 @@ export default function Table() {
 		const exportedData = await handleCreateExportData( source );
 
 		if ( exportedData ) {
+			setDownloadLoading( null );
 			if ( fileType === 'pdf' ) {
 				return exportToPDF( exportedData, 'formgent-response' );
 			} else if ( fileType === 'excel' ) {
@@ -494,9 +507,15 @@ export default function Table() {
 	// Handle Export CSV
 	async function handleExportCSV( e, source ) {
 		e.stopPropagation();
-		const exportedData = await handleCreateExportData( source );
+		setDownloadLoading( 'csv' );
+
+		const exportedData =
+			! downloadLoading && ( await handleCreateExportData( source ) );
 		if ( exportedData ) {
+			setDownloadLoading( null );
 			setCSVExportData( PrepareExportData( exportedData ) );
+		} else {
+			setDownloadLoading( null );
 		}
 	}
 
