@@ -68,6 +68,7 @@ export default function Table() {
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
 	const [ starredChanging, setStarredChanging ] = useState( '' );
+	const [ drawerLoading, setDrawerLoading ] = useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
@@ -293,12 +294,12 @@ export default function Table() {
 	}
 
 	async function handleTableDrawer( record, nav ) {
-		console.log( 'handleTableDrawer', record, nav );
 		if ( isResponseSingleChanging ) return;
 
 		responseSingleChangeRequest();
 
 		setOpenDrawer( true );
+		setDrawerLoading( true );
 		// Calculate the initial drawerResponse index based on the current page and record position
 		let drawerResponse =
 			responses.findIndex( ( item ) => item.id === record ) + 1;
@@ -1131,6 +1132,8 @@ export default function Table() {
 					handleDownload={ handleDownload }
 					downloadItems={ downloadItems( 'drawer' ) }
 					dateFormatOptions={ dateFormatOptions }
+					drawerLoading={ drawerLoading }
+					setDrawerLoading={ setDrawerLoading }
 				/>
 			</AntDrawer>
 		</TableStyle>

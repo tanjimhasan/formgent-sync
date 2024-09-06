@@ -2,12 +2,12 @@ import { AntDropdown, AntTabs } from '@formgent/components';
 import deleteData from '@formgent/helper/deleteData';
 import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
-import { formatDate } from '@formgent/helper/utils';
-import { useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { TableDrawerStyle, TableTabStyle } from './style';
 
 // Icon
+import { formatDate } from '@formgent/helper/utils';
 import alignLeftIcon from '@icon/align-left.svg';
 import alignRightIcon from '@icon/align-right.svg';
 import arrowLeftIcon from '@icon/arrow-left.svg';
@@ -41,6 +41,8 @@ export default function TableDrawer( props ) {
 		handleDownload,
 		downloadItems,
 		dateFormatOptions,
+		drawerLoading,
+		setDrawerLoading,
 	} = props;
 
 	const [ activeDrawer, setActiveDrawer ] = useState( '' );
@@ -227,6 +229,14 @@ export default function TableDrawer( props ) {
 		}
 	}
 
+	useEffect( () => {
+		if ( activeDrawer && activeDrawer !== response?.id ) {
+			setDrawerLoading( false );
+		} else {
+			setDrawerLoading( false );
+		}
+	}, [ response ] );
+
 	return (
 		<TableDrawerStyle className="response-table__drawer">
 			<div className="response-table__drawer__header">
@@ -234,8 +244,7 @@ export default function TableDrawer( props ) {
 					<div className="response-table__drawer__header__response__btns">
 						<button
 							className={ `response-table__drawer__header__response__btn ${
-								activeDrawer === response?.id &&
-								activeNav === 'prev'
+								drawerLoading && activeNav === 'prev'
 									? 'formgent-loading'
 									: ''
 							} ${
@@ -344,7 +353,11 @@ export default function TableDrawer( props ) {
 					</button>
 				</div>
 			</div>
-			<div className="response-table__drawer__content">
+			<div
+				className={ `response-table__drawer__content ${
+					drawerLoading ? 'formgent-loading' : ''
+				} ` }
+			>
 				<div className="response-table__drawer__tab">
 					<TableTabStyle>
 						<AntTabs
