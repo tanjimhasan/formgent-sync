@@ -217,6 +217,7 @@ export default function TableDrawer( props ) {
 
 	async function handleNoteFormSubmit( e ) {
 		e.preventDefault();
+		setDrawerLoading( true );
 		const status = enableSubmissionInput === 'create' ? 'create' : 'edit';
 
 		if ( status === 'create' ) {
@@ -231,12 +232,10 @@ export default function TableDrawer( props ) {
 	}
 
 	useEffect( () => {
-		if ( activeDrawer && activeDrawer !== response?.id ) {
-			setDrawerLoading( false );
-		} else {
+		if ( notes ) {
 			setDrawerLoading( false );
 		}
-	}, [ response ] );
+	}, [ notes ] );
 
 	return (
 		<TableDrawerStyle className="response-table__drawer">
