@@ -1117,6 +1117,7 @@ export default function Table() {
 					response={ singleResponse }
 					handleTableDrawer={ handleTableDrawer }
 					notes={ notes }
+					handleResponseNotes={ handleResponseNotes }
 					addResponseNotes={ addResponseNotes }
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }

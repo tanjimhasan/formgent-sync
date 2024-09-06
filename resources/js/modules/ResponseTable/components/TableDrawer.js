@@ -30,6 +30,7 @@ export default function TableDrawer( props ) {
 		response,
 		handleTableDrawer,
 		notes,
+		handleResponseNotes,
 		addResponseNotes,
 		updateResponseNotes,
 		deleteResponseNotes,
@@ -126,7 +127,7 @@ export default function TableDrawer( props ) {
 
 		if ( createNote ) {
 			addResponseNotes( createNote );
-			handleTableDrawer( response.id );
+			handleResponseNotes( response.id );
 		}
 	}
 

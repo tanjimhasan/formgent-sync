@@ -290,7 +290,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'ADD_RESPONSE_NOTES':
 			return {
 				...state,
-				notes: [ ...state.notes, action.note ],
 			};
 		case 'UPDATE_RESPONSE_NOTES':
 			return {
