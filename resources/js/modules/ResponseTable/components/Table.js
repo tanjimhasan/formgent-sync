@@ -81,6 +81,7 @@ export default function Table() {
 
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
+
 	function handleActivateDeleteFormModal( ids, source ) {
 		setIsActivateFormDeleteModal( true );
 	}

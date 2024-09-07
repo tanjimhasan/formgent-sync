@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { FormDeleteAlertStyle } from './style';
 
 export default function FormDeleteAlert( props ) {
-	const { error, formTitle } = props;
+	const { error, formTitle, type } = props;
 	return (
 		<FormDeleteAlertStyle>
 			{ error?.data?.status === 500 && (
@@ -25,17 +25,20 @@ export default function FormDeleteAlert( props ) {
 					) }
 				</div>
 
-				<p>
-					{ Array.isArray( formTitle ) && formTitle.length > 1
-						? __(
-								'All responses these forms has collected, including associated messages, will be deleted forever.',
-								'formgent'
-						  )
-						: __(
-								'All responses this form has collected, including associated messages, will be deleted forever.',
-								'formgent'
-						  ) }
-				</p>
+				{ type !== 'note' && (
+					<p>
+						{ Array.isArray( formTitle ) && formTitle.length > 1
+							? __(
+									'All responses will be deleted forever.',
+									'formgent'
+							  )
+							: __(
+									'This response will be deleted forever.',
+									'formgent'
+							  ) }
+					</p>
+				) }
+
 				<h4>
 					{ __(
 						'Are you sure you want to proceed with the deletion?',

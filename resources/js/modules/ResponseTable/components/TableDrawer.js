@@ -1,8 +1,10 @@
 import { AntDropdown, AntTabs } from '@formgent/components';
+import PopUp from '@formgent/components/PopUp';
 import deleteData from '@formgent/helper/deleteData';
 import patchData from '@formgent/helper/patchData';
 import postData from '@formgent/helper/postData';
 import { useEffect, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { TableDrawerStyle, TableTabStyle } from './style';
 
@@ -23,7 +25,9 @@ import phoneIcon from '@icon/phone.svg';
 import plusIcon from '@icon/plus.svg';
 import starIcon from '@icon/star.svg';
 import textIcon from '@icon/text.svg';
+import trashAltIcon from '@icon/trash-alt.svg';
 import trashIcon from '@icon/trash.svg';
+import FormDeleteAlert from './FormDeleteAlert';
 
 export default function TableDrawer( props ) {
 	const {
@@ -52,6 +56,17 @@ export default function TableDrawer( props ) {
 	const [ enableSubmissionInput, setEnableSubmissionInput ] =
 		useState( false );
 	const [ currentNote, setCurrentNote ] = useState( '' );
+	const [ currentNoteID, setCurrentNoteID ] = useState( [] );
+	const [ isNoteDeleting, setIsNoteDeleting ] = useState( '' );
+	const [ deleteModalOpen, setDeleteModalOpen ] = useState( false );
+
+	function handleActivateNoteDeleteAlert() {
+		setDeleteModalOpen( true );
+	}
+	function handleCancelNoteDeleteAlert() {
+		setDeleteModalOpen( false );
+		setIsNoteDeleting( false );
+	}
 
 	// Drawer Tab Items
 	const drawerTabItems = [
@@ -145,17 +160,35 @@ export default function TableDrawer( props ) {
 		}
 	}
 
-	async function handleNoteDelete( id ) {
-		const deleteNote = await deleteData(
-			`admin/responses/notes/${ Number( id ) }`,
-			{
-				response_id: Number( response.id ),
-			}
-		);
+	async function handleNoteDelete() {
+		console.log( 'handleNoteDelete', currentNoteID );
 
-		if ( deleteNote ) {
-			deleteResponseNotes( id );
-			handleTableDrawer( response.id );
+		// Check before setting the state to avoid redundant calls
+		if ( isNoteDeleting ) {
+			console.log( 'Deletion already in progress, skipping.' );
+			return;
+		}
+
+		setIsNoteDeleting( true );
+
+		try {
+			const deleteNote = await deleteData(
+				`admin/responses/notes/${ Number( currentNoteID ) }`,
+				{
+					response_id: Number( response.id ),
+				}
+			);
+
+			if ( deleteNote ) {
+				deleteResponseNotes( currentNoteID );
+				handleTableDrawer( response.id );
+			}
+		} catch ( error ) {
+			console.error( 'Error deleting note:', error );
+		} finally {
+			// Ensure these states are reset regardless of success or error
+			setIsNoteDeleting( false );
+			setDeleteModalOpen( false );
 		}
 	}
 
@@ -182,6 +215,7 @@ export default function TableDrawer( props ) {
 
 	// handleSelectItems
 	function handleSelectItemsNote( { key }, id, value ) {
+		setCurrentNoteID( id );
 		const selectFunctionsNote = {
 			edit: () => {
 				setEnableSubmissionInput( id );
@@ -189,7 +223,7 @@ export default function TableDrawer( props ) {
 				updateResponseNotes( id, value );
 			},
 			delete: () => {
-				handleNoteDelete( id );
+				handleActivateNoteDeleteAlert();
 			},
 		};
 
@@ -234,6 +268,7 @@ export default function TableDrawer( props ) {
 	useEffect( () => {
 		if ( notes ) {
 			setDrawerLoading( false );
+			setIsNoteDeleting( false );
 		}
 	}, [ notes ] );
 
@@ -626,6 +661,40 @@ export default function TableDrawer( props ) {
 					) }
 				</div>
 			</div>
+
+			{ deleteModalOpen && (
+				<PopUp
+					open={ deleteModalOpen }
+					title={
+						<>
+							<span className="formgent-popup-title-icon">
+								<ReactSVG
+									src={ trashAltIcon }
+									width="24"
+									height="24"
+								/>
+							</span>
+							{ __( 'Delete Note', 'formgent' ) }
+						</>
+					}
+					onCancel={ handleCancelNoteDeleteAlert }
+					onSubmit={ handleNoteDelete }
+					hasCancelButton
+					hasSubmitButton
+					isActiveSubmit
+					submitText={
+						isNoteDeleting
+							? __( 'Deleting', 'formgent' )
+							: __( 'Delete', 'formgent' )
+					}
+					className="formgent-form-delete-alert"
+				>
+					<FormDeleteAlert
+						formTitle={ [ currentNoteID ] }
+						type="note"
+					/>
+				</PopUp>
+			) }
 		</TableDrawerStyle>
 	);
 }
