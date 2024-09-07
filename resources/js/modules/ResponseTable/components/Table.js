@@ -1155,7 +1155,7 @@ export default function Table() {
 				open={ openDrawer }
 				width={ 600 }
 				rootClassName="single-response-drawer"
-				headerStyle={ { display: 'none' } }
+				styles={ { header: { display: 'none' } } }
 			>
 				<TableDrawer
 					response={ singleResponse }
