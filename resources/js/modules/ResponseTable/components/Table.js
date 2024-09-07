@@ -80,6 +80,7 @@ export default function Table() {
 	// Reference
 	const csvLinkRef = useRef();
 	const debounceTimeout = useRef( null );
+	const isInitialMount = useRef( true );
 
 	// Retrieve from the store
 	const {
@@ -1032,12 +1033,14 @@ export default function Table() {
 	] );
 
 	useEffect( () => {
-		fetchResponse();
+		if ( ! selected_fields ) return;
+
 		if (
 			JSON.stringify( visibleColumns ) !==
 			JSON.stringify( selected_fields )
 		) {
 			setVisibleColumns( selected_fields );
+			fetchResponse();
 		}
 	}, [ selected_fields ] );
 
@@ -1046,7 +1049,13 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		fetchResponse();
+		if ( isInitialMount.current ) {
+			// Skip on initial mount
+			isInitialMount.current = false;
+		} else {
+			// Run the effect normally after initial render
+			fetchResponse();
+		}
 	}, [ searchItem, readStatus, orderFieldType, orderType, orderBy ] );
 
 	useEffect( () => {
@@ -1071,7 +1080,7 @@ export default function Table() {
 		setSingleResponse( null );
 		setSelectedRowKeys( [] );
 
-		fetchResponse();
+		// fetchResponse();
 		handleColumn();
 		resolveSelect( 'formgent' ).getSingleFormFields(
 			parseInt( id ),
