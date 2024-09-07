@@ -60,14 +60,6 @@ export default function TableDrawer( props ) {
 	const [ isNoteDeleting, setIsNoteDeleting ] = useState( '' );
 	const [ deleteModalOpen, setDeleteModalOpen ] = useState( false );
 
-	function handleActivateNoteDeleteAlert() {
-		setDeleteModalOpen( true );
-	}
-	function handleCancelNoteDeleteAlert() {
-		setDeleteModalOpen( false );
-		setIsNoteDeleting( false );
-	}
-
 	// Drawer Tab Items
 	const drawerTabItems = [
 		{
@@ -161,11 +153,8 @@ export default function TableDrawer( props ) {
 	}
 
 	async function handleNoteDelete() {
-		console.log( 'handleNoteDelete', currentNoteID );
-
 		// Check before setting the state to avoid redundant calls
 		if ( isNoteDeleting ) {
-			console.log( 'Deletion already in progress, skipping.' );
 			return;
 		}
 
@@ -190,6 +179,14 @@ export default function TableDrawer( props ) {
 			setIsNoteDeleting( false );
 			setDeleteModalOpen( false );
 		}
+	}
+
+	function handleActivateNoteDeleteAlert() {
+		setDeleteModalOpen( true );
+	}
+	function handleCancelNoteDeleteAlert() {
+		setDeleteModalOpen( false );
+		setIsNoteDeleting( false );
 	}
 
 	// handleSelectItems

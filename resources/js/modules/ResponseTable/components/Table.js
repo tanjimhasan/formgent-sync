@@ -74,20 +74,12 @@ export default function Table() {
 	const [ starredChanging, setStarredChanging ] = useState( '' );
 	const [ drawerLoading, setDrawerLoading ] = useState( false );
 	const [ downloadLoading, setDownloadLoading ] = useState( false );
+	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
+		useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
 	const debounceTimeout = useRef( null );
-
-	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
-		useState( false );
-
-	function handleActivateDeleteFormModal( ids, source ) {
-		setIsActivateFormDeleteModal( true );
-	}
-	function handleCancelDeleteAlert() {
-		setIsActivateFormDeleteModal( false );
-	}
 
 	// Retrieve from the store
 	const {
@@ -873,6 +865,13 @@ export default function Table() {
 	}
 
 	// Handle Delete
+	function handleActivateDeleteFormModal( ids, source ) {
+		setIsActivateFormDeleteModal( true );
+	}
+	function handleCancelDeleteAlert() {
+		setIsActivateFormDeleteModal( false );
+	}
+
 	async function handleDelete( ids, source ) {
 		if ( isResponseDeleting ) return;
 		responseDeleteRequest();
