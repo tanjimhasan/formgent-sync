@@ -17,6 +17,7 @@ import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
@@ -25,6 +26,7 @@ import TableHeader from './TableHeader';
 import { TableStyle } from './style';
 
 // Icon
+import PopUp from '@formgent/components/PopUp';
 import alignLeftIcon from '@icon/align-left.svg';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
@@ -44,8 +46,10 @@ import phoneIcon from '@icon/phone.svg';
 import pinIcon from '@icon/pin.svg';
 import starIcon from '@icon/star.svg';
 import textIcon from '@icon/text.svg';
+import trashAltIcon from '@icon/trash-alt.svg';
 import userIcon from '@icon/user.svg';
 import xlsIcon from '@icon/xls.svg';
+import FormDeleteAlert from './FormDeleteAlert';
 
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
@@ -74,6 +78,15 @@ export default function Table() {
 	// Reference
 	const csvLinkRef = useRef();
 	const debounceTimeout = useRef( null );
+
+	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
+		useState( false );
+	function handleActivateDeleteFormModal( ids, source ) {
+		setIsActivateFormDeleteModal( true );
+	}
+	function handleCancelDeleteAlert() {
+		setIsActivateFormDeleteModal( false );
+	}
 
 	// Retrieve from the store
 	const {
@@ -875,6 +888,7 @@ export default function Table() {
 			setOpenDrawer( false );
 			setSelectedRowKeys( [] );
 			responseDeleteSuccess( id, deleteItems );
+			setIsActivateFormDeleteModal( false );
 			handleTableChange();
 		} else {
 			responseDeleteError();
@@ -1095,7 +1109,9 @@ export default function Table() {
 					responseFields={ responseFields }
 					setResponseFields={ setResponseFields }
 					setFieldColumnHide={ setFieldColumnHide }
-					handleDelete={ handleDelete }
+					handleActivateDeleteFormModal={
+						handleActivateDeleteFormModal
+					}
 					downloadItems={ downloadItems() }
 					handleDownload={ handleDownload }
 				/>
@@ -1142,7 +1158,9 @@ export default function Table() {
 					deleteResponseNotes={ deleteResponseNotes }
 					handleDrawerClose={ handleDrawerClose }
 					single_response_pagination={ single_response_pagination }
-					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
+					handleActivateDeleteFormModal={ ( id ) =>
+						handleActivateDeleteFormModal( id, 'drawer' )
+					}
 					handleStarred={ ( id, isStarredStatus ) =>
 						handleStarred( id, isStarredStatus, 'drawer' )
 					}
@@ -1156,6 +1174,40 @@ export default function Table() {
 					setDrawerLoading={ setDrawerLoading }
 				/>
 			</AntDrawer>
+
+			{ isActivateFormDeleteModal && (
+				<PopUp
+					open={ isActivateFormDeleteModal }
+					title={
+						<>
+							<span className="formgent-popup-title-icon">
+								<ReactSVG
+									src={ trashAltIcon }
+									width="24"
+									height="24"
+								/>
+							</span>
+							{ __( 'Delete Response', 'formgent' ) }
+						</>
+					}
+					onCancel={ handleCancelDeleteAlert }
+					onSubmit={ handleDelete }
+					hasCancelButton
+					hasSubmitButton
+					isActiveSubmit
+					submitText={
+						isResponseDeleting
+							? __( 'Deleting', 'formgent' )
+							: __( 'Delete', 'formgent' )
+					}
+					className="formgent-form-delete-alert"
+				>
+					<FormDeleteAlert
+						// error={ formDeletionError }
+						formTitle={ selectedRowKeys }
+					/>
+				</PopUp>
+			) }
 		</TableStyle>
 	);
 }

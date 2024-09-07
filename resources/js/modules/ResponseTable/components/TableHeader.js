@@ -31,8 +31,7 @@ export default function TableHeader( props ) {
 		setVisibleColumns,
 		setFieldColumnHide,
 		responseFields,
-		handleDelete,
-		handlePrint,
+		handleActivateDeleteFormModal,
 		downloadItems,
 		handleDownload,
 	} = props;
@@ -142,7 +141,7 @@ export default function TableHeader( props ) {
 						}
 					/> */ }
 					<AntButton
-						onClick={ handleDelete }
+						onClick={ handleActivateDeleteFormModal }
 						icon={
 							<ReactSVG
 								width="16"

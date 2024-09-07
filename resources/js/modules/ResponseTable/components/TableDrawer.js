@@ -36,7 +36,7 @@ export default function TableDrawer( props ) {
 		deleteResponseNotes,
 		handleDrawerClose,
 		single_response_pagination,
-		handleDelete,
+		handleActivateDeleteFormModal,
 		handleStarred,
 		handleRead,
 		handleDownload,
@@ -172,7 +172,7 @@ export default function TableDrawer( props ) {
 				handleRead( response.id, response.is_read === '1' ? '1' : '0' );
 			},
 			delete: () => {
-				handleDelete( [ response.id ] );
+				handleActivateDeleteFormModal( [ response.id ] );
 			},
 		};
 

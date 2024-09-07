@@ -1,18 +1,19 @@
-import { FormDeleteAlertStyle } from './style';
 import { __ } from '@wordpress/i18n';
+import { FormDeleteAlertStyle } from './style';
+
 export default function FormDeleteAlert( props ) {
 	const { error, formTitle } = props;
 	return (
 		<FormDeleteAlertStyle>
 			{ error?.data?.status === 500 && (
 				<span className=" helpgent-notice helpgent-notice-danger">
-					{ __( 'Internal server error', 'helpgent' ) }
+					{ __( 'Internal server error', 'formgent' ) }
 				</span>
 			) }
 
 			<div className="helpgent-alert-content">
-				<p>
-					{ __( 'You are about to delete', 'helpgent' ) }{ ' ' }
+				<div>
+					{ __( 'You are about to delete', 'formgent' ) }{ ' ' }
 					{ Array.isArray( formTitle ) ? (
 						<ul className="helpgent-form-delete-list">
 							{ formTitle.map( ( title, index ) => (
@@ -22,23 +23,23 @@ export default function FormDeleteAlert( props ) {
 					) : (
 						<strong>{ formTitle }</strong>
 					) }
-				</p>
+				</div>
 
 				<p>
 					{ Array.isArray( formTitle ) && formTitle.length > 1
 						? __(
 								'All responses these forms has collected, including associated messages, will be deleted forever.',
-								'helpgent'
+								'formgent'
 						  )
 						: __(
 								'All responses this form has collected, including associated messages, will be deleted forever.',
-								'helpgent'
+								'formgent'
 						  ) }
 				</p>
 				<h4>
 					{ __(
 						'Are you sure you want to proceed with the deletion?',
-						'helpgent'
+						'formgent'
 					) }
 				</h4>
 			</div>
