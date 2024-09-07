@@ -364,7 +364,9 @@ export default function Table() {
 			updateCurrentResponsePage( newPage );
 
 			// Fetch the new page data
-			await resolveSelect( 'formgent' ).getResponseForm(
+			const updateFormResponse = await resolveSelect(
+				'formgent'
+			).getResponseForm(
 				newPage || 1,
 				10,
 				searchItem,
@@ -392,9 +394,14 @@ export default function Table() {
 
 			responseSingleChangeSuccess( updateDrawerResponse );
 
+			const updatedResponses =
+				updateFormResponse.SingleFormReducer.forms[ id ]?.responses;
+
 			// Ensure that responses are updated before triggering handleResponseNotes
-			if ( responses[ localDrawerResponse - 1 ]?.id ) {
-				handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+			if ( updatedResponses[ localDrawerResponse - 1 ]?.id ) {
+				handleResponseNotes(
+					updatedResponses[ localDrawerResponse - 1 ]?.id
+				);
 			} else {
 				console.warn( 'Response ID is undefined' );
 				responseSingleChangeError();
