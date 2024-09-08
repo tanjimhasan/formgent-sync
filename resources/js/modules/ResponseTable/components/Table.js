@@ -979,13 +979,13 @@ export default function Table() {
 	async function handleColumn() {
 		if ( ! fieldColumnHide ) {
 			if ( isResponseColumnUpdating ) return;
-
 			const updateColumn = await postData( 'admin/responses/fields', {
 				form_id: id,
 				field_names: visibleColumns,
 			} );
 
 			if ( updateColumn ) {
+				fetchResponse();
 				// Remove all visibleColumns from hiddenColumns
 				const updatedHiddenColumns = hiddenColumns.filter(
 					( column ) => ! visibleColumns.includes( column )
