@@ -34,11 +34,6 @@ class EmailNotificationController extends Controller {
     public function store( WP_REST_Request $request, Validator $validator ) {
         $validator->validate( $this->get_validation_rules() );
 
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
-
         $form = $this->form_repository->get_by_id( $request->get_param( 'form_id' ) );
 
         if ( ! $form ) {
@@ -81,11 +76,6 @@ class EmailNotificationController extends Controller {
             );
         }
 
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
-
         try {
             $this->repository->update( $this->get_dto( $request )->set_id( $request->get_param( 'id' ) ) );
             return Response::send(
@@ -108,11 +98,6 @@ class EmailNotificationController extends Controller {
                 'id' => 'required|numeric'
             ] 
         );
-
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
 
         try {
             $this->repository->delete_by_id( $request->get_param( 'id' ) );
@@ -137,14 +122,6 @@ class EmailNotificationController extends Controller {
                 'status' => 'required|string|accepted:publish,draft'
             ]
         );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
 
         $this->repository->update_status( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'status' ) );
 
