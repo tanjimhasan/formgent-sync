@@ -52,11 +52,15 @@ function Summary() {
 			<FormHeader resultHeader />
 			<SummaryStyle>
 				<div className="formgent-summary-content">
-					<FieldContent
-						summaryFields={ summaryFields }
-						summaries={ summaries }
-						handleOnScroll={ handleInfiniteScroll }
-					/>
+					{ summaryFields.length ? (
+						<FieldContent
+							summaryFields={ summaryFields }
+							summaries={ summaries }
+							handleOnScroll={ handleInfiniteScroll }
+						/>
+					) : (
+						<div>No data found!</div>
+					) }
 				</div>
 			</SummaryStyle>
 		</>

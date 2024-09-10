@@ -1113,3 +1113,23 @@ a.formgent-btn-disabled {
 		padding: 6px 0;
 	}
 }
+
+.formgent-analytics-chart-datepicker {
+	.ant-picker-panel-container .ant-picker-presets ul li {
+		padding: 5px 10px;
+	}
+	.ant-picker-range-arrow {
+		display: none !important;
+	}
+	.ant-picker-range-wrapper {
+		border-radius: 12px;
+	}
+	.ant-picker-panel-container {
+		border: 1px solid var(--formgent-color-gray-200);
+	}
+}
+
+.formgent-analytics-chart-datepicker,
+.ant-picker {
+	font-family: "Inter", sans-serif;
+}
