@@ -4,9 +4,36 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
-
 const { callbacks } = store( 'formgent/form', {
 	actions: {
+		getValue: () => {
+			const context = getContext();
+
+			let value = '';
+			if ( context.blocksSettings ) {
+				for ( const [ blockKey, block ] of Object.entries(
+					context.blocksSettings
+				) ) {
+					if ( block.children ) {
+						for ( const [ childKey, child ] of Object.entries(
+							block.children
+						) ) {
+							if ( childKey === context.name ) {
+								value = child.value;
+								break; // Stop the loop once the condition is met
+							} else {
+								value = '';
+								break;
+							}
+						}
+					} else if ( block.name === context.name ) {
+						value = block.value;
+						break;
+					}
+				}
+			}
+			return value;
+		},
 		updateInput: () => {
 			const element = getElement();
 			const context = getContext();
@@ -31,7 +58,6 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
-			console.log( data );
 		},
 		updateNumber: () => {
 			const element = getElement();
@@ -83,7 +109,6 @@ const { callbacks } = store( 'formgent/form', {
 			const { blocksSettings, data } = JSON.parse(
 				JSON.stringify( context )
 			);
-			console.log( blocksSettings );
 			// Loop through blocksSettings and construct data object
 			blocksSettings &&
 				Object.entries( blocksSettings ).forEach(
@@ -91,7 +116,8 @@ const { callbacks } = store( 'formgent/form', {
 						data[ blockKey ] = block.children
 							? Object.keys( block.children ).reduce(
 									( acc, childKey ) => {
-										acc[ childKey ] = '';
+										acc[ childKey ] =
+											block.children[ childKey ].value;
 										return acc;
 									},
 									{}
@@ -158,42 +184,35 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 			const context = getContext();
 			const { data } = context;
-			console.log( data );
+
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
-				console.log( data );
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
 						if (
 							typeof data[ k ] === 'object' &&
 							data[ k ] !== null
 						) {
-							console.log( 'yes' );
 							updateFieldRecursively(
 								data[ k ],
 								fieldName,
 								fieldValue
 							);
 						} else if ( k === fieldName ) {
-							console.log( 'else if', k );
 							data[ k ] = fieldValue;
 							return;
 						}
 					}
 				}
 			}
-			new TomSelect( `#${ element.ref.id }`, {
-				onChange: function ( value ) {
-					//context.data[ element.ref.name ] = value;
-					// const context = getContext();
-					// const { data } = context;
 
+			const dropdownSelect = new TomSelect( `#${ element.ref.id }`, {
+				placeholder: 'Select an option...',
+				onChange: function ( value ) {
 					updateFieldRecursively(
 						context.data,
 						element.ref.name,
 						value
 					);
-
-					console.log( context.data );
 				},
 			} );
 		},
@@ -253,6 +272,13 @@ const { callbacks } = store( 'formgent/form', {
 			const form = element.ref.closest( 'form' );
 			const formData = JSON.parse( JSON.stringify( context.data ) );
 
+			if (
+				context.isResponseTokenGenerating ||
+				context.isResponseSubmitting
+			) {
+				return;
+			}
+
 			// Honeypot security check
 			const honeypotField = form.querySelector(
 				`input[name="formgent-honeypot-${ context.formId }"]`
@@ -266,6 +292,8 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
+				context.isResponseTokenGenerating = true;
+				element.ref.disabled = true;
 				const responseToken = await wp.apiFetch( {
 					path: 'formgent/responses/generate-token',
 					method: 'POST',
@@ -273,6 +301,9 @@ const { callbacks } = store( 'formgent/form', {
 						form_id: context.formId,
 					},
 				} );
+
+				context.isResponseTokenGenerating = false;
+				context.isResponseSubmitting = true;
 
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
@@ -284,12 +315,14 @@ const { callbacks } = store( 'formgent/form', {
 					},
 				} );
 
+				context.isResponseSubmitting = false;
+				element.ref.disabled = false;
+
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
 
 				form.reset();
-				context.data = {};
 			} catch ( error ) {
 				console.error( 'Error:', error );
 			}
