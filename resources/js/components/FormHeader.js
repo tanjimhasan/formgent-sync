@@ -1,5 +1,6 @@
 //import patchData from '@formgent/helper/patchData';
 import arrowLeftIcon from '@icon/arrow-small-left.svg';
+import chartIcon from '@icon/line-chart.svg';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -28,6 +29,7 @@ export default function FormHeader( props ) {
 	const { SingleFormReducer } = useSelect( ( select ) => {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
+
 	const { form_title, isUpdatingForm, responses } = SingleFormReducer;
 
 	const handleBackButtonClick = () => {
@@ -149,6 +151,17 @@ export default function FormHeader( props ) {
 						>
 							<ReactSVG src={ rowIcon } width="18" height="18" />
 							Responses { responses && `(${ responses.length })` }
+						</NavLink>
+						<NavLink
+							to={ `${ forms }/analytics` }
+							className="formgent-results-header__nav__link"
+						>
+							<ReactSVG
+								src={ chartIcon }
+								width="18"
+								height="18"
+							/>
+							Analytics
 						</NavLink>
 						{ /* <NavLink
 							to={ `${ forms }/summary` }
