@@ -171,25 +171,6 @@ export default function FormHeader( props ) {
 							/>
 							Analytics
 						</NavLink>
-						{ /* <NavLink
-							to={ `${ forms }/summary` }
-							className="formgent-results-header__nav__link"
-						>
-							<ReactSVG src={ pieIcon } width="18" height="18" />
-							Summary
-						</NavLink>
-						{ /*
-						<NavLink
-							to={ `${ forms }/analytics` }
-							className="formgent-results-header__nav__link"
-						>
-							<ReactSVG
-								src={ chartIcon }
-								width="18"
-								height="18"
-							/>
-							Analytics
-						</NavLink> */ }
 					</>
 				) : (
 					<>
