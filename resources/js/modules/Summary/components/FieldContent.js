@@ -49,6 +49,8 @@ export default function FieldContent( props ) {
 		dropdown: dropdown,
 	};
 
+	console.log( summaries );
+
 	return (
 		<>
 			{ /* General Fields Summary */ }
@@ -135,14 +137,16 @@ export default function FieldContent( props ) {
 																)
 															)
 														) : (
-															<div>Not found</div>
+															<div>
+																No response yet!
+															</div>
 														) }
 													</div>
 												)
 											)
 										) : (
 											<div className="formgent-summary-item__content__not-found">
-												No response!
+												No response yet!
 											</div>
 										) }
 									</div>

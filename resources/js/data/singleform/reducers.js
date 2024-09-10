@@ -1,8 +1,6 @@
 const DEFAULT_STATE = {
 	forms: null,
 	analyticsSummary: null,
-	analyticsSubmission: null,
-	questionDropOff: null,
 	selectedFormType: '',
 	selectedFormId: null,
 	isCreatingForm: false,

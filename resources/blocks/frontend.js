@@ -145,7 +145,22 @@ const { callbacks } = store( 'formgent/form', {
 				choices.push( element.ref.value );
 			}
 
+			const fieldName = element.ref.name;
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
+
 			context.data[ element.ref.name ] = choices;
+
+			generateFormToken( context );
+			formStarted = true;
 		},
 	},
 	callbacks: {
@@ -214,7 +229,7 @@ const { callbacks } = store( 'formgent/form', {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
 
-				// // General validation rules
+				// General validation rules
 				if ( field.required || field.field_type === 'gdpr' ) {
 					if ( field.field_type === 'gdpr' ) {
 						field.label = 'GDPR';
@@ -225,7 +240,7 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				}
 
-				// // Type specific validation rules
+				// Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
 					rulesList[ field.field_type ]( rules );
 				}
@@ -247,6 +262,24 @@ const { callbacks } = store( 'formgent/form', {
 			new TomSelect( `#${ element.ref.id }`, {
 				onChange: function ( value ) {
 					context.data[ element.ref.name ] = value;
+
+					const fieldName = element.ref.name;
+					// Dispatch custom event for handleFieldInteraction
+					const interactionEvent = new CustomEvent(
+						'fieldInteraction',
+						{
+							detail: {
+								fieldName,
+								fieldInteractionState,
+								context,
+								element,
+							},
+						}
+					);
+					document.dispatchEvent( interactionEvent );
+
+					generateFormToken( context );
+					formStarted = true;
 				},
 			} );
 		},
