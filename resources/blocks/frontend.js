@@ -41,18 +41,18 @@ const { callbacks } = store( 'formgent/form', {
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
-						if (
-							typeof data[ k ] === 'object' &&
-							data[ k ] !== null
-						) {
+						if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						} else {
+							if ( ! data || typeof data !== 'object' ) {
+								return;
+							}
 							updateFieldRecursively(
 								data[ k ],
 								fieldName,
 								fieldValue
 							);
-						} else if ( k === fieldName ) {
-							data[ k ] = fieldValue;
-							return;
 						}
 					}
 				}
@@ -183,29 +183,28 @@ const { callbacks } = store( 'formgent/form', {
 		dropdownInit: () => {
 			const element = getElement();
 			const context = getContext();
-			const { data } = context;
 
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
-						if (
-							typeof data[ k ] === 'object' &&
-							data[ k ] !== null
-						) {
+						if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						} else {
+							if ( ! data || typeof data !== 'object' ) {
+								return;
+							}
 							updateFieldRecursively(
 								data[ k ],
 								fieldName,
 								fieldValue
 							);
-						} else if ( k === fieldName ) {
-							data[ k ] = fieldValue;
-							return;
 						}
 					}
 				}
 			}
 
-			const dropdownSelect = new TomSelect( `#${ element.ref.id }`, {
+			new TomSelect( `#${ element.ref.id }`, {
 				placeholder: 'Select an option...',
 				onChange: function ( value ) {
 					updateFieldRecursively(
