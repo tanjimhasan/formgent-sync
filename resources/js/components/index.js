@@ -18,6 +18,7 @@ import AntTextArea from './TextArea';
 import AntTooltip from './Tooltip';
 import AntRangePicker from './RangePicker';
 import AntPagination from './Pagination';
+import AntProgress from './Progress';
 
 /**
  * Global components for admin and user
@@ -44,6 +45,7 @@ registerModule( 'components', {
 	AntSelect,
 	AntRangePicker,
 	AntPagination,
+	AntProgress,
 } );
 
 /**
@@ -64,4 +66,5 @@ export {
 	Form,
 	AntRangePicker,
 	AntPagination,
+	AntProgress,
 };

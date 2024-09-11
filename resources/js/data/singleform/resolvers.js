@@ -108,13 +108,14 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-	*getSummary( formId, fieldName, perPage = '10', timestamp = 0 ) {
+	*getSummary( formId, fieldName, perPage = 10, timestamp = 0 ) {
 		try {
 			const responseSummary = yield SingleFormActions.fetchSummary(
 				'formgent/admin/forms',
 				formId,
 				fieldName,
-				perPage
+				perPage,
+				Date.now()
 			);
 			yield SingleFormActions.fetchSummarySuccess(
 				responseSummary,
@@ -135,6 +136,20 @@ export const SingleFormResolvers = {
 			);
 		} catch ( error ) {
 			yield SingleFormActions.fetchSummaryFieldsError( error );
+		}
+	},
+	*getAnalyticsSummary( formId, timestamp = 0 ) {
+		try {
+			const analyticsSummaryResponse =
+				yield SingleFormActions.fetchAnalyticsSummary(
+					`formgent/admin/analytics/forms/${ formId }/summary`
+				);
+			yield SingleFormActions.fetchAnalyticsSummarySuccess(
+				analyticsSummaryResponse.data,
+				formId
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchAnalyticsSummaryError( error );
 		}
 	},
 };

@@ -28,4 +28,9 @@ export const SingleFormControls = {
 			path: action.path,
 		} );
 	},
+	FETCH_ANALYTICS_SUMMARY( action ) {
+		return apiFetch( {
+			path: action.path,
+		} );
+	},
 };

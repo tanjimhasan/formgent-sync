@@ -10,7 +10,6 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	//const phoneNumberParts = attributes.value.split( ')' );
-	console.log( attributes );
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div

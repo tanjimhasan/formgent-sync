@@ -1,4 +1,4 @@
-import { lazy } from '@wordpress/element';
+import { lazy, useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { SummaryStyle } from './style';
 import { __ } from '@wordpress/i18n';
@@ -37,13 +37,37 @@ function Summary() {
 		[ availableFields, formId ]
 	);
 
+	//handle infinite load on scroll
+	let [ itemsPerPage, setItemsPerPage ] = useState( 10 );
+	let [ isFetching, setIsFetching ] = useState( false );
+	let [ currentField, setCurrentField ] = useState( null );
+
+	useEffect( () => {
+		if ( isFetching ) {
+			resolveSelect( 'formgent' )
+				.getSummary( formId, currentField, itemsPerPage )
+				.then( () => {
+					setIsFetching( false );
+				} )
+				.catch( ( err ) => {
+					console.log( err );
+					setIsFetching( false );
+				} );
+		}
+	}, [ isFetching, currentField, itemsPerPage ] );
+
 	function handleInfiniteScroll( e, fieldName ) {
 		if (
-			e.target.scrollHeight - e.target.scrollTop ===
-			e.target.clientHeight
+			e.target.scrollHeight - e.target.scrollTop <=
+				e.target.clientHeight + 5 &&
+			! isFetching
 		) {
-			updateSummaryPerPage( fieldName, 11 );
-			resolveSelect( 'formgent' ).getSummary( formId, fieldName, 11 );
+			if ( currentField !== fieldName ) {
+				setItemsPerPage( 10 );
+			}
+			setCurrentField( fieldName );
+			setItemsPerPage( ( prevItemsPerPage ) => prevItemsPerPage + 10 );
+			setIsFetching( true );
 		}
 	}
 
@@ -52,11 +76,15 @@ function Summary() {
 			<FormHeader resultHeader />
 			<SummaryStyle>
 				<div className="formgent-summary-content">
-					<FieldContent
-						summaryFields={ summaryFields }
-						summaries={ summaries }
-						handleOnScroll={ handleInfiniteScroll }
-					/>
+					{ summaryFields.length ? (
+						<FieldContent
+							summaryFields={ summaryFields }
+							summaries={ summaries }
+							handleOnScroll={ handleInfiniteScroll }
+						/>
+					) : (
+						<div>No data found!</div>
+					) }
 				</div>
 			</SummaryStyle>
 		</>

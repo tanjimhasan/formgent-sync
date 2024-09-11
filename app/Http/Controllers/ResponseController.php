@@ -8,7 +8,7 @@ use FormGent\App\Models\Answer;
 use FormGent\App\DTO\ResponseDTO;
 use FormGent\App\DTO\AnswerDTO;
 use FormGent\App\EnumeratedList\ResponseStatus;
-use FormGent\App\Exceptions\RequestValidatorException;
+use FormGent\WpMVC\Exceptions\Exception;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\Repositories\ResponseRepository;
 use FormGent\App\Repositories\AnswerRepository;
@@ -54,11 +54,6 @@ class ResponseController extends Controller {
                 'response_token' => 'required|string',
             ]
         );
-
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
 
         // Retrieve the form by its ID.
         $id   = $request->get_param( 'id' );
@@ -187,7 +182,7 @@ class ResponseController extends Controller {
 
                 $field_dtos[$field['name']] = $dto;
 
-            } catch ( RequestValidatorException $exception ) {
+            } catch ( Exception $exception ) {
                 // Merge any validation errors from the field handler.
                 $errors = array_merge( $errors, $exception->get_messages() );
             }
@@ -248,16 +243,17 @@ class ResponseController extends Controller {
         $children_request = new WP_REST_Request( 'POST', '/' );
         $form_data        = $request->get_param( $parent_field['name'] );
 
-        if ( is_array( $form_data ) ) {
-            $children_request->set_body_params( $form_data );
+        $field_dtos = [];
+        $errors     = [];
+        
+        if ( ! is_array( $form_data ) ) {
+            return compact( 'field_dtos', 'errors' );
         }
-
+        
+        $children_request->set_body_params( $form_data );
         $validator->wp_rest_request = $children_request;
         $registered_fields          = formgent_config( "fields" );
         $fields                     = $parent_field['children'];
-
-        $field_dtos = [];
-        $errors     = [];
 
         foreach ( $form_data as $field_name => $field_data ) {
             // Skip if the field is not found in the parent field's children.
@@ -288,7 +284,7 @@ class ResponseController extends Controller {
 
                 $field_dtos[$field['name']] = $dto;
 
-            } catch ( RequestValidatorException $exception ) {
+            } catch ( Exception $exception ) {
                 // Merge any validation errors from the field handler.
                 $errors = array_merge( $errors, $exception->get_messages() );
             }
@@ -303,14 +299,6 @@ class ResponseController extends Controller {
                 'form_id' => 'required|integer'
             ]
         );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
 
         $form_id = $wp_rest_request->get_param( 'form_id' );
 

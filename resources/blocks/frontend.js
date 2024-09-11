@@ -5,11 +5,63 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
 
+let formStarted = false;
+let fieldInteractionState = {};
+let generatedTokens = null;
+
+async function generateFormToken( context ) {
+	if ( ! formStarted ) {
+		try {
+			generatedTokens = await wp.apiFetch( {
+				path: 'formgent/responses/generate-token',
+				method: 'POST',
+				data: {
+					form_id: context.formId,
+				},
+			} );
+		} catch ( error ) {
+			console.log( error );
+		}
+	}
+}
+
 const { callbacks } = store( 'formgent/form', {
 	actions: {
-		updateInput: () => {
+		updateInput: async () => {
 			const element = getElement();
 			const context = getContext();
+
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
+
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
+
+			generateFormToken( context );
+			formStarted = true;
+
 			const { data } = context;
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
@@ -30,32 +82,99 @@ const { callbacks } = store( 'formgent/form', {
 					}
 				}
 			}
+
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
 		},
-		updateNumber: () => {
+		updateNumber: async () => {
 			const element = getElement();
 			const context = getContext();
+
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
+
+			//update field data
 			context.data[ element.ref.name ] = parseInt( element.ref.value );
+			generateFormToken( context );
+			formStarted = true;
 		},
-		updateGdpr: () => {
+		updateGdpr: async () => {
 			const element = getElement();
 			const context = getContext();
+
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
+
+			//update field data
 			context.data[ element.ref.name ] =
 				context.data[ element.ref.name ] === '' ||
 				context.data[ element.ref.name ] === 0
 					? 1
 					: 0;
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updatePhoneNumber: () => {
 			const element = getElement();
 			const context = getContext();
 			context.data[ element.ref.name ].number = element.ref.value;
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updateDialCode: () => {
 			const element = getElement();
 			const context = getContext();
 			const name = element.ref.name.replace( '-dial-code', '' );
 			context.data[ name ].dialCode = element.ref.value;
+			generateFormToken( context );
+			formStarted = true;
 		},
 		updateMultiChoice: () => {
 			const element = getElement();
@@ -72,13 +191,56 @@ const { callbacks } = store( 'formgent/form', {
 				choices.push( element.ref.value );
 			}
 
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
+			// Dispatch custom event for handleFieldInteraction
+			const interactionEvent = new CustomEvent( 'fieldInteraction', {
+				detail: {
+					fieldName,
+					fieldInteractionState,
+					context,
+					element,
+				},
+			} );
+			document.dispatchEvent( interactionEvent );
+
 			context.data[ element.ref.name ] = choices;
+
+			generateFormToken( context );
+			formStarted = true;
 		},
 	},
 	callbacks: {
-		init: () => {
+		init: async () => {
 			const context = getContext();
 			const element = getElement();
+
+			try {
+				const updateFromViews = await wp.apiFetch( {
+					path: `formgent/analytics/forms/${ context.formId }/update-view-count`,
+					method: 'POST',
+					data: {
+						form_id: context.formId,
+						type: '+',
+					},
+				} );
+			} catch ( error ) {
+				console.log( error );
+			}
 
 			const { blocksSettings, data } = JSON.parse(
 				JSON.stringify( context )
@@ -128,7 +290,7 @@ const { callbacks } = store( 'formgent/form', {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
 
-				// // General validation rules
+				// General validation rules
 				if ( field.required || field.field_type === 'gdpr' ) {
 					if ( field.field_type === 'gdpr' ) {
 						field.label = 'GDPR';
@@ -139,7 +301,7 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				}
 
-				// // Type specific validation rules
+				// Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
 					rulesList[ field.field_type ]( rules );
 				}
@@ -161,6 +323,44 @@ const { callbacks } = store( 'formgent/form', {
 			new TomSelect( `#${ element.ref.id }`, {
 				onChange: function ( value ) {
 					context.data[ element.ref.name ] = value;
+
+					const { blocksSettings } = JSON.parse(
+						JSON.stringify( context )
+					);
+					const elementName = element.ref.name;
+					let fieldName = null;
+
+					if ( blocksSettings[ elementName ] ) {
+						fieldName = elementName;
+					} else {
+						for ( const [ key, value ] of Object.entries(
+							blocksSettings
+						) ) {
+							if (
+								value.children &&
+								value.children[ elementName ]
+							) {
+								fieldName = key;
+								break;
+							}
+						}
+					}
+					// Dispatch custom event for handleFieldInteraction
+					const interactionEvent = new CustomEvent(
+						'fieldInteraction',
+						{
+							detail: {
+								fieldName,
+								fieldInteractionState,
+								context,
+								element,
+							},
+						}
+					);
+					document.dispatchEvent( interactionEvent );
+
+					generateFormToken( context );
+					formStarted = true;
 				},
 			} );
 		},
@@ -234,21 +434,58 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
-				const responseToken = await wp.apiFetch( {
-					path: 'formgent/responses/generate-token',
-					method: 'POST',
-					data: {
-						form_id: context.formId,
-					},
-				} );
+				const { blocksSettings } = JSON.parse(
+					JSON.stringify( context )
+				);
+				const elementName = element.ref.name;
+				let fieldName = null;
 
+				if ( blocksSettings[ elementName ] ) {
+					fieldName = elementName;
+				} else {
+					for ( const [ key, value ] of Object.entries(
+						blocksSettings
+					) ) {
+						if ( value.children && value.children[ elementName ] ) {
+							fieldName = key;
+							break;
+						}
+					}
+				}
+				// Dispatch custom event for handleResetInteraction
+				const resetInteractionEvent = new CustomEvent(
+					'resetFieldInteraction',
+					{
+						detail: {
+							fieldName,
+							fieldInteractionState,
+							context,
+						},
+					}
+				);
+				document.dispatchEvent( resetInteractionEvent );
+
+				// Generate form token
+				let responseToken = null;
+				if ( ! formStarted ) {
+					responseToken = await wp.apiFetch( {
+						path: 'formgent/responses/generate-token',
+						method: 'POST',
+						data: {
+							form_id: context.formId,
+						},
+					} );
+				}
+
+				// Submit form response
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
 					method: 'POST',
 					data: {
 						id: context.formId,
 						form_data: formData,
-						response_token: responseToken.response_token,
+						response_token:
+							responseToken || generatedTokens.response_token,
 					},
 				} );
 
