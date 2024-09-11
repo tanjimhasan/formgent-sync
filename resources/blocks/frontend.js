@@ -30,7 +30,23 @@ const { callbacks } = store( 'formgent/form', {
 		updateInput: async () => {
 			const element = getElement();
 			const context = getContext();
-			const fieldName = element.ref.name;
+
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
 
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
@@ -72,8 +88,23 @@ const { callbacks } = store( 'formgent/form', {
 		updateNumber: async () => {
 			const element = getElement();
 			const context = getContext();
-			const fieldName = element.ref.name;
 
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -93,8 +124,23 @@ const { callbacks } = store( 'formgent/form', {
 		updateGdpr: async () => {
 			const element = getElement();
 			const context = getContext();
-			const fieldName = element.ref.name;
 
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -145,7 +191,22 @@ const { callbacks } = store( 'formgent/form', {
 				choices.push( element.ref.value );
 			}
 
-			const fieldName = element.ref.name;
+			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
+			const elementName = element.ref.name;
+			let fieldName = null;
+
+			if ( blocksSettings[ elementName ] ) {
+				fieldName = elementName;
+			} else {
+				for ( const [ key, value ] of Object.entries(
+					blocksSettings
+				) ) {
+					if ( value.children && value.children[ elementName ] ) {
+						fieldName = key;
+						break;
+					}
+				}
+			}
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -263,7 +324,27 @@ const { callbacks } = store( 'formgent/form', {
 				onChange: function ( value ) {
 					context.data[ element.ref.name ] = value;
 
-					const fieldName = element.ref.name;
+					const { blocksSettings } = JSON.parse(
+						JSON.stringify( context )
+					);
+					const elementName = element.ref.name;
+					let fieldName = null;
+
+					if ( blocksSettings[ elementName ] ) {
+						fieldName = elementName;
+					} else {
+						for ( const [ key, value ] of Object.entries(
+							blocksSettings
+						) ) {
+							if (
+								value.children &&
+								value.children[ elementName ]
+							) {
+								fieldName = key;
+								break;
+							}
+						}
+					}
 					// Dispatch custom event for handleFieldInteraction
 					const interactionEvent = new CustomEvent(
 						'fieldInteraction',
@@ -338,7 +419,6 @@ const { callbacks } = store( 'formgent/form', {
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
 			const formData = JSON.parse( JSON.stringify( context.data ) );
-			const fieldName = element.ref.name;
 
 			// Honeypot security check
 			const honeypotField = form.querySelector(
@@ -354,6 +434,24 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 			try {
+				const { blocksSettings } = JSON.parse(
+					JSON.stringify( context )
+				);
+				const elementName = element.ref.name;
+				let fieldName = null;
+
+				if ( blocksSettings[ elementName ] ) {
+					fieldName = elementName;
+				} else {
+					for ( const [ key, value ] of Object.entries(
+						blocksSettings
+					) ) {
+						if ( value.children && value.children[ elementName ] ) {
+							fieldName = key;
+							break;
+						}
+					}
+				}
 				// Dispatch custom event for handleResetInteraction
 				const resetInteractionEvent = new CustomEvent(
 					'resetFieldInteraction',
