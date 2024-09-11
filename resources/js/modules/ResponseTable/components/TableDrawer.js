@@ -647,6 +647,14 @@ export default function TableDrawer( props ) {
 								</div>
 								<div className="response-table__drawer__tab__info__single">
 									<span className="response-table__drawer__tab__info__title">
+										IP Address
+									</span>
+									<span className="response-table__drawer__tab__info__value">
+										{ response.ip || '' }
+									</span>
+								</div>
+								<div className="response-table__drawer__tab__info__single">
+									<span className="response-table__drawer__tab__info__title">
 										Operating System
 									</span>
 									<span className="response-table__drawer__tab__info__value">
