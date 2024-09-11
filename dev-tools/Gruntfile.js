@@ -1,28 +1,29 @@
-const Utils = require( './tools/utils' );
+const Utils = require( './utils' );
 
 module.exports = ( grunt ) => {
 	'use strict';
 
-	const projectConfig = {
-		srcDir: './',
-	};
-
 	const textDomainFiles = [
-		'*.php',
-		'**/*.php',
-		'!node_modules/**',
-		'!vendor/**',
-		'!vendor-src/**',
+		'../*.php',
+		'../**/*.php',
+		'!../CustomSniffs/**',
+		'!../dev-tools/**',
+		'!../node_modules/**',
+		'!../vendor/**',
+		'!../vendor-src/**',
+		'!../__build/**',
 	];
 
 	grunt.initConfig( {
 		clean: {
 			options: { force: true },
-			dist: [ './languages/**/*.pot', './__build/**' ],
+			dist: [ '../languages/**/*.pot', '../__build/**' ],
 		},
 		addtextdomain: {
 			options: {
-				updateDomains: true, // List of text domains to replace.
+				updateDomains: true,
+				textdomain:
+					'<%= grunt.config.get("screen.begin.options.data.textDomain") %>',
 			},
 			target: {
 				files: {
@@ -64,18 +65,6 @@ module.exports = ( grunt ) => {
 			},
 		},
 
-		// makepot: {
-		// 	target: {
-		// 		options: {
-		// 			cwd: projectConfig.srcDir, // Directory of files to internationalize.
-		// 			mainFile: '', // Main project file.
-		// 			type: 'wp-plugin', // Type of project (wp-plugin or wp-theme).
-		// 			updateTimestamp: false, // Whether the POT-Creation-Date should be updated without other changes.
-		// 			updatePoFiles: false, // Whether to update PO files in the same directory as the POT file.
-		// 		},
-		// 	},
-		// },
-
 		/**
 		 * -------------------------------------
 		 * @description print ASCII text
@@ -88,7 +77,8 @@ module.exports = ( grunt ) => {
 				options: {
 					data: {
 						version: '1.0.0',
-						textDomain: 'myplugin',
+						textDomain:
+							'<%= grunt.config.get("screen.begin.options.data.textDomain") %>',
 					},
 				},
 				template: `
@@ -108,7 +98,7 @@ module.exports = ( grunt ) => {
 		│                                                                 │
 		│                      All tasks completed.                       │
 		│  Built files & Installable zip copied to the __build directory. │
-		│                         ~ SovWare ~                             │
+		│                         ~ Sovware ~                             │
 		│                                                                 │
 		╰─────────────────────────────────────────────────────────────────╯
 		`.green,
@@ -125,8 +115,8 @@ module.exports = ( grunt ) => {
 
 	grunt.registerTask( 'getPluginInfo', async function () {
 		var done = this.async();
-		const version = await Utils.getPluginInfo(); // Fetch or determine the plugin version dynamically
-		grunt.config.set( 'screen.begin.options.data', version );
+		const pluginInfo = await Utils.getPluginInfo(); // Fetch or determine the plugin version dynamically
+		grunt.config.set( 'screen.begin.options.data', pluginInfo );
 		done( true );
 	} );
 
@@ -135,7 +125,6 @@ module.exports = ( grunt ) => {
 		'screen:textdomainchecking',
 		'addtextdomain',
 		'checktextdomain',
-		// 'makepot',
 	] );
 
 	grunt.registerTask( 'screen:textdomainchecking', function () {

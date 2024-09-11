@@ -1051,16 +1051,6 @@ a.formgent-btn-disabled {
 	}
 }
 
-//Keyframes
-@keyframes formgent_spinner {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
 .formgent-control-default-value-list-content {
 	.components-popover__content {
 		width: 200px;
@@ -1113,6 +1103,27 @@ a.formgent-btn-disabled {
 		padding: 6px 0;
 	}
 }
+
+.formgent-analytics-chart-datepicker {
+	.ant-picker-panel-container .ant-picker-presets ul li {
+		padding: 5px 10px;
+	}
+	.ant-picker-range-arrow {
+		display: none !important;
+	}
+	.ant-picker-range-wrapper {
+		border-radius: 12px;
+	}
+	.ant-picker-panel-container {
+		border: 1px solid var(--formgent-color-gray-200);
+	}
+}
+
+.formgent-analytics-chart-datepicker,
+.ant-picker {
+	font-family: "Inter", sans-serif;
+}
+
 .single-response-drawer {
 	.ant-drawer-mask {
 		display: none;

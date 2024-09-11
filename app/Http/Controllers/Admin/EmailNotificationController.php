@@ -34,17 +34,12 @@ class EmailNotificationController extends Controller {
     public function store( WP_REST_Request $request, Validator $validator ) {
         $validator->validate( $this->get_validation_rules() );
 
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
-
         $form = $this->form_repository->get_by_id( $request->get_param( 'form_id' ) );
 
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
         }
@@ -53,7 +48,7 @@ class EmailNotificationController extends Controller {
             $this->repository->create( $this->get_dto( $request ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was created successfully!' )
+                    'message' => esc_html__( 'Email notification was created successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
@@ -76,21 +71,16 @@ class EmailNotificationController extends Controller {
         if ( ! $form ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Form not found' )
+                    'message' => esc_html__( 'Form not found', 'formgent' )
                 ], 404
             );
-        }
-
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
         }
 
         try {
             $this->repository->update( $this->get_dto( $request )->set_id( $request->get_param( 'id' ) ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was updated successfully!' )
+                    'message' => esc_html__( 'Email notification was updated successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
@@ -109,16 +99,11 @@ class EmailNotificationController extends Controller {
             ] 
         );
 
-        // Check if validation failed.
-        if ( $validator->is_fail() ) {
-            return Response::send( ['messages' => $validator->errors], 422 );
-        }
-
         try {
             $this->repository->delete_by_id( $request->get_param( 'id' ) );
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was deleted successfully!' )
+                    'message' => esc_html__( 'Email notification was deleted successfully!', 'formgent' )
                 ]
             );
         } catch ( Exception $ex ) {
@@ -137,14 +122,6 @@ class EmailNotificationController extends Controller {
                 'status' => 'required|string|accepted:publish,draft'
             ]
         );
-
-        if ( $validator->is_fail() ) {
-            return Response::send(
-                [
-                    'messages' => $validator->errors
-                ], 422
-            );
-        }
 
         $this->repository->update_status( intval( $wp_rest_request->get_param( 'id' ) ), $wp_rest_request->get_param( 'status' ) );
 

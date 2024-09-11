@@ -109,8 +109,6 @@ export default function Table() {
 		return select( 'formgent' ).getSingleFormState();
 	}, [] );
 
-	// console.log('SingleFormReducer', SingleFormReducer);
-
 	const {
 		forms,
 		pagination,
@@ -523,8 +521,8 @@ export default function Table() {
 		e.stopPropagation();
 		setDownloadLoading( 'csv' );
 
-		const exportedData =
-			! downloadLoading && ( await handleCreateExportData( source ) );
+		const exportedData = await handleCreateExportData( source );
+
 		if ( exportedData ) {
 			setDownloadLoading( null );
 			setCSVExportData( PrepareExportData( exportedData ) );
