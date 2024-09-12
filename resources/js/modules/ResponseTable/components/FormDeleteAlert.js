@@ -15,13 +15,17 @@ export default function FormDeleteAlert( props ) {
 				<div>
 					{ __( 'You are about to delete', 'formgent' ) }{ ' ' }
 					{ Array.isArray( formTitle ) ? (
-						<ul className="helpgent-form-delete-list">
-							{ formTitle.map( ( title, index ) => (
-								<li key={ index }>{ title }</li>
-							) ) }
-						</ul>
+						formTitle.length === 1 ? (
+							<strong>"{ formTitle[ 0 ] }"</strong>
+						) : (
+							<ul className="helpgent-form-delete-list">
+								{ formTitle.map( ( title, index ) => (
+									<li key={ index }>{ title }</li>
+								) ) }
+							</ul>
+						)
 					) : (
-						<strong>{ formTitle }</strong>
+						<strong>"{ formTitle }"</strong>
 					) }
 				</div>
 
@@ -29,11 +33,11 @@ export default function FormDeleteAlert( props ) {
 					<p>
 						{ Array.isArray( formTitle ) && formTitle.length > 1
 							? __(
-									'All responses will be deleted forever.',
+									'All responses has collected, including all submission data will be deleted forever.',
 									'formgent'
 							  )
 							: __(
-									'This response will be deleted forever.',
+									'This response has collected, including all submission data will be deleted forever.',
 									'formgent'
 							  ) }
 					</p>

@@ -1195,7 +1195,7 @@ export default function Table() {
 									height="24"
 								/>
 							</span>
-							{ __( 'Delete Response', 'formgent' ) }
+							{ __( 'Delete Response?', 'formgent' ) }
 						</>
 					}
 					onCancel={ handleCancelDeleteAlert }

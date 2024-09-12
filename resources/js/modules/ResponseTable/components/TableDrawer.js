@@ -682,7 +682,7 @@ export default function TableDrawer( props ) {
 									height="24"
 								/>
 							</span>
-							{ __( 'Delete Note', 'formgent' ) }
+							{ __( 'Delete Note?', 'formgent' ) }
 						</>
 					}
 					onCancel={ handleCancelNoteDeleteAlert }
