@@ -133,7 +133,6 @@ const { callbacks } = store( 'formgent/form', {
 					}
 				}
 			}
-
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -170,7 +169,6 @@ const { callbacks } = store( 'formgent/form', {
 					}
 				}
 			}
-
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -320,7 +318,7 @@ const { callbacks } = store( 'formgent/form', {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
 
-				// // General validation rules
+				// General validation rules
 				if ( field.required || field.field_type === 'gdpr' ) {
 					if ( field.field_type === 'gdpr' ) {
 						field.label = 'GDPR';
@@ -331,7 +329,7 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				}
 
-				// // Type specific validation rules
+				// Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
 					rulesList[ field.field_type ]( rules );
 				}
@@ -400,8 +398,6 @@ const { callbacks } = store( 'formgent/form', {
 							}
 						}
 					}
-
-					console.log( JSON.parse( JSON.stringify( context.data ) ) );
 					// Dispatch custom event for handleFieldInteraction
 					const interactionEvent = new CustomEvent(
 						'fieldInteraction',
@@ -572,3 +568,4 @@ const { callbacks } = store( 'formgent/form', {
 		},
 	},
 } );
+

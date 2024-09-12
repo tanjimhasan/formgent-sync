@@ -19,7 +19,7 @@ import AntTable from './Table';
 import AntTabs from './Tabs';
 import AntTextArea from './TextArea';
 import AntTooltip from './Tooltip';
-
+import AntProgress from './Progress';
 /**
  * Global components for admin and user
  */
@@ -46,6 +46,7 @@ registerModule( 'components', {
 	AntSelect,
 	AntRangePicker,
 	AntPagination,
+	AntProgress,
 } );
 
 /**
@@ -67,4 +68,5 @@ export {
 	AntTabs,
 	AntTextArea,
 	Form,
+	AntProgress
 };

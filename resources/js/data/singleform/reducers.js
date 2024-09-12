@@ -1,8 +1,6 @@
 const DEFAULT_STATE = {
 	forms: null,
 	analyticsSummary: null,
-	analyticsSubmission: null,
-	questionDropOff: null,
 	selectedFormType: '',
 	selectedFormId: null,
 	isCreatingForm: false,
@@ -24,10 +22,21 @@ const DEFAULT_STATE = {
 	activeCustomizerTab: 'element',
 	activeField: '',
 	error: null,
+	summary: null,
+	summaryFields: null,
+	isFetchingSummary: false,
 };
 
 export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
-	const { type, isLoading, data, currentPage, error } = action;
+	const {
+		type,
+		isLoading,
+		data,
+		currentPage,
+		error,
+		summaryPerPage,
+		fieldName,
+	} = action;
 
 	let fieldList = {};
 
@@ -296,6 +305,53 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'DELETE_RESPONSE_NOTES':
 			return {
 				...state,
+			};
+		case 'FETCH_SUMMARY_REQUEST':
+			return {
+				...state,
+				isFetchingSummary: true,
+			};
+		case 'FETCH_SUMMARY_SUCCESS':
+			const updatedSummary = {
+				...state.summary,
+				[ action.payload.formId ]: {
+					...state.summary?.[ action.payload.formId ],
+					[ action.payload.fieldName ]: action.payload.data,
+				},
+			};
+
+			return {
+				...state,
+				summary: updatedSummary,
+				isFetchingSummary: false,
+			};
+		case 'FETCH_SUMMARY_ERROR':
+			return {
+				...state,
+				error: error,
+				isFetchingSummary: false,
+			};
+		case 'FETCH_SUMMARY_FIELDS_REQUEST':
+			return {
+				...state,
+				isFetchingSummary: true,
+			};
+		case 'FETCH_SUMMARY_FIELDS_SUCCESS':
+			return {
+				...state,
+				summaryFields: action.payload.fields,
+			};
+		case 'FETCH_SUMMARY_FIELDS_ERROR':
+			return {
+				...state,
+				error: error,
+				isFetchingSummary: false,
+			};
+		case 'UPDATE_SUMMARY_PER_PAGE':
+			return {
+				...state,
+				per_page: summaryPerPage,
+				field_name: fieldName,
 			};
 		case 'FETCH_ANALYTICS_SUMMARY_REQUEST':
 			return {

@@ -115,7 +115,36 @@ export const SingleFormResolvers = {
 			yield SingleFormActions.isSingleFormFetchLoading( false );
 		}
 	},
-
+	*getSummary( formId, fieldName, perPage = 10, timestamp = 0 ) {
+		try {
+			const responseSummary = yield SingleFormActions.fetchSummary(
+				'formgent/admin/forms',
+				formId,
+				fieldName,
+				perPage,
+				Date.now()
+			);
+			yield SingleFormActions.fetchSummarySuccess(
+				responseSummary,
+				formId,
+				fieldName
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchSummaryError( error );
+		}
+	},
+	*getSummaryFields( formId, timestamp = 0 ) {
+		try {
+			const summaryFields = yield SingleFormActions.fetchSummaryFields(
+				`formgent/admin/forms/${ formId }/summary/field`
+			);
+			yield SingleFormActions.fetchSummaryFieldsSuccess(
+				summaryFields.fields
+			);
+		} catch ( error ) {
+			yield SingleFormActions.fetchSummaryFieldsError( error );
+		}
+	},
 	*getAnalyticsSummary( formId, timestamp = 0 ) {
 		try {
 			const analyticsSummaryResponse =

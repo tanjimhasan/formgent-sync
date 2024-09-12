@@ -7,6 +7,7 @@ import { registerBlock } from './../../blocks/utils';
 const SettingsModule = lazy( () => import( './Settings' ) );
 const FormTableModule = lazy( () => import( './FormTable' ) );
 const ResponseTableModule = lazy( () => import( './ResponseTable' ) );
+const SummaryModule = lazy( () => import( './Summary' ) );
 const AnalyticsModule = lazy( () => import( './Analytics' ) );
 
 registerModule( 'modules', {
@@ -15,6 +16,7 @@ registerModule( 'modules', {
 	ResponseTableModule,
 	AnalyticsModule,
 	registerBlock,
+	SummaryModule,
 	AnalyticsChart,
 	QuestionsDropOff,
 } );
@@ -30,4 +32,6 @@ export {
 	registerBlock,
 	ResponseTableModule,
 	SettingsModule,
+	SummaryModule,
 };
+
