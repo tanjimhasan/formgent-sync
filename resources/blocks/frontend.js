@@ -400,6 +400,8 @@ const { callbacks } = store( 'formgent/form', {
 							}
 						}
 					}
+
+					console.log( JSON.parse( JSON.stringify( context.data ) ) );
 					// Dispatch custom event for handleFieldInteraction
 					const interactionEvent = new CustomEvent(
 						'fieldInteraction',

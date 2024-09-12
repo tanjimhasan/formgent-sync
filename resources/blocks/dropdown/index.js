@@ -62,10 +62,6 @@ const controls = {
 					},
 				},
 			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
 		},
 	},
 	advanced: {

@@ -24,7 +24,7 @@
             autocomplete="off"
         >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
-                
+                <option value="">Select an option ...</option>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
                     <option 
                         value="<?php echo esc_attr( $option['value'] ); ?>"

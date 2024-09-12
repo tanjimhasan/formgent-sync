@@ -431,6 +431,11 @@ textarea.formgent-editor-block-list__single__input,
 	}
 	&.formgent-editor-block-list__single__input--select {
 		appearance: none;
+		border-radius: 8px;
+		padding: 0 16px;
+		font-family: "Inter", sans-serif;
+		color: var(--formgent-color-text);
+		border-color: var(--formgent-color-border-light);
 		background-image: url("../svg/icons/chevron-down.svg");
 		background-repeat: no-repeat;
 		background-size: 16px;
