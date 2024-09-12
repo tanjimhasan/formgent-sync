@@ -277,52 +277,76 @@ export default function TableDrawer( props ) {
 			<div className="response-table__drawer__header">
 				<div className="response-table__drawer__header__response">
 					<div className="response-table__drawer__header__response__btns">
-						<button
-							className={ `response-table__drawer__header__response__btn ${
-								drawerLoading && activeNav === 'prev'
-									? 'formgent-loading'
-									: ''
-							} ${
-								single_response_pagination?.current_page <= 1
-									? 'disabled'
-									: ''
-							}` }
-							onClick={ () => {
-								handleTableDrawer( response.id, 'prev' );
-								setActiveDrawer( response.id );
-								setActiveNav( 'prev' );
-							} }
-						>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ arrowLeftIcon }
+						{ drawerLoading && activeNav === 'prev' ? (
+							<button
+								className={ `response-table__drawer__header__response__btn formgent-loading ${
+									single_response_pagination?.current_page <=
+									1
+										? 'disabled'
+										: ''
+								}` }
+								onClick={ () => {
+									handleTableDrawer( response.id, 'prev' );
+									setActiveDrawer( response.id );
+									setActiveNav( 'prev' );
+								} }
 							/>
-						</button>
-						<button
-							className={ `response-table__drawer__header__response__btn ${
-								activeDrawer === response?.id &&
-								activeNav === 'next'
-									? 'formgent-loading'
-									: ''
-							} ${
-								single_response_pagination?.current_page ===
-								single_response_pagination?.total_pages
-									? 'disabled'
-									: ''
-							}` }
-							onClick={ () => {
-								handleTableDrawer( response.id, 'next' );
-								setActiveDrawer( response.id );
-								setActiveNav( 'next' );
-							} }
-						>
-							<ReactSVG
-								width="14"
-								height="14"
-								src={ arrowRightIcon }
+						) : (
+							<button
+								className={ `response-table__drawer__header__response__btn ${
+									single_response_pagination?.current_page <=
+									1
+										? 'disabled'
+										: ''
+								}` }
+								onClick={ () => {
+									handleTableDrawer( response.id, 'prev' );
+									setActiveDrawer( response.id );
+									setActiveNav( 'prev' );
+								} }
+							>
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ arrowLeftIcon }
+								/>
+							</button>
+						) }
+						{ drawerLoading && activeNav === 'next' ? (
+							<button
+								className={ `response-table__drawer__header__response__btn formgent-loading ${
+									single_response_pagination?.current_page ===
+									single_response_pagination?.total_pages
+										? 'disabled'
+										: ''
+								}` }
+								onClick={ () => {
+									handleTableDrawer( response.id, 'next' );
+									setActiveDrawer( response.id );
+									setActiveNav( 'next' );
+								} }
 							/>
-						</button>
+						) : (
+							<button
+								className={ `response-table__drawer__header__response__btn ${
+									single_response_pagination?.current_page ===
+									single_response_pagination?.total_pages
+										? 'disabled'
+										: ''
+								}` }
+								onClick={ () => {
+									handleTableDrawer( response.id, 'next' );
+									setActiveDrawer( response.id );
+									setActiveNav( 'next' );
+								} }
+							>
+								<ReactSVG
+									width="14"
+									height="14"
+									src={ arrowRightIcon }
+								/>
+							</button>
+						) }
 					</div>
 					<span
 						className={
