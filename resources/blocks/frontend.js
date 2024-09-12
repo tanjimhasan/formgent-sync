@@ -568,4 +568,3 @@ const { callbacks } = store( 'formgent/form', {
 		},
 	},
 } );
-

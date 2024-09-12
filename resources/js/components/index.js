@@ -68,5 +68,5 @@ export {
 	AntTabs,
 	AntTextArea,
 	Form,
-	AntProgress
+	AntProgress,
 };

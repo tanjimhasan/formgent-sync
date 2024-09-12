@@ -31,6 +31,10 @@
 		"make-production-pot": [
 			"composer make-pot",
 			"wp i18n make-json languages/formgent.po --no-purge"
+		],
+        "permission": [
+			"chmod +x vendor/vendor-src/bin/phpcs",
+			"chmod +x vendor/vendor-src/bin/phpcbf"
 		]
 	},
     "autoload": {
