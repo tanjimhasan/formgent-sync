@@ -7,8 +7,8 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	function handleMouseDown( e ) {
-		e.preventDefault(); // Prevents the default action
-		e.stopPropagation(); // Stops the event from propagating
+		// e.preventDefault(); // Prevents the default action
+		// e.stopPropagation(); // Stops the event from propagating
 	}
 
 	function handleAddOption() {
