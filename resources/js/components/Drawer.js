@@ -5,7 +5,9 @@ export default function AntDrawer( props ) {
 	const defaultComponentTokens = {
 		Drawer: {},
 	};
-	const defaultTokens = {};
+	const defaultTokens = {
+		fontFamily: 'Inter',
+	};
 	return (
 		<DrawerStyle>
 			<ConfigProvider
