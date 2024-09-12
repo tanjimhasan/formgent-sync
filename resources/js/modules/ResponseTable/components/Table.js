@@ -4,7 +4,12 @@ import {
 	exportToSpreadsheet,
 } from '@formgent/admin/export/response';
 
-import { AntDropdown, AntSpin, AntTable } from '@formgent/components';
+import {
+	AntDrawer,
+	AntDropdown,
+	AntSpin,
+	AntTable,
+} from '@formgent/components';
 import deleteData from '@formgent/helper/deleteData';
 import fetchData from '@formgent/helper/fetchData';
 import patchData from '@formgent/helper/patchData';
@@ -12,6 +17,7 @@ import postData from '@formgent/helper/postData';
 import { formatDate } from '@formgent/helper/utils';
 import { resolveSelect, useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { addQueryArgs } from '@wordpress/url';
 import { CSVLink } from 'react-csv';
 import ReactSVG from 'react-inlinesvg';
@@ -20,6 +26,7 @@ import TableHeader from './TableHeader';
 import { TableStyle } from './style';
 
 // Icon
+import PopUp from '@formgent/components/PopUp';
 import alignLeftIcon from '@icon/align-left.svg';
 import arrowsDownIcon from '@icon/arrows-down.svg';
 import arrowsUpIcon from '@icon/arrows-up.svg';
@@ -29,7 +36,6 @@ import chevronDownIcon from '@icon/chevron-down.svg';
 import csvIcon from '@icon/csv.svg';
 import ellipsisVIcon from '@icon/ellipsis-v.svg';
 import expandIcon from '@icon/expand.svg';
-import hideIcon from '@icon/eye-off.svg';
 import gridIcon from '@icon/grid.svg';
 import hashIcon from '@icon/hash.svg';
 import linkIcon from '@icon/link.svg';
@@ -40,18 +46,23 @@ import phoneIcon from '@icon/phone.svg';
 import pinIcon from '@icon/pin.svg';
 import starIcon from '@icon/star.svg';
 import textIcon from '@icon/text.svg';
+import trashAltIcon from '@icon/trash-alt.svg';
 import userIcon from '@icon/user.svg';
 import xlsIcon from '@icon/xls.svg';
+import FormDeleteAlert from './FormDeleteAlert';
 
 export default function Table() {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ activeTab, setActiveTab ] = useState( 'completed' );
 	const [ selectedKey, setSelectedKey ] = useState( 'all' );
-	const [ tableDrawer, setTableDrawer ] = useState( false );
+	const [ singleResponse, setSingleResponse ] = useState( null );
+	const [ openDrawer, setOpenDrawer ] = useState( false );
 	const [ filteredData, setFilteredData ] = useState( [] );
 	const [ searchItem, setSearchItem ] = useState( '' );
 	const [ readStatus, setReadStatus ] = useState( 0 );
-	const [ orderType, setOrderType ] = useState( 'asc' );
+	const [ orderFieldType, setOrderFieldType ] = useState( 'response' );
+	const [ orderType, setOrderType ] = useState( 'desc' );
+	const [ orderBy, setOrderBy ] = useState( 'created_at' );
 	const [ customColumns, setCustomColumns ] = useState( [] );
 	const [ frozenColumns, setFrozenColumns ] = useState( [] );
 	const [ hiddenColumns, setHiddenColumns ] = useState( [] );
@@ -60,10 +71,16 @@ export default function Table() {
 	const [ responses, setResponses ] = useState( [] );
 	const [ responseFields, setResponseFields ] = useState( [] );
 	const [ csvExportData, setCSVExportData ] = useState( [] );
+	const [ starredChanging, setStarredChanging ] = useState( '' );
+	const [ drawerLoading, setDrawerLoading ] = useState( false );
+	const [ downloadLoading, setDownloadLoading ] = useState( false );
+	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
+		useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
 	const debounceTimeout = useRef( null );
+	const isInitialMount = useRef( true );
 
 	// Retrieve from the store
 	const {
@@ -79,6 +96,9 @@ export default function Table() {
 		responseDeleteError,
 		responseColumnUpdateSuccess,
 		responseColumnUpdateError,
+		responseSingleChangeRequest,
+		responseSingleChangeSuccess,
+		responseSingleChangeError,
 		getResponseNotes,
 		addResponseNotes,
 		updateResponseNotes,
@@ -99,6 +119,7 @@ export default function Table() {
 		isReadStatusChanging,
 		isResponseDeleting,
 		isResponseColumnUpdating,
+		isResponseSingleChanging,
 		notes,
 		fields,
 		selected_fields,
@@ -120,7 +141,9 @@ export default function Table() {
 			searchItem,
 			parseInt( id ),
 			readStatus,
+			orderFieldType,
 			orderType,
+			orderBy,
 			Date.now()
 		);
 	}
@@ -132,7 +155,9 @@ export default function Table() {
 			label: (
 				<>
 					<span
-						className="dropdown-header-content"
+						className={ `dropdown-header-content ${
+							downloadLoading === 'csv' ? 'formgent-loading' : ''
+						}` }
 						onClick={ ( e ) => handleExportCSV( e, source ) }
 					>
 						<ReactSVG width="16" height="16" src={ csvIcon } />
@@ -151,7 +176,11 @@ export default function Table() {
 		{
 			key: `excel|${ source }`,
 			label: (
-				<span className="dropdown-header-content">
+				<span
+					className={ `dropdown-header-content ${
+						downloadLoading === 'excel' ? 'formgent-loading' : ''
+					}` }
+				>
 					<ReactSVG width="16" height="16" src={ xlsIcon } />
 					Download as Excel
 				</span>
@@ -160,7 +189,11 @@ export default function Table() {
 		{
 			key: `pdf|${ source }`,
 			label: (
-				<span className="dropdown-header-content">
+				<span
+					className={ `dropdown-header-content ${
+						downloadLoading === 'pdf' ? 'formgent-loading' : ''
+					}` }
+				>
 					<ReactSVG width="16" height="16" src={ pdfIcon } />
 					Download as PDF
 				</span>
@@ -207,6 +240,16 @@ export default function Table() {
 
 	// handleSortby
 	function handleSortby( item, dropdownId ) {
+		setOrderBy( dropdownId );
+		if (
+			dropdownId === 'id' ||
+			dropdownId === 'created_at' ||
+			dropdownId === 'user_email'
+		) {
+			setOrderFieldType( 'response' );
+		} else {
+			setOrderFieldType( 'answer' );
+		}
 		const { key } = item;
 		const sortFunctions = {
 			ascending: () => {
@@ -261,7 +304,18 @@ export default function Table() {
 	}
 
 	// handleTableDrawer
+	function handleDrawerClose() {
+		setOpenDrawer( null );
+		setSelectedRowKeys( [] );
+	}
+
 	async function handleTableDrawer( record, nav ) {
+		if ( isResponseSingleChanging ) return;
+
+		responseSingleChangeRequest();
+
+		setOpenDrawer( true );
+		setDrawerLoading( true );
 		// Calculate the initial drawerResponse index based on the current page and record position
 		let drawerResponse =
 			responses.findIndex( ( item ) => item.id === record ) + 1;
@@ -298,21 +352,27 @@ export default function Table() {
 				parseInt( id ),
 				readStatus,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 			handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+			responseSingleChangeSuccess( updateDrawerResponse );
 		} else {
 			// Update the page and fetch the data for the new page
 			updateCurrentResponsePage( newPage );
 
 			// Fetch the new page data
-			await resolveSelect( 'formgent' ).getResponseForm(
-				newPage,
+			const updateFormResponse = await resolveSelect(
+				'formgent'
+			).getResponseForm(
+				newPage || 1,
 				10,
 				searchItem,
 				parseInt( id ),
 				readStatus,
+				orderFieldType,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 
@@ -326,20 +386,31 @@ export default function Table() {
 				parseInt( id ),
 				readStatus,
 				orderType,
+				orderBy,
 				Date.now()
 			);
 
+			responseSingleChangeSuccess( updateDrawerResponse );
+
+			const updatedResponses =
+				updateFormResponse.SingleFormReducer.forms[ id ]?.responses;
+
 			// Ensure that responses are updated before triggering handleResponseNotes
-			if ( responses[ localDrawerResponse - 1 ]?.id ) {
-				handleResponseNotes( responses[ localDrawerResponse - 1 ]?.id );
+			if ( updatedResponses[ localDrawerResponse - 1 ]?.id ) {
+				handleResponseNotes(
+					updatedResponses[ localDrawerResponse - 1 ]?.id
+				);
 			} else {
 				console.warn( 'Response ID is undefined' );
+				responseSingleChangeError();
 			}
 		}
 	}
 
 	// handleResponseNotes
 	async function handleResponseNotes( responseID ) {
+		if ( ! responseID ) return;
+
 		const fetchResponseNotes = await fetchData(
 			`admin/responses/notes?response_id=${ responseID }`
 		);
@@ -351,6 +422,7 @@ export default function Table() {
 
 	// handleStarred
 	async function handleStarred( id, isStarredStatus, source ) {
+		setStarredChanging( id );
 		if ( isStarredChanging ) return;
 
 		starredChangeRequest();
@@ -362,12 +434,13 @@ export default function Table() {
 		);
 		if ( updateStarredStatus ) {
 			starredChangeSuccess( id, reverseStarredStatus );
-
+			setStarredChanging( '' );
 			if ( source === 'drawer' ) {
 				handleTableDrawer( id );
 			}
 		} else {
 			starredChangeError();
+			setStarredChanging( '' );
 		}
 	}
 
@@ -404,8 +477,8 @@ export default function Table() {
 	// Handle Create Export Data
 	async function handleCreateExportData( source ) {
 		const downloadItemsID =
-			source === 'drawer' && tableDrawer?.id
-				? [ tableDrawer.id ]
+			source === 'drawer' && singleResponse?.id
+				? [ singleResponse.id ]
 				: selectedRowKeys;
 		const responseIds = responses.map( ( response ) => response.id );
 
@@ -420,6 +493,7 @@ export default function Table() {
 
 	// Handle Download
 	async function handleDownload( { key } ) {
+		setDownloadLoading( key );
 		const [ fileType, source ] = key.split( '|' ); // fileType: pdf, excel, source: header, drawer
 
 		if ( fileType === 'csv' ) {
@@ -429,6 +503,7 @@ export default function Table() {
 		const exportedData = await handleCreateExportData( source );
 
 		if ( exportedData ) {
+			setDownloadLoading( null );
 			if ( fileType === 'pdf' ) {
 				return exportToPDF( exportedData, 'formgent-response' );
 			} else if ( fileType === 'excel' ) {
@@ -444,9 +519,15 @@ export default function Table() {
 	// Handle Export CSV
 	async function handleExportCSV( e, source ) {
 		e.stopPropagation();
+		setDownloadLoading( 'csv' );
+
 		const exportedData = await handleCreateExportData( source );
+
 		if ( exportedData ) {
+			setDownloadLoading( null );
 			setCSVExportData( PrepareExportData( exportedData ) );
+		} else {
+			setDownloadLoading( null );
 		}
 	}
 
@@ -556,7 +637,7 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsUpIcon } />
 					Ascending
-					{ orderType === 'asc' && (
+					{ orderType === 'asc' && orderBy === dropdownId && (
 						<span className="active-icon">
 							<ReactSVG
 								width="10"
@@ -574,7 +655,7 @@ export default function Table() {
 				<span className="dropdown-header-content">
 					<ReactSVG width="16" height="16" src={ arrowsDownIcon } />
 					Descending
-					{ orderType !== 'asc' && (
+					{ orderType === 'desc' && orderBy === dropdownId && (
 						<span className="active-icon">
 							<ReactSVG
 								width="10"
@@ -599,15 +680,15 @@ export default function Table() {
 			),
 			key: 'freeze',
 		},
-		{
-			label: (
-				<span className="dropdown-header-content">
-					<ReactSVG width="16" height="16" src={ hideIcon } />
-					Hide Column
-				</span>
-			),
-			key: 'hide',
-		},
+		// {
+		// 	label: (
+		// 		<span className="dropdown-header-content">
+		// 			<ReactSVG width="16" height="16" src={ hideIcon } />
+		// 			Hide Column
+		// 		</span>
+		// 	),
+		// 	key: 'hide',
+		// },
 	];
 
 	// Default Column Data
@@ -784,6 +865,13 @@ export default function Table() {
 	}
 
 	// Handle Delete
+	function handleActivateDeleteFormModal( ids, source ) {
+		setIsActivateFormDeleteModal( true );
+	}
+	function handleCancelDeleteAlert() {
+		setIsActivateFormDeleteModal( false );
+	}
+
 	async function handleDelete( ids, source ) {
 		if ( isResponseDeleting ) return;
 		responseDeleteRequest();
@@ -796,9 +884,11 @@ export default function Table() {
 		);
 
 		if ( deleteResponse ) {
-			setTableDrawer( null );
+			setSingleResponse( null );
+			setOpenDrawer( false );
 			setSelectedRowKeys( [] );
 			responseDeleteSuccess( id, deleteItems );
+			setIsActivateFormDeleteModal( false );
 			handleTableChange();
 		} else {
 			responseDeleteError();
@@ -812,74 +902,82 @@ export default function Table() {
 
 	// Generate Column
 	const generateCustomColumns = () => {
-		return ( selected_fields || [] ).map( ( fieldName ) => {
-			const field = fields?.find( ( field ) => field.name === fieldName );
-			const title = field ? field.label : `Field ${ fieldName }`;
+		return ( selected_fields || [] )
+			.filter( ( fieldName ) =>
+				fields.some( ( field ) => field.name === fieldName )
+			)
+			.map( ( fieldName ) => {
+				const field = fields?.find(
+					( field ) => field.name === fieldName
+				);
 
-			return {
-				key: fieldName,
-				dataIndex: fieldName,
-				title: () => (
-					<div className="formgent-column-action">
-						<span className="formgent-column-action__title">
-							<span className="formgent-column-action__icon">
-								<ReactSVG
-									width="16"
-									height="16"
-									src={ handleColumnIcon( field.type ) }
-								/>
+				return {
+					key: fieldName,
+					dataIndex: fieldName,
+					title: () => (
+						<div className="formgent-column-action">
+							<span className="formgent-column-action__title">
+								<span className="formgent-column-action__icon">
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ handleColumnIcon( field?.type ) }
+									/>
+								</span>
+								{ field?.label.replace(
+									/<\/?[^>]+(>|$)/g,
+									''
+								) }
 							</span>
-							{ title.replace( /<\/?[^>]+(>|$)/g, '' ) }
-						</span>
-						<AntDropdown
-							menu={ {
-								items: sortItems( fieldName ),
-								onClick: ( item ) =>
-									handleSortby( item, fieldName ),
-							} }
-							trigger={ [ 'click' ] }
-							placement="bottomRight"
-							overlayStyle={ { minWidth: '240px' } }
-						>
-							<a onClick={ ( e ) => e.preventDefault() }>
-								<ReactSVG
-									width="16"
-									height="16"
-									src={ ellipsisVIcon }
-								/>
-							</a>
-						</AntDropdown>
-					</div>
-				),
-				render: ( text, record ) => {
-					const response =
-						responses &&
-						responses?.find( ( r ) => r.id === record.id );
-					if ( response ) {
-						const answer = response.answers?.find(
-							( a ) => a.field_name === fieldName
-						);
-						if ( answer ) {
-							return <div>{ answer.value }</div>;
+							<AntDropdown
+								menu={ {
+									items: sortItems( fieldName ),
+									onClick: ( item ) =>
+										handleSortby( item, fieldName ),
+								} }
+								trigger={ [ 'click' ] }
+								placement="bottomRight"
+								overlayStyle={ { minWidth: '240px' } }
+							>
+								<a onClick={ ( e ) => e.preventDefault() }>
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ ellipsisVIcon }
+									/>
+								</a>
+							</AntDropdown>
+						</div>
+					),
+					render: ( text, record ) => {
+						const response =
+							responses &&
+							responses?.find( ( r ) => r.id === record.id );
+						if ( response ) {
+							const answer = response.answers?.find(
+								( a ) => a.field_name === fieldName
+							);
+							if ( answer ) {
+								return <div>{ answer.value }</div>;
+							}
 						}
-					}
-					return <div>No data Found</div>;
-				},
-			};
-		} );
+						return <div>No data Found</div>;
+					},
+				};
+			} );
 	};
 
 	// Handle Show/Hide Column
 	async function handleColumn() {
 		if ( ! fieldColumnHide ) {
 			if ( isResponseColumnUpdating ) return;
-
 			const updateColumn = await postData( 'admin/responses/fields', {
 				form_id: id,
 				field_names: visibleColumns,
 			} );
 
 			if ( updateColumn ) {
+				fetchResponse();
 				// Remove all visibleColumns from hiddenColumns
 				const updatedHiddenColumns = hiddenColumns.filter(
 					( column ) => ! visibleColumns.includes( column )
@@ -905,10 +1003,16 @@ export default function Table() {
 
 		setCustomColumns(
 			allColumns.map( ( col ) => {
+				const isDefaultColumn = defaultColumns.some(
+					( defaultCol ) => defaultCol.dataIndex === col.dataIndex
+				);
+
 				return {
 					...col,
 					fixed: frozenColumns.includes( col.dataIndex )
-						? 'left'
+						? isDefaultColumn
+							? 'left'
+							: 'right'
 						: null,
 					hidden: hiddenColumns.includes( col.key ),
 				};
@@ -923,14 +1027,19 @@ export default function Table() {
 		starredItems,
 		readStatusItems,
 		filteredData,
+		starredChanging,
+		isStarredChanging,
 	] );
 
 	useEffect( () => {
+		if ( ! selected_fields ) return;
+
 		if (
 			JSON.stringify( visibleColumns ) !==
 			JSON.stringify( selected_fields )
 		) {
 			setVisibleColumns( selected_fields );
+			fetchResponse();
 		}
 	}, [ selected_fields ] );
 
@@ -939,12 +1048,18 @@ export default function Table() {
 	}, [ visibleColumns ] );
 
 	useEffect( () => {
-		fetchResponse();
-	}, [ searchItem, readStatus, orderType ] );
+		if ( isInitialMount.current ) {
+			// Skip on initial mount
+			isInitialMount.current = false;
+		} else {
+			// Run the effect normally after initial render
+			fetchResponse();
+		}
+	}, [ searchItem, readStatus, orderFieldType, orderType, orderBy ] );
 
 	useEffect( () => {
 		if ( single_response ) {
-			setTableDrawer( single_response[ 0 ] || null );
+			setSingleResponse( single_response[ 0 ] || null );
 			rowSelection.onChange( [ single_response[ 0 ]?.id ] );
 		}
 	}, [ single_response ] );
@@ -961,10 +1076,10 @@ export default function Table() {
 	}, [ forms ] );
 
 	useEffect( () => {
-		setTableDrawer( null );
+		setSingleResponse( null );
 		setSelectedRowKeys( [] );
 
-		fetchResponse();
+		// fetchResponse();
 		handleColumn();
 		resolveSelect( 'formgent' ).getSingleFormFields(
 			parseInt( id ),
@@ -975,7 +1090,7 @@ export default function Table() {
 	useEffect( () => {
 		setCustomColumns( defaultColumns );
 
-		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
+		// resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}, [] );
 
 	// Export CSV Data
@@ -1002,7 +1117,9 @@ export default function Table() {
 					responseFields={ responseFields }
 					setResponseFields={ setResponseFields }
 					setFieldColumnHide={ setFieldColumnHide }
-					handleDelete={ handleDelete }
+					handleActivateDeleteFormModal={
+						handleActivateDeleteFormModal
+					}
 					downloadItems={ downloadItems() }
 					handleDownload={ handleDownload }
 				/>
@@ -1031,19 +1148,27 @@ export default function Table() {
 					onChange={ handleTableChange }
 				/>
 			</AntSpin>
-			{ tableDrawer && (
+
+			<AntDrawer
+				onClose={ handleDrawerClose }
+				open={ openDrawer }
+				width={ 600 }
+				rootClassName="single-response-drawer"
+				styles={ { header: { display: 'none' } } }
+			>
 				<TableDrawer
-					response={ tableDrawer }
+					response={ singleResponse }
 					handleTableDrawer={ handleTableDrawer }
-					setSelectedRowKeys={ setSelectedRowKeys }
 					notes={ notes }
+					handleResponseNotes={ handleResponseNotes }
 					addResponseNotes={ addResponseNotes }
 					updateResponseNotes={ updateResponseNotes }
 					deleteResponseNotes={ deleteResponseNotes }
-					setTableDrawer={ setTableDrawer }
-					pagination={ pagination }
+					handleDrawerClose={ handleDrawerClose }
 					single_response_pagination={ single_response_pagination }
-					handleDelete={ ( id ) => handleDelete( id, 'drawer' ) }
+					handleActivateDeleteFormModal={ ( id ) =>
+						handleActivateDeleteFormModal( id, 'drawer' )
+					}
 					handleStarred={ ( id, isStarredStatus ) =>
 						handleStarred( id, isStarredStatus, 'drawer' )
 					}
@@ -1053,7 +1178,43 @@ export default function Table() {
 					handleDownload={ handleDownload }
 					downloadItems={ downloadItems( 'drawer' ) }
 					dateFormatOptions={ dateFormatOptions }
+					drawerLoading={ drawerLoading }
+					setDrawerLoading={ setDrawerLoading }
 				/>
+			</AntDrawer>
+
+			{ isActivateFormDeleteModal && (
+				<PopUp
+					open={ isActivateFormDeleteModal }
+					title={
+						<>
+							<span className="formgent-popup-title-icon">
+								<ReactSVG
+									src={ trashAltIcon }
+									width="24"
+									height="24"
+								/>
+							</span>
+							{ __( 'Delete Response?', 'formgent' ) }
+						</>
+					}
+					onCancel={ handleCancelDeleteAlert }
+					onSubmit={ handleDelete }
+					hasCancelButton
+					hasSubmitButton
+					isActiveSubmit
+					submitText={
+						isResponseDeleting
+							? __( 'Deleting', 'formgent' )
+							: __( 'Delete', 'formgent' )
+					}
+					className="formgent-form-delete-alert"
+				>
+					<FormDeleteAlert
+						// error={ formDeletionError }
+						formTitle={ selectedRowKeys }
+					/>
+				</PopUp>
 			) }
 		</TableStyle>
 	);
