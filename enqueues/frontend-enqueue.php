@@ -13,7 +13,7 @@ Enqueue::register_script( 'formgent/components', 'build/js/components' );
  */
 //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 if ( isset( $_GET['elementor-preview'] ) ) {
-    wp_enqueue_style( 'formgent/blocks-frontend', formgent_url( 'assets/build/css/blocks-frontend.css' ) );
+    wp_enqueue_style( 'formgent/blocks-frontend', formgent_url( 'assets/build/css/blocks-frontend.css' ), [], formgent_version() );
 }
 
 $block_frontend_asset = include formgent_dir( 'assets/build/js/blocks-frontend.asset.php' );
