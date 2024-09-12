@@ -906,8 +906,8 @@ const TableDrawerStyle = Styled.div`
                 border-radius: 8px;
                 cursor: pointer;
                 transition: all ease .3s;
-                &:hover {
-                    background: var(--formgent-color-dark);
+                &:hover {    
+                    background-color: var(--formgent-color-primary-hover);
                 }
                 &[disabled] {
                     opacity: .5;
