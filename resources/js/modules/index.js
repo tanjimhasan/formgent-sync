@@ -33,7 +33,5 @@ export {
 	ResponseTableModule,
 	SettingsModule,
 	SummaryModule,
-	AnalyticsModule,
-	AnalyticsChart,
-	QuestionsDropOff,
 };
+
