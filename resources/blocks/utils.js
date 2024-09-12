@@ -307,7 +307,6 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 					allBlocksToCheck,
 					blockProps[ 'data-block' ]
 				);
-				console.log( filteredChildBlocks );
 				setAttributes( {
 					id: nanoid( 12 ),
 					name: generateUniqueKey(
