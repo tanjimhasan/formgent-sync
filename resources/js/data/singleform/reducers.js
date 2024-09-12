@@ -1,5 +1,8 @@
 const DEFAULT_STATE = {
 	forms: null,
+	analyticsSummary: null,
+	analyticsSubmission: null,
+	questionDropOff: null,
 	selectedFormType: '',
 	selectedFormId: null,
 	isCreatingForm: false,
@@ -9,6 +12,7 @@ const DEFAULT_STATE = {
 	isReadStatusChanging: false,
 	isResponseDeleting: false,
 	isResponseColumnUpdating: false,
+	isAnalyticsSummaryFetching: false,
 	starredItems: {},
 	readStatusItems: {},
 	pagination: {
@@ -25,6 +29,7 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 	const { type, isLoading, data, currentPage, error } = action;
 
 	let fieldList = {};
+
 	switch ( type ) {
 		case 'CREATE_FORM_REQUEST':
 			return {
@@ -147,13 +152,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 						},
 					},
 				},
-				// singleForm: {
-				// 	...state.singleForm,
-				// 	content: {
-				// 		...state.singleForm.content,
-				// 		fields: data,
-				// 	},
-				// },
 			};
 		case 'UPDATE_FIELD_LABEL':
 			fieldList = structuredClone( state?.singleForm?.content?.fields );
@@ -280,6 +278,25 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 			};
+		case 'FETCH_ANALYTICS_SUMMARY_REQUEST':
+			return {
+				...state,
+				isAnalyticsSummaryFetching: true,
+			};
+		case 'FETCH_ANALYTICS_SUMMARY_SUCCESS':
+			return {
+				...state,
+				analyticsSummary: {
+					[ action.payload.formId ]: action.payload.data,
+				},
+			};
+		case 'FETCH_ANALYTICS_SUMMARY_ERROR':
+			return {
+				...state,
+				error: error,
+				isAnalyticsSummaryFetching: false,
+			};
+
 		default:
 			return state;
 	}
