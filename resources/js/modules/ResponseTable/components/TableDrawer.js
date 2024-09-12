@@ -193,15 +193,18 @@ export default function TableDrawer( props ) {
 	function handleSelectItems( { key } ) {
 		const selectFunctions = {
 			star: () => {
+				setActiveNav( '' );
 				handleStarred(
 					response.id,
 					response.is_starred === '1' ? '1' : '0'
 				);
 			},
 			'read-unread': () => {
+				setActiveNav( '' );
 				handleRead( response.id, response.is_read === '1' ? '1' : '0' );
 			},
 			delete: () => {
+				setActiveNav( '' );
 				handleActivateDeleteFormModal( [ response.id ] );
 			},
 		};

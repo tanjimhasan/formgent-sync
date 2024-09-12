@@ -723,13 +723,7 @@ export default function Table() {
 						? starredItems[ record.id ]
 						: '0';
 				return (
-					<div
-						className={ `formgent-form-table-item-wrap ${ starredChanging } ${
-							starredChanging === record.id
-								? 'formgent-loading'
-								: ''
-						}` }
-					>
+					<div className="formgent-form-table-item-wrap">
 						{ record.id }
 						<ReactSVG
 							width="16"
@@ -1096,7 +1090,7 @@ export default function Table() {
 	useEffect( () => {
 		setCustomColumns( defaultColumns );
 
-		resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
+		// resolveSelect( 'formgent' ).getSingleFormFields( parseInt( id ) );
 	}, [] );
 
 	// Export CSV Data
