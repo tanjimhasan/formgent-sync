@@ -17,15 +17,17 @@
             class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--select" 
             name="<?php echo esc_attr( $attributes['name'] ); ?>"
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
+            data-wp-context='{ "name": "<?php echo esc_attr( $attributes['name'] ); ?>" }'
             data-wp-interactive="formgent/form"
             data-wp-init="callbacks.dropdownInit"
+            placeholder="Select a option..." 
+            autocomplete="off"
         >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
-                <option value="">Select option</option>
+                <option value="">Select an option ...</option>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
                     <option 
                         value="<?php echo esc_attr( $option['value'] ); ?>"
-                        <?php echo $attributes['value'] === $option['value'] ? "selected" : null; ?>
                     >
                         <?php echo esc_html( $option['label'] ); ?>
                     </option>

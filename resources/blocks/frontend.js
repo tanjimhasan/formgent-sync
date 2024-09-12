@@ -27,6 +27,34 @@ async function generateFormToken( context ) {
 
 const { callbacks } = store( 'formgent/form', {
 	actions: {
+		getValue: () => {
+			const context = getContext();
+
+			let value = '';
+			if ( context.blocksSettings ) {
+				for ( const [ blockKey, block ] of Object.entries(
+					context.blocksSettings
+				) ) {
+					if ( block.children ) {
+						for ( const [ childKey, child ] of Object.entries(
+							block.children
+						) ) {
+							if ( childKey === context.name ) {
+								value = child.value;
+								break; // Stop the loop once the condition is met
+							} else {
+								value = '';
+								break;
+							}
+						}
+					} else if ( block.name === context.name ) {
+						value = block.value;
+						break;
+					}
+				}
+			}
+			return value;
+		},
 		updateInput: async () => {
 			const element = getElement();
 			const context = getContext();
@@ -66,18 +94,18 @@ const { callbacks } = store( 'formgent/form', {
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
-						if (
-							typeof data[ k ] === 'object' &&
-							data[ k ] !== null
-						) {
+						if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						} else {
+							if ( ! data || typeof data !== 'object' ) {
+								return;
+							}
 							updateFieldRecursively(
 								data[ k ],
 								fieldName,
 								fieldValue
 							);
-						} else if ( k === fieldName ) {
-							data[ k ] = fieldValue;
-							return;
 						}
 					}
 				}
@@ -245,22 +273,22 @@ const { callbacks } = store( 'formgent/form', {
 			const { blocksSettings, data } = JSON.parse(
 				JSON.stringify( context )
 			);
-
 			// Loop through blocksSettings and construct data object
-			Object.entries( blocksSettings ).forEach(
-				( [ blockKey, block ] ) => {
-					data[ blockKey ] = block.children
-						? Object.keys( block.children ).reduce(
-								( acc, childKey ) => {
-									acc[ childKey ] = '';
-									return acc;
-								},
-								{}
-						  )
-						: '';
-				}
-			);
-
+			blocksSettings &&
+				Object.entries( blocksSettings ).forEach(
+					( [ blockKey, block ] ) => {
+						data[ blockKey ] = block.children
+							? Object.keys( block.children ).reduce(
+									( acc, childKey ) => {
+										acc[ childKey ] =
+											block.children[ childKey ].value;
+										return acc;
+									},
+									{}
+							  )
+							: '';
+					}
+				);
 			context.data = { ...data };
 			const validation = new JustValidate(
 				`#${ element.attributes.id }`,
@@ -320,9 +348,34 @@ const { callbacks } = store( 'formgent/form', {
 			const element = getElement();
 			const context = getContext();
 
+			function updateFieldRecursively( data, fieldName, fieldValue ) {
+				for ( let k in data ) {
+					if ( data.hasOwnProperty( k ) ) {
+						if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						} else {
+							if ( ! data || typeof data !== 'object' ) {
+								return;
+							}
+							updateFieldRecursively(
+								data[ k ],
+								fieldName,
+								fieldValue
+							);
+						}
+					}
+				}
+			}
+
 			new TomSelect( `#${ element.ref.id }`, {
+				placeholder: 'Select an option...',
 				onChange: function ( value ) {
-					context.data[ element.ref.name ] = value;
+					updateFieldRecursively(
+						context.data,
+						element.ref.name,
+						value
+					);
 
 					const { blocksSettings } = JSON.parse(
 						JSON.stringify( context )
@@ -420,6 +473,13 @@ const { callbacks } = store( 'formgent/form', {
 			const form = element.ref.closest( 'form' );
 			const formData = JSON.parse( JSON.stringify( context.data ) );
 
+			if (
+				context.isResponseTokenGenerating ||
+				context.isResponseSubmitting
+			) {
+				return;
+			}
+
 			// Honeypot security check
 			const honeypotField = form.querySelector(
 				`input[name="formgent-honeypot-${ context.formId }"]`
@@ -427,7 +487,6 @@ const { callbacks } = store( 'formgent/form', {
 			if ( honeypotField.value !== '' ) {
 				return;
 			}
-
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
 					continue;
@@ -465,6 +524,9 @@ const { callbacks } = store( 'formgent/form', {
 				);
 				document.dispatchEvent( resetInteractionEvent );
 
+				context.isResponseTokenGenerating = true;
+				element.ref.disabled = true;
+
 				// Generate form token
 				let responseToken = null;
 				if ( ! formStarted ) {
@@ -476,6 +538,9 @@ const { callbacks } = store( 'formgent/form', {
 						},
 					} );
 				}
+
+				context.isResponseTokenGenerating = false;
+				context.isResponseSubmitting = true;
 
 				// Submit form response
 				const response = await wp.apiFetch( {
@@ -489,15 +554,18 @@ const { callbacks } = store( 'formgent/form', {
 					},
 				} );
 
+				context.isResponseSubmitting = false;
+				element.ref.disabled = false;
+
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
 
 				form.reset();
-				context.data = {};
 			} catch ( error ) {
 				console.error( 'Error:', error );
 			}
 		},
 	},
 } );
+

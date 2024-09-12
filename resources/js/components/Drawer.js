@@ -1,24 +1,15 @@
-import { ConfigProvider, Tag } from 'antd';
-import { TagStyle } from './style';
-export default function AntTag( props ) {
+import { ConfigProvider, Drawer } from 'antd';
+import { DrawerStyle } from './style';
+export default function AntDrawer( props ) {
 	const { tokens = {}, componentTokens = {}, ...rest } = props;
 	const defaultComponentTokens = {
-		Tag: {
-			paddingBlock: 10,
-			paddingBlockLG: 12,
-			paddingInlineLG: 20,
-			activeBorderColor: '#000000',
-		},
+		Drawer: {},
 	};
 	const defaultTokens = {
-		colorBgContainer: '#efefef',
-		colorBorder: 'transparent',
-		borderRadius: 12,
-		lineWidth: 2,
 		fontFamily: 'Inter',
 	};
 	return (
-		<TagStyle>
+		<DrawerStyle>
 			<ConfigProvider
 				theme={ {
 					cssVar: true,
@@ -32,8 +23,8 @@ export default function AntTag( props ) {
 					},
 				} }
 			>
-				<Tag { ...rest } />
+				<Drawer { ...rest } />
 			</ConfigProvider>
-		</TagStyle>
+		</DrawerStyle>
 	);
 }

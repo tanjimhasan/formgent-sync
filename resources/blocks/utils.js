@@ -302,6 +302,7 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 						),
 					];
 				}
+
 				const filteredChildBlocks = getFilteredBlocks(
 					allBlocksToCheck,
 					blockProps[ 'data-block' ]

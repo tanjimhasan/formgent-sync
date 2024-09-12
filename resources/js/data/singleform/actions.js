@@ -104,7 +104,9 @@ export const SingleFormActions = {
 		searchItem,
 		formID,
 		readStatus,
-		orderType
+		orderFieldType,
+		orderType,
+		orderBy
 	) => {
 		return {
 			type: 'FETCH_RESPONSE',
@@ -115,7 +117,9 @@ export const SingleFormActions = {
 				searchItem,
 				formID,
 				readStatus,
+				orderFieldType,
 				orderType,
+				orderBy,
 			},
 		};
 	},
@@ -131,7 +135,8 @@ export const SingleFormActions = {
 		searchItem,
 		formID,
 		readStatus,
-		orderType
+		orderType,
+		orderBy
 	) => {
 		return {
 			type: 'FETCH_SINGLE_RESPONSE',
@@ -142,6 +147,7 @@ export const SingleFormActions = {
 				formID,
 				readStatus,
 				orderType,
+				orderBy,
 			},
 		};
 	},
@@ -325,6 +331,26 @@ export const SingleFormActions = {
 	responseColumnUpdateError: ( error ) => {
 		return {
 			type: 'RESPONSE_COLUMN_UPDATE_ERROR',
+			error,
+		};
+	},
+
+	responseSingleChangeRequest: () => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_REQUEST',
+		};
+	},
+
+	responseSingleChangeSuccess: ( id ) => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_SUCCESS',
+			id,
+		};
+	},
+
+	responseSingleChangeError: ( error ) => {
+		return {
+			type: 'RESPONSE_SINGLE_CHANGE_ERROR',
 			error,
 		};
 	},

@@ -10,6 +10,7 @@ const DEFAULT_STATE = {
 	isReadStatusChanging: false,
 	isResponseDeleting: false,
 	isResponseColumnUpdating: false,
+	isResponseSingleChanging: false,
 	isAnalyticsSummaryFetching: false,
 	starredItems: {},
 	readStatusItems: {},
@@ -269,6 +270,25 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 				isResponseColumnUpdating: false,
 			};
 
+		case 'RESPONSE_SINGLE_CHANGE_REQUEST':
+			return {
+				...state,
+				isResponseSingleChanging: true,
+			};
+
+		case 'RESPONSE_SINGLE_CHANGE_SUCCESS':
+			return {
+				...state,
+				isResponseSingleChanging: false,
+			};
+
+		case 'RESPONSE_SINGLE_CHANGE_ERROR':
+			return {
+				...state,
+				error: error,
+				isResponseSingleChanging: false,
+			};
+
 		case 'GET_RESPONSE_NOTES':
 			return {
 				...state,
@@ -277,7 +297,6 @@ export const SingleFormReducer = ( state = DEFAULT_STATE, action ) => {
 		case 'ADD_RESPONSE_NOTES':
 			return {
 				...state,
-				notes: [ ...state.notes, action.note ],
 			};
 		case 'UPDATE_RESPONSE_NOTES':
 			return {
