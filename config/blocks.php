@@ -42,10 +42,10 @@ return [
     //     'types'      => ['general', 'conversational'],
     //     'field_type' => ''
     // ],
-    'formgent/phone-number'    => [
-        'types'      => ['general', 'conversational'],
-        'field_type' => PhoneNumber::get_key(),
-    ],
+    // 'formgent/phone-number'    => [
+    //     'types'      => ['general', 'conversational'],
+    //     'field_type' => PhoneNumber::get_key(),
+    // ],
     'formgent/dropdown'        => [
         'types'      => ['general', 'conversational'],
         'field_type' => Dropdown::get_key()
@@ -70,8 +70,8 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Website::get_key(),
     ],
-    'formgent/input-masking'   => [
-        'types'      => ['general', 'conversational'],
-        'field_type' => InputMasking::get_key(),
-    ]
+    // 'formgent/input-masking'   => [
+    //     'types'      => ['general', 'conversational'],
+    //     'field_type' => InputMasking::get_key(),
+    // ]
 ];

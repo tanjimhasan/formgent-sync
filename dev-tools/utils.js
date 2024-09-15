@@ -61,6 +61,8 @@ const buildIgnoreFiles = [
 	'**/.DS_Store',
 	'vendor/vendor-src/bin',
 	'vendor/scoper-autoload.php',
+	'**/assets/build/css/*.js',
+	'**/dev/**',
 	'**/dev-*/**',
 	'**/*-test/**',
 	'**/*-beta/**',

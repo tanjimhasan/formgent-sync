@@ -146,7 +146,7 @@ class CreateDB implements Migration {
 
         // Check if the table exists
         $table_name = $db_prefix . $table;
-        //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching	
         $columns = $wpdb->get_col( "DESCRIBE {$table_name}", 0 );
 
         // Add foreign key constraints if columns exist
@@ -154,7 +154,8 @@ class CreateDB implements Migration {
             if ( in_array( $column, $columns ) ) {
                 // Check if the constraint already exists
                 $constraint_name = "fk_{$db_prefix}{$table}_{$column}";
-                $result          = $wpdb->get_results(
+                //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching	
+                $result = $wpdb->get_results(
                     $wpdb->prepare(
                         "SELECT CONSTRAINT_NAME 
                     FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
@@ -169,7 +170,7 @@ class CreateDB implements Migration {
 
                 if ( empty( $result ) ) {
                     // Add foreign key constraint
-                    //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+                    //phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange
                     $wpdb->query( "ALTER TABLE {$table_name} ADD CONSTRAINT {$constraint_name} FOREIGN KEY ({$column}) REFERENCES {$reference} ON DELETE CASCADE" );
                 }
             }

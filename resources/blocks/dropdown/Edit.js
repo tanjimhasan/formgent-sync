@@ -1,13 +1,27 @@
 import { RichText } from '@wordpress/block-editor';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { nanoid } from 'nanoid';
 
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	function handleMouseDown( e ) {
-		e.preventDefault(); // Prevents the default action
-		e.stopPropagation(); // Stops the event from propagating
+		// e.preventDefault(); // Prevents the default action
+		// e.stopPropagation(); // Stops the event from propagating
 	}
+
+	function handleAddOption() {
+		const newField = { id: nanoid(), label: 'New Option', value: nanoid() };
+		const newFields = [ ...attributes.options, newField ];
+		setAttributes( { options: newFields } );
+	}
+
+	useEffect( () => {
+		if ( attributes.options.length === 0 ) {
+			handleAddOption();
+		}
+	}, [] );
 
 	return (
 		<div
@@ -39,17 +53,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					onChange={ () => {} }
 					onMouseDown={ ( e ) => handleMouseDown( e ) }
 				>
-					{ attributes.options.length > 0 ? (
-						attributes.options.map( ( option, index ) => (
-							<option key={ index } value={ option.value }>
-								{ option.label }
-							</option>
-						) )
-					) : (
-						<option value="formgent-default-option">
-							{ __( 'Please Select', 'formgent' ) }
+					{ attributes.options.map( ( option, index ) => (
+						<option key={ index } value={ option.value }>
+							{ option.label }
 						</option>
-					) }
+					) ) }
 				</select>
 				<div className="formgent-editor-block-list__single__bottom">
 					<RichText

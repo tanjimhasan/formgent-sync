@@ -124,13 +124,13 @@ function formgent_field_handler( string $field_type ):Field {
     $field_handler_class = formgent_config( "fields.{$field_type}.class" );
 
     if ( ! class_exists( $field_handler_class ) ) {
-        throw new Exception( __( 'Field handler not found.', 'formgent' ), 500 );
+        throw new Exception( esc_html__( 'Field handler not found.', 'formgent' ), 500 );
     }
 
     $field_handler = formgent_make( $field_handler_class );
 
     if ( ! $field_handler instanceof Field ) {
-        throw new Exception( __( 'Please use a valid field handler.', 'formgent' ), 500 );
+        throw new Exception( esc_html__( 'Please use a valid field handler.', 'formgent' ), 500 );
     }
 
     return $field_handler;
@@ -190,6 +190,7 @@ function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_la
             unset( $attributes['label'] );
             unset( $attributes['sub_label'] );
             unset( $attributes['description'] );
+            unset( $attributes['options'] );
         }
 
         $attributes['field_type'] = $blocks[$block_name]['field_type'];

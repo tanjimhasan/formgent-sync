@@ -25,7 +25,7 @@
 		},
 		"label_alignment": {
 			"type": "string",
-			"default": "left"
+			"default": "top"
 		},
 		"sub_label": {
 			"type": "string",

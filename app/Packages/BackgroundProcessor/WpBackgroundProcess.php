@@ -466,7 +466,8 @@ abstract class WpBackgroundProcess extends WpAsyncRequest {
             $args[] = $limit;
         }
 
-        $items = $wpdb->get_results( $wpdb->prepare( $sql, $args ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        $items = $wpdb->get_results( $wpdb->prepare( $sql, $args ) );
 
         $batches = [];
 
@@ -656,6 +657,7 @@ abstract class WpBackgroundProcess extends WpAsyncRequest {
         if ( 1 === $interval ) {
             $display = __( 'Every Minute', 'formgent' );
         } else {
+            // translators: %d is the number of minutes for the interval.
             $display = sprintf( __( 'Every %d Minutes', 'formgent' ), $interval );
         }
 
