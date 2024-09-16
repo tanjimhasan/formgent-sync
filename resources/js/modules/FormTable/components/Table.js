@@ -1,4 +1,4 @@
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 import { AntTable, AntSpin, AntPagination } from '@formgent/components';
@@ -12,23 +12,21 @@ import copyIcon from '@icon/copy.svg';
 import spinnerIcon from '@icon/spinner.svg';
 import { Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import handleTextSelect from '@formgent/helper/handleTextSelect';
 import postData from '@formgent/helper/postData';
 import ReactSVG from 'react-inlinesvg';
 import FormTableStatus from './FormTableStatus';
+import { useCopyToClipboard } from '@wordpress/compose';
 
 export default function Table( props ) {
 	const [ selectedRowKeys, setSelectedRowKeys ] = useState( [] );
 	const [ selectedForms, setSelectedForms ] = useState( [] );
 	const [ editableForm, setEditableForm ] = useState( null );
-	const [ copiedText, setCopiedText ] = useState( '' );
 	const [ isCopied, setIsCopied ] = useState( false );
 	const [ isCopying, setIsCopying ] = useState( false );
 	const [ copiedShortcode, setCopiedShortcode ] = useState( null );
 	const [ inputPosition, setInputPosition ] = useState( null );
 	const [ copyingTimeoutId, setCopyingTimeoutId ] = useState( null );
 	const [ copiedTimeoutId, setCopiedTimeoutId ] = useState( null );
-
 	const {
 		updateCurrentPage,
 		bulkStatusUpdateRequest,
@@ -98,9 +96,14 @@ export default function Table( props ) {
 		day: 'numeric',
 	};
 
+	//handle shortcode copy
+	const copyRef = useCopyToClipboard(
+		`[formgent id=${ copiedShortcode }]`,
+		() => {}
+	);
+
 	const handleShortcodeCopy = ( event ) => {
-		const copyableText = event.target.value;
-		handleTextSelect( { copyableText, setCopiedText } );
+		setCopiedShortcode( event.target.dataset.shortcode_id );
 		const inputRect = event.target.getBoundingClientRect();
 		setInputPosition( inputRect );
 		if ( copyingTimeoutId ) {
@@ -113,9 +116,11 @@ export default function Table( props ) {
 		const copyingTimeout = setTimeout( () => {
 			setIsCopying( false );
 			setIsCopied( true );
+
 			const copiedTimeout = setTimeout( () => {
 				setIsCopied( false );
 			}, 3000 );
+
 			setCopiedTimeoutId( copiedTimeout );
 		}, 500 );
 		setCopyingTimeoutId( copyingTimeout );
@@ -177,6 +182,7 @@ export default function Table( props ) {
 							<ReactSVG src={ copyIcon } />
 						) }
 						<input
+							ref={ copyRef }
 							type="text"
 							readOnly
 							value={
@@ -190,7 +196,6 @@ export default function Table( props ) {
 							}
 							data-shortcode_id={ record?.id }
 							onClick={ ( e ) => {
-								setCopiedShortcode( record?.id );
 								handleShortcodeCopy( e );
 							} }
 						/>
