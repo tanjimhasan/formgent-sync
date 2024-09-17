@@ -346,7 +346,6 @@ const { callbacks } = store( 'formgent/form', {
 			for ( const name in context.data ) {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
-
 				if ( typeof context.data[ name ] === 'object' ) {
 					for ( const childName in context.data[ name ] ) {
 						const childField = field.children[ childName ];
@@ -357,16 +356,20 @@ const { callbacks } = store( 'formgent/form', {
 						);
 
 						applyValidationRules( childField, childName, rules );
-						validation.addField( selector, rules );
+						if ( rules.length > 0 ) {
+							validation.addField( selector, rules );
+						}
 					}
 				} else {
 					const selector = getSelector( field.field_type, name );
 					applyValidationRules( field, name, rules );
 
-					if ( groupField.includes( field.field_type ) ) {
-						validation.addRequiredGroup( selector );
-					} else {
-						validation.addField( selector, rules );
+					if ( rules.length > 0 ) {
+						if ( groupField.includes( field.field_type ) ) {
+							validation.addRequiredGroup( selector );
+						} else {
+							validation.addField( selector, rules );
+						}
 					}
 				}
 			}
