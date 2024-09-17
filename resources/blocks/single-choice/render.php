@@ -14,7 +14,7 @@
     </label>
     <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--single-choice">
         
-    <div class="formgent-editor-block-list__single__box">
+        <div class="formgent-editor-block-list__single__box formgent-single-choice-<?php echo esc_attr( $attributes['name'] ); ?>" >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
                     <div class="formgent-editor-block-list__single__box__choice">
@@ -34,7 +34,6 @@
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>
-
         <?php if ( ! empty( $attributes['sub_label'] ) ) : ?>
             <span class="formgent-editor-block-list__single__sub-label">
                 <?php formgent_render( wp_kses_post( $attributes['sub_label'] ) ); ?>

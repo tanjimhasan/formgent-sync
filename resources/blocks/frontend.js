@@ -303,22 +303,32 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				},
 			};
-			//Loop over each field & prepare validation group
-			for ( const name in context.data ) {
-				let selector = element.ref.querySelector(
-					`input[name="${ name }"]`
-				);
+			const groupField = [ 'single-choice', 'multiple-choice' ];
 
-				if ( ! selector ) {
-					selector = element.ref.querySelector(
-						`textarea[name="${ name }"]`
-					);
+			function getSelector( fieldType, name, child = false ) {
+				switch ( fieldType ) {
+					case 'dropdown':
+						return element.ref.querySelector(
+							`select[name="${ name }"]`
+						);
+					case 'textarea':
+						return element.ref.querySelector(
+							`textarea[name="${ name }"]`
+						);
+					default:
+						if ( groupField.includes( fieldType ) ) {
+							return element.ref.querySelector(
+								`.formgent-${ fieldType }-${ name }`
+							);
+						} else {
+							return element.ref.querySelector(
+								`input[name="${ name }"]`
+							);
+						}
 				}
+			}
 
-				const rules = [];
-				const field = context.blocksSettings[ name ];
-
-				// General validation rules
+			function applyValidationRules( field, name, rules ) {
 				if ( field.required || field.field_type === 'gdpr' ) {
 					if ( field.field_type === 'gdpr' ) {
 						field.label = 'GDPR';
@@ -329,13 +339,35 @@ const { callbacks } = store( 'formgent/form', {
 					} );
 				}
 
-				// Type specific validation rules
 				if ( rulesList[ field.field_type ] ) {
 					rulesList[ field.field_type ]( rules );
 				}
+			}
+			for ( const name in context.data ) {
+				const rules = [];
+				const field = context.blocksSettings[ name ];
 
-				if ( rules.length > 0 ) {
-					validation.addField( selector, rules );
+				if ( typeof context.data[ name ] === 'object' ) {
+					for ( const childName in context.data[ name ] ) {
+						const childField = field.children[ childName ];
+						const selector = getSelector(
+							childField.field_type,
+							childName,
+							true
+						);
+
+						applyValidationRules( childField, childName, rules );
+						validation.addField( selector, rules );
+					}
+				} else {
+					const selector = getSelector( field.field_type, name );
+					applyValidationRules( field, name, rules );
+
+					if ( groupField.includes( field.field_type ) ) {
+						validation.addRequiredGroup( selector );
+					} else {
+						validation.addField( selector, rules );
+					}
 				}
 			}
 
