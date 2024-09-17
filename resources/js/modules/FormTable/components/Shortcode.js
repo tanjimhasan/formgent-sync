@@ -6,6 +6,7 @@ import checkIcon from '@icon/check.svg';
 import copyIcon from '@icon/copy.svg';
 import spinnerIcon from '@icon/spinner.svg';
 import { __ } from '@wordpress/i18n';
+import clsx from 'clsx';
 
 export default function Shortcode( { record } ) {
 	const [ isCopied, setIsCopied ] = useState( false );
@@ -62,15 +63,14 @@ export default function Shortcode( { record } ) {
 			hideOnClick={ true }
 		>
 			<label
-				className={
-					isCopying && copiedShortcode === record?.id
-						? 'formgent-form-shortcode__copying'
-						: ! isCopying &&
-						  isCopied &&
-						  copiedShortcode === record?.id
-						? 'formgent-form-shortcode__copied'
-						: ''
-				}
+				className={ clsx( {
+					'formgent-form-shortcode__copying':
+						isCopying && copiedShortcode === record?.id,
+					'formgent-form-shortcode__copied':
+						! isCopying &&
+						isCopied &&
+						copiedShortcode === record?.id,
+				} ) }
 			>
 				{ isCopying && copiedShortcode === record?.id ? (
 					<ReactSVG src={ spinnerIcon } />

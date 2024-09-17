@@ -48,6 +48,7 @@
     "@wordpress/interactivity": "^6.2.0",
     "@wordpress/plugins": "^6.26.0",
     "antd": "^5.17.0",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
     "immutability-helper": "^3.1.1",
     "intl-tel-input": "^23.3.2",
