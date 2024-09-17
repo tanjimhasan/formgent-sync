@@ -369,6 +369,8 @@ const TableStyle = Styled.div`
         .formgent-form-shortcode__copied{
             svg{
                 left: 73px;
+                width: 14px;
+                height: 14px;
                 path{
                     stroke: inherit;
                     fill: var(--formgent-color-gray-500);
@@ -380,7 +382,8 @@ const TableStyle = Styled.div`
             position: relative;
             svg{
                 left: 50%;
-                margin-left: -6px;
+                margin-left: 6px;
+                margin-top: 0;
                 animation: formgent_spinner 900ms infinite linear forwards;
             }
         }
