@@ -162,7 +162,7 @@ class CreateDB implements Migration {
                     WHERE TABLE_SCHEMA = %s 
                     AND TABLE_NAME = %s 
                     AND CONSTRAINT_NAME = %s",
-                        DB_NAME, // Use DB_NAME constant directly
+                        DB_NAME,
                         $table_name,
                         $constraint_name
                     ) 
