@@ -13,7 +13,7 @@
         <?php endif; ?>
     </label>
     <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--multi-choice">
-        <div class="formgent-editor-block-list__single__box">
+        <div class="formgent-editor-block-list__single__box formgent-multiple-choice-<?php echo esc_attr( $attributes['name'] ); ?>">
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
                     <div class="formgent-editor-block-list__single__box__choice">
