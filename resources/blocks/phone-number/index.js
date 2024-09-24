@@ -18,10 +18,6 @@ const controls = {
 		type: 'panel',
 		label: __( 'General', 'formgent' ),
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -52,9 +48,21 @@ const controls = {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
 			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
+			// value: {
+			// 	type: 'default_value',
+			// 	label: __( 'Default Value', 'formgent' ),
+			// },
+			country_code: {
+				type: 'switch',
+				label: __( 'Include country code', 'formgent' ),
+			},
+			country_auto_detection: {
+				type: 'switch',
+				label: __( 'Enable auto country detection', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},

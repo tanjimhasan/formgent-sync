@@ -10,6 +10,9 @@ import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	//const phoneNumberParts = attributes.value.split( ')' );
+
+	console.log( formgent_blocks.assetUrl );
+
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div
@@ -35,15 +38,17 @@ export default function Edit( { attributes, setAttributes } ) {
 				<div className="formgent-editor-block-list__single__dialer">
 					<span className="formgent-editor-block-list__single__dialer__flag">
 						<img
-							src={ `${ formgent_blocks.assetUrl }/images/flags/bd.png` }
+							src={ `${ formgent_blocks.assetUrl }/images/flags/us.webp` }
 							alt="Formgent Flag"
 						/>
 						<ReactSVG src={ angleDown } />
 					</span>
 					<div className="formgent-editor-block-list__single__dialer__content">
-						<span className="formgent-editor-block-list__single__dialer__code">
-							(+880)
-						</span>
+						{ attributes?.country_code && (
+							<span className="formgent-editor-block-list__single__dialer__code">
+								+1
+							</span>
+						) }
 						<input
 							className="formgent-editor-block-list__single__dialer__input"
 							type="text"

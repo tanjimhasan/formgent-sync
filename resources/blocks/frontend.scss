@@ -315,8 +315,9 @@
 }
 
 .formgent-editor-block-list__single__wrapper {
-	&.formgent-editor-block-list__single__phone {
-		flex-direction: row;
+	.formgent-editor-block-list__single__phone {
+		display: flex;
+		align-items: center;
 	}
 	&.formgent-editor-block-list__single__wrapper--single-choice {
 		.formgent-editor-block-list__single__input--radio {
@@ -458,11 +459,14 @@ textarea.formgent-editor-block-list__single__input,
 	margin-right: 10px;
 	height: 40px;
 	padding: 0 10px;
-	background-color: var(--formgent-color-white);
+	//background-color: var(--formgent-color-white);
 	border: 1px solid var(--formgent-color-border-light);
+	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 
 	img {
-		max-width: 30px;
+		width: 20px;
+		height: 15px;
+		border-radius: 3px;
 	}
 	svg {
 		width: 16px;
@@ -475,11 +479,17 @@ textarea.formgent-editor-block-list__single__input,
 	padding: 4px 12px;
 	border-radius: 8px;
 	border: 1px solid var(--formgent-color-border-light);
-	background-color: var(--formgent-color-white);
+	//background-color: var(--formgent-color-white);
+	flex: 1;
+	display: flex;
+	align-items: center;
+	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 }
 
 input.formgent-editor-block-list__single__dialer__input {
 	border: 0 none;
+	flex: 1;
+	background: none;
 	&:focus {
 		outline: none;
 		box-shadow: 0 0;

@@ -4,6 +4,8 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
+import intlTelInput from 'intl-tel-input';
+import 'intl-tel-input/build/css/intlTelInput.css';
 
 let formStarted = false;
 let fieldInteractionState = {};
@@ -192,7 +194,7 @@ const { callbacks } = store( 'formgent/form', {
 		updatePhoneNumber: () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ element.ref.name ].number = element.ref.value;
+			context.data[ element.ref.name ] = element.ref.value;
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -452,57 +454,41 @@ const { callbacks } = store( 'formgent/form', {
 				},
 			} );
 		},
-		phoneNumberInit: async () => {
+		phoneNumberInit: () => {
 			const context = getContext();
 			const element = getElement();
-			const name = element.ref.getAttribute( 'data-wp-key' );
-			// let phoneNumberParts =
-			// 	context.data[ element.ref.name ].split( ')' );
-			// context.data[ element.ref.name ] = {
-			// 	dialCode: `${ phoneNumberParts[ 0 ] })`,
-			// 	number: phoneNumberParts[ 1 ].trim(),
-			// };
 
-			// try {
-			// 	const countryObject = await wp.apiFetch( {
-			// 		path: '/formgent/countries',
-			// 		method: 'GET',
-			// 	} );
-			// 	const flagUrl = countryObject.flag_url;
-			// 	const countries = Object.entries( countryObject.countries ).map(
-			// 		( [ key, value ] ) => {
-			// 			return {
-			// 				id: key,
-			// 				img: `${ flagUrl }/${ key }.png`,
-			// 				...value,
-			// 			};
-			// 		}
-			// 	);
-			// 	const control = new TomSelect(
-			// 		`#${ element.attributes.id }-dial-code`,
-			// 		{
-			// 			valueField: 'dial_code',
-			// 			options: countries,
-			// 			render: {
-			// 				option: function ( data, escape ) {
-			// 					return `
-			// 					<div class="formgent-phone-dialer-option">
-			// 						<img src="${ escape( data.img ) }" />
-			// 						<span>${ escape( data.name ) }</span>
-			// 					<div/>
-			// 				`;
-			// 				},
-			// 				item: function ( data, escape ) {
-			// 					return `<img src="${ escape( data.img ) }" />`;
-			// 				},
-			// 			},
-			// 			create: false,
-			// 		}
-			// 	);
-			// 	control.setValue( '+880' );
-			// } catch ( error ) {
-			// 	console.log( error );
-			// }
+			// Initialize intl-tel-input on the phone input field
+			console.log( element );
+			const input = document.querySelector(
+				`#${ element.attributes.name }`
+			);
+			const iti = intlTelInput( input, {
+				utilsScript:
+					'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
+				initialCountry: 'auto',
+				separateDialCode: true,
+			} );
+
+			// Add listener for the 'countrychange' event
+			input.addEventListener( 'countrychange', function () {
+				const selectedCountryData = iti.getSelectedCountryData();
+				const dialCode = selectedCountryData.dialCode;
+				const name = element.ref.getAttribute( 'data-wp-key' );
+				context.data[ name ].dialCode = `+${ dialCode }`;
+			} );
+
+			// Add listener for input validation
+			input.addEventListener( 'blur', function () {
+				if ( iti.isValidNumber() ) {
+					const fullNumber = iti.getNumber();
+					const name = element.ref.getAttribute( 'data-wp-key' );
+					context.data[ name ].number = fullNumber;
+				} else {
+					// Handle invalid number
+					console.log( 'Invalid phone number' );
+				}
+			} );
 		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
