@@ -525,6 +525,8 @@ const { callbacks } = store( 'formgent/form', {
 					context.data[ name ].dialCode = `+${ dialCode }`;
 					context.data[ name ].number =
 						context.data[ name ].number || fullNumber;
+
+					// todo: validation tweak
 				} else {
 					console.log( 'Invalid phone number' );
 				}

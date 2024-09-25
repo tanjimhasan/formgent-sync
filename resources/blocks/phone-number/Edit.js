@@ -9,10 +9,6 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	//const phoneNumberParts = attributes.value.split( ')' );
-
-	console.log( formgent_blocks.assetUrl );
-
 	return (
 		<div className="formgent-editor-block-list__single">
 			<div
