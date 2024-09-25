@@ -49,6 +49,8 @@ export default function FieldContent( props ) {
 		dropdown: dropdown,
 	};
 
+	console.log( summaries );
+
 	return (
 		<>
 			{ /* General Fields Summary */ }

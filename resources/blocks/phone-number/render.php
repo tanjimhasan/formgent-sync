@@ -30,10 +30,9 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
                 name="<?php echo esc_attr( $attributes['name'] ); ?>-<?php formgent_render( $unique_id ) ?>-dial-code"
             >
             </span>
-            <div className="formgent-editor-block-list__single__dialer__content">
-                <span data-wp-interactive="formgent/form" data-wp-text="context.data.<?php echo esc_attr( $attributes['name'] ); ?>.dialCode"></span>
+            <div class="formgent-editor-block-list__single__dialer__content">
                 <input
-                    class="formgent-editor-block-list__single__input"
+                    class="formgent-editor-block-list__single__input <?= $attributes['country_code'] ? 'formgent-editor-block-list__single__input--country-code' : ''; ?>"
                     type="text"
                     name="<?php echo esc_attr( $attributes['name'] ); ?>"
                     id="<?php echo esc_attr( $attributes['name'] ); ?>-<?php formgent_render( $unique_id ) ?>-dial-code"

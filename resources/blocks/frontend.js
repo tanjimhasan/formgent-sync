@@ -5,7 +5,6 @@ import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
 import intlTelInput from 'intl-tel-input';
-import 'intl-tel-input/build/css/intlTelInput.css';
 
 let formStarted = false;
 let fieldInteractionState = {};
@@ -194,15 +193,27 @@ const { callbacks } = store( 'formgent/form', {
 		updatePhoneNumber: () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ element.ref.name ] = element.ref.value;
-			generateFormToken( context );
-			formStarted = true;
-		},
-		updateDialCode: () => {
-			const element = getElement();
-			const context = getContext();
-			const name = element.ref.name.replace( '-dial-code', '' );
-			context.data[ name ].dialCode = element.ref.value;
+			const name = element.ref.name;
+			if (
+				typeof context.data[ name ] !== 'object' ||
+				context.data[ name ] === null
+			) {
+				context.data[ name ] = {
+					dialCode: context.blocksSettings[ name ].country_code
+						? '+1'
+						: '',
+					number: '',
+				};
+			}
+
+			context.data[ name ].number = element.ref.value;
+
+			if ( typeof context.data[ name ] === 'object' ) {
+				context.data[
+					name
+				] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
+			}
+
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -254,6 +265,7 @@ const { callbacks } = store( 'formgent/form', {
 			formStarted = true;
 		},
 	},
+
 	callbacks: {
 		init: async () => {
 			const context = getContext();
@@ -457,35 +469,63 @@ const { callbacks } = store( 'formgent/form', {
 		phoneNumberInit: () => {
 			const context = getContext();
 			const element = getElement();
+			const name = element.ref.getAttribute( 'data-wp-key' );
 
+			if (
+				typeof context.data[ name ] !== 'object' ||
+				context.data[ name ] === null
+			) {
+				context.data[ name ] = {
+					dialCode: context.blocksSettings[ name ].country_code
+						? '+1'
+						: '',
+					number: '',
+				};
+			}
 			// Initialize intl-tel-input on the phone input field
-			console.log( element );
 			const input = document.querySelector(
 				`#${ element.attributes.name }`
 			);
+
 			const iti = intlTelInput( input, {
-				utilsScript:
-					'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
-				initialCountry: 'auto',
-				separateDialCode: true,
+				initialCountry: 'us',
+				separateDialCode: context.blocksSettings[ name ].country_code,
 			} );
 
-			// Add listener for the 'countrychange' event
 			input.addEventListener( 'countrychange', function () {
 				const selectedCountryData = iti.getSelectedCountryData();
+				const fullNumber = iti.getNumber();
 				const dialCode = selectedCountryData.dialCode;
 				const name = element.ref.getAttribute( 'data-wp-key' );
-				context.data[ name ].dialCode = `+${ dialCode }`;
+
+				context.data[ name ] = {
+					dialCode: `+${ dialCode }`,
+					number: fullNumber,
+				};
 			} );
 
-			// Add listener for input validation
+			//validation
 			input.addEventListener( 'blur', function () {
 				if ( iti.isValidNumber() ) {
 					const fullNumber = iti.getNumber();
-					const name = element.ref.getAttribute( 'data-wp-key' );
-					context.data[ name ].number = fullNumber;
+					const selectedCountryData = iti.getSelectedCountryData();
+					const dialCode = selectedCountryData.dialCode;
+					if (
+						typeof context.data[ name ] !== 'object' ||
+						context.data[ name ] === null
+					) {
+						context.data[ name ] = {
+							dialCode: context.blocksSettings[ name ]
+								.country_code
+								? '+1'
+								: '',
+							number: '',
+						};
+					}
+					context.data[ name ].dialCode = `+${ dialCode }`;
+					context.data[ name ].number =
+						context.data[ name ].number || fullNumber;
 				} else {
-					// Handle invalid number
 					console.log( 'Invalid phone number' );
 				}
 			} );
@@ -508,6 +548,21 @@ const { callbacks } = store( 'formgent/form', {
 			if ( honeypotField.value !== '' ) {
 				return;
 			}
+
+			for ( const name in context.data ) {
+				if ( context.data.hasOwnProperty( name ) ) {
+					if (
+						typeof context.data[ name ] === 'object' &&
+						context.data[ name ].dialCode &&
+						context.data[ name ].number
+					) {
+						context.data[
+							name
+						] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
+					}
+				}
+			}
+
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
 					continue;

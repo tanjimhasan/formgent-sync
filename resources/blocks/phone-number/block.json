@@ -43,7 +43,7 @@
 			"type": "boolean",
 			"default": false
 		},
-		"country_auto_detection":{
+		"country_auto_detection": {
 			"type": "boolean",
 			"default": false
 		}

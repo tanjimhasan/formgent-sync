@@ -50,7 +50,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							</span>
 						) }
 						<input
-							className="formgent-editor-block-list__single__dialer__input"
+							className="formgent-editor-block-list__single__input"
 							type="text"
 							name={ attributes.name }
 							placeholder={ attributes.placeholder }
