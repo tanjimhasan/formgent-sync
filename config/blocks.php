@@ -70,8 +70,8 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Website::get_key(),
     ],
-    // 'formgent/input-masking'   => [
-    //     'types'      => ['general', 'conversational'],
-    //     'field_type' => InputMasking::get_key(),
-    // ]
+    'formgent/input-masking'   => [
+        'types'      => ['general', 'conversational'],
+        'field_type' => InputMasking::get_key(),
+    ]
 ];

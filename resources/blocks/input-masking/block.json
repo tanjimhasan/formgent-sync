@@ -38,6 +38,10 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"mask_type": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
