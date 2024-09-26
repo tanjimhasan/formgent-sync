@@ -13,6 +13,7 @@ import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
 import DefaultValue from './controls/DefaultValue';
+import PickColor from './controls/ColorPicker';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -166,6 +167,7 @@ const controlGenerators = {
 		);
 	},
 	default_value: DefaultValue,
+	color: PickColor,
 };
 
 export default function Controls( {

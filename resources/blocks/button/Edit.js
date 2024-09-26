@@ -1,0 +1,22 @@
+/**
+ * wordpress dependencies
+ */
+import { __ } from '@wordpress/i18n';
+
+import './editor.scss';
+
+export default function Edit( { attributes, setAttributes } ) {
+	return (
+		<div
+			className={ `formgent-editor-block-list__single formgent-editor-block-list__single--button formgent-editor-block-align-${ attributes.label_alignment }` }
+			style={ { '--formgent-btn-bg-color': attributes.background_color } }
+		>
+			<button
+				type="submit"
+				className={ `formgent-btn formgent-btn-md formgent-btn-${ attributes.button_style }` }
+			>
+				{ attributes.button_text }
+			</button>
+		</div>
+	);
+}
