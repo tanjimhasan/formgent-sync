@@ -29,7 +29,7 @@
 		},
 		"background_color": {
 			"type": "string",
-			"default": "#000000"
+			"default": "#4cafaa"
 		}
 	},
 	"supports": {

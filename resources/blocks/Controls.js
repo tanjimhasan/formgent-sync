@@ -179,6 +179,11 @@ export default function Controls( {
 	return Object.keys( controls ).map( ( key ) => {
 		const control = controls[ key ];
 		const ControlView = controlGenerators[ control[ 'type' ] ];
+
+		if ( control?.condition && ! control.condition( attributes ) ) {
+			return false;
+		}
+
 		return (
 			<ControlView
 				key={ key }
