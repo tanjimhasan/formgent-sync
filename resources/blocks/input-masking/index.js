@@ -56,23 +56,23 @@ const controls = {
 					},
 					{
 						label: __( '(###) ###-####', 'formgent' ),
-						value: 'phone_1',
+						value: '(000) 000-0000',
 					},
 					{
 						label: __( '(##) ####-####', 'formgent' ),
-						value: 'phone_2',
+						value: '(00) 0000-0000',
 					},
 					{
 						label: __( '26/09/2024', 'formgent' ),
-						value: 'date',
+						value: '00/00/0000',
 					},
 					{
 						label: __( '23:59:59', 'formgent' ),
-						value: 'time',
+						value: '00:00:00',
 					},
 					{
 						label: __( '23/09/2024 23:59:59', 'formgent' ),
-						value: 'date_time',
+						value: '00/00/0000 00:00:00',
 					},
 					{
 						label: __( 'Custom', 'formgent' ),

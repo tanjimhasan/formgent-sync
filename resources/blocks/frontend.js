@@ -111,7 +111,28 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 
-			updateFieldRecursively( data, element.ref.name, element.ref.value );
+			//updateFieldRecursively( data, element.ref.name, element.ref.value );
+
+			//Handle input masking
+			const fieldType = context.blocksSettings[ elementName ].field_type;
+			console.log( context.blocksSettings );
+
+			let input = element.ref.value.replace( /\D/g, '' );
+
+			// Format the input based on its length
+			if ( input.length > 3 && input.length <= 6 ) {
+				input = `(${ input.slice( 0, 3 ) }) ${ input.slice( 3 ) }`;
+			} else if ( input.length > 6 ) {
+				input = `(${ input.slice( 0, 3 ) }) ${ input.slice(
+					3,
+					6
+				) }-${ input.slice( 6, 10 ) }`;
+			}
+
+			// Update the input value with formatted string
+			element.ref.value = input;
+
+			updateFieldRecursively( data, element.ref.name, input );
 		},
 		updateNumber: async () => {
 			const element = getElement();

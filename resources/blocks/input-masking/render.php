@@ -15,6 +15,7 @@
     <div class="formgent-editor-block-list__single__wrapper">
         <input
             class="formgent-editor-block-list__single__input"
+            data-mask="<?php echo esc_attr( $attributes['mask_type'] ) ?>"
             type="text"
             name="<?php echo esc_attr( $attributes['name'] ); ?>"
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
