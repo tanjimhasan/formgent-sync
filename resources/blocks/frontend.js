@@ -207,34 +207,60 @@ const { callbacks } = store( 'formgent/form', {
 		updateMultiChoice: () => {
 			const element = getElement();
 			const context = getContext();
+			const elementName = element.ref.name;
+			const value = element.ref.value;
 
-			const choices = context.data[ element.ref.name ] || [];
-			const valueIndex = choices.indexOf( element.ref.value );
+			// Set choice limit unlimited if it's empty or 0
+			let choiceLimit =
+				context.blocksSettings[ elementName ]?.choice_limit;
+			if ( choiceLimit === '' || choiceLimit === 0 ) {
+				choiceLimit = Infinity;
+			}
+
+			const choices = context.data[ elementName ] || [];
+			const valueIndex = choices.indexOf( value );
 
 			if ( valueIndex > -1 ) {
 				//If the item is found remove it
 				choices.splice( valueIndex, 1 );
+			} else if ( choices.length < choiceLimit ) {
+				choices.push( value );
 			} else {
-				//If the item is not found, add it to the array
-				choices.push( element.ref.value );
+				return;
 			}
 
-			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
-			const elementName = element.ref.name;
-			let fieldName = null;
+			// Update the choices in the context data
+			context.data[ elementName ] = choices;
 
-			if ( blocksSettings[ elementName ] ) {
-				fieldName = elementName;
-			} else {
+			let fieldName = elementName;
+			const { blocksSettings } = context;
+
+			if ( ! blocksSettings[ elementName ] ) {
 				for ( const [ key, value ] of Object.entries(
 					blocksSettings
 				) ) {
-					if ( value.children && value.children[ elementName ] ) {
+					if ( value.children?.[ elementName ] ) {
 						fieldName = key;
 						break;
 					}
 				}
 			}
+
+			// Disable or enable select options based on the limit reached
+			const allOptions = document.querySelectorAll(
+				`[name="${ elementName }"]`
+			);
+			allOptions.forEach( ( option ) => {
+				if (
+					choices.length >= choiceLimit &&
+					! choices.includes( option.value )
+				) {
+					option.disabled = true;
+				} else {
+					option.disabled = false;
+				}
+			} );
+
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -246,12 +272,11 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 			document.dispatchEvent( interactionEvent );
 
-			context.data[ element.ref.name ] = choices;
-
 			generateFormToken( context );
 			formStarted = true;
 		},
 	},
+
 	callbacks: {
 		init: async () => {
 			const context = getContext();

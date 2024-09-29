@@ -19,10 +19,6 @@ const controls = {
 		type: 'panel',
 		label: __( 'General', 'formgent' ),
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -61,6 +57,21 @@ const controls = {
 						label: __( 'Label', 'formgent' ),
 					},
 				},
+			},
+			enable_choice_limit: {
+				type: 'switch',
+				label: __( 'Choice Limit', 'formgent' ),
+			},
+			choice_limit: {
+				type: 'text',
+				inputType: 'number',
+				condition: ( attributes ) => {
+					return attributes.enable_choice_limit;
+				},
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 			value: {
 				type: 'default_value',

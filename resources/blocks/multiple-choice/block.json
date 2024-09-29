@@ -23,6 +23,14 @@
 			"type": "array",
 			"default": []
 		},
+		"enable_choice_limit":{
+			"type": "boolean",
+			"default": false
+		},
+		"choice_limit": {
+			"type": "string",
+			"default": ""
+		},
 		"label": {
 			"type": "string",
 			"default": "Multi Choice"

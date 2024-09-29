@@ -422,6 +422,9 @@ textarea.formgent-editor-block-list__single__input,
 		height: 15px;
 		border-radius: 4px;
 	}
+	&.formgent-editor-block-list__single__input--checkbox:disabled + label {
+		opacity: 0.5;
+	}
 	&.formgent-editor-block-list__single__input--textarea {
 		padding: 10px;
 		height: auto;
