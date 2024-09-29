@@ -55,7 +55,7 @@ const { callbacks } = store( 'formgent/form', {
 			}
 			return value;
 		},
-		updateInput: async () => {
+		updateInput: async ( e ) => {
 			const element = getElement();
 			const context = getContext();
 
@@ -114,25 +114,172 @@ const { callbacks } = store( 'formgent/form', {
 			//updateFieldRecursively( data, element.ref.name, element.ref.value );
 
 			//Handle input masking
-			const fieldType = context.blocksSettings[ elementName ].field_type;
-			console.log( context.blocksSettings );
+			/* Mask types:
+				(000) 000-0000,
+				(00) 0000-0000,
+				00/00/0000,
+				00:00:00,
+				00/00/0000 00:00:00,
+				//custom
+			*/
+			function formatInput( value, maskType ) {
+				let cleanValue = value.replace( /\D/g, '' );
+				let maxLength = 0;
 
-			let input = element.ref.value.replace( /\D/g, '' );
+				switch ( maskType ) {
+					case '(000) 000-0000':
+						maxLength = 14;
+						if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
+							cleanValue = `(${ cleanValue.slice(
+								0,
+								3
+							) }) ${ cleanValue.slice( 3 ) }`;
+						} else if ( cleanValue.length > 6 ) {
+							cleanValue = `(${ cleanValue.slice(
+								0,
+								3
+							) }) ${ cleanValue.slice(
+								3,
+								6
+							) }-${ cleanValue.slice( 6, 10 ) }`;
+						}
+						break;
 
-			// Format the input based on its length
-			if ( input.length > 3 && input.length <= 6 ) {
-				input = `(${ input.slice( 0, 3 ) }) ${ input.slice( 3 ) }`;
-			} else if ( input.length > 6 ) {
-				input = `(${ input.slice( 0, 3 ) }) ${ input.slice(
-					3,
-					6
-				) }-${ input.slice( 6, 10 ) }`;
+					case '(00) 0000-0000':
+						maxLength = 14;
+						if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
+							cleanValue = `(${ cleanValue.slice(
+								0,
+								2
+							) }) ${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 6 ) {
+							cleanValue = `(${ cleanValue.slice(
+								0,
+								2
+							) }) ${ cleanValue.slice(
+								2,
+								6
+							) }-${ cleanValue.slice( 6, 10 ) }`;
+						}
+						break;
+
+					case '00/00/0000':
+						maxLength = 10;
+						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+							cleanValue = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 4 ) {
+							cleanValue = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice(
+								2,
+								4
+							) }/${ cleanValue.slice( 4, 8 ) }`;
+						}
+						break;
+
+					case '00:00:00':
+						maxLength = 8;
+						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+							cleanValue = `${ cleanValue.slice(
+								0,
+								2
+							) }:${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 4 ) {
+							cleanValue = `${ cleanValue.slice(
+								0,
+								2
+							) }:${ cleanValue.slice(
+								2,
+								4
+							) }:${ cleanValue.slice( 4, 6 ) }`;
+						}
+						break;
+
+					case '00/00/0000 00:00:00':
+						maxLength = 19;
+						if ( cleanValue.length > 2 ) {
+							const datePart =
+								cleanValue.length > 2 && cleanValue.length <= 4
+									? `${ cleanValue.slice(
+											0,
+											2
+									  ) }/${ cleanValue.slice( 2 ) }`
+									: cleanValue.length > 4
+									? `${ cleanValue.slice(
+											0,
+											2
+									  ) }/${ cleanValue.slice(
+											2,
+											4
+									  ) }/${ cleanValue.slice( 4, 8 ) }`
+									: '';
+							const timePart =
+								cleanValue.length > 8 && cleanValue.length <= 12
+									? `${ cleanValue.slice(
+											8,
+											10
+									  ) }:${ cleanValue.slice( 10, 12 ) }`
+									: cleanValue.length > 12
+									? `${ cleanValue.slice(
+											8,
+											10
+									  ) }:${ cleanValue.slice(
+											10,
+											12
+									  ) }:${ cleanValue.slice( 12, 14 ) }`
+									: '';
+							cleanValue = `${ datePart } ${ timePart }`;
+						} else if ( cleanValue.length > 14 ) {
+							cleanValue = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice(
+								2,
+								4
+							) }/${ cleanValue.slice( 4, 8 ) }`;
+						}
+						break;
+
+					case 'custom':
+					case 'none':
+						cleanValue = value;
+						break;
+
+					default:
+						cleanValue = value;
+				}
+
+				if ( cleanValue.length > maxLength && maxLength > 0 ) {
+					cleanValue = cleanValue.slice( 0, maxLength );
+				}
+
+				element.ref.value = cleanValue;
+				return cleanValue;
 			}
 
-			// Update the input value with formatted string
-			element.ref.value = input;
+			// Usage example
+			const fieldType = context.blocksSettings[ elementName ].field_type;
+			const maskType = context.blocksSettings[ elementName ].mask_type;
+			let input = element.ref.value;
 
-			updateFieldRecursively( data, element.ref.name, input );
+			if ( fieldType === 'input-masking' ) {
+				const formattedInput = formatInput( input, maskType );
+				updateFieldRecursively(
+					data,
+					element.ref.name,
+					formattedInput
+				);
+			} else {
+				updateFieldRecursively(
+					data,
+					element.ref.name,
+					element.ref.value
+				);
+			}
 		},
 		updateNumber: async () => {
 			const element = getElement();

@@ -74,10 +74,10 @@ const controls = {
 						label: __( '23/09/2024 23:59:59', 'formgent' ),
 						value: '00/00/0000 00:00:00',
 					},
-					{
-						label: __( 'Custom', 'formgent' ),
-						value: 'custom',
-					},
+					// {
+					// 	label: __( 'Custom', 'formgent' ),
+					// 	value: 'custom',
+					// },
 				],
 			},
 			placeholder: {
