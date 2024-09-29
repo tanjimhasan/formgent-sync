@@ -23,7 +23,7 @@
 			"type": "array",
 			"default": []
 		},
-		"enable_choice_limit":{
+		"enable_choice_limit": {
 			"type": "boolean",
 			"default": false
 		},
