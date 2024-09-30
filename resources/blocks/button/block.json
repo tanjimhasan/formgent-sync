@@ -17,7 +17,7 @@
 		},
 		"button_text": {
 			"type": "string",
-			"default": "Button"
+			"default": ""
 		},
 		"label_alignment": {
 			"type": "string",

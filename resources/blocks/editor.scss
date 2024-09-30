@@ -144,6 +144,7 @@ button.formgent-repeater-field-expand {
 		align-items: center;
 		gap: 8px;
 		justify-content: space-between;
+		width: 123px;
 	}
 	.formgent-control-color-picker-value {
 		color: var(--formgent-color-gray-600);
@@ -155,27 +156,23 @@ button.formgent-repeater-field-expand {
 		height: 20px;
 		border-radius: 5px;
 	}
-	.formgent-control-color-picker-input {
-		flex: 0 0 100%;
-		position: absolute;
-		left: 0;
-		top: 35px;
-		z-index: 9999;
-		background: #fff;
-		box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.formgent-control-color-picker-input {
+	background: #fff;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.components-color-picker,
+	.react-colorful {
 		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		.components-color-picker,
-		.react-colorful {
-			width: 100%;
-		}
-		.components-base-control {
-			margin-bottom: 0;
-			.components-select-control {
-				margin-left: 0;
-			}
+	}
+	.components-base-control {
+		margin-bottom: 0;
+		.components-select-control {
+			margin-left: 0;
 		}
 	}
 }

@@ -29,6 +29,8 @@ $context   = [
             name="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
             id="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
         >
-        <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
+        <?php if ( ! isset( $data['button'] ) || empty( $data['button'] ) ) : ?>
+            <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
+        <?php endif; ?>
     </form>
 </div>

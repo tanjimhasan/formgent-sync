@@ -18,10 +18,6 @@ const controls = {
 		type: 'panel',
 		label: __( 'General', 'formgent' ),
 		children: {
-			button_text: {
-				type: 'text',
-				label: __( 'Button Text', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -69,10 +65,6 @@ const controls = {
 				condition: ( attributes ) => {
 					return attributes.button_style === 'solid';
 				},
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
 			},
 		},
 	},
