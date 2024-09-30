@@ -17,10 +17,6 @@ const generalControls = {
 	basic_info: {
 		type: 'panel',
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -46,6 +42,10 @@ const generalControls = {
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},

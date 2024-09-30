@@ -18,10 +18,6 @@ const generalControls = {
 	general: {
 		type: 'panel',
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -44,21 +40,6 @@ const generalControls = {
 					},
 				],
 			},
-			choice_limit: {
-				type: 'switch',
-				label: __( 'Choice Limit', 'formgent' ),
-			},
-			choice_limit_item: {
-				type: 'number',
-				precision: false,
-				condition: function ( attributes ) {
-					return attributes[ 'choice_limit' ];
-				},
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			options: {
 				type: 'repeater',
 				label: __( 'Multi Choice Items', 'formgent' ),
@@ -72,9 +53,28 @@ const generalControls = {
 					},
 				},
 			},
+			choice_limit: {
+				type: 'switch',
+				label: __( 'Choice Limit', 'formgent' ),
+			},
+			choice_limit_item: {
+				type: 'number',
+				precision: false,
+				condition: function ( attributes ) {
+					return attributes[ 'choice_limit' ];
+				},
+			},
 			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},

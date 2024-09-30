@@ -18,10 +18,6 @@ const generalControls = {
 	general: {
 		type: 'panel',
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -44,10 +40,6 @@ const generalControls = {
 					},
 				],
 			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			options: {
 				type: 'repeater',
 				label: __( 'Single Choice Items', 'formgent' ),
@@ -64,6 +56,14 @@ const generalControls = {
 			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},
