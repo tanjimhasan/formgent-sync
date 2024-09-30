@@ -69,5 +69,13 @@ trait MethodResolver {
                 ]
             );
         }
+
+        if ( $field['choice_limit'] && count( $values ) > $field['choice_limit_item'] ) {
+            throw (new Exception())->set_messages(
+                [
+                    $field['name'] => sprintf( "Can select maximum %d items", $field['choice_limit_item'] )
+                ]
+            );
+        }
     }
 }

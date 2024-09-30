@@ -45,6 +45,17 @@ const controls = {
 					},
 				],
 			},
+			choice_limit: {
+				type: 'switch',
+				label: __( 'Choice Limit', 'formgent' ),
+			},
+			choice_limit_item: {
+				type: 'number',
+				precision: false,
+				condition: function ( attributes ) {
+					return attributes[ 'choice_limit' ];
+				},
+			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
