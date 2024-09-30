@@ -144,8 +144,28 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 			document.dispatchEvent( interactionEvent );
 
+			//format number
+			const numberFormat = blocksSettings[ context.name ].number_format;
+			let numberValue = element.ref.value;
+
+			// if( numberFormat === 'decimal' ){
+			// 	numberValue = parseFloat(numberValue).toFixed(2);
+			// }else if( numberFormat === 'non_decimal' ){
+			// 	numberValue = parseInt(numberValue);
+			// }
+
+			//console.log(typeof parseFloat(numberValue), parseFloat(numberValue));
+
+			console.log(
+				typeof Number( element.ref.value ),
+				Number( element.ref.value )
+			);
+			console.log( typeof +numberValue, +numberValue );
+
 			//update field data
-			context.data[ element.ref.name ] = parseInt( element.ref.value );
+			// context.data[ element.ref.name ] = numberFormat === 'decimal' ? parseFloat(element.ref.value).toFixed(2) : numberFormat ===  'non_decimal' ? parseInt(element.ref.value): Number(element.ref.value);
+			context.data[ element.ref.name ] = 20.5;
+
 			generateFormToken( context );
 			formStarted = true;
 		},

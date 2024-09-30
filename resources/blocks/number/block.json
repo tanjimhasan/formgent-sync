@@ -27,6 +27,10 @@
 			"type": "string",
 			"default": "top"
 		},
+		"number_format":{
+			"type": "string",
+			"default": "none"
+		},
 		"sub_label": {
 			"type": "string",
 			"default": ""
