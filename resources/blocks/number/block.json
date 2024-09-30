@@ -31,6 +31,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"format": {
+			"type": "string",
+			"default": "none"
+		},
 		"required": {
 			"type": "boolean",
 			"default": false
