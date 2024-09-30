@@ -44,24 +44,6 @@ const controls = {
 					},
 				],
 			},
-			number_format: {
-				type: 'select',
-				label: __( 'Number Format', 'formgent' ),
-				options: [
-					{
-						label: __( 'None', 'formgent' ),
-						value: 'none',
-					},
-					{
-						label: __( 'Decimal (Ex: 364.54)', 'formgent' ),
-						value: 'decimal',
-					},
-					{
-						label: __( 'Non Decimal (Ex: $364)', 'formgent' ),
-						value: 'non_decimal',
-					},
-				],
-			},
 			name: {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
