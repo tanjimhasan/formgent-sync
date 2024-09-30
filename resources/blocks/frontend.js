@@ -91,6 +91,7 @@ const { callbacks } = store( 'formgent/form', {
 			formStarted = true;
 
 			const { data } = context;
+
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
@@ -107,6 +108,69 @@ const { callbacks } = store( 'formgent/form', {
 								fieldValue
 							);
 						}
+					}
+				}
+			}
+
+			const fieldType = blocksSettings[ elementName ].field_type;
+
+			// URL validation function
+			function isUrl( string ) {
+				const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+				const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+				const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+				if ( typeof string !== 'string' ) {
+					return false;
+				}
+
+				const match = string.match( protocolAndDomainRE );
+				if ( ! match ) {
+					return false;
+				}
+
+				const everythingAfterProtocol = match[ 1 ];
+				if ( ! everythingAfterProtocol ) {
+					return false;
+				}
+
+				if (
+					localhostDomainRE.test( everythingAfterProtocol ) ||
+					nonLocalhostDomainRE.test( everythingAfterProtocol )
+				) {
+					return true;
+				}
+
+				return false;
+			}
+
+			// Check if the field type is 'website'
+			if ( fieldType === 'website' ) {
+				const inputValue = element.ref.value;
+				const errorMessageElement = document.createElement( 'div' );
+				errorMessageElement.className = 'formgent-url-error';
+				errorMessageElement.style.color = 'red';
+				const existingError = element.ref
+					.closest( '.formgent-editor-block-list__single__wrapper' )
+					.querySelector( '.formgent-url-error' );
+
+				if ( ! isUrl( inputValue ) && element.ref.value !== '' ) {
+					// Display error message if the URL is invalid
+					errorMessageElement.textContent = blocksSettings[
+						elementName
+					].validation_message
+						? blocksSettings[ elementName ].validation_message
+						: 'Please enter a valid URL.';
+					if ( ! existingError ) {
+						element.ref
+							.closest(
+								'.formgent-editor-block-list__single__wrapper'
+							)
+							.appendChild( errorMessageElement );
+					}
+				} else {
+					// Remove error message if the URL is valid
+					if ( existingError ) {
+						existingError.remove();
 					}
 				}
 			}
