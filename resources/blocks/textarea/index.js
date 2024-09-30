@@ -11,10 +11,9 @@ import './style.scss';
 
 const exampleAttributes = {};
 
-const controls = {
+const generalControls = {
 	basic_info: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
 			required: {
 				type: 'switch',
@@ -57,5 +56,9 @@ const controls = {
 		},
 	},
 };
+
+const advancedControls = {};
+
+const controls = { generalControls, advancedControls };
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );
