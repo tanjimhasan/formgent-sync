@@ -227,7 +227,7 @@ const { callbacks } = store( 'formgent/form', {
 
 			// Set choice limit unlimited if it's empty or 0
 			let choiceLimit =
-				context.blocksSettings[ elementName ]?.choice_limit;
+				context.blocksSettings[ elementName ]?.choice_limit_item;
 			if ( choiceLimit === '' || choiceLimit === 0 ) {
 				choiceLimit = Infinity;
 			}
@@ -635,6 +635,15 @@ const { callbacks } = store( 'formgent/form', {
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
+
+				for ( const name in context.data ) {
+					const allOptions = document.querySelectorAll(
+						`[name="${ name }"]`
+					);
+					allOptions.forEach( ( option ) => {
+						option.disabled = false;
+					} );
+				}
 
 				form.reset();
 			} catch ( error ) {

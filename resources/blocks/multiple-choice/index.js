@@ -69,17 +69,6 @@ const controls = {
 					},
 				},
 			},
-			enable_choice_limit: {
-				type: 'switch',
-				label: __( 'Choice Limit', 'formgent' ),
-			},
-			choice_limit: {
-				type: 'text',
-				inputType: 'number',
-				condition: ( attributes ) => {
-					return attributes.enable_choice_limit;
-				},
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
