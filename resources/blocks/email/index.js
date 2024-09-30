@@ -44,6 +44,10 @@ const controls = {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
 			},
+			enable_confirmation_field: {
+				type: 'switch',
+				label: __( 'Enable Confirmation Field', 'formgent' ),
+			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
