@@ -491,6 +491,10 @@ textarea.formgent-editor-block-list__single__input,
 		+ .formgent-editor-block-list__single__input {
 		padding-left: 40px;
 	}
+	.just-validate-error-label {
+		flex: 0 0 100%;
+		margin-top: 5px;
+	}
 }
 
 input.formgent-editor-block-list__single__dialer__input {
@@ -635,6 +639,7 @@ input.formgent-editor-block-list__single__dialer__input {
 		width: 100%;
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
 		gap: 4px;
 	}
 	.iti__country-container {
@@ -687,6 +692,9 @@ input.formgent-editor-block-list__single__dialer__input {
 		}
 		.iti__dropdown-content {
 			padding: 12px;
+			border-radius: 8px;
+			border: 1px solid var(--formgent-color-gray-200);
+			box-shadow: 0px 24px 48px -12px rgba(16, 24, 40, 0.18);
 			.iti__search-input {
 				border-radius: 10px;
 				border: 1px solid var(--formgent-color-gray-300);

@@ -16,7 +16,7 @@
 	cursor: pointer;
 }
 :root {
-	--iti-hover-color: rgba(0, 0, 0, 0.05);
+	--iti-hover-color: #e5e7eb;
 	--iti-border-color: #ccc;
 	--iti-dialcode-color: #999;
 	--iti-dropdown-bg: white;
@@ -159,6 +159,7 @@
 }
 .iti__country.iti__highlight {
 	background-color: var(--iti-hover-color);
+	border-radius: 8px;
 }
 .iti__country-list .iti__flag,
 .iti__country-name {

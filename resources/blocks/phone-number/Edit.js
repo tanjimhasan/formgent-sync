@@ -52,6 +52,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							placeholder={ attributes.placeholder }
 							value={ attributes.value.value_two }
 							onChange={ () => {} }
+							disabled
 						/>
 					</div>
 				</div>

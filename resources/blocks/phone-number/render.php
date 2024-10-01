@@ -3,8 +3,6 @@
 defined( 'ABSPATH' ) || exit;
 
 $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
-// $countries = formgent_config( 'countries' );
-// $flag_url  = formgent_url( 'assets/images/flags' );
 ?>
 
 <div class="formgent-editor-block-list__single formgent-editor-block-list__single--csr formgent-editor-block-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>">
