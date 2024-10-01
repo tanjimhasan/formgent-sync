@@ -45,6 +45,20 @@ const controls = {
 					},
 				],
 			},
+			style: {
+				type: 'toggle_group',
+				label: __( 'Style', 'formgent' ),
+				options: [
+					{
+						label: __( 'Frame', 'formgent' ),
+						value: 'frame',
+					},
+					{
+						label: __( 'Standard', 'formgent' ),
+						value: 'standard',
+					},
+				],
+			},
 			choice_limit: {
 				type: 'switch',
 				label: __( 'Choice Limit', 'formgent' ),
