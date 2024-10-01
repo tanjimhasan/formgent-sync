@@ -49,15 +49,15 @@ class ResponseController extends Controller {
         // Validate the request parameters.
         $validator->validate(
             [
-                'id'             => 'required|integer',
+                'id'             => 'required|numeric',
                 'form_data'      => 'required|array',
                 'response_token' => 'required|string',
             ]
         );
 
         // Retrieve the form by its ID.
-        $id   = $request->get_param( 'id' );
-        $form = $this->form_repository->get_by_id_publish( $id, ['ID', 'post_content'] );
+        $form_id = intval( $request->get_param( 'id' ) );
+        $form    = $this->form_repository->get_by_id_publish( $form_id, ['ID', 'post_content'] );
 
         // Return 404 if the form is not found.
         if ( ! $form ) {
@@ -81,8 +81,6 @@ class ResponseController extends Controller {
                 ], 404
             );
         }
-
-        $form_id = intval( $request->get_param( 'id' ) );
 
         if ( $form_id != $response->form_id ) {
             return Response::send(
@@ -296,11 +294,11 @@ class ResponseController extends Controller {
     public function generate_token( Validator $validator, WP_REST_Request $wp_rest_request ) {
         $validator->validate(
             [
-                'form_id' => 'required|integer'
+                'form_id' => 'required|numeric'
             ]
         );
 
-        $form_id = $wp_rest_request->get_param( 'form_id' );
+        $form_id = intval( $wp_rest_request->get_param( 'form_id' ) );
 
         $form = $this->form_repository->get_by_id_publish( $form_id );
 

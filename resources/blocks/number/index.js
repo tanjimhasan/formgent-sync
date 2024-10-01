@@ -13,15 +13,10 @@ import './style.scss';
 
 const exampleAttributes = {};
 
-const controls = {
+const generalControls = {
 	basic_info: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -43,10 +38,6 @@ const controls = {
 						value: 'justify',
 					},
 				],
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
 			},
 			format: {
 				type: 'select',
@@ -70,8 +61,20 @@ const controls = {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
 			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
+			},
 		},
 	},
 };
+
+const advancedControls = {};
+
+const controls = { generalControls, advancedControls };
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );

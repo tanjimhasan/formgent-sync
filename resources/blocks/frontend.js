@@ -25,6 +25,35 @@ async function generateFormToken( context ) {
 	}
 }
 
+// URL validation function
+function isUrl( string ) {
+	const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+	const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+	const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+	if ( typeof string !== 'string' ) {
+		return false;
+	}
+
+	const match = string.match( protocolAndDomainRE );
+	if ( ! match ) {
+		return false;
+	}
+
+	const everythingAfterProtocol = match[ 1 ];
+	if ( ! everythingAfterProtocol ) {
+		return false;
+	}
+
+	if (
+		localhostDomainRE.test( everythingAfterProtocol ) ||
+		nonLocalhostDomainRE.test( everythingAfterProtocol )
+	) {
+		return true;
+	}
+
+	return false;
+}
+
 const { callbacks } = store( 'formgent/form', {
 	actions: {
 		getValue: () => {
@@ -113,35 +142,6 @@ const { callbacks } = store( 'formgent/form', {
 			}
 
 			const fieldType = blocksSettings[ elementName ].field_type;
-
-			// URL validation function
-			function isUrl( string ) {
-				const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
-				const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
-				const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
-				if ( typeof string !== 'string' ) {
-					return false;
-				}
-
-				const match = string.match( protocolAndDomainRE );
-				if ( ! match ) {
-					return false;
-				}
-
-				const everythingAfterProtocol = match[ 1 ];
-				if ( ! everythingAfterProtocol ) {
-					return false;
-				}
-
-				if (
-					localhostDomainRE.test( everythingAfterProtocol ) ||
-					nonLocalhostDomainRE.test( everythingAfterProtocol )
-				) {
-					return true;
-				}
-
-				return false;
-			}
 
 			// Check if the field type is 'website'
 			if ( fieldType === 'website' ) {
