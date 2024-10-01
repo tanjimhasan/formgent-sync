@@ -31,7 +31,7 @@
 			"type": "string",
 			"default": "#4cafaa"
 		},
-		"border_color":{
+		"border_color": {
 			"type": "string",
 			"default": "#000000"
 		},

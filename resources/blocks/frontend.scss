@@ -531,6 +531,9 @@ input.formgent-editor-block-list__single__dialer__input {
 		outline: 0;
 		cursor: pointer;
 		font-family: "Inter", sans-serif;
+		display: flex;
+		align-items: center;
+		gap: 8px;
 		&:hover {
 			background: #2e394b;
 		}
@@ -548,6 +551,17 @@ input.formgent-editor-block-list__single__dialer__input {
 			border-color: var(--formgent-btn-border-color);
 			background: transparent;
 			color: var(--formgent-btn-text-color);
+		}
+		sub {
+			position: relative;
+			top: 5px;
+		}
+		sup {
+			position: relative;
+			top: -5px;
+		}
+		img {
+			max-width: 50px;
 		}
 	}
 }
