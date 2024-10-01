@@ -38,6 +38,10 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"enable_confirmation_field": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
