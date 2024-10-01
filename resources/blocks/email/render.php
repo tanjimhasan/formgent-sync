@@ -31,3 +31,35 @@
         <?php endif; ?>
     </div>
 </div>
+
+<?php if ( $attributes['enable_confirmation_field'] ) :
+    $name = $attributes['name'] . '_confirm'; ?>
+
+<div class="formgent-editor-block-list__single formgent-editor-block-list__single--csr formgent-editor-block-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>">
+    <label
+        for="<?php echo esc_attr( $name ); ?>"
+        class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
+    >
+        <?php formgent_render( wp_kses_post( $attributes['confirm_label'] ) ); ?>
+        <span class="formgent-editor-block-list__single__label__required">*</span>
+    </label>
+    <div class="formgent-editor-block-list__single__wrapper">
+        <input
+            class="formgent-editor-block-list__single__input"
+            type="email"
+            name="<?php echo esc_attr( $name ); ?>"
+            id="<?php echo esc_attr( $name ); ?>"
+            data-wp-context='{ "name": "<?php echo esc_attr( $name ); ?>" }'
+            placeholder="<?php echo esc_attr( $attributes['confirm_placeholder'] ); ?>"
+            data-wp-interactive="formgent/form"
+            data-wp-on--input="actions.updateInput"
+            data-wp-bind--value="actions.getValue"
+        />
+        <?php if ( ! empty( $attributes['confirm_sub_label'] ) ) : ?>
+            <span class="formgent-editor-block-list__single__sub-label">
+                <?php formgent_render( wp_kses_post( $attributes['confirm_sub_label'] ) ); ?>
+            </span>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

@@ -343,6 +343,52 @@ const { callbacks } = store( 'formgent/form', {
 					rulesList[ field.field_type ]( rules );
 				}
 			}
+
+			function addConfirmFieldValidation(
+				field,
+				parentElem,
+				name,
+				validation
+			) {
+				const confirm_selector = getSelector(
+					field.field_type,
+					`${ name }_confirm`
+				);
+
+				validation.addField( confirm_selector, [
+					{
+						rule: 'required',
+						errorMessage: `${
+							field.confirm_label || 'Field'
+						} is required`,
+					},
+					{
+						validator: ( value, fields ) => {
+							const fieldList = Object.values( fields );
+
+							if ( ! fieldList.length ) {
+								return true;
+							}
+
+							const parentField = fieldList.filter(
+								( item ) =>
+									item.elem.getAttribute( 'id' ) ===
+									parentElem.getAttribute( 'id' )
+							);
+
+							if ( ! parentField ) {
+								return true;
+							}
+
+							return value === parentField[ 0 ].elem.value;
+						},
+						errorMessage: `${
+							field.confirm_label || 'Field'
+						} should be the same`,
+					},
+				] );
+			}
+
 			for ( const name in context.data ) {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
@@ -370,6 +416,15 @@ const { callbacks } = store( 'formgent/form', {
 						} else {
 							validation.addField( selector, rules );
 						}
+					}
+
+					if ( field.enable_confirmation_field ) {
+						addConfirmFieldValidation(
+							field,
+							selector,
+							name,
+							validation
+						);
 					}
 				}
 			}

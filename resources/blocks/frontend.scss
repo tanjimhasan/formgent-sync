@@ -195,6 +195,11 @@
 		flex-wrap: nowrap;
 	}
 }
+
+.formgent-editor-block-list__single_sibling {
+	margin-top: 1.2rem;
+}
+
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
 }

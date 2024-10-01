@@ -23,15 +23,27 @@
 			"type": "string",
 			"default": ""
 		},
+		"confirm_placeholder": {
+			"type": "string",
+			"default": ""
+		},
 		"label": {
 			"type": "string",
 			"default": "Email"
+		},
+		"confirm_label": {
+			"type": "string",
+			"default": "Confirm Email"
 		},
 		"label_alignment": {
 			"type": "string",
 			"default": "top"
 		},
 		"sub_label": {
+			"type": "string",
+			"default": ""
+		},
+		"confirm_sub_label": {
 			"type": "string",
 			"default": ""
 		},

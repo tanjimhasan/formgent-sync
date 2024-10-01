@@ -43,6 +43,10 @@ const generalControls = {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
 			},
+			confirm_placeholder: {
+				type: 'text',
+				label: __( 'Confirm Field Placeholder', 'formgent' ),
+			},
 			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
