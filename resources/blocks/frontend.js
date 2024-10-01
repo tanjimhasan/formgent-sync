@@ -120,218 +120,157 @@ const { callbacks } = store( 'formgent/form', {
 				00/00/0000 00:00:00,
 				//custom
 			*/
-			// function formatInput( value, maskType ) {
-			// 	let cleanValue = value.replace( /\D/g, '' );
-			// 	let formattedValue = '';
-			// 	let maxLength = 0;
-
-			// 	switch ( maskType ) {
-			// 		case '(000) 000-0000':
-			// 			maxLength = 14;
-			// 			if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					3
-			// 				) }) ${ cleanValue.slice( 3 ) }`;
-			// 			} else if ( cleanValue.length > 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					3
-			// 				) }) ${ cleanValue.slice(
-			// 					3,
-			// 					6
-			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
-			// 			} else {
-			// 				formattedValue = `(${ cleanValue }`;
-			// 			}
-			// 			break;
-
-			// 		case '(00) 0000-0000':
-			// 			maxLength = 14;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }) ${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }) ${ cleanValue.slice(
-			// 					2,
-			// 					6
-			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
-			// 			} else {
-			// 				formattedValue = `(${ cleanValue }`;
-			// 			}
-			// 			break;
-
-			// 		case '00/00/0000':
-			// 			maxLength = 10;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 			} else {
-			// 				formattedValue = cleanValue;
-			// 			}
-			// 			break;
-
-			// 		case '00:00:00':
-			// 			maxLength = 8;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }:${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }:${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }:${ cleanValue.slice( 4, 6 ) }`;
-			// 			} else {
-			// 				formattedValue = cleanValue;
-			// 			}
-			// 			break;
-
-			// 		case '00/00/0000 00:00:00':
-			// 			maxLength = 19;
-			// 			if ( cleanValue.length <= 8 ) {
-			// 				if (
-			// 					cleanValue.length > 2 &&
-			// 					cleanValue.length <= 4
-			// 				) {
-			// 					formattedValue = `${ cleanValue.slice(
-			// 						0,
-			// 						2
-			// 					) }/${ cleanValue.slice( 2 ) }`;
-			// 				} else if ( cleanValue.length > 4 ) {
-			// 					formattedValue = `${ cleanValue.slice(
-			// 						0,
-			// 						2
-			// 					) }/${ cleanValue.slice(
-			// 						2,
-			// 						4
-			// 					) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 				} else {
-			// 					formattedValue = cleanValue;
-			// 				}
-			// 			} else {
-			// 				const datePart = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 				const timePart =
-			// 					cleanValue.length > 8 && cleanValue.length <= 10
-			// 						? `${ cleanValue.slice( 8, 10 ) }`
-			// 						: cleanValue.length > 10 &&
-			// 						  cleanValue.length <= 12
-			// 						? `${ cleanValue.slice(
-			// 								8,
-			// 								10
-			// 						  ) }:${ cleanValue.slice( 10, 12 ) }`
-			// 						: `${ cleanValue.slice(
-			// 								8,
-			// 								10
-			// 						  ) }:${ cleanValue.slice(
-			// 								10,
-			// 								12
-			// 						  ) }:${ cleanValue.slice( 12, 14 ) }`;
-			// 				formattedValue =
-			// 					`${ datePart } ${ timePart }`.trim();
-			// 			}
-			// 			break;
-
-			// 		case 'custom':
-			// 		case 'none':
-			// 			formattedValue = value;
-			// 			break;
-
-			// 		default:
-			// 			formattedValue = value;
-			// 	}
-
-			// 	if ( formattedValue.length > maxLength && maxLength > 0 ) {
-			// 		formattedValue = formattedValue.slice( 0, maxLength );
-			// 	}
-
-			// 	element.ref.value = formattedValue;
-			// 	return formattedValue;
-			// }
-
 			function formatInput( value, maskType ) {
 				let cleanValue = value.replace( /\D/g, '' );
 				let formattedValue = '';
 				let maxLength = 0;
 
-				// Helper to slice and format a cleanValue based on a given pattern
-				const applyPattern = ( pattern, cleanValue ) => {
-					let index = 0;
-					return pattern.replace(
-						/0/g,
-						() => cleanValue[ index++ ] || ''
-					);
-				};
+				switch ( maskType ) {
+					case '(000) 000-0000':
+						maxLength = 14;
+						if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
+							formattedValue = `(${ cleanValue.slice(
+								0,
+								3
+							) }) ${ cleanValue.slice( 3 ) }`;
+						} else if ( cleanValue.length > 6 ) {
+							formattedValue = `(${ cleanValue.slice(
+								0,
+								3
+							) }) ${ cleanValue.slice(
+								3,
+								6
+							) }-${ cleanValue.slice( 6, 10 ) }`;
+						} else {
+							formattedValue = `(${ cleanValue }`;
+						}
+						break;
 
-				// Helper to define format patterns and maxLength for each mask type
-				const getPatternInfo = ( maskType ) => {
-					switch ( maskType ) {
-						case '(000) 000-0000':
-							return { pattern: '(000) 000-0000', maxLength: 14 };
-						case '(00) 0000-0000':
-							return { pattern: '(00) 0000-0000', maxLength: 14 };
-						case '00/00/0000':
-							return { pattern: '00/00/0000', maxLength: 10 };
-						case '00:00:00':
-							return { pattern: '00:00:00', maxLength: 8 };
-						case '00/00/0000 00:00:00':
-							return {
-								pattern: '00/00/0000 00:00:00',
-								maxLength: 19,
-							};
-						case 'custom':
-						case 'none':
-							return { pattern: '', maxLength: 0 };
-						default:
-							return { pattern: '', maxLength: 0 };
-					}
-				};
+					case '(00) 0000-0000':
+						maxLength = 14;
+						if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
+							formattedValue = `(${ cleanValue.slice(
+								0,
+								2
+							) }) ${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 6 ) {
+							formattedValue = `(${ cleanValue.slice(
+								0,
+								2
+							) }) ${ cleanValue.slice(
+								2,
+								6
+							) }-${ cleanValue.slice( 6, 10 ) }`;
+						} else {
+							formattedValue = `(${ cleanValue }`;
+						}
+						break;
 
-				// Get the pattern and maxLength for the given maskType
-				const { pattern, maxLength: patternMaxLength } =
-					getPatternInfo( maskType );
-				maxLength = patternMaxLength;
+					case '00/00/0000':
+						maxLength = 10;
+						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+							formattedValue = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 4 ) {
+							formattedValue = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice(
+								2,
+								4
+							) }/${ cleanValue.slice( 4, 8 ) }`;
+						} else {
+							formattedValue = cleanValue;
+						}
+						break;
 
-				// Apply formatting if pattern exists
-				if ( pattern ) {
-					formattedValue = applyPattern( pattern, cleanValue );
-				} else {
-					formattedValue = value; // For 'custom' or 'none' masks
+					case '00:00:00':
+						maxLength = 8;
+						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+							formattedValue = `${ cleanValue.slice(
+								0,
+								2
+							) }:${ cleanValue.slice( 2 ) }`;
+						} else if ( cleanValue.length > 4 ) {
+							formattedValue = `${ cleanValue.slice(
+								0,
+								2
+							) }:${ cleanValue.slice(
+								2,
+								4
+							) }:${ cleanValue.slice( 4, 6 ) }`;
+						} else {
+							formattedValue = cleanValue;
+						}
+						break;
+
+					case '00/00/0000 00:00:00':
+						maxLength = 19;
+						if ( cleanValue.length <= 8 ) {
+							if (
+								cleanValue.length > 2 &&
+								cleanValue.length <= 4
+							) {
+								formattedValue = `${ cleanValue.slice(
+									0,
+									2
+								) }/${ cleanValue.slice( 2 ) }`;
+							} else if ( cleanValue.length > 4 ) {
+								formattedValue = `${ cleanValue.slice(
+									0,
+									2
+								) }/${ cleanValue.slice(
+									2,
+									4
+								) }/${ cleanValue.slice( 4, 8 ) }`;
+							} else {
+								formattedValue = cleanValue;
+							}
+						} else {
+							const datePart = `${ cleanValue.slice(
+								0,
+								2
+							) }/${ cleanValue.slice(
+								2,
+								4
+							) }/${ cleanValue.slice( 4, 8 ) }`;
+							const timePart =
+								cleanValue.length > 8 && cleanValue.length <= 10
+									? `${ cleanValue.slice( 8, 10 ) }`
+									: cleanValue.length > 10 &&
+									  cleanValue.length <= 12
+									? `${ cleanValue.slice(
+											8,
+											10
+									  ) }:${ cleanValue.slice( 10, 12 ) }`
+									: `${ cleanValue.slice(
+											8,
+											10
+									  ) }:${ cleanValue.slice(
+											10,
+											12
+									  ) }:${ cleanValue.slice( 12, 14 ) }`;
+							formattedValue =
+								`${ datePart } ${ timePart }`.trim();
+						}
+						break;
+
+					case 'custom':
+					case 'none':
+						formattedValue = value;
+						break;
+
+					default:
+						formattedValue = value;
 				}
 
-				// Ensure formatted value doesn't exceed maxLength
 				if ( formattedValue.length > maxLength && maxLength > 0 ) {
 					formattedValue = formattedValue.slice( 0, maxLength );
 				}
 
-				// Set the value to the element's reference (assuming element is globally accessible)
 				element.ref.value = formattedValue;
-
 				return formattedValue;
 			}
 
