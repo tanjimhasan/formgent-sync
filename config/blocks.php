@@ -38,7 +38,7 @@ return [
         'types'      => ['general', 'conversational'],
         'field_type' => Number::get_key()
     ],
-    'formgent/button'          => [
+    'formgent/submit-button'   => [
         'types'      => ['general', 'conversational'],
         'field_type' => ''
     ],

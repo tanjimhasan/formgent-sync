@@ -16,7 +16,6 @@ const exampleAttributes = {};
 const generalControls = {
 	basic_info: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
 			label_alignment: {
 				type: 'toggle_group',
@@ -61,9 +60,25 @@ const generalControls = {
 			background_color: {
 				type: 'color',
 				label: __( 'Background Color', 'formgent' ),
-				color: '#000000',
+				color: '#4cafaa',
 				condition: ( attributes ) => {
 					return attributes.button_style === 'solid';
+				},
+			},
+			border_color: {
+				type: 'color',
+				label: __( 'Border Color', 'formgent' ),
+				color: '#000000',
+				condition: ( attributes ) => {
+					return attributes.button_style === 'bordered';
+				},
+			},
+			text_color: {
+				type: 'color',
+				label: __( 'Text Color', 'formgent' ),
+				color: '#000000',
+				condition: ( attributes ) => {
+					return attributes.button_style !== 'default';
 				},
 			},
 		},

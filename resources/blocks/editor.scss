@@ -160,7 +160,6 @@ button.formgent-repeater-field-expand {
 
 .formgent-control-color-picker-input {
 	background: #fff;
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -174,6 +173,9 @@ button.formgent-repeater-field-expand {
 		.components-select-control {
 			margin-left: 0;
 		}
+	}
+	.components-input-control .components-input-control__backdrop {
+		border: 1px solid var(--formgent-color-gray-300) !important;
 	}
 }
 

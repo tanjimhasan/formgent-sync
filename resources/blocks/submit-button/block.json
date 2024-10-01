@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "formgent/button",
-	"title": "Custom Button",
+	"name": "formgent/submit-button",
+	"title": "Submit Button",
 	"category": "formgent",
-	"description": "FormGent Custom Button field.",
+	"description": "FormGent Submit Button Block",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
@@ -17,11 +17,11 @@
 		},
 		"button_text": {
 			"type": "string",
-			"default": ""
+			"default": "Submit"
 		},
 		"label_alignment": {
 			"type": "string",
-			"default": "top"
+			"default": "left"
 		},
 		"button_style": {
 			"type": "string",
@@ -30,6 +30,14 @@
 		"background_color": {
 			"type": "string",
 			"default": "#4cafaa"
+		},
+		"border_color":{
+			"type": "string",
+			"default": "#000000"
+		},
+		"text_color": {
+			"type": "string",
+			"default": "#000000"
 		}
 	},
 	"supports": {

@@ -515,7 +515,7 @@ input.formgent-editor-block-list__single__dialer__input {
 }
 
 .formgent-form,
-.wp-block-formgent-button {
+.wp-block-formgent-submit-button {
 	.formgent-btn {
 		padding: 13px 32px;
 		border-radius: 10px;
@@ -525,7 +525,7 @@ input.formgent-editor-block-list__single__dialer__input {
 		background: var(--formgent-color-dark);
 		border: 2px solid var(--formgent-color-dark);
 		font-size: 16px;
-		font-weight: 600;
+		font-weight: 500;
 		color: #fff;
 		transition: 0.3s ease;
 		outline: 0;
@@ -541,12 +541,13 @@ input.formgent-editor-block-list__single__dialer__input {
 		&.formgent-btn-solid {
 			background: var(--formgent-btn-bg-color);
 			border-color: var(--formgent-btn-bg-color);
+			color: var(--formgent-btn-text-color);
 		}
 		&.formgent-btn-bordered {
 			border-radius: 10px;
-			border-color: var(--formgent-color-dark);
+			border-color: var(--formgent-btn-border-color);
 			background: transparent;
-			color: var(--formgent-color-dark);
+			color: var(--formgent-btn-text-color);
 		}
 	}
 }
