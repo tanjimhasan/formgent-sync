@@ -176,3 +176,10 @@ button.formgent-repeater-field-expand {
 		}
 	}
 }
+
+.formgent .control-tabs {
+	.components-tab-panel__tabs {
+		display: flex;
+		justify-content: space-around;
+	}
+}
