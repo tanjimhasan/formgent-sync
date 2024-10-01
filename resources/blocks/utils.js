@@ -2,13 +2,42 @@
  * Internal dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	useBlockProps,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
 import Controls from './Controls';
-import { useEffect, useState } from '@wordpress/element';
+import { Fragment, useEffect, useState } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { select, dispatch, useSelect } from '@wordpress/data';
-import { addFilter, applyFilters } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
 import { registerBlockType } from '@wordpress/blocks';
+import {
+	TabPanel,
+	PanelBody,
+	Dashicon,
+	__experimentalUseSlotFills as useSlotFills,
+} from '@wordpress/components';
+
+const AdvancedControls = () => {
+	const fills = useSlotFills( InspectorAdvancedControls.slotName );
+	const hasFills = Boolean( fills && fills.length );
+
+	if ( ! hasFills ) {
+		return null;
+	}
+
+	return (
+		<PanelBody
+			className="block-editor-block-inspector__advanced"
+			title={ __( 'Block Advanced', 'formgent' ) }
+			initialOpen={ false }
+		>
+			<InspectorControls.Slot group="advanced" />
+		</PanelBody>
+	);
+};
 
 function generateUniqueKey( baseKey, blocks ) {
 	// Regex to match baseKey and any variations like baseKey, baseKey-1, baseKey-2, etc.
@@ -411,12 +440,54 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				/>
 			</div>
 			<InspectorControls>
-				<Controls
-					controls={ controls }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					metaData={ metaData }
-				/>
+				<div className="formgent">
+					<TabPanel
+						className="control-tabs"
+						activeClass="active-tab"
+						tabs={ [
+							{
+								name: 'general',
+								title: __( 'General', 'formgent' ),
+								icon: <Dashicon icon="admin-generic" />,
+							},
+							{
+								name: 'advanced',
+								title: __( 'Advanced', 'formgent' ),
+								icon: <Dashicon icon="admin-settings" />,
+							},
+						] }
+					>
+						{ ( tab ) => {
+							if ( tab.name === 'general' ) {
+								return (
+									<Controls
+										controls={ controls.generalControls }
+										attributes={ attributes }
+										setAttributes={ setAttributes }
+										metaData={ metaData }
+									/>
+								);
+							}
+
+							if ( tab.name === 'advanced' ) {
+								return (
+									<Fragment>
+										<Controls
+											controls={
+												controls.advancedControls
+											}
+											attributes={ attributes }
+											setAttributes={ setAttributes }
+											metaData={ metaData }
+										/>
+										<AdvancedControls />
+									</Fragment>
+								);
+							}
+							return null;
+						} }
+					</TabPanel>
+				</div>
 			</InspectorControls>
 		</>
 	);

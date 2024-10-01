@@ -14,15 +14,10 @@ import './style.scss';
 
 const exampleAttributes = {};
 
-const controls = {
+const generalControls = {
 	general: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -59,21 +54,6 @@ const controls = {
 					},
 				],
 			},
-			choice_limit: {
-				type: 'switch',
-				label: __( 'Choice Limit', 'formgent' ),
-			},
-			choice_limit_item: {
-				type: 'number',
-				precision: false,
-				condition: function ( attributes ) {
-					return attributes[ 'choice_limit' ];
-				},
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			options: {
 				type: 'repeater',
 				label: __( 'Multi Choice Items', 'formgent' ),
@@ -90,6 +70,25 @@ const controls = {
 			value: {
 				type: 'default_value',
 				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+			choice_limit: {
+				type: 'switch',
+				label: __( 'Choice Limit', 'formgent' ),
+			},
+			choice_limit_item: {
+				type: 'number',
+				precision: false,
+				condition: function ( attributes ) {
+					return attributes[ 'choice_limit' ];
+				},
+			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},
@@ -113,5 +112,9 @@ const controls = {
 		},
 	},
 };
+
+const advancedControls = {};
+
+const controls = { generalControls, advancedControls };
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );
