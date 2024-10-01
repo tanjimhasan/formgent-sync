@@ -54,6 +54,35 @@ function isUrl( string ) {
 	return false;
 }
 
+// Validate website url
+function validateWebsiteUrl( element, blocksSettings, isUrl, elementName ) {
+	const inputValue = element.ref.value;
+	const errorMessageElement = document.createElement( 'div' );
+	errorMessageElement.className = 'formgent-url-error';
+	errorMessageElement.style.color = 'red';
+	const existingError = element.ref
+		.closest( '.formgent-editor-block-list__single__wrapper' )
+		.querySelector( '.formgent-url-error' );
+
+	if ( ! isUrl( inputValue ) && element.ref.value !== '' ) {
+		// Display error message if the URL is invalid
+		errorMessageElement.textContent = blocksSettings[ elementName ]
+			.validation_message
+			? blocksSettings[ elementName ].validation_message
+			: 'Please enter a valid URL.';
+		if ( ! existingError ) {
+			element.ref
+				.closest( '.formgent-editor-block-list__single__wrapper' )
+				.appendChild( errorMessageElement );
+		}
+	} else {
+		// Remove error message if the URL is valid
+		if ( existingError ) {
+			existingError.remove();
+		}
+	}
+}
+
 const { callbacks } = store( 'formgent/form', {
 	actions: {
 		getValue: () => {
@@ -145,34 +174,12 @@ const { callbacks } = store( 'formgent/form', {
 
 			// Check if the field type is 'website'
 			if ( fieldType === 'website' ) {
-				const inputValue = element.ref.value;
-				const errorMessageElement = document.createElement( 'div' );
-				errorMessageElement.className = 'formgent-url-error';
-				errorMessageElement.style.color = 'red';
-				const existingError = element.ref
-					.closest( '.formgent-editor-block-list__single__wrapper' )
-					.querySelector( '.formgent-url-error' );
-
-				if ( ! isUrl( inputValue ) && element.ref.value !== '' ) {
-					// Display error message if the URL is invalid
-					errorMessageElement.textContent = blocksSettings[
-						elementName
-					].validation_message
-						? blocksSettings[ elementName ].validation_message
-						: 'Please enter a valid URL.';
-					if ( ! existingError ) {
-						element.ref
-							.closest(
-								'.formgent-editor-block-list__single__wrapper'
-							)
-							.appendChild( errorMessageElement );
-					}
-				} else {
-					// Remove error message if the URL is valid
-					if ( existingError ) {
-						existingError.remove();
-					}
-				}
+				validateWebsiteUrl(
+					element,
+					blocksSettings,
+					isUrl,
+					elementName
+				);
 			}
 
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
