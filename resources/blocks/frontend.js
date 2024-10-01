@@ -224,7 +224,10 @@ const { callbacks } = store( 'formgent/form', {
 			}
 
 			//update field data
-			context.data[ element.ref.name ] = numberValue;
+			context.data[ element.ref.name ] =
+				numberFormat === 'non_decimal'
+					? Number( numberValue )
+					: numberValue;
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -290,9 +293,15 @@ const { callbacks } = store( 'formgent/form', {
 			const value = element.ref.value;
 
 			// Set choice limit unlimited if it's empty or 0
+			let isChoiceLimitEnabled =
+				context.blocksSettings[ elementName ]?.choice_limit;
 			let choiceLimit =
 				context.blocksSettings[ elementName ]?.choice_limit_item;
-			if ( choiceLimit === '' || choiceLimit === 0 ) {
+			if (
+				choiceLimit === '' ||
+				choiceLimit === 0 ||
+				! isChoiceLimitEnabled
+			) {
 				choiceLimit = Infinity;
 			}
 
