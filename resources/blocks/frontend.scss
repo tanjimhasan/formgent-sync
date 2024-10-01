@@ -320,8 +320,9 @@
 }
 
 .formgent-editor-block-list__single__wrapper {
-	&.formgent-editor-block-list__single__phone {
-		flex-direction: row;
+	.formgent-editor-block-list__single__phone {
+		display: flex;
+		align-items: center;
 	}
 	&.formgent-editor-block-list__single__wrapper--single-choice {
 		.formgent-editor-block-list__single__input--radio {
@@ -454,20 +455,21 @@ textarea.formgent-editor-block-list__single__input,
 .formgent-editor-block-list__single__dialer {
 	display: flex;
 	align-items: center;
+	gap: 4px;
 }
 .formgent-editor-block-list__single__dialer__flag {
 	display: flex;
 	align-items: center;
 	border-radius: 8px;
 	padding: 6px;
-	margin-right: 10px;
-	height: 40px;
+	height: 38px;
 	padding: 0 10px;
-	background-color: var(--formgent-color-white);
 	border: 1px solid var(--formgent-color-border-light);
-
+	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 	img {
-		max-width: 30px;
+		width: 20px;
+		height: 15px;
+		border-radius: 3px;
 	}
 	svg {
 		width: 16px;
@@ -477,14 +479,33 @@ textarea.formgent-editor-block-list__single__input,
 }
 
 .formgent-editor-block-list__single__dialer__content {
-	padding: 4px 12px;
-	border-radius: 8px;
-	border: 1px solid var(--formgent-color-border-light);
-	background-color: var(--formgent-color-white);
+	flex: 1;
+	display: flex;
+	align-items: center;
+	position: relative;
+	.formgent-editor-block-list__single__dialer__code {
+		font-size: 14px;
+		font-weight: 500;
+		color: var(--formgent-color-gray-600);
+		position: absolute;
+		left: 16px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.formgent-editor-block-list__single__dialer__code
+		+ .formgent-editor-block-list__single__input {
+		padding-left: 40px;
+	}
+	.just-validate-error-label {
+		flex: 0 0 100%;
+		margin-top: 5px;
+	}
 }
 
 input.formgent-editor-block-list__single__dialer__input {
 	border: 0 none;
+	flex: 1;
+	background: none;
 	&:focus {
 		outline: none;
 		box-shadow: 0 0;
@@ -613,6 +634,90 @@ input.formgent-editor-block-list__single__dialer__input {
 		.item ~ input {
 			display: block;
 			background: #fff;
+		}
+	}
+}
+
+.formgent-editor-block-list__single__dialer__content {
+	width: 100%;
+	.iti {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+	.iti__country-container {
+		position: static;
+		border-radius: 8px;
+		border: 1px solid var(--formgent-color-gray-300);
+		box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+		height: 40px;
+		.iti__selected-country-primary {
+			padding: 12px;
+			.iti__arrow {
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				background: transparent;
+				text-indent: -9999px;
+				border-top: 1px solid var(--formgent-color-gray);
+				border-left: 1px solid var(--formgent-color-gray);
+				border-right: 0 none;
+				border-bottom: 0 none;
+				transition: all 250ms ease-in-out;
+				text-decoration: none;
+				color: transparent;
+				transform: rotate(-135deg);
+				position: relative;
+				top: -1px;
+				&:before {
+					display: block;
+					height: 200%;
+					width: 200%;
+					margin-left: -50%;
+					margin-top: -50%;
+					content: "";
+					transform: rotate(45deg);
+				}
+				&.iti__arrow--up {
+					transform: rotate(45deg);
+					top: 2px;
+				}
+			}
+		}
+		.iti__selected-dial-code:empty {
+			display: none;
+		}
+		.iti__selected-dial-code {
+			position: absolute;
+			left: 65px;
+			font-size: 13px;
+			font-weight: 400;
+		}
+		.iti__dropdown-content {
+			padding: 12px;
+			border-radius: 8px;
+			border: 1px solid var(--formgent-color-gray-200);
+			box-shadow: 0px 24px 48px -12px rgba(16, 24, 40, 0.18);
+			.iti__search-input {
+				border-radius: 10px;
+				border: 1px solid var(--formgent-color-gray-300);
+				height: 40px;
+				padding: 0 14px;
+			}
+			.iti__country-name,
+			.iti__dial-code {
+				font-size: 14px;
+				font-weight: 500;
+			}
+		}
+	}
+	.formgent-editor-block-list__single__input {
+		flex: 1;
+		padding-left: 48px !important;
+		&:not(.formgent-editor-block-list__single__input--country-code) {
+			padding-left: 16px !important;
 		}
 	}
 }

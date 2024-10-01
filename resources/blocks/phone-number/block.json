@@ -38,6 +38,14 @@
 		"required": {
 			"type": "boolean",
 			"default": false
+		},
+		"country_code": {
+			"type": "boolean",
+			"default": false
+		},
+		"country_auto_detection": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {
