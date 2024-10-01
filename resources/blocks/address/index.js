@@ -17,7 +17,6 @@ const exampleAttributes = {};
 const controls = {
 	general: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
 			name: {
 				type: 'text',
