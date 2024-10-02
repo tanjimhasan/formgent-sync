@@ -26,12 +26,12 @@ const generalControls = {
 						value: 'left',
 					},
 					{
-						label: __( 'Right', 'formgent' ),
-						value: 'right',
-					},
-					{
 						label: __( 'Middle', 'formgent' ),
 						value: 'middle',
+					},
+					{
+						label: __( 'Right', 'formgent' ),
+						value: 'right',
 					},
 					{
 						label: __( 'Block', 'formgent' ),
