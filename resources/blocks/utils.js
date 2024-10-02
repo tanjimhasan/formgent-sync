@@ -445,7 +445,6 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				<div className="formgent">
 					<TabPanel
 						className="control-tabs"
-						activeClass="active-tab"
 						tabs={ [
 							{
 								name: 'general',
