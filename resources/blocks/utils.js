@@ -449,19 +449,19 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 						tabs={ [
 							{
 								name: 'general',
-								title: __( 'General', 'formgent' ),
 								icon: (
 									<span className="formgent-control-tab-icon">
-										<ReactSVG src={ editIcon } /> General
+										<ReactSVG src={ editIcon } />{ ' ' }
+										{ __( 'General', 'formgent' ) }
 									</span>
 								),
 							},
 							{
 								name: 'advanced',
-								title: __( 'Advanced', 'formgent' ),
 								icon: (
 									<span className="formgent-control-tab-icon">
-										<ReactSVG src={ cogIcon } /> Advanced
+										<ReactSVG src={ cogIcon } />{ ' ' }
+										{ __( 'Advanced', 'formgent' ) }
 									</span>
 								),
 							},
