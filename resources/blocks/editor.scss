@@ -184,7 +184,6 @@ button.formgent-repeater-field-expand {
 		display: flex;
 		border-top: calc(0.1em + 1px) solid #f2f4f5;
 		.components-button {
-			border-bottom: 2px solid transparent;
 			flex: 1;
 			height: auto;
 			padding: 15px;
@@ -202,8 +201,8 @@ button.formgent-repeater-field-expand {
 				align-items: center;
 				gap: 6px;
 			}
-			&.active-tab {
-				border-bottom-color: #007cba;
+			&.is-active,
+			&:hover {
 				color: #0085ba;
 				svg {
 					g path {
