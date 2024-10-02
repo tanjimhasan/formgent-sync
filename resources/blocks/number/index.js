@@ -57,14 +57,6 @@ const generalControls = {
 					},
 				],
 			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
@@ -73,7 +65,21 @@ const generalControls = {
 	},
 };
 
-const advancedControls = {};
+const advancedControls = {
+	advanced: {
+		type: 'panel',
+		children: {
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+		},
+	},
+};
 
 const controls = { generalControls, advancedControls };
 

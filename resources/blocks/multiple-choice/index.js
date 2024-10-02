@@ -64,27 +64,21 @@ const generalControls = {
 					return attributes[ 'choice_limit' ];
 				},
 			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
 			},
 		},
 	},
+};
+
+const advancedControls = {
 	advanced: {
 		type: 'panel',
-		label: __( 'FormGent Advanced', 'formgent' ),
 		children: {
 			options: {
 				type: 'repeater',
-				label: __( 'Values', 'formgent' ),
+				label: __( 'Options value', 'formgent' ),
 				label_key: 'label',
 				show_actions: false,
 				onChange: onChangeChoiceOptions,
@@ -95,11 +89,17 @@ const generalControls = {
 					},
 				},
 			},
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
 		},
 	},
 };
-
-const advancedControls = {};
 
 const controls = { generalControls, advancedControls };
 
