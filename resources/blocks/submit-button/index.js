@@ -17,9 +17,9 @@ const generalControls = {
 	basic_info: {
 		type: 'panel',
 		children: {
-			label_alignment: {
+			button_alignment: {
 				type: 'toggle_group',
-				label: __( 'Label Alignment', 'formgent' ),
+				label: __( 'Button Alignment', 'formgent' ),
 				options: [
 					{
 						label: __( 'Left', 'formgent' ),
@@ -60,7 +60,6 @@ const generalControls = {
 			background_color: {
 				type: 'color',
 				label: __( 'Background Color', 'formgent' ),
-				color: '#4cafaa',
 				condition: ( attributes ) => {
 					return attributes.button_style === 'solid';
 				},
@@ -68,7 +67,6 @@ const generalControls = {
 			border_color: {
 				type: 'color',
 				label: __( 'Border Color', 'formgent' ),
-				color: '#000000',
 				condition: ( attributes ) => {
 					return attributes.button_style === 'bordered';
 				},
@@ -76,7 +74,6 @@ const generalControls = {
 			text_color: {
 				type: 'color',
 				label: __( 'Text Color', 'formgent' ),
-				color: '#000000',
 				condition: ( attributes ) => {
 					return attributes.button_style !== 'default';
 				},

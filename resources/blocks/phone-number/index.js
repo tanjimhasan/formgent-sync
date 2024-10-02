@@ -51,6 +51,14 @@ const generalControls = {
 				type: 'text',
 				label: __( 'Field Name', 'formgent' ),
 			},
+			country_code: {
+				type: 'switch',
+				label: __( 'Include country code', 'formgent' ),
+			},
+			country_auto_detection: {
+				type: 'switch',
+				label: __( 'Enable auto country detection', 'formgent' ),
+			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),

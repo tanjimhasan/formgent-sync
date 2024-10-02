@@ -16,7 +16,6 @@ export default function PickColor( {
 			  }
 			: {};
 	}
-	console.log( attributes[ attr_key ] );
 
 	return (
 		<div className="formgent-control-color-picker">
@@ -44,11 +43,7 @@ export default function PickColor( {
 				renderContent={ () => (
 					<div className="formgent-control-color-picker-input">
 						<ColorPicker
-							color={
-								attributes[ attr_key ]
-									? attributes[ attr_key ]
-									: control.color
-							}
+							color={ attributes[ attr_key ] }
 							onChange={ function ( value ) {
 								setAttributes( { [ attr_key ]: value } );
 							} }

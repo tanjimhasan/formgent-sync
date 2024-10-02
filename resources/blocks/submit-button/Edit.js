@@ -8,7 +8,7 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div
-			className={ `formgent-editor-block-list__single formgent-editor-block-list__single--button formgent-editor-block-align-${ attributes.label_alignment }` }
+			className={ `formgent-editor-block-list__single formgent-editor-block-list__single--button formgent-editor-block-align-${ attributes.button_alignment }` }
 			style={ {
 				'--formgent-btn-bg-color': attributes.background_color,
 				'--formgent-btn-text-color': attributes.text_color,

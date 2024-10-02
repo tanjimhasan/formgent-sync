@@ -19,7 +19,7 @@
 			"type": "string",
 			"default": "Submit"
 		},
-		"label_alignment": {
+		"button_alignment": {
 			"type": "string",
 			"default": "left"
 		},
