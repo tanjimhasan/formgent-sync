@@ -194,6 +194,24 @@
 	&.formgent-editor-block-align-left {
 		flex-wrap: nowrap;
 	}
+	&.formgent-editor-block-list__single--button {
+		&.formgent-editor-block-align-left {
+			justify-content: flex-start;
+		}
+		&.formgent-editor-block-align-right {
+			justify-content: flex-end;
+		}
+		&.formgent-editor-block-align-middle {
+			justify-content: center;
+		}
+		&.formgent-editor-block-align-block {
+			.formgent-btn {
+				display: flex;
+				width: 100%;
+				justify-content: center;
+			}
+		}
+	}
 }
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
@@ -517,24 +535,54 @@ input.formgent-editor-block-list__single__dialer__input {
 	box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 }
 
-.formgent-form {
+.formgent-form,
+.wp-block-formgent-submit-button {
 	.formgent-btn {
-		padding: 15px 32px;
+		padding: 13px 32px;
 		border-radius: 10px;
 		box-shadow:
 			0px 1px 3px 0px rgba(16, 24, 40, 0.1),
 			0px 1px 2px 0px rgba(16, 24, 40, 0.06);
 		background: var(--formgent-color-dark);
+		border: 2px solid var(--formgent-color-dark);
 		font-size: 16px;
-		font-weight: 600;
+		font-weight: 500;
 		color: #fff;
 		transition: 0.3s ease;
-		border: 0 none;
 		outline: 0;
 		cursor: pointer;
 		font-family: "Inter", sans-serif;
+		display: flex;
+		align-items: center;
+		gap: 8px;
 		&:hover {
 			background: #2e394b;
+		}
+		&.formgent-btn-default {
+			background: var(--formgent-color-dark);
+			border-color: var(--formgent-color-dark);
+		}
+		&.formgent-btn-solid {
+			background: var(--formgent-btn-bg-color);
+			border-color: var(--formgent-btn-bg-color);
+			color: var(--formgent-btn-text-color);
+		}
+		&.formgent-btn-bordered {
+			border-radius: 10px;
+			border-color: var(--formgent-btn-border-color);
+			background: transparent;
+			color: var(--formgent-btn-text-color);
+		}
+		sub {
+			position: relative;
+			top: 5px;
+		}
+		sup {
+			position: relative;
+			top: -5px;
+		}
+		img {
+			max-width: 50px;
 		}
 	}
 }
