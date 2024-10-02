@@ -16,9 +16,11 @@ import { registerBlockType } from '@wordpress/blocks';
 import {
 	TabPanel,
 	PanelBody,
-	Dashicon,
 	__experimentalUseSlotFills as useSlotFills,
 } from '@wordpress/components';
+import ReactSVG from 'react-inlinesvg';
+import editIcon from '@icon/edit.svg';
+import cogIcon from '@icon/cog.svg';
 
 const AdvancedControls = () => {
 	const fills = useSlotFills( InspectorAdvancedControls.slotName );
@@ -446,13 +448,21 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 						tabs={ [
 							{
 								name: 'general',
-								title: __( 'General', 'formgent' ),
-								icon: <Dashicon icon="admin-generic" />,
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ editIcon } />{ ' ' }
+										{ __( 'General', 'formgent' ) }
+									</span>
+								),
 							},
 							{
 								name: 'advanced',
-								title: __( 'Advanced', 'formgent' ),
-								icon: <Dashicon icon="admin-settings" />,
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ cogIcon } />{ ' ' }
+										{ __( 'Advanced', 'formgent' ) }
+									</span>
+								),
 							},
 						] }
 					>
