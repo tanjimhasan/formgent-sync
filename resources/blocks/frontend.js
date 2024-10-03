@@ -272,8 +272,6 @@ const { callbacks } = store( 'formgent/form', {
 			context.fieldInteractionState = {};
 			context.generatedTokens = null;
 
-			console.log( context.formStarted );
-
 			try {
 				const updateFromViews = await wp.apiFetch( {
 					path: `formgent/analytics/forms/${ context.formId }/update-view-count`,
@@ -624,6 +622,8 @@ const { callbacks } = store( 'formgent/form', {
 				context.isResponseTokenGenerating = false;
 				context.isResponseSubmitting = true;
 
+				console.log( { responseToken, gt: context.generatedTokens } );
+
 				// Submit form response
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
@@ -643,6 +643,9 @@ const { callbacks } = store( 'formgent/form', {
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
 
+				context.formStarted = false;
+				context.fieldInteractionState = {};
+				context.generatedTokens = null;
 				form.reset();
 			} catch ( error ) {
 				context.isResponseSubmitting = false;
