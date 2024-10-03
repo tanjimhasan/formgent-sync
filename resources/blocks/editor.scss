@@ -232,3 +232,9 @@ button.formgent-repeater-field-expand {
 		}
 	}
 }
+
+// Hide block default advanced tab panel
+.editor-sidebar__panel:is(.components-panel):has(.formgent)
+	.block-editor-block-inspector__advanced:not(.formgent-advanced) {
+	display: none;
+}
