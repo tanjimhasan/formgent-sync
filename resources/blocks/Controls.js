@@ -15,6 +15,8 @@ import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
 import DefaultValue from './controls/DefaultValue';
+import PickColor from './controls/ColorPicker';
+import { isUndefined } from 'lodash';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -89,7 +91,7 @@ const controlGenerators = {
 	},
 	number: function ( { attr_key, control, attributes, setAttributes } ) {
 		const handleChange = ( value ) => {
-			if ( _.isUndefined( control.precision ) || control.precision ) {
+			if ( isUndefined( control.precision ) || control.precision ) {
 				setAttributes( { [ attr_key ]: value } );
 				return;
 			}
@@ -209,6 +211,7 @@ const controlGenerators = {
 		);
 	},
 	default_value: DefaultValue,
+	color: PickColor,
 };
 
 export default function Controls( {
@@ -220,6 +223,11 @@ export default function Controls( {
 	return Object.keys( controls ).map( ( key ) => {
 		const control = controls[ key ];
 		const ControlView = controlGenerators[ control[ 'type' ] ];
+
+		if ( control?.condition && ! control.condition( attributes ) ) {
+			return false;
+		}
+
 		return (
 			<ControlView
 				key={ key }

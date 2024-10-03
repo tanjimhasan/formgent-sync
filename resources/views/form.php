@@ -20,6 +20,7 @@ $context   = [
         data-wp-interactive="formgent/form"
         data-wp-context='<?php formgent_render( wp_json_encode( $context ) ); ?>'
         data-wp-init="callbacks.init"
+        data-wp-bind--disable="context.isResponseSubmitting"
     >
         <div class="formgent-notices"></div>
         <?php formgent_render( $fields )?>
@@ -29,6 +30,8 @@ $context   = [
             name="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
             id="formgent-honeypot-<?php formgent_render( $form->ID ) ?>"
         >
-        <button type="submit" class="formgent-btn formgent-primary formgent-btn-md">Submit</button>
+        <?php if ( ! isset( $data['submit-button'] ) || empty( $data['submit-button'] ) ) : ?>
+            <button type="submit" class="formgent-btn formgent-primary formgent-btn-md" data-wp-bind--disable="context.isResponseSubmitting" ><?php esc_html_e( "Submit", "formgent" ); ?></button>
+        <?php endif; ?>
     </form>
 </div>

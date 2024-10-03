@@ -16,9 +16,11 @@ import { registerBlockType } from '@wordpress/blocks';
 import {
 	TabPanel,
 	PanelBody,
-	Dashicon,
 	__experimentalUseSlotFills as useSlotFills,
 } from '@wordpress/components';
+import ReactSVG from 'react-inlinesvg';
+import editIcon from '@icon/edit.svg';
+import cogIcon from '@icon/cog.svg';
 
 const AdvancedControls = () => {
 	const fills = useSlotFills( InspectorAdvancedControls.slotName );
@@ -30,7 +32,7 @@ const AdvancedControls = () => {
 
 	return (
 		<PanelBody
-			className="block-editor-block-inspector__advanced"
+			className="block-editor-block-inspector__advanced formgent-advanced"
 			title={ __( 'Block Advanced', 'formgent' ) }
 			initialOpen={ false }
 		>
@@ -443,17 +445,24 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				<div className="formgent">
 					<TabPanel
 						className="control-tabs"
-						activeClass="active-tab"
 						tabs={ [
 							{
 								name: 'general',
-								title: __( 'General', 'formgent' ),
-								icon: <Dashicon icon="admin-generic" />,
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ editIcon } />{ ' ' }
+										{ __( 'General', 'formgent' ) }
+									</span>
+								),
 							},
 							{
 								name: 'advanced',
-								title: __( 'Advanced', 'formgent' ),
-								icon: <Dashicon icon="admin-settings" />,
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ cogIcon } />{ ' ' }
+										{ __( 'Advanced', 'formgent' ) }
+									</span>
+								),
 							},
 						] }
 					>

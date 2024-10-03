@@ -639,7 +639,6 @@ const { callbacks } = store( 'formgent/form', {
 				document.dispatchEvent( resetInteractionEvent );
 
 				context.isResponseTokenGenerating = true;
-				element.ref.disabled = true;
 
 				// Generate form token
 				let responseToken = null;
@@ -669,7 +668,6 @@ const { callbacks } = store( 'formgent/form', {
 				} );
 
 				context.isResponseSubmitting = false;
-				element.ref.disabled = false;
 
 				form.querySelector(
 					'.formgent-notices'
@@ -677,6 +675,7 @@ const { callbacks } = store( 'formgent/form', {
 
 				form.reset();
 			} catch ( error ) {
+				context.isResponseSubmitting = false;
 				console.error( 'Error:', error );
 			}
 		},
