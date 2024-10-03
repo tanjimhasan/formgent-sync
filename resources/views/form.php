@@ -20,7 +20,7 @@ $context   = [
 <div class="formgent-form <?php formgent_render( isset( $css_class ) ? $css_class : '' )?>">
     <form
         id="formgent-<?php formgent_render( $unique_id ) ?>"
-        <?php formgent_render( get_block_wrapper_attributes() ); ?>
+        <?php isset( $form_attributes ) ? formgent_render( $form_attributes ) : '' ?>
         data-wp-interactive="formgent/form"
         data-wp-context='<?php formgent_render( wp_json_encode( $context ) ); ?>'
         data-wp-init="callbacks.init"
