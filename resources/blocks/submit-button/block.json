@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "formgent/phone-number",
-	"title": "Phone Number",
+	"name": "formgent/submit-button",
+	"title": "Submit Button",
 	"category": "formgent",
-	"description": "FormGent Phone Number field.",
+	"description": "FormGent Submit Button Block",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
@@ -13,39 +13,31 @@
 		},
 		"name": {
 			"type": "string",
-			"default": "phone-number"
+			"default": "button"
 		},
-		"value": {
+		"button_text": {
 			"type": "string",
-			"default": ""
+			"default": "Submit"
 		},
-		"placeholder": {
+		"button_alignment": {
 			"type": "string",
-			"default": ""
+			"default": "left"
 		},
-		"label": {
+		"button_style": {
 			"type": "string",
-			"default": "Phone Number"
+			"default": "default"
 		},
-		"label_alignment": {
+		"background_color": {
 			"type": "string",
-			"default": "top"
+			"default": "#4cafaa"
 		},
-		"sub_label": {
+		"border_color": {
 			"type": "string",
-			"default": ""
+			"default": "#000000"
 		},
-		"required": {
-			"type": "boolean",
-			"default": false
-		},
-		"country_code": {
-			"type": "boolean",
-			"default": false
-		},
-		"country_auto_detection": {
-			"type": "boolean",
-			"default": false
+		"text_color": {
+			"type": "string",
+			"default": "#000000"
 		}
 	},
 	"supports": {
