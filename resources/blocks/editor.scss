@@ -202,12 +202,16 @@ button.formgent-repeater-field-expand {
 	.components-tab-panel__tabs {
 		display: flex;
 		border-top: calc(0.1em + 1px) solid #f2f4f5;
+		position: relative;
 		.components-button {
 			flex: 1;
 			height: auto;
 			padding: 15px;
 			&:first-child {
 				border-right: 1px solid #d6d9dd;
+			}
+			&:after {
+				content: none;
 			}
 			svg {
 				fill: none;
@@ -229,6 +233,30 @@ button.formgent-repeater-field-expand {
 					}
 				}
 			}
+			&.is-active {
+				&:after {
+					content: none;
+				}
+			}
+		}
+		&:after {
+			position: absolute;
+			content: "";
+			width: 50%;
+			height: 2px;
+			background: #007cba;
+			bottom: 0px;
+			transition: 0.3s ease;
+		}
+	}
+	&.control-tabs--general {
+		.components-tab-panel__tabs:after {
+			left: 0;
+		}
+	}
+	&.control-tabs--advanced {
+		.components-tab-panel__tabs:after {
+			left: 50%;
 		}
 	}
 }
