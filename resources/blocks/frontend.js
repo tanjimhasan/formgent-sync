@@ -121,178 +121,180 @@ const { callbacks } = store( 'formgent/form', {
 				00/00/0000 00:00:00,
 				//custom
 			*/
-			function formatInput( value, maskType ) {
-				let cleanValue = value.replace( /\D/g, '' );
-				let formattedValue = '';
-				let maxLength = 0;
+			// function formatInput( value, maskType ) {
+			// 	let cleanValue = value.replace( /\D/g, '' );
+			// 	let formattedValue = '';
+			// 	let maxLength = 0;
 
-				switch ( maskType ) {
-					case '(000) 000-0000':
-						maxLength = 14;
-						if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
-							formattedValue = `(${ cleanValue.slice(
-								0,
-								3
-							) }) ${ cleanValue.slice( 3 ) }`;
-						} else if ( cleanValue.length > 6 ) {
-							formattedValue = `(${ cleanValue.slice(
-								0,
-								3
-							) }) ${ cleanValue.slice(
-								3,
-								6
-							) }-${ cleanValue.slice( 6, 10 ) }`;
-						} else {
-							formattedValue = `(${ cleanValue }`;
-						}
-						break;
+			// 	switch ( maskType ) {
+			// 		case '(000) 000-0000':
+			// 			maxLength = 14;
+			// 			if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
+			// 				formattedValue = `(${ cleanValue.slice(
+			// 					0,
+			// 					3
+			// 				) }) ${ cleanValue.slice( 3 ) }`;
+			// 			} else if ( cleanValue.length > 6 ) {
+			// 				formattedValue = `(${ cleanValue.slice(
+			// 					0,
+			// 					3
+			// 				) }) ${ cleanValue.slice(
+			// 					3,
+			// 					6
+			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
+			// 			} else {
+			// 				formattedValue = `(${ cleanValue }`;
+			// 			}
+			// 			break;
 
-					case '(00) 0000-0000':
-						maxLength = 14;
-						if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
-							formattedValue = `(${ cleanValue.slice(
-								0,
-								2
-							) }) ${ cleanValue.slice( 2 ) }`;
-						} else if ( cleanValue.length > 6 ) {
-							formattedValue = `(${ cleanValue.slice(
-								0,
-								2
-							) }) ${ cleanValue.slice(
-								2,
-								6
-							) }-${ cleanValue.slice( 6, 10 ) }`;
-						} else {
-							formattedValue = `(${ cleanValue }`;
-						}
-						break;
+			// 		case '(00) 0000-0000':
+			// 			maxLength = 14;
+			// 			if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
+			// 				formattedValue = `(${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }) ${ cleanValue.slice( 2 ) }`;
+			// 			} else if ( cleanValue.length > 6 ) {
+			// 				formattedValue = `(${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }) ${ cleanValue.slice(
+			// 					2,
+			// 					6
+			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
+			// 			} else {
+			// 				formattedValue = `(${ cleanValue }`;
+			// 			}
+			// 			break;
 
-					case '00/00/0000':
-						maxLength = 10;
-						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-							formattedValue = `${ cleanValue.slice(
-								0,
-								2
-							) }/${ cleanValue.slice( 2 ) }`;
-						} else if ( cleanValue.length > 4 ) {
-							formattedValue = `${ cleanValue.slice(
-								0,
-								2
-							) }/${ cleanValue.slice(
-								2,
-								4
-							) }/${ cleanValue.slice( 4, 8 ) }`;
-						} else {
-							formattedValue = cleanValue;
-						}
-						break;
+			// 		case '00/00/0000':
+			// 			maxLength = 10;
+			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+			// 				formattedValue = `${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }/${ cleanValue.slice( 2 ) }`;
+			// 			} else if ( cleanValue.length > 4 ) {
+			// 				formattedValue = `${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }/${ cleanValue.slice(
+			// 					2,
+			// 					4
+			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
+			// 			} else {
+			// 				formattedValue = cleanValue;
+			// 			}
+			// 			break;
 
-					case '00:00:00':
-						maxLength = 8;
-						if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-							formattedValue = `${ cleanValue.slice(
-								0,
-								2
-							) }:${ cleanValue.slice( 2 ) }`;
-						} else if ( cleanValue.length > 4 ) {
-							formattedValue = `${ cleanValue.slice(
-								0,
-								2
-							) }:${ cleanValue.slice(
-								2,
-								4
-							) }:${ cleanValue.slice( 4, 6 ) }`;
-						} else {
-							formattedValue = cleanValue;
-						}
-						break;
+			// 		case '00:00:00':
+			// 			maxLength = 8;
+			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
+			// 				formattedValue = `${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }:${ cleanValue.slice( 2 ) }`;
+			// 			} else if ( cleanValue.length > 4 ) {
+			// 				formattedValue = `${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }:${ cleanValue.slice(
+			// 					2,
+			// 					4
+			// 				) }:${ cleanValue.slice( 4, 6 ) }`;
+			// 			} else {
+			// 				formattedValue = cleanValue;
+			// 			}
+			// 			break;
 
-					case '00/00/0000 00:00:00':
-						maxLength = 19;
-						if ( cleanValue.length <= 8 ) {
-							if (
-								cleanValue.length > 2 &&
-								cleanValue.length <= 4
-							) {
-								formattedValue = `${ cleanValue.slice(
-									0,
-									2
-								) }/${ cleanValue.slice( 2 ) }`;
-							} else if ( cleanValue.length > 4 ) {
-								formattedValue = `${ cleanValue.slice(
-									0,
-									2
-								) }/${ cleanValue.slice(
-									2,
-									4
-								) }/${ cleanValue.slice( 4, 8 ) }`;
-							} else {
-								formattedValue = cleanValue;
-							}
-						} else {
-							const datePart = `${ cleanValue.slice(
-								0,
-								2
-							) }/${ cleanValue.slice(
-								2,
-								4
-							) }/${ cleanValue.slice( 4, 8 ) }`;
-							const timePart =
-								cleanValue.length > 8 && cleanValue.length <= 10
-									? `${ cleanValue.slice( 8, 10 ) }`
-									: cleanValue.length > 10 &&
-									  cleanValue.length <= 12
-									? `${ cleanValue.slice(
-											8,
-											10
-									  ) }:${ cleanValue.slice( 10, 12 ) }`
-									: `${ cleanValue.slice(
-											8,
-											10
-									  ) }:${ cleanValue.slice(
-											10,
-											12
-									  ) }:${ cleanValue.slice( 12, 14 ) }`;
-							formattedValue =
-								`${ datePart } ${ timePart }`.trim();
-						}
-						break;
+			// 		case '00/00/0000 00:00:00':
+			// 			maxLength = 19;
+			// 			if ( cleanValue.length <= 8 ) {
+			// 				if (
+			// 					cleanValue.length > 2 &&
+			// 					cleanValue.length <= 4
+			// 				) {
+			// 					formattedValue = `${ cleanValue.slice(
+			// 						0,
+			// 						2
+			// 					) }/${ cleanValue.slice( 2 ) }`;
+			// 				} else if ( cleanValue.length > 4 ) {
+			// 					formattedValue = `${ cleanValue.slice(
+			// 						0,
+			// 						2
+			// 					) }/${ cleanValue.slice(
+			// 						2,
+			// 						4
+			// 					) }/${ cleanValue.slice( 4, 8 ) }`;
+			// 				} else {
+			// 					formattedValue = cleanValue;
+			// 				}
+			// 			} else {
+			// 				const datePart = `${ cleanValue.slice(
+			// 					0,
+			// 					2
+			// 				) }/${ cleanValue.slice(
+			// 					2,
+			// 					4
+			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
+			// 				const timePart =
+			// 					cleanValue.length > 8 && cleanValue.length <= 10
+			// 						? `${ cleanValue.slice( 8, 10 ) }`
+			// 						: cleanValue.length > 10 &&
+			// 						  cleanValue.length <= 12
+			// 						? `${ cleanValue.slice(
+			// 								8,
+			// 								10
+			// 						  ) }:${ cleanValue.slice( 10, 12 ) }`
+			// 						: `${ cleanValue.slice(
+			// 								8,
+			// 								10
+			// 						  ) }:${ cleanValue.slice(
+			// 								10,
+			// 								12
+			// 						  ) }:${ cleanValue.slice( 12, 14 ) }`;
+			// 				formattedValue =
+			// 					`${ datePart } ${ timePart }`.trim();
+			// 			}
+			// 			break;
 
-					case 'custom':
-					case 'none':
-						formattedValue = value;
-						break;
+			// 		case 'custom':
+			// 		case 'none':
+			// 			formattedValue = value;
+			// 			break;
 
-					default:
-						formattedValue = value;
-				}
+			// 		default:
+			// 			formattedValue = value;
+			// 	}
 
-				if ( formattedValue.length > maxLength && maxLength > 0 ) {
-					formattedValue = formattedValue.slice( 0, maxLength );
-				}
+			// 	if ( formattedValue.length > maxLength && maxLength > 0 ) {
+			// 		formattedValue = formattedValue.slice( 0, maxLength );
+			// 	}
 
-				element.ref.value = formattedValue;
-				return formattedValue;
-			}
+			// 	element.ref.value = formattedValue;
+			// 	return formattedValue;
+			// }
 
-			const fieldType = context.blocksSettings[ elementName ].field_type;
-			const maskType = context.blocksSettings[ elementName ].mask_type;
-			let input = element.ref.value;
+			// const fieldType = context.blocksSettings[ elementName ].field_type;
+			// const maskType = context.blocksSettings[ elementName ].mask_type;
+			// let input = element.ref.value;
 
-			if ( fieldType === 'input-masking' ) {
-				const formattedInput = formatInput( input, maskType );
-				updateFieldRecursively(
-					data,
-					element.ref.name,
-					formattedInput
-				);
-			} else {
-				updateFieldRecursively(
-					data,
-					element.ref.name,
-					element.ref.value
-				);
-			}
+			// if ( fieldType === 'input-masking' ) {
+			// 	const formattedInput = formatInput( input, maskType );
+			// 	updateFieldRecursively(
+			// 		data,
+			// 		element.ref.name,
+			// 		formattedInput
+			// 	);
+			// } else {
+			// 	updateFieldRecursively(
+			// 		data,
+			// 		element.ref.name,
+			// 		element.ref.value
+			// 	);
+			// }
+
+			updateFieldRecursively( data, element.ref.name, element.ref.value );
 		},
 		updateNumber: async () => {
 			const element = getElement();
@@ -823,6 +825,24 @@ const { callbacks } = store( 'formgent/form', {
 			} catch ( error ) {
 				console.error( 'Error:', error );
 			}
+		},
+
+		inputMaskInit: function () {
+			const element = getElement();
+
+			var options = {
+				onComplete: function ( cep ) {
+					//   alert('CEP Completed!:' + cep);
+				},
+				onChange: function ( cep ) {
+					console.log( 'cep changed! ', cep );
+				},
+				onInvalid: function ( val, e, f, invalid, options ) {
+					//   var error = invalid[0];
+					//   console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
+				},
+			};
+			jQuery( element.ref ).mask( '00/00/0000 00:00:00', options );
 		},
 	},
 } );

@@ -21,8 +21,8 @@
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
             placeholder="<?php echo esc_attr( $attributes['placeholder'] ); ?>"
             data-wp-interactive="formgent/form"
-            data-wp-on--input="actions.updateInput"
             data-wp-bind--value="context.data.<?php echo esc_attr( $attributes['name'] ); ?>"
+            data-wp-init="callbacks.inputMaskInit"
         />
         <span class="formgent-editor-block-list__single__sub-label">
             <?php formgent_render( wp_kses_post( $attributes['sub_label'] ) ); ?>
