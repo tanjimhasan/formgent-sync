@@ -721,3 +721,27 @@ input.formgent-editor-block-list__single__dialer__input {
 		}
 	}
 }
+
+.formgent-has-input-icon {
+	position: relative;
+}
+
+.formgent-input-icon {
+	position: absolute;
+	inset-inline-start: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-inline-start: 15px;
+	padding-inline-end: 7px;
+
+	svg path {
+		fill: var(--formgent-color-gray-600);
+	}
+
+	+ input {
+		padding-inline-start: 42px;
+	}
+}

@@ -3,7 +3,8 @@
  */
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-
+import ReactSVG from 'react-inlinesvg';
+import envelopeIcon from '@icon/envelope.svg';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -31,14 +32,23 @@ export default function Edit( { attributes, setAttributes } ) {
 					) : null }
 				</div>
 				<div className="formgent-editor-block-list__single__wrapper">
-					<input
-						className="formgent-editor-block-list__single__input"
-						type="email"
-						name={ attributes.name }
-						placeholder={ attributes.placeholder }
-						value={ attributes.value }
-						onChange={ () => {} }
-					/>
+					<div className="formgent-has-input-icon">
+						{ attributes.show_field_icon && (
+							<div className="formgent-input-icon">
+								<ReactSVG src={ envelopeIcon } />
+							</div>
+						) }
+
+						<input
+							className="formgent-editor-block-list__single__input"
+							type="email"
+							name={ attributes.name }
+							placeholder={ attributes.placeholder }
+							value={ attributes.value }
+							onChange={ () => {} }
+						/>
+					</div>
+
 					<RichText
 						className="formgent-editor-block-list__single__sub-label"
 						tagName="span"
@@ -52,47 +62,67 @@ export default function Edit( { attributes, setAttributes } ) {
 			</div>
 
 			{ attributes.enable_confirmation_field && (
-				<div
-					className={ `formgent-editor-block-list__single formgent-editor-block-list__single_sibling formgent-editor-block-align-${ attributes.label_alignment }` }
-				>
+				<>
 					<div
-						className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
+						style={ {
+							height: `${ attributes.confirmation_field_gap }`,
+						} }
+					></div>
+					<div
+						className={ `formgent-editor-block-list__single formgent-editor-block-align-${ attributes.label_alignment }` }
 					>
-						<RichText
-							className="formgent-editor-block-list__single__label"
-							tagName="label"
-							value={ attributes.confirm_label }
-							onChange={ ( content ) =>
-								setAttributes( { confirm_label: content } )
-							}
-							placeholder={ __( 'Type your question' ) }
-						/>
-						<span className="formgent-editor-block-list__single__label__required">
-							*
-						</span>
+						<div
+							className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
+						>
+							<RichText
+								className="formgent-editor-block-list__single__label"
+								tagName="label"
+								value={ attributes.confirm_label }
+								onChange={ ( content ) =>
+									setAttributes( { confirm_label: content } )
+								}
+								placeholder={ __( 'Type your question' ) }
+							/>
+							<span className="formgent-editor-block-list__single__label__required">
+								*
+							</span>
+						</div>
+						<div className="formgent-editor-block-list__single__wrapper">
+							<div className="formgent-has-input-icon">
+								{ attributes.show_field_icon && (
+									<div className="formgent-input-icon">
+										<ReactSVG src={ envelopeIcon } />
+									</div>
+								) }
+
+								<input
+									className="formgent-editor-block-list__single__input"
+									type="email"
+									name={ `${ attributes.name }_confirm` }
+									placeholder={
+										attributes.confirm_placeholder
+									}
+									value=""
+									onChange={ () => {} }
+								/>
+							</div>
+
+							<RichText
+								className="formgent-editor-block-list__single__sub-label"
+								tagName="span"
+								value={ attributes.confirm_sub_label }
+								onChange={ ( content ) =>
+									setAttributes( {
+										confirm_sub_label: content,
+									} )
+								}
+								placeholder={ __(
+									'Type sub label here (optional)'
+								) }
+							/>
+						</div>
 					</div>
-					<div className="formgent-editor-block-list__single__wrapper">
-						<input
-							className="formgent-editor-block-list__single__input"
-							type="email"
-							name={ `${ attributes.name }_confirm` }
-							placeholder={ attributes.confirm_placeholder }
-							value=""
-							onChange={ () => {} }
-						/>
-						<RichText
-							className="formgent-editor-block-list__single__sub-label"
-							tagName="span"
-							value={ attributes.confirm_sub_label }
-							onChange={ ( content ) =>
-								setAttributes( { confirm_sub_label: content } )
-							}
-							placeholder={ __(
-								'Type sub label here (optional)'
-							) }
-						/>
-					</div>
-				</div>
+				</>
 			) }
 		</>
 	);
