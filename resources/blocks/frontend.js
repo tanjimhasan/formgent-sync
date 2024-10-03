@@ -358,18 +358,13 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 
-			function addConfirmFieldValidation(
-				field,
-				parentElem,
-				name,
-				validation
-			) {
-				const confirm_selector = getSelector(
+			function addConfirmFieldValidation( field, name, validation ) {
+				const confirm_field_element = getSelector(
 					field.field_type,
 					`${ name }_confirm`
 				);
 
-				validation.addField( confirm_selector, [
+				validation.addField( confirm_field_element, [
 					{
 						rule: 'required',
 						errorMessage: `${
@@ -377,24 +372,15 @@ const { callbacks } = store( 'formgent/form', {
 						} is required`,
 					},
 					{
-						validator: ( value, fields ) => {
-							const fieldList = Object.values( fields );
-
-							if ( ! fieldList.length ) {
-								return true;
-							}
-
-							const parentField = fieldList.filter(
-								( item ) =>
-									item.elem.getAttribute( 'id' ) ===
-									parentElem.getAttribute( 'id' )
-							);
-
-							if ( ! parentField ) {
-								return true;
-							}
-
-							return value === parentField[ 0 ].elem.value;
+						validator: ( value ) => {
+							const siblingValue = confirm_field_element
+								.closest(
+									'.formgent-editor-block-list__single'
+								)
+								.previousElementSibling.previousElementSibling.querySelector(
+									'input'
+								).value;
+							return value === siblingValue;
 						},
 						errorMessage: `${
 							field.confirm_label || 'Field'
@@ -433,12 +419,7 @@ const { callbacks } = store( 'formgent/form', {
 					}
 
 					if ( field.enable_confirmation_field ) {
-						addConfirmFieldValidation(
-							field,
-							selector,
-							name,
-							validation
-						);
+						addConfirmFieldValidation( field, name, validation );
 					}
 				}
 			}

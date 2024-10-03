@@ -64,7 +64,7 @@ const generalControls = {
 				label: __( 'Confirm Field Placeholder', 'formgent' ),
 			},
 			confirmation_field_gap: {
-				type: 'height_control',
+				type: 'height',
 				label: __( 'Confirmation Field Gap', 'formgent' ),
 			},
 			required: {

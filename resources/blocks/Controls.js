@@ -149,12 +149,7 @@ const controlGenerators = {
 			/>
 		);
 	},
-	height_control: function ( {
-		attr_key,
-		control,
-		attributes,
-		setAttributes,
-	} ) {
+	height: function ( { attr_key, control, attributes, setAttributes } ) {
 		return (
 			<StyledBlockEditorControl>
 				<HeightControl
