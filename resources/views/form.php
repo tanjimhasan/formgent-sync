@@ -1,5 +1,9 @@
 <?php defined( 'ABSPATH' ) || exit;
 
+if ( empty( $form->post_content ) ) {
+    return;
+}
+
 wp_enqueue_script( 'wp-api-fetch' );
 
 $data      = formgent_get_form_field_settings( parse_blocks( $form->post_content ), true );
