@@ -26,6 +26,35 @@ async function generateFormToken( context ) {
 	}
 }
 
+// Date and Time Validation
+function isValidDate( dateString ) {
+	const regex =
+		/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20[0-9]{2}|19[0-9]{2})$/;
+	return (
+		regex.test( dateString ) &&
+		! isNaN(
+			new Date( dateString.split( '/' ).reverse().join( '/' ) ).getTime()
+		)
+	);
+}
+function isValidTime( timeString ) {
+	const regex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d)$/;
+	return regex.test( timeString );
+}
+function isValidDateTime( dateTimeString ) {
+	const dateRegex =
+		/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20[0-9]{2}|19[0-9]{2})$/;
+	const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d)$/;
+	const [ datePart, timePart ] = dateTimeString.split( ' ' );
+	if ( ! dateRegex.test( datePart ) || ! timeRegex.test( timePart ) ) {
+		return false;
+	}
+	const isValidDate = ! isNaN(
+		new Date( datePart.split( '/' ).reverse().join( '/' ) ).getTime()
+	);
+	return isValidDate;
+}
+
 const { callbacks } = store( 'formgent/form', {
 	actions: {
 		getValue: () => {
@@ -88,9 +117,11 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 			document.dispatchEvent( interactionEvent );
 
+			// update global variables
 			generateFormToken( context );
 			formStarted = true;
 
+			// update field value
 			const { data } = context;
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
@@ -111,188 +142,6 @@ const { callbacks } = store( 'formgent/form', {
 					}
 				}
 			}
-
-			//Handle input masking
-			/* Mask types:
-				(000) 000-0000,
-				(00) 0000-0000,
-				00/00/0000,
-				00:00:00,
-				00/00/0000 00:00:00,
-				//custom
-			*/
-			// function formatInput( value, maskType ) {
-			// 	let cleanValue = value.replace( /\D/g, '' );
-			// 	let formattedValue = '';
-			// 	let maxLength = 0;
-
-			// 	switch ( maskType ) {
-			// 		case '(000) 000-0000':
-			// 			maxLength = 14;
-			// 			if ( cleanValue.length > 3 && cleanValue.length <= 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					3
-			// 				) }) ${ cleanValue.slice( 3 ) }`;
-			// 			} else if ( cleanValue.length > 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					3
-			// 				) }) ${ cleanValue.slice(
-			// 					3,
-			// 					6
-			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
-			// 			} else {
-			// 				formattedValue = `(${ cleanValue }`;
-			// 			}
-			// 			break;
-
-			// 		case '(00) 0000-0000':
-			// 			maxLength = 14;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }) ${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 6 ) {
-			// 				formattedValue = `(${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }) ${ cleanValue.slice(
-			// 					2,
-			// 					6
-			// 				) }-${ cleanValue.slice( 6, 10 ) }`;
-			// 			} else {
-			// 				formattedValue = `(${ cleanValue }`;
-			// 			}
-			// 			break;
-
-			// 		case '00/00/0000':
-			// 			maxLength = 10;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 			} else {
-			// 				formattedValue = cleanValue;
-			// 			}
-			// 			break;
-
-			// 		case '00:00:00':
-			// 			maxLength = 8;
-			// 			if ( cleanValue.length > 2 && cleanValue.length <= 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }:${ cleanValue.slice( 2 ) }`;
-			// 			} else if ( cleanValue.length > 4 ) {
-			// 				formattedValue = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }:${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }:${ cleanValue.slice( 4, 6 ) }`;
-			// 			} else {
-			// 				formattedValue = cleanValue;
-			// 			}
-			// 			break;
-
-			// 		case '00/00/0000 00:00:00':
-			// 			maxLength = 19;
-			// 			if ( cleanValue.length <= 8 ) {
-			// 				if (
-			// 					cleanValue.length > 2 &&
-			// 					cleanValue.length <= 4
-			// 				) {
-			// 					formattedValue = `${ cleanValue.slice(
-			// 						0,
-			// 						2
-			// 					) }/${ cleanValue.slice( 2 ) }`;
-			// 				} else if ( cleanValue.length > 4 ) {
-			// 					formattedValue = `${ cleanValue.slice(
-			// 						0,
-			// 						2
-			// 					) }/${ cleanValue.slice(
-			// 						2,
-			// 						4
-			// 					) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 				} else {
-			// 					formattedValue = cleanValue;
-			// 				}
-			// 			} else {
-			// 				const datePart = `${ cleanValue.slice(
-			// 					0,
-			// 					2
-			// 				) }/${ cleanValue.slice(
-			// 					2,
-			// 					4
-			// 				) }/${ cleanValue.slice( 4, 8 ) }`;
-			// 				const timePart =
-			// 					cleanValue.length > 8 && cleanValue.length <= 10
-			// 						? `${ cleanValue.slice( 8, 10 ) }`
-			// 						: cleanValue.length > 10 &&
-			// 						  cleanValue.length <= 12
-			// 						? `${ cleanValue.slice(
-			// 								8,
-			// 								10
-			// 						  ) }:${ cleanValue.slice( 10, 12 ) }`
-			// 						: `${ cleanValue.slice(
-			// 								8,
-			// 								10
-			// 						  ) }:${ cleanValue.slice(
-			// 								10,
-			// 								12
-			// 						  ) }:${ cleanValue.slice( 12, 14 ) }`;
-			// 				formattedValue =
-			// 					`${ datePart } ${ timePart }`.trim();
-			// 			}
-			// 			break;
-
-			// 		case 'custom':
-			// 		case 'none':
-			// 			formattedValue = value;
-			// 			break;
-
-			// 		default:
-			// 			formattedValue = value;
-			// 	}
-
-			// 	if ( formattedValue.length > maxLength && maxLength > 0 ) {
-			// 		formattedValue = formattedValue.slice( 0, maxLength );
-			// 	}
-
-			// 	element.ref.value = formattedValue;
-			// 	return formattedValue;
-			// }
-
-			// const fieldType = context.blocksSettings[ elementName ].field_type;
-			// const maskType = context.blocksSettings[ elementName ].mask_type;
-			// let input = element.ref.value;
-
-			// if ( fieldType === 'input-masking' ) {
-			// 	const formattedInput = formatInput( input, maskType );
-			// 	updateFieldRecursively(
-			// 		data,
-			// 		element.ref.name,
-			// 		formattedInput
-			// 	);
-			// } else {
-			// 	updateFieldRecursively(
-			// 		data,
-			// 		element.ref.name,
-			// 		element.ref.value
-			// 	);
-			// }
 
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
 		},
@@ -714,6 +563,162 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			} );
 		},
+		inputMaskInit: function () {
+			const element = getElement();
+			const context = getContext();
+
+			const elementName = element.ref.name;
+			const maskType = context.blocksSettings[ elementName ].mask_type;
+
+			function updateFieldRecursively( data, fieldName, fieldValue ) {
+				for ( let k in data ) {
+					if ( data.hasOwnProperty( k ) ) {
+						if ( k === fieldName ) {
+							data[ k ] = fieldValue;
+							return;
+						} else {
+							if ( ! data || typeof data !== 'object' ) {
+								return;
+							}
+							updateFieldRecursively(
+								data[ k ],
+								fieldName,
+								fieldValue
+							);
+						}
+					}
+				}
+			}
+
+			var options = {
+				onChange: function ( cep ) {
+					handleMaskedChange( cep );
+				},
+				onInvalid: function ( val, e, f, invalid, options ) {
+					var error = invalid[ 0 ];
+					console.warn(
+						`Invalid character "${ error.v }" at position ${ error.p }. Only digits are allowed.`
+					);
+				},
+			};
+
+			// Function to handle changes for masked inputs
+			function handleMaskedChange( cep ) {
+				console.log( cep );
+				const { blocksSettings } = JSON.parse(
+					JSON.stringify( context )
+				);
+				let fieldName = null;
+
+				if ( blocksSettings[ elementName ] ) {
+					fieldName = elementName;
+				} else {
+					for ( const [ key, value ] of Object.entries(
+						blocksSettings
+					) ) {
+						if ( value.children && value.children[ elementName ] ) {
+							fieldName = key;
+							break;
+						}
+					}
+				}
+
+				// Update field value
+				updateFieldRecursively( context.data, fieldName, cep );
+				dispatchInteractionEvent( fieldName );
+				validateAndUpdateError( cep );
+			}
+
+			// Function to dispatch interaction event
+			function dispatchInteractionEvent( fieldName ) {
+				const interactionEvent = new CustomEvent( 'fieldInteraction', {
+					detail: {
+						fieldName,
+						context,
+						element,
+					},
+				} );
+				document.dispatchEvent( interactionEvent );
+				generateFormToken( context );
+				formStarted = true;
+			}
+
+			// Function to validate and update error messages
+			function validateAndUpdateError( cep ) {
+				const errorMessageElement = document.createElement( 'div' );
+				errorMessageElement.className = 'formgent-field-error';
+				errorMessageElement.style.color = 'red';
+				const wrapper = element.ref.closest(
+					'.formgent-editor-block-list__single__wrapper'
+				);
+				const existingError = wrapper.querySelector(
+					'.formgent-field-error'
+				);
+
+				// Validation configurations
+				const validationConfig = {
+					'00/00/0000': {
+						validate: isValidDate,
+						errorMessage: 'Invalid format! Use DD/MM/YYYY.',
+					},
+					'00:00:00': {
+						validate: isValidTime,
+						errorMessage: 'Invalid format! Use HH:MM:SS.',
+					},
+					'00/00/0000 00:00:00': {
+						validate: isValidDateTime,
+						errorMessage:
+							'Invalid format! Use DD/MM/YYYY HH:MM:SS.',
+					},
+				};
+
+				// Validate and show error if needed
+				const config = validationConfig[ maskType ];
+				if ( config && ! config.validate( cep ) ) {
+					existingError && existingError.remove();
+					errorMessageElement.textContent = config.errorMessage;
+					wrapper.appendChild( errorMessageElement );
+				} else if ( existingError ) {
+					existingError.remove();
+				}
+			}
+
+			// Attach the input event listener directly
+			if ( maskType === 'none' || maskType === '' ) {
+				element.ref.addEventListener( 'input', function () {
+					const { blocksSettings } = JSON.parse(
+						JSON.stringify( context )
+					);
+					let fieldName = null;
+
+					if ( blocksSettings[ elementName ] ) {
+						fieldName = elementName;
+					} else {
+						for ( const [ key, value ] of Object.entries(
+							blocksSettings
+						) ) {
+							if (
+								value.children &&
+								value.children[ elementName ]
+							) {
+								fieldName = key;
+								break;
+							}
+						}
+					}
+
+					const cleanValue = element.ref.value;
+					dispatchInteractionEvent( fieldName );
+					updateFieldRecursively(
+						context.data,
+						element.ref.name,
+						cleanValue
+					);
+				} );
+			} else {
+				jQuery( element.ref ).mask( maskType, options );
+			}
+		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
 			const formData = JSON.parse( JSON.stringify( context.data ) );
@@ -731,6 +736,43 @@ const { callbacks } = store( 'formgent/form', {
 			);
 			if ( honeypotField.value !== '' ) {
 				return;
+			}
+
+			// Validate date and time in the form data before submission
+			for ( const name in context.data ) {
+				if ( context.data.hasOwnProperty( name ) ) {
+					const field = context.blocksSettings[ name ];
+					const value = context.data[ name ];
+
+					if (
+						field.field_type === 'input-masking' &&
+						field.mask_type === '00/00/0000' &&
+						! isValidDate( value )
+					) {
+						element.ref
+							.querySelector( `input[name="${ field.name }"]` )
+							.focus();
+						return;
+					} else if (
+						field.field_type === 'input-masking' &&
+						field.mask_type === '00:00:00' &&
+						! isValidTime( value )
+					) {
+						element.ref
+							.querySelector( `input[name="${ field.name }"]` )
+							.focus();
+						return;
+					} else if (
+						field.field_type === 'input-masking' &&
+						field.mask_type === '00/00/0000 00:00:00' &&
+						! isValidDateTime( value )
+					) {
+						element.ref
+							.querySelector( `input[name="${ field.name }"]` )
+							.focus();
+						return;
+					}
+				}
 			}
 
 			for ( const name in context.data ) {
@@ -824,24 +866,6 @@ const { callbacks } = store( 'formgent/form', {
 				context.isResponseSubmitting = false;
 				console.error( 'Error:', error );
 			}
-		},
-
-		inputMaskInit: function () {
-			const element = getElement();
-
-			var options = {
-				onComplete: function ( cep ) {
-					//   alert('CEP Completed!:' + cep);
-				},
-				onChange: function ( cep ) {
-					console.log( 'cep changed! ', cep );
-				},
-				onInvalid: function ( val, e, f, invalid, options ) {
-					//   var error = invalid[0];
-					//   console.log ("Digit: ", error.v, " is invalid for the position: ", error.p, ". We expect something like: ", error.e);
-				},
-			};
-			jQuery( element.ref ).mask( '00/00/0000 00:00:00', options );
 		},
 	},
 } );

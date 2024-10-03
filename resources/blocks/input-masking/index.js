@@ -69,23 +69,11 @@ const generalControls = {
 						label: __( '23/09/2024 23:59:59', 'formgent' ),
 						value: '00/00/0000 00:00:00',
 					},
-					// {
-					// 	label: __( 'Custom', 'formgent' ),
-					// 	value: 'custom',
-					// },
 				],
 			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
-			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
 			},
 			required: {
 				type: 'switch',
@@ -95,7 +83,21 @@ const generalControls = {
 	},
 };
 
-const advancedControls = {};
+const advancedControls = {
+	advanced: {
+		type: 'panel',
+		children: {
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+		},
+	},
+};
 
 const controls = { generalControls, advancedControls };
 
