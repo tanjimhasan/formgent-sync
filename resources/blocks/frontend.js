@@ -4,6 +4,7 @@
 import { store, getContext, getElement } from '@wordpress/interactivity';
 import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
+import intlTelInput from 'intl-tel-input';
 
 let formStarted = false;
 let fieldInteractionState = {};
@@ -372,15 +373,27 @@ const { callbacks } = store( 'formgent/form', {
 		updatePhoneNumber: () => {
 			const element = getElement();
 			const context = getContext();
-			context.data[ element.ref.name ].number = element.ref.value;
-			generateFormToken( context );
-			formStarted = true;
-		},
-		updateDialCode: () => {
-			const element = getElement();
-			const context = getContext();
-			const name = element.ref.name.replace( '-dial-code', '' );
-			context.data[ name ].dialCode = element.ref.value;
+			const name = element.ref.name;
+			if (
+				typeof context.data[ name ] !== 'object' ||
+				context.data[ name ] === null
+			) {
+				context.data[ name ] = {
+					dialCode: context.blocksSettings[ name ].country_code
+						? '+1'
+						: '',
+					number: '',
+				};
+			}
+
+			context.data[ name ].number = element.ref.value;
+
+			if ( typeof context.data[ name ] === 'object' ) {
+				context.data[
+					name
+				] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
+			}
+
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -432,6 +445,7 @@ const { callbacks } = store( 'formgent/form', {
 			formStarted = true;
 		},
 	},
+
 	callbacks: {
 		init: async () => {
 			const context = getContext();
@@ -632,57 +646,71 @@ const { callbacks } = store( 'formgent/form', {
 				},
 			} );
 		},
-		phoneNumberInit: async () => {
+		phoneNumberInit: () => {
 			const context = getContext();
 			const element = getElement();
 			const name = element.ref.getAttribute( 'data-wp-key' );
-			// let phoneNumberParts =
-			// 	context.data[ element.ref.name ].split( ')' );
-			// context.data[ element.ref.name ] = {
-			// 	dialCode: `${ phoneNumberParts[ 0 ] })`,
-			// 	number: phoneNumberParts[ 1 ].trim(),
-			// };
 
-			// try {
-			// 	const countryObject = await wp.apiFetch( {
-			// 		path: '/formgent/countries',
-			// 		method: 'GET',
-			// 	} );
-			// 	const flagUrl = countryObject.flag_url;
-			// 	const countries = Object.entries( countryObject.countries ).map(
-			// 		( [ key, value ] ) => {
-			// 			return {
-			// 				id: key,
-			// 				img: `${ flagUrl }/${ key }.png`,
-			// 				...value,
-			// 			};
-			// 		}
-			// 	);
-			// 	const control = new TomSelect(
-			// 		`#${ element.attributes.id }-dial-code`,
-			// 		{
-			// 			valueField: 'dial_code',
-			// 			options: countries,
-			// 			render: {
-			// 				option: function ( data, escape ) {
-			// 					return `
-			// 					<div class="formgent-phone-dialer-option">
-			// 						<img src="${ escape( data.img ) }" />
-			// 						<span>${ escape( data.name ) }</span>
-			// 					<div/>
-			// 				`;
-			// 				},
-			// 				item: function ( data, escape ) {
-			// 					return `<img src="${ escape( data.img ) }" />`;
-			// 				},
-			// 			},
-			// 			create: false,
-			// 		}
-			// 	);
-			// 	control.setValue( '+880' );
-			// } catch ( error ) {
-			// 	console.log( error );
-			// }
+			if (
+				typeof context.data[ name ] !== 'object' ||
+				context.data[ name ] === null
+			) {
+				context.data[ name ] = {
+					dialCode: context.blocksSettings[ name ].country_code
+						? '+1'
+						: '',
+					number: '',
+				};
+			}
+			// Initialize intl-tel-input on the phone input field
+			const input = document.querySelector(
+				`#${ element.attributes.name }`
+			);
+
+			const iti = intlTelInput( input, {
+				initialCountry: 'us',
+				separateDialCode: context.blocksSettings[ name ].country_code,
+			} );
+
+			input.addEventListener( 'countrychange', function () {
+				const selectedCountryData = iti.getSelectedCountryData();
+				const fullNumber = iti.getNumber();
+				const dialCode = selectedCountryData.dialCode;
+				const name = element.ref.getAttribute( 'data-wp-key' );
+
+				context.data[ name ] = {
+					dialCode: `+${ dialCode }`,
+					number: fullNumber,
+				};
+			} );
+
+			//validation
+			input.addEventListener( 'blur', function () {
+				if ( iti.isValidNumber() ) {
+					const fullNumber = iti.getNumber();
+					const selectedCountryData = iti.getSelectedCountryData();
+					const dialCode = selectedCountryData.dialCode;
+					if (
+						typeof context.data[ name ] !== 'object' ||
+						context.data[ name ] === null
+					) {
+						context.data[ name ] = {
+							dialCode: context.blocksSettings[ name ]
+								.country_code
+								? '+1'
+								: '',
+							number: '',
+						};
+					}
+					context.data[ name ].dialCode = `+${ dialCode }`;
+					context.data[ name ].number =
+						context.data[ name ].number || fullNumber;
+
+					// todo: validation tweak
+				} else {
+					console.log( 'Invalid phone number' );
+				}
+			} );
 		},
 		submit: async ( context, element ) => {
 			const form = element.ref.closest( 'form' );
@@ -702,6 +730,21 @@ const { callbacks } = store( 'formgent/form', {
 			if ( honeypotField.value !== '' ) {
 				return;
 			}
+
+			for ( const name in context.data ) {
+				if ( context.data.hasOwnProperty( name ) ) {
+					if (
+						typeof context.data[ name ] === 'object' &&
+						context.data[ name ].dialCode &&
+						context.data[ name ].number
+					) {
+						context.data[
+							name
+						] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
+					}
+				}
+			}
+
 			for ( const name in context.data ) {
 				if ( ! Object.hasOwnProperty.call( context.data, name ) ) {
 					continue;

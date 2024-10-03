@@ -111,3 +111,105 @@ button.formgent-repeater-field-expand {
 		}
 	}
 }
+
+//Color picker
+.formgent-control-color-picker {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 25px;
+	flex-wrap: wrap;
+	position: relative;
+	.formgent-control-label {
+		font-size: 11px;
+		font-weight: 500;
+		text-transform: uppercase;
+		box-sizing: border-box;
+		display: block;
+		padding-top: 0px;
+		padding-bottom: 0px;
+		max-width: 100%;
+		z-index: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.formgent-control-color-picker-trigger {
+		border-radius: 8px;
+		border: 1px solid var(--formgent-color-gray-300);
+		background: #fff;
+		box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+		padding: 6px 6px 6px 12px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		justify-content: space-between;
+		width: 123px;
+	}
+	.formgent-control-color-picker-value {
+		color: var(--formgent-color-gray-600);
+		font-size: 12px;
+		font-weight: 500;
+	}
+	.formgent-control-color-picker-color {
+		width: 36px;
+		height: 20px;
+		border-radius: 5px;
+	}
+}
+
+.formgent-control-color-picker-input {
+	background: #fff;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.components-color-picker,
+	.react-colorful {
+		width: 100%;
+	}
+	.components-base-control {
+		margin-bottom: 0;
+		.components-select-control {
+			margin-left: 0;
+		}
+	}
+	.components-input-control .components-input-control__backdrop {
+		border: 1px solid var(--formgent-color-gray-300) !important;
+	}
+}
+
+.formgent .control-tabs {
+	.components-tab-panel__tabs {
+		display: flex;
+		border-top: calc(0.1em + 1px) solid #f2f4f5;
+		.components-button {
+			flex: 1;
+			height: auto;
+			padding: 15px;
+			&:first-child {
+				border-right: 1px solid #d6d9dd;
+			}
+			svg {
+				fill: none;
+				width: 18px;
+				height: 18px;
+			}
+			.formgent-control-tab-icon {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 6px;
+			}
+			&.is-active,
+			&:hover {
+				color: #0085ba;
+				svg {
+					g path {
+						fill: #0085ba;
+					}
+				}
+			}
+		}
+	}
+}

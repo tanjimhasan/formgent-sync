@@ -3,6 +3,7 @@ import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
+	__experimentalNumberControl as NumberControl,
 	__experimentalInputControl as InputControl,
 	__experimentalBoxControl as BoxControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -13,6 +14,8 @@ import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
 import DefaultValue from './controls/DefaultValue';
+import PickColor from './controls/ColorPicker';
+import { isUndefined } from 'lodash';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -78,6 +81,30 @@ const controlGenerators = {
 					// Update the attribute value in the block's attributes
 					setAttributes( { [ attr_key ]: value } );
 				} }
+			/>
+		);
+	},
+	number: function ( { attr_key, control, attributes, setAttributes } ) {
+		const handleChange = ( value ) => {
+			if ( isUndefined( control.precision ) || control.precision ) {
+				setAttributes( { [ attr_key ]: value } );
+				return;
+			}
+
+			const integerValue = parseInt( value, 10 );
+
+			if ( ! isNaN( integerValue ) ) {
+				setAttributes( { [ attr_key ]: integerValue } );
+			}
+		};
+
+		return (
+			<NumberControl
+				label={ control.label }
+				value={ attributes[ attr_key ] }
+				size="__unstable-large"
+				step={ 1 }
+				onChange={ handleChange }
 			/>
 		);
 	},
@@ -166,6 +193,7 @@ const controlGenerators = {
 		);
 	},
 	default_value: DefaultValue,
+	color: PickColor,
 };
 
 export default function Controls( {
