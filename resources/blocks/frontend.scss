@@ -525,9 +525,9 @@ input.formgent-editor-block-list__single__dialer__input {
 	}
 }
 
-.formgent-form:not(.elementor-widget-formgent_forms .formgent-form):not(
-		.elementor-shortcode .formgent-form
-	)
+.formgent-form:not(.formgent-shortcode):not(
+		.elementor-widget-formgent_forms .formgent-form
+	):not(.elementor-shortcode .formgent-form)
 	form.wp-block-post-content {
 	padding: 40px;
 	border-radius: 16px;
