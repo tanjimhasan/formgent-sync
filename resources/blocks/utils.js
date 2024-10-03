@@ -32,7 +32,7 @@ const AdvancedControls = () => {
 
 	return (
 		<PanelBody
-			className="block-editor-block-inspector__advanced"
+			className="block-editor-block-inspector__advanced formgent-advanced"
 			title={ __( 'Block Advanced', 'formgent' ) }
 			initialOpen={ false }
 		>
