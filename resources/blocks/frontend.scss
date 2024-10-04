@@ -13,6 +13,9 @@
 		gap: 10px;
 		flex: 1;
 		flex-direction: column;
+		.formgent-url-error {
+			font-size: 14px;
+		}
 	}
 	.formgent-editor-block-list__single__bottom {
 		display: flex;
@@ -440,6 +443,9 @@ textarea.formgent-editor-block-list__single__input,
 		width: 15px;
 		height: 15px;
 		border-radius: 4px;
+	}
+	&.formgent-editor-block-list__single__input--checkbox:disabled + label {
+		opacity: 0.5;
 	}
 	&.formgent-editor-block-list__single__input--textarea {
 		padding: 10px;
