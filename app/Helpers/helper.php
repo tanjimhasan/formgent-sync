@@ -191,6 +191,7 @@ function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_la
             unset( $attributes['sub_label'] );
             unset( $attributes['description'] );
             unset( $attributes['options'] );
+            unset( $attributes['button_text'] );
         }
 
         $attributes['field_type'] = $blocks[$block_name]['field_type'];
