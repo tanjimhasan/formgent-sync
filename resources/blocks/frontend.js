@@ -190,33 +190,6 @@ const { callbacks } = store( 'formgent/form', {
 			generateFormToken( context );
 			formStarted = true;
 		},
-		updatePhoneNumber: () => {
-			const element = getElement();
-			const context = getContext();
-			const name = element.ref.name;
-			if (
-				typeof context.data[ name ] !== 'object' ||
-				context.data[ name ] === null
-			) {
-				context.data[ name ] = {
-					dialCode: context.blocksSettings[ name ].country_code
-						? '+1'
-						: '',
-					number: '',
-				};
-			}
-
-			context.data[ name ].number = element.ref.value;
-
-			if ( typeof context.data[ name ] === 'object' ) {
-				context.data[
-					name
-				] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
-			}
-
-			generateFormToken( context );
-			formStarted = true;
-		},
 		updateMultiChoice: () => {
 			const element = getElement();
 			const context = getContext();
@@ -469,20 +442,8 @@ const { callbacks } = store( 'formgent/form', {
 		phoneNumberInit: () => {
 			const context = getContext();
 			const element = getElement();
-			const name = element.ref.getAttribute( 'data-wp-key' );
+			const name = element.ref.name;
 
-			if (
-				typeof context.data[ name ] !== 'object' ||
-				context.data[ name ] === null
-			) {
-				context.data[ name ] = {
-					dialCode: context.blocksSettings[ name ].country_code
-						? '+1'
-						: '',
-					number: '',
-				};
-			}
-			// Initialize intl-tel-input on the phone input field
 			const input = document.querySelector(
 				`#${ element.attributes.name }`
 			);
@@ -492,44 +453,23 @@ const { callbacks } = store( 'formgent/form', {
 				separateDialCode: context.blocksSettings[ name ].country_code,
 			} );
 
-			input.addEventListener( 'countrychange', function () {
+			input.addEventListener( 'countrychange', function ( e ) {
 				const selectedCountryData = iti.getSelectedCountryData();
-				const fullNumber = iti.getNumber();
 				const dialCode = selectedCountryData.dialCode;
-				const name = element.ref.getAttribute( 'data-wp-key' );
+				const name = element.ref.name;
 
-				context.data[ name ] = {
-					dialCode: `+${ dialCode }`,
-					number: fullNumber,
-				};
+				context.data[ name ] = `+${ dialCode }${ e.target.value }`;
+				generateFormToken( context );
+				formStarted = true;
 			} );
 
-			//validation
-			input.addEventListener( 'blur', function () {
-				if ( iti.isValidNumber() ) {
-					const fullNumber = iti.getNumber();
-					const selectedCountryData = iti.getSelectedCountryData();
-					const dialCode = selectedCountryData.dialCode;
-					if (
-						typeof context.data[ name ] !== 'object' ||
-						context.data[ name ] === null
-					) {
-						context.data[ name ] = {
-							dialCode: context.blocksSettings[ name ]
-								.country_code
-								? '+1'
-								: '',
-							number: '',
-						};
-					}
-					context.data[ name ].dialCode = `+${ dialCode }`;
-					context.data[ name ].number =
-						context.data[ name ].number || fullNumber;
+			input.addEventListener( 'input', function ( e ) {
+				const selectedCountryData = iti.getSelectedCountryData();
+				const dialCode = selectedCountryData.dialCode;
 
-					// todo: validation tweak
-				} else {
-					console.log( 'Invalid phone number' );
-				}
+				context.data[ name ] = `+${ dialCode }${ e.target.value }`;
+				generateFormToken( context );
+				formStarted = true;
 			} );
 		},
 		submit: async ( context, element ) => {
@@ -549,20 +489,6 @@ const { callbacks } = store( 'formgent/form', {
 			);
 			if ( honeypotField.value !== '' ) {
 				return;
-			}
-
-			for ( const name in context.data ) {
-				if ( context.data.hasOwnProperty( name ) ) {
-					if (
-						typeof context.data[ name ] === 'object' &&
-						context.data[ name ].dialCode &&
-						context.data[ name ].number
-					) {
-						context.data[
-							name
-						] = `${ context.data[ name ].dialCode }${ context.data[ name ].number }`;
-					}
-				}
 			}
 
 			for ( const name in context.data ) {
