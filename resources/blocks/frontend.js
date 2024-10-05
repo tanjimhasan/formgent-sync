@@ -26,6 +26,64 @@ async function generateFormToken( context ) {
 	}
 }
 
+// URL validation function
+function isUrl( string ) {
+	const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+	const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+	const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+	if ( typeof string !== 'string' ) {
+		return false;
+	}
+
+	const match = string.match( protocolAndDomainRE );
+	if ( ! match ) {
+		return false;
+	}
+
+	const everythingAfterProtocol = match[ 1 ];
+	if ( ! everythingAfterProtocol ) {
+		return false;
+	}
+
+	if (
+		localhostDomainRE.test( everythingAfterProtocol ) ||
+		nonLocalhostDomainRE.test( everythingAfterProtocol )
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+// Validate website url
+function validateWebsiteUrl( element, blocksSettings, isUrl, elementName ) {
+	const inputValue = element.ref.value;
+	const errorMessageElement = document.createElement( 'div' );
+	errorMessageElement.className = 'formgent-url-error';
+	errorMessageElement.style.color = 'red';
+	const existingError = element.ref
+		.closest( '.formgent-editor-block-list__single__wrapper' )
+		.querySelector( '.formgent-url-error' );
+
+	if ( ! isUrl( inputValue ) && element.ref.value !== '' ) {
+		// Display error message if the URL is invalid
+		errorMessageElement.textContent = blocksSettings[ elementName ]
+			.validation_message
+			? blocksSettings[ elementName ].validation_message
+			: 'Please enter a valid URL.';
+		if ( ! existingError ) {
+			element.ref
+				.closest( '.formgent-editor-block-list__single__wrapper' )
+				.appendChild( errorMessageElement );
+		}
+	} else {
+		// Remove error message if the URL is valid
+		if ( existingError ) {
+			existingError.remove();
+		}
+	}
+}
+
 const { callbacks } = store( 'formgent/form', {
 	actions: {
 		getValue: () => {
@@ -92,6 +150,7 @@ const { callbacks } = store( 'formgent/form', {
 			formStarted = true;
 
 			const { data } = context;
+
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
@@ -110,6 +169,18 @@ const { callbacks } = store( 'formgent/form', {
 						}
 					}
 				}
+			}
+
+			const fieldType = blocksSettings[ elementName ].field_type;
+
+			// Check if the field type is 'website'
+			if ( fieldType === 'website' ) {
+				validateWebsiteUrl(
+					element,
+					blocksSettings,
+					isUrl,
+					elementName
+				);
 			}
 
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
@@ -145,8 +216,26 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 			document.dispatchEvent( interactionEvent );
 
+			//format number
+			const numberFormat = blocksSettings[ context.name ].format;
+			let numberValue = Number( element.ref.value );
+			if ( numberFormat === 'decimal' ) {
+				numberValue = numberValue.toFixed( 2 );
+				element.ref.addEventListener( 'blur', () => {
+					element.ref.value = numberValue;
+				} );
+			} else if ( numberFormat === 'non_decimal' ) {
+				numberValue = numberValue.toFixed( 0 );
+				element.ref.addEventListener( 'blur', () => {
+					element.ref.value = numberValue;
+				} );
+			}
+
 			//update field data
-			context.data[ element.ref.name ] = parseInt( element.ref.value );
+			context.data[ element.ref.name ] =
+				numberFormat === 'non_decimal'
+					? Number( numberValue )
+					: numberValue;
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -193,34 +282,66 @@ const { callbacks } = store( 'formgent/form', {
 		updateMultiChoice: () => {
 			const element = getElement();
 			const context = getContext();
+			const elementName = element.ref.name;
+			const value = element.ref.value;
 
-			const choices = context.data[ element.ref.name ] || [];
-			const valueIndex = choices.indexOf( element.ref.value );
+			// Set choice limit unlimited if it's empty or 0
+			let isChoiceLimitEnabled =
+				context.blocksSettings[ elementName ]?.choice_limit;
+			let choiceLimit =
+				context.blocksSettings[ elementName ]?.choice_limit_item;
+			if (
+				choiceLimit === '' ||
+				choiceLimit === 0 ||
+				! isChoiceLimitEnabled
+			) {
+				choiceLimit = Infinity;
+			}
+
+			const choices = context.data[ elementName ] || [];
+			const valueIndex = choices.indexOf( value );
 
 			if ( valueIndex > -1 ) {
 				//If the item is found remove it
 				choices.splice( valueIndex, 1 );
+			} else if ( choices.length < choiceLimit ) {
+				choices.push( value );
 			} else {
-				//If the item is not found, add it to the array
-				choices.push( element.ref.value );
+				return;
 			}
 
-			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
-			const elementName = element.ref.name;
-			let fieldName = null;
+			// Update the choices in the context data
+			context.data[ elementName ] = choices;
 
-			if ( blocksSettings[ elementName ] ) {
-				fieldName = elementName;
-			} else {
+			let fieldName = elementName;
+			const { blocksSettings } = context;
+
+			if ( ! blocksSettings[ elementName ] ) {
 				for ( const [ key, value ] of Object.entries(
 					blocksSettings
 				) ) {
-					if ( value.children && value.children[ elementName ] ) {
+					if ( value.children?.[ elementName ] ) {
 						fieldName = key;
 						break;
 					}
 				}
 			}
+
+			// Disable or enable select options based on the limit reached
+			const allOptions = document.querySelectorAll(
+				`[name="${ elementName }"]`
+			);
+			allOptions.forEach( ( option ) => {
+				if (
+					choices.length >= choiceLimit &&
+					! choices.includes( option.value )
+				) {
+					option.disabled = true;
+				} else {
+					option.disabled = false;
+				}
+			} );
+
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -231,8 +352,6 @@ const { callbacks } = store( 'formgent/form', {
 				},
 			} );
 			document.dispatchEvent( interactionEvent );
-
-			context.data[ element.ref.name ] = choices;
 
 			generateFormToken( context );
 			formStarted = true;
@@ -562,6 +681,15 @@ const { callbacks } = store( 'formgent/form', {
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
+
+				for ( const name in context.data ) {
+					const allOptions = document.querySelectorAll(
+						`[name="${ name }"]`
+					);
+					allOptions.forEach( ( option ) => {
+						option.disabled = false;
+					} );
+				}
 
 				form.reset();
 			} catch ( error ) {

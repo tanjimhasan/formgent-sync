@@ -53,6 +53,14 @@ const generalControls = {
 					},
 				},
 			},
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
 			choice_limit: {
 				type: 'switch',
 				label: __( 'Choice Limit', 'formgent' ),
@@ -63,14 +71,6 @@ const generalControls = {
 				condition: function ( attributes ) {
 					return attributes[ 'choice_limit' ];
 				},
-			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
 			},
 			required: {
 				type: 'switch',
