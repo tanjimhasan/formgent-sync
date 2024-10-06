@@ -13,11 +13,11 @@
         <?php endif; ?>
     </label>
     <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--single-choice">
-        
+
         <div class="formgent-editor-block-list__single__box formgent-single-choice-<?php echo esc_attr( $attributes['name'] ); ?>" >
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>
                 <?php foreach ( $attributes['options'] as $index => $option ) : ?>
-                    <div class="formgent-editor-block-list__single__box__choice">
+                    <div class="formgent-editor-block-list__single__box__choice formgent-editor-block-list__single__box__choice--<?php echo esc_attr( $attributes['style'] ); ?>">
                         <input
                             class="formgent-editor-block-list__single__input formgent-editor-block-list__single__input--radio"
                             type="radio"
