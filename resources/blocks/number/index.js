@@ -57,6 +57,10 @@ const generalControls = {
 					},
 				],
 			},
+			placeholder: {
+				type: 'text',
+				label: __( 'Field Placeholder', 'formgent' ),
+			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),

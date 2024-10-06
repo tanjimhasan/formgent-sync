@@ -43,9 +43,27 @@ const generalControls = {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
 			},
+			show_field_icon: {
+				type: 'switch',
+				label: __( 'Show Email Icon', 'formgent' ),
+			},
 			enable_confirmation_field: {
 				type: 'switch',
 				label: __( 'Enable Confirmation Field', 'formgent' ),
+			},
+			confirm_placeholder: {
+				type: 'text',
+				label: __( 'Confirm Field Placeholder', 'formgent' ),
+				condition: ( attributes ) => {
+					return attributes.enable_confirmation_field;
+				},
+			},
+			confirmation_field_gap: {
+				type: 'height',
+				label: __( 'Confirmation Field Gap', 'formgent' ),
+				condition: ( attributes ) => {
+					return attributes.enable_confirmation_field;
+				},
 			},
 			required: {
 				type: 'switch',

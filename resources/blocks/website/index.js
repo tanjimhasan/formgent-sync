@@ -36,6 +36,17 @@ const generalControls = {
 					},
 				],
 			},
+			validation: {
+				type: 'switch',
+				label: __( 'Validate URL', 'formgent' ),
+			},
+			validation_message: {
+				type: 'text',
+				label: __( 'Validation message', 'formgent' ),
+				condition: function ( attributes ) {
+					return attributes[ 'validation' ];
+				},
+			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),

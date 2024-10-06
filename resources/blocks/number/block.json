@@ -16,7 +16,11 @@
 			"default": "number"
 		},
 		"value": {
-			"type": "number",
+			"type": "string",
+			"default": ""
+		},
+		"placeholder": {
+			"type": "string",
 			"default": ""
 		},
 		"label": {

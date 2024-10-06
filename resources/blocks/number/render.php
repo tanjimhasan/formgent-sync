@@ -21,7 +21,7 @@
             name="<?php echo esc_attr( $attributes['name'] ); ?>"
             id="<?php echo esc_attr( $attributes['name'] ); ?>"
             data-wp-context='{ "name": "<?php echo esc_attr( $attributes['name'] ); ?>" }'
-            placeholder="<?php //echo esc_attr( $attributes['placeholder'] ); ?>"
+            placeholder="<?php echo esc_attr( $attributes['placeholder'] ); ?>"
             data-wp-interactive="formgent/form"
             data-wp-on--input="actions.updateNumber"
             data-wp-bind--value="actions.getValue"

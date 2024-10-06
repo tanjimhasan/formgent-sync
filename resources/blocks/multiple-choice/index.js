@@ -40,6 +40,20 @@ const generalControls = {
 					},
 				],
 			},
+			style: {
+				type: 'toggle_group',
+				label: __( 'Style', 'formgent' ),
+				options: [
+					{
+						label: __( 'Frame', 'formgent' ),
+						value: 'frame',
+					},
+					{
+						label: __( 'Standard', 'formgent' ),
+						value: 'standard',
+					},
+				],
+			},
 			options: {
 				type: 'repeater',
 				label: __( 'Multi Choice Items', 'formgent' ),
@@ -52,6 +66,14 @@ const generalControls = {
 						label: __( 'Label', 'formgent' ),
 					},
 				},
+			},
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
 			},
 			choice_limit: {
 				type: 'switch',
