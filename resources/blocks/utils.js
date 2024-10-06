@@ -2,13 +2,44 @@
  * Internal dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	useBlockProps,
+	InspectorAdvancedControls,
+} from '@wordpress/block-editor';
 import Controls from './Controls';
-import { useEffect, useState } from '@wordpress/element';
+import { Fragment, useEffect, useState } from '@wordpress/element';
 import { nanoid } from 'nanoid';
 import { select, dispatch, useSelect } from '@wordpress/data';
-import { addFilter, applyFilters } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
 import { registerBlockType } from '@wordpress/blocks';
+import {
+	TabPanel,
+	PanelBody,
+	__experimentalUseSlotFills as useSlotFills,
+} from '@wordpress/components';
+import ReactSVG from 'react-inlinesvg';
+import editIcon from '@icon/edit.svg';
+import cogIcon from '@icon/cog.svg';
+
+const AdvancedControls = () => {
+	const fills = useSlotFills( InspectorAdvancedControls.slotName );
+	const hasFills = Boolean( fills && fills.length );
+
+	if ( ! hasFills ) {
+		return null;
+	}
+
+	return (
+		<PanelBody
+			className="block-editor-block-inspector__advanced formgent-advanced"
+			title={ __( 'Block Advanced', 'formgent' ) }
+			initialOpen={ false }
+		>
+			<InspectorControls.Slot group="advanced" />
+		</PanelBody>
+	);
+};
 
 function generateUniqueKey( baseKey, blocks ) {
 	// Regex to match baseKey and any variations like baseKey, baseKey-1, baseKey-2, etc.
@@ -225,8 +256,8 @@ const getFilteredBlocks = ( blocksArray, id ) => {
 function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 	const blockProps = useBlockProps();
 	const clientId = blockProps[ 'data-block' ];
-
 	const [ draggingEnded, setDraggingEnded ] = useState( false );
+	const [ selectedTab, setSelectedTab ] = useState( '' );
 
 	const isBeingDragged = useSelect(
 		( select ) => {
@@ -411,12 +442,64 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 				/>
 			</div>
 			<InspectorControls>
-				<Controls
-					controls={ controls }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					metaData={ metaData }
-				/>
+				<div className="formgent">
+					<TabPanel
+						className={ `control-tabs control-tabs--${ selectedTab }` }
+						tabs={ [
+							{
+								name: 'general',
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ editIcon } />{ ' ' }
+										{ __( 'General', 'formgent' ) }
+									</span>
+								),
+							},
+							{
+								name: 'advanced',
+								icon: (
+									<span className="formgent-control-tab-icon">
+										<ReactSVG src={ cogIcon } />{ ' ' }
+										{ __( 'Advanced', 'formgent' ) }
+									</span>
+								),
+							},
+						] }
+						onSelect={ ( tabName ) => {
+							setSelectedTab( tabName );
+						} }
+					>
+						{ ( tab ) => {
+							if ( tab.name === 'general' ) {
+								return (
+									<Controls
+										controls={ controls.generalControls }
+										attributes={ attributes }
+										setAttributes={ setAttributes }
+										metaData={ metaData }
+									/>
+								);
+							}
+
+							if ( tab.name === 'advanced' ) {
+								return (
+									<Fragment>
+										<Controls
+											controls={
+												controls.advancedControls
+											}
+											attributes={ attributes }
+											setAttributes={ setAttributes }
+											metaData={ metaData }
+										/>
+										<AdvancedControls />
+									</Fragment>
+								);
+							}
+							return null;
+						} }
+					</TabPanel>
+				</div>
 			</InspectorControls>
 		</>
 	);

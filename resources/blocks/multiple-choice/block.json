@@ -35,6 +35,18 @@
 			"type": "string",
 			"default": ""
 		},
+		"style": {
+			"type": "string",
+			"default": "frame"
+		},
+		"choice_limit": {
+			"type": "boolean",
+			"default": false
+		},
+		"choice_limit_item": {
+			"type": "number",
+			"default": 2
+		},
 		"required": {
 			"type": "boolean",
 			"default": false

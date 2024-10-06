@@ -50,6 +50,10 @@ function formgent_render( string $content ) {
     echo $content;
 }
 
+function formgent_render_icon( string $icon ) {
+    formgent_render( file_get_contents( formgent_dir( "resources/svg/icons/{$icon}.svg" ) ) );
+}
+
 function formgent_date_time_format() {
     return apply_filters( 'formgent_date_time_format', 'Y-m-d H:i:s' );
 }
@@ -191,6 +195,7 @@ function formgent_get_form_field_settings( array $parsed_blocks, bool $remove_la
             unset( $attributes['sub_label'] );
             unset( $attributes['description'] );
             unset( $attributes['options'] );
+            unset( $attributes['button_text'] );
         }
 
         $attributes['field_type'] = $blocks[$block_name]['field_type'];

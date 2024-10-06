@@ -14,15 +14,10 @@ import './style.scss';
 
 const exampleAttributes = {};
 
-const controls = {
+const generalControls = {
 	general: {
 		type: 'panel',
-		label: __( 'General', 'formgent' ),
 		children: {
-			required: {
-				type: 'switch',
-				label: __( 'Required', 'formgent' ),
-			},
 			label_alignment: {
 				type: 'toggle_group',
 				label: __( 'Label Alignment', 'formgent' ),
@@ -45,10 +40,6 @@ const controls = {
 					},
 				],
 			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			options: {
 				type: 'repeater',
 				label: __( 'Dropdown Items', 'formgent' ),
@@ -62,15 +53,21 @@ const controls = {
 					},
 				},
 			},
+			required: {
+				type: 'switch',
+				label: __( 'Required', 'formgent' ),
+			},
 		},
 	},
+};
+
+const advancedControls = {
 	advanced: {
 		type: 'panel',
-		label: __( 'FormGent Advanced', 'formgent' ),
 		children: {
 			options: {
 				type: 'repeater',
-				label: __( 'Values', 'formgent' ),
+				label: __( 'Options value', 'formgent' ),
 				label_key: 'label',
 				show_actions: false,
 				onChange: onChangeChoiceOptions,
@@ -81,8 +78,14 @@ const controls = {
 					},
 				},
 			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
 		},
 	},
 };
+
+const controls = { generalControls, advancedControls };
 
 registerBlock( metadata, controls, Edit, 'smiley', exampleAttributes );

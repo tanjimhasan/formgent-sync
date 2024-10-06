@@ -35,6 +35,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"style": {
+			"type": "string",
+			"default": "frame"
+		},
 		"required": {
 			"type": "boolean",
 			"default": false

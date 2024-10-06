@@ -51,7 +51,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
     "immutability-helper": "^3.1.1",
-    "intl-tel-input": "^23.3.2",
+    "intl-tel-input": "^24.5.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "just-validate": "^4.3.0",
