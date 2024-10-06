@@ -40,6 +40,20 @@ const generalControls = {
 					},
 				],
 			},
+			style: {
+				type: 'toggle_group',
+				label: __( 'Style', 'formgent' ),
+				options: [
+					{
+						label: __( 'Frame', 'formgent' ),
+						value: 'frame',
+					},
+					{
+						label: __( 'Standard', 'formgent' ),
+						value: 'standard',
+					},
+				],
+			},
 			options: {
 				type: 'repeater',
 				label: __( 'Multi Choice Items', 'formgent' ),
