@@ -13,7 +13,8 @@ if ( empty( $post ) ) {
 
 View::render(
     'form', [
-        'form'   => $post,
-        'fields' => do_blocks( $post->post_content )
+        'form'            => $post,
+        'fields'          => do_blocks( $post->post_content ),
+        'form_attributes' => get_block_wrapper_attributes()
     ]
 );

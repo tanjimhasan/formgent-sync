@@ -77,6 +77,7 @@ const controlGenerators = {
 				value={ attributes[ attr_key ] }
 				help={ props.help }
 				size="__unstable-large"
+				type={ control?.inputType }
 				onChange={ function ( value ) {
 					// Update the attribute value in the block's attributes
 					setAttributes( { [ attr_key ]: value } );

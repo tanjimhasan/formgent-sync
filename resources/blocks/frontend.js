@@ -28,8 +28,7 @@ async function generateFormToken( context ) {
 
 // Date and Time Validation
 function isValidDate( dateString ) {
-	const regex =
-		/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20[0-9]{2}|19[0-9]{2})$/;
+	const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 	return (
 		regex.test( dateString ) &&
 		! isNaN(
@@ -42,8 +41,7 @@ function isValidTime( timeString ) {
 	return regex.test( timeString );
 }
 function isValidDateTime( dateTimeString ) {
-	const dateRegex =
-		/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(20[0-9]{2}|19[0-9]{2})$/;
+	const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
 	const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|\d)$/;
 	const [ datePart, timePart ] = dateTimeString.split( ' ' );
 	if ( ! dateRegex.test( datePart ) || ! timeRegex.test( timePart ) ) {
@@ -53,6 +51,64 @@ function isValidDateTime( dateTimeString ) {
 		new Date( datePart.split( '/' ).reverse().join( '/' ) ).getTime()
 	);
 	return isValidDate;
+}
+
+// URL validation function
+function isUrl( string ) {
+	const protocolAndDomainRE = /^(?:\w+:)?\/\/(\S+)$/;
+	const localhostDomainRE = /^localhost[\:?\d]*(?:[^\:?\d]\S*)?$/;
+	const nonLocalhostDomainRE = /^[^\s\.]+\.\S{2,}$/;
+	if ( typeof string !== 'string' ) {
+		return false;
+	}
+
+	const match = string.match( protocolAndDomainRE );
+	if ( ! match ) {
+		return false;
+	}
+
+	const everythingAfterProtocol = match[ 1 ];
+	if ( ! everythingAfterProtocol ) {
+		return false;
+	}
+
+	if (
+		localhostDomainRE.test( everythingAfterProtocol ) ||
+		nonLocalhostDomainRE.test( everythingAfterProtocol )
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+// Validate website url
+function validateWebsiteUrl( element, blocksSettings, isUrl, elementName ) {
+	const inputValue = element.ref.value;
+	const errorMessageElement = document.createElement( 'div' );
+	errorMessageElement.className = 'formgent-url-error';
+	errorMessageElement.style.color = 'red';
+	const existingError = element.ref
+		.closest( '.formgent-editor-block-list__single__wrapper' )
+		.querySelector( '.formgent-url-error' );
+
+	if ( ! isUrl( inputValue ) && element.ref.value !== '' ) {
+		// Display error message if the URL is invalid
+		errorMessageElement.textContent = blocksSettings[ elementName ]
+			.validation_message
+			? blocksSettings[ elementName ].validation_message
+			: 'Please enter a valid URL.';
+		if ( ! existingError ) {
+			element.ref
+				.closest( '.formgent-editor-block-list__single__wrapper' )
+				.appendChild( errorMessageElement );
+		}
+	} else {
+		// Remove error message if the URL is valid
+		if ( existingError ) {
+			existingError.remove();
+		}
+	}
 }
 
 const { callbacks } = store( 'formgent/form', {
@@ -123,6 +179,7 @@ const { callbacks } = store( 'formgent/form', {
 
 			// update field value
 			const { data } = context;
+
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
@@ -141,6 +198,18 @@ const { callbacks } = store( 'formgent/form', {
 						}
 					}
 				}
+			}
+
+			const fieldType = blocksSettings[ elementName ].field_type;
+
+			// Check if the field type is 'website'
+			if ( fieldType === 'website' ) {
+				validateWebsiteUrl(
+					element,
+					blocksSettings,
+					isUrl,
+					elementName
+				);
 			}
 
 			updateFieldRecursively( data, element.ref.name, element.ref.value );
@@ -176,8 +245,26 @@ const { callbacks } = store( 'formgent/form', {
 			} );
 			document.dispatchEvent( interactionEvent );
 
+			//format number
+			const numberFormat = blocksSettings[ context.name ].format;
+			let numberValue = Number( element.ref.value );
+			if ( numberFormat === 'decimal' ) {
+				numberValue = numberValue.toFixed( 2 );
+				element.ref.addEventListener( 'blur', () => {
+					element.ref.value = numberValue;
+				} );
+			} else if ( numberFormat === 'non_decimal' ) {
+				numberValue = numberValue.toFixed( 0 );
+				element.ref.addEventListener( 'blur', () => {
+					element.ref.value = numberValue;
+				} );
+			}
+
 			//update field data
-			context.data[ element.ref.name ] = parseInt( element.ref.value );
+			context.data[ element.ref.name ] =
+				numberFormat === 'non_decimal'
+					? Number( numberValue )
+					: numberValue;
 			generateFormToken( context );
 			formStarted = true;
 		},
@@ -251,34 +338,66 @@ const { callbacks } = store( 'formgent/form', {
 		updateMultiChoice: () => {
 			const element = getElement();
 			const context = getContext();
+			const elementName = element.ref.name;
+			const value = element.ref.value;
 
-			const choices = context.data[ element.ref.name ] || [];
-			const valueIndex = choices.indexOf( element.ref.value );
+			// Set choice limit unlimited if it's empty or 0
+			let isChoiceLimitEnabled =
+				context.blocksSettings[ elementName ]?.choice_limit;
+			let choiceLimit =
+				context.blocksSettings[ elementName ]?.choice_limit_item;
+			if (
+				choiceLimit === '' ||
+				choiceLimit === 0 ||
+				! isChoiceLimitEnabled
+			) {
+				choiceLimit = Infinity;
+			}
+
+			const choices = context.data[ elementName ] || [];
+			const valueIndex = choices.indexOf( value );
 
 			if ( valueIndex > -1 ) {
 				//If the item is found remove it
 				choices.splice( valueIndex, 1 );
+			} else if ( choices.length < choiceLimit ) {
+				choices.push( value );
 			} else {
-				//If the item is not found, add it to the array
-				choices.push( element.ref.value );
+				return;
 			}
 
-			const { blocksSettings } = JSON.parse( JSON.stringify( context ) );
-			const elementName = element.ref.name;
-			let fieldName = null;
+			// Update the choices in the context data
+			context.data[ elementName ] = choices;
 
-			if ( blocksSettings[ elementName ] ) {
-				fieldName = elementName;
-			} else {
+			let fieldName = elementName;
+			const { blocksSettings } = context;
+
+			if ( ! blocksSettings[ elementName ] ) {
 				for ( const [ key, value ] of Object.entries(
 					blocksSettings
 				) ) {
-					if ( value.children && value.children[ elementName ] ) {
+					if ( value.children?.[ elementName ] ) {
 						fieldName = key;
 						break;
 					}
 				}
 			}
+
+			// Disable or enable select options based on the limit reached
+			const allOptions = document.querySelectorAll(
+				`[name="${ elementName }"]`
+			);
+			allOptions.forEach( ( option ) => {
+				if (
+					choices.length >= choiceLimit &&
+					! choices.includes( option.value )
+				) {
+					option.disabled = true;
+				} else {
+					option.disabled = false;
+				}
+			} );
+
 			// Dispatch custom event for handleFieldInteraction
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
@@ -289,8 +408,6 @@ const { callbacks } = store( 'formgent/form', {
 				},
 			} );
 			document.dispatchEvent( interactionEvent );
-
-			context.data[ element.ref.name ] = choices;
 
 			generateFormToken( context );
 			formStarted = true;
@@ -566,10 +683,10 @@ const { callbacks } = store( 'formgent/form', {
 		inputMaskInit: function () {
 			const element = getElement();
 			const context = getContext();
-
 			const elementName = element.ref.name;
 			const maskType = context.blocksSettings[ elementName ].mask_type;
 
+			// Function to update field value recursively
 			function updateFieldRecursively( data, fieldName, fieldValue ) {
 				for ( let k in data ) {
 					if ( data.hasOwnProperty( k ) ) {
@@ -590,12 +707,15 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 
-			var options = {
+			// jQuery Mask options param
+			const options = {
+				// Mask input
 				onChange: function ( cep ) {
 					handleMaskedChange( cep );
 				},
+				// Handle invalid characters except digits
 				onInvalid: function ( val, e, f, invalid, options ) {
-					var error = invalid[ 0 ];
+					const error = invalid[ 0 ];
 					console.warn(
 						`Invalid character "${ error.v }" at position ${ error.p }. Only digits are allowed.`
 					);
@@ -604,7 +724,6 @@ const { callbacks } = store( 'formgent/form', {
 
 			// Function to handle changes for masked inputs
 			function handleMaskedChange( cep ) {
-				console.log( cep );
 				const { blocksSettings } = JSON.parse(
 					JSON.stringify( context )
 				);
@@ -645,6 +764,7 @@ const { callbacks } = store( 'formgent/form', {
 
 			// Function to validate and update error messages
 			function validateAndUpdateError( cep ) {
+				// Validation message
 				const errorMessageElement = document.createElement( 'div' );
 				errorMessageElement.className = 'formgent-field-error';
 				errorMessageElement.style.color = 'red';
@@ -655,7 +775,7 @@ const { callbacks } = store( 'formgent/form', {
 					'.formgent-field-error'
 				);
 
-				// Validation configurations
+				// Validation configurations date and time
 				const validationConfig = {
 					'00/00/0000': {
 						validate: isValidDate,
@@ -683,7 +803,7 @@ const { callbacks } = store( 'formgent/form', {
 				}
 			}
 
-			// Attach the input event listener directly
+			// Attach the input event listener directly for non-masked inputs
 			if ( maskType === 'none' || maskType === '' ) {
 				element.ref.addEventListener( 'input', function () {
 					const { blocksSettings } = JSON.parse(
@@ -707,6 +827,7 @@ const { callbacks } = store( 'formgent/form', {
 						}
 					}
 
+					// Update field value
 					const cleanValue = element.ref.value;
 					dispatchInteractionEvent( fieldName );
 					updateFieldRecursively(
@@ -716,6 +837,7 @@ const { callbacks } = store( 'formgent/form', {
 					);
 				} );
 			} else {
+				// Attach the mask method for masked inputs
 				jQuery( element.ref ).mask( maskType, options );
 			}
 		},
@@ -860,6 +982,15 @@ const { callbacks } = store( 'formgent/form', {
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
+
+				for ( const name in context.data ) {
+					const allOptions = document.querySelectorAll(
+						`[name="${ name }"]`
+					);
+					allOptions.forEach( ( option ) => {
+						option.disabled = false;
+					} );
+				}
 
 				form.reset();
 			} catch ( error ) {
