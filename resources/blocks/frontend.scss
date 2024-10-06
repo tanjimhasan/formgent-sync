@@ -227,6 +227,11 @@
 		}
 	}
 }
+
+.formgent-editor-block-list__single_sibling {
+	margin-top: 1.2rem;
+}
+
 .formgent-editor-block-list__single__label__required {
 	color: var(--formgent-color-danger);
 }
@@ -797,5 +802,29 @@ input.formgent-editor-block-list__single__dialer__input {
 		&:not(.formgent-editor-block-list__single__input--country-code) {
 			padding-left: 16px !important;
 		}
+	}
+}
+
+.formgent-has-input-icon {
+	position: relative;
+}
+
+.formgent-input-icon {
+	position: absolute;
+	inset-inline-start: 0;
+	top: 0;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-inline-start: 15px;
+	padding-inline-end: 7px;
+
+	svg path {
+		fill: var(--formgent-color-gray-600);
+	}
+
+	+ input {
+		padding-inline-start: 42px;
 	}
 }

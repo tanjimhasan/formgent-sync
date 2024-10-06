@@ -505,6 +505,38 @@ const { callbacks } = store( 'formgent/form', {
 					rulesList[ field.field_type ]( rules );
 				}
 			}
+
+			function addConfirmFieldValidation( field, name, validation ) {
+				const confirm_field_element = getSelector(
+					field.field_type,
+					`${ name }_confirm`
+				);
+
+				validation.addField( confirm_field_element, [
+					{
+						rule: 'required',
+						errorMessage: `${
+							field.confirm_label || 'Field'
+						} is required`,
+					},
+					{
+						validator: ( value ) => {
+							const siblingValue = confirm_field_element
+								.closest(
+									'.formgent-editor-block-list__single'
+								)
+								.previousElementSibling.previousElementSibling.querySelector(
+									'input'
+								).value;
+							return value === siblingValue;
+						},
+						errorMessage: `${
+							field.confirm_label || 'Field'
+						} should be the same`,
+					},
+				] );
+			}
+
 			for ( const name in context.data ) {
 				const rules = [];
 				const field = context.blocksSettings[ name ];
@@ -532,6 +564,10 @@ const { callbacks } = store( 'formgent/form', {
 						} else {
 							validation.addField( selector, rules );
 						}
+					}
+
+					if ( field.enable_confirmation_field ) {
+						addConfirmFieldValidation( field, name, validation );
 					}
 				}
 			}
