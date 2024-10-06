@@ -1,17 +1,19 @@
 <?php defined( 'ABSPATH' ) || exit; ?>
 
 <div class="formgent-editor-block-list__single formgent-editor-block-list__single--csr formgent-editor-block-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>">
-    <label
-        for="<?php echo esc_attr( $attributes['name'] ); ?>"
-        class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
-    >
-        <?php formgent_render( wp_kses_post( $attributes['label'] ) ); ?>
-        <?php if ( $attributes['required'] ) : ?>
-            <span class="formgent-editor-block-list__single__label__required">
-                *
-            </span>
-        <?php endif; ?>
-    </label>
+    <?php if ( ! empty( $attributes['label'] ) ) : ?>
+        <label
+            for="<?php echo esc_attr( $attributes['name'] ); ?>"
+            class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
+        >
+            <?php formgent_render( wp_kses_post( $attributes['label'] ) ); ?>
+            <?php if ( $attributes['required'] ) : ?>
+                <span class="formgent-editor-block-list__single__label__required">
+                    *
+                </span>
+            <?php endif; ?>
+        </label>
+    <?php endif; ?>
     <div class="formgent-editor-block-list__single__wrapper formgent-editor-block-list__single__wrapper--multi-choice">
         <div class="formgent-editor-block-list__single__box formgent-multiple-choice-<?php echo esc_attr( $attributes['name'] ); ?>">
             <?php if ( ! empty( $attributes['options'] ) && is_array( $attributes['options'] ) ) : ?>

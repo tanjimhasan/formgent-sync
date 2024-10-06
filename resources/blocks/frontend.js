@@ -6,14 +6,10 @@ import JustValidate from 'just-validate';
 import TomSelect from 'tom-select';
 import intlTelInput from 'intl-tel-input';
 
-let formStarted = false;
-let fieldInteractionState = {};
-let generatedTokens = null;
-
 async function generateFormToken( context ) {
-	if ( ! formStarted ) {
+	if ( ! context.formStarted ) {
 		try {
-			generatedTokens = await wp.apiFetch( {
+			context.generatedTokens = await wp.apiFetch( {
 				path: 'formgent/responses/generate-token',
 				method: 'POST',
 				data: {
@@ -166,7 +162,7 @@ const { callbacks } = store( 'formgent/form', {
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
 					fieldName,
-					fieldInteractionState,
+					fieldInteractionState: context.fieldInteractionState,
 					context,
 					element,
 				},
@@ -175,7 +171,7 @@ const { callbacks } = store( 'formgent/form', {
 
 			// update global variables
 			generateFormToken( context );
-			formStarted = true;
+			context.formStarted = true;
 
 			// update field value
 			const { data } = context;
@@ -238,7 +234,7 @@ const { callbacks } = store( 'formgent/form', {
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
 					fieldName,
-					fieldInteractionState,
+					fieldInteractionState: context.fieldInteractionState,
 					context,
 					element,
 				},
@@ -266,7 +262,7 @@ const { callbacks } = store( 'formgent/form', {
 					? Number( numberValue )
 					: numberValue;
 			generateFormToken( context );
-			formStarted = true;
+			context.formStarted = true;
 		},
 		updateGdpr: async () => {
 			const element = getElement();
@@ -292,7 +288,7 @@ const { callbacks } = store( 'formgent/form', {
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
 					fieldName,
-					fieldInteractionState,
+					fieldInteractionState: context.fieldInteractionState,
 					context,
 					element,
 				},
@@ -306,7 +302,7 @@ const { callbacks } = store( 'formgent/form', {
 					? 1
 					: 0;
 			generateFormToken( context );
-			formStarted = true;
+			context.formStarted = true;
 		},
 		updatePhoneNumber: () => {
 			const element = getElement();
@@ -333,7 +329,7 @@ const { callbacks } = store( 'formgent/form', {
 			}
 
 			generateFormToken( context );
-			formStarted = true;
+			context.formStarted = true;
 		},
 		updateMultiChoice: () => {
 			const element = getElement();
@@ -402,7 +398,7 @@ const { callbacks } = store( 'formgent/form', {
 			const interactionEvent = new CustomEvent( 'fieldInteraction', {
 				detail: {
 					fieldName,
-					fieldInteractionState,
+					fieldInteractionState: context.fieldInteractionState,
 					context,
 					element,
 				},
@@ -410,7 +406,7 @@ const { callbacks } = store( 'formgent/form', {
 			document.dispatchEvent( interactionEvent );
 
 			generateFormToken( context );
-			formStarted = true;
+			context.formStarted = true;
 		},
 	},
 
@@ -418,6 +414,11 @@ const { callbacks } = store( 'formgent/form', {
 		init: async () => {
 			const context = getContext();
 			const element = getElement();
+
+			// Check if the form has been started
+			context.formStarted = false;
+			context.fieldInteractionState = {};
+			context.generatedTokens = null;
 
 			try {
 				const updateFromViews = await wp.apiFetch( {
@@ -637,7 +638,8 @@ const { callbacks } = store( 'formgent/form', {
 						{
 							detail: {
 								fieldName,
-								fieldInteractionState,
+								fieldInteractionState:
+									context.fieldInteractionState,
 								context,
 								element,
 							},
@@ -646,7 +648,7 @@ const { callbacks } = store( 'formgent/form', {
 					document.dispatchEvent( interactionEvent );
 
 					generateFormToken( context );
-					formStarted = true;
+					context.formStarted = true;
 				},
 			} );
 		},
@@ -977,7 +979,8 @@ const { callbacks } = store( 'formgent/form', {
 					{
 						detail: {
 							fieldName,
-							fieldInteractionState,
+							fieldInteractionState:
+								context.fieldInteractionState,
 							context,
 						},
 					}
@@ -988,7 +991,7 @@ const { callbacks } = store( 'formgent/form', {
 
 				// Generate form token
 				let responseToken = null;
-				if ( ! formStarted ) {
+				if ( ! context.formStarted ) {
 					responseToken = await wp.apiFetch( {
 						path: 'formgent/responses/generate-token',
 						method: 'POST',
@@ -1001,6 +1004,8 @@ const { callbacks } = store( 'formgent/form', {
 				context.isResponseTokenGenerating = false;
 				context.isResponseSubmitting = true;
 
+				console.log( { responseToken, gt: context.generatedTokens } );
+
 				// Submit form response
 				const response = await wp.apiFetch( {
 					path: '/formgent/responses',
@@ -1009,7 +1014,8 @@ const { callbacks } = store( 'formgent/form', {
 						id: context.formId,
 						form_data: formData,
 						response_token:
-							responseToken || generatedTokens.response_token,
+							responseToken ||
+							context.generatedTokens.response_token,
 					},
 				} );
 
@@ -1018,6 +1024,10 @@ const { callbacks } = store( 'formgent/form', {
 				form.querySelector(
 					'.formgent-notices'
 				).innerHTML = `<span>${ response.message }</span>`;
+
+				context.formStarted = false;
+				context.fieldInteractionState = {};
+				context.generatedTokens = null;
 
 				for ( const name in context.data ) {
 					const allOptions = document.querySelectorAll(

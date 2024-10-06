@@ -256,8 +256,8 @@ const getFilteredBlocks = ( blocksArray, id ) => {
 function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 	const blockProps = useBlockProps();
 	const clientId = blockProps[ 'data-block' ];
-
 	const [ draggingEnded, setDraggingEnded ] = useState( false );
+	const [ selectedTab, setSelectedTab ] = useState( '' );
 
 	const isBeingDragged = useSelect(
 		( select ) => {
@@ -444,7 +444,7 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 			<InspectorControls>
 				<div className="formgent">
 					<TabPanel
-						className="control-tabs"
+						className={ `control-tabs control-tabs--${ selectedTab }` }
 						tabs={ [
 							{
 								name: 'general',
@@ -465,6 +465,9 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 								),
 							},
 						] }
+						onSelect={ ( tabName ) => {
+							setSelectedTab( tabName );
+						} }
 					>
 						{ ( tab ) => {
 							if ( tab.name === 'general' ) {

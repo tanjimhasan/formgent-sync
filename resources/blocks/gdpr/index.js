@@ -39,10 +39,6 @@ const generalControls = {
 					},
 				],
 			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
-			},
 			required: {
 				type: 'switch',
 				label: __( 'Required', 'formgent' ),
@@ -51,7 +47,17 @@ const generalControls = {
 	},
 };
 
-const advancedControls = {};
+const advancedControls = {
+	advanced: {
+		type: 'panel',
+		children: {
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+		},
+	},
+};
 
 const controls = { generalControls, advancedControls };
 
