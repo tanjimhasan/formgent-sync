@@ -5,8 +5,9 @@ export const EmailNotificationResolvers = {
 	 * @param {object} queryArgs
 	 * @param {number} queryArgs.page
 	 * @param {number} queryArgs.per_page
+	 * @param {number} timestamp
 	 */
-	*getEmailNotifications( queryArgs ) {
+	*getEmailNotifications( queryArgs, timestamp = 0 ) {
 		try {
 			yield Actions.updateIsLoadingEmailNotifications( true );
 
@@ -14,16 +15,20 @@ export const EmailNotificationResolvers = {
 
 			const defaultQueryArgs = {
 				page: 1,
-				per_page: 1,
+				per_page: 20,
 			};
 
-			queryArgs = { ...defaultQueryArgs, queryArgs };
+			const updatedQueryArgs = { ...defaultQueryArgs, ...queryArgs };
 
-			const data = yield Actions.fetchEmailNotifications( queryArgs );
+			const data =
+				yield Actions.fetchEmailNotifications( updatedQueryArgs );
 
 			yield Actions.updateEmailNotificationData( data.emails );
 
-			yield Actions.updateEmailNotificationQueryArgs( queryArgs );
+			yield Actions.updateEmailNotificationQueryArgs( updatedQueryArgs );
+			yield Actions.updateEmailNotificationFoundItems(
+				parseInt( data.total )
+			);
 
 			yield Actions.updateIsLoadingEmailNotifications( false );
 		} catch ( error ) {
@@ -39,8 +44,9 @@ export const EmailNotificationResolvers = {
 	/**
 	 * @param {number} id
 	 * @param {string} status
+	 * @param {number} timestamp
 	 */
-	*updateEmailNotificationStatus( id, status ) {
+	*updateEmailNotificationStatus( id, status, timestamp = 0 ) {
 		try {
 			yield Actions.updateEmailNotificationItem( id, {
 				isUpdatingStatus: true,
@@ -61,8 +67,9 @@ export const EmailNotificationResolvers = {
 
 	/**
 	 * @param {number} id
+	 * @param {number} timestamp
 	 */
-	*duplicateEmailNotification( id ) {
+	*duplicateEmailNotification( id, timestamp = 0 ) {
 		try {
 			yield Actions.updateEmailNotificationItem( id, {
 				isDuplicating: true,
@@ -88,16 +95,16 @@ export const EmailNotificationResolvers = {
 
 	/**
 	 * @param {number} id
+	 * @param {number} timestamp
 	 */
-	*deleteEmailNotification( id ) {
+	*deleteEmailNotification( id, timestamp = 0 ) {
 		try {
 			yield Actions.updateEmailNotificationItem( id, {
 				isDeleting: true,
 			} );
 
 			yield Actions.deleteEmailNotification( id );
-
-			yield Actions.deleteEmailNotificationItem( id );
+			yield Actions.updateRefreshEmailNotifications( true );
 		} catch ( error ) {
 			yield Actions.updateEmailNotificationItem( id, {
 				isDeleting: false,

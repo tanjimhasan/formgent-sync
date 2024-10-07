@@ -67,6 +67,14 @@ export const EmailNotificationActions = {
 	} ),
 
 	/**
+	 * @param {number} foundItems
+	 */
+	updateEmailNotificationFoundItems: ( foundItems ) => ( {
+		type: 'UPDATE_EMAIL_NOTIFICATION_FOUND_ITEMS',
+		payload: foundItems,
+	} ),
+
+	/**
 	 * @param {object} queryArgs
 	 */
 	fetchEmailNotifications: ( queryArgs ) => ( {

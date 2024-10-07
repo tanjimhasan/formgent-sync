@@ -2,7 +2,6 @@ import { Col, Row } from 'antd';
 import ReactSVG from 'react-inlinesvg';
 import { __ } from '@wordpress/i18n';
 import { lazy, Suspense } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
 
 import plusIcon from '@icon/plus.svg';
 import { AntButton, AntSkeleton } from '@formgent/components';
@@ -11,10 +10,6 @@ import { SettingsContentStyle } from '../style';
 const Table = lazy( () => import( './Table' ) );
 
 export default function EmailNotifications() {
-	const { EmailNotificationReducer: state } = useSelect( ( select ) => {
-		return select( 'formgent' ).getEmailNotifications();
-	}, [] );
-
 	return (
 		<SettingsContentStyle className="formgent-settings-content">
 			<Row align={ 'middle' }>
@@ -37,7 +32,7 @@ export default function EmailNotifications() {
 			</Row>
 
 			<Suspense fallback={ <AntSkeleton active /> }>
-				<Table { ...state } />
+				<Table />
 			</Suspense>
 		</SettingsContentStyle>
 	);

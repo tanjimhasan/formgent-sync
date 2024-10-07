@@ -1,14 +1,29 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect } from '@wordpress/element';
-import { resolveSelect, useDispatch } from '@wordpress/data';
-import { AntTable, AntSwitch, AntSkeleton } from '@formgent/components';
+import { useSelect, resolveSelect, useDispatch } from '@wordpress/data';
+import {
+	AntTable,
+	AntSwitch,
+	AntSkeleton,
+	AntPagination,
+} from '@formgent/components';
 
 import { TableStyle } from './style';
 import DataItemAction from './DataItemAction';
 
-export default function Table( props ) {
-	const { data, isLoadingData, isProcessing, queryArgs, refresh } = props;
+export default function Table() {
+	const { EmailNotificationReducer: state } = useSelect( ( select ) => {
+		return select( 'formgent' ).getEmailNotifications();
+	}, [] );
 
+	const {
+		data,
+		isLoadingData,
+		isProcessing,
+		queryArgs,
+		foundItems,
+		refresh,
+	} = state;
 	const { updateRefreshEmailNotifications } = useDispatch( 'formgent' );
 
 	useEffect( () => {
@@ -16,10 +31,25 @@ export default function Table( props ) {
 			return;
 		}
 
-		resolveSelect( 'formgent' ).getEmailNotifications( queryArgs );
+		resolveSelect( 'formgent' ).getEmailNotifications(
+			undefined,
+			Date.now()
+		);
 
 		updateRefreshEmailNotifications( false );
 	}, [ refresh ] );
+
+	const paginationFooterText = () => {
+		if ( foundItems < 1 ) {
+			return '';
+		}
+
+		const from =
+			queryArgs.page * queryArgs.per_page - queryArgs.per_page + 1;
+		const to = Math.min( from + queryArgs.per_page - 1, foundItems );
+
+		return `${ from } - ${ to } of ${ foundItems } items`;
+	};
 
 	const columns = [
 		{
@@ -34,7 +64,8 @@ export default function Table( props ) {
 								'formgent'
 							).updateEmailNotificationStatus(
 								data.id,
-								'publish' === data.status ? 'draft' : 'publish'
+								'publish' === data.status ? 'draft' : 'publish',
+								Date.now()
 							);
 						} }
 						loading={ data.isUpdatingStatus }
@@ -62,7 +93,7 @@ export default function Table( props ) {
 						onDuplicate={ ( id ) => {
 							resolveSelect(
 								'formgent'
-							).duplicateEmailNotification( id );
+							).duplicateEmailNotification( id, Date.now() );
 						} }
 						onEdit={ ( id ) => {
 							//
@@ -100,6 +131,28 @@ export default function Table( props ) {
 				pagination={ { position: [ 'none' ] } }
 				scroll={ { x: 1300 } }
 			/>
+
+			<div className="formgent-forms-pagination-wrapper">
+				<span className="formgent-forms-pagination-total-count">
+					{ paginationFooterText() }
+				</span>
+
+				<AntPagination
+					current={ queryArgs.page }
+					pageSize={ queryArgs.per_page }
+					total={ foundItems }
+					onChange={ ( page, per_page ) => {
+						resolveSelect( 'formgent' ).getEmailNotifications(
+							{
+								...queryArgs,
+								page,
+								per_page,
+							},
+							Date.now()
+						);
+					} }
+				/>
+			</div>
 		</TableStyle>
 	);
 }

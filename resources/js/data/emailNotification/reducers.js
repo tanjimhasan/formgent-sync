@@ -6,8 +6,9 @@ const DEFAULT_STATE = {
 	data: [],
 	queryArgs: {
 		page: 1,
-		per_page: 1,
+		per_page: 20,
 	},
+	foundItems: 0,
 };
 
 export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
@@ -61,6 +62,11 @@ export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				queryArgs: payload,
+			};
+		case 'UPDATE_EMAIL_NOTIFICATION_FOUND_ITEMS':
+			return {
+				...state,
+				foundItems: payload,
 			};
 		default:
 			return state;
