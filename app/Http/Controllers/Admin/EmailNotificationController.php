@@ -24,6 +24,9 @@ class EmailNotificationController extends Controller {
     }
 
     public function index() {
+
+        sleep( 2 );
+
         return Response::send(
             [
                 'emails' => $this->repository->get()

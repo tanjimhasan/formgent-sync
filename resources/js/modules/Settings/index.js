@@ -7,7 +7,7 @@ import IntegrationsChild2 from '@formgent/admin/pages/Settings/IntegrationsChild
 import IntegrationsChild3 from '@formgent/admin/pages/Settings/IntegrationsChild3';
 import FormHeader from '@formgent/components/FormHeader';
 import General from './components/General';
-import Notifications from './components/Notifications';
+import EmailNotifications from './components/emailNotification/EmailNotifications';
 import Sidebar from './components/Sidebar';
 
 function Settings( props ) {
@@ -31,10 +31,10 @@ function Settings( props ) {
 			element: <General />,
 		},
 		{
-			key: 'notifications',
-			label: 'Notifications',
-			path: 'notifications',
-			element: <Notifications />,
+			key: 'email-notifications',
+			label: 'Email Notifications',
+			path: 'email-notifications',
+			element: <EmailNotifications />,
 		},
 	] );
 
@@ -70,9 +70,9 @@ function Settings( props ) {
 						} ) } */ }
 						<Route key="general" path="*" element={ <General /> } />
 						<Route
-							key="notifications"
-							path="notifications"
-							element={ <Notifications /> }
+							key="email-notifications"
+							path="email-notifications"
+							element={ <EmailNotifications /> }
 						/>
 						<Route
 							key="integrations/child1"

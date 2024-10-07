@@ -247,6 +247,39 @@ a.formgent-btn-disabled {
 	}
 }
 
+.formgent-action-link {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 4px;
+	text-decoration: none;
+	color: var(--formgent-color-light-gray);
+
+	.formgent-action-link-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 8px;
+		height: 32px;
+		width: 32px;
+		border-radius: 4px;
+		box-sizing: border-box;
+	}
+
+	svg path {
+		color: var(--formgent-color-light-gray);
+	}
+
+	&:hover {
+		color: var(--formgent-color-gray);
+		background-color: var(--formgent-color-bg-light);
+		svg path {
+			color: var(--formgent-color-gray);
+		}
+	}
+}
+
 .formgent-form-date {
 	display: flex;
 	gap: 6px;
