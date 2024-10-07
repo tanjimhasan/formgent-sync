@@ -4,10 +4,10 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea26efe093876035ee3889c61cbf9ef7",
+    "content-hash": "4f33a651e6c07f5abede58cdcc95da4c",
     "packages": [
         {
-            "name": "a5hleyrich/wp-background-processing",
+            "name": "deliciousbrains/wp-background-processing",
             "version": "dev-master",
             "source": {
                 "type": "git",
@@ -2578,7 +2578,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "whichbrowser/parser": 20,
-        "a5hleyrich/wp-background-processing": 20,
         "wp-cli/i18n-command": 20
     },
     "prefer-stable": false,
