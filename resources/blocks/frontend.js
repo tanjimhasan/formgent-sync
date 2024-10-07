@@ -646,7 +646,7 @@ const { callbacks } = store( 'formgent/form', {
 
 				context.data[ name ] = `+${ dialCode }${ e.target.value }`;
 				generateFormToken( context );
-				formStarted = true;
+				context.formStarted = true;
 			} );
 
 			input.addEventListener( 'input', function ( e ) {
@@ -655,7 +655,7 @@ const { callbacks } = store( 'formgent/form', {
 
 				context.data[ name ] = `+${ dialCode }${ e.target.value }`;
 				generateFormToken( context );
-				formStarted = true;
+				context.formStarted = true;
 			} );
 		},
 		inputMaskInit: function () {
