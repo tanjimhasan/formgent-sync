@@ -11,7 +11,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
             for="<?php echo esc_attr( $attributes['name'] ); ?>"
             class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
         >
-            <?php formgent_render( wp_kses_post( $attributes['label'] ) ); ?>
+            <?php echo wp_kses_post( $attributes['label'] ); ?>
             <?php if ( $attributes['required'] ) : ?>
                 <span class="formgent-editor-block-list__single__label__required">
                     *
@@ -27,7 +27,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
                 class="formgent-phone-initialization"
                 data-wp-init="callbacks.phoneNumberInit"
                 data-wp-key="<?php echo esc_attr( $attributes['name'] ); ?>"
-                name="<?php echo esc_attr( $attributes['name'] ); ?>-<?php formgent_render( $unique_id ) ?>-dial-code"
+                name="<?php echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
             >
             </span>
             <div class="formgent-editor-block-list__single__dialer__content">
@@ -35,7 +35,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
                     class="formgent-editor-block-list__single__input <?= $attributes['country_code'] ? 'formgent-editor-block-list__single__input--country-code' : ''; ?>"
                     type="text"
                     name="<?php echo esc_attr( $attributes['name'] ); ?>"
-                    id="<?php echo esc_attr( $attributes['name'] ); ?>-<?php formgent_render( $unique_id ) ?>-dial-code"
+                    id="<?php echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
                     data-wp-context='{ "name": "<?php echo esc_attr( $attributes['name'] ); ?>" }'
                     placeholder="<?php echo esc_attr( $attributes['placeholder'] ); ?>"
                     data-wp-interactive="formgent/form"
@@ -46,7 +46,7 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
         </div>
         <?php if ( ! empty( $attributes['sub_label'] ) ) : ?>
             <span class="formgent-editor-block-list__single__sub-label">
-                <?php formgent_render( wp_kses_post( $attributes['sub_label'] ) ); ?>
+                <?php echo wp_kses_post( $attributes['sub_label'] ); ?>
             </span>
         <?php endif; ?>
     </div>
