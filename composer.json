@@ -54,7 +54,8 @@
     "require": {
         "php": ">=7.4",
         "wpmvc/framework": "1.1.1",
-        "whichbrowser/parser": "dev-master"
+        "whichbrowser/parser": "dev-master",
+        "a5hleyrich/wp-background-processing": "dev-master"
     },
     "require-dev": {
         "wp-cli/i18n-command": "^2.0@dev",
