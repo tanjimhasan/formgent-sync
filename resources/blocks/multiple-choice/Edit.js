@@ -59,6 +59,8 @@ export default function Edit( { attributes, setAttributes } ) {
 							key={ index }
 							className={ `formgent-editor-block-list__single__box__choice ${
 								attributes.options.length === 1 ? 'disable' : ''
+							} formgent-editor-block-list__single__box__choice--${
+								attributes.style
 							}` }
 						>
 							<input

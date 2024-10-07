@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "formgent/number",
-	"title": "Number",
+	"name": "formgent/submit-button",
+	"title": "Submit Button",
 	"category": "formgent",
-	"description": "FormGent Number field.",
+	"description": "FormGent Submit Button Block",
 	"textdomain": "formgent",
 	"attributes": {
 		"id": {
@@ -13,35 +13,31 @@
 		},
 		"name": {
 			"type": "string",
-			"default": "number"
+			"default": "button"
 		},
-		"value": {
+		"button_text": {
 			"type": "string",
-			"default": ""
+			"default": "Submit"
 		},
-		"placeholder": {
+		"button_alignment": {
 			"type": "string",
-			"default": ""
+			"default": "left"
 		},
-		"label": {
+		"button_style": {
 			"type": "string",
-			"default": "Number"
+			"default": "default"
 		},
-		"label_alignment": {
+		"background_color": {
 			"type": "string",
-			"default": "top"
+			"default": "#4cafaa"
 		},
-		"sub_label": {
+		"border_color": {
 			"type": "string",
-			"default": ""
+			"default": "#000000"
 		},
-		"format": {
+		"text_color": {
 			"type": "string",
-			"default": "none"
-		},
-		"required": {
-			"type": "boolean",
-			"default": false
+			"default": "#000000"
 		}
 	},
 	"supports": {

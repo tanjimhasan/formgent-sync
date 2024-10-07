@@ -31,10 +31,6 @@
 			"type": "string",
 			"default": "Email"
 		},
-		"confirm_label": {
-			"type": "string",
-			"default": "Confirm Email"
-		},
 		"label_alignment": {
 			"type": "string",
 			"default": "top"
@@ -47,11 +43,23 @@
 			"type": "string",
 			"default": ""
 		},
-		"required": {
+		"show_field_icon": {
 			"type": "boolean",
 			"default": false
 		},
 		"enable_confirmation_field": {
+			"type": "boolean",
+			"default": false
+		},
+		"confirm_label": {
+			"type": "string",
+			"default": "Confirm Email"
+		},
+		"confirmation_field_gap": {
+			"type": "string",
+			"default": "1.2rem"
+		},
+		"required": {
 			"type": "boolean",
 			"default": false
 		}

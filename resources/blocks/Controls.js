@@ -9,11 +9,14 @@ import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { HeightControl } from '@wordpress/block-editor';
 import { useMemo, useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
 import Repeater from './controls/Repeater';
 import DefaultValue from './controls/DefaultValue';
+import PickColor from './controls/ColorPicker';
+import { isUndefined } from 'lodash';
 
 const StyledInput = styled( InputControl )`
 	${ ( props ) => {
@@ -29,6 +32,10 @@ const StyledInput = styled( InputControl )`
 			`;
 		}
 	} }
+`;
+
+const StyledBlockEditorControl = styled.div`
+	margin-bottom: 24px;
 `;
 
 const controlGenerators = {
@@ -75,6 +82,7 @@ const controlGenerators = {
 				value={ attributes[ attr_key ] }
 				help={ props.help }
 				size="__unstable-large"
+				type={ control?.inputType }
 				onChange={ function ( value ) {
 					// Update the attribute value in the block's attributes
 					setAttributes( { [ attr_key ]: value } );
@@ -84,7 +92,7 @@ const controlGenerators = {
 	},
 	number: function ( { attr_key, control, attributes, setAttributes } ) {
 		const handleChange = ( value ) => {
-			if ( _.isUndefined( control.precision ) || control.precision ) {
+			if ( isUndefined( control.precision ) || control.precision ) {
 				setAttributes( { [ attr_key ]: value } );
 				return;
 			}
@@ -144,6 +152,19 @@ const controlGenerators = {
 			/>
 		);
 	},
+	height: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<StyledBlockEditorControl>
+				<HeightControl
+					label={ control.label }
+					value={ attributes[ attr_key ] }
+					onChange={ function ( value ) {
+						setAttributes( { [ attr_key ]: value } );
+					} }
+				/>
+			</StyledBlockEditorControl>
+		);
+	},
 	dimension: function ( { attr_key, control, setAttributes } ) {
 		const [ values, setValues ] = useState( control.values );
 		return (
@@ -191,6 +212,7 @@ const controlGenerators = {
 		);
 	},
 	default_value: DefaultValue,
+	color: PickColor,
 };
 
 export default function Controls( {
@@ -202,6 +224,11 @@ export default function Controls( {
 	return Object.keys( controls ).map( ( key ) => {
 		const control = controls[ key ];
 		const ControlView = controlGenerators[ control[ 'type' ] ];
+
+		if ( control?.condition && ! control.condition( attributes ) ) {
+			return false;
+		}
+
 		return (
 			<ControlView
 				key={ key }
