@@ -50,6 +50,10 @@ function formgent_render( string $content ) {
     echo $content;
 }
 
+function formgent_render_icon( string $icon ) {
+    formgent_render( file_get_contents( formgent_dir( "resources/svg/icons/{$icon}.svg" ) ) );
+}
+
 function formgent_date_time_format() {
     return apply_filters( 'formgent_date_time_format', 'Y-m-d H:i:s' );
 }
