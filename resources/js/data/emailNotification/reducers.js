@@ -1,8 +1,7 @@
 const DEFAULT_STATE = {
 	isLoadingData: false,
-	isUpdatingStatus: {},
-	isDuplicating: {},
-	isDeleting: {},
+	isProcessing: false,
+	refresh: false,
 	responseStatus: null,
 	data: [],
 	queryArgs: {
@@ -19,6 +18,16 @@ export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				isLoadingData: payload,
+			};
+		case 'UPDATE_PROCESSING_EMAIL_NOTIFICATIONS':
+			return {
+				...state,
+				isProcessing: payload,
+			};
+		case 'UPDATE_REFRESH_EMAIL_NOTIFICATIONS':
+			return {
+				...state,
+				refresh: payload,
 			};
 		case 'UPDATE_EMAIL_NOTIFICATION_DATA':
 			return {

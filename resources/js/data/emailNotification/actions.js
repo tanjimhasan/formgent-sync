@@ -8,6 +8,22 @@ export const EmailNotificationActions = {
 	} ),
 
 	/**
+	 * @param {boolean} isProcessing
+	 */
+	updateIsProcessingEmailNotifications: ( isProcessing ) => ( {
+		type: 'UPDATE_PROCESSING_EMAIL_NOTIFICATIONS',
+		payload: isProcessing,
+	} ),
+
+	/**
+	 * @param {boolean} refresh
+	 */
+	updateRefreshEmailNotifications: ( refresh ) => ( {
+		type: 'UPDATE_REFRESH_EMAIL_NOTIFICATIONS',
+		payload: refresh,
+	} ),
+
+	/**
 	 * @param {Array} data
 	 */
 	updateEmailNotificationData: ( data ) => ( {

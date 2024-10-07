@@ -527,7 +527,7 @@ const TablkSelectionStyle = Styled.div`
     }
 `;
 
-const FormDeleteAlertStyle = Styled.div`
+const DeleteAlertStyle = Styled.div`
     padding: 0 30px 25px;
     .formgent-conversation-delete__label{
         font-size: 16px;
@@ -732,7 +732,7 @@ export {
 	TableStyle,
 	HeaderStyle,
 	TablkSelectionStyle,
-	FormDeleteAlertStyle,
+	DeleteAlertStyle,
 	FilterStyle,
 	StarterContentStyle,
 };

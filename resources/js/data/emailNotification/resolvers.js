@@ -68,11 +68,17 @@ export const EmailNotificationResolvers = {
 				isDuplicating: true,
 			} );
 
+			yield Actions.updateIsProcessingEmailNotifications( true );
+
 			yield Actions.duplicateEmailNotification( id );
 
 			yield Actions.updateEmailNotificationItem( id, {
 				isDuplicating: false,
 			} );
+
+			yield Actions.updateIsProcessingEmailNotifications( false );
+
+			yield Actions.updateRefreshEmailNotifications( true );
 		} catch ( error ) {
 			yield Actions.updateEmailNotificationItem( id, {
 				isDuplicating: false,
