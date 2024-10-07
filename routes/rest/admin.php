@@ -18,6 +18,7 @@ Route::group(
                 Route::group(
                     'email-notifications', function() {
                         Route::patch( '{id}/status', [EmailNotificationController::class, 'update_status'] );
+                        Route::post( '{id}/duplicate', [EmailNotificationController::class, 'duplicate'] );
                         Route::resource( '/', EmailNotificationController::class );
                     }
                 );

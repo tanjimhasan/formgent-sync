@@ -4,13 +4,13 @@ namespace FormGent\App\Http\Controllers\Admin;
 
 defined( "ABSPATH" ) || exit;
 
-use Exception;
 use FormGent\App\Repositories\EmailNotificationRepository;
 use FormGent\App\Repositories\FormRepository;
 use FormGent\WpMVC\RequestValidator\Validator;
 use FormGent\WpMVC\Routing\Response;
 use FormGent\App\Http\Controllers\Controller;
 use FormGent\App\DTO\EmailNotificationDTO;
+use FormGent\App\DTO\EmailNotificationReadDTO;
 use WP_REST_Request;
 
 class EmailNotificationController extends Controller {
@@ -23,12 +23,19 @@ class EmailNotificationController extends Controller {
         $this->form_repository = $form_repository;
     }
 
-    public function index() {
-        return Response::send(
+    public function index( WP_REST_Request $request, Validator $validator ) {
+        $validator->validate(
             [
-                'emails' => $this->repository->get()
+                'per_page' => 'numeric',
+                'page'     => 'numeric',
             ]
         );
+
+        $dto = new EmailNotificationReadDTO;
+        $dto->set_per_page( intval( $request->get_param( 'per_page' ) ) );
+        $dto->set_page( intval( $request->get_param( 'page' ) ) );
+
+        return Response::send( $this->repository->get( $dto ) );
     }
 
     public function store( WP_REST_Request $request, Validator $validator ) {
@@ -44,20 +51,13 @@ class EmailNotificationController extends Controller {
             );
         }
 
-        try {
-            $this->repository->create( $this->get_dto( $request ) );
-            return Response::send(
-                [
-                    'message' => esc_html__( 'Email notification was created successfully!', 'formgent' )
-                ]
-            );
-        } catch ( Exception $ex ) {
-            return Response::send(
-                [
-                    'message' => $ex->getMessage()
-                ], $ex->getCode()
-            );
-        }
+        $this->repository->create( $this->get_dto( $request ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Email notification was created successfully!', 'formgent' )
+            ]
+        );
     }
 
     public function update( WP_REST_Request $request, Validator $validator ) {
@@ -76,20 +76,13 @@ class EmailNotificationController extends Controller {
             );
         }
 
-        try {
-            $this->repository->update( $this->get_dto( $request )->set_id( $request->get_param( 'id' ) ) );
-            return Response::send(
-                [
-                    'message' => esc_html__( 'Email notification was updated successfully!', 'formgent' )
-                ]
-            );
-        } catch ( Exception $ex ) {
-            return Response::send(
-                [
-                    'message' => $ex->getMessage()
-                ], $ex->getCode()
-            );
-        }
+        $this->repository->update( $this->get_dto( $request )->set_id( $request->get_param( 'id' ) ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Email notification was updated successfully!', 'formgent' )
+            ]
+        );
     }
 
     public function delete( WP_REST_Request $request, Validator $validator ) {
@@ -99,20 +92,49 @@ class EmailNotificationController extends Controller {
             ] 
         );
 
-        try {
-            $this->repository->delete_by_id( $request->get_param( 'id' ) );
+        $this->repository->delete_by_id( $request->get_param( 'id' ) );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Email notification was deleted successfully!', 'formgent' )
+            ]
+        );
+    }
+
+    public function duplicate( Validator $validator, WP_REST_Request $request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        $email = $this->repository->get_by_id( intval( $request->get_param( 'id' ) ) );
+
+        if ( ! $email ) {
             return Response::send(
                 [
-                    'message' => esc_html__( 'Email notification was deleted successfully!', 'formgent' )
-                ]
-            );
-        } catch ( Exception $ex ) {
-            return Response::send(
-                [
-                    'message' => $ex->getMessage()
-                ], $ex->getCode()
+                    'message' => esc_html__( 'Email notification not found', 'formgent' )
+                ], 404
             );
         }
+
+        $dto = ( new EmailNotificationDTO )->set_form_id( $email->form_id )
+        ->set_name( $email->name . ' - copy' )
+        ->set_send_to( $email->send_to )
+        ->set_subject( $email->subject )
+        ->set_body( $email->body )
+        ->set_cc( $email->cc )
+        ->set_bcc( $email->bcc )
+        ->set_reply_to( $email->reply_to )
+        ->set_status( 'draft' );
+
+        $this->repository->create( $dto );
+
+        return Response::send(
+            [
+                'message' => esc_html__( 'Email notification was duplicated successfully!', 'formgent' )
+            ]
+        );
     }
 
     public function update_status( Validator $validator, WP_REST_Request $wp_rest_request ) {
