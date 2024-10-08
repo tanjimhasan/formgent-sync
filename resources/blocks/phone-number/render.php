@@ -23,24 +23,23 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
         class="formgent-editor-block-list__single__wrapper"
     >
         <div class="formgent-editor-block-list__single__phone">
-            <span
+            <!-- <span
                 class="formgent-phone-initialization"
                 data-wp-init="callbacks.phoneNumberInit"
                 data-wp-key="<?php echo esc_attr( $attributes['name'] ); ?>"
                 name="<?php echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
             >
-            </span>
+            </span> -->
             <div class="formgent-editor-block-list__single__dialer__content">
                 <input
                     class="formgent-editor-block-list__single__input <?= $attributes['country_code'] ? 'formgent-editor-block-list__single__input--country-code' : ''; ?>"
                     type="text"
                     name="<?php echo esc_attr( $attributes['name'] ); ?>"
-                    id="<?php echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
+                    id="<?php echo esc_attr( $attributes['name'] ); ?>"
                     data-wp-context='{ "name": "<?php echo esc_attr( $attributes['name'] ); ?>" }'
                     placeholder="<?php echo esc_attr( $attributes['placeholder'] ); ?>"
                     data-wp-interactive="formgent/form"
-                    data-wp-on--input="actions.updatePhoneNumber"
-                    data-wp-bind--value="actions.getValue"
+                    data-wp-init="callbacks.phoneNumberInit"
                 >
             </div>
         </div>
