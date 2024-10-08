@@ -4,6 +4,8 @@ namespace FormGent\App\DTO;
 
 defined( 'ABSPATH' ) || exit;
 
+use FormGent\WpMVC\DTO\DTO;
+
 class FormReadDTO extends DTO {
     private int $page;
 

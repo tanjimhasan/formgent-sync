@@ -45,13 +45,9 @@ function formgent_dir( string $dir = '' ) {
     return formgent()->get_dir( $dir );
 }
 
-function formgent_render( string $content ) {
-    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-    echo $content;
-}
-
 function formgent_render_icon( string $icon ) {
-    formgent_render( file_get_contents( formgent_dir( "resources/svg/icons/{$icon}.svg" ) ) );
+    //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    echo file_get_contents( formgent_dir( "resources/svg/icons/{$icon}.svg" ) );
 }
 
 function formgent_date_time_format() {
