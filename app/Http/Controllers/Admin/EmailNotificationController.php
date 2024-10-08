@@ -85,6 +85,30 @@ class EmailNotificationController extends Controller {
         );
     }
 
+    public function show( Validator $validator, WP_REST_Request $wp_rest_request ) {
+        $validator->validate(
+            [
+                'id' => 'required|numeric'
+            ]
+        );
+
+        $form = $this->repository->get_by_id( intval( $wp_rest_request->get_param( 'id' ) ) );
+
+        if ( ! $form ) {
+            return Response::send(
+                [
+                    'message' => esc_html__( 'Email notification not found', 'formgent' )
+                ], 404
+            );
+        }
+
+        return Response::send(
+            [
+                'email' => $form
+            ]
+        );
+    }
+
     public function delete( WP_REST_Request $request, Validator $validator ) {
         $validator->validate(
             [
