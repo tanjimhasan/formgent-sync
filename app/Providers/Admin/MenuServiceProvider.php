@@ -23,6 +23,6 @@ class MenuServiceProvider implements Provider
     }
 
     public function content() {
-        formgent_render( '<div class="formgent-root"></div>' );
+        echo '<div class="formgent-root"></div>';
     }
 }
