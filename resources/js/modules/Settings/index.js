@@ -8,6 +8,7 @@ import IntegrationsChild3 from '@formgent/admin/pages/Settings/IntegrationsChild
 import FormHeader from '@formgent/components/FormHeader';
 import General from './components/General';
 import EmailNotifications from './components/emailNotification/EmailNotifications';
+import Edit from './components/emailNotification/Edit';
 import Sidebar from './components/Sidebar';
 
 function Settings( props ) {
@@ -73,6 +74,16 @@ function Settings( props ) {
 							key="email-notifications"
 							path="email-notifications"
 							element={ <EmailNotifications /> }
+						/>
+						<Route
+							key="email-notifications/create"
+							path="email-notifications/create"
+							element={ <Edit /> }
+						/>
+						<Route
+							key="email-notifications/edit/:email_notification_id"
+							path="email-notifications/edit/:email_notification_id"
+							element={ <Edit /> }
 						/>
 						<Route
 							key="integrations/child1"

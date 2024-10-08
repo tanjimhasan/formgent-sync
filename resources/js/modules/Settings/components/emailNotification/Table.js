@@ -12,8 +12,22 @@ import { TableStyle } from './style';
 import DataItemAction from './DataItemAction';
 
 export default function Table() {
-	const { EmailNotificationReducer: state } = useSelect( ( select ) => {
-		return select( 'formgent' ).getEmailNotifications();
+	const { state, formID, Link } = useSelect( ( select ) => {
+		const { CommonReducer, EmailNotificationReducer } =
+			select( 'formgent' ).getCommonState();
+
+		const { useParams, Link } = CommonReducer.routerComponents;
+		const { id } = useParams();
+
+		select( 'formgent' ).getEmailNotifications( {
+			form_id: parseInt( id ),
+		} );
+
+		return {
+			state: EmailNotificationReducer,
+			Link,
+			formID: parseInt( id ),
+		};
 	}, [] );
 
 	const {
@@ -24,6 +38,7 @@ export default function Table() {
 		foundItems,
 		refresh,
 	} = state;
+
 	const { updateRefreshEmailNotifications } = useDispatch( 'formgent' );
 
 	useEffect( () => {
@@ -90,13 +105,12 @@ export default function Table() {
 				return (
 					<DataItemAction
 						{ ...data }
+						formID={ formID }
+						Link={ Link }
 						onDuplicate={ ( id ) => {
 							resolveSelect(
 								'formgent'
 							).duplicateEmailNotification( id, Date.now() );
-						} }
-						onEdit={ ( id ) => {
-							//
 						} }
 						onDelete={ ( id ) => {
 							resolveSelect( 'formgent' ).deleteEmailNotification(

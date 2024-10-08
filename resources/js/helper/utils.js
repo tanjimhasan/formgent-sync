@@ -26,39 +26,4 @@ function convertToTitleCase( text ) {
 		.join( ' ' );
 }
 
-function addQueryStrings( path, data ) {
-	const isObject = ( value ) =>
-		value && typeof value === 'object' && ! Array.isArray( value );
-
-	if ( ! isObject( data ) ) {
-		return path;
-	}
-
-	let queryString = '';
-
-	for ( const [ key, value ] of Object.entries( data ) ) {
-		if ( value === '' ) {
-			continue;
-		}
-
-		if ( Array.isArray( value ) ) {
-			for ( const item of value ) {
-				if ( item === '' ) {
-					continue;
-				}
-
-				queryString += `&${ key }[]=${ item }`;
-			}
-		} else {
-			queryString += `&${ key }=${ value }`;
-		}
-	}
-
-	if ( ! queryString ) {
-		return path;
-	}
-
-	return `${ path }?${ queryString.substring( 1 ) }`;
-}
-
-export { formatDate, convertToTitleCase, addQueryStrings };
+export { formatDate, convertToTitleCase };

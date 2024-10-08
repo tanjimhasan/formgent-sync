@@ -1,10 +1,10 @@
-import { addQueryStrings } from '@formgent/helper/utils';
+import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
 
 export const EmailNotificationControls = {
 	FETCH_EMAIL_NOTIFICATIONS( { payload } ) {
 		return apiFetch( {
-			path: addQueryStrings(
+			path: addQueryArgs(
 				'formgent/admin/forms/email-notifications',
 				payload
 			),

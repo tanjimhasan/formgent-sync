@@ -1187,6 +1187,13 @@ a.formgent-btn-disabled {
 	}
 }
 
+.formgent-loading-light {
+	&:before {
+		border: 2px solid rgba(255, 255, 255, 0.3);
+		border-top-color: var(--formgent-color-white);
+	}
+}
+
 @keyframes formgent_spinner {
 	0% {
 		transform: translate(-50%, -50%) rotate(0deg); /* Start at 0 degrees */

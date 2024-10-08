@@ -16,8 +16,9 @@ export default function DataItemAction( props ) {
 		deleteErrorMessage,
 		isDeleting,
 		onDuplicate,
-		onEdit,
 		onDelete,
+		formID,
+		Link,
 	} = props;
 
 	const [ state, setState ] = useState( {
@@ -26,23 +27,14 @@ export default function DataItemAction( props ) {
 
 	return (
 		<div>
-			<a
-				href="#"
-				onClick={ ( e ) => {
-					e.preventDefault();
-
-					if ( typeof onEdit !== 'function' ) {
-						return;
-					}
-
-					onEdit( id );
-				} }
+			<Link
+				to={ `/forms/${ formID }/settings/email-notifications/edit/${ id }` }
 				className="formgent-action-link"
 			>
 				<span className="formgent-action-link-icon">
 					<ReactSVG src={ editIcon } />
 				</span>
-			</a>
+			</Link>
 
 			<a
 				href="#"

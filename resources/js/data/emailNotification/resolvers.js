@@ -16,6 +16,7 @@ export const EmailNotificationResolvers = {
 			const defaultQueryArgs = {
 				page: 1,
 				per_page: 20,
+				sort_by: 'last_submission',
 			};
 
 			const updatedQueryArgs = { ...defaultQueryArgs, ...queryArgs };
