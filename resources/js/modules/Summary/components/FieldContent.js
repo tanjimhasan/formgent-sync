@@ -57,7 +57,8 @@ export default function FieldContent( props ) {
 					const fieldName = field.field_name;
 					if ( ! selectionFields[ field.field_type ] ) {
 						return (
-							field.field_type !== 'gdpr' && (
+							field.field_type !== 'gdpr' &&
+							field.field_type !== '' && (
 								<div
 									className={ `formgent-summary-item formgent-summary-item--${ field.field_type }` }
 									key={ index }

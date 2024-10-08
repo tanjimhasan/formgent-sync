@@ -36,17 +36,20 @@ const generalControls = {
 					},
 				],
 			},
+			validation: {
+				type: 'switch',
+				label: __( 'Validate URL', 'formgent' ),
+			},
+			validation_message: {
+				type: 'text',
+				label: __( 'Validation message', 'formgent' ),
+				condition: function ( attributes ) {
+					return attributes[ 'validation' ];
+				},
+			},
 			placeholder: {
 				type: 'text',
 				label: __( 'Field Placeholder', 'formgent' ),
-			},
-			value: {
-				type: 'default_value',
-				label: __( 'Default Value', 'formgent' ),
-			},
-			name: {
-				type: 'text',
-				label: __( 'Field Name', 'formgent' ),
 			},
 			required: {
 				type: 'switch',
@@ -56,7 +59,21 @@ const generalControls = {
 	},
 };
 
-const advancedControls = {};
+const advancedControls = {
+	advanced: {
+		type: 'panel',
+		children: {
+			value: {
+				type: 'default_value',
+				label: __( 'Default Value', 'formgent' ),
+			},
+			name: {
+				type: 'text',
+				label: __( 'Field Name', 'formgent' ),
+			},
+		},
+	},
+};
 
 const controls = { generalControls, advancedControls };
 

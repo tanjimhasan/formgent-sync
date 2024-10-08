@@ -9,6 +9,7 @@ import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
+import { HeightControl } from '@wordpress/block-editor';
 import { useMemo, useEffect, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 import styled, { css } from 'styled-components';
@@ -31,6 +32,10 @@ const StyledInput = styled( InputControl )`
 			`;
 		}
 	} }
+`;
+
+const StyledBlockEditorControl = styled.div`
+	margin-bottom: 24px;
 `;
 
 const controlGenerators = {
@@ -77,6 +82,7 @@ const controlGenerators = {
 				value={ attributes[ attr_key ] }
 				help={ props.help }
 				size="__unstable-large"
+				type={ control?.inputType }
 				onChange={ function ( value ) {
 					// Update the attribute value in the block's attributes
 					setAttributes( { [ attr_key ]: value } );
@@ -144,6 +150,19 @@ const controlGenerators = {
 					setAttributes( { [ attr_key ]: value } );
 				} }
 			/>
+		);
+	},
+	height: function ( { attr_key, control, attributes, setAttributes } ) {
+		return (
+			<StyledBlockEditorControl>
+				<HeightControl
+					label={ control.label }
+					value={ attributes[ attr_key ] }
+					onChange={ function ( value ) {
+						setAttributes( { [ attr_key ]: value } );
+					} }
+				/>
+			</StyledBlockEditorControl>
 		);
 	},
 	dimension: function ( { attr_key, control, setAttributes } ) {
