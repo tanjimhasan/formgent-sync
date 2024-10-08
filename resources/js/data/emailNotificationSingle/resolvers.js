@@ -30,7 +30,9 @@ export const EmailNotificationSingleResolvers = {
 
 			const data = yield Actions.fetchEmailNotificationSingle( id );
 
-			yield Actions.updateEmailNotificationSingleInitialValues( data );
+			yield Actions.updateEmailNotificationSingleInitialValues(
+				data.email
+			);
 
 			yield Actions.updateIsLoadingEmailNotificationSingle(
 				'initialValues',
