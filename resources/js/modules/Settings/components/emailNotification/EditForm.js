@@ -2,11 +2,11 @@ import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { useEffect } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
-import { Space, Form, Input, Col, Row } from 'antd';
+import { Space, Form, Input, Col, Row, Dropdown, DownOutlined } from 'antd';
 
 import arrowLeftIcon from '@icon/arrow-left.svg';
 
-import { AntButton, ClassicEditorField } from '@formgent/components';
+import { AntButton, ClassicEditorField, TextField } from '@formgent/components';
 
 export default function EditForm( props ) {
 	const {
@@ -14,7 +14,7 @@ export default function EditForm( props ) {
 		initialValues,
 		isProcessing,
 		responseStatus,
-		placeholders,
+		presetFields,
 		onSubmit,
 		onCancel,
 	} = props;
@@ -27,6 +27,17 @@ export default function EditForm( props ) {
 			message: __( 'The field is required', 'formgent' ),
 		},
 	];
+
+	const presetButtonLabel = __( 'Form Fields', 'formgent' );
+	const parsedPresetFields = parsePresetFields( presetFields );
+
+	function parsePresetFields( presetFields ) {
+		return presetFields.map( ( item ) => ( {
+			...item,
+			label: item.value,
+			key: item.value,
+		} ) );
+	}
 
 	useEffect( () => {
 		if ( ! responseStatus ) {
@@ -44,9 +55,11 @@ export default function EditForm( props ) {
 			return;
 		}
 
-		if ( typeof onSubmit === 'function' ) {
-			onSubmit( values );
-		}
+		// console.log( { values } );
+
+		// if ( typeof onSubmit === 'function' ) {
+		// 	onSubmit( values );
+		// }
 	}
 
 	return (
@@ -118,9 +131,11 @@ export default function EditForm( props ) {
 									label={ __( 'Email Subject', 'formgent' ) }
 									rules={ commonFieldRules }
 								>
-									<Input
+									<TextField
+										presetButtonLabel={ presetButtonLabel }
+										presetFields={ parsedPresetFields }
 										placeholder={ __(
-											'Template Name',
+											'Email Subject',
 											'formgent'
 										) }
 									/>
@@ -131,9 +146,11 @@ export default function EditForm( props ) {
 									label={ __( 'Send to', 'formgent' ) }
 									rules={ commonFieldRules }
 								>
-									<Input
+									<TextField
+										presetButtonLabel={ presetButtonLabel }
+										presetFields={ parsedPresetFields }
 										placeholder={ __(
-											'Template Name',
+											'Send to',
 											'formgent'
 										) }
 									/>
@@ -144,7 +161,10 @@ export default function EditForm( props ) {
 									label={ __( 'Email Content', 'formgent' ) }
 									rules={ commonFieldRules }
 								>
-									<ClassicEditorField />
+									<ClassicEditorField
+										presetButtonLabel={ presetButtonLabel }
+										presetFields={ parsedPresetFields }
+									/>
 								</Form.Item>
 							</Col>
 						</Row>

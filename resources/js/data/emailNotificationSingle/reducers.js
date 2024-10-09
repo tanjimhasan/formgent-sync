@@ -8,7 +8,38 @@ const DEFAULT_STATE = {
 	isNotFound: false,
 	id: null,
 	initialValues: {},
-	placeholders: [],
+	presetFields: [
+		{
+			type: 'form_field',
+			value: '{{field:title}}',
+			description: 'Prints the title fields value',
+		},
+		{
+			type: 'form_field',
+			value: '{{label:title}}',
+			description: 'Prints the title fields label',
+		},
+		{
+			type: 'preset',
+			value: '{{site_title}}',
+			description: 'Prints site title',
+		},
+		{
+			type: 'preset',
+			value: '{{site_url}}',
+			description: 'Prints site URL',
+		},
+		{
+			type: 'preset',
+			value: '{{admin_email}}',
+			description: 'Prints admin email',
+		},
+		{
+			type: 'preset',
+			value: '{{user_email}}',
+			description: 'Prints the email who submitted the form',
+		},
+	],
 	responseStatus: null,
 };
 

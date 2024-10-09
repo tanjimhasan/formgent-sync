@@ -247,8 +247,4 @@ const DeleteAlertStyle = Styled.div`
     }
 `;
 
-const SingleContainerStyle = Styled.div`
-    
-`;
-
-export { TableStyle, SingleContainerStyle, DeleteAlertStyle };
+export { TableStyle, DeleteAlertStyle };

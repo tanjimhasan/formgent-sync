@@ -82,7 +82,7 @@ export default function Edit() {
 						state.isLoading.createData || state.isLoading.updateData
 					}
 					responseStatus={ state.responseStatus }
-					placeholders={ state.placeholders }
+					presetFields={ state.presetFields }
 					onSubmit={ onSubmit }
 					onCancel={ back }
 				/>

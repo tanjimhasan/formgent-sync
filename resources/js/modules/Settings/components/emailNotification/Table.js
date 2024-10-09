@@ -143,7 +143,6 @@ export default function Table() {
 				dataSource={ data }
 				rowKey={ ( dataItem ) => dataItem.id }
 				pagination={ { position: [ 'none' ] } }
-				scroll={ { x: 1300 } }
 			/>
 
 			<div className="formgent-forms-pagination-wrapper">

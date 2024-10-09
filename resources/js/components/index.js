@@ -22,6 +22,7 @@ import AntTextArea from './TextArea';
 import AntTooltip from './Tooltip';
 import AntProgress from './Progress';
 import ClassicEditorField from './FormFields/ClassicEditorField';
+import TextField from './FormFields/TextField';
 
 /**
  * Global components for admin and user
@@ -52,6 +53,7 @@ registerModule( 'components', {
 	AntPagination,
 	AntProgress,
 	ClassicEditorField,
+	TextField,
 } );
 
 /**
@@ -76,4 +78,5 @@ export {
 	AntProgress,
 	Loader,
 	ClassicEditorField,
+	TextField,
 };
