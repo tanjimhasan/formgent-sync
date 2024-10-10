@@ -6,7 +6,7 @@ export const EmailNotificationSingleResolvers = {
 	 * @param {number} id
 	 * @param {number} timestamp
 	 */
-	*getEmailNotification( id, timestamp = 0 ) {
+	*fetchEmailNotificationSingle( id, timestamp = 0 ) {
 		try {
 			if ( typeof id === 'undefined' ) {
 				return;
@@ -56,10 +56,52 @@ export const EmailNotificationSingleResolvers = {
 	},
 
 	/**
+	 * @param {number} formID
+	 * @param {number} timestamp
+	 */
+	*fetchEmailNotificationSinglePresetFields( formID, timestamp = 0 ) {
+		try {
+			if ( typeof formID === 'undefined' ) {
+				return;
+			}
+
+			if ( isNaN( parseInt( formID ) ) || `${ formID }` === '0' ) {
+				return;
+			}
+
+			formID = parseInt( formID );
+
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'presetFields',
+				true
+			);
+
+			const data =
+				yield Actions.fetchEmailNotificationSinglePresetFields(
+					formID
+				);
+
+			yield Actions.updateEmailNotificationSinglePresetFields(
+				data.preset_fields
+			);
+
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'presetFields',
+				false
+			);
+		} catch ( error ) {
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'presetFields',
+				false
+			);
+		}
+	},
+
+	/**
 	 * @param {object} data
 	 * @param {number} timestamp
 	 */
-	*createEmailNotification( data, timestamp = 0 ) {
+	*createEmailNotificationSingle( data, timestamp = 0 ) {
 		try {
 			yield Actions.updateIsLoadingEmailNotificationSingle(
 				'createData',
@@ -88,7 +130,7 @@ export const EmailNotificationSingleResolvers = {
 	 * @param {object} data
 	 * @param {number} timestamp
 	 */
-	*updateEmailNotification( id, data, timestamp = 0 ) {
+	*updateEmailNotificationSingle( id, data, timestamp = 0 ) {
 		try {
 			yield Actions.updateIsLoadingEmailNotificationSingle(
 				'updateData',

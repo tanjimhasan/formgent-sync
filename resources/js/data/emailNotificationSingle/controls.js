@@ -6,6 +6,11 @@ export const EmailNotificationSingleControls = {
 			path: `formgent/admin/forms/email-notifications/${ payload }`,
 		} );
 	},
+	FETCH_EMAIL_NOTIFICATION_SINGLE_PRESET_FIELDS( { payload } ) {
+		return apiFetch( {
+			path: `formgent/admin/forms/${ payload }/preset-fields`,
+		} );
+	},
 	CREATE_EMAIL_NOTIFICATION_SINGLE( { payload } ) {
 		return apiFetch( {
 			path: `formgent/admin/forms/email-notifications`,

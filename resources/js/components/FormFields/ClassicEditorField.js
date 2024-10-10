@@ -33,7 +33,7 @@ export default function ClassicEditorField( props ) {
 				editorRef.current.querySelector( '.wp-editor-tabs' );
 			editorTabs.append( presetFieldRef.current );
 		}
-	}, [] );
+	}, [ hasPresetFields ] );
 
 	return (
 		<div

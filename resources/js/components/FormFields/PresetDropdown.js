@@ -47,7 +47,7 @@ export default function PresetDropdown( props ) {
 					}
 				},
 			} }
-			trigger={ trigger ? trigger : [ 'hover' ] }
+			trigger={ trigger ? trigger : [ 'click' ] }
 		>
 			{ children }
 		</Dropdown>

@@ -41,6 +41,14 @@ export const EmailNotificationSingleActions = {
 	} ),
 
 	/**
+	 * @param {object} presetFields
+	 */
+	updateEmailNotificationSinglePresetFields: ( presetFields ) => ( {
+		type: 'UPDATE_EMAIL_NOTIFICATION_SINGLE_PRESET_FIELDS',
+		payload: presetFields,
+	} ),
+
+	/**
 	 * @param {?object} status
 	 * @param {boolean} status.success
 	 * @param {string} status.message
@@ -56,6 +64,14 @@ export const EmailNotificationSingleActions = {
 	fetchEmailNotificationSingle: ( id ) => ( {
 		type: 'FETCH_EMAIL_NOTIFICATION_SINGLE',
 		payload: id,
+	} ),
+
+	/**
+	 * @param {number} formID
+	 */
+	fetchEmailNotificationSinglePresetFields: ( formID ) => ( {
+		type: 'FETCH_EMAIL_NOTIFICATION_SINGLE_PRESET_FIELDS',
+		payload: formID,
 	} ),
 
 	/**

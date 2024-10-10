@@ -13,7 +13,10 @@ export default function Edit() {
 
 		const navigateTo = useNavigate();
 
-		select( 'formgent' ).getEmailNotification( email_notification_id );
+		select( 'formgent' ).fetchEmailNotificationSingle(
+			email_notification_id
+		);
+		select( 'formgent' ).fetchEmailNotificationSinglePresetFields( id );
 
 		return {
 			state: EmailNotificationSingleReducer,
@@ -54,14 +57,14 @@ export default function Edit() {
 		}
 
 		if ( state.id ) {
-			resolveSelect( 'formgent' ).updateEmailNotification(
+			resolveSelect( 'formgent' ).updateEmailNotificationSingle(
 				state.id,
 				values,
 				Date.now()
 			);
 		} else {
 			values = { ...values, status: 'publish' };
-			resolveSelect( 'formgent' ).createEmailNotification(
+			resolveSelect( 'formgent' ).createEmailNotificationSingle(
 				values,
 				Date.now()
 			);
@@ -74,7 +77,12 @@ export default function Edit() {
 
 	return (
 		<SettingsContentStyle className="formgent-settings-content">
-			<Loader isLoadiing={ state.isLoading.initialValues }>
+			<Loader
+				isLoadiing={
+					state.isLoading.initialValues ||
+					state.isLoading.presetFields
+				}
+			>
 				<EditForm
 					isEdit={ state.id ? true : false }
 					initialValues={ state.initialValues }

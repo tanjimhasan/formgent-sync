@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { useEffect } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
-import { Space, Form, Input, Col, Row, Dropdown, DownOutlined } from 'antd';
+import { Space, Form, Input, Col, Row } from 'antd';
 
 import arrowLeftIcon from '@icon/arrow-left.svg';
 
@@ -55,11 +55,9 @@ export default function EditForm( props ) {
 			return;
 		}
 
-		// console.log( { values } );
-
-		// if ( typeof onSubmit === 'function' ) {
-		// 	onSubmit( values );
-		// }
+		if ( typeof onSubmit === 'function' ) {
+			onSubmit( values );
+		}
 	}
 
 	return (
