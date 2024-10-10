@@ -261,6 +261,49 @@ button.formgent-repeater-field-expand {
 	}
 }
 
+.formgent-form-settings-panel {
+	&.is-opened {
+		padding: 0;
+	}
+	.formgent-form-settings-panel__title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 16px;
+		font-weight: 500;
+		cursor: pointer;
+		transition: 0.3s ease;
+		&:hover {
+			background: #f5f5f5;
+		}
+	}
+}
+.formgent-form-settings-modal {
+	background: #e5e7eb;
+	border-radius: 12px;
+	padding: 20px;
+	.components-modal__header {
+		.components-button {
+			width: 36px;
+			height: 36px;
+			background: #d2d6db;
+			border-radius: 50%;
+			svg {
+				width: 16px;
+				height: 16 px;
+			}
+		}
+	}
+	.components-modal__content {
+		padding: 0;
+	}
+	.formgent-form-settings-modal__body {
+		background: #fff;
+		border-radius: 12px;
+		padding: 15px;
+	}
+}
+
 // Hide block default advanced tab panel
 .editor-sidebar__panel:is(.components-panel):has(.formgent)
 	.block-editor-block-inspector__advanced:not(.formgent-advanced) {
