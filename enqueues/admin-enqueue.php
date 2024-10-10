@@ -6,6 +6,9 @@ defined( 'ABSPATH' ) || exit;
 
 include_once __DIR__ . '/register.php';
 
+wp_enqueue_media();
+wp_enqueue_editor();
+
 /**
  * Builder scripts
  */
@@ -20,6 +23,5 @@ if ( formgent_post_type() === get_post_type() ) {
 if ( 'formgent_page_formgent' ===  $hook_suffix ) {
     wp_enqueue_style( 'wp-components' );
     wp_enqueue_style( 'formgent/style' );
-    wp_enqueue_editor();
     Enqueue::script( 'formgent/admin', 'build/js/admin', ['formgent/notification'] );
 }
