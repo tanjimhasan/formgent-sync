@@ -26,8 +26,8 @@ $unique_id = str_replace( '-', '_', wp_unique_id( 'formgent-store' ) );
             <!-- <span
                 class="formgent-phone-initialization"
                 data-wp-init="callbacks.phoneNumberInit"
-                data-wp-key="<?php echo esc_attr( $attributes['name'] ); ?>"
-                name="<?php echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
+                data-wp-key="<?php // echo esc_attr( $attributes['name'] ); ?>"
+                name="<?php // echo esc_attr( $attributes['name'] ); ?>-<?php echo esc_attr( $unique_id ) ?>-dial-code"
             >
             </span> -->
             <div class="formgent-editor-block-list__single__dialer__content">
