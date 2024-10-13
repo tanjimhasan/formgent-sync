@@ -5,12 +5,9 @@ namespace FormGent\App\Providers\Admin;
 defined( 'ABSPATH' ) || exit;
 
 use FormGent\WpMVC\Contracts\Provider;
-use FormGent\WpMVC\View\View;
 
 class MenuServiceProvider implements Provider
 {
-    public $pro_url = 'https://wpwax.com/formgent';
-
     public function boot() {
         add_action( 'admin_menu', [$this, 'action_admin_menu'] );
     }
@@ -23,6 +20,6 @@ class MenuServiceProvider implements Provider
     }
 
     public function content() {
-        formgent_render( '<div class="formgent-root"></div>' );
+        echo '<div class="formgent-root"></div>';
     }
 }

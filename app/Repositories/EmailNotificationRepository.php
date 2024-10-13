@@ -4,24 +4,25 @@ namespace FormGent\App\Repositories;
 
 defined( "ABSPATH" ) || exit;
 
-use FormGent\App\DTO\EmailNotificationDTO;
 use FormGent\App\Models\EmailNotification;
+use FormGent\App\DTO\EmailNotificationReadDTO;
+use FormGent\WpMVC\Repositories\Repository;
+use FormGent\WpMVC\Database\Query\Builder;
 
-class EmailNotificationRepository {
-    public function get() {
-        return EmailNotification::query()->get();
+class EmailNotificationRepository extends Repository {
+    public function get_query_builder() : Builder {
+        return EmailNotification::query();
     }
 
-    public function create( EmailNotificationDTO $dto ) {
-        return EmailNotification::query()->insert_get_id( $dto->to_array() );
-    }
-    
-    public function update( EmailNotificationDTO $dto ) {
-        return EmailNotification::query()->where( 'id', $dto->get_id() )->update( $dto->to_array() );
-    }
+    public function get( EmailNotificationReadDTO $dto ) {
+        $query = $this->get_query_builder();
 
-    public function delete_by_id( int $id ) {
-        return EmailNotification::query()->where( 'id', $id )->delete();
+        $count_query = clone $query;
+
+        return [
+            'total'  => $count_query->count(),
+            'emails' => $query->pagination( $dto->get_page(), $dto->get_per_page() )
+        ];
     }
 
     public function get_by_form_id( int $form_id, string $status = 'publish' ) {

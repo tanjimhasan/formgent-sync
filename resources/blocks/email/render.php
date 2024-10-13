@@ -6,7 +6,7 @@
             for="<?php echo esc_attr( $attributes['name'] ); ?>"
             class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
         >
-            <?php formgent_render( wp_kses_post( $attributes['label'] ) ); ?>
+            <?php echo wp_kses_post( $attributes['label'] ); ?>
             <?php if ( $attributes['required'] ) : ?>
                 <span class="formgent-editor-block-list__single__label__required">
                     *
@@ -37,7 +37,7 @@
 
         <?php if ( ! empty( $attributes['sub_label'] ) ) : ?>
             <span class="formgent-editor-block-list__single__sub-label">
-                <?php formgent_render( wp_kses_post( $attributes['sub_label'] ) ); ?>
+                <?php echo wp_kses_post( $attributes['sub_label'] ); ?>
             </span>
         <?php endif; ?>
     </div>
@@ -54,7 +54,7 @@
         for="<?php echo esc_attr( $name ); ?>"
         class= "formgent-editor-block-list__single__label-container formgent-label-align-<?php echo esc_attr( $attributes['label_alignment'] ); ?>"
     >
-        <?php formgent_render( wp_kses_post( $attributes['confirm_label'] ) ); ?>
+        <?php echo wp_kses_post( $attributes['confirm_label'] ); ?>
         <span class="formgent-editor-block-list__single__label__required">*</span>
     </label>
     <?php endif; ?>
@@ -79,7 +79,7 @@
 
         <?php if ( ! empty( $attributes['confirm_sub_label'] ) ) : ?>
             <span class="formgent-editor-block-list__single__sub-label">
-                <?php formgent_render( wp_kses_post( $attributes['confirm_sub_label'] ) ); ?>
+                <?php echo wp_kses_post( $attributes['confirm_sub_label'] ); ?>
             </span>
         <?php endif; ?>
     </div>

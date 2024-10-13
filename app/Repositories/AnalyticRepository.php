@@ -38,23 +38,19 @@ class AnalyticRepository {
     }
 
     public function response_summary( int $form_id ): ?array {
-        $total_completion_time_query = <<<SQL
-        SUM(
-            CASE
-                WHEN response.is_completed = '1' THEN TIME_TO_SEC(
-                    TIMEDIFF( response.completed_at, response.created_at )
-                )
-                ELSE 0
-            END
-        ) AS total_completion_time
-SQL;
-
         $base_query = Response::query( 'response' )
             ->select( 
                 [
                     "COUNT( form_id ) AS total_stared",
                     "SUM( CASE WHEN response.is_completed = '1' THEN 1 ELSE 0 END ) AS total_finished",
-                    $total_completion_time_query,
+                    "SUM(
+                        CASE
+                            WHEN response.is_completed = '1' THEN TIME_TO_SEC(
+                                TIMEDIFF( response.completed_at, response.created_at )
+                            )
+                            ELSE 0
+                        END
+                    ) AS total_completion_time",
                 ]
             );
 
