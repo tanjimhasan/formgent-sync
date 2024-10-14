@@ -6,6 +6,7 @@ import {
 	InspectorControls,
 	useBlockProps,
 	InspectorAdvancedControls,
+	BlockControls,
 } from '@wordpress/block-editor';
 import Controls from './Controls';
 import { Fragment, useEffect, useState } from '@wordpress/element';
@@ -17,6 +18,7 @@ import {
 	TabPanel,
 	PanelBody,
 	__experimentalUseSlotFills as useSlotFills,
+	Button,
 } from '@wordpress/components';
 import ReactSVG from 'react-inlinesvg';
 import editIcon from '@icon/edit.svg';
@@ -253,9 +255,15 @@ const getFilteredBlocks = ( blocksArray, id ) => {
 	return blocksArray.filter( ( block ) => block.clientId !== id );
 };
 
-function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
+function Block( {
+	controls,
+	Edit,
+	attributes,
+	setAttributes,
+	metaData,
+	clientId,
+} ) {
 	const blockProps = useBlockProps();
-	const clientId = blockProps[ 'data-block' ];
 	const [ draggingEnded, setDraggingEnded ] = useState( false );
 	const [ selectedTab, setSelectedTab ] = useState( '' );
 
@@ -433,14 +441,31 @@ function Block( { controls, Edit, attributes, setAttributes, metaData } ) {
 		}
 	}, [] );
 
+	const [ isSelectedInput, setIsSelectedInput ] = useState( false );
+
 	return (
 		<>
 			<div { ...blockProps }>
 				<Edit
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					inputProps={ {
+						onFocus: () => setIsSelectedInput( true ), // Set focus on RichText
+						onBlur: () => setIsSelectedInput( false ), // Reset focus on blur
+					} }
 				/>
 			</div>
+
+			{ ! isSelectedInput && (
+				<BlockControls>
+					<Button variant="secondary">100%</Button>
+					<Button variant="secondary">75%</Button>
+					<Button variant="secondary">50%</Button>
+					<Button variant="secondary">33%</Button>
+					<Button variant="secondary">25%</Button>
+				</BlockControls>
+			) }
+
 			<InspectorControls>
 				<div className="formgent">
 					<TabPanel
@@ -519,7 +544,7 @@ export function registerBlock(
 			example: {
 				attributes: exampleAttributes,
 			},
-			edit: function ( { attributes, setAttributes } ) {
+			edit: function ( { attributes, setAttributes, clientId } ) {
 				return (
 					<Block
 						controls={ controls }
@@ -527,6 +552,7 @@ export function registerBlock(
 						attributes={ attributes }
 						setAttributes={ setAttributes }
 						metaData={ metadata }
+						clientId={ clientId }
 					/>
 				);
 			},
