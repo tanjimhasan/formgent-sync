@@ -72,7 +72,7 @@ export default function Edit() {
 	}
 
 	function back() {
-		navigateTo( `/forms/${ formID }/settings/email-notifications` );
+		navigateTo( `/email-notifications` );
 	}
 
 	return (

@@ -8,7 +8,7 @@ import IntegrationsChild3 from './IntegrationsChild3.js';
 
 // Add filter to extend settings routes
 addFilter(
-	'formgent_settings_routes',
+	'formgent_form_settings_routes',
 	'formgent/settings/routes',
 	( routes ) => {
 		return [

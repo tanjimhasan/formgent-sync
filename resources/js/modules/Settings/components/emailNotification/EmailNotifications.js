@@ -39,9 +39,7 @@ export default function EmailNotifications() {
 						type="primary"
 						className="formgent-page-header-btn"
 						onClick={ () => {
-							navigateTo(
-								`/forms/${ formID }/settings/email-notifications/create`
-							);
+							navigateTo( `/email-notifications/create` );
 						} }
 					>
 						<ReactSVG src={ plusIcon } />{ ' ' }
