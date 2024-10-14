@@ -19,6 +19,7 @@ import {
 	PanelBody,
 	__experimentalUseSlotFills as useSlotFills,
 	Button,
+	ToolbarGroup,
 } from '@wordpress/components';
 import ReactSVG from 'react-inlinesvg';
 import editIcon from '@icon/edit.svg';
@@ -458,11 +459,13 @@ function Block( {
 
 			{ ! isSelectedInput && (
 				<BlockControls>
-					<Button variant="secondary">100%</Button>
-					<Button variant="secondary">75%</Button>
-					<Button variant="secondary">50%</Button>
-					<Button variant="secondary">33%</Button>
-					<Button variant="secondary">25%</Button>
+					<ToolbarGroup>
+						<Button variant="secondary">100%</Button>
+						<Button variant="secondary">75%</Button>
+						<Button variant="secondary">50%</Button>
+						<Button variant="secondary">33%</Button>
+						<Button variant="secondary">25%</Button>
+					</ToolbarGroup>
 				</BlockControls>
 			) }
 
