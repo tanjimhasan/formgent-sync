@@ -444,9 +444,18 @@ function Block( {
 
 	const [ isSelectedInput, setIsSelectedInput ] = useState( false );
 
+	console.log( attributes );
+
 	return (
 		<>
-			<div { ...blockProps }>
+			<div
+				{ ...blockProps }
+				className={ `${
+					blockProps.className
+				} formgent-block-width-${ Math.trunc(
+					attributes.block_width
+				) }` }
+			>
 				<Edit
 					attributes={ attributes }
 					setAttributes={ setAttributes }
@@ -460,11 +469,46 @@ function Block( {
 			{ ! isSelectedInput && (
 				<BlockControls>
 					<ToolbarGroup>
-						<Button variant="secondary">100%</Button>
-						<Button variant="secondary">75%</Button>
-						<Button variant="secondary">50%</Button>
-						<Button variant="secondary">33%</Button>
-						<Button variant="secondary">25%</Button>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setAttributes( { block_width: '100' } )
+							}
+						>
+							100%
+						</Button>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setAttributes( { block_width: '75' } )
+							}
+						>
+							75%
+						</Button>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setAttributes( { block_width: '50' } )
+							}
+						>
+							50%
+						</Button>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setAttributes( { block_width: '33.33' } )
+							}
+						>
+							33%
+						</Button>
+						<Button
+							variant="secondary"
+							onClick={ () =>
+								setAttributes( { block_width: '25' } )
+							}
+						>
+							25%
+						</Button>
 					</ToolbarGroup>
 				</BlockControls>
 			) }
