@@ -1,6 +1,5 @@
 import { RichText } from '@wordpress/block-editor';
 import { InnerBlocks } from '@wordpress/block-editor';
-import { nanoid } from 'nanoid';
 import { __ } from '@wordpress/i18n';
 
 import './editor.scss';

@@ -164,24 +164,9 @@ function mergeSiblingsBlocks( blocks ) {
 	let mergedBlocks = [];
 	blocks.forEach( ( block ) => {
 		if (
-			! block.name.includes( 'formgent/' ) ||
-			block.innerBlocks.length !== 0
+			block.name.includes( 'formgent/' ) ||
+			block.innerBlocks.length === 0
 		) {
-			// Recursively merge inner blocks
-			const innerMergedBlocks = mergeSiblingsBlocks( block.innerBlocks );
-			innerMergedBlocks.forEach( ( innerBlock ) => {
-				if (
-					! mergedBlocks.some(
-						( existingBlock ) =>
-							existingBlock.clientId === innerBlock.clientId
-					)
-				) {
-					mergedBlocks.push( innerBlock );
-				}
-			} );
-			//mergedBlocks = mergedBlocks.concat(mergeSiblingsBlocks(block.innerBlocks));
-		} else {
-			// Only add the block if it's not already in mergedBlocks
 			if (
 				! mergedBlocks.some(
 					( existingBlock ) =>
@@ -190,7 +175,6 @@ function mergeSiblingsBlocks( blocks ) {
 			) {
 				mergedBlocks.push( block );
 			}
-			//mergedBlocks.push(block);
 		}
 	} );
 	return mergedBlocks;
@@ -202,11 +186,6 @@ const mergeInnerBlocks = ( block, blockParentIds ) => {
 
 	if ( block.innerBlocks ) {
 		mergeBlocks = [ ...block.innerBlocks ];
-
-		// Recursively merge innerBlocks of each block
-		block.innerBlocks.forEach( ( innerBlock ) => {
-			mergeBlocks = mergeBlocks.concat( mergeInnerBlocks( innerBlock ) );
-		} );
 	}
 	if ( blockParentIds && blockParentIds.length > 1 ) {
 		mergeBlocks = mergeParentBlocks(
@@ -224,22 +203,11 @@ function mergeParentBlocks( blockParentIds, mergeBlocks, blockEditorStore ) {
 		const parent = blockEditorStore.getBlocksByClientId(
 			blockParentIds[ i ]
 		);
-		if ( ! parent[ 0 ].name.includes( 'formgent/' ) ) {
-			const innerBlocksClientIds = parent[ 0 ].innerBlocks.map(
-				( block ) => block.clientId
-			);
-			mergedParentBlocks = mergeParentBlocks(
-				innerBlocksClientIds,
-				mergedParentBlocks,
-				blockEditorStore
-			);
-		} else {
-			const isAlreadyMerged = mergedParentBlocks.some(
-				( block ) => block.clientId === parent[ 0 ].clientId
-			);
-			if ( ! isAlreadyMerged ) {
-				mergedParentBlocks = mergedParentBlocks.concat( parent );
-			}
+		const isAlreadyMerged = mergedParentBlocks.some(
+			( block ) => block.clientId === parent[ 0 ].clientId
+		);
+		if ( ! isAlreadyMerged ) {
+			mergedParentBlocks = mergedParentBlocks.concat( parent );
 		}
 	}
 	return mergedParentBlocks;
@@ -314,6 +282,8 @@ function Block( {
 		const currentId = attributes.id;
 		const isNewBlock = ! currentId || currentId.length === 0;
 
+		console.log( maturedParent );
+
 		if ( isNewBlock ) {
 			// If Parent blocks having child (Address, Name Block)
 			if ( ! maturedParent.includes( null ) ) {
@@ -342,7 +312,7 @@ function Block( {
 						),
 					];
 				}
-
+				console.log( siblingBlocks, allBlocksToCheck );
 				const filteredChildBlocks = getFilteredBlocks(
 					allBlocksToCheck,
 					blockProps[ 'data-block' ]
@@ -443,8 +413,6 @@ function Block( {
 	}, [] );
 
 	const [ isSelectedInput, setIsSelectedInput ] = useState( false );
-
-	console.log( attributes );
 
 	return (
 		<>
