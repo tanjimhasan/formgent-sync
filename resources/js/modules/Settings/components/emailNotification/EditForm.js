@@ -2,11 +2,15 @@ import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
 import { useEffect } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
-import { Space, Form, Input, Col, Row } from 'antd';
-
+import { Space, Form, Col, Row } from 'antd';
 import arrowLeftIcon from '@icon/arrow-left.svg';
 
-import { AntButton, ClassicEditorField, TextField } from '@formgent/components';
+import {
+	AntButton,
+	ClassicEditorField,
+	TextField,
+	AntInput,
+} from '@formgent/components';
 
 export default function EditForm( props ) {
 	const {
@@ -116,7 +120,7 @@ export default function EditForm( props ) {
 									label={ __( 'Template Name', 'formgent' ) }
 									rules={ commonFieldRules }
 								>
-									<Input
+									<AntInput
 										placeholder={ __(
 											'Template Name',
 											'formgent'

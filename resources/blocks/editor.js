@@ -1,15 +1,14 @@
 import { dispatch, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
-import { Button, Modal } from '@wordpress/components';
+import { Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
-import { registerPlugin } from '@wordpress/plugins';
+import { registerPlugin, getPlugins } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
+import { applyFilters } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
+import domReady from '@wordpress/dom-ready';
 import ReactSVG from 'react-inlinesvg';
 import ellipsisH from '@icon/ellipsis-h.svg';
-import { __ } from '@wordpress/i18n';
-import { applyFilters } from '@wordpress/hooks';
-
 import '@formgent/data/store.js';
 
 import {
@@ -43,6 +42,13 @@ const FormgentFormSettings = () => {
 
 	const { setRouterState } = useDispatch( 'formgent' );
 
+	const Plugins = () => {
+		return getPlugins().map( ( plugin ) => {
+			const Component = plugin.render;
+			return <Component />;
+		} );
+	};
+
 	useEffect( () => {
 		if ( ! setRouterState ) {
 			return;
@@ -62,7 +68,7 @@ const FormgentFormSettings = () => {
 
 	const routes = applyFilters( 'formgent_form_settings_routes', [
 		{
-			path: '/*',
+			path: '/forms/:id/settings/*',
 			element: <Settings />,
 		},
 	] );
@@ -89,6 +95,7 @@ const FormgentFormSettings = () => {
 					isFullScreen
 				>
 					<div className="formgent-form-settings-modal__body">
+						<Plugins />
 						<HashRouter>
 							<Routes>
 								{ routes.map( ( routeItem, index ) => {

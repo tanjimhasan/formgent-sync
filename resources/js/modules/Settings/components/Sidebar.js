@@ -40,11 +40,6 @@ export default function Sidebar( props ) {
 
 	return (
 		<SettingsSidebarStyle className="formgent-settings-sider">
-			<div className="formgent-settings-sider__top">
-				<h3 className="formgent-settings-sider__title">
-					{ __( 'Share Settings', 'formgent' ) }
-				</h3>
-			</div>
 			<AntMenu
 				defaultSelectedKeys={ [ defaultSelectedChild || 'general' ] }
 				defaultOpenKeys={ [ defaultSelectedParent ] }

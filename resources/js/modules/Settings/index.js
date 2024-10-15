@@ -1,15 +1,16 @@
 import { useSelect } from '@wordpress/data';
 import { Suspense, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
-
 import IntegrationsChild1 from '@formgent/admin/pages/Settings/IntegrationsChild1';
 import IntegrationsChild2 from '@formgent/admin/pages/Settings/IntegrationsChild2';
 import IntegrationsChild3 from '@formgent/admin/pages/Settings/IntegrationsChild3';
-import FormHeader from '@formgent/components/FormHeader';
 import General from './components/General';
 import EmailNotifications from './components/emailNotification/EmailNotifications';
 import Edit from './components/emailNotification/Edit';
 import Sidebar from './components/Sidebar';
+import ReactSVG from 'react-inlinesvg';
+import cogIcon from '@icon/cog.svg';
+import mailIcon from '@icon/envelope.svg';
 
 function Settings( props ) {
 	const [ uiState, setUiState ] = useState( {
@@ -22,18 +23,18 @@ function Settings( props ) {
 	const { useParams, Route, Routes, NavLink, useNavigate, useLocation } =
 		CommonReducer.routerComponents;
 
-	const { id } = useParams();
-
 	const settingsRoutes = applyFilters( 'formgent_settings_routes', [
 		{
 			key: 'general',
 			label: 'General Settings',
+			icon: <ReactSVG src={ cogIcon } />,
 			path: '*',
 			element: <General />,
 		},
 		{
 			key: 'email-notifications',
 			label: 'Email Notifications',
+			icon: <ReactSVG src={ mailIcon } />,
 			path: 'email-notifications',
 			element: <EmailNotifications />,
 		},
@@ -41,12 +42,6 @@ function Settings( props ) {
 
 	return (
 		<div className="formgent-editor-wrap">
-			<FormHeader
-				id={ id }
-				useNavigate={ useNavigate }
-				uiState={ uiState }
-				setUiState={ setUiState }
-			/>
 			<div
 				className="formgent-editor-wrap__content"
 				style={ { display: 'flex' } }

@@ -1,14 +1,12 @@
 import { Col, Row } from 'antd';
-import ReactSVG from 'react-inlinesvg';
-import { __ } from '@wordpress/i18n';
-import { lazy, Suspense } from '@wordpress/element';
+import { Suspense } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
-
-import plusIcon from '@icon/plus.svg';
 import { AntButton, AntSkeleton } from '@formgent/components';
-
 import { SettingsContentStyle } from '../style';
-const Table = lazy( () => import( './Table' ) );
+import { __ } from '@wordpress/i18n';
+import ReactSVG from 'react-inlinesvg';
+import plusIcon from '@icon/plus.svg';
+import Table from './Table';
 
 export default function EmailNotifications() {
 	const { formID, navigateTo } = useSelect( ( select ) => {
@@ -39,7 +37,9 @@ export default function EmailNotifications() {
 						type="primary"
 						className="formgent-page-header-btn"
 						onClick={ () => {
-							navigateTo( `/email-notifications/create` );
+							navigateTo(
+								`/forms/${ formID }/settings/email-notifications/create`
+							);
 						} }
 					>
 						<ReactSVG src={ plusIcon } />{ ' ' }

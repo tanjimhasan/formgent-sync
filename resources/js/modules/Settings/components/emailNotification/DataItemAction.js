@@ -28,7 +28,7 @@ export default function DataItemAction( props ) {
 	return (
 		<div>
 			<Link
-				to={ `/email-notifications/edit/${ id }` }
+				to={ `/forms/${ formID }/settings/email-notifications/edit/${ id }` }
 				className="formgent-action-link"
 			>
 				<span className="formgent-action-link-icon">
