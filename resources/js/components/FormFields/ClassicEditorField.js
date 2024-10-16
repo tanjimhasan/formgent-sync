@@ -1,14 +1,17 @@
-import { Form, Button } from 'antd';
+import { useRef, useEffect } from '@wordpress/element';
 import ClassicEditor from '@wpmvc/classic-editor';
 import PresetDropdown from './PresetDropdown';
-
-import { useRef, useEffect } from '@wordpress/element';
+import { Form, Button } from 'antd';
 
 const PresetButton = ( props ) => {
-	const { buttonLabel, onInsert, items } = props;
+	const { buttonLabel, onInsert, items, dropdownClassName } = props;
 
 	return (
-		<PresetDropdown items={ items } onInsert={ onInsert }>
+		<PresetDropdown
+			items={ items }
+			onInsert={ onInsert }
+			dropdownClassName={ dropdownClassName }
+		>
 			<Button type="primary">
 				{ buttonLabel
 					? buttonLabel
@@ -19,7 +22,13 @@ const PresetButton = ( props ) => {
 };
 
 export default function ClassicEditorField( props ) {
-	const { value, onChange, presetFields, presetButtonLabel } = props;
+	const {
+		value,
+		onChange,
+		presetFields,
+		presetButtonLabel,
+		dropdownClassName,
+	} = props;
 	const { status } = Form.Item.useStatus();
 
 	const hasPresetFields = presetFields && presetFields.length ? true : false;
@@ -57,6 +66,7 @@ export default function ClassicEditorField( props ) {
 								}
 							} }
 							items={ presetFields }
+							dropdownClassName={ dropdownClassName }
 						/>
 					</div>
 				) }

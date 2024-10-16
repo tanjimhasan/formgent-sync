@@ -3,7 +3,15 @@ import ReactSVG from 'react-inlinesvg';
 import questionSolidIcon from '@icon/question-solid.svg';
 
 export default function PresetDropdown( props ) {
-	const { value, items, onInsert, onChange, trigger, children } = props;
+	const {
+		value,
+		items,
+		onInsert,
+		onChange,
+		trigger,
+		children,
+		dropdownClassName,
+	} = props;
 
 	const PresetDropdownItem = ( { label, description } ) => {
 		return (
@@ -48,6 +56,7 @@ export default function PresetDropdown( props ) {
 				},
 			} }
 			trigger={ trigger ? trigger : [ 'click' ] }
+			overlayClassName={ dropdownClassName }
 		>
 			{ children }
 		</Dropdown>

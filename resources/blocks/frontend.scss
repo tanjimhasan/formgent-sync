@@ -834,7 +834,7 @@ input.formgent-editor-block-list__single__dialer__input {
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-	border-radius: 4px;
+	border-radius: 8px;
 	text-decoration: none;
 	color: var(--formgent-color-light-gray);
 
@@ -845,12 +845,12 @@ input.formgent-editor-block-list__single__dialer__input {
 		padding: 8px;
 		height: 32px;
 		width: 32px;
-		border-radius: 4px;
+		border-radius: 8px;
 		box-sizing: border-box;
 	}
 
 	svg path {
-		color: var(--formgent-color-light-gray);
+		color: var(--formgent-color-gray-400);
 	}
 
 	&:hover {
@@ -978,6 +978,14 @@ input.formgent-editor-block-list__single__dialer__input {
 		}
 	}
 }
+.formgent-preset-field-dropdown {
+	width: 250px;
+	.ant-dropdown-menu {
+		max-height: 350px;
+		overflow-y: auto;
+	}
+}
+
 .formgent-tooltip-icon {
 	display: inline-flex;
 	margin-inline-end: 5px;
@@ -991,5 +999,45 @@ input.formgent-editor-block-list__single__dialer__input {
 	background-color: var(--formgent-color-light-gray);
 	svg path {
 		fill: #fff;
+	}
+}
+
+.formgent-settings-delete-alert {
+	.formgent-settings-delete-alert__modal {
+		padding-top: 25px;
+	}
+	.components-modal__header-heading {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.helpgent-alert-content {
+		text-align: center;
+	}
+	.formgent-modal-action.formgent-settings-delete-alert-action {
+		background: none;
+		justify-content: center;
+		padding-top: 0;
+	}
+}
+
+.ant-switch {
+	min-width: 36px;
+	height: 20px;
+	background: var(--formgent-color-bg-deep);
+	.ant-switch-handle {
+		width: 14px;
+		height: 14px;
+		top: 3px;
+		inset-inline-start: 3px;
+	}
+	&.ant-switch-checked {
+		background: var(--formgent-color-primary);
+		.ant-switch-handle {
+			inset-inline-start: calc(100% - 18px);
+		}
+		&:hover {
+			background: #7d6cf4 !important;
+		}
 	}
 }

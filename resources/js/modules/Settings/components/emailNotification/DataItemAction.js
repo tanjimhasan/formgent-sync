@@ -104,7 +104,7 @@ export default function DataItemAction( props ) {
 					hasCancelButton
 					hasSubmitButton
 					isActiveSubmit
-					className="formgent-form-delete-alert"
+					className="formgent-settings-delete-alert"
 				>
 					<DeleteAlert
 						errorMessage={ deleteErrorMessage }

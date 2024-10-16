@@ -1,16 +1,15 @@
 import { __ } from '@wordpress/i18n';
-import ReactSVG from 'react-inlinesvg';
 import { useEffect } from '@wordpress/element';
 import { doAction } from '@wordpress/hooks';
 import { Space, Form, Col, Row } from 'antd';
-import arrowLeftIcon from '@icon/arrow-left.svg';
-
 import {
 	AntButton,
 	ClassicEditorField,
 	TextField,
 	AntInput,
 } from '@formgent/components';
+import ReactSVG from 'react-inlinesvg';
+import arrowLeftIcon from '@icon/arrow-left.svg';
 
 export default function EditForm( props ) {
 	const {
@@ -83,6 +82,7 @@ export default function EditForm( props ) {
 								<AntButton
 									disabled={ isProcessing }
 									onClick={ onCancel }
+									className="formgent-settings-back-btn"
 								>
 									<ReactSVG src={ arrowLeftIcon } />{ ' ' }
 									{ __( 'Back', 'formgent' ) }
@@ -112,7 +112,7 @@ export default function EditForm( props ) {
 						</Col>
 					</Row>
 
-					<div className="formgent-form-fields">
+					<div className="formgent-settings-form-fields">
 						<Row justify="center">
 							<Col xs={ 24 } sm={ 24 } md={ 24 } xl={ 12 }>
 								<Form.Item
@@ -140,6 +140,7 @@ export default function EditForm( props ) {
 											'Email Subject',
 											'formgent'
 										) }
+										dropdownClassName="formgent-preset-field-dropdown"
 									/>
 								</Form.Item>
 
@@ -155,6 +156,7 @@ export default function EditForm( props ) {
 											'Send to',
 											'formgent'
 										) }
+										dropdownClassName="formgent-preset-field-dropdown"
 									/>
 								</Form.Item>
 
@@ -166,6 +168,7 @@ export default function EditForm( props ) {
 									<ClassicEditorField
 										presetButtonLabel={ presetButtonLabel }
 										presetFields={ parsedPresetFields }
+										dropdownClassName="formgent-preset-field-dropdown"
 									/>
 								</Form.Item>
 							</Col>

@@ -6,7 +6,13 @@ import chevronDownIcon from '@icon/chevron-down.svg';
 import PresetDropdown from './PresetDropdown';
 
 export default function TextField( props ) {
-	const { value, onChange, presetFields, presetButtonLabel } = props;
+	const {
+		value,
+		onChange,
+		presetFields,
+		presetButtonLabel,
+		dropdownClassName,
+	} = props;
 	const { status } = Form.Item.useStatus();
 
 	const hasPresetFields = presetFields && presetFields.length ? true : false;
@@ -25,6 +31,7 @@ export default function TextField( props ) {
 						items={ props.presetFields }
 						value={ value }
 						onChange={ onChange }
+						dropdownClassName={ dropdownClassName }
 					>
 						<a
 							className="formgent-link"

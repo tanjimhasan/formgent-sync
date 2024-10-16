@@ -111,15 +111,66 @@ const SettingsContentStyle = Styled.div`
             background: var(--White-White, #FFF);
             box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
             td{
-                border-top: 1px solid var(--Gray-200, #E5E7EB) !important;
-                border-bottom: 1px solid var(--Gray-200, #E5E7EB) !important;
+                border-top: 1px solid var(--formgent-color-gray-200) !important;
+                border-bottom: 1px solid var(--formgent-color-gray-200) !important;
                 &:first-child{
-                    border-left: 1px solid var(--Gray-200, #E5E7EB) !important;
+                    border-left: 1px solid var(--formgent-color-gray-200) !important;
                 }
                 &:last-child{
-                    border-right: 1px solid var(--Gray-200, #E5E7EB) !important;
+                    border-right: 1px solid var(--formgent-color-gray-200) !important;
                 }
             }
+        }
+    }
+
+    //settings form
+    .formgent-settings-form-fields{
+        .ant-form-item-label label{
+            color: var(--formgent-color-gray-800);
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .ant-input{
+            border-radius: 8px;
+            border: 1px solid var(--formgent-color-gray-200) !important;
+            background: transparent;
+            height: 40px;
+            padding: 0 15px;
+            box-shadow: none;
+            outline: 0;
+            &:focus{
+                background: var(--formgent-color-gray-50);
+            }
+        }
+        .formgent-input-addon{
+            .formgent-space-align-center{
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                color: var(--formgent-color-info);
+                svg{
+                    width: 14px;
+                    height: 14px;
+                    path{
+                        stroke: var(--formgent-color-info);
+                    }
+                }
+                .formgent-icon{
+                    height: auto;
+                    line-height: 0;
+                }
+            }
+        }
+    }
+    .formgent-settings-back-btn{
+        border-radius: 8px;
+        background: var(--formgent-color-gray-100);
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--formgent-color-gray-600);
+        svg{
+            width: 16px;
+            height: 16px;
         }
     }
 `;
