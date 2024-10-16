@@ -3,6 +3,7 @@ import {
 	AntCheckbox,
 	AntInput,
 	AntTabs,
+	AntDropdown,
 } from '@formgent/components';
 import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
@@ -14,6 +15,7 @@ import columnIcon from '@icon/column-3.svg';
 import refreshIcon from '@icon/refresh.svg';
 import searchIcon from '@icon/search.svg';
 import trashIcon from '@icon/trash.svg';
+import downloadIcon from '@icon/download.svg';
 
 export default function TableHeader( props ) {
 	const {
@@ -109,6 +111,26 @@ export default function TableHeader( props ) {
 							Select All
 						</button>
 					</div>
+
+					<AntDropdown
+						menu={ {
+							items: downloadItems,
+							onClick: handleDownload,
+						} }
+						placement="bottomLeft"
+						overlayStyle={ { width: 210 } }
+					>
+						<AntButton
+							onClick={ ( e ) => e.preventDefault() }
+							icon={
+								<ReactSVG
+									width="16"
+									height="16"
+									src={ downloadIcon }
+								/>
+							}
+						/>
+					</AntDropdown>
 
 					{ /* <AntButton
 						onClick={ handlePrint }
@@ -208,6 +230,26 @@ export default function TableHeader( props ) {
 								} ) }
 							</div>
 						</div>
+
+						<AntDropdown
+							menu={ {
+								items: downloadItems,
+								onClick: handleDownload,
+							} }
+							placement="bottomRight"
+							overlayStyle={ { width: 210 } }
+						>
+							<AntButton
+								onClick={ ( e ) => e.preventDefault() }
+								icon={
+									<ReactSVG
+										width="16"
+										height="16"
+										src={ downloadIcon }
+									/>
+								}
+							/>
+						</AntDropdown>
 
 						<AntButton
 							onClick={ handleRefresh }

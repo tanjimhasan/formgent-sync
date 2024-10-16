@@ -1,4 +1,18 @@
 import {
+	PrepareExportData,
+	ExportToPDF,
+	exportToSpreadsheet,
+} from '@formgent/admin/export/response';
+import {
+	Document,
+	Page,
+	Text,
+	View,
+	StyleSheet,
+	PDFDownloadLink,
+	PDFViewer,
+} from '@react-pdf/renderer';
+import {
 	AntDrawer,
 	AntDropdown,
 	AntSpin,
@@ -141,6 +155,191 @@ export default function Table() {
 			Date.now()
 		);
 	}
+
+	// Handle Create Export Data
+	async function handleCreateExportData( source ) {
+		const downloadItemsID =
+			source === 'drawer' && singleResponse?.id
+				? [ singleResponse.id ]
+				: selectedRowKeys;
+		const responseIds = responses.map( ( response ) => response.id );
+
+		return await fetchData(
+			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
+				response_ids: downloadItemsID.length
+					? downloadItemsID
+					: responseIds,
+			} )
+		);
+	}
+
+	// Define styles
+	const styles = StyleSheet.create( {
+		page: {
+			padding: 30,
+		},
+		section: {
+			marginBottom: 10,
+			padding: 10,
+			borderBottom: '1 solid #cccccc',
+		},
+		tableRow: {
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			marginBottom: 4,
+		},
+		boldText: {
+			fontWeight: 'bold',
+		},
+		tableCell: {
+			width: '45%',
+		},
+	} );
+
+	// Prepare the Document for Export
+	const MyPDFDocument = ( { data } ) => {
+		const { form, responses } = data;
+
+		return (
+			<Document>
+				<Text size="A4" style={ styles.page }>
+					{ responses.map( ( response, index ) => (
+						<View key={ index } style={ styles.section }>
+							<Text style={ styles.boldText }>
+								Response { index + 1 }
+							</Text>
+							{ /* Render static headers */ }
+							{ Object.keys( response )
+								.filter( ( item ) => item !== 'answers' )
+								.map( ( header, idx ) => (
+									<View key={ idx } style={ styles.tableRow }>
+										<Text
+											style={ [
+												styles.tableCell,
+												styles.boldText,
+											] }
+										>
+											{ header }:
+										</Text>
+										<Text style={ styles.tableCell }>
+											{ response[ header ] }
+										</Text>
+									</View>
+								) ) }
+							{ /* Render answers */ }
+							{ form.map( ( field, idx ) => {
+								const answer = response.answers.find(
+									( ans ) => ans.field_name === field
+								);
+								return (
+									<View key={ idx } style={ styles.tableRow }>
+										<Text
+											style={ [
+												styles.tableCell,
+												styles.boldText,
+											] }
+										>
+											{ field }:
+										</Text>
+										<Text style={ styles.tableCell }>
+											{ answer ? answer.value : 'N/A' }
+										</Text>
+									</View>
+								);
+							} ) }
+						</View>
+					) ) }
+				</Text>
+			</Document>
+		);
+	};
+
+	// Download Items
+	const downloadItems = ( source ) => {
+		const [ pdfData, setPdfData ] = useState( null );
+		const [ isGeneratingPDF, setIsGeneratingPDF ] = useState( false );
+
+		// Function to fetch data for PDF and set the state
+		const generatePDFData = async () => {
+			setIsGeneratingPDF( true );
+			const data = await handleCreateExportData( source ); // Fetch data asynchronously
+			setPdfData( data ); // Store data for PDF generation
+			setIsGeneratingPDF( false );
+		};
+
+		return [
+			{
+				key: `csv|${ source }`,
+				label: (
+					<>
+						<span
+							className={ `dropdown-header-content ${
+								downloadLoading === 'csv'
+									? 'formgent-loading'
+									: ''
+							}` }
+							onClick={ ( e ) => handleExportCSV( e, source ) }
+						>
+							<ReactSVG width="16" height="16" src={ csvIcon } />
+							Download as CSV
+						</span>
+						<CSVLink
+							data={ csvExportData }
+							filename={ 'formgent-response-list.csv' }
+							className="csv-downloader"
+							style={ { display: 'none' } }
+							ref={ csvLinkRef }
+						/>
+					</>
+				),
+			},
+			{
+				key: `excel|${ source }`,
+				label: (
+					<span
+						className={ `dropdown-header-content ${
+							downloadLoading === 'excel'
+								? 'formgent-loading'
+								: ''
+						}` }
+					>
+						<ReactSVG width="16" height="16" src={ xlsIcon } />
+						Download as Excel
+					</span>
+				),
+			},
+			{
+				key: `pdf|${ source }`,
+				label: (
+					<>
+						<span
+							className={ `dropdown-header-content ${
+								isGeneratingPDF ? 'formgent-loading' : ''
+							}` }
+							onClick={ generatePDFData }
+						>
+							<ReactSVG width="16" height="16" src={ pdfIcon } />
+							{ isGeneratingPDF
+								? 'Generating PDF...'
+								: 'Download as PDF' }
+						</span>
+						{ pdfData && (
+							<PDFDownloadLink
+								document={ <MyPDFDocument data={ pdfData } /> }
+								fileName="formgent-response.pdf"
+							>
+								{ ( { loading } ) =>
+									loading
+										? 'Generating PDF...'
+										: 'Download PDF'
+								}
+							</PDFDownloadLink>
+						) }
+					</>
+				),
+			},
+		];
+	};
 
 	// handleSelectItems
 	function handleSelectItems( { key } ) {
@@ -414,6 +613,47 @@ export default function Table() {
 		month: 'long',
 		day: 'numeric',
 	};
+
+	// Handle Download
+	async function handleDownload( { key } ) {
+		setDownloadLoading( key );
+		const [ fileType, source ] = key.split( '|' ); // fileType: pdf, excel, source: header, drawer
+
+		if ( fileType === 'csv' ) {
+			return;
+		}
+
+		const exportedData = await handleCreateExportData( source );
+
+		if ( exportedData ) {
+			setDownloadLoading( null );
+			if ( fileType === 'pdf' ) {
+				console.log( 'object' );
+				// return exportToPDF( exportedData, 'formgent-response' );
+			} else if ( fileType === 'excel' ) {
+				return exportToSpreadsheet( exportedData, 'formgent-response' );
+			} else {
+				return;
+			}
+		} else {
+			console.error( 'No data to export' );
+		}
+	}
+
+	// Handle Export CSV
+	async function handleExportCSV( e, source ) {
+		e.stopPropagation();
+		setDownloadLoading( 'csv' );
+
+		const exportedData = await handleCreateExportData( source );
+
+		if ( exportedData ) {
+			setDownloadLoading( null );
+			setCSVExportData( PrepareExportData( exportedData ) );
+		} else {
+			setDownloadLoading( null );
+		}
+	}
 
 	// Select Items Data
 	const selectItems = [
@@ -1004,6 +1244,8 @@ export default function Table() {
 					handleActivateDeleteFormModal={
 						handleActivateDeleteFormModal
 					}
+					downloadItems={ downloadItems() }
+					handleDownload={ handleDownload }
 				/>
 
 				<AntTable
