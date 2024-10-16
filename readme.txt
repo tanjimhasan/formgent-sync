@@ -82,6 +82,9 @@ We want **your feedback** to help shape the future of FormGent. If you have any 
 Need help getting started? We’ve got you covered with detailed documentation and a support team that’s ready to assist you. Head over to our **Support** section for all the help you need.
 
 == Frequently Asked Questions ==
+**How can I become a Contributor**
+
+If you want to contribute, go to our [FormGent GitHub Repository](https://github.com/sovware/formgent) and see where you can help.
 
 == Changelog ==
 = 1.0.0 - 22 September 2022 =
