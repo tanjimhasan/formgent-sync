@@ -84,6 +84,7 @@ export default function Table() {
 	const [ downloadLoading, setDownloadLoading ] = useState( false );
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
+	const [ pdfGenerated, setPdfGenerated ] = useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
@@ -156,24 +157,7 @@ export default function Table() {
 		);
 	}
 
-	// Handle Create Export Data
-	async function handleCreateExportData( source ) {
-		const downloadItemsID =
-			source === 'drawer' && singleResponse?.id
-				? [ singleResponse.id ]
-				: selectedRowKeys;
-		const responseIds = responses.map( ( response ) => response.id );
-
-		return await fetchData(
-			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
-				response_ids: downloadItemsID.length
-					? downloadItemsID
-					: responseIds,
-			} )
-		);
-	}
-
-	// Define styles
+	// PDF styles
 	const styles = StyleSheet.create( {
 		page: {
 			padding: 30,
@@ -202,13 +186,13 @@ export default function Table() {
 
 		return (
 			<Document>
-				<Text size="A4" style={ styles.page }>
+				<Page style={ styles.page }>
 					{ responses.map( ( response, index ) => (
 						<View key={ index } style={ styles.section }>
 							<Text style={ styles.boldText }>
 								Response { index + 1 }
 							</Text>
-							{ /* Render static headers */ }
+
 							{ Object.keys( response )
 								.filter( ( item ) => item !== 'answers' )
 								.map( ( header, idx ) => (
@@ -226,47 +210,58 @@ export default function Table() {
 										</Text>
 									</View>
 								) ) }
-							{ /* Render answers */ }
-							{ form.map( ( field, idx ) => {
-								const answer = response.answers.find(
-									( ans ) => ans.field_name === field
-								);
-								return (
-									<View key={ idx } style={ styles.tableRow }>
-										<Text
-											style={ [
-												styles.tableCell,
-												styles.boldText,
-											] }
+
+							{ Array.isArray( form ) &&
+								form.map( ( field, idx ) => {
+									const answer = response.answers.find(
+										( ans ) => ans.field_name === field
+									);
+									return (
+										<View
+											key={ idx }
+											style={ styles.tableRow }
 										>
-											{ field }:
-										</Text>
-										<Text style={ styles.tableCell }>
-											{ answer ? answer.value : 'N/A' }
-										</Text>
-									</View>
-								);
-							} ) }
+											<Text
+												style={ [
+													styles.tableCell,
+													styles.boldText,
+												] }
+											>
+												{ field }:
+											</Text>
+											<Text style={ styles.tableCell }>
+												{ answer
+													? answer.value
+													: 'N/A' }
+											</Text>
+										</View>
+									);
+								} ) }
 						</View>
 					) ) }
-				</Text>
+				</Page>
 			</Document>
 		);
 	};
 
 	// Download Items
-	const downloadItems = ( source ) => {
-		const [ pdfData, setPdfData ] = useState( null );
-		const [ isGeneratingPDF, setIsGeneratingPDF ] = useState( false );
+	const [ pdfData, setPdfData ] = useState( null );
+	const [ isGeneratingPDF, setIsGeneratingPDF ] = useState( false );
 
-		// Function to fetch data for PDF and set the state
-		const generatePDFData = async () => {
-			setIsGeneratingPDF( true );
-			const data = await handleCreateExportData( source ); // Fetch data asynchronously
-			setPdfData( data ); // Store data for PDF generation
+	const generatePDFData = async ( source ) => {
+		setIsGeneratingPDF( true );
+		try {
+			const data = await handleCreateExportData( source );
+			setPdfData( data );
+		} catch ( error ) {
+			console.error( 'Failed to generate PDF data:', error );
+		} finally {
 			setIsGeneratingPDF( false );
-		};
+		}
+	};
 
+	// Download Items
+	const downloadItems = ( source ) => {
 		return [
 			{
 				key: `csv|${ source }`,
@@ -316,12 +311,14 @@ export default function Table() {
 							className={ `dropdown-header-content ${
 								isGeneratingPDF ? 'formgent-loading' : ''
 							}` }
-							onClick={ generatePDFData }
+							onClick={ () => generatePDFData( source ) }
 						>
 							<ReactSVG width="16" height="16" src={ pdfIcon } />
 							{ isGeneratingPDF
 								? 'Generating PDF...'
-								: 'Download as PDF' }
+								: pdfGenerated
+								? 'Download as PDF'
+								: 'Generate PDF' }
 						</span>
 						{ pdfData && (
 							<PDFDownloadLink
@@ -329,9 +326,7 @@ export default function Table() {
 								fileName="formgent-response.pdf"
 							>
 								{ ( { loading } ) =>
-									loading
-										? 'Generating PDF...'
-										: 'Download PDF'
+									loading ? '' : setPdfGenerated( true )
 								}
 							</PDFDownloadLink>
 						) }
@@ -340,6 +335,23 @@ export default function Table() {
 			},
 		];
 	};
+
+	// Handle Create Export Data
+	async function handleCreateExportData( source ) {
+		const downloadItemsID =
+			source === 'drawer' && singleResponse?.id
+				? [ singleResponse.id ]
+				: selectedRowKeys;
+		const responseIds = responses.map( ( response ) => response.id );
+
+		return await fetchData(
+			addQueryArgs( `admin/responses/export?form_id=${ id }`, {
+				response_ids: downloadItemsID.length
+					? downloadItemsID
+					: responseIds,
+			} )
+		);
+	}
 
 	// handleSelectItems
 	function handleSelectItems( { key } ) {

@@ -5,6 +5,7 @@ import {
 	AntTabs,
 	AntDropdown,
 } from '@formgent/components';
+import { useState } from '@wordpress/element';
 import ReactSVG from 'react-inlinesvg';
 import { TableActionStyle, TableHeaderStyle, TableTabStyle } from './style';
 
@@ -85,6 +86,18 @@ export default function TableHeader( props ) {
 		// 	label: `Partial (${ responses?.length })`,
 		// },
 	];
+
+	const [ open, setOpen ] = useState( false );
+	const handleMenuClick = ( e ) => {
+		if ( e.key === '3' ) {
+			setOpen( false );
+		}
+	};
+	const handleOpenChange = ( nextOpen, info ) => {
+		if ( info.source === 'trigger' || nextOpen ) {
+			setOpen( nextOpen );
+		}
+	};
 
 	return (
 		<TableHeaderStyle className="formgent-table-header">
@@ -238,6 +251,8 @@ export default function TableHeader( props ) {
 							} }
 							placement="bottomRight"
 							overlayStyle={ { width: 210 } }
+							onOpenChange={ handleOpenChange }
+							open={ open }
 						>
 							<AntButton
 								onClick={ ( e ) => e.preventDefault() }
