@@ -9,18 +9,21 @@ export default function Edit() {
 			select( 'formgent' ).getCommonState();
 
 		const { useParams, useNavigate } = CommonReducer.routerComponents;
-		const { id, email_notification_id } = useParams();
+		const { email_notification_id } = useParams();
+
+		const params = new URL( document.location.toString() ).searchParams;
+		const formID = parseInt( params.get( 'post' ) );
 
 		const navigateTo = useNavigate();
 
 		select( 'formgent' ).fetchEmailNotificationSingle(
 			email_notification_id
 		);
-		select( 'formgent' ).fetchEmailNotificationSinglePresetFields( id );
+		select( 'formgent' ).fetchEmailNotificationSinglePresetFields( formID );
 
 		return {
 			state: EmailNotificationSingleReducer,
-			formID: id,
+			formID,
 			navigateTo,
 		};
 	}, [] );
@@ -72,7 +75,7 @@ export default function Edit() {
 	}
 
 	function back() {
-		navigateTo( `/forms/${ formID }/settings/email-notifications` );
+		navigateTo( `/email-notifications` );
 	}
 
 	return (

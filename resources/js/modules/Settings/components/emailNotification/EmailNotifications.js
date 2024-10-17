@@ -12,14 +12,14 @@ export default function EmailNotifications() {
 	const { formID, navigateTo } = useSelect( ( select ) => {
 		const { CommonReducer } = select( 'formgent' ).getCommonState();
 
-		const { useParams, useNavigate } = CommonReducer.routerComponents;
-		const { id } = useParams();
+		const { useNavigate } = CommonReducer.routerComponents;
+		const params = new URL( document.location.toString() ).searchParams;
 
 		const navigateTo = useNavigate();
 
 		return {
 			navigateTo,
-			formID: id,
+			formID: parseInt( params.get( 'post' ) ),
 		};
 	}, [] );
 
@@ -37,9 +37,9 @@ export default function EmailNotifications() {
 						type="primary"
 						className="formgent-page-header-btn"
 						onClick={ () => {
-							navigateTo(
-								`/forms/${ formID }/settings/email-notifications/create`
-							);
+							navigateTo( `/email-notifications/create`, {
+								replace: true,
+							} );
 						} }
 					>
 						<ReactSVG src={ plusIcon } />{ ' ' }
@@ -49,7 +49,7 @@ export default function EmailNotifications() {
 			</Row>
 
 			<Suspense fallback={ <AntSkeleton active /> }>
-				<Table />
+				<Table formID={ formID } />
 			</Suspense>
 		</SettingsContentStyle>
 	);

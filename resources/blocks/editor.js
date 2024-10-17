@@ -38,7 +38,9 @@ domReady( function () {
 const FormgentFormSettings = () => {
 	const [ isOpen, setOpen ] = useState( false );
 	const openSettingsModal = () => setOpen( true );
-	const closeSettingsModal = () => setOpen( false );
+	const closeSettingsModal = () => {
+		setOpen( false );
+	};
 
 	const { setRouterState } = useDispatch( 'formgent' );
 
@@ -68,7 +70,7 @@ const FormgentFormSettings = () => {
 
 	const routes = applyFilters( 'formgent_form_settings_routes', [
 		{
-			path: '/forms/:id/settings/*',
+			path: '/*',
 			element: <Settings />,
 		},
 	] );
@@ -77,7 +79,7 @@ const FormgentFormSettings = () => {
 		<PluginDocumentSettingPanel
 			name="custom-panel"
 			title=""
-			className="formgent-form-settings-panel"
+			className="formgent-form-settings-panel sds"
 		>
 			<span
 				className="formgent-form-settings-panel__title"

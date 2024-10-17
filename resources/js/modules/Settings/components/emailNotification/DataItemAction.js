@@ -17,7 +17,6 @@ export default function DataItemAction( props ) {
 		isDeleting,
 		onDuplicate,
 		onDelete,
-		formID,
 		Link,
 	} = props;
 
@@ -28,7 +27,7 @@ export default function DataItemAction( props ) {
 	return (
 		<div>
 			<Link
-				to={ `/forms/${ formID }/settings/email-notifications/edit/${ id }` }
+				to={ `/email-notifications/edit/${ id }` }
 				className="formgent-action-link"
 			>
 				<span className="formgent-action-link-icon">
@@ -83,7 +82,7 @@ export default function DataItemAction( props ) {
 							<span className="formgent-popup-title-icon">
 								<ReactSVG src={ trashAlt } />
 							</span>
-							{ __( 'Delete Notification', 'formgent' ) }
+							{ __( 'Delete Notificationdddd', 'formgent' ) }
 						</>
 					}
 					onSubmit={ () => {

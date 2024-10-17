@@ -7,7 +7,7 @@ export default function Sidebar( props ) {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const activeSidebarNav = location.pathname.split( 'settings/' )[ 1 ];
+	const activeSidebarNav = location.pathname.split( '/' )[ 1 ];
 	// Function to determine if a menu item should be active
 	const isActive = ( path ) => {
 		return activeSidebarNav === path;
@@ -35,6 +35,7 @@ export default function Sidebar( props ) {
 
 	const handleMenuClick = ( e ) => {
 		// Navigate to the selected route
+		if ( activeSidebarNav === e.key ) return;
 		navigate( e.key );
 	};
 

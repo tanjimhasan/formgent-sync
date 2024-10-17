@@ -11,22 +11,20 @@ import {
 import { TableStyle } from './style';
 import DataItemAction from './DataItemAction';
 
-export default function Table() {
-	const { state, formID, Link } = useSelect( ( select ) => {
+export default function Table( { formID } ) {
+	const { state, Link } = useSelect( ( select ) => {
 		const { CommonReducer, EmailNotificationReducer } =
 			select( 'formgent' ).getCommonState();
 
-		const { useParams, Link } = CommonReducer.routerComponents;
-		const { id } = useParams();
+		const { Link } = CommonReducer.routerComponents;
 
 		select( 'formgent' ).getEmailNotifications( {
-			form_id: parseInt( id ),
+			form_id: formID,
 		} );
 
 		return {
 			state: EmailNotificationReducer,
 			Link,
-			formID: parseInt( id ),
 		};
 	}, [] );
 
@@ -46,13 +44,18 @@ export default function Table() {
 			return;
 		}
 
-		resolveSelect( 'formgent' ).getEmailNotifications(
-			undefined,
-			Date.now()
-		);
-
-		updateRefreshEmailNotifications( false );
-	}, [ refresh ] );
+		resolveSelect( 'formgent' )
+			.getEmailNotifications(
+				{
+					form_id: formID,
+					...queryArgs,
+				},
+				Date.now()
+			)
+			.then( () => {
+				updateRefreshEmailNotifications( false );
+			} );
+	}, [ refresh, formID, queryArgs ] );
 
 	const paginationFooterText = () => {
 		if ( foundItems < 1 ) {

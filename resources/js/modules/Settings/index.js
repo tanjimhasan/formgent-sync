@@ -28,14 +28,14 @@ function Settings( props ) {
 			key: 'general',
 			label: 'General Settings',
 			icon: <ReactSVG src={ cogIcon } />,
-			path: '*',
+			path: '/*',
 			element: <General />,
 		},
 		{
 			key: 'email-notifications',
 			label: 'Email Notifications',
 			icon: <ReactSVG src={ mailIcon } />,
-			path: 'email-notifications',
+			path: '/email-notifications',
 			element: <EmailNotifications />,
 		},
 	] );
