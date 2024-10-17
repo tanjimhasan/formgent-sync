@@ -84,7 +84,6 @@ export default function Table() {
 	const [ downloadLoading, setDownloadLoading ] = useState( false );
 	const [ isActivateFormDeleteModal, setIsActivateFormDeleteModal ] =
 		useState( false );
-	const [ pdfGenerated, setPdfGenerated ] = useState( false );
 
 	// Reference
 	const csvLinkRef = useRef();
@@ -180,6 +179,10 @@ export default function Table() {
 		},
 	} );
 
+	const openPDF = ( url ) => {
+		window.open( url, '_blank' );
+	};
+
 	// Prepare the Document for Export
 	const MyPDFDocument = ( { data } ) => {
 		const { form, responses } = data;
@@ -247,6 +250,7 @@ export default function Table() {
 	// Download Items
 	const [ pdfData, setPdfData ] = useState( null );
 	const [ isGeneratingPDF, setIsGeneratingPDF ] = useState( false );
+	const [ pdfGenerated, setPdfGenerated ] = useState( false );
 
 	const generatePDFData = async ( source ) => {
 		setIsGeneratingPDF( true );
@@ -318,16 +322,20 @@ export default function Table() {
 								? 'Generating PDF...'
 								: pdfGenerated
 								? 'Download as PDF'
-								: 'Generate PDF' }
+								: 'Download as PDF' }
 						</span>
 						{ pdfData && (
 							<PDFDownloadLink
 								document={ <MyPDFDocument data={ pdfData } /> }
 								fileName="formgent-response.pdf"
 							>
-								{ ( { loading } ) =>
-									loading ? '' : setPdfGenerated( true )
-								}
+								{ ( { blob, url, loading, error } ) => {
+									if ( loading ) {
+										return 'Generating PDF...';
+									} else {
+										url && openPDF( url );
+									}
+								} }
 							</PDFDownloadLink>
 						) }
 					</>
