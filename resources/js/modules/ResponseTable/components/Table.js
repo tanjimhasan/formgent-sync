@@ -1,6 +1,5 @@
 import {
 	PrepareExportData,
-	ExportToPDF,
 	exportToSpreadsheet,
 } from '@formgent/admin/export/response';
 import {
@@ -10,7 +9,6 @@ import {
 	View,
 	StyleSheet,
 	PDFDownloadLink,
-	PDFViewer,
 } from '@react-pdf/renderer';
 import {
 	AntDrawer,
@@ -160,11 +158,13 @@ export default function Table() {
 	const styles = StyleSheet.create( {
 		page: {
 			padding: 30,
+			backgroundColor: '#f1eafa',
 		},
 		section: {
 			marginBottom: 10,
 			padding: 10,
 			borderBottom: '1 solid #cccccc',
+			backgroundColor: '#e4d9f9',
 		},
 		tableRow: {
 			flexDirection: 'row',
@@ -174,13 +174,31 @@ export default function Table() {
 		boldText: {
 			fontWeight: 'bold',
 		},
-		tableCell: {
-			width: '45%',
+		tableCellLeft: {
+			width: '30%',
+			fontWeight: 'bold',
+			textAlign: 'left',
+			paddingRight: 5,
+		},
+		tableCellRight: {
+			width: '70%',
+			textAlign: 'left',
+			paddingLeft: 5,
+		},
+		highlightedCell: {
+			backgroundColor: '#f1f3ff',
+			padding: 8,
+			borderRadius: 5,
 		},
 	} );
 
-	const openPDF = ( url ) => {
-		window.open( url, '_blank' );
+	const downloadPDF = ( url ) => {
+		const link = document.createElement( 'a' );
+		link.href = url;
+		link.download = 'formgent-response.pdf';
+		document.body.appendChild( link );
+		link.click();
+		document.body.removeChild( link );
 	};
 
 	// Prepare the Document for Export
@@ -200,15 +218,10 @@ export default function Table() {
 								.filter( ( item ) => item !== 'answers' )
 								.map( ( header, idx ) => (
 									<View key={ idx } style={ styles.tableRow }>
-										<Text
-											style={ [
-												styles.tableCell,
-												styles.boldText,
-											] }
-										>
+										<Text style={ styles.tableCellLeft }>
 											{ header }:
 										</Text>
-										<Text style={ styles.tableCell }>
+										<Text style={ styles.tableCellRight }>
 											{ response[ header ] }
 										</Text>
 									</View>
@@ -225,14 +238,13 @@ export default function Table() {
 											style={ styles.tableRow }
 										>
 											<Text
-												style={ [
-													styles.tableCell,
-													styles.boldText,
-												] }
+												style={ styles.tableCellLeft }
 											>
 												{ field }:
 											</Text>
-											<Text style={ styles.tableCell }>
+											<Text
+												style={ styles.tableCellRight }
+											>
 												{ answer
 													? answer.value
 													: 'N/A' }
@@ -331,9 +343,9 @@ export default function Table() {
 							>
 								{ ( { blob, url, loading, error } ) => {
 									if ( loading ) {
-										return 'Generating PDF...';
+										return '';
 									} else {
-										url && openPDF( url );
+										url && downloadPDF( url );
 									}
 								} }
 							</PDFDownloadLink>
@@ -647,10 +659,7 @@ export default function Table() {
 
 		if ( exportedData ) {
 			setDownloadLoading( null );
-			if ( fileType === 'pdf' ) {
-				console.log( 'object' );
-				// return exportToPDF( exportedData, 'formgent-response' );
-			} else if ( fileType === 'excel' ) {
+			if ( fileType === 'excel' ) {
 				return exportToSpreadsheet( exportedData, 'formgent-response' );
 			} else {
 				return;
