@@ -40,6 +40,9 @@ const FormgentFormSettings = () => {
 	const openSettingsModal = () => setOpen( true );
 	const closeSettingsModal = () => {
 		setOpen( false );
+
+		const urlWithoutHash = window.location.href.split( '#' )[ 0 ];
+		window.history.replaceState( null, null, urlWithoutHash );
 	};
 
 	const { setRouterState } = useDispatch( 'formgent' );
