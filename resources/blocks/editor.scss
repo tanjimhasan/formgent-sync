@@ -29,6 +29,32 @@
 		display: block;
 		margin-bottom: 8px;
 	}
+	.formgent-droppable-options {
+		max-height: 300px;
+		overflow-y: auto;
+		padding-right: 5px;
+		margin-right: -5px;
+
+		//scrollbar style
+		scrollbar-width: auto;
+		-ms-overflow-style: none;
+		scrollbar-behavior: smooth;
+		&::-webkit-scrollbar {
+			width: 6px;
+			height: 43px;
+		}
+		&::-webkit-scrollbar-track {
+			background: var(--formgent-color-gray-200);
+			border-radius: 4px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: var(--formgent-color-gray-400);
+			border-radius: 4px;
+		}
+		&::-webkit-scrollbar-thumb:hover {
+			background-color: var(--formgent-color-gray-500);
+		}
+	}
 	.formgent-repeater__add-item {
 		cursor: pointer;
 		display: flex;

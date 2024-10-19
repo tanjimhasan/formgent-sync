@@ -85,13 +85,14 @@ export default function Repeater( {
 				onDragEnd={ ( results ) => onDragEnd( results, options ) }
 			>
 				<Droppable
-					droppableId="helpgent-droppable-options"
-					type="helpgent-options"
+					droppableId="formgent-droppable-options"
+					type="formgent-options"
 				>
 					{ ( provided ) => (
 						<div
 							ref={ provided.innerRef }
 							{ ...provided.droppableProps }
+							className="formgent-droppable-options"
 						>
 							{ options &&
 								options.map( ( field, index ) => {
