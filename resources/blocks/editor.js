@@ -48,9 +48,9 @@ const FormgentFormSettings = () => {
 	const { setRouterState } = useDispatch( 'formgent' );
 
 	const Plugins = () => {
-		return getPlugins().map( ( plugin ) => {
+		return getPlugins().map( ( plugin, index ) => {
 			const Component = plugin.render;
-			return <Component />;
+			return <Component key={ index } />;
 		} );
 	};
 

@@ -35,10 +35,10 @@ export default function EditForm( props ) {
 	const parsedPresetFields = parsePresetFields( presetFields );
 
 	function parsePresetFields( presetFields ) {
-		return presetFields.map( ( item ) => ( {
+		return presetFields.map( ( item, index ) => ( {
 			...item,
 			label: item.value,
-			key: item.value,
+			key: index,
 		} ) );
 	}
 

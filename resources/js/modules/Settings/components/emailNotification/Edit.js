@@ -4,15 +4,15 @@ import { SettingsContentStyle } from '../style';
 import EditForm from './EditForm';
 
 export default function Edit() {
-	const { state, formID, navigateTo } = useSelect( ( select ) => {
+	const params = new URL( document.location.toString() ).searchParams;
+	const formID = parseInt( params.get( 'post' ) );
+
+	const { state, navigateTo } = useSelect( ( select ) => {
 		const { CommonReducer, EmailNotificationSingleReducer } =
 			select( 'formgent' ).getCommonState();
 
 		const { useParams, useNavigate } = CommonReducer.routerComponents;
 		const { email_notification_id } = useParams();
-
-		const params = new URL( document.location.toString() ).searchParams;
-		const formID = parseInt( params.get( 'post' ) );
 
 		const navigateTo = useNavigate();
 
