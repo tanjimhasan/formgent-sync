@@ -4,10 +4,10 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "wp-scripts start --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
+    "start": "wp-scripts start --experimental-modules --webpack-src-dir=resources/blocks",
     "start:hot": "wp-scripts start --hot",
     "format": "wp-scripts format ./resources",
-    "minify": "wp-scripts build  --experimental-modules --webpack-src-dir=resources/blocks --output-path=assets/build",
+    "minify": "wp-scripts build  --experimental-modules --webpack-src-dir=resources/blocks",
     "compress": "webpack --config dev-tools/webpack.compress.js",
     "git-compress": "webpack --config dev-tools/webpack.compress.git.js",
     "fixtextdomain": "grunt fixtextdomain --gruntfile dev-tools/Gruntfile.js",
