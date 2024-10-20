@@ -1,4 +1,4 @@
-=== FormGent – No-Code Form Builder ===
+=== FormGent ===
 Contributors: wpwax
 Tags: form builder
 Requires at least: 6.6

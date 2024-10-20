@@ -71,14 +71,32 @@ const plugins = [
 	} ),
 ];
 
+const moduleConfig = {
+	...defaultConfig[ 0 ].module,
+	rules: [
+		...defaultConfig[ 0 ].module.rules.filter(
+			( rule ) => rule.type !== 'asset/resource'
+		),
+		{
+			test: /\.(bmp|png|jpe?g|gif|webp)$/i,
+			type: 'asset/resource',
+			generator: {
+				filename: 'images/[name][ext]',
+			},
+		},
+	],
+};
+
 module.exports = [
 	{
 		...defaultConfig[ 0 ],
+		module: moduleConfig,
 		plugins,
 		resolve,
 	},
 	{
 		...defaultConfig[ 0 ],
+		module: moduleConfig,
 		entry: {
 			// 'js/frontend/FormSubmission/index':
 			// 	'./resources/js/frontend/pages/FormSubmission/index.js',
