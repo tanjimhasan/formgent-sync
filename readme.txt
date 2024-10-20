@@ -87,5 +87,5 @@ Need help getting started? We’ve got you covered with detailed documentation a
 If you want to contribute, go to our [FormGent GitHub Repository](https://github.com/sovware/formgent) and see where you can help.
 
 == Changelog ==
-= 1.0.0 - 22 September 2022 =
+= 0.0.4(beta) - 20 October 2024 =
 * Initial launch
