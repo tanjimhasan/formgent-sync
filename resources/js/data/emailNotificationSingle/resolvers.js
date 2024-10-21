@@ -52,7 +52,7 @@ export const EmailNotificationSingleResolvers = {
 				false
 			);
 
-			if ( error?.data?.status_code === 404 ) {
+			if ( 404 === error.data.status_code ) {
 				yield Actions.updateIsNotFoundEmailNotificationSingle( true );
 			}
 		}
