@@ -3,6 +3,13 @@
 .components-panel__body.edit-post-post-status {
 	display: none;
 }
+
+.editor-post-summary
+	.components-flex
+	.components-flex:has(.editor-post-panel__row-label) {
+	display: none;
+}
+
 .components-panel__body.is-opened {
 	.formgent-repeater-control {
 		.formgent-control-label {
