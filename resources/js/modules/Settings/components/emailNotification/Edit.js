@@ -1,5 +1,5 @@
 import { useEffect } from '@wordpress/element';
-import { useSelect, resolveSelect } from '@wordpress/data';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { Loader } from '@formgent/components';
 import { SettingsContentStyle } from '../style';
 import EditForm from './EditForm';
@@ -7,35 +7,46 @@ import EditForm from './EditForm';
 export default function Edit() {
 	const params = new URL( document.location.toString() ).searchParams;
 	const formID = parseInt( params.get( 'post' ) );
+	const { resetEmailNotificationSingle } = useDispatch( 'formgent' );
 
-	const { state, navigateTo, notificationId } = useSelect( ( select ) => {
-		const { CommonReducer, EmailNotificationSingleReducer } =
-			select( 'formgent' ).getCommonState();
+	const { state, navigateTo, notificationId } = useSelect(
+		( select ) => {
+			const { CommonReducer, EmailNotificationSingleReducer } =
+				select( 'formgent' ).getCommonState();
 
-		const { useParams, useNavigate } = CommonReducer.routerComponents;
-		const { email_notification_id } = useParams();
-		const notificationId = email_notification_id;
-		const navigateTo = useNavigate();
+			const { useParams, useNavigate } = CommonReducer.routerComponents;
+			const { email_notification_id } = useParams();
+			const notificationId = email_notification_id;
+			const navigateTo = useNavigate();
 
-		select( 'formgent' ).fetchEmailNotificationSingle(
-			email_notification_id
-		);
-		select( 'formgent' ).fetchEmailNotificationSinglePresetFields( formID );
+			// Fetch data only if notificationId exists
+			if ( email_notification_id ) {
+				select( 'formgent' ).fetchEmailNotificationSingle(
+					email_notification_id
+				);
+			}
 
-		return {
-			state: EmailNotificationSingleReducer,
-			formID,
-			navigateTo,
-			notificationId,
-		};
-	}, [] );
+			select( 'formgent' ).fetchEmailNotificationSinglePresetFields(
+				formID
+			);
 
+			return {
+				state: EmailNotificationSingleReducer,
+				navigateTo,
+				notificationId,
+			};
+		},
+		[ formID ]
+	);
+
+	// Reset only if no notificationId exists
 	useEffect( () => {
 		if ( ! notificationId ) {
-			resolveSelect( 'formgent' ).resetEmailNotificationInitialValues();
+			resetEmailNotificationSingle();
 		}
-	}, [ notificationId ] );
+	}, [ notificationId, resetEmailNotificationSingle ] );
 
+	// Handle redirect after creation
 	useEffect( () => {
 		if ( state.isCreated === true ) {
 			navigateTo( '/email-notifications' );

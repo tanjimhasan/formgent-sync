@@ -64,6 +64,13 @@ export const EmailNotificationSingleReducer = (
 				...state,
 				refresh: payload,
 			};
+		case 'RESET_EMAIL_NOTIFICATION_SINGLE':
+			return {
+				...state,
+				id: null,
+				initialValues: {},
+			};
+
 		default:
 			return state;
 	}

@@ -97,4 +97,11 @@ export const EmailNotificationSingleActions = {
 		type: 'UPDATE_REFRESH_EMAIL_NOTIFICATIONS',
 		payload: refresh,
 	} ),
+
+	/**
+	 * Reset email notification state
+	 */
+	resetEmailNotificationSingle: () => ( {
+		type: 'RESET_EMAIL_NOTIFICATION_SINGLE',
+	} ),
 };
