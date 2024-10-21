@@ -3,4 +3,5 @@ export const EmailNotificationSingleSelectors = {
 	fetchEmailNotificationSinglePresetFields: ( state ) => state,
 	createEmailNotificationSingle: ( state ) => state,
 	updateEmailNotificationSingle: ( state ) => state,
+	resetEmailNotificationSingle: ( state ) => state,
 };

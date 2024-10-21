@@ -1,5 +1,5 @@
 import { useEffect } from '@wordpress/element';
-import { useSelect, resolveSelect } from '@wordpress/data';
+import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { Loader } from '@formgent/components';
 import { SettingsContentStyle } from '../style';
 import EditForm from './EditForm';
@@ -7,26 +7,44 @@ import EditForm from './EditForm';
 export default function Edit() {
 	const params = new URL( document.location.toString() ).searchParams;
 	const formID = parseInt( params.get( 'post' ) );
+	const { resetEmailNotificationSingle } = useDispatch( 'formgent' );
 
-	const { state, navigateTo } = useSelect( ( select ) => {
-		const { CommonReducer, EmailNotificationSingleReducer } =
-			select( 'formgent' ).getCommonState();
+	const { state, navigateTo, notificationId } = useSelect(
+		( select ) => {
+			const { CommonReducer, EmailNotificationSingleReducer } =
+				select( 'formgent' ).getCommonState();
 
-		const { useParams, useNavigate } = CommonReducer.routerComponents;
-		const { email_notification_id } = useParams();
-		const navigateTo = useNavigate();
+			const { useParams, useNavigate } = CommonReducer.routerComponents;
+			const { email_notification_id } = useParams();
+			const notificationId = email_notification_id;
+			const navigateTo = useNavigate();
 
-		select( 'formgent' ).fetchEmailNotificationSingle(
-			email_notification_id
+			return {
+				state: EmailNotificationSingleReducer,
+				navigateTo,
+				notificationId,
+			};
+		},
+		[ formID ]
+	);
+
+	useEffect( () => {
+		if ( notificationId ) {
+			resolveSelect( 'formgent' ).fetchEmailNotificationSingle(
+				notificationId,
+				Date.now()
+			);
+		}
+		resolveSelect( 'formgent' ).fetchEmailNotificationSinglePresetFields(
+			formID
 		);
-		select( 'formgent' ).fetchEmailNotificationSinglePresetFields( formID );
+	}, [ notificationId, formID ] );
 
-		return {
-			state: EmailNotificationSingleReducer,
-			formID,
-			navigateTo,
-		};
-	}, [] );
+	useEffect( () => {
+		if ( ! notificationId ) {
+			resetEmailNotificationSingle();
+		}
+	}, [ notificationId, resetEmailNotificationSingle ] );
 
 	useEffect( () => {
 		if ( state.isCreated === true ) {
@@ -78,8 +96,8 @@ export default function Edit() {
 				}
 			>
 				<EditForm
-					isEdit={ state.id ? true : false }
-					initialValues={ state.initialValues }
+					isEdit={ !! state.id }
+					initialValues={ state.id ? state.initialValues : {} }
 					isProcessing={
 						state.isLoading.createData || state.isLoading.updateData
 					}
