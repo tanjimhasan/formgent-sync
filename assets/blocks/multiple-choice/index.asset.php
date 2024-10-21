@@ -1,1 +1,0 @@
-<?php return array('dependencies' => array('formgent/modules', 'lodash', 'react', 'react-dom', 'wp-block-editor', 'wp-blocks', 'wp-components', 'wp-compose', 'wp-data', 'wp-element', 'wp-hooks', 'wp-i18n'), 'version' => '0e6ae5895737f618331d');

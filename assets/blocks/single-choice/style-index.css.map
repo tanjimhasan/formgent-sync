@@ -1,1 +1,0 @@
-{"version":3,"file":"single-choice/style-index.css","mappings":";;;AAAA;EACC;EACA;EACA;AACD,C","sources":["webpack://formgent/./resources/blocks/single-choice/style.scss"],"sourcesContent":[".block-editor-block-list__single__wrapper__single {\r\n\tdisplay: flex;\r\n\tgap: 6px;\r\n\talign-items: center;\r\n}\r\n"],"names":[],"sourceRoot":""}
