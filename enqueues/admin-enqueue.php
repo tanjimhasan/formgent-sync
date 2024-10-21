@@ -6,13 +6,16 @@ defined( 'ABSPATH' ) || exit;
 
 include_once __DIR__ . '/register.php';
 
+wp_enqueue_media();
+wp_enqueue_editor();
+
 /**
  * Builder scripts
  */
 if ( formgent_post_type() === get_post_type() ) {
     include_once __DIR__ . '/i18n.php';
-    Enqueue::script( 'formgent/blocks-editor', 'build/js/blocks-editor', ['lodash'] );
-    Enqueue::style( 'formgent/blocks-editor', 'build/css/blocks-editor' );
+    Enqueue::script( 'formgent/blocks-editor', 'build/js/blocks-editor', ['lodash', 'formgent/notification'] );
+    Enqueue::style( 'formgent/blocks-editor', 'build/css/blocks-editor', ['formgent/notification'] );
 }
 
 /**

@@ -336,6 +336,8 @@ button.formgent-repeater-field-expand {
 	border-radius: 12px;
 	padding: 20px;
 	.components-modal__header {
+		padding: 12px 20px 8px;
+		height: auto;
 		.components-button {
 			width: 36px;
 			height: 36px;
@@ -349,11 +351,11 @@ button.formgent-repeater-field-expand {
 	}
 	.components-modal__content {
 		padding: 0;
+		margin-top: 43px;
 	}
 	.formgent-form-settings-modal__body {
 		background: #fff;
 		border-radius: 12px;
-		padding: 15px;
 	}
 }
 

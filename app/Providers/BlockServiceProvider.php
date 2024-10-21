@@ -9,6 +9,9 @@ use FormGent\WpMVC\Contracts\Provider;
 class BlockServiceProvider implements Provider {
     public function boot() {
         add_action( 'init', [ $this, 'action_init' ] );
+
+        // Add filter to allow rich text editor
+        add_filter( 'user_can_richedit', '__return_true' );
     }
 
     /**

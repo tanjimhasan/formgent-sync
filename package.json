@@ -47,6 +47,7 @@
     "@wordpress/element": "^5.35.0",
     "@wordpress/interactivity": "^6.2.0",
     "@wordpress/plugins": "^6.26.0",
+    "@wpmvc/classic-editor": "^0.0.2",
     "antd": "^5.17.0",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
