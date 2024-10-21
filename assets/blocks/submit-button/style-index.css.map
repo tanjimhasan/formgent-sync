@@ -1,0 +1,1 @@
+{"version":3,"file":"submit-button/style-index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://formgent/./resources/blocks/submit-button/style.scss"],"sourcesContent":[".formgent-form-group label {\r\n\tcolor: red !important;\r\n}\r\n"],"names":[],"sourceRoot":""}

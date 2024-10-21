@@ -1,0 +1,1 @@
+{"version":3,"file":"gdpr/style-index.css","mappings":";;;AACC;EACC;EACA;AAAF,C","sources":["webpack://formgent/./resources/blocks/gdpr/style.scss"],"sourcesContent":[".wp-block-formgent-gdpr {\r\n\t.block-editor-block-list__single__wrapper {\r\n\t\tflex-direction: unset;\r\n\t\talign-items: center;\r\n\t}\r\n}\r\n"],"names":[],"sourceRoot":""}

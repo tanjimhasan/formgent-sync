@@ -30,6 +30,7 @@ import ReactSVG from 'react-inlinesvg';
 import TableDrawer from './TableDrawer';
 import TableHeader from './TableHeader';
 import { TableStyle } from './style';
+import clsx from 'clsx';
 
 // Icon
 import PopUp from '@formgent/components/PopUp';
@@ -284,15 +285,14 @@ export default function Table() {
 				label: (
 					<>
 						<span
-							className={ `dropdown-header-content ${
-								downloadLoading === 'csv'
-									? 'formgent-loading'
-									: ''
-							}` }
+							className={ clsx( 'dropdown-header-content', {
+								'formgent-loading formgent-loading--right':
+									downloadLoading === 'csv',
+							} ) }
 							onClick={ ( e ) => handleExportCSV( e, source ) }
 						>
 							<ReactSVG width="16" height="16" src={ csvIcon } />
-							Download as CSV
+							{ __( 'Download as CSV', 'formgent' ) }
 						</span>
 						<CSVLink
 							data={ csvExportData }
@@ -308,14 +308,13 @@ export default function Table() {
 				key: `excel|${ source }`,
 				label: (
 					<span
-						className={ `dropdown-header-content ${
-							downloadLoading === 'excel'
-								? 'formgent-loading'
-								: ''
-						}` }
+						className={ clsx( 'dropdown-header-content', {
+							'formgent-loading formgent-loading--right':
+								downloadLoading === 'excel',
+						} ) }
 					>
 						<ReactSVG width="16" height="16" src={ xlsIcon } />
-						Download as Excel
+						{ __( 'Download as Excel', 'formgent' ) }
 					</span>
 				),
 			},
@@ -324,17 +323,18 @@ export default function Table() {
 				label: (
 					<>
 						<span
-							className={ `dropdown-header-content ${
-								isGeneratingPDF ? 'formgent-loading' : ''
-							}` }
+							className={ clsx( 'dropdown-header-content', {
+								'formgent-loading formgent-loading--right':
+									isGeneratingPDF,
+							} ) }
 							onClick={ () => generatePDFData( source ) }
 						>
 							<ReactSVG width="16" height="16" src={ pdfIcon } />
 							{ isGeneratingPDF
-								? 'Generating PDF...'
+								? __( 'Generating PDF...', 'formgent' )
 								: pdfGenerated
-								? 'Download as PDF'
-								: 'Download as PDF' }
+								? __( 'Download as PDF', 'formgent' )
+								: __( 'Download as PDF', 'formgent' ) }
 						</span>
 						{ pdfData && (
 							<PDFDownloadLink
@@ -358,6 +358,8 @@ export default function Table() {
 
 	// Handle Create Export Data
 	async function handleCreateExportData( source ) {
+		if ( ! responses ) return;
+
 		const downloadItemsID =
 			source === 'drawer' && singleResponse?.id
 				? [ singleResponse.id ]
@@ -651,7 +653,7 @@ export default function Table() {
 		setDownloadLoading( key );
 		const [ fileType, source ] = key.split( '|' ); // fileType: pdf, excel, source: header, drawer
 
-		if ( fileType === 'csv' ) {
+		if ( fileType === 'csv' || fileType === 'pdf' ) {
 			return;
 		}
 
