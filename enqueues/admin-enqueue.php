@@ -6,9 +6,6 @@ defined( 'ABSPATH' ) || exit;
 
 include_once __DIR__ . '/register.php';
 
-wp_enqueue_media();
-wp_enqueue_editor();
-
 /**
  * Builder scripts
  */
