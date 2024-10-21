@@ -8,12 +8,13 @@ export default function Edit() {
 	const params = new URL( document.location.toString() ).searchParams;
 	const formID = parseInt( params.get( 'post' ) );
 
-	const { state, navigateTo } = useSelect( ( select ) => {
+	const { state, navigateTo, notificationId } = useSelect( ( select ) => {
 		const { CommonReducer, EmailNotificationSingleReducer } =
 			select( 'formgent' ).getCommonState();
 
 		const { useParams, useNavigate } = CommonReducer.routerComponents;
 		const { email_notification_id } = useParams();
+		const notificationId = email_notification_id;
 		const navigateTo = useNavigate();
 
 		select( 'formgent' ).fetchEmailNotificationSingle(
@@ -25,8 +26,15 @@ export default function Edit() {
 			state: EmailNotificationSingleReducer,
 			formID,
 			navigateTo,
+			notificationId,
 		};
 	}, [] );
+
+	useEffect( () => {
+		if ( ! notificationId ) {
+			resolveSelect( 'formgent' ).resetEmailNotificationInitialValues();
+		}
+	}, [ notificationId ] );
 
 	useEffect( () => {
 		if ( state.isCreated === true ) {
@@ -78,8 +86,8 @@ export default function Edit() {
 				}
 			>
 				<EditForm
-					isEdit={ state.id ? true : false }
-					initialValues={ state.initialValues }
+					isEdit={ !! state.id }
+					initialValues={ state.id ? state.initialValues : {} }
 					isProcessing={
 						state.isLoading.createData || state.isLoading.updateData
 					}
