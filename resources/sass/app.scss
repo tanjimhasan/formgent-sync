@@ -1242,6 +1242,13 @@ a.formgent-btn-disabled {
 		border-top-color: var(--formgent-color-primary);
 		animation: formgent_spinner 1s linear infinite;
 	}
+	&.formgent-loading--right {
+		&:before {
+			left: auto;
+			right: 0;
+			transform: translate(45%, 0);
+		}
+	}
 }
 
 .formgent-loading-light {
