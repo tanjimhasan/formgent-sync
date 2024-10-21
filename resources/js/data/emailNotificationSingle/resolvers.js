@@ -8,11 +8,11 @@ export const EmailNotificationSingleResolvers = {
 	 */
 	*fetchEmailNotificationSingle( id, timestamp = 0 ) {
 		try {
-			if ( typeof id === 'undefined' ) {
-				return;
-			}
-
-			if ( isNaN( parseInt( id ) ) || `${ id }` === '0' ) {
+			if (
+				typeof id === 'undefined' ||
+				isNaN( parseInt( id ) ) ||
+				`${ id }` === '0'
+			) {
 				yield Actions.updateIsNotFoundEmailNotificationSingle( true );
 				return;
 			}
@@ -28,7 +28,10 @@ export const EmailNotificationSingleResolvers = {
 				true
 			);
 
-			const data = yield Actions.fetchEmailNotificationSingle( id );
+			const data = yield Actions.fetchEmailNotificationSingle(
+				id,
+				timestamp
+			);
 
 			yield Actions.updateEmailNotificationSingleInitialValues(
 				data.email
@@ -49,7 +52,7 @@ export const EmailNotificationSingleResolvers = {
 				false
 			);
 
-			if ( 404 === error.data.status_code ) {
+			if ( error?.data?.status_code === 404 ) {
 				yield Actions.updateIsNotFoundEmailNotificationSingle( true );
 			}
 		}

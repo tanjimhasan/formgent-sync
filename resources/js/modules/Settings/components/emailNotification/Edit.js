@@ -1,5 +1,5 @@
 import { useEffect } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useSelect, useDispatch, resolveSelect } from '@wordpress/data';
 import { Loader } from '@formgent/components';
 import { SettingsContentStyle } from '../style';
 import EditForm from './EditForm';
@@ -19,17 +19,6 @@ export default function Edit() {
 			const notificationId = email_notification_id;
 			const navigateTo = useNavigate();
 
-			// Fetch data only if notificationId exists
-			if ( email_notification_id ) {
-				select( 'formgent' ).fetchEmailNotificationSingle(
-					email_notification_id
-				);
-			}
-
-			select( 'formgent' ).fetchEmailNotificationSinglePresetFields(
-				formID
-			);
-
 			return {
 				state: EmailNotificationSingleReducer,
 				navigateTo,
@@ -39,14 +28,24 @@ export default function Edit() {
 		[ formID ]
 	);
 
-	// Reset only if no notificationId exists
+	useEffect( () => {
+		if ( notificationId ) {
+			resolveSelect( 'formgent' ).fetchEmailNotificationSingle(
+				notificationId,
+				Date.now()
+			);
+		}
+		resolveSelect( 'formgent' ).fetchEmailNotificationSinglePresetFields(
+			formID
+		);
+	}, [ notificationId, formID ] );
+
 	useEffect( () => {
 		if ( ! notificationId ) {
 			resetEmailNotificationSingle();
 		}
 	}, [ notificationId, resetEmailNotificationSingle ] );
 
-	// Handle redirect after creation
 	useEffect( () => {
 		if ( state.isCreated === true ) {
 			navigateTo( '/email-notifications' );

@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
-import { Suspense } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
+import { Suspense, useEffect } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
 import { AntButton, AntSkeleton } from '@formgent/components';
 import { SettingsContentStyle } from '../style';
 import { __ } from '@wordpress/i18n';
@@ -9,6 +9,7 @@ import plusIcon from '@icon/plus.svg';
 import Table from './Table';
 
 export default function EmailNotifications() {
+	const { resetEmailNotificationSingle } = useDispatch( 'formgent' );
 	const { formID, navigateTo } = useSelect( ( select ) => {
 		const { CommonReducer } = select( 'formgent' ).getCommonState();
 
@@ -21,6 +22,10 @@ export default function EmailNotifications() {
 			navigateTo,
 			formID: parseInt( params.get( 'post' ) ),
 		};
+	}, [] );
+
+	useEffect( () => {
+		resetEmailNotificationSingle();
 	}, [] );
 
 	return (
