@@ -89,4 +89,12 @@ export const EmailNotificationSingleActions = {
 		type: 'UPDATE_EMAIL_NOTIFICATION_SINGLE',
 		payload: { id, data },
 	} ),
+
+	/**
+	 * @param {boolean} refresh
+	 */
+	updateRefreshEmailNotifications: ( refresh ) => ( {
+		type: 'UPDATE_REFRESH_EMAIL_NOTIFICATIONS',
+		payload: refresh,
+	} ),
 };

@@ -32,6 +32,24 @@ export const EmailNotificationResolvers = {
 			);
 
 			yield Actions.updateIsLoadingEmailNotifications( false );
+
+			yield Actions.updateIsCreatedEmailNotificationSingle( false );
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'initialValues',
+				false
+			);
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'presetFields',
+				false
+			);
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'createData',
+				false
+			);
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'updateData',
+				false
+			);
 		} catch ( error ) {
 			yield Actions.updateEmailNotificationResponseStatus( {
 				success: false,

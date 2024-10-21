@@ -11,6 +11,7 @@ const DEFAULT_STATE = {
 	initialValues: {},
 	presetFields: [],
 	responseStatus: null,
+	refresh: false,
 };
 
 export const EmailNotificationSingleReducer = (
@@ -57,6 +58,11 @@ export const EmailNotificationSingleReducer = (
 			return {
 				...state,
 				responseStatus: payload,
+			};
+		case 'UPDATE_REFRESH_EMAIL_NOTIFICATIONS':
+			return {
+				...state,
+				refresh: payload,
 			};
 		default:
 			return state;

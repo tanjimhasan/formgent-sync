@@ -38,7 +38,7 @@ export default function EditForm( props ) {
 		return presetFields.map( ( item, index ) => ( {
 			...item,
 			label: item.value,
-			key: index,
+			key: item.value,
 		} ) );
 	}
 

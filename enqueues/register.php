@@ -33,4 +33,4 @@ Enqueue::script( 'formgent/i18n', 'build/js/i18n-loader' );
 $data['domainMap']   = (object) $data['domainMap']; // Ensure it becomes a json object.
 $data['domainPaths'] = (object) $data['domainPaths']; // Ensure it becomes a json object.
 
-wp_add_inline_script( 'formgent/i18n', 'if (typeof wp.formgent18nLoader === "undefined") { wp.formgent18nLoader = {}; } wp.formgent18nLoader.state = ' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES ) . ';' );  
+wp_add_inline_script( 'formgent/i18n', 'if (typeof wp.formgent18nLoader === "undefined") { wp.formgent18nLoader = {}; } wp.formgent18nLoader.state = ' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES ) . ';' );

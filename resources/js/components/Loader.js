@@ -4,7 +4,7 @@ const DefaultLoader = () => {
 	return <AntSkeleton active />;
 };
 
-export default function Loader( { isLoadiing, children, loader } ) {
+export default function Loader( { isLoading, children, loader } ) {
 	const Loader = loader ? loader : DefaultLoader;
-	return isLoadiing ? <Loader /> : children;
+	return isLoading ? <Loader /> : children;
 }

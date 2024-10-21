@@ -108,11 +108,18 @@ export const EmailNotificationSingleResolvers = {
 				true
 			);
 
+			yield Actions.updateIsLoadingEmailNotificationSingle(
+				'initialValues',
+				false
+			);
+
 			yield Actions.updateEmailNotificationSingleResponseStatus( null );
 
 			yield Actions.createEmailNotificationSingle( data );
 
 			yield Actions.updateIsCreatedEmailNotificationSingle( true );
+
+			yield Actions.updateRefreshEmailNotifications( true );
 		} catch ( error ) {
 			yield Actions.updateEmailNotificationSingleResponseStatus( {
 				success: false,

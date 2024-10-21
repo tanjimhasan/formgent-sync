@@ -54,7 +54,7 @@ export const EmailNotificationActions = {
 	 * @param {string} status.message
 	 */
 	updateEmailNotificationResponseStatus: ( status ) => ( {
-		type: 'UPDATE_EMAILNOTIFICATION_RESPONSE_STATUS',
+		type: 'UPDATE_EMAIL_NOTIFICATION_RESPONSE_STATUS',
 		payload: status,
 	} ),
 
@@ -105,5 +105,22 @@ export const EmailNotificationActions = {
 	deleteEmailNotification: ( id ) => ( {
 		type: 'DELETE_EMAIL_NOTIFICATION',
 		payload: id,
+	} ),
+
+	/**
+	 * @param {boolean} isCreated
+	 */
+	updateIsCreatedEmailNotificationSingle: ( isCreated ) => ( {
+		type: 'UPDATE_IS_CREATED_EMAIL_NOTIFICATION_SINGLE',
+		payload: isCreated,
+	} ),
+
+	/**
+	 * @param {string} key
+	 * @param {boolean} value
+	 */
+	updateIsLoadingEmailNotificationSingle: ( key, value ) => ( {
+		type: 'UPDATE_IS_LOADING_EMAIL_NOTIFICATION_SINGLE',
+		payload: { key, value },
 	} ),
 };

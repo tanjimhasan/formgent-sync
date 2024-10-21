@@ -2,7 +2,7 @@ import { dispatch, useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { Modal } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { registerPlugin, getPlugins } from '@wordpress/plugins';
+import { registerPlugin } from '@wordpress/plugins';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
@@ -37,7 +37,12 @@ domReady( function () {
 
 const FormgentFormSettings = () => {
 	const [ isOpen, setOpen ] = useState( false );
-	const openSettingsModal = () => setOpen( true );
+	const openSettingsModal = () => {
+		const urlWithoutHash = window.location.href.split( '#' )[ 0 ];
+		window.history.replaceState( null, null, urlWithoutHash );
+
+		setOpen( true );
+	};
 	const closeSettingsModal = () => {
 		setOpen( false );
 
@@ -46,13 +51,6 @@ const FormgentFormSettings = () => {
 	};
 
 	const { setRouterState } = useDispatch( 'formgent' );
-
-	const Plugins = () => {
-		return getPlugins().map( ( plugin, index ) => {
-			const Component = plugin.render;
-			return <Component key={ index } />;
-		} );
-	};
 
 	useEffect( () => {
 		if ( ! setRouterState ) {
@@ -100,7 +98,6 @@ const FormgentFormSettings = () => {
 					isFullScreen
 				>
 					<div className="formgent-form-settings-modal__body">
-						<Plugins />
 						<HashRouter>
 							<Routes>
 								{ routes.map( ( routeItem, index ) => {

@@ -9,6 +9,13 @@ const DEFAULT_STATE = {
 		per_page: 20,
 	},
 	foundItems: 0,
+	isCreated: false,
+	isLoading: {
+		initialValues: false,
+		presetFields: false,
+		createData: false,
+		updateData: false,
+	},
 };
 
 export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
@@ -53,7 +60,7 @@ export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
 					( item ) => `${ item.id }` !== `${ payload.id }`
 				),
 			};
-		case 'UPDATE_EMAILNOTIFICATION_RESPONSE_STATUS':
+		case 'UPDATE_EMAIL_NOTIFICATION_RESPONSE_STATUS':
 			return {
 				...state,
 				responseStatus: payload,
@@ -67,6 +74,19 @@ export const EmailNotificationReducer = ( state = DEFAULT_STATE, action ) => {
 			return {
 				...state,
 				foundItems: payload,
+			};
+		case 'UPDATE_IS_CREATED_EMAIL_NOTIFICATION_SINGLE':
+			return {
+				...state,
+				isCreated: payload,
+			};
+		case 'UPDATE_IS_LOADING_EMAIL_NOTIFICATION_SINGLE':
+			return {
+				...state,
+				isLoading: {
+					...state.isLoading,
+					[ payload.key ]: payload.value,
+				},
 			};
 		default:
 			return state;

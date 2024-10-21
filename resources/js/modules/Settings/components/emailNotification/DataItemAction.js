@@ -82,7 +82,7 @@ export default function DataItemAction( props ) {
 							<span className="formgent-popup-title-icon">
 								<ReactSVG src={ trashAlt } />
 							</span>
-							{ __( 'Delete Notificationdddd', 'formgent' ) }
+							{ __( 'Delete Notification', 'formgent' ) }
 						</>
 					}
 					onSubmit={ () => {

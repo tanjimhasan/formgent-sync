@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import ReactSVG from 'react-inlinesvg';
-import { Form, Input } from 'antd';
+import { Form } from 'antd';
+import AntInput from '@formgent/components/Input';
 import linkIcon from '@icon/link.svg';
 import chevronDownIcon from '@icon/chevron-down.svg';
 import PresetDropdown from './PresetDropdown';
@@ -23,12 +24,12 @@ export default function TextField( props ) {
 				hasPresetFields ? ' formgent-has-input-addon-end' : ''
 			}` }
 		>
-			<Input { ...props } />
+			<AntInput { ...props } />
 
 			{ hasPresetFields && (
 				<div className="formgent-input-addon formgent-input-addon-end">
 					<PresetDropdown
-						items={ props.presetFields }
+						items={ presetFields }
 						value={ value }
 						onChange={ onChange }
 						dropdownClassName={ dropdownClassName }

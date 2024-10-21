@@ -1,3 +1,4 @@
+import { useEffect } from '@wordpress/element';
 import { useSelect, resolveSelect } from '@wordpress/data';
 import { Loader } from '@formgent/components';
 import { SettingsContentStyle } from '../style';
@@ -13,7 +14,6 @@ export default function Edit() {
 
 		const { useParams, useNavigate } = CommonReducer.routerComponents;
 		const { email_notification_id } = useParams();
-
 		const navigateTo = useNavigate();
 
 		select( 'formgent' ).fetchEmailNotificationSingle(
@@ -28,23 +28,18 @@ export default function Edit() {
 		};
 	}, [] );
 
-	if ( state.isNotFound ) {
-		back();
-		return '';
-	}
-
-	if ( state.isCreated ) {
-		back();
-		return '';
-	}
+	useEffect( () => {
+		if ( state.isCreated === true ) {
+			navigateTo( '/email-notifications' );
+		}
+	}, [ state.isCreated, navigateTo ] );
 
 	function filterNullItems( values ) {
 		for ( const key of Object.keys( values ) ) {
-			if ( null === values[ key ] ) {
+			if ( values[ key ] === null ) {
 				delete values[ key ];
 			}
 		}
-
 		return values;
 	}
 
@@ -74,14 +69,10 @@ export default function Edit() {
 		}
 	}
 
-	function back() {
-		navigateTo( `/email-notifications` );
-	}
-
 	return (
 		<SettingsContentStyle className="formgent-settings-content">
 			<Loader
-				isLoadiing={
+				isLoading={
 					state.isLoading.initialValues ||
 					state.isLoading.presetFields
 				}
@@ -95,7 +86,7 @@ export default function Edit() {
 					responseStatus={ state.responseStatus }
 					presetFields={ state.presetFields }
 					onSubmit={ onSubmit }
-					onCancel={ back }
+					onCancel={ () => navigateTo( '/email-notifications' ) }
 				/>
 			</Loader>
 		</SettingsContentStyle>
