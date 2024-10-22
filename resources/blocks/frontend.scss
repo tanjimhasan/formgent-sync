@@ -6,7 +6,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	max-width: 620px;
-	margin: 0 auto;
+	margin: 0 auto -20px;
 	gap: 0 12px;
 	.wp-block-spacer {
 		width: 100%;
@@ -38,6 +38,13 @@
 			background-color: var(--formgent-color-dark);
 		}
 	}
+	&.components-button {
+		padding: 6px 10px;
+		box-shadow: 0 0;
+		&:hover:not(:disabled, [aria-disabled="true"]) {
+			box-shadow: 0 0;
+		}
+	}
 	.formgent-toolbar-width-button__icon {
 		border: 1px solid;
 		padding: 6px;
@@ -58,8 +65,9 @@ div.is-root-container.block-editor-block-list__layout {
 		margin-left: 0 !important;
 		margin-right: 0 !important;
 		margin-top: 0 !important;
-		&:not(:last-child) {
-			margin-bottom: 20px;
+		margin-bottom: 20px;
+		.formgent-editor-block-list__single {
+			margin-bottom: 0;
 		}
 	}
 }
@@ -77,9 +85,7 @@ div.is-root-container.block-editor-block-list__layout {
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
-	&:last-child {
-		margin-bottom: 0;
-	}
+	margin-bottom: 20px;
 	.formgent-editor-block-list__single__wrapper {
 		display: flex;
 		gap: 10px;
