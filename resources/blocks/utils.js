@@ -436,43 +436,78 @@ function Block( {
 					<ToolbarGroup>
 						<Button
 							variant="secondary"
+							className={ `formgent-toolbar-width-button ${
+								attributes.block_width === '100'
+									? 'is-selected'
+									: ''
+							}` }
 							onClick={ () =>
 								setAttributes( { block_width: '100' } )
 							}
 						>
-							{ __( '100%', 'formgent' ) }
+							<span className="formgent-toolbar-width-button__icon">
+								{ __( '100%', 'formgent' ) }
+							</span>
 						</Button>
 						<Button
 							variant="secondary"
+							className={ `formgent-toolbar-width-button ${
+								attributes.block_width === '75'
+									? 'is-selected'
+									: ''
+							}` }
 							onClick={ () =>
 								setAttributes( { block_width: '75' } )
 							}
 						>
-							{ __( '75%', 'formgent' ) }
+							<span className="formgent-toolbar-width-button__icon">
+								{ __( '75%', 'formgent' ) }
+							</span>
 						</Button>
 						<Button
 							variant="secondary"
+							className={ `formgent-toolbar-width-button ${
+								attributes.block_width === '50'
+									? 'is-selected'
+									: ''
+							}` }
 							onClick={ () =>
 								setAttributes( { block_width: '50' } )
 							}
 						>
-							{ __( '50%', 'formgent' ) }
+							<span className="formgent-toolbar-width-button__icon">
+								{ __( '50%', 'formgent' ) }
+							</span>
 						</Button>
 						<Button
 							variant="secondary"
+							className={ `formgent-toolbar-width-button ${
+								attributes.block_width === '33.33'
+									? 'is-selected'
+									: ''
+							}` }
 							onClick={ () =>
 								setAttributes( { block_width: '33.33' } )
 							}
 						>
-							{ __( '33%', 'formgent' ) }
+							<span className="formgent-toolbar-width-button__icon">
+								{ __( '33%', 'formgent' ) }
+							</span>
 						</Button>
 						<Button
 							variant="secondary"
+							className={ `formgent-toolbar-width-button ${
+								attributes.block_width === '25'
+									? 'is-selected'
+									: ''
+							}` }
 							onClick={ () =>
 								setAttributes( { block_width: '25' } )
 							}
 						>
-							{ __( '25%', 'formgent' ) }
+							<span className="formgent-toolbar-width-button__icon">
+								{ __( '25%', 'formgent' ) }
+							</span>
 						</Button>
 					</ToolbarGroup>
 				</BlockControls>

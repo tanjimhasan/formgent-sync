@@ -58,7 +58,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					onChange={ ( content ) =>
 						setAttributes( { label: content } )
 					}
-					placeholder={ __( 'Type your question' ) }
+					placeholder={ __( 'Type your label' ) }
 				/>
 			</div>
 			<InnerBlocks
