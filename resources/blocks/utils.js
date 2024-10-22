@@ -440,7 +440,7 @@ function Block( {
 								setAttributes( { block_width: '100' } )
 							}
 						>
-							100%
+							{ __( '100%', 'formgent' ) }
 						</Button>
 						<Button
 							variant="secondary"
@@ -448,7 +448,7 @@ function Block( {
 								setAttributes( { block_width: '75' } )
 							}
 						>
-							75%
+							{ __( '75%', 'formgent' ) }
 						</Button>
 						<Button
 							variant="secondary"
@@ -456,7 +456,7 @@ function Block( {
 								setAttributes( { block_width: '50' } )
 							}
 						>
-							50%
+							{ __( '50%', 'formgent' ) }
 						</Button>
 						<Button
 							variant="secondary"
@@ -464,7 +464,7 @@ function Block( {
 								setAttributes( { block_width: '33.33' } )
 							}
 						>
-							33%
+							{ __( '33%', 'formgent' ) }
 						</Button>
 						<Button
 							variant="secondary"
@@ -472,7 +472,7 @@ function Block( {
 								setAttributes( { block_width: '25' } )
 							}
 						>
-							25%
+							{ __( '25%', 'formgent' ) }
 						</Button>
 					</ToolbarGroup>
 				</BlockControls>
