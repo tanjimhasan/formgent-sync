@@ -282,8 +282,6 @@ function Block( {
 		const currentId = attributes.id;
 		const isNewBlock = ! currentId || currentId.length === 0;
 
-		console.log( maturedParent );
-
 		if ( isNewBlock ) {
 			// If Parent blocks having child (Address, Name Block)
 			if ( ! maturedParent.includes( null ) ) {
@@ -312,7 +310,6 @@ function Block( {
 						),
 					];
 				}
-				console.log( siblingBlocks, allBlocksToCheck );
 				const filteredChildBlocks = getFilteredBlocks(
 					allBlocksToCheck,
 					blockProps[ 'data-block' ]

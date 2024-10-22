@@ -30,12 +30,6 @@ const TEMPLATE = [
 		},
 	],
 	[
-		'core/spacer',
-		{
-			height: '20px',
-		},
-	],
-	[
 		'formgent/text',
 		{
 			label: 'Address line 2',
@@ -45,12 +39,6 @@ const TEMPLATE = [
 			metadata: {
 				name: 'Address line 2',
 			},
-		},
-	],
-	[
-		'core/spacer',
-		{
-			height: '20px',
 		},
 	],
 
@@ -77,12 +65,6 @@ const TEMPLATE = [
 			metadata: {
 				name: 'State / Province',
 			},
-		},
-	],
-	[
-		'core/spacer',
-		{
-			height: '20px',
 		},
 	],
 	[
@@ -1337,21 +1319,13 @@ const TEMPLATE = [
 			},
 		},
 	],
-	[
-		'core/spacer',
-		{
-			height: '30px',
-		},
-	],
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
 	return (
-		<div
-			className={ `formgent-editor-block-list__single formgent-editor-block-align-${ attributes.label_alignment }` }
-		>
+		<div className={ `formgent-editor-block-list__single` }>
 			<div
-				className={ `formgent-editor-block-list__single__label-container formgent-label-align-${ attributes.label_alignment }` }
+				className={ `formgent-editor-block-list__single__label-container` }
 			>
 				<RichText
 					className="formgent-editor-block-list__single__label"
@@ -1360,7 +1334,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					onChange={ ( content ) =>
 						setAttributes( { label: content } )
 					}
-					placeholder={ __( 'Type your question' ) }
+					placeholder={ __( 'Type your label' ) }
 				/>
 			</div>
 			<InnerBlocks

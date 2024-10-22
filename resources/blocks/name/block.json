@@ -18,6 +18,10 @@
 		"block_width": {
 			"type": "string",
 			"default": "100"
+		},
+		"label": {
+			"type": "string",
+			"default": "Name"
 		}
 	},
 	"supports": {

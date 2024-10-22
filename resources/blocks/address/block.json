@@ -19,10 +19,6 @@
 			"type": "string",
 			"default": "Address"
 		},
-		"label_alignment": {
-			"type": "string",
-			"default": "top"
-		},
 		"block_width": {
 			"type": "string",
 			"default": "100"
